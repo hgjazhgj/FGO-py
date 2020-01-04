@@ -29,7 +29,6 @@ import numpy
 #import pytesseract
 import cv2
 
-
 slnPath='E:/VisualStudioDocs/fgo_py/'
 chkDelta=1
 
@@ -141,7 +140,6 @@ def setSkillInfo(s):
         skillInfo[0]=[[1,0,0],[1,0,0],[1,0,0]]
         skillInfo[1]=[[1,2,0],[1,0,0],[4,0,0]]
         skillInfo[2]=[[3,6,0],[2,0,0],[1,0,0]]
-
 def rangeInf(start=0,step=1):
     i=start
     while True:
@@ -250,9 +248,6 @@ def chooseFriend():
             time.sleep(.2)
         doit('\xBAJ',(500,1000))
         fuse.reset()
-
-def test():
-    pass
 
 def draw():
     while True:
@@ -374,8 +369,9 @@ def otk():
     doit('     F ',(200,200,200,200,200,200,10000))
 
 #main()
-setSkillInfo('ex')
+setSkillInfo('assassin')
 oneBattle()
+#main(eatApple=100)
 #main(battleFunc=otk)
 #otk()
 beep()
