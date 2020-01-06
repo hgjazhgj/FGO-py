@@ -1,23 +1,23 @@
-#/************************************************************ 
-#*       $$$$$$$$$$$$$$$$$$$$      $$$$$$$$$$$$$$$$$$%.      * 
-#*     $$                   &$   =$                   $      * 
-#*     $                     $$$$$=                   @&     * 
-#*  B#$$                     $$$$$                     %%$=  * 
-#*  $$$$        +1s          $$-$$         +1s         $$$   * 
-#*  $$$$                     $-  $                     $$$   * 
-#*     $                     $   $                     .B    * 
-#*     $                     @   $                    .=     * 
-#*      $                   $     $                   %      * 
-#*       $                -$       -$                @%      * 
-#*        #$$$$$$$$$$$$$$$           -@$$$$$$$$$$$$$         * 
-#*                                                           * 
-#*       				莫生      莫生                      * 
-#*       				 气        气                       * 
-#*                                                           * 
-#*						代码垃圾非我意,                     * 
-#*						自己动手分田地;                     * 
-#*						你若气死谁如意?                     * 
-#*						谈笑风生活长命.                     * 
+#/************************************************************
+#*       $$$$$$$$$$$$$$$$$$$$      $$$$$$$$$$$$$$$$$$%.      *
+#*     $$                   &$   =$                   $      *
+#*     $                     $$$$$=                   @&     *
+#*  B#$$                     $$$$$                     %%$=  *
+#*  $$$$        +1s          $$-$$         +1s         $$$   *
+#*  $$$$                     $-  $                     $$$   *
+#*     $                     $   $                     .B    *
+#*     $                     @   $                    .=     *
+#*      $                   $     $                   %      *
+#*       $                -$       -$                @%      *
+#*        #$$$$$$$$$$$$$$$           -@$$$$$$$$$$$$$         *
+#*                                                           *
+#*                      莫生      莫生                       *
+#*                       气        气                        *
+#*                                                           *
+#*                      代码垃圾非我意,                      *
+#*                      自己动手分田地;                      *
+#*                      你若气死谁如意?                      *
+#*                      谈笑风生活长命.                      *
 #************************************************************/
 
 import time
@@ -28,16 +28,25 @@ import functools
 import numpy
 #import pytesseract
 import cv2
+import win32con
+import win32ui
+import win32gui
+#from PyQt5.QtWidgets import QApplication
+#import sys
 
 slnPath='E:/VisualStudioDocs/fgo_py/'
-chkDelta=1
+androidTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
+#systemScale=1.25
 
-#os.system('adb connect localhost:5555')
-#adbPath='adb -s localhost:5555'
+os.system('adb connect localhost:5555')
+adbPath='adb -s localhost:5555'
 dpx=0
-adbPath='adb -s emulator-5554'
+#adbPath='adb -s emulator-5554'
 #adbPath='adb -s 1e1b7921'
 #dpx=120
+
+#app=QApplication(sys.argv)
+hwnd=win32gui.FindWindow(None,androidTitle)
 
 key={
     '\x09':(1800,304),#tab VK_TAB
@@ -81,7 +90,7 @@ ARTS=2
 BUSTER=0
 QUICK=1
 
-IMG_APPLE_GOLD=cv2.imread(slnPath+'asserts/applegold.png')
+IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
 IMG_BEGIN=cv2.imread(slnPath+'asserts/begin.png')
 IMG_BOUND=cv2.imread(slnPath+'asserts/bound.png')
@@ -92,6 +101,8 @@ IMG_STILL=cv2.imread(slnPath+'asserts/still.png')
 IMG_FAILED=cv2.imread(slnPath+'asserts/failed.png')
 IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPath+'asserts/stage')if file.endswith('.png')]
 IMG_FRIEND=[[file[:-4],cv2.imread(slnPath+'asserts/friend/'+file)]for file in os.listdir(slnPath+'asserts/friend')if file.endswith('.png')]
+IMG_CHOOSEFRIEND=cv2.imread(slnPath+'asserts/choosefriend.png')
+IMG_NOFRIEND=cv2.imread(slnPath+'asserts/nofriend.png')
 friendPos=4
 #skillInfo=[#minstage,minstageturn,obj
 #    [[4,0,0],[4,0,0],[4,0,0]],
@@ -107,9 +118,161 @@ skillInfo=[#minstage,minstageturn,obj
     [[4,0,0],[4,0,0],[4,0,0]],
     [[4,0,0],[4,0,0],[4,0,0]],
     [[4,0,0],[4,0,0],[4,0,0]]]
-skillKey=(('A','S','D'),('F','G','H'),('J','K','L'))
 houguInfo=[[2,0],[3,0],[3,0],[3,1],[3,1],[3,1]]#minstage,priority
 houguInfo[friendPos]=[3,1]
+
+def rangeInf(start=0,step=1):
+    i=start
+    while True:
+        yield i
+        i+=step
+class Fuse(object):
+    def __init__(self,fv=300):
+        self.__value=0
+        self.__max=fv
+    @property
+    def value():
+        return self.__value
+    def increase(self):
+        self.__value+=1
+        if self.__value>self.__max:
+            print('fused')
+            beep()
+            exit(0)
+    def reset(self):
+        self.__value=0
+        return True
+    def show(self):
+        print(self.__value,'/',self.__max)
+fuse=Fuse()
+def cmd(x):
+    os.system(x)
+def rgb2hsv(x):
+    '''
+    R,G,B:[0,255]
+    H:[0,359]
+    S,V:[0,100]
+    '''
+    R=x[2]
+    G=x[1]
+    B=x[0]
+    cmax=max(R,G,B)
+    delta=cmax-min(R,G,B)
+    H=0if delta==0else((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60%360
+    S=0if cmax==0else delta/cmax
+    V=cmax
+    return(int(H),int(100*S),int(V*100/255))
+def tap(x,y):
+    cmd(adbPath+' shell input tap {} {}'.format(x+dpx,y))
+def press(c):
+    tap(*key[c])
+def swipe(rect,interval=500):
+    cmd(adbPath+' shell input swipe {} {} {} {} {}'.format(rect[0]+dpx,rect[1],rect[2]+dpx,rect[3],interval))
+def screenShot(path=slnPath,name=''):
+    cmd(adbPath+' shell screencap /sdcard/adbtemp/screen.png')
+    cmd(adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else time.strftime("%Y-%m-%d_%H.%M.%S",time.localtime())))
+def doit(touch,wait):
+    for i in range(len(touch)):
+        press(touch[i])
+        time.sleep(wait[i]/1000)
+def beep():
+    cmd('echo \x07')
+    time.sleep(.5)
+def show(img):
+    cv2.imshow('imshow',img)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
+def windowCapture(save=False,hwnd=hwnd):
+    hwndDC=win32gui.GetWindowDC(hwnd)
+    #left,top,right,bot=win32gui.GetWindowRect(hwnd)
+    #width=int((right-left)*scale+.001)
+    #height=int((bot-top)*scale+.001)
+    width=1920
+    height=1080
+    mfcDC=win32ui.CreateDCFromHandle(hwndDC)
+    saveDC=mfcDC.CreateCompatibleDC()
+    saveBitMap=win32ui.CreateBitmap()
+    saveBitMap.CreateCompatibleBitmap(mfcDC,width,height)
+    saveDC.SelectObject(saveBitMap)
+    saveDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY)
+    img=numpy.frombuffer(saveBitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3]
+    #img=QApplication.primaryScreen().grabWindow(hwnd).toImage().constBits()
+    #img.setsize(8302080)#img.byteCount(),1920*1081*4
+    #img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
+    if save:
+        cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
+    fuse.show()
+    return img
+
+class Check(object):
+    def __init__(self):
+        fuse.increase()
+        #screenShot(name='chk')
+        #self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1080,dpx:dpx+1920]
+        time.sleep(.08)
+        self.im=windowCapture()
+    def compare(self,x,delta=.03,rect=(0,0,1920,1080)):
+        return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],x,cv2.TM_SQDIFF_NORMED))[0]<delta
+    def select(self,x,rect=(0,0,1920,1080)):
+        return (lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in x])
+    def tapOnCmp(self,x,delta=.03,rect=(0,0,1920,1080)):
+        loc=cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],x,cv2.TM_SQDIFF_NORMED))
+        if loc[0]>=delta:
+            return False
+        tap(rect[0]+loc[2][0]+x.shape[1]//2,rect[1]+loc[2][1]+x.shape[0]//2)
+        time.sleep(.5)
+        return fuse.reset()
+    def isTurnBegin(self):
+        return self.compare(IMG_ATTACK,rect=(1567,932,1835,1064))and fuse.reset()
+    def isBattleOver(self):
+        return(self.compare(IMG_BOUND,rect=(95,235,460,318))or self.compare(IMG_BOUNDUP,delta=.06,rect=(978,517,1491,596)))and fuse.reset()
+    def isBegin(self):
+        return self.compare(IMG_BEGIN,rect=(1630,950,1919,1079))and fuse.reset()
+    def isHouguReady(self):
+        return[rgb2hsv(self.im[1004][290+480*i])[1]>2for i in range(3)]
+    def isSkillReady(self):
+        return[[not self.compare(IMG_STILL,rect=(65+480*i+141*j,895,107+480*i+141*j,927))for j in range(3)]for i in range(3)]
+    def isApEmpty(self):
+        return self.compare(IMG_APEMPTY,rect=(800,50,1120,146))and fuse.reset()
+    def isChooseFriend(self):
+        return self.compare(IMG_CHOOSEFRIEND,rect=(1628,314,1772,390))and fuse.reset()
+    def isNoFriend(self):
+        return self.compare(IMG_NOFRIEND,rect=(369,545,1552,797),delta=.1)and fuse.reset()
+    def getABQ(self):
+        return[(lambda x:x.index(max(x)))((lambda tc:[int(numpy.mean([j[i]for k in tc for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
+    def getStage(self):
+        return self.select(IMG_STAGE,rect=(1290,14,1348,60))+1
+    def getPortrait(self):
+        return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
+
+def chooseFriend():
+    while True:
+        for i in range(6):
+            chk=Check()
+            for img in IMG_FRIEND:
+                if chk.tapOnCmp(img[1],rect=(50,250,340,1079),delta=.015):
+                    print('  Friend :',img[0])
+                    try:
+                        skillInfo[friendPos]={
+                            'km':[[2,0,1],[1,0,0],[1,0,0]],
+                            'cba':[[3,0,2],[3,0,0],[1,0,1]],
+                            'ml':[[1,0,0],[1,0,0],[3,0,1]],
+                        }[img[0][0:img[0].find('_')]]
+                    except KeyError:
+                        skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
+                    time.sleep(1)
+                    return
+            swipe((220,960,220,457))
+            time.sleep(.2)
+        doit('\xBAJ',(500,1000))
+        fuse.reset()
+
+def draw():
+    while True:
+        for i in range(320):
+            press('2')
+            time.sleep(.2)
+        #doit('_L',(300,1500))
 
 def setSkillInfo(s):
     if s=='saber':#muzashi/modoredo/okita
@@ -135,161 +298,30 @@ def setSkillInfo(s):
     elif s=='assassin':#kurobatera/hiroinx/jakku
         skillInfo[0]=[[1,0,0],[1,0,0],[3,6,0]]
         skillInfo[1]=[[2,0,0],[3,6,0],[4,0,0]]
-        skillInfo[2]=[[3,6,0],[3,2,0],[3,0,1]]
+        skillInfo[2]=[[3,6,0],[3,2,0],[3,0,3]]
     elif s=='ex':#hokusai/bb/hiroinx
         skillInfo[0]=[[1,0,0],[1,0,0],[1,0,0]]
         skillInfo[1]=[[1,2,0],[1,0,0],[4,0,0]]
         skillInfo[2]=[[3,6,0],[2,0,0],[1,0,0]]
-def rangeInf(start=0,step=1):
-    i=start
-    while True:
-        yield i
-        i+=step
-class Fuse(object):
-    def __init__(self,fv=50):
-        self.__value=0
-        self.__max=fv
-    def increase(self):
-        self.__value+=1
-        if self.__value>self.__max:
-            print('fused')
-            beep()
-            exit(0)
-    def reset(self):
-        self.__value=0
-        return True
-fuse=Fuse()
-def cmd(x):
-    os.system(x)
-def rgb2hsv(x):
-    '''
-    R,G,B:[0,255]
-    H:[0,359]
-    S,V:[0,100]
-    '''
-    R=x[2]
-    G=x[1]
-    B=x[0]
-    cmax=max(R,G,B)
-    delta=cmax-min(R,G,B)
-    H=0if delta==0else((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60%360
-    S=0if cmax==0else delta/cmax
-    V=cmax
-    return(int(H),int(100*S),int(V*100/255))
-def tap(x,y):
-    time.sleep(.05)
-    cmd(adbPath+' shell input tap {} {}'.format(x+dpx,y))
-def press(c):
-    tap(*key[c])
-def swipe(rect,interval=500):
-    cmd(adbPath+' shell input swipe {} {} {} {} {}'.format(rect[0]+dpx,rect[1],rect[2]+dpx,rect[3],interval))
-    time.sleep(.3)
-def screenShot(path=slnPath,name=''):
-    cmd(adbPath+' shell screencap /sdcard/adbtemp/screen.png')
-    cmd(adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else time.strftime("%Y-%m-%d_%H.%M.%S",time.localtime())))
-def doit(touch,wait):
-    for i in range(len(touch)):
-        press(touch[i])
-        time.sleep(wait[i]/1000)
-def beep():
-    cmd('echo \x07')
-    time.sleep(.5)
-def show(img):
-    cv2.imshow('imshow',img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
-class Check(object):
-    def __init__(self):
-        fuse.increase()
-        screenShot(name='chk')
-        self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1079,dpx:dpx+1919]
-    def compare(self,x,delta=.03,rect=(0,0,1920,1080)):
-        return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],x,cv2.TM_SQDIFF_NORMED))[0]<delta
-    def select(self,x,rect=(0,0,1920,1080)):
-        return (lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in x])
-    def tapOnCmp(self,x,delta=.03,rect=(0,0,1920,1080)):
-        loc=cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],x,cv2.TM_SQDIFF_NORMED))
-        if loc[0]>=delta:
-            return False
-        tap(rect[0]+loc[2][0]+x.shape[1]//2,rect[1]+loc[2][1]+x.shape[0]//2)
-        time.sleep(.5)
-        return fuse.reset()
-    def isTurnBegin(self):
-        return self.compare(IMG_ATTACK,rect=(1567,932,1835,1064))and fuse.reset()
-    def isBattleOver(self):
-        return(self.compare(IMG_BOUND,rect=(95,235,460,318))or self.compare(IMG_BOUNDUP,delta=.06,rect=(978,517,1491,596)))and fuse.reset()
-    def isBegin(self):
-        return self.compare(IMG_BEGIN,rect=(1630,950,1919,1079))and fuse.reset()
-    def isHouguReady(self):
-        return[rgb2hsv(self.im[1004][290+480*i])[1]>2for i in range(3)]
-    def isSkillReady(self):
-        return[[not self.compare(IMG_STILL,rect=(65+480*i+141*j,895,107+480*i+141*j,927))for j in range(3)]for i in range(3)]
-    def isApEmpty(self):
-        return self.compare(IMG_APPLE_GOLD,rect=(470,390,650,590))and fuse.reset()
-    def getABQ(self):
-        return[(lambda x:x.index(max(x)))((lambda tc:[int(numpy.mean([j[i]for k in tc for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
-    def getStage(self):
-        return self.select(IMG_STAGE,rect=(1290,14,1348,60))+1
-    def getPortrait(self):
-        return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
-
-def chooseFriend():
-    while True:
-        for i in range(6):
-            chk=Check()
-            for img in IMG_FRIEND:
-                if chk.tapOnCmp(img[1],rect=(50,250,340,1079),delta=.015):
-                    print('  Friend :',img[0])
-                    skillInfo[friendPos]=[[2,0,1],[1,0,0],[1,0,0]]if img[0][:2]=='km'else[[3,0,2],[3,0,0],[1,0,1]]if img[0][:3]=='cba'else[[1,0,0],[1,0,0],[3,0,1]]if img[0][:2]=='ml'else[[4,0,0],[4,0,0],[4,0,0]]
-                    time.sleep(1)
-                    return
-            swipe((220,960,220,457))
-            time.sleep(.2)
-        doit('\xBAJ',(500,1000))
-        fuse.reset()
-
-def draw():
-    while True:
-        for i in range(320):
-            press('2')
-            time.sleep(.2)
-        #doit('_L',(300,1500))
-
-def oneBattle():
+def oneBattle(danger=(0,0,1)):
     turn=0
-    servant=[[0,1,2],[]]
     stage=0
-    #while not Check().isTurnBegin():
-    #    time.sleep(.5)
-    #doit('SF2J2QE2 612',(2600,300,2600,300,2600,300,300,2600,1200,100,100,20000))
-    #while not Check().isTurnBegin():
-    #    time.sleep(.5)
-    #doit('H2 612',(300,2600,1200,100,100,20000))
-    #while not Check().isTurnBegin():
-    #    time.sleep(.5)
-    #doit('L2AGKD 612',(300,2600,2600,2600,2600,2600,1200,100,100,12000))
+    servant=[[0,1,2],[]]
     while True:
         chk=Check()
         if chk.isTurnBegin():
+            time.sleep(.2)
             chk=Check()
             newStage=chk.getStage()
-            if stage<newStage:
+            if stage!=newStage:
                 stage=newStage
                 stageTurn=0
             turn+=1
             stageTurn+=1
             skill=chk.isSkillReady()
-            if stage==1:
-                if stageTurn==1:
-                    press('0')
-            elif stage==2:
-                if stageTurn==1:
-                    press('0')
-            elif stage==3:
-                if stageTurn==1:
-                    press('\xBD')
-            press('P')
+            if stageTurn==1 and danger[stage-1]!=0:
+                doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
             if turn==1:
                 servant[1]=chk.getPortrait()
             else:
@@ -303,29 +335,24 @@ def oneBattle():
                     continue
                 for j in range(3):
                     if skill[i][j]and(stage>skillInfo[servant[0][i]][j][0]or stage==skillInfo[servant[0][i]][j][0]and stageTurn>=skillInfo[servant[0][i]][j][1]):
-                        doit(skillKey[i][j],(300,))
+                        doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
                         if skillInfo[servant[0][i]][j][2]!=0:
                             doit(chr(skillInfo[servant[0][i]][j][1]+50),(300,))
-                        time.sleep(2.3)
-            hougu=chk.isHouguReady()
+                        time.sleep(2.1)
+            hougu=(lambda x,y:[x[i]and y[i]for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
             for i in range(3):
                 if servant[0][i]>=6:
                     hougu[i]=False
             print('    ',turn,stage,stageTurn,servant[0],skill,hougu)
-            doit(' ',(1200,))
+            doit(' ',(1000,))
             color=Check().getABQ()
             card=[chr(i+54)for pri in(2,1,0)for i in range(3)if hougu[i]and stage>=houguInfo[servant[0][i]][0]and houguInfo[servant[0][i]][1]==pri]
-            #card=[]
-            #for pri in(2,1,0):
-            #    for i in range(3):
-            #        if hougu[i]and stage>=houguInfo[servant[0][i]][0]and houguInfo[servant[0][i]][1]==pri:
-            #            card.append(chr(i+54))
             if len(card)==0:
                 card=[chr(j+49)for i in range(3)if color.count(i)>=3for j in range(5)if color[j]==i]
             if len(card)<3:
                 card+=[chr(j+49)for i in(BUSTER,ARTS,QUICK)for j in range(5)if color[j]==i]
             print('          ',color,card)
-            doit(card[:3],(100,100,13500))
+            doit(card[:3],(80,80,10000))
         elif chk.isBattleOver():
             print('  Battle Finished')
             break
@@ -334,10 +361,10 @@ def oneBattle():
             doit('VJ  F ',(500,500,500,500,500,10000))
             return
         else:
-            time.sleep(.5)
-    doit('     F ',(200,200,200,200,200,200,10000))
+            time.sleep(.2)
+    doit('       F ',(200,200,200,200,200,200,200,200,9000))
 
-def main(eatApple=0,battleFunc=oneBattle):
+def main(eatApple=0,battleFunc=oneBattle,**kwargs):
     apple=eatApple
     for i in rangeInf(1):
     #for i in range(1,4):
@@ -353,12 +380,19 @@ def main(eatApple=0,battleFunc=oneBattle):
                 apple-=1
                 print('Apple :',eatApple-apple)
         print('  Battle',i)
-        chooseFriend()
-        #doit('8',(1000,))
+        #chooseFriend()
+        while True:
+            chk=Check()
+            if chk.isNoFriend():
+                return
+            if chk.isChooseFriend():
+                break
+            time.sleep(.2)
+        doit('8',(1000,))
         doit(' ',(15000,))
-        battleFunc()
+        battleFunc(**kwargs)
         while not Check().isBegin():
-            doit(' ',(500,))
+            doit(' ',(200,))
 
 def otk():
     while not Check().isTurnBegin():
@@ -369,9 +403,10 @@ def otk():
     doit('     F ',(200,200,200,200,200,200,10000))
 
 #main()
-setSkillInfo('assassin')
-oneBattle()
-#main(eatApple=100)
+setSkillInfo('saber')
+#oneBattle()
+#main()
+main(eatApple=0,danger=(0,0,2))
 #main(battleFunc=otk)
 #otk()
 beep()
