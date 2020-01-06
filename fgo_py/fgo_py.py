@@ -1,23 +1,23 @@
-#/************************************************************ 
-#*       $$$$$$$$$$$$$$$$$$$$      $$$$$$$$$$$$$$$$$$%.      * 
-#*     $$                   &$   =$                   $      * 
-#*     $                     $$$$$=                   @&     * 
-#*  B#$$                     $$$$$                     %%$=  * 
-#*  $$$$        +1s          $$-$$         +1s         $$$   * 
-#*  $$$$                     $-  $                     $$$   * 
-#*     $                     $   $                     .B    * 
-#*     $                     @   $                    .=     * 
-#*      $                   $     $                   %      * 
-#*       $                -$       -$                @%      * 
-#*        #$$$$$$$$$$$$$$$           -@$$$$$$$$$$$$$         * 
-#*                                                           * 
-#*       				莫生      莫生                      * 
-#*       				 气        气                       * 
-#*                                                           * 
-#*						代码垃圾非我意,                     * 
-#*						自己动手分田地;                     * 
-#*						你若气死谁如意?                     * 
-#*						谈笑风生活长命.                     * 
+#/************************************************************
+#*       $$$$$$$$$$$$$$$$$$$$      $$$$$$$$$$$$$$$$$$%.      *
+#*     $$                   &$   =$                   $      *
+#*     $                     $$$$$=                   @&     *
+#*  B#$$                     $$$$$                     %%$=  *
+#*  $$$$        +1s          $$-$$         +1s         $$$   *
+#*  $$$$                     $-  $                     $$$   *
+#*     $                     $   $                     .B    *
+#*     $                     @   $                    .=     *
+#*      $                   $     $                   %      *
+#*       $                -$       -$                @%      *
+#*        #$$$$$$$$$$$$$$$           -@$$$$$$$$$$$$$         *
+#*                                                           *
+#*                      莫生      莫生                       *
+#*                       气        气                        *
+#*                                                           *
+#*                      代码垃圾非我意,                      *
+#*                      自己动手分田地;                      *
+#*                      你若气死谁如意?                      *
+#*                      谈笑风生活长命.                      *
 #************************************************************/
 
 import time
@@ -111,35 +111,6 @@ skillKey=(('A','S','D'),('F','G','H'),('J','K','L'))
 houguInfo=[[2,0],[3,0],[3,0],[3,1],[3,1],[3,1]]#minstage,priority
 houguInfo[friendPos]=[3,1]
 
-def setSkillInfo(s):
-    if s=='saber':#muzashi/modoredo/okita
-        skillInfo[0]=[[1,0,0],[1,0,0],[3,5,0]]
-        skillInfo[1]=[[1,0,0],[1,0,0],[1,0,0]]
-        skillInfo[2]=[[1,0,0],[1,2,0],[3,5,0]]
-    elif s=='archer':#arutoria/erio/atera
-        skillInfo[0]=[[1,0,0],[4,0,0],[1,0,0]]
-        skillInfo[1]=[[1,0,0],[3,0,0],[3,5,0]]
-        skillInfo[2]=[[1,0,1],[1,0,2],[4,0,0]]
-    elif s=='lancer':#ere/tamamo/jyanu
-        skillInfo[0]=[[3,4,0],[1,0,0],[2,0,0]]
-        skillInfo[1]=[[1,0,0],[3,0,0],[4,0,0]]
-        skillInfo[2]=[[3,0,1],[1,0,0],[3,4,0]]
-    elif s=='rider':#arutoria/asutorufo/maruta
-        skillInfo[0]=[[3,0,1],[2,0,0],[1,0,0]]
-        skillInfo[1]=[[1,0,0],[3,0,0],[1,0,0]]
-        skillInfo[2]=[[3,0,0],[3,0,0],[3,0,0]]
-    elif s=='caster':#malin/girugyameshi/mari
-        skillInfo[0]=[[1,0,0],[3,4,0],[1,0,2]]
-        skillInfo[1]=[[1,0,0],[1,0,0],[1,0,0]]
-        skillInfo[2]=[[1,0,0],[1,0,0],[1,0,0]]
-    elif s=='assassin':#kurobatera/hiroinx/jakku
-        skillInfo[0]=[[1,0,0],[1,0,0],[3,6,0]]
-        skillInfo[1]=[[2,0,0],[3,6,0],[4,0,0]]
-        skillInfo[2]=[[3,6,0],[3,2,0],[3,0,1]]
-    elif s=='ex':#hokusai/bb/hiroinx
-        skillInfo[0]=[[1,0,0],[1,0,0],[1,0,0]]
-        skillInfo[1]=[[1,2,0],[1,0,0],[4,0,0]]
-        skillInfo[2]=[[3,6,0],[2,0,0],[1,0,0]]
 def rangeInf(start=0,step=1):
     i=start
     while True:
@@ -241,7 +212,14 @@ def chooseFriend():
             for img in IMG_FRIEND:
                 if chk.tapOnCmp(img[1],rect=(50,250,340,1079),delta=.015):
                     print('  Friend :',img[0])
-                    skillInfo[friendPos]=[[2,0,1],[1,0,0],[1,0,0]]if img[0][:2]=='km'else[[3,0,2],[3,0,0],[1,0,1]]if img[0][:3]=='cba'else[[1,0,0],[1,0,0],[3,0,1]]if img[0][:2]=='ml'else[[4,0,0],[4,0,0],[4,0,0]]
+                    try:
+                        skillInfo[friendPos]={
+                            'km':[[2,0,1],[1,0,0],[1,0,0]],
+                            'cba':[[3,0,2],[3,0,0],[1,0,1]],
+                            'ml':[[1,0,0],[1,0,0],[3,0,1]],
+                        }[img[0][0:img[0].find('_')]]
+                    except KeyError:
+                        skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
                     time.sleep(1)
                     return
             swipe((220,960,220,457))
@@ -256,7 +234,37 @@ def draw():
             time.sleep(.2)
         #doit('_L',(300,1500))
 
-def oneBattle():
+def setSkillInfo(s):
+    if s=='saber':#muzashi/modoredo/okita
+        skillInfo[0]=[[1,0,0],[1,0,0],[3,5,0]]
+        skillInfo[1]=[[1,0,0],[1,0,0],[1,0,0]]
+        skillInfo[2]=[[1,0,0],[1,2,0],[3,5,0]]
+    elif s=='archer':#arutoria/erio/atera
+        skillInfo[0]=[[1,0,0],[4,0,0],[1,0,0]]
+        skillInfo[1]=[[1,0,0],[3,0,0],[3,5,0]]
+        skillInfo[2]=[[1,0,1],[1,0,2],[4,0,0]]
+    elif s=='lancer':#ere/tamamo/jyanu
+        skillInfo[0]=[[3,4,0],[1,0,0],[2,0,0]]
+        skillInfo[1]=[[1,0,0],[3,0,0],[4,0,0]]
+        skillInfo[2]=[[3,0,1],[1,0,0],[3,4,0]]
+    elif s=='rider':#arutoria/asutorufo/maruta
+        skillInfo[0]=[[3,0,1],[2,0,0],[1,0,0]]
+        skillInfo[1]=[[1,0,0],[3,0,0],[1,0,0]]
+        skillInfo[2]=[[3,0,0],[3,0,0],[3,0,0]]
+    elif s=='caster':#malin/girugyameshi/mari
+        skillInfo[0]=[[1,0,0],[3,4,0],[1,0,2]]
+        skillInfo[1]=[[1,0,0],[1,0,0],[1,0,0]]
+        skillInfo[2]=[[1,0,0],[1,0,0],[1,0,0]]
+    elif s=='assassin':#kurobatera/hiroinx/jakku
+        skillInfo[0]=[[1,0,0],[1,0,0],[3,6,0]]
+        skillInfo[1]=[[2,0,0],[3,6,0],[4,0,0]]
+        skillInfo[2]=[[3,6,0],[3,2,0],[3,0,1]]
+    elif s=='ex':#hokusai/bb/hiroinx
+        skillInfo[0]=[[1,0,0],[1,0,0],[1,0,0]]
+        skillInfo[1]=[[1,2,0],[1,0,0],[4,0,0]]
+        skillInfo[2]=[[3,6,0],[2,0,0],[1,0,0]]
+
+def oneBattle(danger=(0,0,0)):
     turn=0
     servant=[[0,1,2],[]]
     stage=0
@@ -280,15 +288,8 @@ def oneBattle():
             turn+=1
             stageTurn+=1
             skill=chk.isSkillReady()
-            if stage==1:
-                if stageTurn==1:
-                    press('0')
-            elif stage==2:
-                if stageTurn==1:
-                    press('0')
-            elif stage==3:
-                if stageTurn==1:
-                    press('\xBD')
+            if stageTurn==1and danger[stage-1]!=0:
+                doit('xBB\xBD0'[danger[stage-1]-1],(50,))
             press('P')
             if turn==1:
                 servant[1]=chk.getPortrait()
@@ -370,7 +371,7 @@ def otk():
 
 #main()
 setSkillInfo('assassin')
-oneBattle()
+oneBattle(danger=())
 #main(eatApple=100)
 #main(battleFunc=otk)
 #otk()
