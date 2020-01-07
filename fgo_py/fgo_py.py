@@ -28,12 +28,15 @@ import functools
 import numpy
 #import pytesseract
 import cv2
-import win32con
-import win32ui
+#import win32con
+#import win32ui
 import win32gui
+from PyQt5.QtWidgets import QApplication
+import sys
 
 slnPath='E:/VisualStudioDocs/fgo_py/'
-chkDelta=1
+androidTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
+#systemScale=1.25
 
 os.system('adb connect localhost:5555')
 adbPath='adb -s localhost:5555'
@@ -41,6 +44,9 @@ dpx=0
 #adbPath='adb -s emulator-5554'
 #adbPath='adb -s 1e1b7921'
 #dpx=120
+
+app=QApplication(sys.argv)
+hwnd=win32gui.FindWindow(None,androidTitle)
 
 key={
     '\x09':(1800,304),#tab VK_TAB
@@ -115,9 +121,6 @@ skillInfo=[#minstage,minstageturn,obj
 houguInfo=[[2,0],[3,0],[3,0],[3,1],[3,1],[3,1]]#minstage,priority
 houguInfo[friendPos]=[3,1]
 
-androidTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
-systemScale=1.25
-
 def rangeInf(start=0,step=1):
     i=start
     while True:
@@ -179,23 +182,24 @@ def show(img):
     cv2.imshow('imshow',img)
     cv2.waitKey()
     cv2.destroyAllWindows()
-def windowCapture(wndName=androidTitle,scale=systemScale,save=False):
-    hwnd=win32gui.FindWindow(None,wndName)
-    hwndDC=win32gui.GetWindowDC(hwnd)
-    #left,top,right,bot=win32gui.GetWindowRect(hwnd)
-    #width=int((right-left)*scale+.001)
-    #height=int((bot-top)*scale+.001)
-    width=1920
-    height=1080
-    mfcDC=win32ui.CreateDCFromHandle(hwndDC)
-    saveDC=mfcDC.CreateCompatibleDC()
-    saveBitMap=win32ui.CreateBitmap()
-    saveBitMap.CreateCompatibleBitmap(mfcDC,width,height)
-    saveDC.SelectObject(saveBitMap)
-    saveDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY)
-    img=numpy.frombuffer(saveBitMap.GetBitmapBits(True),dtype='uint8')
-    img.shape=(height,width,4)
-    img=cv2.cvtColor(img,cv2.COLOR_RGBA2RGB)
+def windowCapture(save=False,hwnd=hwnd):
+    #hwndDC=win32gui.GetWindowDC(hwnd)
+    ##left,top,right,bot=win32gui.GetWindowRect(hwnd)
+    ##width=int((right-left)*scale+.001)
+    ##height=int((bot-top)*scale+.001)
+    #width=1920
+    #height=1080
+    #mfcDC=win32ui.CreateDCFromHandle(hwndDC)
+    #saveDC=mfcDC.CreateCompatibleDC()
+    #saveBitMap=win32ui.CreateBitmap()
+    #saveBitMap.CreateCompatibleBitmap(mfcDC,width,height)
+    #saveDC.SelectObject(saveBitMap)
+    #saveDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY)
+    #img=numpy.frombuffer(saveBitMap.GetBitmapBits(True),dtype='uint8')
+    #img.shape=(height,width,4)
+    img=QApplication.primaryScreen().grabWindow(hwnd).toImage().constBits()
+    img.setsize(8302080)#img.byteCount(),1920*1080*4
+    img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
     if save:
         cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
     fuse.show()
@@ -205,7 +209,7 @@ class Check(object):
     def __init__(self):
         fuse.increase()
         #screenShot(name='chk')
-        #self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1079,dpx:dpx+1919]
+        #self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1080,dpx:dpx+1920]
         time.sleep(.08)
         self.im=windowCapture()
     def compare(self,x,delta=.03,rect=(0,0,1920,1080)):
@@ -364,7 +368,7 @@ def oneBattle(danger=(0,0,1)):
             return
         else:
             time.sleep(.2)
-    doit('       F ',(200,200,200,200,200,200,200,200,10000))
+    doit('       F ',(200,200,200,200,200,200,200,200,9000))
 
 def main(eatApple=0,battleFunc=oneBattle,**kwargs):
     apple=eatApple
