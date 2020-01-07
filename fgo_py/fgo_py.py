@@ -28,6 +28,9 @@ import functools
 import numpy
 #import pytesseract
 import cv2
+import win32con
+import win32ui
+import win32gui
 
 slnPath='E:/VisualStudioDocs/fgo_py/'
 chkDelta=1
@@ -111,13 +114,16 @@ skillKey=(('A','S','D'),('F','G','H'),('J','K','L'))
 houguInfo=[[2,0],[3,0],[3,0],[3,1],[3,1],[3,1]]#minstage,priority
 houguInfo[friendPos]=[3,1]
 
+androidTitle='BlueStacks Android PluginAndroid'
+systemScale=1.25
+
 def rangeInf(start=0,step=1):
     i=start
     while True:
         yield i
         i+=step
 class Fuse(object):
-    def __init__(self,fv=50):
+    def __init__(self,fv=500):
         self.__value=0
         self.__max=fv
     def increase(self):
@@ -167,14 +173,37 @@ def beep():
     time.sleep(.5)
 def show(img):
     cv2.imshow('imshow',img)
-    cv2.waitKey(0)
+    cv2.waitKey()
     cv2.destroyAllWindows()
+
+def windowCapture(wndName=androidTitle,scale=systemScale,save=False):
+    hwnd=win32gui.FindWindow(None,wndName)
+    hwndDC=win32gui.GetWindowDC(hwnd)
+    #left,top,right,bot=win32gui.GetWindowRect(hwnd)
+    #width=int((right-left)*scale+.001)
+    #height=int((bot-top)*scale+.001)
+    width=1920
+    height=1080
+    mfcDC=win32ui.CreateDCFromHandle(hwndDC)
+    saveDC=mfcDC.CreateCompatibleDC()
+    saveBitMap=win32ui.CreateBitmap()
+    saveBitMap.CreateCompatibleBitmap(mfcDC,width,height)
+    saveDC.SelectObject(saveBitMap)
+    saveDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY)
+    img=numpy.frombuffer(saveBitMap.GetBitmapBits(True),dtype='uint8')
+    img.shape=(height,width,4)
+    img=cv2.cvtColor(img,cv2.COLOR_RGBA2RGB)
+    if save:
+        cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
+    return img
 
 class Check(object):
     def __init__(self):
         fuse.increase()
-        screenShot(name='chk')
-        self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1079,dpx:dpx+1919]
+        #screenShot(name='chk')
+        #self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1079,dpx:dpx+1919]
+        time.sleep(.05)
+        self.im=windowCapture()
     def compare(self,x,delta=.03,rect=(0,0,1920,1080)):
         return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],x,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,x,rect=(0,0,1920,1080)):
@@ -280,6 +309,7 @@ def oneBattle(danger=(0,0,0)):
     while True:
         chk=Check()
         if chk.isTurnBegin():
+            time.sleep(.2)
             chk=Check()
             newStage=chk.getStage()
             if stage<newStage:
@@ -289,7 +319,7 @@ def oneBattle(danger=(0,0,0)):
             stageTurn+=1
             skill=chk.isSkillReady()
             if stageTurn==1and danger[stage-1]!=0:
-                doit('xBB\xBD0'[danger[stage-1]-1],(50,))
+                doit('\xBB\xBD0'[danger[stage-1]-1],(50,))
             press('P')
             if turn==1:
                 servant[1]=chk.getPortrait()
@@ -354,8 +384,8 @@ def main(eatApple=0,battleFunc=oneBattle):
                 apple-=1
                 print('Apple :',eatApple-apple)
         print('  Battle',i)
-        chooseFriend()
-        #doit('8',(1000,))
+        #chooseFriend()
+        doit('8',(1000,))
         doit(' ',(15000,))
         battleFunc()
         while not Check().isBegin():
@@ -371,7 +401,7 @@ def otk():
 
 #main()
 setSkillInfo('assassin')
-oneBattle(danger=())
+oneBattle()
 #main(eatApple=100)
 #main(battleFunc=otk)
 #otk()
