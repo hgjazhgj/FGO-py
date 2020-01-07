@@ -35,10 +35,10 @@ import win32gui
 slnPath='E:/VisualStudioDocs/fgo_py/'
 chkDelta=1
 
-#os.system('adb connect localhost:5555')
-#adbPath='adb -s localhost:5555'
+os.system('adb connect localhost:5555')
+adbPath='adb -s localhost:5555'
 dpx=0
-adbPath='adb -s emulator-5554'
+#adbPath='adb -s emulator-5554'
 #adbPath='adb -s 1e1b7921'
 #dpx=120
 
@@ -84,7 +84,7 @@ ARTS=2
 BUSTER=0
 QUICK=1
 
-IMG_APPLE_GOLD=cv2.imread(slnPath+'asserts/applegold.png')
+IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
 IMG_BEGIN=cv2.imread(slnPath+'asserts/begin.png')
 IMG_BOUND=cv2.imread(slnPath+'asserts/bound.png')
@@ -95,6 +95,8 @@ IMG_STILL=cv2.imread(slnPath+'asserts/still.png')
 IMG_FAILED=cv2.imread(slnPath+'asserts/failed.png')
 IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPath+'asserts/stage')if file.endswith('.png')]
 IMG_FRIEND=[[file[:-4],cv2.imread(slnPath+'asserts/friend/'+file)]for file in os.listdir(slnPath+'asserts/friend')if file.endswith('.png')]
+IMG_CHOOSEFRIEND=cv2.imread(slnPath+'asserts/choosefriend.png')
+IMG_NOFRIEND=cv2.imread(slnPath+'asserts/nofriend.png')
 friendPos=4
 #skillInfo=[#minstage,minstageturn,obj
 #    [[4,0,0],[4,0,0],[4,0,0]],
@@ -110,11 +112,10 @@ skillInfo=[#minstage,minstageturn,obj
     [[4,0,0],[4,0,0],[4,0,0]],
     [[4,0,0],[4,0,0],[4,0,0]],
     [[4,0,0],[4,0,0],[4,0,0]]]
-skillKey=(('A','S','D'),('F','G','H'),('J','K','L'))
 houguInfo=[[2,0],[3,0],[3,0],[3,1],[3,1],[3,1]]#minstage,priority
 houguInfo[friendPos]=[3,1]
 
-androidTitle='BlueStacks Android PluginAndroid'
+androidTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
 systemScale=1.25
 
 def rangeInf(start=0,step=1):
@@ -123,9 +124,12 @@ def rangeInf(start=0,step=1):
         yield i
         i+=step
 class Fuse(object):
-    def __init__(self,fv=500):
+    def __init__(self,fv=300):
         self.__value=0
         self.__max=fv
+    @property
+    def value():
+        return self.__value
     def increase(self):
         self.__value+=1
         if self.__value>self.__max:
@@ -135,6 +139,8 @@ class Fuse(object):
     def reset(self):
         self.__value=0
         return True
+    def show(self):
+        print(self.__value,'/',self.__max)
 fuse=Fuse()
 def cmd(x):
     os.system(x)
@@ -154,13 +160,11 @@ def rgb2hsv(x):
     V=cmax
     return(int(H),int(100*S),int(V*100/255))
 def tap(x,y):
-    time.sleep(.05)
     cmd(adbPath+' shell input tap {} {}'.format(x+dpx,y))
 def press(c):
     tap(*key[c])
 def swipe(rect,interval=500):
     cmd(adbPath+' shell input swipe {} {} {} {} {}'.format(rect[0]+dpx,rect[1],rect[2]+dpx,rect[3],interval))
-    time.sleep(.3)
 def screenShot(path=slnPath,name=''):
     cmd(adbPath+' shell screencap /sdcard/adbtemp/screen.png')
     cmd(adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else time.strftime("%Y-%m-%d_%H.%M.%S",time.localtime())))
@@ -175,7 +179,6 @@ def show(img):
     cv2.imshow('imshow',img)
     cv2.waitKey()
     cv2.destroyAllWindows()
-
 def windowCapture(wndName=androidTitle,scale=systemScale,save=False):
     hwnd=win32gui.FindWindow(None,wndName)
     hwndDC=win32gui.GetWindowDC(hwnd)
@@ -195,6 +198,7 @@ def windowCapture(wndName=androidTitle,scale=systemScale,save=False):
     img=cv2.cvtColor(img,cv2.COLOR_RGBA2RGB)
     if save:
         cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
+    fuse.show()
     return img
 
 class Check(object):
@@ -202,7 +206,7 @@ class Check(object):
         fuse.increase()
         #screenShot(name='chk')
         #self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1079,dpx:dpx+1919]
-        time.sleep(.05)
+        time.sleep(.08)
         self.im=windowCapture()
     def compare(self,x,delta=.03,rect=(0,0,1920,1080)):
         return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],x,cv2.TM_SQDIFF_NORMED))[0]<delta
@@ -226,7 +230,11 @@ class Check(object):
     def isSkillReady(self):
         return[[not self.compare(IMG_STILL,rect=(65+480*i+141*j,895,107+480*i+141*j,927))for j in range(3)]for i in range(3)]
     def isApEmpty(self):
-        return self.compare(IMG_APPLE_GOLD,rect=(470,390,650,590))and fuse.reset()
+        return self.compare(IMG_APEMPTY,rect=(800,50,1120,146))and fuse.reset()
+    def isChooseFriend(self):
+        return self.compare(IMG_CHOOSEFRIEND,rect=(1226,148,1329,242))and fuse.reset()
+    def isNoFriend(self):
+        return self.compare(IMG_NOFRIEND,rect=(369,545,1552,797),delta=.1)and fuse.reset()
     def getABQ(self):
         return[(lambda x:x.index(max(x)))((lambda tc:[int(numpy.mean([j[i]for k in tc for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
     def getStage(self):
@@ -287,40 +295,30 @@ def setSkillInfo(s):
     elif s=='assassin':#kurobatera/hiroinx/jakku
         skillInfo[0]=[[1,0,0],[1,0,0],[3,6,0]]
         skillInfo[1]=[[2,0,0],[3,6,0],[4,0,0]]
-        skillInfo[2]=[[3,6,0],[3,2,0],[3,0,1]]
+        skillInfo[2]=[[3,6,0],[3,2,0],[3,0,3]]
     elif s=='ex':#hokusai/bb/hiroinx
         skillInfo[0]=[[1,0,0],[1,0,0],[1,0,0]]
         skillInfo[1]=[[1,2,0],[1,0,0],[4,0,0]]
         skillInfo[2]=[[3,6,0],[2,0,0],[1,0,0]]
 
-def oneBattle(danger=(0,0,0)):
+def oneBattle(danger=(0,0,1)):
     turn=0
-    servant=[[0,1,2],[]]
     stage=0
-    #while not Check().isTurnBegin():
-    #    time.sleep(.5)
-    #doit('SF2J2QE2 612',(2600,300,2600,300,2600,300,300,2600,1200,100,100,20000))
-    #while not Check().isTurnBegin():
-    #    time.sleep(.5)
-    #doit('H2 612',(300,2600,1200,100,100,20000))
-    #while not Check().isTurnBegin():
-    #    time.sleep(.5)
-    #doit('L2AGKD 612',(300,2600,2600,2600,2600,2600,1200,100,100,12000))
+    servant=[[0,1,2],[]]
     while True:
         chk=Check()
         if chk.isTurnBegin():
             time.sleep(.2)
             chk=Check()
             newStage=chk.getStage()
-            if stage<newStage:
+            if stage!=newStage:
                 stage=newStage
                 stageTurn=0
             turn+=1
             stageTurn+=1
             skill=chk.isSkillReady()
-            if stageTurn==1and danger[stage-1]!=0:
-                doit('\xBB\xBD0'[danger[stage-1]-1],(50,))
-            press('P')
+            if stageTurn==1 and danger[stage-1]!=0:
+                doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
             if turn==1:
                 servant[1]=chk.getPortrait()
             else:
@@ -334,16 +332,16 @@ def oneBattle(danger=(0,0,0)):
                     continue
                 for j in range(3):
                     if skill[i][j]and(stage>skillInfo[servant[0][i]][j][0]or stage==skillInfo[servant[0][i]][j][0]and stageTurn>=skillInfo[servant[0][i]][j][1]):
-                        doit(skillKey[i][j],(300,))
+                        doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
                         if skillInfo[servant[0][i]][j][2]!=0:
                             doit(chr(skillInfo[servant[0][i]][j][1]+50),(300,))
-                        time.sleep(2.3)
-            hougu=chk.isHouguReady()
+                        time.sleep(2.1)
+            hougu=Check().isHouguReady()
             for i in range(3):
                 if servant[0][i]>=6:
                     hougu[i]=False
             print('    ',turn,stage,stageTurn,servant[0],skill,hougu)
-            doit(' ',(1200,))
+            doit(' ',(1000,))
             color=Check().getABQ()
             card=[chr(i+54)for pri in(2,1,0)for i in range(3)if hougu[i]and stage>=houguInfo[servant[0][i]][0]and houguInfo[servant[0][i]][1]==pri]
             #card=[]
@@ -356,7 +354,7 @@ def oneBattle(danger=(0,0,0)):
             if len(card)<3:
                 card+=[chr(j+49)for i in(BUSTER,ARTS,QUICK)for j in range(5)if color[j]==i]
             print('          ',color,card)
-            doit(card[:3],(100,100,13500))
+            doit(card[:3],(80,80,10000))
         elif chk.isBattleOver():
             print('  Battle Finished')
             break
@@ -365,10 +363,10 @@ def oneBattle(danger=(0,0,0)):
             doit('VJ  F ',(500,500,500,500,500,10000))
             return
         else:
-            time.sleep(.5)
-    doit('     F ',(200,200,200,200,200,200,10000))
+            time.sleep(.2)
+    doit('       F ',(200,200,200,200,200,200,200,200,10000))
 
-def main(eatApple=0,battleFunc=oneBattle):
+def main(eatApple=0,battleFunc=oneBattle,**kwargs):
     apple=eatApple
     for i in rangeInf(1):
     #for i in range(1,4):
@@ -385,11 +383,18 @@ def main(eatApple=0,battleFunc=oneBattle):
                 print('Apple :',eatApple-apple)
         print('  Battle',i)
         #chooseFriend()
+        while True:
+            chk=Check()
+            if chk.isNoFriend():
+                return
+            if chk.isChooseFriend():
+                break
+            time.sleep(.2)
         doit('8',(1000,))
         doit(' ',(15000,))
-        battleFunc()
+        battleFunc(**kwargs)
         while not Check().isBegin():
-            doit(' ',(500,))
+            doit(' ',(200,))
 
 def otk():
     while not Check().isTurnBegin():
@@ -400,9 +405,10 @@ def otk():
     doit('     F ',(200,200,200,200,200,200,10000))
 
 #main()
-setSkillInfo('assassin')
-oneBattle()
-#main(eatApple=100)
+setSkillInfo('saber')
+#oneBattle()
+#main()
+main(eatApple=0,danger=(0,0,2))
 #main(battleFunc=otk)
 #otk()
 beep()

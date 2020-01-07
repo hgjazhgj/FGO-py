@@ -10,7 +10,7 @@
 虽然改一行代码就能应用于任意分辨率,但这可能导致识别问题,需要手动修改精度限制  
 **请在手机的/sdcard目录下新建一个名为adbtemp的文件夹**  
 你的电脑上要有[adb](https://developer.android.google.cn/studio/command-line/adb)  
-你得会一点点python,不用很多,因为本脚本的1.0版本是用c写的,很多东西就是直接翻译过来的面向过程的代码  
+你得会一点点python,不用很多,因为本脚本的[1.0版本](https://www.bilibili.com/video/av34399081)是用c写的,很多东西就是直接翻译过来的面向过程的代码  
 使用了以下库:  
 time os functools numpy cv2  
 新增:win32con win32ui win32gui  
@@ -29,7 +29,7 @@ time os functools numpy cv2
 6. 各指令卡颜色  
 7. 选择的指令卡序列  
 
-我的qq 979449732,email huguangjing0411@geektip.cc  
+我的qq 979449732,email huguangjing0411@geektip.cc,fgouid 100,103,306,269  
 有任何问题或bug反馈请联系,觉得有帮助请为我star  
 请向可怜的非酋投喂<del>圣晶石</del>彩苹果  
 ## 你需要修改slnPath,adbPath和dpx  
@@ -59,6 +59,9 @@ houguinfo[编队中的第i个从者]=[的宝具的最小使用stage数,在该sta
 # Q&A&杂谈  
 这里之后会写一点内容,把上面跟核心内容无关的部分写到这里来  
 # 版本记录 Version Logs
+## 2020/01/08 v2.8.0
+稳定性优化  
+肝!
 ## 2020/01/07 v2.8.0beta  
 紧急更新  
 本次更新内容可靠性未经充分验证,请谨慎下载使用  
