@@ -28,11 +28,11 @@ import functools
 import numpy
 #import pytesseract
 import cv2
-#import win32con
-#import win32ui
+import win32con
+import win32ui
 import win32gui
-from PyQt5.QtWidgets import QApplication
-import sys
+#from PyQt5.QtWidgets import QApplication
+#import sys
 
 slnPath='E:/VisualStudioDocs/fgo_py/'
 androidTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
@@ -45,7 +45,7 @@ dpx=0
 #adbPath='adb -s 1e1b7921'
 #dpx=120
 
-app=QApplication(sys.argv)
+#app=QApplication(sys.argv)
 hwnd=win32gui.FindWindow(None,androidTitle)
 
 key={
@@ -183,23 +183,22 @@ def show(img):
     cv2.waitKey()
     cv2.destroyAllWindows()
 def windowCapture(save=False,hwnd=hwnd):
-    #hwndDC=win32gui.GetWindowDC(hwnd)
-    ##left,top,right,bot=win32gui.GetWindowRect(hwnd)
-    ##width=int((right-left)*scale+.001)
-    ##height=int((bot-top)*scale+.001)
-    #width=1920
-    #height=1080
-    #mfcDC=win32ui.CreateDCFromHandle(hwndDC)
-    #saveDC=mfcDC.CreateCompatibleDC()
-    #saveBitMap=win32ui.CreateBitmap()
-    #saveBitMap.CreateCompatibleBitmap(mfcDC,width,height)
-    #saveDC.SelectObject(saveBitMap)
-    #saveDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY)
-    #img=numpy.frombuffer(saveBitMap.GetBitmapBits(True),dtype='uint8')
-    #img.shape=(height,width,4)
-    img=QApplication.primaryScreen().grabWindow(hwnd).toImage().constBits()
-    img.setsize(8302080)#img.byteCount(),1920*1080*4
-    img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
+    hwndDC=win32gui.GetWindowDC(hwnd)
+    #left,top,right,bot=win32gui.GetWindowRect(hwnd)
+    #width=int((right-left)*scale+.001)
+    #height=int((bot-top)*scale+.001)
+    width=1920
+    height=1080
+    mfcDC=win32ui.CreateDCFromHandle(hwndDC)
+    saveDC=mfcDC.CreateCompatibleDC()
+    saveBitMap=win32ui.CreateBitmap()
+    saveBitMap.CreateCompatibleBitmap(mfcDC,width,height)
+    saveDC.SelectObject(saveBitMap)
+    saveDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY)
+    img=numpy.frombuffer(saveBitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3]
+    #img=QApplication.primaryScreen().grabWindow(hwnd).toImage().constBits()
+    #img.setsize(8302080)#img.byteCount(),1920*1081*4
+    #img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
     if save:
         cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
     fuse.show()
@@ -236,7 +235,7 @@ class Check(object):
     def isApEmpty(self):
         return self.compare(IMG_APEMPTY,rect=(800,50,1120,146))and fuse.reset()
     def isChooseFriend(self):
-        return self.compare(IMG_CHOOSEFRIEND,rect=(1226,148,1329,242))and fuse.reset()
+        return self.compare(IMG_CHOOSEFRIEND,rect=(1628,314,1772,390))and fuse.reset()
     def isNoFriend(self):
         return self.compare(IMG_NOFRIEND,rect=(369,545,1552,797),delta=.1)and fuse.reset()
     def getABQ(self):
@@ -340,7 +339,7 @@ def oneBattle(danger=(0,0,1)):
                         if skillInfo[servant[0][i]][j][2]!=0:
                             doit(chr(skillInfo[servant[0][i]][j][1]+50),(300,))
                         time.sleep(2.1)
-            hougu=Check().isHouguReady()
+            hougu=(lambda x,y:[x[i]and y[i]for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
             for i in range(3):
                 if servant[0][i]>=6:
                     hougu[i]=False
@@ -348,11 +347,6 @@ def oneBattle(danger=(0,0,1)):
             doit(' ',(1000,))
             color=Check().getABQ()
             card=[chr(i+54)for pri in(2,1,0)for i in range(3)if hougu[i]and stage>=houguInfo[servant[0][i]][0]and houguInfo[servant[0][i]][1]==pri]
-            #card=[]
-            #for pri in(2,1,0):
-            #    for i in range(3):
-            #        if hougu[i]and stage>=houguInfo[servant[0][i]][0]and houguInfo[servant[0][i]][1]==pri:
-            #            card.append(chr(i+54))
             if len(card)==0:
                 card=[chr(j+49)for i in range(3)if color.count(i)>=3for j in range(5)if color[j]==i]
             if len(card)<3:
