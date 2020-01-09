@@ -86,9 +86,6 @@ key={
     '\xBB':(791,69),#+= VK_OEM_PLUS
     '\xBD':(427,69),#-_ VK_OEM_MINUS
 }
-ARTS=2
-BUSTER=0
-QUICK=1
 
 IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
@@ -104,21 +101,16 @@ IMG_FRIEND=[[file[:-4],cv2.imread(slnPath+'asserts/friend/'+file)]for file in os
 IMG_CHOOSEFRIEND=cv2.imread(slnPath+'asserts/choosefriend.png')
 IMG_NOFRIEND=cv2.imread(slnPath+'asserts/nofriend.png')
 friendPos=4
+skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
 #skillInfo=[#minstage,minstageturn,obj
-#    [[4,0,0],[4,0,0],[4,0,0]],
-#    [[4,0,0],[4,0,0],[4,0,0]],
-#    [[4,0,0],[4,0,0],[4,0,0]],
+#    [[1,2,0],[1,0,0],[4,0,0]],
+#    [[1,0,0],[1,0,0],[1,0,0]],
+#    [[1,0,0],[1,0,0],[3,3,0]],
 #    [[4,0,0],[4,0,0],[4,0,0]],
 #    [[4,0,0],[4,0,0],[4,0,0]],
 #    [[4,0,0],[4,0,0],[4,0,0]]]
-skillInfo=[#minstage,minstageturn,obj
-    [[1,2,0],[1,0,0],[4,0,0]],
-    [[1,0,0],[1,0,0],[1,0,0]],
-    [[1,0,0],[1,0,0],[3,3,0]],
-    [[4,0,0],[4,0,0],[4,0,0]],
-    [[4,0,0],[4,0,0],[4,0,0]],
-    [[4,0,0],[4,0,0],[4,0,0]]]
-houguInfo=[[2,0],[3,0],[3,0],[3,1],[3,1],[3,1]]#minstage,priority
+#houguInfo=[[2,0],[3,0],[3,0],[3,1],[3,1],[3,1]]#minstage,priority
+houguInfo=[[1,0],[1,0],[1,0],[1,1],[1,1],[1,1]]#minstage,priority
 houguInfo[friendPos]=[3,1]
 
 def rangeInf(start=0,step=1):
@@ -250,7 +242,7 @@ def chooseFriend():
         for i in range(6):
             chk=Check()
             for img in IMG_FRIEND:
-                if chk.tapOnCmp(img[1],rect=(50,250,340,1079),delta=.015):
+                if chk.tapOnCmp(img[1],delta=.015):
                     print('  Friend :',img[0])
                     try:
                         skillInfo[friendPos]={
@@ -338,7 +330,9 @@ def oneBattle(danger=(0,0,1)):
                         doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
                         if skillInfo[servant[0][i]][j][2]!=0:
                             doit(chr(skillInfo[servant[0][i]][j][1]+50),(300,))
-                        time.sleep(2.1)
+                        time.sleep(2)
+                        while not Check().isTurnBegin():
+                            time.sleep(.2)
             hougu=(lambda x,y:[x[i]and y[i]for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
             for i in range(3):
                 if servant[0][i]>=6:
@@ -350,7 +344,7 @@ def oneBattle(danger=(0,0,1)):
             if len(card)==0:
                 card=[chr(j+49)for i in range(3)if color.count(i)>=3for j in range(5)if color[j]==i]
             if len(card)<3:
-                card+=[chr(j+49)for i in(BUSTER,ARTS,QUICK)for j in range(5)if color[j]==i]
+                card+=[chr(j+49)for i in(0,2,1)for j in range(5)if color[j]==i]
             print('          ',color,card)
             doit(card[:3],(80,80,10000))
         elif chk.isBattleOver():
@@ -362,10 +356,10 @@ def oneBattle(danger=(0,0,1)):
             return
         else:
             time.sleep(.2)
-    doit('       F ',(200,200,200,200,200,200,200,200,9000))
+    doit('          F ',(200,200,200,200,200,200,200,200,200,200,200,9000))
 
-def main(eatApple=0,battleFunc=oneBattle,**kwargs):
-    apple=eatApple
+def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
+    apple=appleCount
     for i in rangeInf(1):
     #for i in range(1,4):
         doit('8',(1000,))
@@ -374,13 +368,10 @@ def main(eatApple=0,battleFunc=oneBattle,**kwargs):
                 print('Ap Empty')
                 return
             else:
-                doit('WL',(600,1500))#gold
-                #doit('4L',(600,1500))#silver
-                #doit('KL',(600,1500))#copper
+                doit('W4K8'[appleKind]+'L',(600,1500))
                 apple-=1
-                print('Apple :',eatApple-apple)
+                print('Apple :',appleCount-apple)
         print('  Battle',i)
-        #chooseFriend()
         while True:
             chk=Check()
             if chk.isNoFriend():
@@ -388,9 +379,10 @@ def main(eatApple=0,battleFunc=oneBattle,**kwargs):
             if chk.isChooseFriend():
                 break
             time.sleep(.2)
+        #chooseFriend()
         doit('8',(1000,))
         doit(' ',(15000,))
-        battleFunc(**kwargs)
+        battleFunc(*args,**kwargs)
         while not Check().isBegin():
             doit(' ',(200,))
 
@@ -403,10 +395,10 @@ def otk():
     doit('     F ',(200,200,200,200,200,200,10000))
 
 #main()
-setSkillInfo('saber')
-#oneBattle()
+setSkillInfo('lancer')
+#oneBattle((0,2,1))
 #main()
-main(eatApple=0,danger=(0,0,2))
+main(0,1,danger=(0,2,1))
 #main(battleFunc=otk)
 #otk()
 beep()
