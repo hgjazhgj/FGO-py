@@ -90,6 +90,7 @@ key={
 IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
 IMG_BEGIN=cv2.imread(slnPath+'asserts/begin.png')
+IMG_HOUGUSEALED=cv2.imread(slnPath+'asserts/hougusealed.png')
 IMG_BOUND=cv2.imread(slnPath+'asserts/bound.png')
 IMG_BOUNDUP=cv2.imread(slnPath+'asserts/boundup.png')
 #IMG_YES=cv2.imread(slnPath+'asserts/yes.png')
@@ -203,37 +204,39 @@ class Check(object):
         #self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1080,dpx:dpx+1920]
         time.sleep(.08)
         self.im=windowCapture()
-    def compare(self,x,delta=.03,rect=(0,0,1920,1080)):
-        return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],x,cv2.TM_SQDIFF_NORMED))[0]<delta
-    def select(self,x,rect=(0,0,1920,1080)):
-        return (lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in x])
-    def tapOnCmp(self,x,delta=.03,rect=(0,0,1920,1080)):
-        loc=cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],x,cv2.TM_SQDIFF_NORMED))
+    def compare(self,img,rect=(0,0,1920,1080),delta=.03):
+        return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
+    def select(self,img,rect=(0,0,1920,1080)):
+        return (lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
+    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.03):
+        loc=cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))
         if loc[0]>=delta:
             return False
-        tap(rect[0]+loc[2][0]+x.shape[1]//2,rect[1]+loc[2][1]+x.shape[0]//2)
+        tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2)
         time.sleep(.5)
         return fuse.reset()
     def isTurnBegin(self):
-        return self.compare(IMG_ATTACK,rect=(1567,932,1835,1064))and fuse.reset()
+        return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     def isBattleOver(self):
-        return(self.compare(IMG_BOUND,rect=(95,235,460,318))or self.compare(IMG_BOUNDUP,delta=.06,rect=(978,517,1491,596)))and fuse.reset()
+        return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
     def isBegin(self):
-        return self.compare(IMG_BEGIN,rect=(1630,950,1919,1079))and fuse.reset()
+        return self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
     def isHouguReady(self):
         return[rgb2hsv(self.im[1004][290+480*i])[1]>2for i in range(3)]
+    def isHouguSealed(self):
+        return[self.compare(IMG_HOUGUSEALED,(470+i*346,258,768+i*346,387),.3)for i in range(3)]
     def isSkillReady(self):
-        return[[not self.compare(IMG_STILL,rect=(65+480*i+141*j,895,107+480*i+141*j,927))for j in range(3)]for i in range(3)]
+        return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927))for j in range(3)]for i in range(3)]
     def isApEmpty(self):
-        return self.compare(IMG_APEMPTY,rect=(800,50,1120,146))and fuse.reset()
+        return self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
     def isChooseFriend(self):
-        return self.compare(IMG_CHOOSEFRIEND,rect=(1628,314,1772,390))and fuse.reset()
+        return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
     def isNoFriend(self):
-        return self.compare(IMG_NOFRIEND,rect=(369,545,1552,797),delta=.1)and fuse.reset()
+        return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
     def getABQ(self):
         return[(lambda x:x.index(max(x)))((lambda tc:[int(numpy.mean([j[i]for k in tc for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
     def getStage(self):
-        return self.select(IMG_STAGE,rect=(1290,14,1348,60))+1
+        return self.select(IMG_STAGE,(1290,14,1348,60))+1
     def getPortrait(self):
         return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
 
@@ -333,19 +336,17 @@ def oneBattle(danger=(0,0,1)):
                         time.sleep(2)
                         while not Check().isTurnBegin():
                             time.sleep(.2)
-            hougu=(lambda x,y:[x[i]and y[i]for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
-            for i in range(3):
-                if servant[0][i]>=6:
-                    hougu[i]=False
-            print('    ',turn,stage,stageTurn,servant[0],skill,hougu)
-            doit(' ',(1000,))
-            color=Check().getABQ()
+            hougu=(lambda x,y:[servant[0][i]<6and x[i]and y[i]for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
+            doit(' ',(2000,))
+            chk=Check()
+            color=chk.getABQ()
+            hougu=(lambda x,y:[x[i]^y[i]for i in range(3)])(hougu,chk.isHouguSealed())
             card=[chr(i+54)for pri in(2,1,0)for i in range(3)if hougu[i]and stage>=houguInfo[servant[0][i]][0]and houguInfo[servant[0][i]][1]==pri]
             if len(card)==0:
                 card=[chr(j+49)for i in range(3)if color.count(i)>=3for j in range(5)if color[j]==i]
             if len(card)<3:
                 card+=[chr(j+49)for i in(0,2,1)for j in range(5)if color[j]==i]
-            print('          ',color,card)
+            print('    \n          ',turn,stage,stageTurn,servant[0],skill,hougu,color,card)
             doit(card[:3],(80,80,10000))
         elif chk.isBattleOver():
             print('  Battle Finished')
@@ -396,9 +397,9 @@ def otk():
 
 #main()
 setSkillInfo('lancer')
-#oneBattle((0,2,1))
+oneBattle((0,2,2))
 #main()
-main(0,1,danger=(0,2,1))
+#main(0,1,danger=(0,2,2))
 #main(battleFunc=otk)
 #otk()
 beep()
