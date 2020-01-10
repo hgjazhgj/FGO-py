@@ -110,8 +110,8 @@ skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],
 #    [[4,0,0],[4,0,0],[4,0,0]],
 #    [[4,0,0],[4,0,0],[4,0,0]],
 #    [[4,0,0],[4,0,0],[4,0,0]]]
-#houguInfo=[[2,0],[3,0],[3,0],[3,1],[3,1],[3,1]]#minstage,priority
-houguInfo=[[1,0],[1,0],[1,0],[1,1],[1,1],[1,1]]#minstage,priority
+#houguInfo=[[1,0],[1,0],[1,0],[1,1],[1,1],[1,1]]#minstage,priority
+houguInfo=[[2,0],[2,0],[3,0],[1,1],[1,1],[1,1]]#minstage,priority
 houguInfo[friendPos]=[3,1]
 
 def rangeInf(start=0,step=1):
@@ -136,7 +136,7 @@ class Fuse(object):
         self.__value=0
         return True
     def show(self):
-        print(self.__value,'/',self.__max)
+        print(self.__value,'/',self.__max,sep='',flush=True)
 fuse=Fuse()
 def cmd(x):
     os.system(x)
@@ -194,7 +194,7 @@ def windowCapture(save=False,hwnd=hwnd):
     #img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
     if save:
         cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
-    fuse.show()
+    #fuse.show()
     return img
 
 class Check(object):
@@ -306,7 +306,7 @@ def oneBattle(danger=(0,0,1)):
     while True:
         chk=Check()
         if chk.isTurnBegin():
-            time.sleep(.2)
+            time.sleep(.3)
             chk=Check()
             newStage=chk.getStage()
             if stage!=newStage:
@@ -346,7 +346,7 @@ def oneBattle(danger=(0,0,1)):
                 card=[chr(j+49)for i in range(3)if color.count(i)>=3for j in range(5)if color[j]==i]
             if len(card)<3:
                 card+=[chr(j+49)for i in(0,2,1)for j in range(5)if color[j]==i]
-            print('    \n          ',turn,stage,stageTurn,servant[0],skill,hougu,color,card)
+            print('    ',turn,stage,stageTurn,servant[0],skill,hougu,'\n          ',color,card)
             doit(card[:3],(80,80,10000))
         elif chk.isBattleOver():
             print('  Battle Finished')
@@ -357,7 +357,9 @@ def oneBattle(danger=(0,0,1)):
             return
         else:
             time.sleep(.2)
-    doit('          F ',(200,200,200,200,200,200,200,200,200,200,200,9000))
+    doit('          F ',(200,200,200,200,200,200,200,200,200,200,200,8000))
+    while not Check().isBegin():
+        doit(' ',(200,))
 
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
     apple=appleCount
@@ -367,6 +369,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
         if Check().isApEmpty():
             if apple==0:
                 print('Ap Empty')
+                press('\x12')
                 return
             else:
                 doit('W4K8'[appleKind]+'L',(600,1500))
@@ -397,9 +400,9 @@ def otk():
 
 #main()
 setSkillInfo('lancer')
-oneBattle((0,2,2))
+oneBattle((0,0,1))
 #main()
-#main(0,1,danger=(0,2,2))
+main(0,1,danger=(0,0,1))
 #main(battleFunc=otk)
 #otk()
 beep()
