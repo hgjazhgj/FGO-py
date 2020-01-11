@@ -46,7 +46,7 @@ adbPath='adb -s emulator-5554'
 #dpx=120
 
 #app=QApplication(sys.argv)
-hwnd=win32gui.FindWindow(None,androidTitle)
+androidhWnd=win32gui.FindWindow(None,androidTitle)
 
 key={
     '\x09':(1800,304),#tab VK_TAB
@@ -175,20 +175,24 @@ def show(img):
     cv2.imshow('imshow',img)
     cv2.waitKey()
     cv2.destroyAllWindows()
-def windowCapture(save=False,hwnd=hwnd):
-    hwndDC=win32gui.GetWindowDC(hwnd)
+def windowCapture(save=False,hWnd=androidhWnd):
+    hWndDC=win32gui.GetWindowDC(hWnd)
     #left,top,right,bot=win32gui.GetWindowRect(hwnd)
     #width=int((right-left)*scale+.001)
     #height=int((bot-top)*scale+.001)
     width=1920
     height=1080
-    mfcDC=win32ui.CreateDCFromHandle(hwndDC)
+    mfcDC=win32ui.CreateDCFromHandle(hWndDC)
     saveDC=mfcDC.CreateCompatibleDC()
     saveBitMap=win32ui.CreateBitmap()
     saveBitMap.CreateCompatibleBitmap(mfcDC,width,height)
     saveDC.SelectObject(saveBitMap)
     saveDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY)
     img=numpy.frombuffer(saveBitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3]
+    win32gui.DeleteObject(saveBitMap.GetHandle())
+    saveDC.DeleteDC()
+    mfcDC.DeleteDC()
+    win32gui.ReleaseDC(hWnd,hWndDC)
     #img=QApplication.primaryScreen().grabWindow(hwnd).toImage().constBits()
     #img.setsize(8302080)#img.byteCount(),1920*1081*4
     #img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
@@ -408,7 +412,7 @@ def otk():
 setSkillInfo('assassin')
 oneBattle((0,2,2))
 #main()
-main(0,0,danger=(0,2,2))
+main(5,0,danger=(0,2,2))
 #main(battleFunc=otk)
 #otk()
 beep()
