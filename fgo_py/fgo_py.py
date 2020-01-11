@@ -38,10 +38,10 @@ slnPath='E:/VisualStudioDocs/fgo_py/'
 androidTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
 #systemScale=1.25
 
-os.system('adb connect localhost:5555')
-adbPath='adb -s localhost:5555'
+#os.system('adb connect localhost:5555')
+#adbPath='adb -s localhost:5555'
 dpx=0
-#adbPath='adb -s emulator-5554'
+adbPath='adb -s emulator-5554'
 #adbPath='adb -s 1e1b7921'
 #dpx=120
 
@@ -272,7 +272,7 @@ def draw():
 def setSkillInfo(s):
     if s=='saber':#muzashi/modoredo/okita
         skillInfo[0]=[[1,0,0],[1,0,0],[3,5,0]]
-        skillInfo[1]=[[1,0,0],[1,0,0],[1,0,0]]
+        skillInfo[1]=[[1,0,0],[1,2,0],[1,0,0]]
         skillInfo[2]=[[1,0,0],[1,2,0],[3,5,0]]
     elif s=='archer':#arutoria/erio/atera
         skillInfo[0]=[[1,0,0],[4,0,0],[1,0,0]]
@@ -357,7 +357,7 @@ def oneBattle(danger=(0,0,1)):
             return
         else:
             time.sleep(.2)
-    doit('          F ',(200,200,200,200,200,200,200,200,200,200,200,8000))
+    doit('             F ',(200,200,200,200,200,200,200,200,200,200,200,200,200,200,8000))
     while not Check().isBegin():
         doit(' ',(200,))
 
@@ -399,10 +399,10 @@ def otk():
     doit('     F ',(200,200,200,200,200,200,10000))
 
 #main()
-setSkillInfo('lancer')
+setSkillInfo('saber')
 oneBattle((0,0,1))
 #main()
-main(0,1,danger=(0,0,1))
+#main(1,0,danger=(0,0,1))
 #main(battleFunc=otk)
 #otk()
 beep()
