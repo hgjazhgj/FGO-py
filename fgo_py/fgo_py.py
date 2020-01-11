@@ -189,6 +189,10 @@ def windowCapture(save=False,hwnd=hwnd):
     saveDC.SelectObject(saveBitMap)
     saveDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY)
     img=numpy.frombuffer(saveBitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3]
+    win32gui.DeleteObject(saveBitMap.GetHandle())
+    saveDC.DeleteDC()
+    mfcDC.DeleteDC()
+    win32gui.ReleaseDC(hWnd,hWndDC)
     #img=QApplication.primaryScreen().grabWindow(hwnd).toImage().constBits()
     #img.setsize(8302080)#img.byteCount(),1920*1081*4
     #img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
@@ -406,9 +410,9 @@ def otk():
 
 #main()
 setSkillInfo('assassin')
-oneBattle((0,2,2))
+#oneBattle((0,2,2))
 #main()
-main(0,0,danger=(0,2,2))
+main(5,0,danger=(0,2,2))
 #main(battleFunc=otk)
 #otk()
 beep()
