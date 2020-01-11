@@ -260,7 +260,6 @@ def chooseFriend():
             swipe((220,960,220,457))
             time.sleep(.2)
         doit('\xBAJ',(500,1000))
-        fuse.reset()
 
 def draw():
     while True:
@@ -337,7 +336,7 @@ def oneBattle(danger=(0,0,1)):
                         while not Check().isTurnBegin():
                             time.sleep(.2)
             hougu=(lambda x,y:[servant[0][i]<6and x[i]and y[i]for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
-            doit(' ',(2000,))
+            doit(' ',(1800,))
             chk=Check()
             color=chk.getABQ()
             hougu=(lambda x,y:[x[i]^y[i]for i in range(3)])(hougu,chk.isHouguSealed())
@@ -379,7 +378,14 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
         while True:
             chk=Check()
             if chk.isNoFriend():
-                return
+                doit('\xBAJ',(500,1000))
+                while True:
+                    chk=Check()
+                    if chk.isNoFriend():
+                        return
+                    if chk.isChooseFriend():
+                        break
+                    time.sleep(.2)
             if chk.isChooseFriend():
                 break
             time.sleep(.2)
@@ -399,10 +405,10 @@ def otk():
     doit('     F ',(200,200,200,200,200,200,10000))
 
 #main()
-setSkillInfo('saber')
-oneBattle((0,0,1))
+setSkillInfo('assassin')
+oneBattle((0,2,2))
 #main()
-#main(1,0,danger=(0,0,1))
+main(0,0,danger=(0,2,2))
 #main(battleFunc=otk)
 #otk()
 beep()
