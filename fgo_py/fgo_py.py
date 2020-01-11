@@ -46,7 +46,7 @@ adbPath='adb -s emulator-5554'
 #dpx=120
 
 #app=QApplication(sys.argv)
-hwnd=win32gui.FindWindow(None,androidTitle)
+androidhWnd=win32gui.FindWindow(None,androidTitle)
 
 key={
     '\x09':(1800,304),#tab VK_TAB
@@ -175,14 +175,14 @@ def show(img):
     cv2.imshow('imshow',img)
     cv2.waitKey()
     cv2.destroyAllWindows()
-def windowCapture(save=False,hwnd=hwnd):
-    hwndDC=win32gui.GetWindowDC(hwnd)
+def windowCapture(save=False,hWnd=androidhWnd):
+    hWndDC=win32gui.GetWindowDC(hWnd)
     #left,top,right,bot=win32gui.GetWindowRect(hwnd)
     #width=int((right-left)*scale+.001)
     #height=int((bot-top)*scale+.001)
     width=1920
     height=1080
-    mfcDC=win32ui.CreateDCFromHandle(hwndDC)
+    mfcDC=win32ui.CreateDCFromHandle(hWndDC)
     saveDC=mfcDC.CreateCompatibleDC()
     saveBitMap=win32ui.CreateBitmap()
     saveBitMap.CreateCompatibleBitmap(mfcDC,width,height)
@@ -410,7 +410,7 @@ def otk():
 
 #main()
 setSkillInfo('assassin')
-#oneBattle((0,2,2))
+oneBattle((0,2,2))
 #main()
 main(5,0,danger=(0,2,2))
 #main(battleFunc=otk)
