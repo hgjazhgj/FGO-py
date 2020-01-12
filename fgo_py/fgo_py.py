@@ -38,10 +38,10 @@ slnPath='E:/VisualStudioDocs/fgo_py/'
 androidTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
 #systemScale=1.25
 
-#os.system('adb connect localhost:5555')
-#adbPath='adb -s localhost:5555'
+os.system('adb connect localhost:5555')
+adbPath='adb -s localhost:5555'
 dpx=0
-adbPath='adb -s emulator-5554'
+#adbPath='adb -s emulator-5554'
 #adbPath='adb -s 1e1b7921'
 #dpx=120
 
@@ -95,6 +95,7 @@ IMG_BOUND=cv2.imread(slnPath+'asserts/bound.png')
 IMG_BOUNDUP=cv2.imread(slnPath+'asserts/boundup.png')
 #IMG_YES=cv2.imread(slnPath+'asserts/yes.png')
 #IMG_NO=cv2.imread(slnPath+'asserts/no.png')
+IMG_END=cv2.imread(slnPath+'asserts/end.png')
 IMG_STILL=cv2.imread(slnPath+'asserts/still.png')
 IMG_FAILED=cv2.imread(slnPath+'asserts/failed.png')
 IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPath+'asserts/stage')if file.endswith('.png')]
@@ -360,9 +361,13 @@ def oneBattle(danger=(0,0,1)):
             return
         else:
             time.sleep(.2)
-    doit('             F ',(200,200,200,200,200,200,200,200,200,200,200,200,200,200,8000))
+    doit('       ',(200,200,200,200,200,200,200))
     while not Check().isBegin():
         doit(' ',(200,))
+        if Check().tapOnCmp(IMG_END,rect=(243,863,745,982)):
+            while not Check().isBegin():
+                doit(' ',(200,))
+            return
 
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
     apple=appleCount
@@ -393,12 +398,9 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
             if chk.isChooseFriend():
                 break
             time.sleep(.2)
-        #chooseFriend()
-        doit('8',(1000,))
-        doit(' ',(15000,))
+        #chooseFriend();doit(' ',(1000,))
+        doit('8 ',(1000,15000))
         battleFunc(*args,**kwargs)
-        while not Check().isBegin():
-            doit(' ',(200,))
 
 def otk():
     while not Check().isTurnBegin():
@@ -410,9 +412,9 @@ def otk():
 
 #main()
 setSkillInfo('assassin')
-oneBattle((0,2,2))
+#oneBattle((0,2,2))
 #main()
-main(5,0,danger=(0,2,2))
+main(0,0,danger=(0,2,2))
 #main(battleFunc=otk)
 #otk()
 beep()
