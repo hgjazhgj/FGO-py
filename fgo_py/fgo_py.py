@@ -25,7 +25,7 @@ import time
 #import PIL.Image
 import os
 #import subprocess
-import functools
+#import functools
 import numpy
 #import pytesseract
 import cv2
