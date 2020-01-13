@@ -19,12 +19,13 @@
 #*                      你若气死谁如意?                      *
 #*                      谈笑风生活长命.                      *
 #************************************************************/
+__auther__='hgjazhgj'
 
 import time
 #import PIL.Image
 import os
 #import subprocess
-import functools
+#import functools
 import numpy
 #import pytesseract
 import cv2
@@ -34,19 +35,14 @@ import win32gui
 #from PyQt5.QtWidgets import QApplication
 #import sys
 
+from fgo_shell import *
+
 slnPath='E:/VisualStudioDocs/fgo_py/'
-androidTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
+wndTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
 #systemScale=1.25
 
-os.system('adb connect localhost:5555')
-adbPath='adb -s localhost:5555'
-dpx=0
-#adbPath='adb -s emulator-5554'
-#adbPath='adb -s 1e1b7921'
-#dpx=120
-
 #app=QApplication(sys.argv)
-androidhWnd=win32gui.FindWindow(None,androidTitle)
+hWnd=win32gui.FindWindow(None,wndTitle)
 
 key={
     '\x09':(1800,304),#tab VK_TAB
@@ -139,8 +135,6 @@ class Fuse(object):
     def show(self):
         print(self.__value,'/',self.__max,sep='',flush=True)
 fuse=Fuse()
-def cmd(x):
-    os.system(x)
 def rgb2hsv(x):
     '''
     R,G,B:[0,255]
@@ -156,27 +150,20 @@ def rgb2hsv(x):
     S=0if cmax==0else delta/cmax
     V=cmax
     return(int(H),int(100*S),int(V*100/255))
-def tap(x,y):
-    cmd(adbPath+' shell input tap {} {}'.format(x+dpx,y))
 def press(c):
     tap(*key[c])
-def swipe(rect,interval=500):
-    cmd(adbPath+' shell input swipe {} {} {} {} {}'.format(rect[0]+dpx,rect[1],rect[2]+dpx,rect[3],interval))
-def screenShot(path=slnPath,name=''):
-    cmd(adbPath+' shell screencap /sdcard/adbtemp/screen.png')
-    cmd(adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else time.strftime("%Y-%m-%d_%H.%M.%S",time.localtime())))
 def doit(touch,wait):
     for i in range(len(touch)):
         press(touch[i])
         time.sleep(wait[i]/1000)
 def beep():
-    cmd('echo \x07')
+    print('\x07',end='')
     time.sleep(.5)
 def show(img):
     cv2.imshow('imshow',img)
     cv2.waitKey()
     cv2.destroyAllWindows()
-def windowCapture(save=False,hWnd=androidhWnd):
+def windowCapture(save=False,hWnd=hWnd):
     hWndDC=win32gui.GetWindowDC(hWnd)
     #left,top,right,bot=win32gui.GetWindowRect(hwnd)
     #width=int((right-left)*scale+.001)
@@ -410,11 +397,17 @@ def otk():
         time.sleep(.5)
     doit('     F ',(200,200,200,200,200,200,10000))
 
-#main()
-setSkillInfo('assassin')
-#oneBattle((0,2,2))
-#main()
-main(0,0,danger=(0,2,2))
-#main(battleFunc=otk)
-#otk()
-beep()
+if __name__=='__main__':
+    #main()
+    setSkillInfo('assassin')
+    oneBattle((0,2,2))
+    #main()
+    main(0,2,danger=(0,2,2))
+    #main(battleFunc=otk)
+    #otk()
+
+    #setSkillInfo('lancer')
+    ##oneBattle((0,0,1))
+    #main(danger=(0,0,1))
+    beep()
+    print(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime()))

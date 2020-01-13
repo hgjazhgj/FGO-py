@@ -2,3 +2,4 @@
 *.sln
 *proj
 chk.png
+*.pyc
