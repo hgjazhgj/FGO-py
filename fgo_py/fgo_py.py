@@ -35,7 +35,7 @@ import win32gui
 #from PyQt5.QtWidgets import QApplication
 #import sys
 
-from fgo_android import *
+from fgo_shell import *
 
 slnPath='E:/VisualStudioDocs/fgo_py/'
 wndTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
