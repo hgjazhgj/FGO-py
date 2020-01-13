@@ -19,9 +19,8 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 模拟器必须全屏显示在1920\*1080的显示屏上,窗口可以被遮挡但是不能被隐藏或最小化  
 若要用于真机,参见[这里](#如何将此脚本应用于真机)  
 虽然改几行代码就能应用于任意分辨率,但这可能导致识别问题,需要手动修改精度限制  
-**请在手机的/sdcard目录下新建一个名为adbtemp的文件夹**  
 你的电脑上要有adb([官方文档](https://developer.android.google.cn/studio/command-line/adb),[官方下载](https://adbshell.com/upload/adb.zip))要下载的话直接点这里的下载链接,百度上搜adb都出来的都是些什么乱七八糟的...  
-你得会一点点python,不用很多  
+你得会一点点python3,不用很多  
 使用了以下库:  
 `time` `os` `numpy` `cv2` `win32con` `win32ui` `win32gui`  
 没有的直接`pip install`  
@@ -71,6 +70,7 @@ email huguangjing0411@geektip.cc
 如果你用的是模拟器,请使用本程序的`screenShot`函数来截图而不要用模拟器自带的截图,更不要用<kbd>prtSc</kbd>键或其他工具来截图,这可能会导致识别错误  
 如果你用的是手机,`screenShot`函数也可以大大方便你的操作  
 `screenShot`函数已不在主程序中使用,你需要手动解除注释  
+使用`screenShot`函数时,请在手机的/sdcard目录下新建一个名为adbtemp的文件夹  
 助战截图的名称中若有下划线'_',且下划线之前的部分为km,ml,cba,则代表好友就挂的是孔明,梅林,十八岁美少女,这会影响助战技能的使用,参见`chooseFriend`函数具体实现  
 ## 如何将此脚本应用于真机
 v2.7.x及之前版本能在任意支持python和adb的系统上用于任何Android设备,v2.7版本的代码现在也是可以用的尽管可能不是那么稳定,x2.8.0及之后的版本仅仅由于截图方式由adb改为win32api而只能在windows系统上用于1920*1080的屏幕,如果使用真机,要么把手机屏幕找一个投屏软件投到屏幕上要么把`Check.__init__()`中的注释挪到最后两行以启用先前版本的截图函数,注意,由于当前版本是基于新截图方式进行的优化,进行此替换虽然不会导致错误,但是会使运行效率比v2.7.x还要低得多得多  
