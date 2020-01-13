@@ -38,11 +38,9 @@ import win32gui
 from fgo_shell import *
 
 slnPath='E:/VisualStudioDocs/fgo_py/'
-wndTitle='BlueStacks App Player'#'BlueStacks Android PluginAndroid'
-#systemScale=1.25
-
+scale=1.25
 #app=QApplication(sys.argv)
-hWnd=win32gui.FindWindow(None,wndTitle)
+hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)#'BlueStacks Android PluginAndroid'
 
 key={
     '\x09':(1800,304),#tab VK_TAB
@@ -141,9 +139,9 @@ def rgb2hsv(x):
     H:[0,359]
     S,V:[0,100]
     '''
-    R=x[2]
-    G=x[1]
-    B=x[0]
+    R=int(x[2])
+    G=int(x[1])
+    B=int(x[0])
     cmax=max(R,G,B)
     delta=cmax-min(R,G,B)
     H=0if delta==0else((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60%360
@@ -163,13 +161,13 @@ def show(img):
     cv2.imshow('imshow',img)
     cv2.waitKey()
     cv2.destroyAllWindows()
-def windowCapture(save=False,hWnd=hWnd):
+def windowCapture(hWnd=hWnd):
     hWndDC=win32gui.GetWindowDC(hWnd)
-    #left,top,right,bot=win32gui.GetWindowRect(hwnd)
-    #width=int((right-left)*scale+.001)
-    #height=int((bot-top)*scale+.001)
-    width=1920
-    height=1080
+    left,top,right,bot=win32gui.GetWindowRect(hWnd)
+    width=int((right-left)*scale+.001)
+    height=int((bot-top)*scale+.001)
+    #width=1920
+    #height=1080
     mfcDC=win32ui.CreateDCFromHandle(hWndDC)
     saveDC=mfcDC.CreateCompatibleDC()
     saveBitMap=win32ui.CreateBitmap()
@@ -184,8 +182,8 @@ def windowCapture(save=False,hWnd=hWnd):
     #img=QApplication.primaryScreen().grabWindow(hwnd).toImage().constBits()
     #img.setsize(8302080)#img.byteCount(),1920*1081*4
     #img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
-    if save:
-        cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
+    #if save:
+    #    cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
     #fuse.show()
     return img
 
@@ -195,7 +193,7 @@ class Check(object):
         #screenShot(name='chk')
         #self.im=cv2.imread(slnPath+'ScreenShots/chk.png')[0:1080,dpx:dpx+1920]
         time.sleep(.08)
-        self.im=windowCapture()
+        self.im=cv2.resize(windowCapture(),(1920,1080),interpolation=cv2.INTER_CUBIC)
     def compare(self,img,rect=(0,0,1920,1080),delta=.03):
         return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):
@@ -207,6 +205,9 @@ class Check(object):
         tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2)
         time.sleep(.5)
         return fuse.reset()
+    def save(self):
+        cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),self.im)
+        return self
     def isTurnBegin(self):
         return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     def isBattleOver(self):
@@ -214,11 +215,11 @@ class Check(object):
     def isBegin(self):
         return self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
     def isHouguReady(self):
-        return[rgb2hsv(self.im[1004][290+480*i])[1]>2for i in range(3)]
+        return[rgb2hsv(self.im[1002][290+480*i])[1]>5for i in range(3)]
     def isHouguSealed(self):
         return[self.compare(IMG_HOUGUSEALED,(470+i*346,258,768+i*346,387),.3)for i in range(3)]
     def isSkillReady(self):
-        return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927))for j in range(3)]for i in range(3)]
+        return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in range(3)]for i in range(3)]
     def isApEmpty(self):
         return self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
     def isChooseFriend(self):
@@ -327,7 +328,7 @@ def oneBattle(danger=(0,0,1)):
                         time.sleep(2)
                         while not Check().isTurnBegin():
                             time.sleep(.2)
-            hougu=(lambda x,y:[servant[0][i]<6and x[i]and y[i]for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
+            hougu=(lambda x,y:[servant[0][i]<6and(x[i]or y[i])for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
             doit(' ',(1800,))
             chk=Check()
             color=chk.getABQ()
@@ -397,17 +398,3 @@ def otk():
         time.sleep(.5)
     doit('     F ',(200,200,200,200,200,200,10000))
 
-if __name__=='__main__':
-    #main()
-    setSkillInfo('assassin')
-    oneBattle((0,2,2))
-    #main()
-    main(0,2,danger=(0,2,2))
-    #main(battleFunc=otk)
-    #otk()
-
-    #setSkillInfo('lancer')
-    ##oneBattle((0,0,1))
-    #main(danger=(0,0,1))
-    beep()
-    print(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime()))
