@@ -55,7 +55,7 @@ email huguangjing0411@geektip.cc
 ## 你需要修改slnPath,adbPath,scale和hWnd  
 `slnPath`是本解决方案的绝对位置,方便你把代码和其他资源分开放  
 `adbpath`要根据你的设备连接方式进行修改(在fgo_shell.py文件中)  
-`scale`是你电脑系统显示缩放倍率,在系统设置-系统-显示-缩放与布局中查看,非win10系统此项恒为1
+`scale`是你电脑系统显示缩放倍率,在系统设置-系统-显示-缩放与布局中查看,非win10系统此项恒为1  
 `hWnd`为显示游戏画面所在的窗口句柄,对于多数模拟器而言,一个主窗口(overlapped window)下就只有一个用于显示游戏画面的子窗口(child window),这时你只需要把hWnd所在定义行中的字符串改为主窗口标题就可以了  
 只要窗口开着,窗口句柄就不会改变,但是相应的上下文环境(设备描述表,Device Context,DC)需要在使用时建立随后释放    
 ## 你可以修改skillInfo数组
