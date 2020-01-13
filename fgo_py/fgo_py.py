@@ -23,7 +23,7 @@ __auther__='hgjazhgj'
 
 import time
 #import PIL.Image
-from os import system as cmd
+import os
 #import subprocess
 import functools
 import numpy
@@ -157,7 +157,7 @@ def doit(touch,wait):
         press(touch[i])
         time.sleep(wait[i]/1000)
 def beep():
-    cmd('echo \x07')
+    print('\x07',end='')
     time.sleep(.5)
 def show(img):
     cv2.imshow('imshow',img)
