@@ -19,6 +19,7 @@
 #*                      你若气死谁如意?                      *
 #*                      谈笑风生活长命.                      *
 #************************************************************/
+'full-automatic FGO script'
 __auther__='hgjazhgj'
 
 import time
@@ -32,6 +33,7 @@ import cv2
 import win32con
 import win32ui
 import win32gui
+import winsound
 #from PyQt5.QtWidgets import QApplication
 #import sys
 
@@ -155,8 +157,12 @@ def doit(touch,wait):
         press(touch[i])
         time.sleep(wait[i]/1000)
 def beep():
-    print('\x07',end='')
-    time.sleep(.5)
+    #os.system('echo \07')
+    #print('\x07',end='')
+    #time.sleep(.5)
+    #winsound.Beep(440,1000)
+    #winsound.MessageBeep(winsound.MB_OK)
+    winsound.PlaySound('SystemHand',0)
 def show(img):
     cv2.imshow('imshow',img)
     cv2.waitKey()
@@ -183,9 +189,11 @@ def windowCapture(hWnd=hWnd):
     #img.setsize(8302080)#img.byteCount(),1920*1081*4
     #img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
     #if save:
-    #    cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),img)
+    #    cv2.imwrite(slnPath+time.strftime('ScreenShots/%Y-%m-%d_%H.%M.%S.png',time.localtime()),img)
     #fuse.show()
     return img
+def playSound(file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP):
+    winsound.PlaySound(file,flag)
 
 class Check(object):
     def __init__(self):
@@ -205,8 +213,8 @@ class Check(object):
         tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2)
         time.sleep(.5)
         return fuse.reset()
-    def save(self):
-        cv2.imwrite(slnPath+time.strftime("ScreenShots/%Y-%m-%d_%H.%M.%S.png",time.localtime()),self.im)
+    def save(self,name=''):
+        cv2.imwrite(slnPath+'ScreenShots/'+time.strftime('%Y-%m-%d_%H.%M.%S.png',time.localtime())if name!=''else name,self.im)
         return self
     def isTurnBegin(self):
         return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
@@ -227,7 +235,7 @@ class Check(object):
     def isNoFriend(self):
         return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
     def getABQ(self):
-        return[(lambda x:x.index(max(x)))((lambda tc:[int(numpy.mean([j[i]for k in tc for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
+        return[(lambda x:x.index(max(x)))((lambda x:[int(numpy.mean([j[i]for k in x for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
     def getStage(self):
         return self.select(IMG_STAGE,(1290,14,1348,60))+1
     def getPortrait(self):
@@ -328,7 +336,7 @@ def oneBattle(danger=(0,0,1)):
                         time.sleep(2)
                         while not Check().isTurnBegin():
                             time.sleep(.2)
-            hougu=(lambda x,y:[servant[0][i]<6and(x[i]or y[i])for i in range(3)])(Check().isHouguReady(),Check().isHouguReady())
+            hougu=(lambda x:[servant[0][i]<6and(any([x[j][i]for j in range(len(x))]))for i in range(3)])((Check().isHouguReady(),Check().isHouguReady(),Check().isHouguReady()))
             doit(' ',(1800,))
             chk=Check()
             color=chk.getABQ()
@@ -345,6 +353,7 @@ def oneBattle(danger=(0,0,1)):
             break
         elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
             print('  Battle Failed')
+            beep()
             doit('VJ  F ',(500,500,500,500,500,10000))
             return
         else:
@@ -390,11 +399,11 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
         doit('8 ',(1000,15000))
         battleFunc(*args,**kwargs)
 
-def otk():
-    while not Check().isTurnBegin():
-        time.sleep(.5)
-    doit("S2F2GH2J2KL2QE2 654",(300,2600,300,2600,2600,300,2600,300,2600,2600,300,2600,300,300,2600,1200,100,100,17000))
-    while not Check().isBattleOver():
-        time.sleep(.5)
-    doit('     F ',(200,200,200,200,200,200,10000))
+#def otk():
+#    while not Check().isTurnBegin():
+#        time.sleep(.5)
+#    doit('S2F2GH2J2KL2QE2 654',(300,2600,300,2600,2600,300,2600,300,2600,2600,300,2600,300,300,2600,1200,100,100,17000))
+#    while not Check().isBattleOver():
+#        time.sleep(.5)
+#    doit('     F ',(200,200,200,200,200,200,10000))
 
