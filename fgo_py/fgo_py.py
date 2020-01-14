@@ -83,10 +83,12 @@ key={
     '\xBD':(427,69),#-_ VK_OEM_MINUS
 }
 
+IMG_DEFAULT=cv2.imread(slnPath+'asserts/default.png')
 IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
 IMG_BEGIN=cv2.imread(slnPath+'asserts/begin.png')
 IMG_HOUGUSEALED=cv2.imread(slnPath+'asserts/hougusealed.png')
+IMG_CARDSEALED=cv2.imread(slnPath+'asserts/cardsealed.png')
 IMG_BOUND=cv2.imread(slnPath+'asserts/bound.png')
 IMG_BOUNDUP=cv2.imread(slnPath+'asserts/boundup.png')
 #IMG_YES=cv2.imread(slnPath+'asserts/yes.png')
@@ -214,7 +216,7 @@ class Check(object):
         time.sleep(.5)
         return fuse.reset()
     def save(self,name=''):
-        cv2.imwrite(slnPath+'ScreenShots/'+time.strftime('%Y-%m-%d_%H.%M.%S.png',time.localtime())if name!=''else name,self.im)
+        cv2.imwrite(slnPath+'ScreenShots/'+time.strftime('%Y-%m-%d_%H.%M.%S.png',time.localtime())if name==''else name,self.im)
         return self
     def isTurnBegin(self):
         return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
@@ -225,7 +227,7 @@ class Check(object):
     def isHouguReady(self):
         return[rgb2hsv(self.im[1002][290+480*i])[1]>5for i in range(3)]
     def isHouguSealed(self):
-        return[self.compare(IMG_HOUGUSEALED,(470+i*346,258,768+i*346,387),.3)for i in range(3)]
+        return[any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])for i in range(3)]
     def isSkillReady(self):
         return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in range(3)]for i in range(3)]
     def isApEmpty(self):
@@ -235,7 +237,7 @@ class Check(object):
     def isNoFriend(self):
         return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
     def getABQ(self):
-        return[(lambda x:x.index(max(x)))((lambda x:[int(numpy.mean([j[i]for k in x for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
+        return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))((lambda x:[int(numpy.mean([j[i]for k in x for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
     def getStage(self):
         return self.select(IMG_STAGE,(1290,14,1348,60))+1
     def getPortrait(self):
@@ -337,15 +339,15 @@ def oneBattle(danger=(0,0,1)):
                         while not Check().isTurnBegin():
                             time.sleep(.2)
             hougu=(lambda x:[servant[0][i]<6and(any([x[j][i]for j in range(len(x))]))for i in range(3)])((Check().isHouguReady(),Check().isHouguReady(),Check().isHouguReady()))
-            doit(' ',(1800,))
+            doit(' ',(2700,))
             chk=Check()
             color=chk.getABQ()
-            hougu=(lambda x,y:[x[i]^y[i]for i in range(3)])(hougu,chk.isHouguSealed())
+            hougu=(lambda x,y:[x[i]and not y[i]for i in range(3)])(hougu,chk.isHouguSealed())
             card=[chr(i+54)for pri in(2,1,0)for i in range(3)if hougu[i]and stage>=houguInfo[servant[0][i]][0]and houguInfo[servant[0][i]][1]==pri]
             if len(card)==0:
                 card=[chr(j+49)for i in range(3)if color.count(i)>=3for j in range(5)if color[j]==i]
             if len(card)<3:
-                card+=[chr(j+49)for i in(0,2,1)for j in range(5)if color[j]==i]
+                card+=[chr(j+49)for i in(0,2,1,-1)for j in range(5)if color[j]==i]
             print('    ',turn,stage,stageTurn,servant[0],skill,hougu,'\n          ',color,card)
             doit(card[:3],(80,80,10000))
         elif chk.isBattleOver():
