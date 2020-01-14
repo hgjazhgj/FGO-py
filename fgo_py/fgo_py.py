@@ -108,7 +108,7 @@ skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],
 #    [[4,0,0],[4,0,0],[4,0,0]],
 #    [[4,0,0],[4,0,0],[4,0,0]]]
 #houguInfo=[[1,0],[1,0],[1,0],[1,1],[1,1],[1,1]]#minstage,priority
-houguInfo=[[2,0],[2,0],[3,0],[1,1],[1,1],[1,1]]#minstage,priority
+houguInfo=[[2,0],[3,0],[3,0],[1,1],[1,1],[1,1]]#minstage,priority
 houguInfo[friendPos]=[3,1]
 
 def rangeInf(start=0,step=1):
@@ -279,9 +279,9 @@ def setSkillInfo(s):
         skillInfo[1]=[[1,0,0],[3,0,0],[3,5,0]]
         skillInfo[2]=[[1,0,1],[1,0,2],[4,0,0]]
     elif s=='lancer':#ere/tamamo/jyanu
-        skillInfo[0]=[[3,4,0],[1,0,0],[2,0,0]]
-        skillInfo[1]=[[1,0,0],[3,0,0],[4,0,0]]
-        skillInfo[2]=[[3,0,1],[1,0,0],[3,4,0]]
+        skillInfo[0]=[[3,3,0],[1,0,0],[2,0,0]]
+        skillInfo[1]=[[1,0,0],[3,0,0],[3,3,0]]
+        skillInfo[2]=[[3,0,1],[1,0,0],[3,3,0]]
     elif s=='rider':#arutoria/asutorufo/maruta
         skillInfo[0]=[[3,0,1],[2,0,0],[1,0,0]]
         skillInfo[1]=[[1,0,0],[3,0,0],[1,0,0]]

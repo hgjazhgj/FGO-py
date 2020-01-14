@@ -1,7 +1,6 @@
 from fgo_py import *
 
 #setSkillInfo('rider')
-#oneBattle((0,1,2))
 #main()
 #main(0,2,danger=(0,1,2))
 #main(battleFunc=otk)
@@ -13,7 +12,8 @@ from fgo_py import *
 
 try:
     setSkillInfo('lancer')
-    main(160,0,danger=(0,2,1))
+    #oneBattle((0,2,1))
+    main(150,0,danger=(0,2,1))
 finally:
     playSound()
 
