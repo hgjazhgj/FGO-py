@@ -14,6 +14,8 @@ try:
     setSkillInfo('lancer')
     #oneBattle((0,2,1))
     main(150,0,danger=(0,2,1))
+except BaseException as e:
+    print(e)
 finally:
     playSound()
 
