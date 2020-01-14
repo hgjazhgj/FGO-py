@@ -2,7 +2,7 @@
 > 术尼禄/*伊莉雅*/*莉莉丝*/*剑尼禄*/黑骑呆/阿比/*魔总*/老福/*闪闪*/其余待定  
 > 许愿伊莉雅和美游  
 
-"智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本 当前版本v2.10.1    
+#"智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本 当前版本v2.10.2    
 祝各位Master新年快乐!  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 快速跳转:[版本记录](#版本记录-Version-Logs)  

@@ -83,23 +83,23 @@ key={
     '\xBD':(427,69),#-_ VK_OEM_MINUS
 }
 
-IMG_DEFAULT=cv2.imread(slnPath+'asserts/default.png')
 IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
 IMG_BEGIN=cv2.imread(slnPath+'asserts/begin.png')
-IMG_HOUGUSEALED=cv2.imread(slnPath+'asserts/hougusealed.png')
-IMG_CARDSEALED=cv2.imread(slnPath+'asserts/cardsealed.png')
 IMG_BOUND=cv2.imread(slnPath+'asserts/bound.png')
 IMG_BOUNDUP=cv2.imread(slnPath+'asserts/boundup.png')
+IMG_CARDSEALED=cv2.imread(slnPath+'asserts/cardsealed.png')
+IMG_CHOOSEFRIEND=cv2.imread(slnPath+'asserts/choosefriend.png')
+IMG_END=cv2.imread(slnPath+'asserts/end.png')
+IMG_FAILED=cv2.imread(slnPath+'asserts/failed.png')
+IMG_FRIEND=[[file[:-4],cv2.imread(slnPath+'asserts/friend/'+file)]for file in os.listdir(slnPath+'asserts/friend')if file.endswith('.png')]
+IMG_HOUGUSEALED=cv2.imread(slnPath+'asserts/hougusealed.png')
+IMG_NOFRIEND=cv2.imread(slnPath+'asserts/nofriend.png')
+IMG_STILL=cv2.imread(slnPath+'asserts/still.png')
+IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPath+'asserts/stage')if file.endswith('.png')]
 #IMG_YES=cv2.imread(slnPath+'asserts/yes.png')
 #IMG_NO=cv2.imread(slnPath+'asserts/no.png')
-IMG_END=cv2.imread(slnPath+'asserts/end.png')
-IMG_STILL=cv2.imread(slnPath+'asserts/still.png')
-IMG_FAILED=cv2.imread(slnPath+'asserts/failed.png')
-IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPath+'asserts/stage')if file.endswith('.png')]
-IMG_FRIEND=[[file[:-4],cv2.imread(slnPath+'asserts/friend/'+file)]for file in os.listdir(slnPath+'asserts/friend')if file.endswith('.png')]
-IMG_CHOOSEFRIEND=cv2.imread(slnPath+'asserts/choosefriend.png')
-IMG_NOFRIEND=cv2.imread(slnPath+'asserts/nofriend.png')
+
 friendPos=4
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
 #skillInfo=[#minstage,minstageturn,obj
