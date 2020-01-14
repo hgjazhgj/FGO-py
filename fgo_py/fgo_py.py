@@ -244,6 +244,9 @@ class Check(object):
         return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
 
 def chooseFriend():
+    if len(IMG_FRIEND)==0:
+        doit('8',(1000,))
+        return
     while True:
         for i in range(6):
             chk=Check()
@@ -356,17 +359,10 @@ def oneBattle(danger=(0,0,1)):
         elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
             print('  Battle Failed')
             beep()
-            doit('VJ  F ',(500,500,500,500,500,10000))
-            return
+            return False
         else:
             time.sleep(.2)
-    doit('       ',(200,200,200,200,200,200,200))
-    while not Check().isBegin():
-        doit(' ',(200,))
-        if Check().tapOnCmp(IMG_END,rect=(243,863,745,982)):
-            while not Check().isBegin():
-                doit(' ',(200,))
-            return
+    return True
 
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
     apple=appleCount
@@ -379,7 +375,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
                 press('\x12')
                 return
             else:
-                doit('W4K8'[appleKind]+'L',(600,1500))
+                doit('W4K8'[appleKind]+'L',(400,1200))
                 apple-=1
                 print('Apple :',appleCount-apple)
         print('  Battle',i)
@@ -397,9 +393,18 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
             if chk.isChooseFriend():
                 break
             time.sleep(.2)
-        #chooseFriend();doit(' ',(1000,))
-        doit('8 ',(1000,15000))
-        battleFunc(*args,**kwargs)
+        chooseFriend()
+        doit(' ',(1000,))
+        #doit('8 ',(1000,15000))
+        if not battleFunc(*args,**kwargs):
+            doit('VJ',(500,500))
+        doit('        ',(200,200,200,200,200,200,200,200))
+        while True:
+            chk=Check()
+            if chk.isBegin():
+                break;
+            chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
+            doit(' ',(200,))
 
 #def otk():
 #    while not Check().isTurnBegin():
@@ -407,5 +412,5 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
 #    doit('S2F2GH2J2KL2QE2 654',(300,2600,300,2600,2600,300,2600,300,2600,2600,300,2600,300,300,2600,1200,100,100,17000))
 #    while not Check().isBattleOver():
 #        time.sleep(.5)
-#    doit('     F ',(200,200,200,200,200,200,10000))
+#    return True
 
