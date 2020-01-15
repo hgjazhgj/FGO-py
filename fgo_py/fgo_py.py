@@ -1,87 +1,72 @@
-#/************************************************************
-#*       $$$$$$$$$$$$$$$$$$$$      $$$$$$$$$$$$$$$$$$%.      *
-#*     $$                   &$   =$                   $      *
-#*     $                     $$$$$=                   @&     *
-#*  B#$$                     $$$$$                     %%$=  *
-#*  $$$$        +1s          $$-$$         +1s         $$$   *
-#*  $$$$                     $-  $                     $$$   *
-#*     $                     $   $                     .B    *
-#*     $                     @   $                    .=     *
-#*      $                   $     $                   %      *
-#*       $                -$       -$                @%      *
-#*        #$$$$$$$$$$$$$$$           -@$$$$$$$$$$$$$         *
-#*                                                           *
-#*                      莫生      莫生                       *
-#*                       气        气                        *
-#*                                                           *
-#*                      代码垃圾非我意,                      *
-#*                      自己动手分田地;                      *
-#*                      你若气死谁如意?                      *
-#*                      谈笑风生活长命.                      *
-#************************************************************/
+#               ,@\.                               I Love Illya Forever!                                               
+#             ,@\o@^                                                                                  .]].              
+#            =@/oo/@.                             ..]]]]]]]]]]]]]]]]`...                            .@\o/@`            
+#           =@/oo/.@`                     .]]@/[[........................,[[@@]]`.                  //oooo/@.          
+#          ,@\oo/..=\               .]/@[..........................................[\\].           ,@/..ooo/@.         
+#          =@ooo^...@^          .]@[........*.........................................,@@@\`       =^....OOo\^         
+#          @^o/[^...=\       .//`......]@[...................................................[@].  =^.......=@.        
+#          @^/.......@.    ,@`......,@`........................................................*.[@/^........@.        
+#          ,@^.......=\  ,@^...`..,@`................]O]..........................................*.\`.......@.        
+#           ,@`.......@./@O^/[...=/.............*.,O@@OO@`......................,\......].....,@`...*,@`....=^         
+#.]]`..       \\......=@@O@@.*..//.............../@@@@@@@............*.\.......*..\`.....\\......\\..*.\^..=/          
+#\^oo/..[[\@]]`.[@`...=@@@OO^.=@/..............,@/Oooo.=@.......,.....*.@`......*..@.....*,@.....*.@`.*.@\@` .,]]]@@@@@
+#.@\ooo]........,[@@\`.@OOOOO/@@.......*......=@\OO/..,]@]].....@........@.........\^......,@...\`..\^..,@/[`....../o/@
+#  ,@\\^..............@@OOOOOO@........=^....=@/OO,/`...@^......@........=^.......,/@@@]]...\@\..,\..\^..\\......[o//@`
+#    .,[@\]]....,]]/@@@@OOOOO@`.......=^..*./@oO^.......=@.**...=^........@ ......./^....,[.=@OO..,^..@`.=@.....,/@[.  
+#      ,@[[`,/OOO@/\@OOOO@@O@^........@....=@/O`.@..@.=^,@@`.....@......./@..****. @O`.....,@/@OO^.\`.=\..@@@@OO@\`    
+#    .@`../OOOO@/ .@O@OOOOOO@........=/....@oO]@@@@@@@@@@@@@O]...,\..../O@@`.....,@@O^.*]/O@`,o@OO^=^.=@..=@OOO@`.,@`  
+#   ,@...@OOOO/.  =@OO@OOOO@^........=^...=@/@@@@@@@@@@@@@@/@@OO\`,\/OOO@@O^..]OO@@@OOOO@@@@\@,\@OO`@./@..=@@OOOO\..=\ 
+#   @^../OOO@`    =@OOOO@@@@.........=^.*.=\//[....@@@@@\...,O@@OOOO@O@@\@OOOOO@/=OO@@@@@@@@@@@@\@OO@O@^..=/ ,@OOO@..\^
+#   @^.,@OO@.     =@^=OO@,O@......*`.=@.*.@O...... @@@@@@......[O@@@/`..O\@O@/`..........@@@@/@/@@O@O@@`*.=^  .\@O@^.=@
+#   =@.,@O@^      ,@`.\@`o@^......=O^.@`*.@^..=@..,@@@@@@............................@...@@@@@..=O@@@O/...=^    =@@^.=^
+#    ,@`=@@.       @..=@,o@^......=@O\,@..@^..=@@\/@@@@@@...........................=@`,`@@@@@....@@@O....=^    .@@`=/ 
+#      ,\@@.       @..,@.\@^.......\@@O`\`=\..=@@@@@@@@@@...........................=@@@@@@@@@^...@@/.....=^     =\@`  
+#                  @...\@o@^........OOO@@`\@`.,@@@@@@\,@^...........................=@@O@O@@@@....@@`...]`=^           
+#                 =/.=^=O@@^....=^...OO@OoO[...\^=@@@\/@`............................@@@@@^=@^....=^..,O@^=^           
+#                ,@..=^=OO@^....=\....\@@^.......,`,[..,`............................=^,@\@@@..../^,/OO@/..\           
+#               //...=^=OO@@,]`..@.....=@OOooooooOO`............................................[@@@@OO`...@`          
+#             ,@`*...@./OOO@/.\\.=^.....\\O,[\o/[`.............@@@@@@@@@@@@@\`............,OOOOOOOO^@OO....=^          
+#            =/,/@@@@@/OO@/...O@..@`.....@/O\...................,@@OOOOOOO@@`..............,\OOOOO`/@OO...*.@.         
+#           .@[./@/\/@\],@`./@@/[@.@....*.@@@@OOo]`...................`.........................,/@@OOO...*.@^         
+#   ./@@@@\]@./^=^.,@@[\@\,@/.../@..@`...*.\@@@@@@@@@@@OO\]]..............................,]/@@@@@@@OOO.@.*.@^         
+#    ,@\`..=@.@//`]`,`*@@@^=@@@@@OO`.=\...*.=\=ooooo]o\@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@[`@\ooo/@@@@@@@OO/.@.*.@^         
+#      .O@@@@^\@\@O*,@@@@@^.@]]/@@@OO`.\`..*.=@@@@@\,[oooo\/\@O\OOOOO[@@/o\oooo[@OOO/,@\OOOo@@@@@@@OOO^=^..=^          
+#     .\\]]]]@\,\@\/@OOO@`,@OOOO@@OOOOO\,@....\@..=/@`.....,[[\/@OO@@\/ooo[`/@@@@\@\@//Ooo\@@@@@@@@OOO,@../^           
+#         ../^.\@\]]`.,]/@@OOOOOOO@@OOOOO`\`*./@/@.,@@\....,]@@@@^.*=@\]....@\...=\\@oOo\@@@@@@@@@OO/,@`//.            
+#           \@@[       =@@@@@O@/\@@//\@OOOO^,O@@@\@OoOOO@Ooooo\@/[/[\\/OO@@@@/O@@@\o\\@@[@OO@@@@OOO\@@@`               
+#                       ,@@@@`./^.....,/@@@O@@\@@@Ooooo\@=///`.,O**.\`,\@@oo\@@@@@Oooo\@`=@@@OOO@@[.                   
+#                        .\@@@@`.....]ooo\\@@`@@OOooooo=@\\@\]OOO^**.=@\]@OoO@`\@@OO///./`,@/`.                        
+#                         @[[@.]]]Ooo/o]@@@\`@@OOOooooo@^oooooOOOO@@OOO/@\ooO@\@\@@@[]@[....@`                         
+#                         =\..[@@@@@[o][\/@@@@OOOoOOOoo\\oooooooooooooo=@oooO@@\@@@[\o]......\\]`                      
+#                          .\@@@@@@,\@@OOOooooooooOO@@@@@Ooooooooooooo\@OOOOO@@@\o\/[@@@]O\..]]/@`                     
+#                           =@O]@/,[]/\oooooOOOO@@@OOooooo/OoOoo@ooOOOOoo\/@@Oooo/O@@]^\`.[@@^                         
+#                          =@OO@@@@\/@@@@@@OOO\/@\oooooooooooo\@@\oooooooooo/@@Oooooo\O@O@`                            
+#                         .@OOOO@@/[@@@@@@@....@^oooooooooo/\@//.@\\ooooooooo^@^/O@@@@@@@@O].                          
+#                     =/[\/@@[`       ,@@@@\]]]/@/oooooo\@@/\/....,@@/oooooooo/@.@@@@@@@@OOOOO`                        
+#                    ,@[]`@/.            .@@@@@@@@@@@@@@]]O@@`.....].\]/[@@@@/[]@@@@@/[[[[[[[..                        
+#                      . [/`              .@OO@\/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@`.                                   
+#                                         .\@[[\@OOO@O@@@@/[//[@/[\@@@@/@@/\@O@.                                       
+#                                                .\@OOOOO@@OO@\     ,@O@@OO@@OO@@\@                                    
+#                                                   ,[\[[[`.          .[\@OOOOO@^/^                                    
+#                                                                         ,@]]@@O@^                                    
+
 'full-automatic FGO script'
 __auther__='hgjazhgj'
 
 import time
-#import PIL.Image
 import os
-#import subprocess
-#import functools
 import numpy
-#import pytesseract
 import cv2
 import win32con
 import win32ui
 import win32gui
 import winsound
-#from PyQt5.QtWidgets import QApplication
-#import sys
 
 from fgo_shell import *
 
 slnPath='E:/VisualStudioDocs/fgo_py/'
 scale=1.25
-#app=QApplication(sys.argv)
 hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)#'BlueStacks Android PluginAndroid'
-
-key={
-    '\x09':(1800,304),#tab VK_TAB
-    '\x12':(960,943),#alt VK_MENU
-    ' ':(1820,1030),
-    '0':(70,69),
-    '1':(277,640),
-    '2':(648,640),
-    '3':(974,640),
-    '4':(1262,640),
-    '5':(1651,640),
-    '6':(646,304),
-    '7':(976,304),
-    '8':(1267,304),
-    'A':(109,860),
-    'B':(1680,368),
-    'C':(845,540),
-    'D':(385,860),
-    'E':(1493,470),
-    'F':(582,860),
-    'G':(724,860),
-    'H':(861,860),
-    'J':(1056,860),
-    'K':(1201,860),
-    'L':(1336,860),
-    'N':(248,1041),
-    'P':(1854,69),
-    'Q':(1800,475),
-    'R':(1626,475),
-    'S':(244,860),
-    'V':(1105,540),
-    'W':(1360,475),
-    'X':(259,932),
-    '\xA0':(41,197),# VK_LSHIFT
-    '\xA1':(41,197),# VK_RSHIFT
-    '\xBA':(1247,197),#; VK_OEM_1
-    '\xBB':(791,69),#+= VK_OEM_PLUS
-    '\xBD':(427,69),#-_ VK_OEM_MINUS
-}
 
 IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
@@ -97,8 +82,6 @@ IMG_HOUGUSEALED=cv2.imread(slnPath+'asserts/hougusealed.png')
 IMG_NOFRIEND=cv2.imread(slnPath+'asserts/nofriend.png')
 IMG_STILL=cv2.imread(slnPath+'asserts/still.png')
 IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPath+'asserts/stage')if file.endswith('.png')]
-#IMG_YES=cv2.imread(slnPath+'asserts/yes.png')
-#IMG_NO=cv2.imread(slnPath+'asserts/no.png')
 
 friendPos=4
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
@@ -110,8 +93,8 @@ skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],
 #    [[4,0,0],[4,0,0],[4,0,0]],
 #    [[4,0,0],[4,0,0],[4,0,0]]]
 #houguInfo=[[1,0],[1,0],[1,0],[1,1],[1,1],[1,1]]#minstage,priority
-houguInfo=[[2,0],[3,0],[3,0],[1,1],[1,1],[1,1]]#minstage,priority
-houguInfo[friendPos]=[3,1]
+houguInfo=[[2,1],[3,1],[3,1],[1,1],[1,1],[1,1]]#minstage,priority
+houguInfo[friendPos]=[3,0]
 
 def rangeInf(start=0,step=1):
     i=start
@@ -128,7 +111,7 @@ class Fuse(object):
     def increase(self):
         self.__value+=1
         if self.__value>self.__max:
-            print('fused')
+            print('Fused',getTime())
             beep()
             exit(0)
     def reset(self):
@@ -153,17 +136,49 @@ def rgb2hsv(x):
     V=cmax
     return(int(H),int(100*S),int(V*100/255))
 def press(c):
-    tap(*key[c])
+    tap(*{
+        '\x09':(1800,304),#tab VK_TAB
+        '\x12':(960,943),#alt VK_MENU
+        ' ':(1820,1030),
+        '0':(70,69),
+        '1':(277,640),
+        '2':(648,640),
+        '3':(974,640),
+        '4':(1262,640),
+        '5':(1651,640),
+        '6':(646,304),
+        '7':(976,304),
+        '8':(1267,304),
+        'A':(109,860),
+        'B':(1680,368),
+        'C':(845,540),
+        'D':(385,860),
+        'E':(1493,470),
+        'F':(582,860),
+        'G':(724,860),
+        'H':(861,860),
+        'J':(1056,860),
+        'K':(1201,860),
+        'L':(1336,860),
+        'N':(248,1041),
+        'P':(1854,69),
+        'Q':(1800,475),
+        'R':(1626,475),
+        'S':(244,860),
+        'V':(1105,540),
+        'W':(1360,475),
+        'X':(259,932),
+        '\xA0':(41,197),# VK_LSHIFT
+        '\xA1':(41,197),# VK_RSHIFT
+        '\xBA':(1247,197),#; VK_OEM_1
+        '\xBB':(791,69),#+= VK_OEM_PLUS
+        '\xBD':(427,69),#-_ VK_OEM_MINUS
+    }[c])
 def doit(touch,wait):
     for i in range(len(touch)):
         press(touch[i])
         time.sleep(wait[i]/1000)
 def beep():
-    #os.system('echo \07')
-    #print('\x07',end='')
-    #time.sleep(.5)
-    #winsound.Beep(440,1000)
-    #winsound.MessageBeep(winsound.MB_OK)
     winsound.PlaySound('SystemHand',0)
 def show(img):
     cv2.imshow('imshow',img)
@@ -174,8 +189,6 @@ def windowCapture(hWnd=hWnd):
     left,top,right,bot=win32gui.GetWindowRect(hWnd)
     width=int((right-left)*scale+.001)
     height=int((bot-top)*scale+.001)
-    #width=1920
-    #height=1080
     mfcDC=win32ui.CreateDCFromHandle(hWndDC)
     saveDC=mfcDC.CreateCompatibleDC()
     saveBitMap=win32ui.CreateBitmap()
@@ -187,15 +200,13 @@ def windowCapture(hWnd=hWnd):
     saveDC.DeleteDC()
     mfcDC.DeleteDC()
     win32gui.ReleaseDC(hWnd,hWndDC)
-    #img=QApplication.primaryScreen().grabWindow(hwnd).toImage().constBits()
-    #img.setsize(8302080)#img.byteCount(),1920*1081*4
-    #img=numpy.array(img).reshape(1081,1920,4)[1:1081,0:1920,0:3]
-    #if save:
-    #    cv2.imwrite(slnPath+time.strftime('ScreenShots/%Y-%m-%d_%H.%M.%S.png',time.localtime()),img)
-    #fuse.show()
     return img
-def playSound(file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP):
+def playSound(file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):
     winsound.PlaySound(file,flag)
+    os.system('pause')
+    winsound.PlaySound(None,0)
+def getTime():
+    return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 
 class Check(object):
     def __init__(self):
@@ -216,7 +227,7 @@ class Check(object):
         time.sleep(.5)
         return fuse.reset()
     def save(self,name=''):
-        cv2.imwrite(slnPath+'ScreenShots/'+time.strftime('%Y-%m-%d_%H.%M.%S.png',time.localtime())if name==''else name,self.im)
+        cv2.imwrite(slnPath+'ScreenShots/'+(getTime()+'.png'if name==''else name),self.im)
         return self
     def isTurnBegin(self):
         return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
@@ -269,10 +280,7 @@ def chooseFriend():
 
 def draw():
     while True:
-        for i in range(320):
-            press('2')
-            time.sleep(.2)
-        #doit('_L',(300,1500))
+        doit('2',(20,))
 
 def setSkillInfo(s):
     if s=='saber':#muzashi/modoredo/okita
@@ -305,59 +313,38 @@ def setSkillInfo(s):
         skillInfo[2]=[[3,6,0],[2,0,0],[1,0,0]]
 
 def oneBattle(danger=(0,0,1)):
-    turn=0
-    stage=0
-    servant=[[0,1,2],[]]
+    turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
         chk=Check()
         if chk.isTurnBegin():
             time.sleep(.3)
-            chk=Check()
-            newStage=chk.getStage()
-            if stage!=newStage:
-                stage=newStage
-                stageTurn=0
             turn+=1
-            stageTurn+=1
-            skill=chk.isSkillReady()
-            if stageTurn==1 and danger[stage-1]!=0:
+            stage,stageTurn,skill,newPort=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check())
+            print('    ',turn,stage,stageTurn,getTime())
+            if stageTurn==1:
                 doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
             if turn==1:
-                servant[1]=chk.getPortrait()
+                port=newPort[:]
             else:
-                port=chk.getPortrait()
                 for i in range(3):
-                    if cv2.matchTemplate(servant[1][i],port[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.1:
-                        servant[1][i]=port[i]
-                        servant[0][i]=max(servant[0])+1
-            for i in range(3):
-                if servant[0][i]>=6:
-                    continue
-                for j in range(3):
-                    if skill[i][j]and(stage>skillInfo[servant[0][i]][j][0]or stage==skillInfo[servant[0][i]][j][0]and stageTurn>=skillInfo[servant[0][i]][j][1]):
-                        doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
-                        if skillInfo[servant[0][i]][j][2]!=0:
-                            doit(chr(skillInfo[servant[0][i]][j][1]+50),(300,))
-                        time.sleep(2)
-                        while not Check().isTurnBegin():
-                            time.sleep(.2)
-            hougu=(lambda x:[servant[0][i]<6and(any([x[j][i]for j in range(len(x))]))for i in range(3)])((Check().isHouguReady(),Check().isHouguReady(),Check().isHouguReady()))
+                    if servant[i]<6and cv2.matchTemplate(newPort[i],port[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.1:
+                        port[i]=newPort[i]
+                        servant[i]=max(servant)+1
+            for i,j in[(i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
+                doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
+                if skillInfo[servant[i]][j][2]!=0:
+                    doit(chr(skillInfo[servant[i]][j][1]+50),(300,))
+                time.sleep(2)
+                while not Check().isTurnBegin():
+                    time.sleep(.2)
+            hougu=(lambda x:[servant[i]<6and stage>=houguInfo[servant[i]][0]and any([x[j][i]for j in range(len(x))])for i in range(3)])((Check().isHouguReady(),Check().isHouguReady(),Check().isHouguReady()))
             doit(' ',(2700,))
-            chk=Check()
-            color=chk.getABQ()
-            hougu=(lambda x,y:[x[i]and not y[i]for i in range(3)])(hougu,chk.isHouguSealed())
-            card=[chr(i+54)for pri in(2,1,0)for i in range(3)if hougu[i]and stage>=houguInfo[servant[0][i]][0]and houguInfo[servant[0][i]][1]==pri]
-            if len(card)==0:
-                card=[chr(j+49)for i in range(3)if color.count(i)>=3for j in range(5)if color[j]==i]
-            if len(card)<3:
-                card+=[chr(j+49)for i in(0,2,1,-1)for j in range(5)if color[j]==i]
-            print('    ',turn,stage,stageTurn,servant[0],skill,hougu,'\n          ',color,card)
-            doit(card[:3],(80,80,10000))
+            doit((lambda chk:(lambda h,c:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in range(3)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in range(5)if c[j]==i])((lambda x,y:[x[i]^y[i]for i in range(3)])(hougu,chk.isHouguSealed()),chk.getABQ()))(Check())[:3],(80,80,10000))
         elif chk.isBattleOver():
-            print('  Battle Finished')
+            print('  Battle Finished',getTime())
             break
         elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
-            print('  Battle Failed')
+            print('  Battle Failed',getTime())
             beep()
             return False
         else:
@@ -367,7 +354,6 @@ def oneBattle(danger=(0,0,1)):
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
     apple=appleCount
     for i in rangeInf(1):
-    #for i in range(1,4):
         doit('8',(1000,))
         if Check().isApEmpty():
             if apple==0:
@@ -377,25 +363,19 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
             else:
                 doit('W4K8'[appleKind]+'L',(400,1200))
                 apple-=1
-                print('Apple :',appleCount-apple)
-        print('  Battle',i)
+                print('Apple',appleCount-apple)
+        print('  Battle',i,getTime())
+        flush=True
         while True:
             chk=Check()
-            if chk.isNoFriend():
+            if flush and chk.isNoFriend():
                 doit('\xBAJ',(500,1000))
-                while True:
-                    chk=Check()
-                    if chk.isNoFriend():
-                        return
-                    if chk.isChooseFriend():
-                        break
-                    time.sleep(.2)
+                flush=False
             if chk.isChooseFriend():
                 break
             time.sleep(.2)
         chooseFriend()
         doit(' ',(1000,))
-        #doit('8 ',(1000,15000))
         if not battleFunc(*args,**kwargs):
             doit('VJ',(500,500))
         doit('        ',(200,200,200,200,200,200,200,200))
@@ -405,12 +385,4 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
                 break;
             chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
             doit(' ',(200,))
-
-#def otk():
-#    while not Check().isTurnBegin():
-#        time.sleep(.5)
-#    doit('S2F2GH2J2KL2QE2 654',(300,2600,300,2600,2600,300,2600,300,2600,2600,300,2600,300,300,2600,1200,100,100,17000))
-#    while not Check().isBattleOver():
-#        time.sleep(.5)
-#    return True
 
