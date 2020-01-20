@@ -1,9 +1,9 @@
 import os,re
 
-os.system('adb connect localhost:5555')
-adbPath='adb -s localhost:5555'
+#os.system('adb connect localhost:5555')
+#adbPath='adb -s localhost:5555'
 #adbPath='adb -s emulator-5554'
-#adbPath='adb -s 1e1b7921'
+adbPath='adb -s 1e1b7921'
 with os.popen(adbPath+' shell wm size')as p:
     pixelOffset,androidScale=(lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x'))))
 
