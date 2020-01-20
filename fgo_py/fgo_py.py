@@ -54,7 +54,8 @@ __auther__='hgjazhgj'
 import time,os,numpy,cv2,win32con,win32ui,win32gui,win32print,winsound
 from fgo_shell import *
 slnPath='E:/VisualStudioDocs/fgo_py/'
-hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)#'BlueStacks Android PluginAndroid'
+#hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)#'BlueStacks Android PluginAndroid'
+hWnd=0x00120A5C
 winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
 IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
@@ -92,7 +93,7 @@ class Fuse(object):
     def show(self):
         print(self.__value,'/',self.__max,sep='',flush=True)
 fuse=Fuse()
-rgb2hsv=lambda x:(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*x[2::-1])#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
+rgb2hsv=lambda x:(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
 press=lambda c:tap(*{
         '\x09':(1800,304),#tab VK_TAB
         '\x12':(960,943),#alt VK_MENU
@@ -120,12 +121,12 @@ class Check(object):
     compare=lambda self,img,rect=(0,0,1920,1080),delta=.03:cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     select=lambda self,img,rect=(0,0,1920,1080):(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     tapOnCmp=lambda self,img,rect=(0,0,1920,1080),delta=.03:(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
-    seve=lambda self,name='':(cv2.imwrite(slnPath+'ScreenShots/'+(getTime()+'.png'if name==''else name),self.im),self)[1]
+    save=lambda self,name='':(cv2.imwrite(slnPath+'ScreenShots/'+(getTime()+'.png'if name==''else name),self.im),self)[1]
     show=lambda self:(show(cv2.resize(self.im,(0,0),None,.5,.5)),self)[1]
     isTurnBegin=lambda self:self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     isBattleOver=lambda self:(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
     isBegin=lambda self:self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
-    isHouguReady=lambda self:[rgb2hsv(self.im[1002][280+480*i])[1]>7for i in range(3)]
+    isHouguReady=lambda self:[rgb2hsv(self.im[998][280+480*i])[1]>16for i in range(3)]
     isHouguSealed=lambda self:[any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])for i in range(3)]
     isSkillReady=lambda self:[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in range(3)]for i in range(3)]
     isApEmpty=lambda self:self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
@@ -198,9 +199,9 @@ def oneBattle(danger=(0,0,1)):
                 time.sleep(2)
                 while not Check().isTurnBegin():
                     time.sleep(.2)
-            hougu=(lambda x:[servant[i]<6and stage>=houguInfo[servant[i]][0]and any([x[j][i]for j in range(len(x))])for i in range(3)])((Check().isHouguReady(),Check().isHouguReady(),Check().isHouguReady()))
+            hougu=(lambda x:[servant[i]<6and stage>=houguInfo[servant[i]][0]and any([x[j][i]for j in range(len(x))])for i in range(3)])((Check().isHouguReady(),(time.sleep(.5),Check().isHouguReady())[1]))
             doit(' ',(2700,))
-            doit((lambda chk:(lambda h,c:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in range(3)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in range(5)if c[j]==i])((lambda x,y:[x[i]and not y[i]for i in range(3)])(hougu,chk.isHouguSealed()),chk.getABQ()))(Check())[:3],(200,200,10000))
+            doit((lambda chk:(lambda h,c:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in range(3)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in range(5)if c[j]==i])((lambda x,y:[x[i]and not y[i]for i in range(3)])(hougu,chk.isHouguSealed()),chk.getABQ()))(Check())[:3],(100,100,10000))
         elif chk.isBattleOver():
             print('  Battle Finished',getTime())
             break
