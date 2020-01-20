@@ -75,7 +75,7 @@ skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
 friendPos=5
 class Fuse(object):
-    def __init__(self,fv=300):
+    def __init__(self,fv=150):
         self.__value=0
         self.__max=fv
     @property
@@ -126,7 +126,7 @@ class Check(object):
     isTurnBegin=lambda self:self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     isBattleOver=lambda self:(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
     isBegin=lambda self:self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
-    isHouguReady=lambda self:[rgb2hsv(self.im[998][280+480*i])[1]>16for i in range(3)]
+    isHouguReady=lambda self:[rgb2hsv(self.im[998][280+480*i])[1]>19for i in range(3)]
     isHouguSealed=lambda self:[any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])for i in range(3)]
     isSkillReady=lambda self:[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in range(3)]for i in range(3)]
     isApEmpty=lambda self:self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
