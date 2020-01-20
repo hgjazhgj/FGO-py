@@ -164,7 +164,7 @@ def setInfo(s):
     skillInfo[:3]={
         'saber'   :[[[1,0,0],[1,0,0],[3,5,0]],[[1,0,0],[1,2,0],[1,0,0]],[[1,0,0],[1,2,0],[3,5,0]]],#muzashi/modoredo/okita
         'archer'  :[[[1,0,0],[4,0,0],[1,0,0]],[[1,0,0],[3,0,0],[3,5,0]],[[1,0,1],[1,0,2],[4,0,0]]],#arutoria/erio/atera
-        'lancer'  :[[[3,3,0],[1,0,0],[2,0,0]],[[1,0,0],[3,0,0],[3,3,0]],[[3,0,1],[1,0,0],[3,3,0]]],#ere/tamamo/jyanu
+        'lancer'  :[[[3,3,0],[1,0,0],[2,0,0]],[[1,0,0],[3,0,0],[3,3,0]],[[2,0,0],[2,0,0],[4,0,0]]],#ere/tamamo/jyanu
         'rider'   :[[[3,0,1],[2,0,0],[1,0,0]],[[1,0,0],[3,0,0],[1,0,0]],[[3,0,0],[3,0,0],[3,0,0]]],#arutoria/asutorufo/maruta
         'caster'  :[[[1,0,0],[3,4,0],[1,0,2]],[[1,0,0],[1,0,0],[1,0,0]],[[1,0,0],[1,0,0],[1,0,0]]],#malin/girugyameshi/mari
         'assassin':[[[1,0,0],[1,0,0],[3,6,0]],[[2,0,0],[3,6,0],[4,0,0]],[[3,6,0],[3,2,0],[3,0,3]]],#kurobatera/hiroinx/jakku
@@ -181,7 +181,7 @@ def oneBattle(danger=(0,0,1)):
         if chk.isTurnBegin():
             time.sleep(.3)
             turn,stage,stageTurn,skill,newPort=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check())
-            print('    ',turn,stage,stageTurn)
+            print('   ',turn,stage,stageTurn)
             if stageTurn==1:
                 doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
             if turn==1:
@@ -200,7 +200,7 @@ def oneBattle(danger=(0,0,1)):
                     time.sleep(.2)
             hougu=(lambda x:[servant[i]<6and stage>=houguInfo[servant[i]][0]and any([x[j][i]for j in range(len(x))])for i in range(3)])((Check().isHouguReady(),Check().isHouguReady(),Check().isHouguReady()))
             doit(' ',(2700,))
-            doit((lambda chk:(lambda h,c:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in range(3)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in range(5)if c[j]==i])((lambda x,y:[x[i]and not y[i]for i in range(3)])(hougu,chk.isHouguSealed()),chk.getABQ()))(Check())[:3],(100,100,10000))
+            doit((lambda chk:(lambda h,c:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in range(3)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in range(5)if c[j]==i])((lambda x,y:[x[i]and not y[i]for i in range(3)])(hougu,chk.isHouguSealed()),chk.getABQ()))(Check())[:3],(200,200,10000))
         elif chk.isBattleOver():
             print('  Battle Finished',getTime())
             break
