@@ -54,8 +54,8 @@ __auther__='hgjazhgj'
 import time,os,numpy,cv2,win32con,win32ui,win32gui,win32print,winsound
 from fgo_shell import *
 slnPath='E:/VisualStudioDocs/fgo_py/'
-#hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)#'BlueStacks Android PluginAndroid'
-hWnd=0x00120A5C
+hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)#'BlueStacks Android PluginAndroid'
+#hWnd=0x00120A5C
 winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
 IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
@@ -73,7 +73,7 @@ IMG_STILL=cv2.imread(slnPath+'asserts/still.png')
 IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPath+'asserts/stage')if file.endswith('.png')]
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]#minstage,minstageturn,obj
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
-friendPos=5
+friendPos=4
 class Fuse(object):
     def __init__(self,fv=150):
         self.__value=0
@@ -93,7 +93,7 @@ class Fuse(object):
     def show(self):
         print(self.__value,'/',self.__max,sep='',flush=True)
 fuse=Fuse()
-rgb2hsv=lambda x:(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
+#rgb2hsv=lambda x:(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
 press=lambda c:tap(*{
         '\x09':(1800,304),#tab VK_TAB
         '\x12':(960,943),#alt VK_MENU
@@ -114,10 +114,10 @@ windowCapture=lambda hWnd=hWnd:(lambda width,height:(lambda hWndDC:(lambda mfcDC
 playSound=lambda file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC:(winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0))
 getTime=lambda:time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 class Check(object):
-    def __init__(self):
+    def __init__(self,img=None,lagency=.08):
         fuse.increase()
-        time.sleep(.08)
-        self.im=(lambda im:im[im.shape[0]//2-540:im.shape[0]//2+540,im.shape[1]//2-960:im.shape[1]//2+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(windowCapture()))
+        time.sleep(lagency)
+        self.im=(lambda im:im[im.shape[0]//2-540:im.shape[0]//2+540,im.shape[1]//2-960:im.shape[1]//2+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(windowCapture()if img is None else img))
     compare=lambda self,img,rect=(0,0,1920,1080),delta=.03:cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     select=lambda self,img,rect=(0,0,1920,1080):(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     tapOnCmp=lambda self,img,rect=(0,0,1920,1080),delta=.03:(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
@@ -126,15 +126,14 @@ class Check(object):
     isTurnBegin=lambda self:self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     isBattleOver=lambda self:(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
     isBegin=lambda self:self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
-    isHouguReady=lambda self:[rgb2hsv(self.im[998][280+480*i])[1]>19for i in range(3)]
-    isHouguSealed=lambda self:[any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])for i in range(3)]
-    isSkillReady=lambda self:[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in range(3)]for i in range(3)]
+    isHouguReady=lambda self:(lambda im:[not any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in(0,1,2)])(Check(lagency=.8).im)
+    isSkillReady=lambda self:[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in(0,1,2)]for i in(0,1,2)]
     isApEmpty=lambda self:self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
     isChooseFriend=lambda self:self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
     isNoFriend=lambda self:self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
-    getABQ=lambda self:[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))((lambda x:[int(numpy.mean([j[i]for k in x for j in k]))for i in(2,1,0)])(self.im[771:919,108+386*i:318+386*i]))for i in range(5)]
+    getABQ=lambda self:[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in(0,1,2,3,4)]
     getStage=lambda self:self.select(IMG_STAGE,(1290,14,1348,60))+1
-    getPortrait=lambda self:[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
+    getPortrait=lambda self:[self.im[640:740,195+480*i:296+480*i]for i in(0,1,2)]
 def chooseFriend():
     if len(IMG_FRIEND)==0:
         doit('8',(1000,))
@@ -171,10 +170,10 @@ def setInfo(s):
         'assassin':[[[1,0,0],[1,0,0],[3,6,0]],[[2,0,0],[3,6,0],[4,0,0]],[[3,6,0],[3,2,0],[3,0,3]]],#kurobatera/hiroinx/jakku
         'ex'      :[[[1,0,0],[1,0,0],[1,0,0]],[[1,2,0],[1,0,0],[4,0,0]],[[3,6,0],[2,0,0],[1,0,0]]],#hokusai/bb/hiroinx
     }[s]
-    global friendPos
-    friendPos=4
-    houguInfo[:]=[[2,1],[3,1],[3,1],[1,1],[1,1],[1,1]]
-    houguInfo[friendPos]=[3,0]
+    #global friendPos
+    #friendPos=4
+    #houguInfo[:]=[[2,1],[3,1],[3,1],[1,1],[1,1],[1,1]]
+    #houguInfo[friendPos]=[3,0]
 def oneBattle(danger=(0,0,1)):
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
@@ -182,7 +181,6 @@ def oneBattle(danger=(0,0,1)):
         if chk.isTurnBegin():
             time.sleep(.3)
             turn,stage,stageTurn,skill,newPort=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check())
-            print('   ',turn,stage,stageTurn)
             if stageTurn==1:
                 doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
             if turn==1:
@@ -192,16 +190,16 @@ def oneBattle(danger=(0,0,1)):
                     if servant[i]<6and cv2.matchTemplate(newPort[i],port[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.1:
                         port[i]=newPort[i]
                         servant[i]=max(servant)+1
-            for i,j in[(i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
+            print('   ',turn,stage,stageTurn,servant)
+            for i,j in[(i,j)for i in(0,1,2)if servant[i]<6for j in(0,1,2)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
                 doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
                 if skillInfo[servant[i]][j][2]!=0:
                     doit(chr(skillInfo[servant[i]][j][1]+50),(300,))
                 time.sleep(2)
                 while not Check().isTurnBegin():
                     time.sleep(.2)
-            hougu=(lambda x:[servant[i]<6and stage>=houguInfo[servant[i]][0]and any([x[j][i]for j in range(len(x))])for i in range(3)])((Check().isHouguReady(),(time.sleep(.5),Check().isHouguReady())[1]))
-            doit(' ',(2700,))
-            doit((lambda chk:(lambda h,c:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in range(3)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in range(5)if c[j]==i])((lambda x,y:[x[i]and not y[i]for i in range(3)])(hougu,chk.isHouguSealed()),chk.getABQ()))(Check())[:3],(100,100,10000))
+            doit(' ',(2250,))
+            doit((lambda chk:(lambda c,h:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in(0,1,2)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in(0,1,2)if c.count(i)>=3for j in(0,1,2,3,4)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in(0,1,2,3,4)if c[j]==i])(chk.getABQ(),chk.isHouguReady()))(Check())[:3],(100,100,10000))
         elif chk.isBattleOver():
             print('  Battle Finished',getTime())
             break
@@ -241,7 +239,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
         doit(' ',(1000,))
         if not battleFunc(*args,**kwargs):
             doit('VJ',(500,500))
-        doit('        ',(200,200,200,200,200,200,200,200))
+        doit('       ',(200,200,200,200,200,200,200))
         flush=True
         while True:
             chk=Check()
