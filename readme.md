@@ -6,7 +6,7 @@
 > 止富宝五福齐了,舒服  
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本v2.10.7  
+当前版本v2.10.8  
 祝各位Master新年快乐!  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 快速跳转:[版本记录](#版本记录-Version-Logs)  
