@@ -51,11 +51,14 @@
 #                                                                         ,@]]@@O@^                                    
 'Full-automatic FGO Script'
 __auther__='hgjazhgj'
-import time,os,numpy,cv2,win32con,win32ui,win32gui,win32print,winsound
-from fgo_shell import *
+import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32print,winsound
 slnPath='E:/VisualStudioDocs/fgo_py/'
-hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)#'BlueStacks Android PluginAndroid'
-#hWnd=0x00120A5C
+hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)
+#hWnd=(time.sleep(1),win32gui.WindowFromPoint(win32api.GetCursorPos()))[1]
+adbPath=(os.system('adb connect localhost:5555'),'adb -s localhost:5555')[1]
+#adbPath='adb -s emulator-5554'
+#adbPath='adb -s 1e1b7921'
+tapOffset,androidScale=(lambda p:((lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x')))),p.close())[0])(os.popen(adbPath+' shell wm size'))
 winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
 IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
 IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
@@ -74,8 +77,26 @@ IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPa
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]#minstage,minstageturn,obj
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
 friendPos=4
+key={'\x09':(1800,304),'\x12':(960,943),#tab VK_TAB #alt VK_MENU
+' ':(1820,1030),'0':(70,69),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
+'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
+'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
+'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197),# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1
+'\xBB':(791,69),'\xBD':(427,69)}#+= VK_OEM_PLUS #-_ VK_OEM_MINUS
+getTime=lambda:time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
+printer=lambda*args:print(getTime(),*args)
+beep=lambda:winsound.PlaySound('SystemHand',0)
+show=lambda img:(cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows())
+windowCapture=lambda hWnd=hWnd:(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*(lambda left,top,right,bot:[int(winScale*i+.001)for i in[right-left,bot-top]])(*win32gui.GetClientRect(hWnd)))
+playSound=lambda file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC:(winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0))
+#rgb2hsv=lambda x:(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
+tap=lambda x,y:os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
+swipe=lambda rect,interval=500:os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
+#screenShot=lambda path=slnPath,name='':os.system(adbPath+' shell screencap /sdcard/adbtemp/screen.png && '+adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else getTime())))
+press=lambda c:tap(*key[c])
+doit=lambda touch,wait:[(press(touch[i]),time.sleep(wait[i]*.001))for i in range(len(touch))]
 class Fuse(object):
-    def __init__(self,fv=150):
+    def __init__(self,fv=300):
         self.__value=0
         self.__max=fv
     @property
@@ -84,37 +105,17 @@ class Fuse(object):
     def increase(self):
         self.__value+=1
         if self.__value>self.__max:
-            print('Fused',getTime())
+            printer('Fused')
             beep()
             exit(0)
     def reset(self):
         self.__value=0
         return True
     def show(self):
-        print(self.__value,'/',self.__max,sep='',flush=True)
+        printer(self.__value,'/',self.__max,sep='',flush=True)
 fuse=Fuse()
-#rgb2hsv=lambda x:(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
-press=lambda c:tap(*{
-        '\x09':(1800,304),#tab VK_TAB
-        '\x12':(960,943),#alt VK_MENU
-' ':(1820,1030),'0':(70,69),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),
-'7':(976,304),'8':(1267,304),'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),
-'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),
-'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
-        '\xA0':(41,197),# VK_LSHIFT
-        '\xA1':(41,197),# VK_RSHIFT
-        '\xBA':(1247,197),#; VK_OEM_1
-        '\xBB':(791,69),#+= VK_OEM_PLUS
-        '\xBD':(427,69),#-_ VK_OEM_MINUS
-    }[c])
-doit=lambda touch,wait:[(press(touch[i]),time.sleep(wait[i]*.001))for i in range(len(touch))]
-beep=lambda:winsound.PlaySound('SystemHand',0)
-show=lambda img:(cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows())
-windowCapture=lambda hWnd=hWnd:(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*(lambda left,top,right,bot:[int(winScale*i+.001)for i in[right-left,bot-top]])(*win32gui.GetClientRect(hWnd)))
-playSound=lambda file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC:(winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0))
-getTime=lambda:time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 class Check(object):
-    def __init__(self,img=None,lagency=.08):
+    def __init__(self,lagency=.08,img=None):
         fuse.increase()
         time.sleep(lagency)
         self.im=(lambda im:im[im.shape[0]//2-540:im.shape[0]//2+540,im.shape[1]//2-960:im.shape[1]//2+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(windowCapture()if img is None else img))
@@ -126,7 +127,7 @@ class Check(object):
     isTurnBegin=lambda self:self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     isBattleOver=lambda self:(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
     isBegin=lambda self:self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
-    isHouguReady=lambda self:(lambda im:[not any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in(0,1,2)])(Check(lagency=.8).im)
+    isHouguReady=lambda self:(lambda im:[not any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in(0,1,2)])(Check(.8).im)
     isSkillReady=lambda self:[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in(0,1,2)]for i in(0,1,2)]
     isApEmpty=lambda self:self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
     isChooseFriend=lambda self:self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
@@ -140,10 +141,10 @@ def chooseFriend():
         return
     while True:
         for i in range(6):
-            chk=Check()
+            chk=Check(.2)
             for img in IMG_FRIEND:
                 if chk.tapOnCmp(img[1],delta=.015):
-                    print('  Friend :',img[0])
+                    printer('  Friend :',img[0])
                     try:
                         skillInfo[friendPos]={
                             'km':[[2,0,1],[1,0,0],[1,0,0]],
@@ -154,9 +155,15 @@ def chooseFriend():
                         skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
                     time.sleep(1)
                     return
-            swipe((220,960,220,457))
-            time.sleep(.2)
+            swipe((220,960,220,557))
         doit('\xBAJ',(500,1000))
+        while True:
+            chk=Check(.2)
+            if chk.isNoFriend():
+                printer('No Friend')
+                exit(0)
+            if chk.isChooseFriend():
+                break
 def draw():
     while True:
         press('2')
@@ -170,17 +177,12 @@ def setInfo(s):
         'assassin':[[[1,0,0],[1,0,0],[3,6,0]],[[2,0,0],[3,6,0],[4,0,0]],[[3,6,0],[3,2,0],[3,0,3]]],#kurobatera/hiroinx/jakku
         'ex'      :[[[1,0,0],[1,0,0],[1,0,0]],[[1,2,0],[1,0,0],[4,0,0]],[[3,6,0],[2,0,0],[1,0,0]]],#hokusai/bb/hiroinx
     }[s]
-    #global friendPos
-    #friendPos=4
-    #houguInfo[:]=[[2,1],[3,1],[3,1],[1,1],[1,1],[1,1]]
-    #houguInfo[friendPos]=[3,0]
 def oneBattle(danger=(0,0,1)):
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
-        chk=Check()
+        chk=Check(.2)
         if chk.isTurnBegin():
-            time.sleep(.3)
-            turn,stage,stageTurn,skill,newPort=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check())
+            turn,stage,stageTurn,skill,newPort=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.3))
             if stageTurn==1:
                 doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
             if turn==1:
@@ -190,25 +192,23 @@ def oneBattle(danger=(0,0,1)):
                     if servant[i]<6and cv2.matchTemplate(newPort[i],port[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.1:
                         port[i]=newPort[i]
                         servant[i]=max(servant)+1
-            print('   ',turn,stage,stageTurn,servant)
+            printer('   ',turn,stage,stageTurn,servant)
             for i,j in[(i,j)for i in(0,1,2)if servant[i]<6for j in(0,1,2)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
                 doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
                 if skillInfo[servant[i]][j][2]!=0:
                     doit(chr(skillInfo[servant[i]][j][1]+50),(300,))
                 time.sleep(2)
-                while not Check().isTurnBegin():
-                    time.sleep(.2)
+                while not Check(.2).isTurnBegin():
+                    pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in(0,1,2)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in(0,1,2)if c.count(i)>=3for j in(0,1,2,3,4)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in(0,1,2,3,4)if c[j]==i])(chk.getABQ(),chk.isHouguReady()))(Check())[:3],(100,100,10000))
         elif chk.isBattleOver():
-            print('  Battle Finished',getTime())
+            printer('  Battle Finished')
             break
         elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
-            print('  Battle Failed',getTime())
+            printer('  Battle Failed')
             beep()
             return False
-        else:
-            time.sleep(.2)
     return True
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
     apple=appleCount
@@ -218,23 +218,26 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
         doit('8',(1000,))
         if Check().isApEmpty():
             if apple==0:
-                print('Ap Empty')
+                printer('Ap Empty')
                 press('\x12')
                 return
             else:
                 doit('W4K8'[appleKind]+'L',(400,1200))
                 apple-=1
-                print('Apple',appleCount-apple)
-        print('  Battle',battle,getTime())
+                printer('Apple',appleCount-apple)
+        printer('  Battle',battle)
         flush=True
         while True:
-            chk=Check()
-            if flush and chk.isNoFriend():
-                doit('\xBAJ',(500,1000))
-                flush=False
+            chk=Check(.2)
+            if chk.isNoFriend():
+                if flush:
+                    doit('\xBAJ',(500,1000))
+                    flush=False
+                else:
+                    printer('No Friend')
+                    exit(0)
             if chk.isChooseFriend():
                 break
-            time.sleep(.2)
         chooseFriend()
         doit(' ',(1000,))
         if not battleFunc(*args,**kwargs):
