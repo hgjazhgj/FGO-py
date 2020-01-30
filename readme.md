@@ -1,4 +1,4 @@
-For English, Goto [readme_en.md]()  
+For English, Goto [readme_en.md](https://github.com/hgjazhgj/FGO-py/blob/master/readme_en.md)  
 日本語、俺も'あ'を習いました、読めますけれども、書けません。もうすぐ日本語のreadmeがあります。本当にすみませんでした。
 > 新年福袋武藏宝具+1,54发术尼禄  
 > 许愿伊莉雅和美游  

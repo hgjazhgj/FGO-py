@@ -1,4 +1,4 @@
-> I got Muzashi Hougu+1 in new year bag, and 55 gachas for Nero(Caster)   
+> I got Muzashi Hougu+1 in new year bag, and 54 gachas for Nero(Caster)   
 > I want Illya and Miyu!  
 
 # "Intelligent combat without interruption, not relying on etiquette without turning" FGO fully automatic script  
