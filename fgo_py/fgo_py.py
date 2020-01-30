@@ -51,12 +51,12 @@
 #                                                                         ,@]]@@O@^                                    
 'Full-automatic FGO Script'
 __auther__='hgjazhgj'
-import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32print,winsound
+import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,winsound
 slnPath='E:/VisualStudioDocs/fgo_py/'
 hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)
 #hWnd=(time.sleep(1),win32gui.WindowFromPoint(win32api.GetCursorPos()))[1]
-adbPath=(os.system('adb connect localhost:5555'),'adb -s localhost:5555')[1]
-#adbPath='adb -s emulator-5554'
+#adbPath=(os.system('adb connect localhost:5555'),'adb -s localhost:5555')[1]
+adbPath='adb -s emulator-5554'
 #adbPath='adb -s 1e1b7921'
 tapOffset,androidScale=(lambda p:((lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x')))),p.close())[0])(os.popen(adbPath+' shell wm size'))
 winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
@@ -123,7 +123,7 @@ class Check(object):
     select=lambda self,img,rect=(0,0,1920,1080):(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     tapOnCmp=lambda self,img,rect=(0,0,1920,1080),delta=.03:(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     save=lambda self,name='':(cv2.imwrite(slnPath+'ScreenShots/'+(getTime()+'.png'if name==''else name),self.im),self)[1]
-    show=lambda self:(show(cv2.resize(self.im,(0,0),None,.5,.5)),self)[1]
+    show=lambda self:(show(cv2.resize(self.im,(800,450))),self)[1]
     isTurnBegin=lambda self:self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     isBattleOver=lambda self:(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
     isBegin=lambda self:self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
@@ -135,6 +135,19 @@ class Check(object):
     getABQ=lambda self:[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in(0,1,2,3,4)]
     getStage=lambda self:self.select(IMG_STAGE,(1290,14,1348,60))+1
     getPortrait=lambda self:[self.im[640:740,195+480*i:296+480*i]for i in(0,1,2)]
+def draw():
+    while True:
+        press('2')
+def setInfo(s):
+    skillInfo[:3]={
+        'saber'   :[[[1,0,0],[1,0,0],[3,5,0]],[[1,0,0],[1,2,0],[1,0,0]],[[1,0,0],[1,2,0],[3,5,0]]],#muzashi/moudoreddo/okita
+        'archer'  :[[[1,0,0],[4,0,0],[1,0,0]],[[1,0,0],[1,0,0],[1,0,0]],[[1,0,0],[1,0,0],[1,0,0]]],#arutoria/ishitaru/jyannu
+        'lancer'  :[[[3,3,0],[1,0,0],[2,0,0]],[[1,0,0],[3,0,0],[3,3,0]],[[2,0,0],[2,0,0],[4,0,0]]],#ere/tamamo/jyannu
+        'rider'   :[[[3,0,1],[2,0,0],[1,0,0]],[[1,0,0],[3,0,0],[1,0,0]],[[3,0,0],[3,0,0],[3,0,0]]],#arutoria/asutorufo/maruta
+        'caster'  :[[[1,0,0],[3,4,0],[1,0,2]],[[1,0,0],[1,0,0],[3,3,2]],[[1,0,0],[1,0,0],[1,0,0]]],#malin/nero/marii
+        'assassin':[[[1,0,0],[1,0,0],[3,6,0]],[[2,0,0],[3,6,0],[4,0,0]],[[3,6,0],[3,2,0],[3,0,3]]],#kureopatora/hiroinx/jakku
+        'ex'      :[[[1,0,0],[1,0,0],[1,0,0]],[[1,2,0],[1,0,0],[4,0,0]],[[3,6,0],[2,0,0],[1,0,0]]],#hokusai/bb/hiroinx
+    }[s]
 def chooseFriend():
     if len(IMG_FRIEND)==0:
         doit('8',(1000,))
@@ -164,19 +177,6 @@ def chooseFriend():
                 exit(0)
             if chk.isChooseFriend():
                 break
-def draw():
-    while True:
-        press('2')
-def setInfo(s):
-    skillInfo[:3]={
-        'saber'   :[[[1,0,0],[1,0,0],[3,5,0]],[[1,0,0],[1,2,0],[1,0,0]],[[1,0,0],[1,2,0],[3,5,0]]],#muzashi/modoredo/okita
-        'archer'  :[[[1,0,0],[4,0,0],[1,0,0]],[[1,0,0],[3,0,0],[3,5,0]],[[1,0,1],[1,0,2],[4,0,0]]],#arutoria/erio/atera
-        'lancer'  :[[[3,3,0],[1,0,0],[2,0,0]],[[1,0,0],[3,0,0],[3,3,0]],[[2,0,0],[2,0,0],[4,0,0]]],#ere/tamamo/jyanu
-        'rider'   :[[[3,0,1],[2,0,0],[1,0,0]],[[1,0,0],[3,0,0],[1,0,0]],[[3,0,0],[3,0,0],[3,0,0]]],#arutoria/asutorufo/maruta
-        'caster'  :[[[1,0,0],[3,4,0],[1,0,2]],[[1,0,0],[1,0,0],[1,0,0]],[[1,0,0],[1,0,0],[1,0,0]]],#malin/girugyameshi/mari
-        'assassin':[[[1,0,0],[1,0,0],[3,6,0]],[[2,0,0],[3,6,0],[4,0,0]],[[3,6,0],[3,2,0],[3,0,3]]],#kurobatera/hiroinx/jakku
-        'ex'      :[[[1,0,0],[1,0,0],[1,0,0]],[[1,2,0],[1,0,0],[4,0,0]],[[3,6,0],[2,0,0],[1,0,0]]],#hokusai/bb/hiroinx
-    }[s]
 def oneBattle(danger=(0,0,1)):
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
@@ -196,7 +196,7 @@ def oneBattle(danger=(0,0,1)):
             for i,j in[(i,j)for i in(0,1,2)if servant[i]<6for j in(0,1,2)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
                 doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
                 if skillInfo[servant[i]][j][2]!=0:
-                    doit(chr(skillInfo[servant[i]][j][1]+50),(300,))
+                    doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
                 time.sleep(2)
                 while not Check(.2).isTurnBegin():
                     pass
@@ -243,11 +243,9 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
         if not battleFunc(*args,**kwargs):
             doit('VJ',(500,500))
         doit('       ',(200,200,200,200,200,200,200))
-        flush=True
         while True:
             chk=Check()
             if chk.isBegin():
                 break;
-            if flush and chk.tapOnCmp(IMG_END,rect=(243,863,745,982)):
-                flush=False
-            doit(' ',(200,))
+            chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
+            doit(' ',(300,))
