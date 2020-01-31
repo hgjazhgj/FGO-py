@@ -20,4 +20,3 @@ finally:
     win32gui.SetForegroundWindow(win32console.GetConsoleWindow())
     playSound()
     os.system("pause");
-

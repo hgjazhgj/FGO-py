@@ -50,7 +50,7 @@
 #                                                   ,[\[[[`.          .[\@OOOOO@^/^                                    
 #                                                                         ,@]]@@O@^                                    
 'Full-automatic FGO Script'
-__auther__='hgjazhgj'
+__author__='hgjazhgj'
 import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,winsound
 slnPath='E:/VisualStudioDocs/fgo_py/'
 hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)
@@ -83,25 +83,24 @@ key={'\x09':(1800,304),'\x12':(960,943),#tab VK_TAB #alt VK_MENU
 'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
 '\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197),# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1
 '\xBB':(791,69),'\xBD':(427,69)}#+= VK_OEM_PLUS #-_ VK_OEM_MINUS
-getTime=lambda:time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
-printer=lambda*args:print(getTime(),*args)
-beep=lambda:winsound.PlaySound('SystemHand',0)
-show=lambda img:(cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows())
-windowCapture=lambda hWnd=hWnd:(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*(lambda left,top,right,bot:[int(winScale*i+.001)for i in[right-left,bot-top]])(*win32gui.GetClientRect(hWnd)))
-playSound=lambda file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC:(winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0))
-#rgb2hsv=lambda x:(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
-tap=lambda x,y:os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
-swipe=lambda rect,interval=500:os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
-#screenShot=lambda path=slnPath,name='':os.system(adbPath+' shell screencap /sdcard/adbtemp/screen.png && '+adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else getTime())))
-press=lambda c:tap(*key[c])
-doit=lambda touch,wait:[(press(touch[i]),time.sleep(wait[i]*.001))for i in range(len(touch))]
+def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
+def printer(*args):print(getTime(),*args)
+def beep():winsound.PlaySound('SystemHand',0)
+def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
+def windowCapture(hWnd=hWnd):return(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*(lambda left,top,right,bot:[int(winScale*i+.001)for i in[right-left,bot-top]])(*win32gui.GetClientRect(hWnd)))
+def playSound(file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0)
+#def rgb2hsv(x):return(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
+def tap(x,y):os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
+def swipe(rect,interval=500):os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
+#def screenShot(path=slnPath,name=''):os.system(adbPath+' shell screencap /sdcard/adbtemp/screen.png && '+adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else getTime())))
+def press(c):tap(*key[c])
+def doit(touch,wait):[(press(touch[i]),time.sleep(wait[i]*.001))for i in range(len(touch))]
 class Fuse(object):
     def __init__(self,fv=300):
         self.__value=0
         self.__max=fv
     @property
-    def value():
-        return self.__value
+    def value():return self.__value
     def increase(self):
         self.__value+=1
         if self.__value>self.__max:
@@ -111,30 +110,29 @@ class Fuse(object):
     def reset(self):
         self.__value=0
         return True
-    def show(self):
-        printer(self.__value,'/',self.__max,sep='',flush=True)
+    def show(self):printer(self.__value,'/',self.__max,sep='',flush=True)
 fuse=Fuse()
 class Check(object):
     def __init__(self,lagency=.08,img=None):
         fuse.increase()
         time.sleep(lagency)
         self.im=(lambda im:im[im.shape[0]//2-540:im.shape[0]//2+540,im.shape[1]//2-960:im.shape[1]//2+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(windowCapture()if img is None else img))
-    compare=lambda self,img,rect=(0,0,1920,1080),delta=.03:cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
-    select=lambda self,img,rect=(0,0,1920,1080):(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
-    tapOnCmp=lambda self,img,rect=(0,0,1920,1080),delta=.03:(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
-    save=lambda self,name='':(cv2.imwrite(slnPath+'ScreenShots/'+(getTime()+'.png'if name==''else name),self.im),self)[1]
-    show=lambda self:(show(cv2.resize(self.im,(800,450))),self)[1]
-    isTurnBegin=lambda self:self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
-    isBattleOver=lambda self:(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
-    isBegin=lambda self:self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
-    isHouguReady=lambda self:(lambda im:[not any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in(0,1,2)])(Check(.8).im)
-    isSkillReady=lambda self:[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in(0,1,2)]for i in(0,1,2)]
-    isApEmpty=lambda self:self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
-    isChooseFriend=lambda self:self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
-    isNoFriend=lambda self:self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
-    getABQ=lambda self:[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in(0,1,2,3,4)]
-    getStage=lambda self:self.select(IMG_STAGE,(1290,14,1348,60))+1
-    getPortrait=lambda self:[self.im[640:740,195+480*i:296+480*i]for i in(0,1,2)]
+    def compare(self,img,rect=(0,0,1920,1080),delta=.03):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
+    def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
+    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.03):return(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
+    def save(self,name=''):cv2.imwrite(slnPath+'ScreenShots/'+(getTime()+'.png'if name==''else name),self.im);return self
+    def show(self):show(cv2.resize(self.im,(800,450)));return self
+    def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
+    def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
+    def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
+    def isHouguReady(self):return(lambda im:[not any([self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in(0,1,2)])(Check(.8).im)
+    def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.06)for j in(0,1,2)]for i in(0,1,2)]
+    def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
+    def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
+    def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
+    def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in(0,1,2,3,4)]
+    def getStage(self):return self.select(IMG_STAGE,(1290,14,1348,60))+1
+    def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in(0,1,2)]
 def draw():
     while True:
         press('2')
