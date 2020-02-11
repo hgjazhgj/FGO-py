@@ -51,29 +51,37 @@
 #                                                                         ,@]]@@O@^                                    
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,winsound
-slnPath='E:/VisualStudioDocs/fgo_py/'
-hWnd=win32gui.FindWindowEx(win32gui.FindWindow(None,'BlueStacks App Player'),None,None,None)
-#hWnd=(time.sleep(1),win32gui.WindowFromPoint(win32api.GetCursorPos()))[1]
-#adbPath=(os.system('adb connect localhost:5555'),'adb -s localhost:5555')[1]
-adbPath='adb -s emulator-5554'
+import time,os,re,numpy,cv2,traceback,configparser,win32con,win32ui,win32gui,win32api,win32console,win32print,winsound
+#class NewConfigParser(configparser.ConfigParser):
+#    def optionxform(self,optionstr):return optionstr
+#config=NewConfigParser()
+#config.read('config.ini')
+hConWnd=win32console.GetConsoleWindow()
+hPreFgoWnd=win32gui.FindWindow(None,'BlueStacks App Player')
+hFgoWnd=win32gui.FindWindowEx(hPreFgoWnd,None,None,None)
+#hFgoWnd=win32gui.FindWindow(None,'ApowerMirror Main')
+#hFgoWnd=(time.sleep(1),win32gui.WindowFromPoint(win32api.GetCursorPos()))[1]
+adbPath=(os.system('adb connect localhost:5555'),'adb -s localhost:5555')[1]
+#adbPath='adb -s emulator-5554'
 #adbPath='adb -s 1e1b7921'
 tapOffset,androidScale=(lambda p:((lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x')))),p.close())[0])(os.popen(adbPath+' shell wm size'))
-winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
-IMG_APEMPTY=cv2.imread(slnPath+'asserts/apempty.png')
-IMG_ATTACK=cv2.imread(slnPath+'asserts/attack.png')
-IMG_BEGIN=cv2.imread(slnPath+'asserts/begin.png')
-IMG_BOUND=cv2.imread(slnPath+'asserts/bound.png')
-IMG_BOUNDUP=cv2.imread(slnPath+'asserts/boundup.png')
-IMG_CARDSEALED=cv2.imread(slnPath+'asserts/cardsealed.png')
-IMG_CHOOSEFRIEND=cv2.imread(slnPath+'asserts/choosefriend.png')
-IMG_END=cv2.imread(slnPath+'asserts/end.png')
-IMG_FAILED=cv2.imread(slnPath+'asserts/failed.png')
-IMG_FRIEND=[[file[:-4],cv2.imread(slnPath+'asserts/friend/'+file)]for file in os.listdir(slnPath+'asserts/friend')if file.endswith('.png')]
-IMG_HOUGUSEALED=cv2.imread(slnPath+'asserts/hougusealed.png')
-IMG_NOFRIEND=cv2.imread(slnPath+'asserts/nofriend.png')
-IMG_STILL=cv2.imread(slnPath+'asserts/still.png')
-IMG_STAGE=[cv2.imread(slnPath+'asserts/stage/'+file)for file in os.listdir(slnPath+'asserts/stage')if file.endswith('.png')]
+#winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
+winScale=1
+hCon=win32console.GetConsoleWindow()
+IMG_APEMPTY=cv2.imread('image/apempty.png')
+IMG_ATTACK=cv2.imread('image/attack.png')
+IMG_BEGIN=cv2.imread('image/begin.png')
+IMG_BOUND=cv2.imread('image/bound.png')
+IMG_BOUNDUP=cv2.imread('image/boundup.png')
+IMG_CARDSEALED=cv2.imread('image/cardsealed.png')
+IMG_CHOOSEFRIEND=cv2.imread('image/choosefriend.png')
+IMG_END=cv2.imread('image/end.png')
+IMG_FAILED=cv2.imread('image/failed.png')
+IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
+IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
+IMG_NOFRIEND=cv2.imread('image/nofriend.png')
+IMG_STILL=cv2.imread('image/still.png')
+IMG_STAGE=[cv2.imread('image/stage/'+file)for file in os.listdir('image/stage')if file.startswith('stage')and file.endswith('.png')]
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]#minstage,minstageturn,obj
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
 friendPos=4
@@ -87,15 +95,16 @@ def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 def printer(*args):print(getTime(),*args)
 def beep():winsound.PlaySound('SystemHand',0)
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
-def windowCapture(hWnd=hWnd):return(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*(lambda left,top,right,bot:[int(winScale*i+.001)for i in[right-left,bot-top]])(*win32gui.GetClientRect(hWnd)))
-def playSound(file=slnPath+'sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0)
+def windowCapture(hWnd=hFgoWnd):return(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*[int(i*winScale+.001)for i in win32gui.GetClientRect(hWnd)[2:]])
+def setForeground(hWnd=hConWnd):win32gui.ShowWindow(hWnd,win32con.SW_RESTORE),win32gui.SetForegroundWindow(hWnd)
+def playSound(file='sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0)
 #def rgb2hsv(x):return(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
 def tap(x,y):os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
 def swipe(rect,interval=500):os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
-#def screenShot(path=slnPath,name=''):os.system(adbPath+' shell screencap /sdcard/adbtemp/screen.png && '+adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else getTime())))
+#def screenShot(path='',name=''):os.system(adbPath+' shell screencap /sdcard/adbtemp/screen.png && '+adbPath+' pull /sdcard/adbtemp/screen.png "{path}ScreenShots/{name}.png"'.format(path=path,name=name if name!=''else getTime())))
 def press(c):tap(*key[c])
 def doit(touch,wait):[(press(touch[i]),time.sleep(wait[i]*.001))for i in range(len(touch))]
-class Fuse(object):
+class Fuse:
     def __init__(self,fv=300):
         self.__value=0
         self.__max=fv
@@ -112,7 +121,7 @@ class Fuse(object):
         return True
     def show(self):printer(self.__value,'/',self.__max,sep='',flush=True)
 fuse=Fuse()
-class Check(object):
+class Check:
     def __init__(self,lagency=.08,img=None):
         fuse.increase()
         time.sleep(lagency)
@@ -120,7 +129,7 @@ class Check(object):
     def compare(self,img,rect=(0,0,1920,1080),delta=.03):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.03):return(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
-    def save(self,name=''):cv2.imwrite(slnPath+'ScreenShots/'+(getTime()+'.png'if name==''else name),self.im);return self
+    def save(self,name=''):cv2.imwrite('ScreenShots/'+(getTime()+'.png'if name==''else name),self.im);return self
     def show(self):show(cv2.resize(self.im,(800,450)));return self
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
@@ -134,18 +143,19 @@ class Check(object):
     def getStage(self):return self.select(IMG_STAGE,(1290,14,1348,60))+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in(0,1,2)]
 def draw():
-    while True:
-        press('2')
+    while True:press('2')
 def setInfo(s):
-    skillInfo[:3]={
-        'saber'   :[[[1,0,0],[1,0,0],[3,5,0]],[[1,0,0],[1,2,0],[1,0,0]],[[1,0,0],[1,2,0],[3,5,0]]],#muzashi/moudoreddo/okita
-        'archer'  :[[[1,0,0],[4,0,0],[1,0,0]],[[1,0,0],[1,0,0],[1,0,0]],[[1,0,0],[1,0,0],[1,0,0]]],#arutoria/ishitaru/jyannu
-        'lancer'  :[[[3,3,0],[1,0,0],[2,0,0]],[[1,0,0],[3,0,0],[3,3,0]],[[2,0,0],[2,0,0],[4,0,0]]],#ere/tamamo/jyannu
-        'rider'   :[[[3,0,1],[2,0,0],[1,0,0]],[[1,0,0],[3,0,0],[1,0,0]],[[3,0,0],[3,0,0],[3,0,0]]],#arutoria/asutorufo/maruta
-        'caster'  :[[[1,0,0],[3,4,0],[1,0,2]],[[1,0,0],[1,0,0],[3,3,2]],[[1,0,0],[1,0,0],[1,0,0]]],#malin/nero/marii
-        'assassin':[[[1,0,0],[1,0,0],[3,6,0]],[[2,0,0],[3,6,0],[4,0,0]],[[3,6,0],[3,2,0],[3,0,3]]],#kureopatora/hiroinx/jakku
-        'ex'      :[[[1,0,0],[1,0,0],[1,0,0]],[[1,2,0],[1,0,0],[4,0,0]],[[3,6,0],[2,0,0],[1,0,0]]],#hokusai/bb/hiroinx
-    }[s]
+    try:
+        skillInfo[:3]={
+            'saber'   :[[[1,0,0],[1,0,0],[3,5,0]],[[1,0,0],[1,2,0],[1,0,0]],[[1,0,0],[1,2,0],[3,5,0]]],#muzashi/moudoreddo/okita
+            'archer'  :[[[1,0,0],[4,0,0],[1,0,0]],[[1,0,0],[1,0,0],[1,0,0]],[[1,0,0],[1,0,0],[1,0,0]]],#arutoria/ishitaru/jyannu
+            'lancer'  :[[[3,3,0],[1,0,0],[2,0,0]],[[1,0,0],[3,0,0],[3,3,0]],[[2,0,0],[2,0,0],[4,0,0]]],#ere/tamamo/jyannu
+            'rider'   :[[[3,0,1],[2,0,0],[1,0,0]],[[1,0,0],[3,0,0],[1,0,0]],[[3,0,0],[3,0,0],[3,0,0]]],#arutoria/asutorufo/maruta
+            'caster'  :[[[1,0,0],[1,0,0],[3,3,2]],[[1,0,0],[1,0,0],[1,0,2]],[[1,0,0],[3,4,0],[1,0,2]]],#nero/marii/malin
+            'assassin':[[[1,0,0],[1,0,0],[3,6,0]],[[2,0,0],[3,6,0],[4,0,0]],[[3,6,0],[3,2,0],[3,0,3]]],#kureopatora/hiroinx/jakku
+            'ex'      :[[[1,0,0],[1,0,0],[1,0,0]],[[1,2,0],[1,0,0],[4,0,0]],[[3,6,0],[2,0,0],[1,0,0]]],#hokusai/bb/hiroinx
+        }[s]
+    except KeyError:pass
 def chooseFriend():
     if len(IMG_FRIEND)==0:
         doit('8',(1000,))
@@ -161,8 +171,8 @@ def chooseFriend():
                             'km':[[2,0,1],[1,0,0],[1,0,0]],
                             'cba':[[3,0,2],[3,0,0],[1,0,1]],
                             'ml':[[1,0,0],[1,0,0],[3,0,1]],
-                        }[img[0][0:img[0].find('_')]]
-                    except KeyError:
+                        }[img[0][0:img[0].index('_')]]
+                    except(KeyError,ValueError):
                         skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
                     time.sleep(1)
                     return
@@ -173,18 +183,15 @@ def chooseFriend():
             if chk.isNoFriend():
                 printer('No Friend')
                 exit(0)
-            if chk.isChooseFriend():
-                break
+            if chk.isChooseFriend():break
 def oneBattle(danger=(0,0,1)):
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
         chk=Check(.2)
         if chk.isTurnBegin():
             turn,stage,stageTurn,skill,newPort=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.3))
-            if stageTurn==1:
-                doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
-            if turn==1:
-                port=newPort[:]
+            if stageTurn==1:doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
+            if turn==1:port=newPort[:]
             else:
                 for i in range(3):
                     if servant[i]<6and cv2.matchTemplate(newPort[i],port[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.1:
@@ -193,11 +200,9 @@ def oneBattle(danger=(0,0,1)):
             printer('   ',turn,stage,stageTurn,servant)
             for i,j in[(i,j)for i in(0,1,2)if servant[i]<6for j in(0,1,2)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
                 doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
-                if skillInfo[servant[i]][j][2]!=0:
-                    doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
+                if skillInfo[servant[i]][j][2]!=0:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
                 time.sleep(2)
-                while not Check(.2).isTurnBegin():
-                    pass
+                while not Check(.2).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in(0,1,2)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in(0,1,2)if c.count(i)>=3for j in(0,1,2,3,4)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in(0,1,2,3,4)if c[j]==i])(chk.getABQ(),chk.isHouguReady()))(Check())[:3],(100,100,10000))
         elif chk.isBattleOver():
@@ -209,20 +214,20 @@ def oneBattle(danger=(0,0,1)):
             return False
     return True
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
-    apple=appleCount
+    apple=0
     battle=0
     while True:
         battle+=1
         doit('8',(1000,))
         if Check().isApEmpty():
-            if apple==0:
+            if apple==appleCount:
                 printer('Ap Empty')
                 press('\x12')
                 return
             else:
+                apple+=1
+                printer('Apple',apple)
                 doit('W4K8'[appleKind]+'L',(400,1200))
-                apple-=1
-                printer('Apple',appleCount-apple)
         printer('  Battle',battle)
         flush=True
         while True:
@@ -234,16 +239,13 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
                 else:
                     printer('No Friend')
                     exit(0)
-            if chk.isChooseFriend():
-                break
+            if chk.isChooseFriend():break
         chooseFriend()
         doit(' ',(1000,))
-        if not battleFunc(*args,**kwargs):
-            doit('VJ',(500,500))
-        doit('       ',(200,200,200,200,200,200,200))
+        if not battleFunc(*args,**kwargs):doit('VJ',(500,500))
+        doit('    ',(200,200,200,200))
         while True:
             chk=Check()
-            if chk.isBegin():
-                break;
+            if chk.isBegin():break
             chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
             doit(' ',(300,))
