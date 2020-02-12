@@ -1,5 +1,5 @@
 #               ,@\.                               I Love Illya Forever!                                               
-#             ,@\o@^                                                                                  .]].              
+#             ,@\o@^                                                                                  .]].             
 #            =@/oo/@.                             ..]]]]]]]]]]]]]]]]`...                            .@\o/@`            
 #           =@/oo/.@`                     .]]@/[[........................,[[@@]]`.                  //oooo/@.          
 #          ,@\oo/..=\               .]/@[..........................................[\\].           ,@/..ooo/@.         
@@ -51,18 +51,21 @@
 #                                                                         ,@]]@@O@^                                    
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,re,numpy,cv2,traceback,configparser,win32con,win32ui,win32gui,win32api,win32console,win32print,winsound
+import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,winsound
 hConWnd=win32console.GetConsoleWindow()
 hPreFgoWnd=win32gui.FindWindow(None,'BlueStacks App Player')
 hFgoWnd=win32gui.FindWindowEx(hPreFgoWnd,None,None,None)
 #hFgoWnd=win32gui.FindWindow(None,'ApowerMirror Main')
 #hFgoWnd=(time.sleep(1),win32gui.WindowFromPoint(win32api.GetCursorPos()))[1]
-adbPath=(os.system('adb connect localhost:5555'),'adb -s localhost:5555')[1]
+#adbPath=(os.system('adb connect localhost:5555'),'adb -s localhost:5555')[1]
 #adbPath='adb -s emulator-5554'
 #adbPath='adb -s 1e1b7921'
-tapOffset,androidScale=(lambda p:((lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x')))),p.close())[0])(os.popen(adbPath+' shell wm size'))
-#winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
-winScale=1
+tapOffset=(0,0)
+androidScale=1
+def setAndroid():
+    global tapOffset,androidScale
+    tapOffset,androidScale=(lambda p:((lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x')))),p.close())[0])(os.popen(adbPath+' shell wm size'))
+winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
 hCon=win32console.GetConsoleWindow()
 IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
@@ -82,6 +85,8 @@ skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
 friendPos=4
 dangerPos=[0,0,1]
+terminateFlag=False
+suspendFlag=False
 key={'\x09':(1800,304),'\x12':(960,943),#tab VK_TAB #alt VK_MENU
 ' ':(1820,1030),'0':(70,69),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
 'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
@@ -92,8 +97,8 @@ def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 def printer(*args):print(getTime(),*args)
 def beep():winsound.PlaySound('SystemHand',0)
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
-def windowCapture(hWnd=hFgoWnd):return(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*[int(i*winScale+.001)for i in win32gui.GetClientRect(hWnd)[2:]])
-def setForeground(hWnd=hConWnd):win32gui.ShowWindow(hWnd,win32con.SW_RESTORE),win32gui.SetForegroundWindow(hWnd)
+def windowCapture(hWnd):return(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*[int(i*winScale+.001)for i in win32gui.GetClientRect(hWnd)[2:]])
+#def setForeground(hWnd=hConWnd):win32gui.ShowWindow(hWnd,win32con.SW_RESTORE),win32gui.SetForegroundWindow(hWnd)
 def playSound(file='sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0)
 #def rgb2hsv(x):return(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
 def tap(x,y):os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
@@ -120,9 +125,15 @@ class Fuse:
 fuse=Fuse()
 class Check:
     def __init__(self,lagency=.08,img=None):
+        global suspendFlag
+        if suspendFlag:
+            os.system('pause')
+            suspendFlag=False
+        if terminateFlag:
+            exit(0)
         fuse.increase()
         time.sleep(lagency)
-        self.im=(lambda im:im[im.shape[0]//2-540:im.shape[0]//2+540,im.shape[1]//2-960:im.shape[1]//2+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(windowCapture()if img is None else img))
+        self.im=(lambda im:im[im.shape[0]//2-540:im.shape[0]//2+540,im.shape[1]//2-960:im.shape[1]//2+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(windowCapture(hFgoWnd)if img is None else img))
     def compare(self,img,rect=(0,0,1920,1080),delta=.03):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.03):return(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
