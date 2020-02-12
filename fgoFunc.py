@@ -52,10 +52,6 @@
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
 import time,os,re,numpy,cv2,traceback,configparser,win32con,win32ui,win32gui,win32api,win32console,win32print,winsound
-#class NewConfigParser(configparser.ConfigParser):
-#    def optionxform(self,optionstr):return optionstr
-#config=NewConfigParser()
-#config.read('config.ini')
 hConWnd=win32console.GetConsoleWindow()
 hPreFgoWnd=win32gui.FindWindow(None,'BlueStacks App Player')
 hFgoWnd=win32gui.FindWindowEx(hPreFgoWnd,None,None,None)
@@ -85,6 +81,7 @@ IMG_STAGE=[cv2.imread('image/stage/'+file)for file in os.listdir('image/stage')i
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]#minstage,minstageturn,obj
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
 friendPos=4
+dangerPos=[0,0,1]
 key={'\x09':(1800,304),'\x12':(960,943),#tab VK_TAB #alt VK_MENU
 ' ':(1820,1030),'0':(70,69),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
 'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
@@ -184,13 +181,13 @@ def chooseFriend():
                 printer('No Friend')
                 exit(0)
             if chk.isChooseFriend():break
-def oneBattle(danger=(0,0,1)):
+def oneBattle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
         chk=Check(.2)
         if chk.isTurnBegin():
             turn,stage,stageTurn,skill,newPort=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.3))
-            if stageTurn==1:doit('\xBB\xBD0'[danger[stage-1]]+'P',(50,500))
+            if stageTurn==1:doit('\xBB\xBD0'[dangerPos[stage-1]]+'P',(50,500))
             if turn==1:port=newPort[:]
             else:
                 for i in range(3):
