@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>525</width>
-    <height>560</height>
+    <width>500</width>
+    <height>531</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,803 +17,95 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QComboBox" name="CBX_PARTY">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="BTN_PARTYSAVE">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>保存</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="BTN_PARTYRESET">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>重置</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="BTN_PARTYDELETE">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>删除</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
      <layout class="QFormLayout" name="formLayout">
       <property name="labelAlignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="LBL_LOADDATA">
-        <property name="text">
-         <string>读取配置</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_DEFAULT">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>40</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>40</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>重置</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_1">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>1</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">BTG_PARTY</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>2</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">BTG_PARTY</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_13">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>3</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">BTG_PARTY</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_23">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>4</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">BTG_PARTY</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_25">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_5">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>5</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">BTG_PARTY</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_27">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_6">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>6</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">BTG_PARTY</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_28">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_7">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>7</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">BTG_PARTY</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_29">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_LOAD_8">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>8</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">BTG_PARTY</string>
-          </attribute>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="LBL_SAVEDATA">
-        <property name="text">
-         <string>保存配置</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QPushButton" name="BTN_APPLY">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>40</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>40</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>应用</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_SAVE_1">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>1</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_SAVE_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>2</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_14">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_SAVE_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>3</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_24">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_SAVE_4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>4</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_26">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_SAVE_5">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>5</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_30">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_SAVE_6">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>6</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_31">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_SAVE_7">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>7</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_32">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_SAVE_8">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>8</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0">
        <widget class="QLabel" name="LBL_SKILLINFO">
         <property name="text">
          <string>编队信息</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="0" column="1">
        <layout class="QFormLayout" name="formLayout_2">
         <property name="labelAlignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3490,14 +2782,14 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="LBL_DANGERPOS">
         <property name="text">
          <string>优先攻击</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="1" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
          <widget class="QLineEdit" name="TXT_DANGER_0">
@@ -3626,17 +2918,20 @@
         </item>
        </layout>
       </item>
-      <item row="4" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="LBL_APPLE">
         <property name="text">
          <string>苹果</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QComboBox" name="CBX_APPLE">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
           <item>
            <property name="text">
             <string>金</string>
@@ -3650,6 +2945,11 @@
           <item>
            <property name="text">
             <string>铜</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>彩</string>
            </property>
           </item>
          </widget>
@@ -3735,6 +3035,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="editable">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -3881,7 +3184,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>525</width>
+     <width>500</width>
      <height>26</height>
     </rect>
    </property>
@@ -3900,24 +3203,6 @@
   </action>
  </widget>
  <tabstops>
-  <tabstop>BTN_LOAD_DEFAULT</tabstop>
-  <tabstop>BTN_LOAD_1</tabstop>
-  <tabstop>BTN_LOAD_2</tabstop>
-  <tabstop>BTN_LOAD_3</tabstop>
-  <tabstop>BTN_LOAD_4</tabstop>
-  <tabstop>BTN_LOAD_5</tabstop>
-  <tabstop>BTN_LOAD_6</tabstop>
-  <tabstop>BTN_LOAD_7</tabstop>
-  <tabstop>BTN_LOAD_8</tabstop>
-  <tabstop>BTN_APPLY</tabstop>
-  <tabstop>BTN_SAVE_1</tabstop>
-  <tabstop>BTN_SAVE_2</tabstop>
-  <tabstop>BTN_SAVE_3</tabstop>
-  <tabstop>BTN_SAVE_4</tabstop>
-  <tabstop>BTN_SAVE_5</tabstop>
-  <tabstop>BTN_SAVE_6</tabstop>
-  <tabstop>BTN_SAVE_7</tabstop>
-  <tabstop>BTN_SAVE_8</tabstop>
   <tabstop>RBT_0</tabstop>
   <tabstop>RBT_1</tabstop>
   <tabstop>RBT_2</tabstop>
@@ -4018,12 +3303,12 @@
    <slot>runOneBattle()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>243</x>
-     <y>511</y>
+     <x>188</x>
+     <y>463</y>
     </hint>
     <hint type="destinationlabel">
-     <x>239</x>
-     <y>550</y>
+     <x>242</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>
@@ -4034,284 +3319,12 @@
    <slot>runMain()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>258</x>
-     <y>546</y>
+     <x>217</x>
+     <y>492</y>
     </hint>
     <hint type="destinationlabel">
-     <x>248</x>
-     <y>559</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_1</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadData1()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>96</x>
-     <y>342</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_2</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadData2()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>201</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>123</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_3</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadData3()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>262</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>284</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_4</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadData4()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>307</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_5</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadData5()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>351</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_6</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadData6()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>396</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_7</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadData7()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>441</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_8</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadData8()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>486</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_SAVE_1</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>saveData1()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>91</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>72</x>
-     <y>320</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_SAVE_2</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>saveData2()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>201</x>
-     <y>95</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>160</x>
-     <y>158</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_SAVE_3</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>saveData3()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>262</x>
-     <y>95</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>282</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_SAVE_4</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>saveData4()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>307</x>
-     <y>95</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_SAVE_5</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>saveData5()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>351</x>
-     <y>95</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>331</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_SAVE_6</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>saveData6()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>396</x>
-     <y>95</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_SAVE_7</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>saveData7()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>441</x>
-     <y>95</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_SAVE_8</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>saveData8()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>486</x>
-     <y>95</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_LOAD_DEFAULT</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadDataDefault()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>119</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>430</x>
-     <y>276</y>
+     <x>267</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>
@@ -4323,11 +3336,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>73</x>
-     <y>533</y>
+     <y>504</y>
     </hint>
     <hint type="destinationlabel">
-     <x>84</x>
-     <y>559</y>
+     <x>101</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>
@@ -4339,11 +3352,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>57</x>
-     <y>487</y>
+     <y>458</y>
     </hint>
     <hint type="destinationlabel">
-     <x>46</x>
-     <y>517</y>
+     <x>94</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>
@@ -4354,12 +3367,12 @@
    <slot>adbConnect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>386</x>
-     <y>393</y>
+     <x>309</x>
+     <y>357</y>
     </hint>
     <hint type="destinationlabel">
-     <x>343</x>
-     <y>437</y>
+     <x>355</x>
+     <y>465</y>
     </hint>
    </hints>
   </connection>
@@ -4371,11 +3384,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>73</x>
-     <y>437</y>
+     <y>408</y>
     </hint>
     <hint type="destinationlabel">
-     <x>85</x>
-     <y>476</y>
+     <x>89</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>
@@ -4386,12 +3399,12 @@
    <slot>adbDisconnect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>486</x>
-     <y>392</y>
+     <x>475</x>
+     <y>357</y>
     </hint>
     <hint type="destinationlabel">
-     <x>337</x>
-     <y>392</y>
+     <x>499</x>
+     <y>467</y>
     </hint>
    </hints>
   </connection>
@@ -4402,12 +3415,12 @@
    <slot>pause()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>474</x>
-     <y>466</y>
+     <x>354</x>
+     <y>438</y>
     </hint>
     <hint type="destinationlabel">
-     <x>475</x>
-     <y>449</y>
+     <x>433</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>
@@ -4418,12 +3431,76 @@
    <slot>stop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>492</x>
-     <y>511</y>
+     <x>393</x>
+     <y>484</y>
     </hint>
     <hint type="destinationlabel">
-     <x>491</x>
-     <y>497</y>
+     <x>476</x>
+     <y>530</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CBX_PARTY</sender>
+   <signal>activated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>loadParty(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>34</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>57</x>
+     <y>74</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTN_PARTYSAVE</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveParty()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>43</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>412</x>
+     <y>58</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTN_PARTYRESET</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>resetParty()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>416</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>478</x>
+     <y>38</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTN_PARTYDELETE</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>deleteParty()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>466</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>499</x>
+     <y>70</y>
     </hint>
    </hints>
   </connection>
@@ -4448,23 +3525,7 @@
  <slots>
   <slot>runOneBattle()</slot>
   <slot>runMain()</slot>
-  <slot>loadData1()</slot>
-  <slot>loadData2()</slot>
-  <slot>loadData3()</slot>
-  <slot>loadData4()</slot>
-  <slot>loadData5()</slot>
-  <slot>loadData6()</slot>
-  <slot>loadData7()</slot>
-  <slot>loadData8()</slot>
-  <slot>saveData1()</slot>
-  <slot>saveData2()</slot>
-  <slot>saveData3()</slot>
-  <slot>saveData4()</slot>
-  <slot>saveData5()</slot>
-  <slot>saveData6()</slot>
-  <slot>saveData7()</slot>
-  <slot>saveData8()</slot>
-  <slot>loadDataDefault()</slot>
+  <slot>resetParty()</slot>
   <slot>checkCheck()</slot>
   <slot>getHwnd()</slot>
   <slot>adbConnect()</slot>
@@ -4472,9 +3533,13 @@
   <slot>adbDisconnect()</slot>
   <slot>pause()</slot>
   <slot>stop()</slot>
+  <slot>saveParty()</slot>
+  <slot>deleteParty()</slot>
+  <slot>loadParty(QString)</slot>
+  <slot>changeParty(QString)</slot>
+  <slot>renameParty(QString)</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
-  <buttongroup name="BTG_PARTY"/>
  </buttongroups>
 </ui>

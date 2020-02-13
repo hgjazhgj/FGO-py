@@ -201,13 +201,13 @@ def oneBattle():
     while True:
         chk=Check(.2)
         if chk.isTurnBegin():
-            turn,stage,stageTurn,skill,newPort=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.3))
+            turn,stage,stageTurn,skill,newPortrait=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.3))
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(50,500))
-            if turn==1:port=newPort[:]
+            if turn==1:portrait=newPortrait[:]
             else:
                 for i in range(3):
-                    if servant[i]<6and cv2.matchTemplate(newPort[i],port[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.1:
-                        port[i]=newPort[i]
+                    if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.1:
+                        portrait[i]=newPortrait[i]
                         servant[i]=max(servant)+1
             printer('   ',turn,stage,stageTurn,servant)
             for i,j in[(i,j)for i in(0,1,2)if servant[i]<6for j in(0,1,2)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
@@ -216,7 +216,7 @@ def oneBattle():
                 time.sleep(2)
                 while not Check(.2).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda chk:(lambda c,h:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in(0,1,2)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in(0,1,2)if c.count(i)>=3for j in(0,1,2,3,4)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in(0,1,2,3,4)if c[j]==i])(chk.getABQ(),chk.isHouguReady()))(Check())[:3],(100,100,10000))
+            doit((lambda chk:(lambda c,h:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in(0,1,2)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in(0,1,2)if c.count(i)>=3for j in(0,1,2,3,4)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in(0,1,2,3,4)if c[j]==i])(chk.getABQ(),(lambda h:[h[i]and stage>=houguInfo[servant[i]][0]for i in(0,1,2)])(chk.isHouguReady())))(Check())[:3],(100,100,10000))
         elif chk.isBattleOver():
             printer('  Battle Finished')
             break
