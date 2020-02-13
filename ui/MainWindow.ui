@@ -8,21 +8,18 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>531</height>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>FGO script</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+  <widget class="QWidget" name="widget">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="LAYOUT_PARTY">
       <item>
        <widget class="QComboBox" name="CBX_PARTY">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -33,17 +30,8 @@
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYSAVE">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>48</width>
-          <height>16777215</height>
-         </size>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>保存</string>
@@ -52,49 +40,18 @@
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYRESET">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>48</width>
-          <height>16777215</height>
-         </size>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>重置</string>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="BTN_PARTYDELETE">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>48</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>删除</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
-     <layout class="QFormLayout" name="formLayout">
+     <layout class="QFormLayout" name="LAYOUT_INFO">
       <property name="labelAlignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
@@ -106,21 +63,9 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <layout class="QFormLayout" name="formLayout_2">
-        <property name="labelAlignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="formAlignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-        </property>
+       <layout class="QFormLayout" name="LAYOUT_INFO_PARTY">
         <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="LBL_PARTY_0">
           <property name="minimumSize">
            <size>
             <width>12</width>
@@ -139,15 +84,9 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_0">
           <item>
-           <widget class="QRadioButton" name="RBT_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QRadioButton" name="RBT_FRIEND_0">
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -170,12 +109,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -201,12 +134,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -232,12 +159,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -262,29 +183,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_5">
+           <spacer name="SPACER_0_0">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_1_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -310,12 +222,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_1_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -341,12 +247,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_1_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -371,29 +271,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_12">
+           <spacer name="SPACER_0_1">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_2_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -419,12 +310,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_2_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -450,12 +335,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_2_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -480,26 +359,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_33">
+           <spacer name="SPACER_0_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_0_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -525,12 +398,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_0_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -557,13 +424,7 @@
          </layout>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="LBL_PARTY_1">
           <property name="minimumSize">
            <size>
             <width>12</width>
@@ -582,15 +443,9 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_1">
           <item>
-           <widget class="QRadioButton" name="RBT_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QRadioButton" name="RBT_FRIEND_1">
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -613,12 +468,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -644,12 +493,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -675,12 +518,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -705,29 +542,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_3">
+           <spacer name="SPACER_PARTY_1_0">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_1_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -753,12 +581,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_1_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -784,12 +606,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_1_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -814,29 +630,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_16">
+           <spacer name="SPACER_PARTY_1_1">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_2_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -862,12 +669,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_2_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -893,12 +694,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_2_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -923,26 +718,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_34">
+           <spacer name="SPACER_PARTY_1_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_1_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -968,12 +757,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_1_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1000,13 +783,7 @@
          </layout>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="LBL_PARTY_2">
           <property name="minimumSize">
            <size>
             <width>12</width>
@@ -1025,15 +802,9 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_2">
           <item>
-           <widget class="QRadioButton" name="RBT_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QRadioButton" name="RBT_FRIEND_2">
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1056,12 +827,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1087,12 +852,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1118,12 +877,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1148,29 +901,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_22">
+           <spacer name="SPACER_PARTY_2_0">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_1_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1196,12 +940,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_1_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1227,12 +965,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_1_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1257,29 +989,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_17">
+           <spacer name="SPACER_PARTY_2_1">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_2_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1305,12 +1028,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_2_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1336,12 +1053,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_2_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1366,26 +1077,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_35">
+           <spacer name="SPACER_PARTY_2_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_2_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1411,12 +1116,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_2_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1443,13 +1142,7 @@
          </layout>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="LBL_PARTY_3">
           <property name="minimumSize">
            <size>
             <width>12</width>
@@ -1468,15 +1161,9 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_3">
           <item>
-           <widget class="QRadioButton" name="RBT_3">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QRadioButton" name="RBT_FRIEND_3">
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1499,12 +1186,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1530,12 +1211,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1561,12 +1236,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1591,29 +1260,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_21">
+           <spacer name="SPACER_PARTY_3_0">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_1_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1639,12 +1299,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_1_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1670,12 +1324,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_1_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1700,29 +1348,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_18">
+           <spacer name="SPACER_PARTY_3_1">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_2_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1748,12 +1387,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_2_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1779,12 +1412,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_2_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1809,26 +1436,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_36">
+           <spacer name="SPACER_PARTY_3_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_3_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1854,12 +1475,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_3_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1886,13 +1501,7 @@
          </layout>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="LBL_PARTY_4">
           <property name="minimumSize">
            <size>
             <width>12</width>
@@ -1911,15 +1520,9 @@
          </widget>
         </item>
         <item row="4" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_4">
           <item>
-           <widget class="QRadioButton" name="RBT_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QRadioButton" name="RBT_FRIEND_4">
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1948,12 +1551,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1979,12 +1576,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2010,12 +1601,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2040,29 +1625,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_19">
+           <spacer name="SPACER_PARTY_4_0">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_1_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2088,12 +1664,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_1_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2119,12 +1689,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_1_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2149,29 +1713,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_11">
+           <spacer name="SPACER_PARTY_4_1">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_2_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2197,12 +1752,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_2_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2228,12 +1777,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_2_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2258,26 +1801,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_37">
+           <spacer name="SPACER_PARTY_4_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_4_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2303,12 +1840,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_4_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2335,13 +1866,7 @@
          </layout>
         </item>
         <item row="5" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="LBL_PARTY_5">
           <property name="minimumSize">
            <size>
             <width>12</width>
@@ -2360,15 +1885,9 @@
          </widget>
         </item>
         <item row="5" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_5">
           <item>
-           <widget class="QRadioButton" name="RBT_5">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QRadioButton" name="RBT_FRIEND_5">
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2394,12 +1913,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2425,12 +1938,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2456,12 +1963,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2486,29 +1987,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_20">
+           <spacer name="SPACER_PARTY_5_0">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_1_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2534,12 +2026,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_1_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2565,12 +2051,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_1_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2595,29 +2075,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_10">
+           <spacer name="SPACER_PARTY_5_1">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_2_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2643,12 +2114,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_2_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2674,12 +2139,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_2_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2704,26 +2163,20 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_38">
+           <spacer name="SPACER_PARTY_5_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>13</width>
-              <height>13</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_5_0">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2749,12 +2202,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_5_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -2790,15 +2237,9 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <layout class="QHBoxLayout" name="LAYOUT_INFO_DANGER">
         <item>
          <widget class="QLineEdit" name="TXT_DANGER_0">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="minimumSize">
            <size>
             <width>24</width>
@@ -2823,29 +2264,14 @@
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_7">
+         <spacer name="SPACER_DANGER_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>13</width>
-            <height>13</height>
-           </size>
           </property>
          </spacer>
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_DANGER_1">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="minimumSize">
            <size>
             <width>24</width>
@@ -2870,29 +2296,14 @@
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_8">
+         <spacer name="SPACER_DANGER_1">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>13</width>
-            <height>13</height>
-           </size>
           </property>
          </spacer>
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_DANGER_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="minimumSize">
            <size>
             <width>24</width>
@@ -2926,7 +2337,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QHBoxLayout" name="LAYOUT_INFO_APPLE">
         <item>
          <widget class="QComboBox" name="CBX_APPLE">
           <property name="currentIndex">
@@ -2956,12 +2367,6 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_APPLE">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="text">
            <string>0</string>
           </property>
@@ -2975,99 +2380,89 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QHBoxLayout" name="LAYOUT_ADBCONNECT">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_20">
-        <item>
-         <widget class="QLineEdit" name="TXT_ADDRESS">
-          <property name="text">
-           <string>localhost:5555</string>
-          </property>
-          <property name="maxLength">
-           <number>50</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_CONNECT">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>连接</string>
-          </property>
-          <property name="checkable">
-           <bool>false</bool>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_DISCONNECT">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>断开</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLineEdit" name="TXT_ADDRESS">
+        <property name="text">
+         <string>localhost:5555</string>
+        </property>
+        <property name="maxLength">
+         <number>50</number>
+        </property>
+       </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_21">
-        <item>
-         <widget class="QPushButton" name="BTN_GETDEVICE">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>刷新</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="CBX_DEVICE">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="editable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_TESTDEVICE">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>测试</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QPushButton" name="BTN_CONNECT">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>连接</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="BTN_DISCONNECT">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>断开</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <layout class="QHBoxLayout" name="LAYOUT_DEVICE">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <widget class="QPushButton" name="BTN_GETDEVICE">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>刷新</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="CBX_DEVICE">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="BTN_TESTDEVICE">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>测试</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="LAYOUT_FUNC">
+      <item>
+       <layout class="QVBoxLayout" name="LAYOUT_FUNC_WIN">
         <item>
          <widget class="QPushButton" name="BTN_GETHWND">
           <property name="enabled">
@@ -3097,7 +2492,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="LAYOUT_FUNC_MAIN">
         <item>
          <widget class="QPushButton" name="BTN_DRAW">
           <property name="enabled">
@@ -3113,12 +2508,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_ONEBATTLE">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3129,12 +2518,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_MAIN">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3146,7 +2529,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="LAYOUT_FUNC_CONTROL">
         <item>
          <widget class="QPushButton" name="BTN_PAUSE">
           <property name="enabled">
@@ -3179,7 +2562,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -3188,27 +2571,30 @@
      <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuAbout">
+   <widget class="QMenu" name="MENU_ABOUT">
     <property name="title">
      <string>About</string>
     </property>
-    <addaction name="actiona"/>
+    <addaction name="MENU_ABOUT_UNDEFINED"/>
    </widget>
-   <addaction name="menuAbout"/>
+   <addaction name="MENU_ABOUT"/>
   </widget>
-  <action name="actiona">
+  <action name="MENU_ABOUT_UNDEFINED">
    <property name="text">
     <string>我还没想好这里应该写点啥</string>
    </property>
   </action>
  </widget>
  <tabstops>
-  <tabstop>RBT_0</tabstop>
-  <tabstop>RBT_1</tabstop>
-  <tabstop>RBT_2</tabstop>
-  <tabstop>RBT_3</tabstop>
-  <tabstop>RBT_4</tabstop>
-  <tabstop>RBT_5</tabstop>
+  <tabstop>CBX_PARTY</tabstop>
+  <tabstop>BTN_PARTYSAVE</tabstop>
+  <tabstop>BTN_PARTYRESET</tabstop>
+  <tabstop>RBT_FRIEND_0</tabstop>
+  <tabstop>RBT_FRIEND_1</tabstop>
+  <tabstop>RBT_FRIEND_2</tabstop>
+  <tabstop>RBT_FRIEND_3</tabstop>
+  <tabstop>RBT_FRIEND_4</tabstop>
+  <tabstop>RBT_FRIEND_5</tabstop>
   <tabstop>TXT_SKILL_0_0_0</tabstop>
   <tabstop>TXT_SKILL_0_0_1</tabstop>
   <tabstop>TXT_SKILL_0_0_2</tabstop>
@@ -3303,7 +2689,7 @@
    <slot>runOneBattle()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>188</x>
+     <x>238</x>
      <y>463</y>
     </hint>
     <hint type="destinationlabel">
@@ -3319,7 +2705,7 @@
    <slot>runMain()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>217</x>
+     <x>238</x>
      <y>492</y>
     </hint>
     <hint type="destinationlabel">
@@ -3367,7 +2753,7 @@
    <slot>adbConnect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>309</x>
+     <x>386</x>
      <y>357</y>
     </hint>
     <hint type="destinationlabel">
@@ -3399,7 +2785,7 @@
    <slot>adbDisconnect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>475</x>
+     <x>486</x>
      <y>357</y>
     </hint>
     <hint type="destinationlabel">
@@ -3415,7 +2801,7 @@
    <slot>pause()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>354</x>
+     <x>464</x>
      <y>438</y>
     </hint>
     <hint type="destinationlabel">
@@ -3431,7 +2817,7 @@
    <slot>stop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>393</x>
+     <x>464</x>
      <y>484</y>
     </hint>
     <hint type="destinationlabel">
@@ -3463,7 +2849,7 @@
    <slot>saveParty()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
+     <x>377</x>
      <y>43</y>
     </hint>
     <hint type="destinationlabel">
@@ -3479,28 +2865,12 @@
    <slot>resetParty()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>416</x>
+     <x>432</x>
      <y>42</y>
     </hint>
     <hint type="destinationlabel">
      <x>478</x>
      <y>38</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_PARTYDELETE</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>deleteParty()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>466</x>
-     <y>45</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>499</x>
-     <y>70</y>
     </hint>
    </hints>
   </connection>
@@ -3534,10 +2904,7 @@
   <slot>pause()</slot>
   <slot>stop()</slot>
   <slot>saveParty()</slot>
-  <slot>deleteParty()</slot>
   <slot>loadParty(QString)</slot>
-  <slot>changeParty(QString)</slot>
-  <slot>renameParty(QString)</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
