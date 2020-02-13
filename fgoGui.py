@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
+from PyQt5.QtCore import Qt,QEvent
 from PyQt5 import QtGui
 from ui.MainWindow import Ui_MainWindow
 import time,os,sys,threading,configparser,traceback,win32gui,win32api
@@ -15,7 +15,9 @@ class MyMainWindow(QMainWindow):
         super().__init__(parent)
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
-        self.loadData('DEFAULT')
+        self.getParty()
+        self.ui.CBX_PARTY.setCurrentIndex(-1)
+        self.loadParty('DEFAULT')
         self.getDevice()
         self.hFgoWnd=fgoFunc.hFgoWnd
         self.hPreFgoWnd=fgoFunc.hPreFgoWnd
@@ -30,18 +32,10 @@ class MyMainWindow(QMainWindow):
                 fgoFunc.terminateFlag=False
                 fgoFunc.adbPath='adb -s '+self.ui.CBX_DEVICE.currentText()
                 fgoFunc.setAndroid()
-                for i in range(6):
-                    for j in range(3):
-                        for k in range(3):
-                            fgoFunc.skillInfo[i][j][k]=int(eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))
-                    for j in range(2):
-                        fgoFunc.houguInfo[i][j]=int(eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))
-                for i in range(3):
-                    fgoFunc.dangerPos[i]=int(eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))
-                for i in range(6):
-                    if eval('self.ui.RBT_'+str(i)+'.isChecked()'):
-                        fgoFunc.friendPos=i
-                        break
+                fgoFunc.skillInfo[:]=[[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
+                fgoFunc.houguInfo[:]=[[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]
+                fgoFunc.dangerPos[:]=[int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]
+                fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
                 fgoFunc.hFgoWnd=self.hFgoWnd
                 fgoFunc.hPreFgoWnd=self.hPreFgoWnd
                 func(*args,**kwargs)
@@ -60,10 +54,9 @@ class MyMainWindow(QMainWindow):
         self.proc=threading.Thread(target=f)
         self.proc.start()
     def loadData(self,x):
-        skillInfo=eval(config.get(x,'skillInfo'))
-        houguInfo=eval(config.get(x,'houguInfo'))
-        dangerPos=eval(config.get(x,'dangerPos'))
-        friendPos=config.getint(x,'friendPos')
+        skillInfo=eval(config[x]['skillInfo'])
+        houguInfo=eval(config[x]['houguInfo'])
+        dangerPos=eval(config[x]['dangerPos'])
         for i in range(6):
             for j in range(3):
                 for k in range(3):
@@ -71,22 +64,39 @@ class MyMainWindow(QMainWindow):
             for j in range(2):
                 eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.setText("'+str(houguInfo[i][j])+'")')
         for i in range(3):eval('self.ui.TXT_DANGER_'+str(i)+'.setText("'+str(dangerPos[i])+'")')
-        eval('self.ui.RBT_'+str(friendPos)+'.setChecked(True)')
-    def saveData(self,x):
-        if QMessageBox.warning(self,'Warning','先前的数据将丢失且不可找回.',QMessageBox.Ok|QMessageBox.Cancel,QMessageBox.Cancel)==QMessageBox.Cancel:return
-        config.set(x,'skillInfo',str([int(eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))for i in range(6)for j in range(3)for k in range(3)]).replace(' ',''))
-        config.set(x,'houguInfo',str([int(eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))for i in range(6)for j in range(2)]).replace(' ',''))
-        config.set(x,'dangerPos',str([int(eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))for i in range(3)]).replace(' ',''))
-        config.set(x,'friendPos',str([eval('self.ui.RBT_'+str(i)+'.isChecked()')for i in range(6)].index(True)))
+        eval('self.ui.RBT_'+config[x]['friendPos']+'.setChecked(True)')
+    def getParty(self):
+        self.ui.CBX_PARTY.clear()
+        self.ui.CBX_PARTY.addItems(config.sections())
+    def loadParty(self,x):
+        #if not config.has_section(x):
+        #    self.ui.CBX_PARTY.removeItem(self.ui.CBX_PARTY.currentIndex())
+        #    return
+        self.loadData(x)
+        self.party=x
+    def saveParty(self):
+        #if self.ui.CBX_PARTY.currentText()=='':return
+        #if self.party!=self.ui.CBX_PARTY.currentText():
+        #    if config.has_section(self.ui.CBX_PARTY.currentText()):
+        #        if QMessageBox.critical(self,'Error','此名称已存在,是否覆盖?',QMessageBox.Yes|QMessageBox.No,QMessageBox.Yes)==QMessageBox.No:return
+        #    self.party=self.ui.CBX_PARTY.currentText()
+        config[self.party]={
+            'skillInfo':str([[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
+            'houguInfo':str([[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]).replace(' ',''),
+            'dangerPos':str([int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]).replace(' ',''),
+            'friendPos':self.ui.BTG_FRIEND.checkedButton().objectName()[-1]}
         with open('fgoConfig.ini','w')as f:config.write(f)
-    def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
-    def runMain(self):self.runFunc(fgoFunc.main,int(self.ui.TXT_APPLE.text()),self.ui.CBX_APPLE.currentIndex())
+        #self.getParty()
+    def resetParty(self):
+        self.loadData('DEFAULT')
+    def deleteParty(self):pass
+        #if not config.has_section(self.ui.CBX_PARTY.currentText()):
+        #    QMessageBox.critical(self,'Error','此编队不存在')
+        #    return
+        #config.remove_section(self.ui.CBX_PARTY.currentText())
+        #with open('fgoConfig.ini','w')as f:config.write(f)
+        #self.getParty()
     def checkCheck(self):fgoFunc.Check(0,fgoFunc.windowCapture(self.hFgoWnd)).show()
-    def getHwnd(self):
-        if QMessageBox.information(self,'Hint','将鼠标移到fgo画面上方,\n然后回车.',QMessageBox.Ok|QMessageBox.Cancel,QMessageBox.Ok)==QMessageBox.Cancel:return
-        self.hFgoWnd=win32gui.WindowFromPoint(win32api.GetCursorPos())
-        self.hPreFgoWnd=self.hFgoWnd
-        while win32gui.GetParent(self.hPreFgoWnd)!=0:self.hPreFgoWnd=win32gui.GetParent(self.hPreFgoWnd)
     def adbConnect(self):
         os.system('adb connect '+self.ui.TXT_ADDRESS.text())
         self.getDevice()
@@ -96,25 +106,15 @@ class MyMainWindow(QMainWindow):
     def getDevice(self):
         self.ui.CBX_DEVICE.clear()
         with os.popen('adb devices')as p:self.ui.CBX_DEVICE.addItems([i[:-7]for i in p.read().split('\n')if i.endswith('\tdevice')])
+    def getHwnd(self):
+        if QMessageBox.information(self,'Hint','将鼠标移到fgo画面上方,\n然后回车.',QMessageBox.Ok|QMessageBox.Cancel,QMessageBox.Ok)==QMessageBox.Cancel:return
+        self.hFgoWnd=win32gui.WindowFromPoint(win32api.GetCursorPos())
+        self.hPreFgoWnd=self.hFgoWnd
+        while win32gui.GetParent(self.hPreFgoWnd)!=0:self.hPreFgoWnd=win32gui.GetParent(self.hPreFgoWnd)
+    def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
+    def runMain(self):self.runFunc(fgoFunc.main,int(self.ui.TXT_APPLE.text()),self.ui.CBX_APPLE.currentIndex())
     def pause(self):fgoFunc.suspendFlag=True
     def stop(self):fgoFunc.terminateFlag=True
-    def loadData1(self):self.loadData('party1')
-    def loadData2(self):self.loadData('party2')
-    def loadData3(self):self.loadData('party3')
-    def loadData4(self):self.loadData('party4')
-    def loadData5(self):self.loadData('party5')
-    def loadData6(self):self.loadData('party6')
-    def loadData7(self):self.loadData('party7')
-    def loadData8(self):self.loadData('party8')
-    def loadDataDefault(self):self.loadData('DEFAULT')
-    def saveData1(self):self.saveData('party1')
-    def saveData2(self):self.saveData('party2')
-    def saveData3(self):self.saveData('party3')
-    def saveData4(self):self.saveData('party4')
-    def saveData5(self):self.saveData('party5')
-    def saveData6(self):self.saveData('party6')
-    def saveData7(self):self.saveData('party7')
-    def saveData8(self):self.saveData('party8')
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
@@ -125,6 +125,6 @@ if __name__=='__main__':
     if win32gui.IsWindow(fgoFunc.hFgoWnd):
         rect=win32gui.GetWindowRect(fgoFunc.hFgoWnd)
         myWin.move(rect[0]+600,rect[1]+150)
-        win32gui.MoveWindow(fgoFunc.hConWnd,rect[0]+185,rect[1]+150,415,600,True)
+        win32gui.MoveWindow(fgoFunc.hConWnd,rect[0]+185,rect[1]+150,415,550,True)
     myWin.show()
     sys.exit(app.exec_())

@@ -1,8 +1,8 @@
 > 19发伊莉雅,99发美游  
-> 国服居然比同期日服早10天开活动!  
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本v3.1.1  
+当前版本v3.1.2  
+祝单身狗Master们情人节快乐  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 快速跳转:[版本记录](#版本记录-Version-Logs)  
 当前版本更新很快,因此**不建议fork**  
@@ -23,11 +23,11 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 安卓分辨率和实际显示在屏幕上的分辨率最好是长1920或宽1080,其他分辨率亦可  
 你的电脑上要有adb  
 使用了以下库:  
-`time` `os` `threading` `configParser` `traceback` `numpy` `opencv-python` `pywin32` `PyQt5`  
+`threading` `configParser` `traceback` `numpy` `opencv-python` `pywin32` `PyQt5`  
 没有的直接`pip install`  
 记得开启USB调试  
 本脚本的代码部分仅有`fgoFunc.py`是fgo算法相关的,其他的部分基本是为ui服务的  
-这个脚本会自动放技能(默认不用技能),自动放宝具(充能满就直接放宝具),[可以设定](#关于skillInfo/houguInfo/dangerPos/friendPos),自动选卡(优先三色chain,否则优先红卡).合理设定后实战7-12回合能够刷完无限池终本  
+这个脚本会自动放技能(默认不用技能),自动放宝具(充能满就直接放宝具),[可以设定](#关于skillInfo_houguInfo_dangerPos_friendPos),自动选卡(优先三色chain,否则优先红卡).合理设定后实战7-12回合能够刷完无限池终本  
 速览脚本功能,运行fgoGui.py  
 
 我的联系方式  
@@ -87,6 +87,10 @@ setInfo等函数就是为了避免对源程序的频繁修改,所以我也不打
 承接上文,我自知这个脚本功能过于强大,强大到了严重影响游戏平衡,改变游戏性质,急剧扩大玩家间差异的程度.就算是在GitHub上开源我都是下了决心的.2019年刚过,B站up主[MCLAREN--](https://space.bilibili.com/13033022)搞了一套硬件来在iOS上跑脚本,虽然他的代码就是"三回合代码",硬件也非常简单,但他似乎是第一个做出来的,反正人家就是比我勤快([视频](https://www.bilibili.com/video/av82095192),[专栏](https://www.bilibili.com/read/cv4303413),[GitHub](https://github.com/McLaren12345/FGO_Bluetooth_Assistant)).注意到**硬件不被B站的条款限制** (虽然法律还是会管的),所以等我什么时候有空了,就搞一套差不多的硬件,只要把我的脚本底层交互接口从adb到伺服电机这么一改,然后新瓶装旧酒,挂羊头卖狗肉地出个视频既可以让网友们看到我的脚本,又不怕帐号被封,岂不美哉!  
 GitHub上从来不缺有思想有执行力的程序员,希望这个脚本能越写越好,祈祷这个世界再无BUG.  
 # 版本记录 Version Logs  
+## 2020/02/14 v3.1.2  
+bug修复:有关类,列表生成式,eval之间命名空间继承所带来的bug修复  
+bug修复:修复了宝具设置不生效的问题,这一bug可能是v2.10.3重构时留下的  
+即将更新:编队设置的新建/重命名/删除等功能.代码已经写好了,但是效果有点不友好,所以相关控件被改为了不可编辑不可点击  
 ## 2020/02/12 v3.1.1  
 bug修复:保证setForeground能正常执行  
 优化:修改了Key映射,以应对boss血条与小兵血条不在一行里的情况,从上到下从右到左依次为dangerPos0-5,按键为小键盘9-4  
