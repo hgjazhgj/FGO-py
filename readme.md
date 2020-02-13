@@ -3,6 +3,7 @@
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
 当前版本v3.1.2  
 祝单身狗Master们情人节快乐  
+祝小木曾雪菜生日快乐<del>你为什么这么熟练啊</del>  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 快速跳转:[版本记录](#版本记录-Version-Logs)  
 当前版本更新很快,因此**不建议fork**  

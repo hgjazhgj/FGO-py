@@ -15,7 +15,8 @@ class MyMainWindow(QMainWindow):
         super().__init__(parent)
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
-        self.getParty()
+        self.ui.CBX_PARTY.clear()
+        self.ui.CBX_PARTY.addItems(config.sections())
         self.ui.CBX_PARTY.setCurrentIndex(-1)
         self.loadParty('DEFAULT')
         self.getDevice()
@@ -53,7 +54,7 @@ class MyMainWindow(QMainWindow):
                 fgoFunc.beep()
         self.proc=threading.Thread(target=f)
         self.proc.start()
-    def loadData(self,x):
+    def loadParty(self,x):
         skillInfo=eval(config[x]['skillInfo'])
         houguInfo=eval(config[x]['houguInfo'])
         dangerPos=eval(config[x]['dangerPos'])
@@ -65,37 +66,15 @@ class MyMainWindow(QMainWindow):
                 eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.setText("'+str(houguInfo[i][j])+'")')
         for i in range(3):eval('self.ui.TXT_DANGER_'+str(i)+'.setText("'+str(dangerPos[i])+'")')
         eval('self.ui.RBT_'+config[x]['friendPos']+'.setChecked(True)')
-    def getParty(self):
-        self.ui.CBX_PARTY.clear()
-        self.ui.CBX_PARTY.addItems(config.sections())
-    def loadParty(self,x):
-        #if not config.has_section(x):
-        #    self.ui.CBX_PARTY.removeItem(self.ui.CBX_PARTY.currentIndex())
-        #    return
-        self.loadData(x)
-        self.party=x
     def saveParty(self):
-        #if self.ui.CBX_PARTY.currentText()=='':return
-        #if self.party!=self.ui.CBX_PARTY.currentText():
-        #    if config.has_section(self.ui.CBX_PARTY.currentText()):
-        #        if QMessageBox.critical(self,'Error','此名称已存在,是否覆盖?',QMessageBox.Yes|QMessageBox.No,QMessageBox.Yes)==QMessageBox.No:return
-        #    self.party=self.ui.CBX_PARTY.currentText()
-        config[self.party]={
+        config[self.ui.CBX_PARTY.currentText()]={
             'skillInfo':str([[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
             'houguInfo':str([[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]).replace(' ',''),
             'dangerPos':str([int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]).replace(' ',''),
             'friendPos':self.ui.BTG_FRIEND.checkedButton().objectName()[-1]}
         with open('fgoConfig.ini','w')as f:config.write(f)
-        #self.getParty()
     def resetParty(self):
-        self.loadData('DEFAULT')
-    def deleteParty(self):pass
-        #if not config.has_section(self.ui.CBX_PARTY.currentText()):
-        #    QMessageBox.critical(self,'Error','此编队不存在')
-        #    return
-        #config.remove_section(self.ui.CBX_PARTY.currentText())
-        #with open('fgoConfig.ini','w')as f:config.write(f)
-        #self.getParty()
+        self.loadParty('DEFAULT')
     def checkCheck(self):fgoFunc.Check(0,fgoFunc.windowCapture(self.hFgoWnd)).show()
     def adbConnect(self):
         os.system('adb connect '+self.ui.TXT_ADDRESS.text())
