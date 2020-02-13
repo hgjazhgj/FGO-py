@@ -97,6 +97,12 @@
           <property name="text">
            <string>1</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">BTG_PARTY</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -138,6 +144,12 @@
           <property name="text">
            <string>2</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">BTG_PARTY</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -179,6 +191,12 @@
           <property name="text">
            <string>3</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">BTG_PARTY</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -220,6 +238,12 @@
           <property name="text">
            <string>4</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">BTG_PARTY</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -261,6 +285,12 @@
           <property name="text">
            <string>5</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">BTG_PARTY</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -302,6 +332,12 @@
           <property name="text">
            <string>6</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">BTG_PARTY</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -343,6 +379,12 @@
           <property name="text">
            <string>7</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">BTG_PARTY</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -384,6 +426,12 @@
           <property name="text">
            <string>8</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">BTG_PARTY</string>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -823,6 +871,9 @@
             <property name="text">
              <string/>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">BTG_FRIEND</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -1263,6 +1314,9 @@
             <property name="text">
              <string/>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">BTG_FRIEND</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -1703,6 +1757,9 @@
             <property name="text">
              <string/>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">BTG_FRIEND</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -2143,6 +2200,9 @@
             <property name="text">
              <string/>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">BTG_FRIEND</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -2589,6 +2649,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">BTG_FRIEND</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -3029,6 +3092,12 @@
             <property name="text">
              <string/>
             </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">BTG_FRIEND</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -3621,13 +3690,25 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_CONNECT">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="text">
            <string>连接</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="BTN_DISCONNECT">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="text">
            <string>断开</string>
           </property>
@@ -3639,6 +3720,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_21">
         <item>
          <widget class="QPushButton" name="BTN_GETDEVICE">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="text">
            <string>刷新</string>
           </property>
@@ -3655,7 +3739,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="BTN_APPLYDEVICE">
+         <widget class="QPushButton" name="BTN_TESTDEVICE">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -3669,7 +3753,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="text">
-           <string>应用</string>
+           <string>测试</string>
           </property>
          </widget>
         </item>
@@ -3715,6 +3799,9 @@
          <widget class="QPushButton" name="BTN_DRAW">
           <property name="enabled">
            <bool>false</bool>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="text">
            <string>抽奖池</string>
@@ -3766,7 +3853,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="text">
-           <string>挂起战斗进程</string>
+           <string>挂起战斗</string>
           </property>
          </widget>
         </item>
@@ -3779,7 +3866,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="text">
-           <string>终止战斗进程</string>
+           <string>终止战斗</string>
           </property>
          </widget>
         </item>
@@ -3802,9 +3889,15 @@
     <property name="title">
      <string>About</string>
     </property>
+    <addaction name="actiona"/>
    </widget>
    <addaction name="menuAbout"/>
   </widget>
+  <action name="actiona">
+   <property name="text">
+    <string>我还没想好这里应该写点啥</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>BTN_LOAD_DEFAULT</tabstop>
@@ -3907,7 +4000,7 @@
   <tabstop>BTN_DISCONNECT</tabstop>
   <tabstop>BTN_GETDEVICE</tabstop>
   <tabstop>CBX_DEVICE</tabstop>
-  <tabstop>BTN_APPLYDEVICE</tabstop>
+  <tabstop>BTN_TESTDEVICE</tabstop>
   <tabstop>BTN_DRAW</tabstop>
   <tabstop>BTN_ONEBATTLE</tabstop>
   <tabstop>BTN_MAIN</tabstop>
@@ -4380,4 +4473,8 @@
   <slot>pause()</slot>
   <slot>stop()</slot>
  </slots>
+ <buttongroups>
+  <buttongroup name="BTG_FRIEND"/>
+  <buttongroup name="BTG_PARTY"/>
+ </buttongroups>
 </ui>

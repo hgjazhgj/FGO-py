@@ -51,8 +51,9 @@
 #                                                                         ,@]]@@O@^                                    
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,winsound
+import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,win32process,winsound
 hConWnd=win32console.GetConsoleWindow()
+hQtWnd=0
 hPreFgoWnd=win32gui.FindWindow(None,'BlueStacks App Player')
 hFgoWnd=win32gui.FindWindowEx(hPreFgoWnd,None,None,None)
 #hFgoWnd=win32gui.FindWindow(None,'ApowerMirror Main')
@@ -64,7 +65,7 @@ tapOffset=(0,0)
 androidScale=1
 def setAndroid():
     global tapOffset,androidScale
-    tapOffset,androidScale=(lambda p:((lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x')))),p.close())[0])(os.popen(adbPath+' shell wm size'))
+    with os.popen(adbPath+' shell wm size')as p:tapOffset,androidScale=(lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x'))))
 winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
 hCon=win32console.GetConsoleWindow()
 IMG_APEMPTY=cv2.imread('image/apempty.png')
@@ -88,17 +89,17 @@ dangerPos=[0,0,1]
 terminateFlag=False
 suspendFlag=False
 key={'\x09':(1800,304),'\x12':(960,943),#tab VK_TAB #alt VK_MENU
-' ':(1820,1030),'0':(70,69),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
+' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
 'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
 'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
-'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197),# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1
-'\xBB':(791,69),'\xBD':(427,69)}#+= VK_OEM_PLUS #-_ VK_OEM_MINUS
+'\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
+'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1
 def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 def printer(*args):print(getTime(),*args)
 def beep():winsound.PlaySound('SystemHand',0)
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 def windowCapture(hWnd):return(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*[int(i*winScale+.001)for i in win32gui.GetClientRect(hWnd)[2:]])
-#def setForeground(hWnd=hConWnd):win32gui.ShowWindow(hWnd,win32con.SW_RESTORE),win32gui.SetForegroundWindow(hWnd)
+def setForeground(hWnd):(lambda dwForeID,dwCurrID:(win32process.AttachThreadInput(dwCurrID,dwForeID,True),win32gui.ShowWindow(hWnd,win32con.SW_SHOWNORMAL),win32gui.SetForegroundWindow(hWnd),win32process.AttachThreadInput(dwCurrID,dwForeID,False)))(win32process.GetWindowThreadProcessId(win32gui.GetForegroundWindow())[0],win32api.GetCurrentThreadId())
 def playSound(file='sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0)
 #def rgb2hsv(x):return(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
 def tap(x,y):os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
@@ -127,8 +128,11 @@ class Check:
     def __init__(self,lagency=.08,img=None):
         global suspendFlag
         if suspendFlag:
+            setForeground(hConWnd)
             os.system('pause')
             suspendFlag=False
+            if win32gui.IsWindow(hQtWnd):
+                setForeground(hQtWnd)
         if terminateFlag:
             exit(0)
         fuse.increase()
@@ -198,7 +202,7 @@ def oneBattle():
         chk=Check(.2)
         if chk.isTurnBegin():
             turn,stage,stageTurn,skill,newPort=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.3))
-            if stageTurn==1:doit('\xBB\xBD0'[dangerPos[stage-1]]+'P',(50,500))
+            if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(50,500))
             if turn==1:port=newPort[:]
             else:
                 for i in range(3):
