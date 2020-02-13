@@ -3,6 +3,8 @@ from PyQt5.QtCore import Qt,QEvent
 from PyQt5 import QtGui
 from ui.MainWindow import Ui_MainWindow
 import time,os,sys,threading,configparser,traceback,win32gui,win32api
+
+os.chdir(os.path.dirname(sys.argv[0]))
 import fgoFunc
 
 class NewConfigParser(configparser.ConfigParser):
@@ -65,8 +67,9 @@ class MyMainWindow(QMainWindow):
             for j in range(2):
                 eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.setText("'+str(houguInfo[i][j])+'")')
         for i in range(3):eval('self.ui.TXT_DANGER_'+str(i)+'.setText("'+str(dangerPos[i])+'")')
-        eval('self.ui.RBT_'+config[x]['friendPos']+'.setChecked(True)')
+        eval('self.ui.RBT_FRIEND_'+config[x]['friendPos']+'.setChecked(True)')
     def saveParty(self):
+        if not config.has_section(self.ui.CBX_PARTY.currentText()):return
         config[self.ui.CBX_PARTY.currentText()]={
             'skillInfo':str([[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
             'houguInfo':str([[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]).replace(' ',''),
@@ -75,6 +78,7 @@ class MyMainWindow(QMainWindow):
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):
         self.loadParty('DEFAULT')
+    def deleteParty(self):pass
     def checkCheck(self):fgoFunc.Check(0,fgoFunc.windowCapture(self.hFgoWnd)).show()
     def adbConnect(self):
         os.system('adb connect '+self.ui.TXT_ADDRESS.text())
