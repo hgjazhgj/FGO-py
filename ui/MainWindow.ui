@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>493</width>
     <height>529</height>
    </rect>
   </property>
@@ -52,6 +52,9 @@
     </item>
     <item>
      <layout class="QFormLayout" name="LAYOUT_INFO">
+      <property name="rowWrapPolicy">
+       <enum>QFormLayout::WrapLongRows</enum>
+      </property>
       <property name="labelAlignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
@@ -2268,6 +2271,12 @@
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
          </spacer>
         </item>
         <item>
@@ -2299,6 +2308,12 @@
          <spacer name="SPACER_DANGER_1">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
          </spacer>
         </item>
@@ -2567,7 +2582,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>500</width>
+     <width>493</width>
      <height>26</height>
     </rect>
    </property>
@@ -2672,11 +2687,11 @@
   <tabstop>BTN_GETDEVICE</tabstop>
   <tabstop>CBX_DEVICE</tabstop>
   <tabstop>BTN_TESTDEVICE</tabstop>
+  <tabstop>BTN_GETHWND</tabstop>
+  <tabstop>BTN_CHECK</tabstop>
   <tabstop>BTN_DRAW</tabstop>
   <tabstop>BTN_ONEBATTLE</tabstop>
   <tabstop>BTN_MAIN</tabstop>
-  <tabstop>BTN_GETHWND</tabstop>
-  <tabstop>BTN_CHECK</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
  </tabstops>
