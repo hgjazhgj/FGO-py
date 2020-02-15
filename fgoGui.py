@@ -105,9 +105,10 @@ if __name__=='__main__':
     myWin=MyMainWindow()
     fgoFunc.hQtWnd=myWin.winId()
     #myWin.setWindowFlags(Qt.WindowStaysOnTopHint)
-    if win32gui.IsWindow(fgoFunc.hFgoWnd):
-        rect=win32gui.GetWindowRect(fgoFunc.hFgoWnd)
-        myWin.move(rect[0]+600,rect[1]+150)
-        win32gui.MoveWindow(fgoFunc.hConWnd,rect[0]+185,rect[1]+150,415,550,True)
+    if win32gui.IsWindow(fgoFunc.hPreFgoWnd):
+        rect=win32gui.GetWindowPlacement(fgoFunc.hPreFgoWnd)[4]
+        if rect[0]>=0:
+            myWin.move(rect[0]+600,rect[1]+150)
+            win32gui.MoveWindow(fgoFunc.hConWnd,rect[0]+185,rect[1]+150,415,550,True)
     myWin.show()
     sys.exit(app.exec_())
