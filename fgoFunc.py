@@ -53,6 +53,7 @@
 __author__='hgjazhgj'
 import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,win32process,winsound
 hConWnd=win32console.GetConsoleWindow()
+hDesktopWnd=win32gui.GetDesktopWindow()
 hQtWnd=0
 hPreFgoWnd=win32gui.FindWindow(None,'BlueStacks App Player')
 hFgoWnd=win32gui.FindWindowEx(hPreFgoWnd,None,None,None)
@@ -61,8 +62,7 @@ androidScale=1
 def setAndroid():
     global tapOffset,androidScale
     with os.popen(adbPath+' shell wm size')as p:tapOffset,androidScale=(lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x'))))
-winScale=(lambda hDC:(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[0])(win32gui.GetDC(0))
-hCon=win32console.GetConsoleWindow()
+screenSize,winScale=(lambda hDC:(lambda x:((x,win32print.GetDeviceCaps(hDC,win32con.DESKTOPVERTRES)),x/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[:-1])(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)))(win32gui.GetDC(0))
 IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
 IMG_BEGIN=cv2.imread('image/begin.png')
@@ -93,7 +93,7 @@ def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 def printer(*args,**kwargs):print(getTime(),*args,**kwargs)
 def beep():winsound.PlaySound('SystemHand',0)
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
-def windowCapture(hWnd):return(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*[int(i*winScale+.001)for i in win32gui.GetClientRect(hWnd)[2:]])
+def windowCapture(hWnd):return(lambda hWnd:(lambda width,height:(lambda hWndDC:(lambda mfcDC:(lambda memDC,bitMap:(bitMap.CreateCompatibleBitmap(mfcDC,width,height),memDC.SelectObject(bitMap),memDC.BitBlt((0, 0),(width,height),mfcDC,(0,0),win32con.SRCCOPY),numpy.frombuffer(bitMap.GetBitmapBits(True),dtype='uint8').reshape(height,width,4)[:,:,0:3],win32gui.DeleteObject(bitMap.GetHandle()),memDC.DeleteDC(),mfcDC.DeleteDC(),win32gui.ReleaseDC(hWnd,hWndDC))[3])(mfcDC.CreateCompatibleDC(),win32ui.CreateBitmap()))(win32ui.CreateDCFromHandle(hWndDC)))(win32gui.GetDC(hWnd)))(*[int(i*winScale+.001)for i in win32gui.GetClientRect(hWnd)[2:]]))(hWnd if hWnd else hDesktopWnd)
 def setForeground(hWnd):
     try:(lambda dwForeID,dwCurrID:(win32process.AttachThreadInput(dwCurrID,dwForeID,True),win32gui.ShowWindow(hWnd,win32con.SW_SHOWNORMAL),win32gui.SetForegroundWindow(hWnd),win32process.AttachThreadInput(dwCurrID,dwForeID,False)))(win32process.GetWindowThreadProcessId(win32gui.GetForegroundWindow())[0],win32api.GetCurrentThreadId())
     except:pass
@@ -168,7 +168,7 @@ def chooseFriend():
                             'km':[[2,0,1],[1,0,0],[1,0,0]],
                             'cba':[[3,0,2],[3,0,0],[1,0,1]],
                             'ml':[[1,0,0],[1,0,0],[3,0,1]],
-                        }[name.split('_')[0]]
+                        }[name[:name.index('_')]]
                     except(KeyError,ValueError):
                         skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
                     time.sleep(1)
@@ -188,11 +188,8 @@ def oneBattle():
         if chk.isTurnBegin():
             turn,stage,stageTurn,skill,newPortrait=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.3))
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(50,500))
-            if turn==1:portrait=newPortrait[:]
-            else:
-                for i in[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.1]:
-                    portrait[i]=newPortrait[i]
-                    servant[i]=max(servant)+1
+            if turn>1:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
+            portrait=newPortrait
             printer('   ',turn,stage,stageTurn,servant)
             for i,j in[(i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
                 doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
