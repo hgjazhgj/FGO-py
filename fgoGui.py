@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
 from PyQt5.QtCore import Qt,QEvent
-from PyQt5 import QtGui
 from ui.MainWindow import Ui_MainWindow
 import time,os,sys,threading,configparser,traceback,win32gui,win32api
 
@@ -93,7 +92,7 @@ class MyMainWindow(QMainWindow):
         if QMessageBox.information(self,'Hint','将鼠标移到fgo画面上方,\n然后回车.',QMessageBox.Ok|QMessageBox.Cancel,QMessageBox.Ok)==QMessageBox.Cancel:return
         self.hFgoWnd=win32gui.WindowFromPoint(win32api.GetCursorPos())
         self.hPreFgoWnd=self.hFgoWnd
-        while win32gui.GetParent(self.hPreFgoWnd)!=0:self.hPreFgoWnd=win32gui.GetParent(self.hPreFgoWnd)
+        while win32gui.GetParent(self.hPreFgoWnd):self.hPreFgoWnd=win32gui.GetParent(self.hPreFgoWnd)
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
     def runMain(self):self.runFunc(fgoFunc.main,int(self.ui.TXT_APPLE.text()),self.ui.CBX_APPLE.currentIndex())
     def pause(self):fgoFunc.suspendFlag=True
