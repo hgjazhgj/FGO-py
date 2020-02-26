@@ -1,9 +1,10 @@
 > 满破苍玉get!
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本v3.1.5  
+当前版本v3.1.6  
 开学快乐  
 虚拟机vmwareWorkstation 模拟器Bluestacks 虚拟摄像头e2eSoftVCam 虚拟声卡e2eSoftVSC 已就绪  
+祝花泽香菜生日快乐  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 快速跳转:[版本记录](#版本记录-Version-Logs)  
 当前版本更新较快,因此**不建议fork**  
@@ -50,7 +51,7 @@ email huguangjing0411@geektip.cc
 也就是说,若不使用技能就`skillInfo[i][j][0]=4`  
 这样的安排足以应付日常周回的各种情况,比如三面Boss充能五格,就把保命技能=[3,6,0]  
 **`houguInfo`列表记录了宝具的信息**  
-`houguInfo[编队中的第i个从者]=[的宝具的最小使用stage数,在该stage的最小使用回合数,优先级(越小越优先)]`  
+`houguInfo[编队中的第i个从者]=[的宝具的最小使用stage数,在该stage的最小使用回合数,优先级(越大越优先)]`  
 **`dangerPos`代表各stage的优先攻击位置**  
 右到左依次为dangerPos0-2,当boss血条与小兵血条不在同一行内时(魔伊,鬼岛,罗生门,FA,柱子,etc.)第二行的三个位置为dangerPos3-5  
 **`friendPos`代表好友在几号位**  
@@ -85,6 +86,13 @@ v2.7.x及之前版本能在任意支持python和adb的系统上用于任何1080p
 承接上文,我自知这个脚本功能过于强大,强大到了严重影响游戏平衡,改变游戏性质,急剧扩大玩家间差异的程度.就算是在GitHub上开源我都是下了决心的.2019年刚过,B站up主[MCLAREN--](https://space.bilibili.com/13033022)搞了一套硬件来在iOS上跑脚本,虽然他的代码就是"三回合代码",硬件也非常简单,但他似乎是第一个做出来的,反正人家就是比我勤快([视频](https://www.bilibili.com/video/av82095192),[专栏](https://www.bilibili.com/read/cv4303413),[GitHub](https://github.com/McLaren12345/FGO_Bluetooth_Assistant)).注意到**硬件不被B站的条款限制** (虽然法律还是会管的),所以等我什么时候有空了,就搞一套差不多的硬件,只要把我的脚本底层交互接口从adb到伺服电机这么一改,然后新瓶装旧酒,挂羊头卖狗肉地出个视频既可以让网友们看到我的脚本,又不怕帐号被封,岂不美哉!  
 GitHub上从来不缺有思想有执行力的程序员,希望这个脚本能越写越好,祈祷这个世界再无BUG.  
 # 版本记录 Version Logs  
+## 2020/02/26 v3.1.6  
+bug修复:选卡报错  
+先前的版本会在场上队员不满三名时ListIndexOutOfRange  
+此bug可能是v2.10重构时留下的  
+优化:将一些列表改为了生成器,应用了(可能)更高效的选卡算法  
+本以为sorted是快速排序,相同颜色的指令卡有多张时不会枯燥地选排在前面的了,结果发现用的是稳定的归并  
+更改:现在宝具优先级越大越先用  
 ## 2020/02/24 v3.1.5  
 优化:从者头像识别阈值修改  
 说明:通过今日对数百场战斗的分析,当从者未变时,匹配结果约为1e-9,不超过2e-3.当从者改变时,匹配结果约为0.25,不低于0.08  

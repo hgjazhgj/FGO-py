@@ -83,12 +83,11 @@ friendPos=4
 dangerPos=[0,0,1]
 terminateFlag=False
 suspendFlag=False
-key={'\x09':(1800,304),'\x12':(960,943),#tab VK_TAB #alt VK_MENU
-' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
+key={' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
 'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
 'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
 '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
-'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1
+'\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
 def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 def printer(*args,**kwargs):print(getTime(),*args,**kwargs)
 def beep():winsound.PlaySound('SystemHand',0)
@@ -128,10 +127,8 @@ class Check:
             setForeground(hConWnd)
             os.system('pause')
             suspendFlag=False
-            if win32gui.IsWindow(hQtWnd):
-                setForeground(hQtWnd)
-        if terminateFlag:
-            exit(0)
+            if win32gui.IsWindow(hQtWnd):setForeground(hQtWnd)
+        if terminateFlag:exit(0)
         fuse.increase()
         time.sleep(lagency)
         self.im=(lambda im:im[im.shape[0]//2-540:im.shape[0]//2+540,im.shape[1]//2-960:im.shape[1]//2+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(windowCapture(hFgoWnd)if img is None else img))
@@ -191,13 +188,13 @@ def oneBattle():
             if turn>1:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
             portrait=newPortrait
             printer('   ',turn,stage,stageTurn,servant)
-            for i,j in[(i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]]:
+            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and stage<<8|stageTurn>=skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]):
                 doit((('A','S','D'),('F','G','H'),('J','K','L'))[i][j],(300,))
                 if skillInfo[servant[i]][j][2]!=0:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
                 time.sleep(2)
                 while not Check(.2).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda chk:(lambda c,h:([chr(i+54)for pri in{houguInfo[i][1]for i in servant if i<6}for i in range(3)if h[i]and houguInfo[servant[i]][1]==pri]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(j+49)for i in(0,2,1,-1)for j in range(5)if c[j]==i])(chk.getABQ(),(lambda h:[h[i]and stage>=houguInfo[servant[i]][0]for i in range(3)])(chk.isHouguReady())))(Check())[:3],(100,100,10000))
+            doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and stage>=houguInfo[servant[i]][0]for i in range(3)])(chk.isHouguReady())))(Check())[:3],(100,100,10000))
         elif chk.isBattleOver():
             printer('  Battle Finished')
             break
