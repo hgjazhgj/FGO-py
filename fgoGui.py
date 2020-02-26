@@ -32,6 +32,7 @@ class MyMainWindow(QMainWindow):
             try:
                 fgoFunc.suspendFlag=False
                 fgoFunc.terminateFlag=False
+                fgoFunc.fuse.reset()
                 fgoFunc.adbPath='adb -s '+self.ui.CBX_DEVICE.currentText()
                 fgoFunc.setAndroid()
                 fgoFunc.skillInfo[:]=[[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
@@ -105,9 +106,9 @@ if __name__=='__main__':
     fgoFunc.hQtWnd=myWin.winId()
     #myWin.setWindowFlags(Qt.WindowStaysOnTopHint)
     if win32gui.IsWindow(fgoFunc.hPreFgoWnd):
-        rect=win32gui.GetWindowPlacement(fgoFunc.hPreFgoWnd)[4]
-        if rect[0]>=0:
-            myWin.move(rect[0]+600,rect[1]+150)
-            win32gui.MoveWindow(fgoFunc.hConWnd,rect[0]+185,rect[1]+150,415,550,True)
+        x,y=win32gui.GetWindowPlacement(fgoFunc.hPreFgoWnd)[4][:2]
+        if x>=0:
+            myWin.move(x+600,y+150)
+            win32gui.MoveWindow(fgoFunc.hConWnd,x+185,y+150,415,550,True)
     myWin.show()
     sys.exit(app.exec_())
