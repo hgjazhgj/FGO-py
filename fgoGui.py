@@ -35,9 +35,9 @@ class MyMainWindow(QMainWindow):
                 fgoFunc.fuse.reset()
                 fgoFunc.adbPath='adb -s '+self.ui.CBX_DEVICE.currentText()
                 fgoFunc.setAndroid()
-                fgoFunc.skillInfo[:]=[[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
-                fgoFunc.houguInfo[:]=[[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]
-                fgoFunc.dangerPos[:]=[int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]
+                fgoFunc.skillInfo=[[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
+                fgoFunc.houguInfo=[[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]
+                fgoFunc.dangerPos=[int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]
                 fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
                 fgoFunc.hFgoWnd=self.hFgoWnd
                 fgoFunc.hPreFgoWnd=self.hPreFgoWnd
