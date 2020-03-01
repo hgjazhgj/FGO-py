@@ -1,9 +1,8 @@
 from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
 from PyQt5.QtCore import Qt,QEvent
-from ui.fgoMainWindow import Ui_fgoMainWindow
 import time,os,sys,cv2,re,threading,configparser,traceback,win32gui,win32api
 
-os.chdir(os.path.dirname(sys.argv[0]))
+from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
 
 class NewConfigParser(configparser.ConfigParser):
@@ -111,6 +110,8 @@ class MyMainWindow(QMainWindow):
     def runMain(self):self.runFunc(fgoFunc.main,int(self.ui.TXT_APPLE.text()),self.ui.CBX_APPLE.currentIndex())
     def pause(self):fgoFunc.suspendFlag=True
     def stop(self):fgoFunc.terminateFlag=True
+    def openFolder(self):os.startfile(os.getcwd())
+    def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj\n项目地址:https://github.com/hgjazhgj/FGO-py\n联系方式:huguangjing0411@geektip.cc')
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
