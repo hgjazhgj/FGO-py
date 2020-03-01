@@ -48,7 +48,7 @@ def setForeground(hWnd):
 def playSound(file='sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0)
 #def rgb2hsv(x):return(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
 def tap(x,y):os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
-def swipe(rect,interval=500):os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
+def swipe(rect,interval=300):os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
 #def screenShot(name=''):os.system(adbPath+'exec-out screencap -p > {name}'.format(name=name if name!=''else getTime()+'.png')))
 def press(c):tap(*key[c])
 def doit(touch,wait):[(press(i),time.sleep(j*.001))for i,j in zip(touch,wait)]
@@ -104,7 +104,7 @@ def chooseFriend():
         doit('8',(1000,))
         return
     while True:
-        for i in range(6):
+        for _ in range(16):
             chk=Check(.2)
             for name,img in IMG_FRIEND:
                 if chk.tapOnCmp(img,delta=.015):
