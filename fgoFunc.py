@@ -6,8 +6,8 @@ hDesktopWnd=win32gui.GetDesktopWindow()
 hQtWnd=0
 hPreFgoWnd=win32gui.FindWindow(None,'BlueStacks App Player')
 hFgoWnd=win32gui.FindWindowEx(hPreFgoWnd,None,None,None)
-tapOffset=(0,0)
-androidScale=1
+with os.popen('adb devices')as p:adbPath=(lambda adbList:adbList[0]if adbList else'adb')([i[:-7]for i in p.read().split('\n')if i.endswith('\tdevice')])
+with os.popen(adbPath+' shell wm size')as p:tapOffset,androidScale=(lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x'))))if adbPath!='adb'else((0,0),1)
 screenSize,winScale=(lambda hDC:(lambda x:((x,win32print.GetDeviceCaps(hDC,win32con.DESKTOPVERTRES)),x/win32print.GetDeviceCaps(hDC,win32con.HORZRES),win32gui.ReleaseDC(None,hDC))[:-1])(win32print.GetDeviceCaps(hDC,win32con.DESKTOPHORZRES)))(win32gui.GetDC(0))
 IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
@@ -34,9 +34,6 @@ key={' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5
 'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
 '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
 '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
-def setAndroid():
-    global tapOffset,androidScale
-    with os.popen(adbPath+' shell wm size')as p:tapOffset,androidScale=(lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted((lambda x:[int(i)for i in x])(re.search('[0-9]{1,}x[0-9]{1,}',p.read()).group().split('x'))))
 def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 def printer(*args,**kwargs):print(getTime(),*args,**kwargs)
 def beep():winsound.PlaySound('SystemHand',0)
@@ -48,7 +45,7 @@ def setForeground(hWnd):
 def playSound(file='sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0)
 #def rgb2hsv(x):return(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
 def tap(x,y):os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
-def swipe(rect,interval=300):os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
+def swipe(rect,interval=00):os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
 #def screenShot(name=''):os.system(adbPath+'exec-out screencap -p > {name}'.format(name=name if name!=''else getTime()+'.png')))
 def press(c):tap(*key[c])
 def doit(touch,wait):[(press(i),time.sleep(j*.001))for i,j in zip(touch,wait)]

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <author>hgjazhgj</author>
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>fgoMainWindow</class>
+ <widget class="QMainWindow" name="fgoMainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>493</width>
-    <height>529</height>
+    <height>455</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -2395,87 +2395,25 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="LAYOUT_ADBCONNECT">
-      <item>
-       <widget class="QLineEdit" name="TXT_ADDRESS">
-        <property name="text">
-         <string>localhost:5555</string>
-        </property>
-        <property name="maxLength">
-         <number>50</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="BTN_CONNECT">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>连接</string>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="BTN_DISCONNECT">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>断开</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="LAYOUT_DEVICE">
-      <item>
-       <widget class="QPushButton" name="BTN_GETDEVICE">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>刷新</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="CBX_DEVICE">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="BTN_TESTDEVICE">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>测试</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
      <layout class="QHBoxLayout" name="LAYOUT_FUNC">
+      <item>
+       <layout class="QVBoxLayout" name="LAYOUT_FUNC_ANDROID">
+        <item>
+         <widget class="QPushButton" name="BTN_GETDEVICE">
+          <property name="text">
+           <string>更改安卓设备</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="BTN_ADBCONNECT">
+          <property name="text">
+           <string>连接远程设备</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item>
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_WIN">
         <item>
@@ -2501,6 +2439,13 @@
           </property>
           <property name="text">
            <string>检查截图</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="BTN_GETFRIEND">
+          <property name="text">
+           <string>刷新助战模板</string>
           </property>
          </widget>
         </item>
@@ -2681,12 +2626,6 @@
   <tabstop>TXT_DANGER_2</tabstop>
   <tabstop>CBX_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>
-  <tabstop>TXT_ADDRESS</tabstop>
-  <tabstop>BTN_CONNECT</tabstop>
-  <tabstop>BTN_DISCONNECT</tabstop>
-  <tabstop>BTN_GETDEVICE</tabstop>
-  <tabstop>CBX_DEVICE</tabstop>
-  <tabstop>BTN_TESTDEVICE</tabstop>
   <tabstop>BTN_GETHWND</tabstop>
   <tabstop>BTN_CHECK</tabstop>
   <tabstop>BTN_DRAW</tabstop>
@@ -2700,151 +2639,103 @@
   <connection>
    <sender>BTN_ONEBATTLE</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>runOneBattle()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>238</x>
-     <y>463</y>
+     <x>274</x>
+     <y>383</y>
     </hint>
     <hint type="destinationlabel">
-     <x>242</x>
-     <y>530</y>
+     <x>321</x>
+     <y>281</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>BTN_MAIN</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>runMain()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>238</x>
-     <y>492</y>
+     <x>317</x>
+     <y>418</y>
     </hint>
     <hint type="destinationlabel">
-     <x>267</x>
-     <y>530</y>
+     <x>343</x>
+     <y>301</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>BTN_CHECK</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>checkCheck()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>73</x>
-     <y>504</y>
+     <x>205</x>
+     <y>406</y>
     </hint>
     <hint type="destinationlabel">
      <x>101</x>
-     <y>530</y>
+     <y>454</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>BTN_GETHWND</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>getHwnd()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>57</x>
-     <y>458</y>
+     <x>189</x>
+     <y>371</y>
     </hint>
     <hint type="destinationlabel">
      <x>94</x>
-     <y>530</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_CONNECT</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>adbConnect()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>386</x>
-     <y>357</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>355</x>
-     <y>465</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_GETDEVICE</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>getDevice()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>73</x>
-     <y>408</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>89</x>
-     <y>530</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_DISCONNECT</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>adbDisconnect()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>486</x>
-     <y>357</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>499</x>
-     <y>467</y>
+     <y>454</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>BTN_PAUSE</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>pause()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>464</x>
-     <y>438</y>
+     <x>426</x>
+     <y>364</y>
     </hint>
     <hint type="destinationlabel">
      <x>433</x>
-     <y>530</y>
+     <y>454</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>BTN_STOP</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>stop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>464</x>
-     <y>484</y>
+     <x>426</x>
+     <y>410</y>
     </hint>
     <hint type="destinationlabel">
-     <x>476</x>
-     <y>530</y>
+     <x>439</x>
+     <y>454</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>CBX_PARTY</sender>
    <signal>activated(QString)</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>loadParty(QString)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -2860,11 +2751,11 @@
   <connection>
    <sender>BTN_PARTYSAVE</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>saveParty()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>377</x>
+     <x>324</x>
      <y>43</y>
     </hint>
     <hint type="destinationlabel">
@@ -2876,7 +2767,7 @@
   <connection>
    <sender>BTN_PARTYRESET</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>fgoMainWindow</receiver>
    <slot>resetParty()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -2884,8 +2775,56 @@
      <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>478</x>
+     <x>439</x>
      <y>38</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTN_GETFRIEND</sender>
+   <signal>clicked()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>getFriend()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>426</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>127</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTN_GETDEVICE</sender>
+   <signal>clicked()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>getDevice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>29</x>
+     <y>361</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>56</x>
+     <y>337</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTN_ADBCONNECT</sender>
+   <signal>clicked()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>adbConnect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>70</x>
+     <y>405</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>78</x>
+     <y>390</y>
     </hint>
    </hints>
   </connection>
@@ -2915,11 +2854,11 @@
   <slot>getHwnd()</slot>
   <slot>adbConnect()</slot>
   <slot>getDevice()</slot>
-  <slot>adbDisconnect()</slot>
   <slot>pause()</slot>
   <slot>stop()</slot>
   <slot>saveParty()</slot>
   <slot>loadParty(QString)</slot>
+  <slot>getFriend()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
