@@ -27,7 +27,10 @@
          </sizepolicy>
         </property>
         <property name="statusTip">
-         <string>选取编队,若需新建或删除请直接更改config文件</string>
+         <string extracomment="本脚本只能用于fgo简中服">选取编队,若需新建或删除请直接更改config文件</string>
+        </property>
+        <property name="accessibleDescription">
+         <string>残疾人就别玩fgo了</string>
         </property>
        </widget>
       </item>
@@ -3131,8 +3134,8 @@
    <slot>about()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>130</x>
-     <y>62</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>246</x>
