@@ -6,7 +6,7 @@
 > 我不做人啦!JOJO!  
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本v3.1.7  
+当前版本v3.1.9  
 开学快乐  
 虚拟机vmwareWorkstation 模拟器Bluestacks 虚拟摄像头e2eSoftVCam 虚拟声卡e2eSoftVSC 已就绪  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
@@ -99,6 +99,10 @@ v2.7.x及之前版本能在任意支持python和adb的系统上用于任何1080p
 承接上文,我自知这个脚本功能过于强大,强大到了严重影响游戏平衡,改变游戏性质,急剧扩大玩家间差异的程度.就算是在GitHub上开源我都是下了决心的.2019年刚过,B站up主[MCLAREN--](https://space.bilibili.com/13033022)搞了一套硬件来在iOS上跑脚本,虽然他的代码就是"三回合代码",硬件也非常简单,但他似乎是第一个做出来的,反正人家就是比我勤快([视频](https://www.bilibili.com/video/av82095192),[专栏](https://www.bilibili.com/read/cv4303413),[GitHub](https://github.com/McLaren12345/FGO_Bluetooth_Assistant)).注意到**硬件不被B站的条款限制** (虽然法律还是会管的),所以等我什么时候有空了,就搞一套差不多的硬件,只要把我的脚本底层交互接口从adb到伺服电机这么一改,然后新瓶装旧酒,挂羊头卖狗肉地出个视频既可以让网友们看到我的脚本,又不怕帐号被封,岂不美哉!  
 GitHub上从来不缺有思想有执行力的程序员,希望这个脚本能越写越好,祈祷这个世界再无BUG.  
 # 版本记录 Version Logs  
+## 2020/03/01 v3.1.9  
+优化:情人节活动不能在游戏内筛选掉巧克力礼装.现在到了chooseFriend函数重见天日的时候了  
+添加了相应活动礼装的截图,增大了每次刷新助阵页面前识别的页面数量以应对mix职介.  
+如果你确定你只需要在特定职介中筛选,请自行调整代码,但是请注意两次刷新之间需要时间间隔  
 ## 2020/02/28 v3.1.8  
 微乎其微聊胜于无的小改动  
 修订readme  
