@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>493</width>
-    <height>455</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,12 +26,18 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="statusTip">
+         <string>选取编队,若需新建或删除请直接更改config文件</string>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYSAVE">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="statusTip">
+         <string>保存当前编队</string>
         </property>
         <property name="text">
          <string>保存</string>
@@ -42,6 +48,9 @@
        <widget class="QPushButton" name="BTN_PARTYRESET">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="statusTip">
+         <string>初始化当前编队,需要手动保存</string>
         </property>
         <property name="text">
          <string>重置</string>
@@ -102,6 +111,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>助战的位置</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -123,6 +135,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -149,6 +164,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -173,6 +191,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -212,6 +233,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -237,6 +261,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -261,6 +288,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -300,6 +330,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -325,6 +358,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -349,6 +385,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -388,6 +427,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>宝具的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -412,6 +454,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>宝具使用的优先级,越大越优先</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -461,6 +506,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>助战的位置</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -482,6 +530,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -508,6 +559,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -532,6 +586,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -571,6 +628,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -596,6 +656,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -620,6 +683,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -659,6 +725,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -684,6 +753,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -708,6 +780,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -747,6 +822,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>宝具的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -771,6 +849,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>宝具使用的优先级,越大越优先</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -820,6 +901,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>助战的位置</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -841,6 +925,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -867,6 +954,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -891,6 +981,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -930,6 +1023,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -955,6 +1051,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -979,6 +1078,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1018,6 +1120,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1043,6 +1148,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1067,6 +1175,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1106,6 +1217,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>宝具的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1130,6 +1244,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>宝具使用的优先级,越大越优先</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1179,6 +1296,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>助战的位置</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -1200,6 +1320,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1226,6 +1349,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1250,6 +1376,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1289,6 +1418,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1314,6 +1446,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1338,6 +1473,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1377,6 +1515,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1402,6 +1543,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1426,6 +1570,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1465,6 +1612,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>宝具的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1489,6 +1639,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>宝具使用的优先级,越大越优先</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1541,6 +1694,9 @@
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
+            <property name="statusTip">
+             <string>助战的位置</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -1565,6 +1721,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1591,6 +1750,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1615,6 +1777,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1654,6 +1819,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1679,6 +1847,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1703,6 +1874,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1742,6 +1916,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1767,6 +1944,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1791,6 +1971,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1830,6 +2013,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>宝具的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1854,6 +2040,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>宝具使用的优先级,越大越优先</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1903,6 +2092,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>助战的位置</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -1927,6 +2119,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -1953,6 +2148,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -1977,6 +2175,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -2016,6 +2217,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -2041,6 +2245,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -2065,6 +2272,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -2104,6 +2314,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -2129,6 +2342,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>技能在最小使用面数的最小使用回合</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -2153,6 +2369,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -2192,6 +2411,9 @@
               <height>24</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>宝具的最小使用面数</string>
+            </property>
             <property name="inputMask">
              <string>9</string>
             </property>
@@ -2216,6 +2438,9 @@
               <width>24</width>
               <height>24</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>宝具使用的优先级,越大越优先</string>
             </property>
             <property name="inputMask">
              <string>9</string>
@@ -2255,6 +2480,9 @@
             <height>24</height>
            </size>
           </property>
+          <property name="statusTip">
+           <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
+          </property>
           <property name="inputMask">
            <string>9</string>
           </property>
@@ -2292,6 +2520,9 @@
             <width>24</width>
             <height>24</height>
            </size>
+          </property>
+          <property name="statusTip">
+           <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -2331,6 +2562,9 @@
             <height>24</height>
            </size>
           </property>
+          <property name="statusTip">
+           <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
+          </property>
           <property name="inputMask">
            <string>9</string>
           </property>
@@ -2355,6 +2589,9 @@
        <layout class="QHBoxLayout" name="LAYOUT_INFO_APPLE">
         <item>
          <widget class="QComboBox" name="CBX_APPLE">
+          <property name="statusTip">
+           <string>要吃的苹果种类</string>
+          </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
@@ -2382,6 +2619,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_APPLE">
+          <property name="statusTip">
+           <string>要吃的苹果数量</string>
+          </property>
           <property name="text">
            <string>0</string>
           </property>
@@ -2400,6 +2640,9 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_ANDROID">
         <item>
          <widget class="QPushButton" name="BTN_GETDEVICE">
+          <property name="statusTip">
+           <string>更改安卓设备</string>
+          </property>
           <property name="text">
            <string>更改安卓设备</string>
           </property>
@@ -2407,6 +2650,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_ADBCONNECT">
+          <property name="statusTip">
+           <string>连接远程调试,不同模拟器端口不同</string>
+          </property>
           <property name="text">
            <string>连接远程设备</string>
           </property>
@@ -2424,6 +2670,9 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="statusTip">
+           <string>获取fgo游戏画面所在的窗口句柄</string>
+          </property>
           <property name="text">
            <string>获取窗口句柄</string>
           </property>
@@ -2437,6 +2686,9 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="statusTip">
+           <string>检查获取的窗口句柄是否正确</string>
+          </property>
           <property name="text">
            <string>检查截图</string>
           </property>
@@ -2444,6 +2696,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_GETFRIEND">
+          <property name="statusTip">
+           <string>当助战模板更改后,需要手动刷新</string>
+          </property>
           <property name="text">
            <string>刷新助战模板</string>
           </property>
@@ -2471,6 +2726,9 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="statusTip">
+           <string>在进入战斗后尚未选卡的界面启动来完成这一战斗</string>
+          </property>
           <property name="text">
            <string>完成战斗</string>
           </property>
@@ -2480,6 +2738,9 @@
          <widget class="QPushButton" name="BTN_MAIN">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="statusTip">
+           <string>在点击第一个关卡就能进入选择助战界面启动来清空体力</string>
           </property>
           <property name="text">
            <string>肝!</string>
@@ -2498,6 +2759,9 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="statusTip">
+           <string>在下一操作前暂停</string>
+          </property>
           <property name="text">
            <string>挂起战斗</string>
           </property>
@@ -2510,6 +2774,9 @@
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="statusTip">
+           <string>在下一操作前终止</string>
           </property>
           <property name="text">
            <string>终止战斗</string>
@@ -2533,15 +2800,28 @@
    </property>
    <widget class="QMenu" name="MENU_ABOUT">
     <property name="title">
-     <string>About</string>
+     <string>关于</string>
     </property>
-    <addaction name="MENU_ABOUT_UNDEFINED"/>
+    <addaction name="MENU_ABOUT_ABOUT"/>
    </widget>
+   <widget class="QMenu" name="MENU_FILE">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="MENU_FILE_EXPLORER"/>
+   </widget>
+   <addaction name="MENU_FILE"/>
    <addaction name="MENU_ABOUT"/>
   </widget>
-  <action name="MENU_ABOUT_UNDEFINED">
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="MENU_ABOUT_ABOUT">
    <property name="text">
-    <string>我还没想好这里应该写点啥</string>
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="MENU_FILE_EXPLORER">
+   <property name="text">
+    <string>在资源管理器中查看</string>
    </property>
   </action>
  </widget>
@@ -2828,6 +3108,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MENU_FILE_EXPLORER</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>openFolder()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>246</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MENU_ABOUT_ABOUT</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>about()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>246</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -2859,6 +3171,8 @@
   <slot>saveParty()</slot>
   <slot>loadParty(QString)</slot>
   <slot>getFriend()</slot>
+  <slot>openFolder()</slot>
+  <slot>about()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
