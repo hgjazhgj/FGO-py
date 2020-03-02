@@ -6,8 +6,8 @@
 > 我不做人啦!JOJO!  
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本[v3.2.2](#版本记录-Version-Logs)  
-仅适用于安卓简体中文版本  
+当前版本[v3.3.0](#版本记录-Version-Logs)  
+仅适用于安卓简体中文版本,仅能在Windows系统上运行  
 开学快乐  
 虚拟机vmwareWorkstation 模拟器Bluestacks 虚拟摄像头e2eSoftVCam 虚拟声卡e2eSoftVSC 已就绪  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
@@ -29,9 +29,9 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 你的电脑上要有adb  
 使用了以下外部库:  
 `configParser` `opencv-python` `pywin32` `PyQt5`  
+速览脚本功能,运行fgoGui.py,大部分说明也在ui里  
 本脚本的代码部分仅有`fgoFunc.py`是fgo算法相关的,其他的部分基本是为ui服务的  
 这个脚本会自动放技能(默认不用技能),自动放宝具(默认充能满就直接放宝具),自动选卡(优先三色chain,否则优先红卡).合理设定后实战7-12回合能够刷完无限池终本  
-速览脚本功能,运行fgoGui.py,大部分说明也在ui里  
 如果要三回合速刷,请自己写一个战斗函数  
 
 我的联系方式  
@@ -66,6 +66,10 @@ adb的连接是否有效
 该错误是否重复出现  
 
 # 版本记录 Version Logs  
+## 2020/03/03 v3.3.0  
+使用了基于底层设备的`swipe`,消除`swipe`的后摇.所以当前版本只能用于Bluestack模拟器  
+由于进程间通讯的关系比原有的慢  
+更改了助战截图,先前版本的截图选取的范围过大以至于包含了威力加成图标而导致匹配失败  
 ## 2020/03/02 v3.2.2  
 补充了状态栏信息  
 现在几乎所有的说明都可以直接在ui里看到,所以大幅精简了readme  
@@ -73,7 +77,6 @@ adb的连接是否有效
 ## 2020/03/02 v3.2.1  
 bug修复:
 `swipe`在上个版本误删了一些字符  
-`tapOnCmp`对于实际点击的位置计算从一开始就是错的,将匹配位置的横纵坐标写反了  
 新增:
 添加了菜单栏和状态栏及相关信息  
 ## 2020/03/02 v3.2.0  

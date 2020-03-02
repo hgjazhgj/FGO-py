@@ -1,6 +1,6 @@
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,win32process,winsound
+import time,os,math,re,numpy,cv2,win32con,win32ui,win32gui,win32api,win32console,win32print,win32process,winsound
 hConWnd=win32console.GetConsoleWindow()
 hDesktopWnd=win32gui.GetDesktopWindow()
 hQtWnd=0
@@ -45,7 +45,25 @@ def setForeground(hWnd):
 def playSound(file='sound/default.wav',flag=winsound.SND_LOOP|winsound.SND_ASYNC):winsound.PlaySound(file,flag),os.system('pause'),winsound.PlaySound(None,0)
 #def rgb2hsv(x):return(lambda R,G,B:(lambda cmax:(lambda delta:(0if delta==0else int(((G-B)/delta if R==cmax else(B-R)/delta+2if G==cmax else(R-G)/delta+4)*60)%360,0if cmax==0else int(100*delta/cmax),int(cmax*100/255)))(cmax-min(R,G,B)))(max(R,G,B)))(*(lambda x:[int(i)for i in x])(x[2::-1]))#R,G,B:[0,255]/H:[0,359]/S,V:[0,100]
 def tap(x,y):os.system(adbPath+' shell input tap {} {}'.format(*[round(i*androidScale)for i in[x+tapOffset[0],y+tapOffset[1]]]))
-def swipe(rect,interval=300):os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
+#def swipe(rect,interval=300):os.system(adbPath+' shell input swipe {} {} {} {} {}'.format(*[round(i*androidScale)for i in[rect[0]+tapOffset[0],rect[1]+tapOffset[1],rect[2]+tapOffset[0],rect[3]+tapOffset[1]]],interval))
+#def tap(x,y):
+#    os.system('adb shell sendevent /dev/input/event8 0003 0053 '+str((x<<15)//1920)
+#           +'&&adb shell sendevent /dev/input/event8 0003 0054 '+str((y<<15)//1080)
+#           +'&&adb shell sendevent /dev/input/event8 0000 0002 00000000'
+#           +'&&adb shell sendevent /dev/input/event8 0000 0000 00000000'
+#           +'&&adb shell sendevent /dev/input/event8 0000 0002 00000000'
+#           +'&&adb shell sendevent /dev/input/event8 0000 0000 00000000')
+def swipe(rect,interval=300):
+    os.system('adb shell sendevent /dev/input/event8 0003 0053 '+str((rect[0]<<15)//1920)
+           +'&&adb shell sendevent /dev/input/event8 0003 0054 '+str((rect[1]<<15)//1080)
+           +'&&adb shell sendevent /dev/input/event8 0000 0002 00000000&&adb shell sendevent /dev/input/event8 0000 0000 00000000'
+           +'&&adb shell sendevent /dev/input/event8 0003 0053 '+str((rect[2]<<15)//1920)
+           +'&&adb shell sendevent /dev/input/event8 0003 0054 '+str((rect[3]<<15)//1080)
+           +'&&adb shell sendevent /dev/input/event8 0000 0002 00000000&&adb shell sendevent /dev/input/event8 0000 0000 00000000'
+           +'&&adb shell sendevent /dev/input/event8 0003 0053 '+str((rect[2]<<15)//1920)
+           +'&&adb shell sendevent /dev/input/event8 0003 0054 '+str((rect[3]<<15)//1080)
+           +'&&adb shell sendevent /dev/input/event8 0000 0002 00000000&&adb shell sendevent /dev/input/event8 0000 0000 00000000'
+           +'&&adb shell sendevent /dev/input/event8 0000 0002 00000000&&adb shell sendevent /dev/input/event8 0000 0000 00000000')
 #def screenShot(name=''):os.system(adbPath+'exec-out screencap -p > {name}'.format(name=name if name!=''else getTime()+'.png')))
 def press(c):tap(*key[c])
 def doit(touch,wait):[(press(i),time.sleep(j*.001))for i,j in zip(touch,wait)]
@@ -80,7 +98,7 @@ class Check:
         self.im=(lambda im:im[im.shape[0]//2-540:im.shape[0]//2+540,im.shape[1]//2-960:im.shape[1]//2+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(windowCapture(hFgoWnd)if img is None else img))
     def compare(self,img,rect=(0,0,1920,1080),delta=.03):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
-    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.03):return(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][1]+img.shape[1]//2,rect[1]+loc[2][0]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
+    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.03):return(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):cv2.imwrite('ScreenShots/'+(getTime()+'.png'if name==''else name),self.im);return self
     def show(self):show(cv2.resize(self.im,(800,450)));return self
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
@@ -102,7 +120,7 @@ def chooseFriend():
         return
     while True:
         for _ in range(16):
-            chk=Check(.2)
+            chk=Check()
             for name,img in IMG_FRIEND:
                 if chk.tapOnCmp(img,delta=.015):
                     printer('  Friend:',name)
@@ -116,7 +134,7 @@ def chooseFriend():
                         skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
                     time.sleep(1)
                     return
-            swipe((220,960,220,557))
+            swipe((220,960,220,360))
         doit('\xBAJ',(500,1000))
         while True:
             chk=Check(.2)
