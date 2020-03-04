@@ -4,3 +4,6 @@
 chk.png
 *.pyc
 *.bat
+/__pycache__
+*.log
+*.jpg
