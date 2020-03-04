@@ -2653,6 +2653,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_ADBCONNECT">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="statusTip">
            <string>连接远程调试,不同模拟器端口不同</string>
           </property>
@@ -2666,31 +2669,12 @@
       <item>
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_WIN">
         <item>
-         <widget class="QPushButton" name="BTN_GETHWND">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="statusTip">
-           <string>获取fgo游戏画面所在的窗口句柄</string>
-          </property>
-          <property name="text">
-           <string>获取窗口句柄</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="BTN_CHECK">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>检查获取的窗口句柄是否正确</string>
+           <string>你需要先应用更改才能看到最新的截图</string>
           </property>
           <property name="text">
            <string>检查截图</string>
@@ -2707,23 +2691,26 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="BTN_APPLYALL">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="toolTip">
+           <string>如果你不清楚你在干什么,就不要在战斗中点这个按钮</string>
+          </property>
+          <property name="statusTip">
+           <string>立刻应用所有更改,就算战斗正在进行</string>
+          </property>
+          <property name="text">
+           <string>应用所有更改</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_MAIN">
-        <item>
-         <widget class="QPushButton" name="BTN_DRAW">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>抽奖池</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QPushButton" name="BTN_ONEBATTLE">
           <property name="cursor">
@@ -2750,6 +2737,22 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="BTN_USER">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="statusTip">
+           <string>编写自定义战斗,然后在这里启用</string>
+          </property>
+          <property name="text">
+           <string>自定义战斗</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
@@ -2763,7 +2766,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>在下一操作前暂停</string>
+           <string>在下一操作前暂停/恢复战斗</string>
           </property>
           <property name="text">
            <string>挂起战斗</string>
@@ -2813,7 +2816,14 @@
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
    </widget>
+   <widget class="QMenu" name="MENU_SETTING">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <addaction name="MENU_SETTING_STAYONTOP"/>
+   </widget>
    <addaction name="MENU_FILE"/>
+   <addaction name="MENU_SETTING"/>
    <addaction name="MENU_ABOUT"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -2825,6 +2835,14 @@
   <action name="MENU_FILE_EXPLORER">
    <property name="text">
     <string>在资源管理器中查看</string>
+   </property>
+  </action>
+  <action name="MENU_SETTING_STAYONTOP">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>窗口置顶</string>
    </property>
   </action>
  </widget>
@@ -2909,9 +2927,10 @@
   <tabstop>TXT_DANGER_2</tabstop>
   <tabstop>CBX_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>
-  <tabstop>BTN_GETHWND</tabstop>
+  <tabstop>BTN_GETDEVICE</tabstop>
+  <tabstop>BTN_ADBCONNECT</tabstop>
   <tabstop>BTN_CHECK</tabstop>
-  <tabstop>BTN_DRAW</tabstop>
+  <tabstop>BTN_GETFRIEND</tabstop>
   <tabstop>BTN_ONEBATTLE</tabstop>
   <tabstop>BTN_MAIN</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
@@ -2926,8 +2945,8 @@
    <slot>runOneBattle()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>274</x>
-     <y>383</y>
+     <x>360</x>
+     <y>406</y>
     </hint>
     <hint type="destinationlabel">
      <x>321</x>
@@ -2942,8 +2961,8 @@
    <slot>runMain()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>317</x>
-     <y>418</y>
+     <x>360</x>
+     <y>441</y>
     </hint>
     <hint type="destinationlabel">
      <x>343</x>
@@ -2959,27 +2978,27 @@
    <hints>
     <hint type="sourcelabel">
      <x>205</x>
-     <y>406</y>
+     <y>371</y>
     </hint>
     <hint type="destinationlabel">
-     <x>101</x>
-     <y>454</y>
+     <x>181</x>
+     <y>295</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>BTN_GETHWND</sender>
+   <sender>BTN_USER</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>getHwnd()</slot>
+   <slot>runUser()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>189</x>
+     <x>308</x>
      <y>371</y>
     </hint>
     <hint type="destinationlabel">
-     <x>94</x>
-     <y>454</y>
+     <x>319</x>
+     <y>338</y>
     </hint>
    </hints>
   </connection>
@@ -3071,7 +3090,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>144</x>
-     <y>426</y>
+     <y>391</y>
     </hint>
     <hint type="destinationlabel">
      <x>127</x>
@@ -3143,6 +3162,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>BTN_APPLYALL</sender>
+   <signal>clicked()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>applyAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>430</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>315</x>
+     <y>452</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MENU_SETTING_STAYONTOP</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>stayOnTop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>246</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -3166,7 +3217,6 @@
   <slot>runMain()</slot>
   <slot>resetParty()</slot>
   <slot>checkCheck()</slot>
-  <slot>getHwnd()</slot>
   <slot>adbConnect()</slot>
   <slot>getDevice()</slot>
   <slot>pause()</slot>
@@ -3176,6 +3226,9 @@
   <slot>getFriend()</slot>
   <slot>openFolder()</slot>
   <slot>about()</slot>
+  <slot>applyAll()</slot>
+  <slot>runUser()</slot>
+  <slot>stayOnTop()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
