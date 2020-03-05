@@ -2653,8 +2653,8 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_ADBCONNECT">
-          <property name="enabled">
-           <bool>false</bool>
+          <property name="toolTip">
+           <string>这个功能可能不能正常运行</string>
           </property>
           <property name="statusTip">
            <string>连接远程调试,不同模拟器端口不同</string>
