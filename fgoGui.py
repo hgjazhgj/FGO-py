@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
 from PyQt5.QtCore import Qt
+from airtest.core.android.adb import ADB
 import time,os,sys,cv2,re,threading,configparser,traceback
 
 from ui.fgoMainWindow import Ui_fgoMainWindow
@@ -19,7 +20,7 @@ class MyMainWindow(QMainWindow):
         self.ui.CBX_PARTY.addItems(config.sections())
         self.ui.CBX_PARTY.setCurrentIndex(-1)
         self.loadParty('DEFAULT')
-        self.serialno=fgoFunc.android.serialno if fgoFunc.android else None
+        self.serialno=fgoFunc.base.serialno
         self.IMG_FRIEND=fgoFunc.IMG_FRIEND
     def runFunc(self,func,*args,**kwargs):
         if self.serialno is None:
@@ -32,9 +33,7 @@ class MyMainWindow(QMainWindow):
                 self.ui.BTN_PAUSE.setEnabled(True)
                 self.ui.BTN_STOP.setEnabled(True)
                 self.applyAll()
-                #if not fgoFunc.android.is_screenon():
-                #    print('screen is not on')
-                #    return
+                #assert fgoFunc.base.is_screenon()
                 func(*args,**kwargs)
             except BaseException as e:
                 if type(e)!=SystemExit:
@@ -53,7 +52,7 @@ class MyMainWindow(QMainWindow):
         skillInfo=eval(config[x]['skillInfo'])
         houguInfo=eval(config[x]['houguInfo'])
         dangerPos=eval(config[x]['dangerPos'])
-        for i,j,k in((i,j,k)for i in range(3)for j in range(3)for k in range(3)):eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.setText("'+str(skillInfo[i][j][k])+'")')
+        for i,j,k in((i,j,k)for i in range(6)for j in range(3)for k in range(3)):eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.setText("'+str(skillInfo[i][j][k])+'")')
         for i,j in((i,j)for i in range(6)for j in range(2)):eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.setText("'+str(houguInfo[i][j])+'")')
         for i in range(3):eval('self.ui.TXT_DANGER_'+str(i)+'.setText("'+str(dangerPos[i])+'")')
         eval('self.ui.RBT_FRIEND_'+config[x]['friendPos']+'.setChecked(True)')
@@ -67,17 +66,11 @@ class MyMainWindow(QMainWindow):
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
-        adbList=[i for i,j in fgoFunc.adb.devices()if j=='device']
-        text,ok=QInputDialog.getItem(self,'更改安卓设备','在下拉列表中选择',adbList,adbList.index(self.serialno)if self.serialno in adbList else 0)
-        if ok and text:
-            self.serialno=text
-    def adbConnect(self):pass
-        #text,ok=QInputDialog.getText(self,'连接远程设备','adb connect',text='localhost:5555')
-        #if ok and text:
-        #    with os.popen('adb connect '+text)as p:
-        #        if p.read().startswith('connected to'):
-        #            self.adbPath='adb -s '+text
-        #            self.getDevice()
+        text,ok=(lambda adbList:QInputDialog.getItem(self,'更改安卓设备','在下拉列表中选择',adbList,adbList.index(self.serialno)if self.serialno and self.serialno in adbList else 0))([i for i,j in ADB().devices()if j=='device'])
+        if ok and text:self.serialno=text
+    def adbConnect(self):
+        text,ok=QInputDialog.getText(self,'连接远程设备','adb connect',text='localhost:5555')
+        if ok and text:ADB(text)
     def checkCheck(self):fgoFunc.Check(0).show()
     def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):
@@ -88,7 +81,8 @@ class MyMainWindow(QMainWindow):
         fgoFunc.houguInfo=[[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]
         fgoFunc.dangerPos=[int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
-        fgoFunc.setDevice(self.serialno)
+        if self.serialno!=fgoFunc.base.serialno:
+            fgoFunc.base=fgoFunc.Base(self.serialno)
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
     def runMain(self):self.runFunc(fgoFunc.main,int(self.ui.TXT_APPLE.text()),self.ui.CBX_APPLE.currentIndex())
@@ -104,6 +98,5 @@ class MyMainWindow(QMainWindow):
 if __name__=='__main__':
     app=QApplication(sys.argv)
     myWin=MyMainWindow()
-    #myWin.setWindowFlags(Qt.WindowStaysOnTopHint)
     myWin.show()
     sys.exit(app.exec_())

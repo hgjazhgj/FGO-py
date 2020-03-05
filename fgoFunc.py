@@ -1,11 +1,8 @@
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
 import time,os,math,re,numpy,cv2
-from airtest.core.android.adb import ADB
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD
-adb=ADB()
-android=(lambda x:Android(x[0],cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)if x else None)([i for i,j in adb.devices()if j=='device'])
 IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
 IMG_BEGIN=cv2.imread('image/begin.png')
@@ -26,52 +23,58 @@ friendPos=4
 dangerPos=[0,0,1]
 terminateFlag=False
 suspendFlag=False
-key={' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
-'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
-'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
-'\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
-'\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
 def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 def printer(*args,**kwargs):print(getTime(),*args,**kwargs)
 def beep():os.system('echo \x07')
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
-def tap(x,y):android.touch([round(i*tapScale)for i in[x+tapOffset[0],y+tapOffset[1]]])
-def swipe(rect):android.swipe(*[[round((rect[(i<<1)+j]+tapOffset[j])*tapScale)for j in range(2)]for i in range(2)])
-def setDevice(serialno):
-    global android,tapOffset,tapScale
-    android=Android(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)if serialno else None
-    tapOffset,tapScale=(lambda size:((0,round(960*size[1]/size[0])-540),1920/size[0])if size[0]*1080<size[1]*1920else((round(540*size[0]/size[1])-960,0),1080/size[1]))(android.get_current_resolution())if android and android.is_screenon()else((0,0),1)
-def press(c):tap(*key[c])
-def doit(touch,wait):[(press(i),time.sleep(j*.001))for i,j in zip(touch,wait)]
 class Fuse:
     def __init__(self,fv=600):
         self.__value=0
         self.__max=fv
     @property
     def value():return self.__value
+    @property
+    def max():return self.__max
     def increase(self):
+        assert self.__value<self.__max
         self.__value+=1
-        if self.__value>self.__max:
-            printer('Fused')
-            beep()
-            exit(0)
     def reset(self):
         self.__value=0
         return True
-    def show(self):printer(self.__value,'/',self.__max,sep='',flush=True)
 fuse=Fuse()
+class Base(Android):
+    def __init__(self,serialno=None):
+        try:
+            super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)
+        except:
+            self.serialno=None
+            return
+        assert self.is_screenon()
+        self.tapOffset,self.tapScale=(lambda size:((0,round(960*size[1]/size[0])-540),1920/size[0])if size[0]*1080<size[1]*1920else((round(540*size[0]/size[1])-960,0),1080/size[1]))(self.get_current_resolution())
+        self.key={c:[round((p[i]+self.tapOffset[i])*self.tapScale)for i in range(2)]for c,p in
+           {' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
+            'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
+            'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
+            '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
+            '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
+    def tap(self,x,y):self.touch([round(i*self.tapScale)for i in[x+self.tapOffset[0],y+self.tapOffset[1]]])
+    def swipe(self,rect):super().swipe(*[[round((rect[(i<<1)+j]+self.tapOffset[j])*self.tapScale)for j in range(2)]for i in range(2)])
+    def press(self,c):self.touch(self.key[c])
+base=Base()
+def doit(touch,wait):[(base.press(i),time.sleep(j*.001))for i,j in zip(touch,wait)]
 class Check:
-    def __init__(self,lagency=.02,img=None):
+    def __init__(self,lagency=.02):
         global suspendFlag
         while suspendFlag:
             time.sleep(.05)
         if terminateFlag:exit(0)
         time.sleep(lagency)
         fuse.increase()
-        self.im=(lambda im:im[(im.shape[0]>>1)-540:(im.shape[0]>>1)+540,(im.shape[1]>>1)-960:(im.shape[1]>>1)+960])((lambda img:(lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))(android.snapshot()if img is None else img))
+        #self.im=(lambda im:im[(im.shape[0]>>1)-540:(im.shape[0]>>1)+540,(im.shape[1]>>1)-960:(im.shape[1]>>1)+960])((lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))
+        self.im=cv2.resize(base.snapshot()[base.tapOffset[1]:-base.tapOffset[1]if base.tapOffset[1]else None,base.tapOffset[0]:-base.tapOffset[0]if base.tapOffset[0]else None],(0,0),None,base.tapScale,base.tapScale,cv2.INTER_CUBIC)
     def compare(self,img,rect=(0,0,1920,1080),delta=.03):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
-    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.03):return(lambda loc:loc[0]<delta and(tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
+    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.03):return(lambda loc:loc[0]<delta and(base.tap(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):cv2.imwrite('ScreenShots/'+(getTime()+'.png'if name==''else name),self.im);return self
     def show(self):show(cv2.resize(self.im,(800,450)));return self
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
@@ -86,7 +89,7 @@ class Check:
     def getStage(self):return self.select(IMG_STAGE,(1290,14,1348,60))+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
 def draw():
-    while True:press('2')
+    while True:base.press('2')
 def chooseFriend():
     if len(IMG_FRIEND)==0:
         doit('8',(1000,))
@@ -107,13 +110,11 @@ def chooseFriend():
                         skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
                     time.sleep(1)
                     return
-            swipe((220,960,220,550))
+            base.swipe((220,960,220,550))
         doit('\xBAJ',(500,1000))
         while True:
             chk=Check(.2)
-            if chk.isNoFriend():
-                printer('No Friend')
-                exit(0)
+            assert not chk.isNoFriend()
             if chk.isChooseFriend():break
 def oneBattle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
@@ -148,7 +149,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
         if Check().isApEmpty():
             if apple==appleCount:
                 printer('Ap Empty')
-                press('\x12')
+                base.press('\x12')
                 return
             else:
                 apple+=1
@@ -163,8 +164,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
                     doit('\xBAJ',(500,1000))
                     flush=False
                 else:
-                    printer('No Friend')
-                    exit(0)
+                    raise AssertionError
             if chk.isChooseFriend():break
         chooseFriend()
         doit(' ',(1000,))
