@@ -33,7 +33,6 @@ class MyMainWindow(QMainWindow):
                 self.ui.BTN_PAUSE.setEnabled(True)
                 self.ui.BTN_STOP.setEnabled(True)
                 self.applyAll()
-                #assert fgoFunc.base.is_screenon()
                 func(*args,**kwargs)
             except BaseException as e:
                 if type(e)!=SystemExit:
