@@ -49,9 +49,8 @@ class Base(Android):
         except:
             self.serialno=None
             return
-        assert self.is_screenon()
-        self.tapOffset,self.tapScale=(lambda size:((0,round(960*size[1]/size[0])-540),1920/size[0])if size[0]*1080<size[1]*1920else((round(540*size[0]/size[1])-960,0),1080/size[1]))(self.get_current_resolution())
-        self.key={c:[round((p[i]+self.tapOffset[i])*self.tapScale)for i in range(2)]for c,p in
+        self.tapOffset,self.tapScale=(lambda size:((0,round(960*size[0]/size[1])-540),1920/size[1])if size[1]*1080<size[0]*1920else((round(540*size[1]/size[0])-960,0),1080/size[0]))(sorted(self.get_current_resolution()))
+        self.key={c:[round((p[i]+self.tapOffset[i])/self.tapScale)for i in range(2)]for c,p in
            {' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
             'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
             'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
@@ -65,8 +64,7 @@ def doit(touch,wait):[(base.press(i),time.sleep(j*.001))for i,j in zip(touch,wai
 class Check:
     def __init__(self,lagency=.02):
         global suspendFlag
-        while suspendFlag:
-            time.sleep(.05)
+        while suspendFlag:time.sleep(.05)
         if terminateFlag:exit(0)
         time.sleep(lagency)
         fuse.increase()
