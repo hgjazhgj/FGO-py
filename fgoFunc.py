@@ -1,6 +1,6 @@
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,math,re,numpy,cv2
+import time,os,numpy,cv2
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD
 IMG_APEMPTY=cv2.imread('image/apempty.png')
@@ -98,14 +98,16 @@ def chooseFriend():
             for name,img in IMG_FRIEND:
                 if chk.tapOnCmp(img,delta=.015):
                     printer('  Friend:',name)
-                    try:
-                        skillInfo[friendPos]={
-                            'km':[[2,0,1],[1,0,0],[1,0,0]],
-                            'cba':[[3,0,2],[3,0,0],[1,0,1]],
-                            'ml':[[1,0,0],[1,0,0],[3,0,1]],
-                        }[name[:name.index('_')]]
-                    except(KeyError,ValueError):
-                        skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
+                    skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
+                    houguInfo[friendPos]=[1,1]
+                    p=name[name.rfind('_')+1:]
+                    for i in range(3):
+                        for j in range(3):
+                            try:skillInfo[friendPos][i][j]=int(p[i*3+j])
+                            except(ValueError,IndexError):pass
+                    for i in range(2):
+                        try:houguInfo[friendPos][i]=int(p[9+i])
+                        except(ValueError,IndexError):pass
                     time.sleep(1)
                     return
             base.swipe((220,960,220,550))
@@ -143,7 +145,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
     apple,battle=0,0
     while True:
         battle+=1
-        doit('8',(1000,))
+        doit('8',(800,))
         if Check().isApEmpty():
             if apple==appleCount:
                 printer('Ap Empty')
@@ -161,11 +163,10 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
                 if flush:
                     doit('\xBAJ',(500,1000))
                     flush=False
-                else:
-                    raise AssertionError
+                else:raise AssertionError
             if chk.isChooseFriend():break
         chooseFriend()
-        doit(' ',(1000,))
+        doit(' ',(10000,))
         if not battleFunc(*args,**kwargs):doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
         while True:
