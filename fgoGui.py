@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt,QTranslator
+import PyQt5
 from airtest.core.android.adb import ADB
-import time,os,sys,cv2,re,threading,configparser,traceback
+import os,sys,cv2,threading,configparser,traceback
 
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
@@ -43,10 +44,8 @@ class MyMainWindow(QMainWindow):
                 self.ui.BTN_MAIN.setEnabled(True)
                 self.ui.BTN_PAUSE.setEnabled(False)
                 self.ui.BTN_STOP.setEnabled(False)
-                #self.setWindowState(Qt.WindowActive)
                 fgoFunc.beep()
-        self.proc=threading.Thread(target=f)
-        self.proc.start()
+        threading.Thread(target=f).start()
     def loadParty(self,x):
         skillInfo=eval(config[x]['skillInfo'])
         houguInfo=eval(config[x]['houguInfo'])
@@ -84,7 +83,7 @@ class MyMainWindow(QMainWindow):
             fgoFunc.base=fgoFunc.Base(self.serialno)
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
-    def runMain(self):self.runFunc(fgoFunc.main,int(self.ui.TXT_APPLE.text()),self.ui.CBX_APPLE.currentIndex())
+    def runMain(self):self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex())
     def runUser(self):pass
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
     def stop(self):fgoFunc.terminateFlag=True
@@ -96,6 +95,9 @@ class MyMainWindow(QMainWindow):
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
+    translator=QTranslator()
+    translator.load(os.path.dirname(PyQt5.__file__)+r'\Qt\translations\qt_zh_CN.qm')
+    app.installTranslator(translator)
     myWin=MyMainWindow()
     myWin.show()
     sys.exit(app.exec_())
