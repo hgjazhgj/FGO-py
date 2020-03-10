@@ -115,7 +115,7 @@
              </size>
             </property>
             <property name="statusTip">
-             <string>助战的位置</string>
+             <string>助战的位置,助战的技能设置不会生效</string>
             </property>
             <property name="text">
              <string/>
@@ -510,7 +510,7 @@
              </size>
             </property>
             <property name="statusTip">
-             <string>助战的位置</string>
+             <string>助战的位置,助战的技能设置不会生效</string>
             </property>
             <property name="text">
              <string/>
@@ -905,7 +905,7 @@
              </size>
             </property>
             <property name="statusTip">
-             <string>助战的位置</string>
+             <string>助战的位置,助战的技能设置不会生效</string>
             </property>
             <property name="text">
              <string/>
@@ -1300,7 +1300,7 @@
              </size>
             </property>
             <property name="statusTip">
-             <string>助战的位置</string>
+             <string>助战的位置,助战的技能设置不会生效</string>
             </property>
             <property name="text">
              <string/>
@@ -1698,7 +1698,7 @@
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="statusTip">
-             <string>助战的位置</string>
+             <string>助战的位置,助战的技能设置不会生效</string>
             </property>
             <property name="text">
              <string/>
@@ -2096,7 +2096,7 @@
              </size>
             </property>
             <property name="statusTip">
-             <string>助战的位置</string>
+             <string>助战的位置,助战的技能设置不会生效</string>
             </property>
             <property name="text">
              <string/>
@@ -2621,15 +2621,18 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="TXT_APPLE">
+         <widget class="QSpinBox" name="TXT_APPLE">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="statusTip">
            <string>要吃的苹果数量</string>
           </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-          <property name="maxLength">
-           <number>10</number>
+          <property name="maximum">
+           <number>9999</number>
           </property>
          </widget>
         </item>
@@ -2643,6 +2646,9 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_ANDROID">
         <item>
          <widget class="QPushButton" name="BTN_GETDEVICE">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="statusTip">
            <string>更改安卓设备</string>
           </property>
@@ -2653,6 +2659,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_ADBCONNECT">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="toolTip">
            <string>这个功能可能不能正常运行</string>
           </property>
@@ -2683,6 +2692,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_GETFRIEND">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="statusTip">
            <string>当助战模板更改后,需要手动刷新</string>
           </property>
@@ -2700,7 +2712,7 @@
            <string>如果你不清楚你在干什么,就不要在战斗中点这个按钮</string>
           </property>
           <property name="statusTip">
-           <string>立刻应用所有更改,就算战斗正在进行</string>
+           <string>立刻应用所有更改,就算战斗正在进行,不会更改苹果的种类和数量</string>
           </property>
           <property name="text">
            <string>应用所有更改</string>
@@ -2926,13 +2938,14 @@
   <tabstop>TXT_DANGER_1</tabstop>
   <tabstop>TXT_DANGER_2</tabstop>
   <tabstop>CBX_APPLE</tabstop>
-  <tabstop>TXT_APPLE</tabstop>
   <tabstop>BTN_GETDEVICE</tabstop>
   <tabstop>BTN_ADBCONNECT</tabstop>
   <tabstop>BTN_CHECK</tabstop>
   <tabstop>BTN_GETFRIEND</tabstop>
+  <tabstop>BTN_APPLYALL</tabstop>
   <tabstop>BTN_ONEBATTLE</tabstop>
   <tabstop>BTN_MAIN</tabstop>
+  <tabstop>BTN_USER</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
  </tabstops>
