@@ -5,7 +5,7 @@
 > 我不做人啦!JOJO!  
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本[v3.4.6](#版本记录-Version-Logs)  
+当前版本[v3.4.7](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 当前版本更新较快,因此**不建议fork**  
@@ -68,6 +68,14 @@ email huguangjing0411@geektip.cc
 如果以上问题的答案均为"是",请按照前述的方式联系我  
 
 # 版本记录 Version Logs  
+## 2020/03/12 v3.4.7
+bug修复:上一个版本提出的问题好像是由于对ui的跨线程修改  
+但是很奇怪,只有`runOneBattle`才会有一定概率报错  
+薛定谔的python吃掉了他的bilibili.狗.徳川家康.保留  
+而且现在的更改好像只是降低了这一概率  
+就很抽象  
+归根结底还是偷懒不肯用QThread  
+另:正在寻找更好的beep方法  
 ## 2020/03/12 v3.4.6  
 优化:助战技能宝具设定更改,看起来更人性化了,并且代码更短了  
 未解之谜:见fgoGui.py第84行的注释  

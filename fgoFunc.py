@@ -19,8 +19,8 @@ IMG_STILL=cv2.imread('image/still.png')
 IMG_STAGE=[cv2.imread('image/stage/'+file)for file in os.listdir('image/stage')if file.startswith('stage')and file.endswith('.png')]
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]#minstage,minstageturn,obj
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
-friendPos=4
 dangerPos=[0,0,1]
+friendPos=4
 terminateFlag=False
 suspendFlag=False
 def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
@@ -133,7 +133,7 @@ def oneBattle():
             printer('  Battle Failed')
             beep()
             return False
-def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
+def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
     while True:
         battle+=1
@@ -159,7 +159,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
             if chk.isChooseFriend():break
         chooseFriend()
         doit(' ',(10000,))
-        if not battleFunc(*args,**kwargs):doit('VJ',(500,500))
+        if not battleFunc():doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
         while True:
             chk=Check()
