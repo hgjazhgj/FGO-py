@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
 from PyQt5.QtCore import Qt,QTranslator
 import PyQt5
 from airtest.core.android.adb import ADB
-import os,sys,cv2,threading,configparser,traceback
+import time,os,sys,cv2,threading,configparser,traceback
 
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
@@ -27,18 +27,15 @@ class MyMainWindow(QMainWindow):
         if self.serialno is None:
             QMessageBox.critical(self,'Error','无设备连接',QMessageBox.Ok)
             return
+        self.ui.BTN_ONEBATTLE.setEnabled(False)
+        self.ui.BTN_MAIN.setEnabled(False)
+        self.ui.BTN_PAUSE.setEnabled(True)
+        self.ui.BTN_STOP.setEnabled(True)
+        self.applyAll()
         def f():
-            try:
-                self.ui.BTN_ONEBATTLE.setEnabled(False)
-                self.ui.BTN_MAIN.setEnabled(False)
-                self.ui.BTN_PAUSE.setEnabled(True)
-                self.ui.BTN_STOP.setEnabled(True)
-                self.applyAll()
-                func(*args,**kwargs)
+            try:func(*args,**kwargs)
             except BaseException as e:
-                if type(e)!=SystemExit:
-                    print(e)
-                    traceback.print_exc()
+                if type(e)!=SystemExit:traceback.print_exc()
             finally:
                 self.ui.BTN_ONEBATTLE.setEnabled(True)
                 self.ui.BTN_MAIN.setEnabled(True)
@@ -81,7 +78,7 @@ class MyMainWindow(QMainWindow):
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
         if self.serialno!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(self.serialno)
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
-    def runOneBattle(self):self.runFunc(fgoFunc.oneBattle,)#这里必须多一个逗号,不然可能会出错,未解之谜
+    def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
     def runMain(self):self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex())
     def runUser(self):pass
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
