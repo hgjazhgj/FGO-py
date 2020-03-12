@@ -1,6 +1,6 @@
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,numpy,cv2
+import time,os,numpy,cv2,re,functools
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD
 IMG_APEMPTY=cv2.imread('image/apempty.png')
@@ -44,8 +44,7 @@ class Fuse:
 fuse=Fuse()
 class Base(Android):
     def __init__(self,serialno=None):
-        try:
-            super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)
+        try:super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)
         except:
             self.serialno=None
             return
@@ -95,21 +94,15 @@ def chooseFriend():
     while True:
         for _ in range(16):
             chk=Check(.3)
-            for name,img in IMG_FRIEND:
-                if chk.tapOnCmp(img,delta=.015):
-                    printer('  Friend:',name)
-                    skillInfo[friendPos]=[[4,0,0],[4,0,0],[4,0,0]]
-                    houguInfo[friendPos]=[1,1]
-                    p=name[name.rfind('_')+1:]
-                    for i in range(3):
-                        for j in range(3):
-                            try:skillInfo[friendPos][i][j]=int(p[i*3+j])
-                            except(ValueError,IndexError):pass
-                    for i in range(2):
-                        try:houguInfo[friendPos][i]=int(p[9+i])
-                        except(ValueError,IndexError):pass
-                    time.sleep(1)
-                    return
+            for name,img in functools.filter(lambda img:chk.tapOnCmp(img,delta=.015),IMG_FRIEND):
+                printer('  Friend:',name)
+                try:p=re.search('[0-9x]{11}$',name,re.I).group()
+                except AttributeError:pass
+                else:
+                    skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
+                    houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
+                time.sleep(1)
+                return
             base.swipe((220,960,220,550))
         doit('\xBAJ',(500,1000))
         while True:
@@ -135,12 +128,11 @@ def oneBattle():
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and stage>=houguInfo[servant[i]][0]for i in range(3)])(chk.isHouguReady())))(Check())[:3],(200,200,10000))
         elif chk.isBattleOver():
             printer('  Battle Finished')
-            break
+            return True
         elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
             printer('  Battle Failed')
             beep()
             return False
-    return True
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle,*args,**kwargs):
     apple,battle=0,0
     while True:

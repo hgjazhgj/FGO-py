@@ -79,10 +79,9 @@ class MyMainWindow(QMainWindow):
         fgoFunc.houguInfo=[[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]
         fgoFunc.dangerPos=[int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
-        if self.serialno!=fgoFunc.base.serialno:
-            fgoFunc.base=fgoFunc.Base(self.serialno)
+        if self.serialno!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(self.serialno)
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
-    def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
+    def runOneBattle(self):self.runFunc(fgoFunc.oneBattle,)#这里必须多一个逗号,不然可能会出错,未解之谜
     def runMain(self):self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex())
     def runUser(self):pass
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
