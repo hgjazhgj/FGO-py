@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>493</width>
-    <height>480</height>
+    <width>548</width>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,6 +26,24 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="statusTip">
          <string extracomment="本脚本只能用于fgo简中服">选取编队,若需新建或删除请直接更改config文件</string>
         </property>
@@ -36,6 +54,24 @@
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYSAVE">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
@@ -49,6 +85,24 @@
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYRESET">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
@@ -72,6 +126,24 @@
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="LBL_SKILLINFO">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>编队信息</string>
         </property>
@@ -83,15 +155,21 @@
          <widget class="QLabel" name="LBL_PARTY_0">
           <property name="minimumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>0</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>16777215</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>1</string>
@@ -104,15 +182,21 @@
            <widget class="QRadioButton" name="RBT_FRIEND_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>0</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>16777215</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
@@ -129,15 +213,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_0_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -148,24 +238,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -176,24 +269,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -204,13 +300,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_0_0">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -226,15 +337,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_1_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -245,24 +362,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_1_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -273,24 +393,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_1_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -301,13 +424,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_0_1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -323,15 +461,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_2_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -342,24 +486,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_2_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -370,24 +517,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_2_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -398,13 +548,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_0_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -420,15 +585,21 @@
            <widget class="QLineEdit" name="TXT_HOUGU_0_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -439,24 +610,27 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_0_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -467,9 +641,6 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
          </layout>
@@ -478,15 +649,21 @@
          <widget class="QLabel" name="LBL_PARTY_1">
           <property name="minimumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>0</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>16777215</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>2</string>
@@ -499,15 +676,21 @@
            <widget class="QRadioButton" name="RBT_FRIEND_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>0</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>16777215</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
@@ -524,15 +707,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_0_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -543,24 +732,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -571,24 +763,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -599,13 +794,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_1_0">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -621,15 +831,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_1_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -640,24 +856,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_1_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -668,24 +887,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_1_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -696,13 +918,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_1_1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -718,15 +955,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_2_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -737,24 +980,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_2_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -765,24 +1011,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_2_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -793,13 +1042,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_1_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -815,15 +1079,21 @@
            <widget class="QLineEdit" name="TXT_HOUGU_1_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -834,24 +1104,27 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_1_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -862,9 +1135,6 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
          </layout>
@@ -873,15 +1143,21 @@
          <widget class="QLabel" name="LBL_PARTY_2">
           <property name="minimumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>0</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>16777215</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>3</string>
@@ -894,15 +1170,21 @@
            <widget class="QRadioButton" name="RBT_FRIEND_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>0</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>16777215</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
@@ -919,15 +1201,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_0_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -938,24 +1226,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -966,24 +1257,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -994,13 +1288,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_2_0">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1016,15 +1325,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_1_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1035,24 +1350,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_1_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1063,24 +1381,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_1_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1091,13 +1412,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_2_1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1113,15 +1449,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_2_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1132,24 +1474,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_2_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1160,24 +1505,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_2_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1188,13 +1536,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_2_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1210,15 +1573,21 @@
            <widget class="QLineEdit" name="TXT_HOUGU_2_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -1229,24 +1598,27 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_2_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -1257,9 +1629,6 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
          </layout>
@@ -1268,15 +1637,21 @@
          <widget class="QLabel" name="LBL_PARTY_3">
           <property name="minimumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>0</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>16777215</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>4</string>
@@ -1289,15 +1664,21 @@
            <widget class="QRadioButton" name="RBT_FRIEND_3">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>0</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>16777215</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
@@ -1314,15 +1695,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_0_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1333,24 +1720,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1361,24 +1751,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1389,13 +1782,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_3_0">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1411,15 +1819,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_1_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1430,24 +1844,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_1_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1458,24 +1875,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_1_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1486,13 +1906,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_3_1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1508,15 +1943,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_2_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1527,24 +1968,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_2_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1555,24 +1999,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_2_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1583,13 +2030,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_3_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1605,15 +2067,21 @@
            <widget class="QLineEdit" name="TXT_HOUGU_3_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -1624,24 +2092,27 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_3_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -1652,9 +2123,6 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
          </layout>
@@ -1663,15 +2131,21 @@
          <widget class="QLabel" name="LBL_PARTY_4">
           <property name="minimumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>0</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>16777215</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>5</string>
@@ -1684,15 +2158,21 @@
            <widget class="QRadioButton" name="RBT_FRIEND_4">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>0</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>16777215</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
@@ -1715,15 +2195,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_0_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1734,24 +2220,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1762,24 +2251,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1790,13 +2282,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_4_0">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1812,15 +2319,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_1_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1831,24 +2344,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_1_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1859,24 +2375,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_1_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1887,13 +2406,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_4_1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1909,15 +2443,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_2_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1928,24 +2468,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_2_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1956,24 +2499,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_2_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1984,13 +2530,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_4_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -2006,15 +2567,21 @@
            <widget class="QLineEdit" name="TXT_HOUGU_4_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -2025,24 +2592,27 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_4_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -2053,9 +2623,6 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
          </layout>
@@ -2064,15 +2631,21 @@
          <widget class="QLabel" name="LBL_PARTY_5">
           <property name="minimumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>0</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>12</width>
-            <height>24</height>
+            <width>16777215</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>6</string>
@@ -2085,15 +2658,21 @@
            <widget class="QRadioButton" name="RBT_FRIEND_5">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>0</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>16777215</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
@@ -2113,15 +2692,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_0_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2132,24 +2717,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2160,24 +2748,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2188,13 +2779,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_5_0">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -2210,15 +2816,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_1_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2229,24 +2841,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_1_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2257,24 +2872,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_1_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2285,13 +2903,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_5_1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -2307,15 +2940,21 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_2_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2326,24 +2965,27 @@
             <property name="text">
              <string>4</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_2_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2354,24 +2996,27 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_2_2">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2382,13 +3027,28 @@
             <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <spacer name="SPACER_PARTY_5_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -2404,15 +3064,21 @@
            <widget class="QLineEdit" name="TXT_HOUGU_5_0">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -2423,24 +3089,27 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_5_1">
             <property name="minimumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>24</height>
+              <width>28</width>
+              <height>32</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI Light</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -2451,9 +3120,6 @@
             <property name="text">
              <string>1</string>
             </property>
-            <property name="maxLength">
-             <number>1</number>
-            </property>
            </widget>
           </item>
          </layout>
@@ -2462,6 +3128,24 @@
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="LBL_DANGERPOS">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>优先攻击</string>
         </property>
@@ -2473,15 +3157,21 @@
          <widget class="QLineEdit" name="TXT_DANGER_0">
           <property name="minimumSize">
            <size>
-            <width>24</width>
-            <height>24</height>
+            <width>28</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>24</height>
+            <width>28</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="statusTip">
            <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
@@ -2492,13 +3182,27 @@
           <property name="text">
            <string>0</string>
           </property>
-          <property name="maxLength">
-           <number>1</number>
-          </property>
          </widget>
         </item>
         <item>
          <spacer name="SPACER_DANGER_2">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -2514,15 +3218,21 @@
          <widget class="QLineEdit" name="TXT_DANGER_1">
           <property name="minimumSize">
            <size>
-            <width>24</width>
-            <height>24</height>
+            <width>28</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>24</height>
+            <width>28</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="statusTip">
            <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
@@ -2533,13 +3243,27 @@
           <property name="text">
            <string>0</string>
           </property>
-          <property name="maxLength">
-           <number>1</number>
-          </property>
          </widget>
         </item>
         <item>
          <spacer name="SPACER_DANGER_1">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -2555,15 +3279,21 @@
          <widget class="QLineEdit" name="TXT_DANGER_2">
           <property name="minimumSize">
            <size>
-            <width>24</width>
-            <height>24</height>
+            <width>28</width>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>24</height>
+            <width>28</width>
+            <height>32</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="statusTip">
            <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
@@ -2574,24 +3304,57 @@
           <property name="text">
            <string>1</string>
           </property>
-          <property name="maxLength">
-           <number>1</number>
-          </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="2" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="LBL_APPLE">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>苹果</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="3" column="1">
        <layout class="QHBoxLayout" name="LAYOUT_INFO_APPLE">
         <item>
          <widget class="QComboBox" name="CBX_APPLE">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="statusTip">
            <string>要吃的苹果种类</string>
           </property>
@@ -2628,11 +3391,280 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="statusTip">
            <string>要吃的苹果数量</string>
           </property>
           <property name="maximum">
            <number>9999</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>御主技能</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLineEdit" name="TXT_MASTER_0_0">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能的最小使用面数</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="TXT_MASTER_0_1">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能在最小使用面数的最小使用回合</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="TXT_MASTER_1_0">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能的最小使用面数</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="TXT_MASTER_1_1">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能在最小使用面数的最小使用回合</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="TXT_MASTER_2_0">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能的最小使用面数</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="TXT_MASTER_2_1">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能在最小使用面数的最小使用回合</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
           </property>
          </widget>
         </item>
@@ -2646,6 +3678,24 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_ANDROID">
         <item>
          <widget class="QPushButton" name="BTN_GETDEVICE">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -2653,12 +3703,30 @@
            <string>更改安卓设备</string>
           </property>
           <property name="text">
-           <string>更改安卓设备</string>
+           <string>更改设备</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="BTN_ADBCONNECT">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -2669,7 +3737,7 @@
            <string>连接远程调试,不同模拟器端口不同</string>
           </property>
           <property name="text">
-           <string>连接远程设备</string>
+           <string>连接设备</string>
           </property>
          </widget>
         </item>
@@ -2679,6 +3747,24 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_WIN">
         <item>
          <widget class="QPushButton" name="BTN_CHECK">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -2692,6 +3778,24 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_GETFRIEND">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -2699,12 +3803,30 @@
            <string>当助战模板更改后,需要手动刷新</string>
           </property>
           <property name="text">
-           <string>刷新助战模板</string>
+           <string>刷新助战</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="BTN_APPLYALL">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -2715,7 +3837,7 @@
            <string>立刻应用所有更改,就算战斗正在进行,不会更改苹果的种类和数量</string>
           </property>
           <property name="text">
-           <string>应用所有更改</string>
+           <string>应用更改</string>
           </property>
          </widget>
         </item>
@@ -2725,6 +3847,24 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_MAIN">
         <item>
          <widget class="QPushButton" name="BTN_ONEBATTLE">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -2738,6 +3878,24 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_MAIN">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -2754,6 +3912,24 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -2761,7 +3937,7 @@
            <string>编写自定义战斗,然后在这里启用</string>
           </property>
           <property name="text">
-           <string>自定义战斗</string>
+           <string>用户脚本</string>
           </property>
          </widget>
         </item>
@@ -2773,6 +3949,24 @@
          <widget class="QPushButton" name="BTN_PAUSE">
           <property name="enabled">
            <bool>false</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -2789,6 +3983,24 @@
          <widget class="QPushButton" name="BTN_STOP">
           <property name="enabled">
            <bool>false</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -2812,23 +4024,47 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>493</width>
-     <height>26</height>
+     <width>548</width>
+     <height>33</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <widget class="QMenu" name="MENU_ABOUT">
+    <property name="font">
+     <font>
+      <family>Microsoft YaHei UI Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>关于</string>
     </property>
     <addaction name="MENU_ABOUT_ABOUT"/>
    </widget>
    <widget class="QMenu" name="MENU_FILE">
+    <property name="font">
+     <font>
+      <family>Microsoft YaHei UI Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>文件</string>
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
    </widget>
    <widget class="QMenu" name="MENU_SETTING">
+    <property name="font">
+     <font>
+      <family>Microsoft YaHei UI Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>设置</string>
     </property>
@@ -2838,15 +4074,34 @@
    <addaction name="MENU_SETTING"/>
    <addaction name="MENU_ABOUT"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </widget>
   <action name="MENU_ABOUT_ABOUT">
    <property name="text">
     <string>关于</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="MENU_FILE_EXPLORER">
    <property name="text">
     <string>在资源管理器中查看</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="MENU_SETTING_STAYONTOP">
@@ -2855,6 +4110,12 @@
    </property>
    <property name="text">
     <string>窗口置顶</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
  </widget>
@@ -2937,6 +4198,12 @@
   <tabstop>TXT_DANGER_0</tabstop>
   <tabstop>TXT_DANGER_1</tabstop>
   <tabstop>TXT_DANGER_2</tabstop>
+  <tabstop>TXT_MASTER_0_0</tabstop>
+  <tabstop>TXT_MASTER_0_1</tabstop>
+  <tabstop>TXT_MASTER_1_0</tabstop>
+  <tabstop>TXT_MASTER_1_1</tabstop>
+  <tabstop>TXT_MASTER_2_0</tabstop>
+  <tabstop>TXT_MASTER_2_1</tabstop>
   <tabstop>CBX_APPLE</tabstop>
   <tabstop>BTN_GETDEVICE</tabstop>
   <tabstop>BTN_ADBCONNECT</tabstop>
@@ -2948,6 +4215,7 @@
   <tabstop>BTN_USER</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
+  <tabstop>TXT_APPLE</tabstop>
  </tabstops>
  <resources/>
  <connections>
