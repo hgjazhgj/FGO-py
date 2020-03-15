@@ -11,6 +11,12 @@
     <height>627</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Microsoft YaHei UI Light</family>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>FGO script</string>
   </property>
@@ -26,12 +32,6 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI Light</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
         <property name="statusTip">
          <string extracomment="本脚本只能用于fgo简中服">选取编队,若需新建或删除请直接更改config文件</string>
         </property>
@@ -42,12 +42,6 @@
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYSAVE">
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI Light</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
@@ -61,12 +55,6 @@
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYRESET">
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI Light</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
@@ -96,12 +84,6 @@
           <height>32</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI Light</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
         <property name="text">
          <string>编队信息</string>
         </property>
@@ -111,12 +93,6 @@
        <layout class="QFormLayout" name="LAYOUT_INFO_PARTY">
         <item row="0" column="0">
          <widget class="QLabel" name="LBL_PARTY_0">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="text">
            <string>1</string>
           </property>
@@ -126,12 +102,6 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_0">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_0">
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
             </property>
@@ -156,12 +126,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -191,12 +155,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -224,12 +182,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -259,12 +211,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -292,12 +238,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -327,12 +267,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -360,12 +294,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -395,12 +323,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -428,12 +350,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -463,12 +379,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -496,12 +406,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -531,12 +435,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -564,12 +462,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -599,12 +491,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -623,12 +509,6 @@
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="LBL_PARTY_1">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="text">
            <string>2</string>
           </property>
@@ -638,12 +518,6 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_1">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_1">
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
             </property>
@@ -668,12 +542,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -703,12 +571,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -736,12 +598,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -771,12 +627,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -804,12 +654,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -839,12 +683,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -872,12 +710,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -907,12 +739,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -940,12 +766,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -975,12 +795,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1008,12 +822,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1043,12 +851,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1076,12 +878,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1111,12 +907,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1135,12 +925,6 @@
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="LBL_PARTY_2">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="text">
            <string>3</string>
           </property>
@@ -1150,12 +934,6 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_2">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_2">
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
             </property>
@@ -1180,12 +958,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1215,12 +987,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1248,12 +1014,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1283,12 +1043,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1316,12 +1070,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1351,12 +1099,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1384,12 +1126,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1419,12 +1155,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1452,12 +1182,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1487,12 +1211,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1520,12 +1238,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1555,12 +1267,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1588,12 +1294,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1623,12 +1323,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1647,12 +1341,6 @@
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="LBL_PARTY_3">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="text">
            <string>4</string>
           </property>
@@ -1662,12 +1350,6 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_3">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_3">
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
             </property>
@@ -1692,12 +1374,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1727,12 +1403,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1760,12 +1430,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1795,12 +1459,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1828,12 +1486,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1863,12 +1515,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1896,12 +1542,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1931,12 +1571,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1964,12 +1598,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -1999,12 +1627,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2032,12 +1654,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2067,12 +1683,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2100,12 +1710,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2135,12 +1739,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2159,12 +1757,6 @@
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="LBL_PARTY_4">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="text">
            <string>5</string>
           </property>
@@ -2174,12 +1766,6 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_4">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_4">
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
@@ -2211,12 +1797,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2244,12 +1824,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2279,12 +1853,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2312,12 +1880,6 @@
               <width>16777215</width>
               <height>28</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2347,12 +1909,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2380,12 +1936,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2415,12 +1965,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2448,12 +1992,6 @@
               <width>16777215</width>
               <height>28</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2483,12 +2021,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2516,12 +2048,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2551,12 +2077,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2584,12 +2104,6 @@
               <width>16777215</width>
               <height>28</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2619,12 +2133,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2653,12 +2161,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2677,12 +2179,6 @@
         </item>
         <item row="5" column="0">
          <widget class="QLabel" name="LBL_PARTY_5">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="text">
            <string>6</string>
           </property>
@@ -2692,12 +2188,6 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_5">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_5">
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="statusTip">
              <string>助战的位置,助战的技能设置不会生效</string>
             </property>
@@ -2725,12 +2215,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2760,12 +2244,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2793,12 +2271,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2828,12 +2300,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2861,12 +2327,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2896,12 +2356,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2929,12 +2383,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -2964,12 +2412,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2997,12 +2439,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -3032,12 +2468,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -3065,12 +2495,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -3100,12 +2524,6 @@
               <height>28</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -3133,12 +2551,6 @@
               <width>30</width>
               <height>34</height>
              </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
@@ -3168,12 +2580,6 @@
               <height>34</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI Light</family>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -3200,12 +2606,6 @@
           <height>32</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI Light</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
         <property name="text">
          <string>优先攻击</string>
         </property>
@@ -3226,12 +2626,6 @@
             <width>30</width>
             <height>34</height>
            </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
           </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
@@ -3261,11 +2655,6 @@
             <height>28</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3293,12 +2682,6 @@
             <width>30</width>
             <height>34</height>
            </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
           </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
@@ -3328,11 +2711,6 @@
             <height>28</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3361,12 +2739,6 @@
             <height>34</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3391,12 +2763,6 @@
           <height>32</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI Light</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
         <property name="text">
          <string>苹果</string>
         </property>
@@ -3406,12 +2772,6 @@
        <layout class="QHBoxLayout" name="LAYOUT_INFO_APPLE">
         <item>
          <widget class="QComboBox" name="CBX_APPLE">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="statusTip">
            <string>要吃的苹果种类</string>
           </property>
@@ -3448,12 +2808,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3478,12 +2832,6 @@
           <height>32</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI Light</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
         <property name="text">
          <string>御主技能</string>
         </property>
@@ -3504,12 +2852,6 @@
             <width>30</width>
             <height>34</height>
            </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
           </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
@@ -3539,12 +2881,6 @@
             <height>34</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3573,12 +2909,6 @@
             <height>34</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3595,11 +2925,6 @@
         </item>
         <item>
          <spacer name="SPACER_MASTER_0">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3627,12 +2952,6 @@
             <width>30</width>
             <height>34</height>
            </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
           </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
@@ -3662,12 +2981,6 @@
             <height>34</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3696,12 +3009,6 @@
             <height>34</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3718,11 +3025,6 @@
         </item>
         <item>
          <spacer name="SPACER_MASTER_1">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3750,12 +3052,6 @@
             <width>30</width>
             <height>34</height>
            </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
           </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
@@ -3785,12 +3081,6 @@
             <height>34</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3819,12 +3109,6 @@
             <height>34</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -3849,12 +3133,6 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_ANDROID">
         <item>
          <widget class="QPushButton" name="BTN_GETDEVICE">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3868,12 +3146,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_ADBCONNECT">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3894,12 +3166,6 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_WIN">
         <item>
          <widget class="QPushButton" name="BTN_CHECK">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3913,12 +3179,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_GETFRIEND">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3932,12 +3192,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_APPLYALL">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3958,12 +3212,6 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_MAIN">
         <item>
          <widget class="QPushButton" name="BTN_ONEBATTLE">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3977,12 +3225,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_MAIN">
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3998,12 +3240,6 @@
          <widget class="QPushButton" name="BTN_USER">
           <property name="enabled">
            <bool>false</bool>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -4025,12 +3261,6 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -4044,15 +3274,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_STOP">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI Light</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -4071,14 +3292,6 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>561</width>
-     <height>30</height>
-    </rect>
-   </property>
    <property name="font">
     <font>
      <family>Microsoft YaHei UI Light</family>
@@ -4086,18 +3299,36 @@
     </font>
    </property>
    <widget class="QMenu" name="MENU_ABOUT">
+    <property name="font">
+     <font>
+      <family>Microsoft YaHei UI Light</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>关于</string>
     </property>
     <addaction name="MENU_ABOUT_ABOUT"/>
    </widget>
    <widget class="QMenu" name="MENU_FILE">
+    <property name="font">
+     <font>
+      <family>Microsoft YaHei UI Light</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>文件</string>
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
    </widget>
    <widget class="QMenu" name="MENU_SETTING">
+    <property name="font">
+     <font>
+      <family>Microsoft YaHei UI Light</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>设置</string>
     </property>
