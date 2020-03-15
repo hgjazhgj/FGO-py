@@ -58,7 +58,7 @@ class MyMainWindow(QMainWindow):
             'houguInfo':str([[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]).replace(' ',''),
             'dangerPos':str([int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]).replace(' ',''),
             'friendPos':self.ui.BTG_FRIEND.checkedButton().objectName()[-1],
-            'masterSkill':str([[int((lambda self:eval('self.ui.TXT_MASTER_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(3)]for i in range(3)])}
+            'masterSkill':str([[int((lambda self:eval('self.ui.TXT_MASTER_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(3)]for i in range(3)]).replace(' ','')}
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
