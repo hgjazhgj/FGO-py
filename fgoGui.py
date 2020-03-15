@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
-from PyQt5.QtCore import Qt,QTranslator
-import PyQt5
+from PyQt5.QtCore import Qt
 from airtest.core.android.adb import ADB
 import time,os,sys,cv2,threading,configparser,traceback
 
@@ -54,7 +53,6 @@ class MyMainWindow(QMainWindow):
         masterSkill=eval(config[x]['masterSkill'])
         for i,j in((i,j)for i in range(3)for j in range(3)):eval('self.ui.TXT_MASTER_'+str(i)+'_'+str(j)+'.setText("'+str(masterSkill[i][j])+'")')
     def saveParty(self):
-        if not config.has_section(self.ui.CBX_PARTY.currentText()):return
         config[self.ui.CBX_PARTY.currentText()]={
             'skillInfo':str([[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
             'houguInfo':str([[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]).replace(' ',''),
@@ -95,9 +93,6 @@ class MyMainWindow(QMainWindow):
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
-    translator=QTranslator()
-    translator.load(os.path.dirname(PyQt5.__file__)+r'\Qt\translations\qt_zh_CN.qm')
-    app.installTranslator(translator)
     myWin=MyMainWindow()
     myWin.show()
     sys.exit(app.exec_())
