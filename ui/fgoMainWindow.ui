@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>548</width>
-    <height>613</height>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -3509,6 +3509,37 @@
          </widget>
         </item>
         <item>
+         <widget class="QLineEdit" name="TXT_MASTER_0_2">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能的指向目标</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer">
           <property name="font">
            <font>
@@ -3589,6 +3620,37 @@
          </widget>
         </item>
         <item>
+         <widget class="QLineEdit" name="TXT_MASTER_1_2">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能的指向目标</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer_2">
           <property name="font">
            <font>
@@ -3659,6 +3721,37 @@
           </property>
           <property name="statusTip">
            <string>御主技能在最小使用面数的最小使用回合</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="TXT_MASTER_2_2">
+          <property name="minimumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>28</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>御主技能的指向目标</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -4199,7 +4292,6 @@
   <tabstop>TXT_DANGER_1</tabstop>
   <tabstop>TXT_DANGER_2</tabstop>
   <tabstop>TXT_MASTER_0_0</tabstop>
-  <tabstop>TXT_MASTER_0_1</tabstop>
   <tabstop>TXT_MASTER_1_0</tabstop>
   <tabstop>TXT_MASTER_1_1</tabstop>
   <tabstop>TXT_MASTER_2_0</tabstop>
