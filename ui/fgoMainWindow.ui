@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>615</height>
+    <width>561</width>
+    <height>627</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,22 +26,10 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>32</height>
-         </size>
-        </property>
         <property name="font">
          <font>
           <family>Microsoft YaHei UI Light</family>
-          <pointsize>12</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="statusTip">
@@ -54,22 +42,10 @@
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYSAVE">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>32</height>
-         </size>
-        </property>
         <property name="font">
          <font>
           <family>Microsoft YaHei UI Light</family>
-          <pointsize>12</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="cursor">
@@ -85,22 +61,10 @@
       </item>
       <item>
        <widget class="QPushButton" name="BTN_PARTYRESET">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>32</height>
-         </size>
-        </property>
         <property name="font">
          <font>
           <family>Microsoft YaHei UI Light</family>
-          <pointsize>12</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="cursor">
@@ -126,12 +90,6 @@
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="LBL_SKILLINFO">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>32</height>
-         </size>
-        </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -141,7 +99,7 @@
         <property name="font">
          <font>
           <family>Microsoft YaHei UI Light</family>
-          <pointsize>12</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="text">
@@ -153,22 +111,10 @@
        <layout class="QFormLayout" name="LAYOUT_INFO_PARTY">
         <item row="0" column="0">
          <widget class="QLabel" name="LBL_PARTY_0">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="text">
@@ -180,22 +126,10 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_0">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_0">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>32</height>
-             </size>
-            </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
             </property>
             <property name="statusTip">
@@ -213,21 +147,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_0_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -235,8 +172,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -244,21 +181,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_0_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -266,8 +206,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -275,21 +215,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_0_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -297,8 +240,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -319,8 +262,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -337,21 +283,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_1_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -359,8 +308,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -368,21 +317,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_1_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -390,8 +342,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -399,21 +351,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_1_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -421,8 +376,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -443,8 +398,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -461,21 +419,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_2_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -483,8 +444,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -492,21 +453,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_2_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -514,8 +478,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -523,21 +487,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_0_2_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -545,8 +512,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -567,8 +534,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -585,21 +555,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_0_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -607,8 +580,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -616,21 +589,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_0_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -638,8 +614,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -647,22 +623,10 @@
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="LBL_PARTY_1">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="text">
@@ -674,22 +638,10 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_1">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_1">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>32</height>
-             </size>
-            </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
             </property>
             <property name="statusTip">
@@ -707,21 +659,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_0_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -729,8 +684,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -738,21 +693,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_0_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -760,8 +718,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -769,21 +727,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_0_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -791,8 +752,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -813,8 +774,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -831,21 +795,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_1_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -853,8 +820,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -862,21 +829,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_1_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -884,8 +854,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -893,21 +863,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_1_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -915,8 +888,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -937,8 +910,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -955,21 +931,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_2_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -977,8 +956,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -986,21 +965,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_2_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1008,8 +990,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1017,21 +999,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_1_2_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1039,8 +1024,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1061,8 +1046,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1079,21 +1067,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_1_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -1101,8 +1092,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1110,21 +1101,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_1_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -1132,8 +1126,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1141,22 +1135,10 @@
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="LBL_PARTY_2">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1168,22 +1150,10 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_2">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_2">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>32</height>
-             </size>
-            </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
             </property>
             <property name="statusTip">
@@ -1201,21 +1171,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_0_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1223,8 +1196,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1232,21 +1205,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_0_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1254,8 +1230,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1263,21 +1239,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_0_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1285,8 +1264,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1307,8 +1286,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1325,21 +1307,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_1_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1347,8 +1332,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1356,21 +1341,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_1_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1378,8 +1366,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1387,21 +1375,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_1_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1409,8 +1400,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1431,8 +1422,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1449,21 +1443,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_2_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1471,8 +1468,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1480,21 +1477,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_2_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1502,8 +1502,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1511,21 +1511,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_2_2_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1533,8 +1536,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1555,8 +1558,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1573,21 +1579,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_2_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -1595,8 +1604,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1604,21 +1613,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_2_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -1626,8 +1638,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1635,22 +1647,10 @@
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="LBL_PARTY_3">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1662,22 +1662,10 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_3">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_3">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>32</height>
-             </size>
-            </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
             </property>
             <property name="statusTip">
@@ -1695,21 +1683,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_0_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1717,8 +1708,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1726,21 +1717,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_0_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1748,8 +1742,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1757,21 +1751,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_0_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1779,8 +1776,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1801,8 +1798,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1819,21 +1819,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_1_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1841,8 +1844,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1850,21 +1853,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_1_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1872,8 +1878,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1881,21 +1887,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_1_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -1903,8 +1912,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1925,8 +1934,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1943,21 +1955,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_2_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -1965,8 +1980,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1974,21 +1989,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_2_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -1996,8 +2014,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2005,21 +2023,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_3_2_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2027,8 +2048,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2049,8 +2070,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -2067,21 +2091,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_3_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -2089,8 +2116,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2098,21 +2125,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_3_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -2120,8 +2150,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2129,22 +2159,10 @@
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="LBL_PARTY_4">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="text">
@@ -2156,22 +2174,10 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_4">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_4">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>32</height>
-             </size>
-            </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2195,21 +2201,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_0_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2217,8 +2226,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2226,21 +2235,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_0_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2248,8 +2260,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2257,21 +2269,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_0_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2279,8 +2294,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2301,8 +2316,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -2319,21 +2337,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_1_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2341,8 +2362,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2350,21 +2371,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_1_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2372,8 +2396,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2381,21 +2405,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_1_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2403,8 +2430,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2425,8 +2452,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -2443,21 +2473,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_2_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2465,8 +2498,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2474,21 +2507,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_2_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2496,8 +2532,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2505,21 +2541,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_4_2_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2527,8 +2566,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2549,8 +2588,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -2567,21 +2609,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_4_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -2589,8 +2634,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2598,21 +2643,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_4_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -2620,8 +2668,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2629,22 +2677,10 @@
         </item>
         <item row="5" column="0">
          <widget class="QLabel" name="LBL_PARTY_5">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="text">
@@ -2656,22 +2692,10 @@
          <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_5">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_5">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>32</height>
-             </size>
-            </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
             </property>
             <property name="statusTip">
@@ -2692,21 +2716,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_0_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2714,8 +2741,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2723,21 +2750,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_0_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2745,8 +2775,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2754,21 +2784,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_0_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2776,8 +2809,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2798,8 +2831,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -2816,21 +2852,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_1_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2838,8 +2877,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2847,21 +2886,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_1_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2869,8 +2911,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2878,21 +2920,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_1_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -2900,8 +2945,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2922,8 +2967,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -2940,21 +2988,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_2_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的最小使用面数</string>
@@ -2962,8 +3013,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>4</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2971,21 +3022,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_2_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能在最小使用面数的最小使用回合</string>
@@ -2993,8 +3047,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -3002,21 +3056,24 @@
            <widget class="QLineEdit" name="TXT_SKILL_5_2_2">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>技能的指向目标,从左到右1-3,没有目标就就为0</string>
@@ -3024,8 +3081,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>0</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -3046,8 +3103,11 @@
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -3064,21 +3124,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_5_0">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具的最小使用面数</string>
@@ -3086,8 +3149,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -3095,21 +3158,24 @@
            <widget class="QLineEdit" name="TXT_HOUGU_5_1">
             <property name="minimumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>28</width>
-              <height>32</height>
+              <width>30</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI Light</family>
-              <pointsize>12</pointsize>
+              <pointsize>11</pointsize>
              </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
              <string>宝具使用的优先级,越大越优先</string>
@@ -3117,8 +3183,8 @@
             <property name="inputMask">
              <string>9</string>
             </property>
-            <property name="text">
-             <string>1</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -3128,12 +3194,6 @@
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="LBL_DANGERPOS">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>32</height>
-         </size>
-        </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -3143,7 +3203,7 @@
         <property name="font">
          <font>
           <family>Microsoft YaHei UI Light</family>
-          <pointsize>12</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="text">
@@ -3157,21 +3217,24 @@
          <widget class="QLineEdit" name="TXT_DANGER_0">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
@@ -3179,13 +3242,13 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
         <item>
-         <spacer name="SPACER_DANGER_2">
+         <spacer name="SPACER_DANGER_0">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -3200,8 +3263,11 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -3218,21 +3284,24 @@
          <widget class="QLineEdit" name="TXT_DANGER_1">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
@@ -3240,8 +3309,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3261,8 +3330,11 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -3279,21 +3351,24 @@
          <widget class="QLineEdit" name="TXT_DANGER_2">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
@@ -3301,8 +3376,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>1</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3310,12 +3385,6 @@
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="LBL_APPLE">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>32</height>
-         </size>
-        </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -3325,7 +3394,7 @@
         <property name="font">
          <font>
           <family>Microsoft YaHei UI Light</family>
-          <pointsize>12</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="text">
@@ -3337,22 +3406,10 @@
        <layout class="QHBoxLayout" name="LAYOUT_INFO_APPLE">
         <item>
          <widget class="QComboBox" name="CBX_APPLE">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="statusTip">
@@ -3391,26 +3448,20 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>要吃的苹果数量</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="maximum">
            <number>9999</number>
@@ -3420,13 +3471,7 @@
        </layout>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>32</height>
-         </size>
-        </property>
+       <widget class="QLabel" name="LBL_MASTER">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -3436,7 +3481,7 @@
         <property name="font">
          <font>
           <family>Microsoft YaHei UI Light</family>
-          <pointsize>12</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="text">
@@ -3445,26 +3490,29 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="LAYOUT_INFO_MASTER">
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_0_0">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能的最小使用面数</string>
@@ -3472,8 +3520,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3481,21 +3529,24 @@
          <widget class="QLineEdit" name="TXT_MASTER_0_1">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能在最小使用面数的最小使用回合</string>
@@ -3503,8 +3554,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3512,21 +3563,24 @@
          <widget class="QLineEdit" name="TXT_MASTER_0_2">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能的指向目标</string>
@@ -3534,17 +3588,20 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer">
+         <spacer name="SPACER_MASTER_0">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -3561,21 +3618,24 @@
          <widget class="QLineEdit" name="TXT_MASTER_1_0">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能的最小使用面数</string>
@@ -3583,8 +3643,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3592,21 +3652,24 @@
          <widget class="QLineEdit" name="TXT_MASTER_1_1">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能在最小使用面数的最小使用回合</string>
@@ -3614,8 +3677,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3623,21 +3686,24 @@
          <widget class="QLineEdit" name="TXT_MASTER_1_2">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能的指向目标</string>
@@ -3645,17 +3711,20 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_2">
+         <spacer name="SPACER_MASTER_1">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -3672,21 +3741,24 @@
          <widget class="QLineEdit" name="TXT_MASTER_2_0">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能的最小使用面数</string>
@@ -3694,8 +3766,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3703,21 +3775,24 @@
          <widget class="QLineEdit" name="TXT_MASTER_2_1">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能在最小使用面数的最小使用回合</string>
@@ -3725,8 +3800,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3734,21 +3809,24 @@
          <widget class="QLineEdit" name="TXT_MASTER_2_2">
           <property name="minimumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>28</width>
-            <height>32</height>
+            <width>30</width>
+            <height>34</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
            <string>御主技能的指向目标</string>
@@ -3756,8 +3834,8 @@
           <property name="inputMask">
            <string>9</string>
           </property>
-          <property name="text">
-           <string>0</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -3771,22 +3849,10 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_ANDROID">
         <item>
          <widget class="QPushButton" name="BTN_GETDEVICE">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3802,22 +3868,10 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_ADBCONNECT">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3840,22 +3894,10 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_WIN">
         <item>
          <widget class="QPushButton" name="BTN_CHECK">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3871,22 +3913,10 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_GETFRIEND">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3902,22 +3932,10 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_APPLYALL">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3940,22 +3958,10 @@
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_MAIN">
         <item>
          <widget class="QPushButton" name="BTN_ONEBATTLE">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3971,22 +3977,10 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_MAIN">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -4005,22 +3999,10 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -4043,22 +4025,10 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -4077,22 +4047,10 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>32</height>
-           </size>
-          </property>
           <property name="font">
            <font>
             <family>Microsoft YaHei UI Light</family>
-            <pointsize>12</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -4117,47 +4075,29 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>548</width>
-     <height>33</height>
+     <width>561</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Microsoft YaHei UI Light</family>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <widget class="QMenu" name="MENU_ABOUT">
-    <property name="font">
-     <font>
-      <family>Microsoft YaHei UI Light</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
     <property name="title">
      <string>关于</string>
     </property>
     <addaction name="MENU_ABOUT_ABOUT"/>
    </widget>
    <widget class="QMenu" name="MENU_FILE">
-    <property name="font">
-     <font>
-      <family>Microsoft YaHei UI Light</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
     <property name="title">
      <string>文件</string>
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
    </widget>
    <widget class="QMenu" name="MENU_SETTING">
-    <property name="font">
-     <font>
-      <family>Microsoft YaHei UI Light</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
     <property name="title">
      <string>设置</string>
     </property>
@@ -4171,7 +4111,7 @@
    <property name="font">
     <font>
      <family>Microsoft YaHei UI Light</family>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
   </widget>
@@ -4182,7 +4122,7 @@
    <property name="font">
     <font>
      <family>Microsoft YaHei UI Light</family>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
   </action>
@@ -4193,7 +4133,7 @@
    <property name="font">
     <font>
      <family>Microsoft YaHei UI Light</family>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
   </action>
@@ -4207,7 +4147,7 @@
    <property name="font">
     <font>
      <family>Microsoft YaHei UI Light</family>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
   </action>

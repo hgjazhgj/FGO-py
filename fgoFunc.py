@@ -97,7 +97,7 @@ def chooseFriend():
             chk=Check(.3)
             for name,img in functools.filter(lambda img:chk.tapOnCmp(img,delta=.015),IMG_FRIEND):
                 printer('  Friend:',name)
-                try:p=re.search('[0-9x]{11}$',name,re.I).group()
+                try:p=re.search('[0-9x]{11}$',name).group()
                 except AttributeError:pass
                 else:
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
