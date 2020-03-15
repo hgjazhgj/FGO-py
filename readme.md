@@ -7,7 +7,7 @@
 > 我不做人啦!JOJO!  
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本[v3.4.7](#版本记录-Version-Logs)  
+当前版本[v3.5.0](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 当前版本更新较快,因此**不建议fork**  
