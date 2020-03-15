@@ -21,7 +21,7 @@ skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
 dangerPos=[0,0,1]
 friendPos=4
-masterSkill=[[4,0],[4,0],[4,0]]
+masterSkill=[[4,0,0],[4,0,0],[4,0,0]]
 terminateFlag=False
 suspendFlag=False
 def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
@@ -125,8 +125,9 @@ def oneBattle():
                 if skillInfo[servant[i]][j][2]:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
                 time.sleep(2)
                 while not Check(.1).isTurnBegin():pass
-            for i in range(3):
-                if masterSkill[i][0]==stage and masterSkill[i][1]==stageTurn:doit('Q'+'WER'[i],(300,2600))
+            for i in(i for i in range(3)if masterSkill[i][0]==stage and masterSkill[i][1]==stageTurn):
+                doit('Q'+'WER'[i],(300,300))
+                if masterSkill[i][2]:doit(chr(masterSkill[i][2]+49),(300,))
                 while not Check(.1).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and stage>=houguInfo[servant[i]][0]for i in range(3)])(chk.isHouguReady())))(Check())[:3],(200,200,10000))
