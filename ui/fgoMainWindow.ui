@@ -3274,6 +3274,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_STOP">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -3292,6 +3295,14 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>561</width>
+     <height>30</height>
+    </rect>
+   </property>
    <property name="font">
     <font>
      <family>Microsoft YaHei UI Light</family>
