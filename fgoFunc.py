@@ -26,7 +26,6 @@ terminateFlag=False
 suspendFlag=False
 def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
 def printer(*args,**kwargs):print(getTime(),*args,**kwargs)
-def beep():os.system('echo \x07')
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
     def __init__(self,fv=600):
@@ -75,7 +74,6 @@ class Check:
         if terminateFlag:exit(0)
         time.sleep(lagency)
         fuse.increase()
-        #self.im=(lambda im:im[(im.shape[0]>>1)-540:(im.shape[0]>>1)+540,(im.shape[1]>>1)-960:(im.shape[1]>>1)+960])((lambda scale:cv2.resize(img,(0,0),None,scale,scale,cv2.INTER_CUBIC))(max(1920/img.shape[1],1080/img.shape[0])))
         self.im=cv2.resize(base.snapshot()[base.tapOffset[1]:-base.tapOffset[1]if base.tapOffset[1]else None,base.tapOffset[0]:-base.tapOffset[0]if base.tapOffset[0]else None],(1920,1080),interpolation=cv2.INTER_CUBIC)
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
@@ -109,8 +107,7 @@ def chooseFriend():
                 else:
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
-                time.sleep(1)
-                return
+                return time.sleep(1)
             base.swipe((220,960,220,550))
         doit('\xBAJ',(500,1000))
         while True:
@@ -135,6 +132,7 @@ def oneBattle():
             for i in(i for i in range(3)if masterSkill[i][0]==stage and masterSkill[i][1]==stageTurn):
                 doit('Q'+'WER'[i],(300,300))
                 if masterSkill[i][2]:doit(chr(masterSkill[i][2]+49),(300,))
+                time.sleep(2)
                 while not Check(.1).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and stage>=houguInfo[servant[i]][0]for i in range(3)])(chk.isHouguReady())))(Check())[:3],(200,200,10000))
@@ -143,7 +141,6 @@ def oneBattle():
             return True
         elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
             printer('  Battle Failed')
-            beep()
             return False
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
@@ -153,8 +150,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         if Check().isApEmpty():
             if apple==appleCount:
                 printer('Ap Empty')
-                base.press('\x12')
-                return
+                return base.press('\x12')
             else:
                 apple+=1
                 printer('Apple',apple)
@@ -162,11 +158,11 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         printer('  Battle',battle)
         flush=True
         while True:
+            chk=Check()
             if chk.isNoFriend():
-                if flush:
-                    doit('\xBAJ',(500,1000))
-                    flush=False
+                if flush:doit('\xBAJ',(500,1000))
                 else:raise AssertionError
+                flush=False
             if chk.isChooseFriend():break
         chooseFriend()
         doit(' ',(10000,))

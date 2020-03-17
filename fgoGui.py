@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
 from PyQt5.QtCore import Qt
 from airtest.core.android.adb import ADB
-import time,os,sys,cv2,threading,configparser,traceback
+import time,os,sys,cv2,threading,configparser,traceback,playsound,random
 
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
@@ -10,6 +10,12 @@ class NewConfigParser(configparser.ConfigParser):
     def optionxform(self,optionstr):return optionstr
 config=NewConfigParser()
 config.read('fgoConfig.ini')
+
+def choice(x):
+    while True:
+        random.shuffle(x)
+        for i in x:yield i
+soundName=choice(os.listdir('sound'))
 
 class MyMainWindow(QMainWindow):
     def __init__(self,parent=None):
@@ -40,7 +46,7 @@ class MyMainWindow(QMainWindow):
                 self.ui.BTN_MAIN.setEnabled(True)
                 self.ui.BTN_PAUSE.setEnabled(False)
                 self.ui.BTN_STOP.setEnabled(False)
-                fgoFunc.beep()
+                playsound.playsound('sound/'+next(soundName))
         threading.Thread(target=f).start()
     def loadParty(self,x):
         skillInfo=eval(config[x]['skillInfo'])
