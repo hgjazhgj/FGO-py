@@ -7,3 +7,4 @@ chk.png
 /__pycache__
 *.log
 *.jpg
+/backup
