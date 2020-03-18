@@ -792,7 +792,6 @@ class Ui_fgoMainWindow(object):
         self.BTN_MAIN.setObjectName("BTN_MAIN")
         self.LAYOUT_FUNC_MAIN.addWidget(self.BTN_MAIN)
         self.BTN_USER = QtWidgets.QPushButton(self.widget)
-        self.BTN_USER.setEnabled(False)
         self.BTN_USER.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BTN_USER.setObjectName("BTN_USER")
         self.LAYOUT_FUNC_MAIN.addWidget(self.BTN_USER)

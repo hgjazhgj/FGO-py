@@ -1,6 +1,6 @@
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,numpy,cv2,re,functools
+import time,os,numpy,cv2,re
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD
 IMG_APEMPTY=cv2.imread('image/apempty.png')
@@ -66,7 +66,7 @@ class Base(Android):
     def press(self,c):super().touch(self.key[c])
     def snapshot(self):return cv2.resize(super().snapshot(),self.size,interpolation=cv2.INTER_CUBIC)
 base=Base()
-def doit(touch,wait):[(base.press(i),time.sleep(j*.001))for i,j in zip(touch,wait)]
+def doit(pos,wait):[(base.press(i),time.sleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
     def __init__(self,lagency=.02):
         global suspendFlag
@@ -77,7 +77,7 @@ class Check:
         self.im=cv2.resize(base.snapshot()[base.tapOffset[1]:-base.tapOffset[1]if base.tapOffset[1]else None,base.tapOffset[0]:-base.tapOffset[0]if base.tapOffset[0]else None],(1920,1080),interpolation=cv2.INTER_CUBIC)
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
-    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch(rect[0]+loc[2][0]+img.shape[1]//2,rect[1]+loc[2][1]+img.shape[0]//2),time.sleep(.5),fuse.reset())[2])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
+    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):cv2.imwrite(getTime()+'.jpg'if name==''else name,self.im);return self
     def show(self):show(cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST));return self
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
@@ -100,14 +100,14 @@ def chooseFriend():
     while True:
         for _ in range(16):
             chk=Check(.3)
-            for name,img in functools.filter(lambda img:chk.tapOnCmp(img,delta=.015),IMG_FRIEND):
+            for name,_ in filter(lambda x:chk.tapOnCmp(x[1],delta=.015),IMG_FRIEND):
                 printer('  Friend:',name)
                 try:p=re.search('[0-9x]{11}$',name).group()
                 except AttributeError:pass
                 else:
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
-                return time.sleep(1)
+                return time.sleep(1.5)
             base.swipe((220,960,220,550))
         doit('\xBAJ',(500,1000))
         while True:
@@ -173,3 +173,5 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
             if chk.isBegin():break
             chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
             doit(' ',(300,))
+def userScript():
+    return oneBattle()
