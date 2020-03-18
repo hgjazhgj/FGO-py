@@ -88,7 +88,7 @@ class MyMainWindow(QMainWindow):
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
     def runMain(self):self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex())
-    def runUser(self):pass
+    def runUser(self):self.runFunc(fgoFunc.userScript)
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
     def stop(self):fgoFunc.terminateFlag=True
     def openFolder(self):os.startfile(os.getcwd())
