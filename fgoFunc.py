@@ -1,3 +1,26 @@
+#                                                                                                                                           
+#                                                                                                                                           
+#  YYYYYYY       YYYYYYY     LLLLLLLLLLL                     SSSSSSSSSSSSSSS      FFFFFFFFFFFFFFFFFFFFFF     MMMMMMMM               MMMMMMMM
+#  Y:::::Y       Y:::::Y     L:::::::::L                   SS:::::::::::::::S     F::::::::::::::::::::F     M:::::::M             M:::::::M
+#  Y:::::Y       Y:::::Y     L:::::::::L                  S:::::SSSSSS::::::S     F::::::::::::::::::::F     M::::::::M           M::::::::M
+#  Y::::::Y     Y::::::Y     LL:::::::LL                  S:::::S     SSSSSSS     FF::::::FFFFFFFFF::::F     M:::::::::M         M:::::::::M
+#  YYY:::::Y   Y:::::YYY       L:::::L                    S:::::S                   F:::::F       FFFFFF     M::::::::::M       M::::::::::M
+#     Y:::::Y Y:::::Y          L:::::L                    S:::::S                   F:::::F                  M:::::::::::M     M:::::::::::M
+#      Y:::::Y:::::Y           L:::::L                     S::::SSSS                F::::::FFFFFFFFFF        M:::::::M::::M   M::::M:::::::M
+#       Y:::::::::Y            L:::::L                      SS::::::SSSSS           F:::::::::::::::F        M::::::M M::::M M::::M M::::::M
+#        Y:::::::Y             L:::::L                        SSS::::::::SS         F:::::::::::::::F        M::::::M  M::::M::::M  M::::::M
+#         Y:::::Y              L:::::L                           SSSSSS::::S        F::::::FFFFFFFFFF        M::::::M   M:::::::M   M::::::M
+#         Y:::::Y              L:::::L                                S:::::S       F:::::F                  M::::::M    M:::::M    M::::::M
+#         Y:::::Y              L:::::L         LLLLLL                 S:::::S       F:::::F                  M::::::M     MMMMM     M::::::M
+#         Y:::::Y            LL:::::::LLLLLLLLL:::::L     SSSSSSS     S:::::S     FF:::::::FF                M::::::M               M::::::M
+#      YYYY:::::YYYY         L::::::::::::::::::::::L     S::::::SSSSSS:::::S     F::::::::FF                M::::::M               M::::::M
+#      Y:::::::::::Y         L::::::::::::::::::::::L     S:::::::::::::::SS      F::::::::FF                M::::::M               M::::::M
+#      YYYYYYYYYYYYY         LLLLLLLLLLLLLLLLLLLLLLLL      SSSSSSSSSSSSSSS        FFFFFFFFFFF                MMMMMMMM               MMMMMMMM
+#                                                                                                                                           
+#                                                                                                                                           
+#                                                                                                                                           
+#                                                                                                                                           
+#                                                                                                                                           
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
 import time,os,numpy,cv2,re
@@ -45,36 +68,35 @@ fuse=Fuse()
 class Base(Android):
     def __init__(self,serialno=None):
         try:super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)
-        except:
-            self.serialno=None
-            return
-        self.size=tuple(sorted(self.get_current_resolution(),reverse=True))
-        if self.size[0]*9>self.size[1]*16:
-            self.tapScale=1080/self.size[1]
-            self.tapOffset=(round(self.size[0]-self.size[1]*16/9)>>1,0)
+        except:self.serialno=None
+        else:self.setup()
+    def setup(self):
+        self.res=[round(i)for i in self.get_render_resolution(True)]
+        if self.res[2]*9>self.res[3]*16:
+            self.scale=1080/self.res[3]
+            self.border=(round(self.res[2]-self.res[3]*16/9)>>1,0)
         else:
-            self.tapScale=1920/self.size[0]
-            self.tapOffset=(0,round(self.size[0]*9/16-self.size[1])>>1)
-        self.key={c:[round(p[i]/self.tapScale+self.tapOffset[i])for i in range(2)]for c,p in
+            self.scale=1920/self.res[2]
+            self.border=(0,round(self.res[3]-self.res[2]*9/16)>>1)
+        self.key={c:[round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)]for c,p in
            {' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
             'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
             'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
             '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
             '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
-    def touch(self,p):super().touch([round(p[i]*self.tapScale+self.tapOffset[i])for i in range(2)])
-    def swipe(self,rect):super().swipe(*[[round(rect[i<<1|j]*self.tapScale)+self.tapOffset[j]for j in range(2)]for i in range(2)])
+    def touch(self,p):super().touch([round(p[i]*self.scale+self.border[i]+self.res[i])for i in range(2)])
+    def swipe(self,rect):super().swipe(*[[round(rect[i<<1|j]*self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)])
     def press(self,c):super().touch(self.key[c])
-    def snapshot(self):return cv2.resize(super().snapshot(),self.size,interpolation=cv2.INTER_CUBIC)
+    def snapshot(self):return cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]]
 base=Base()
 def doit(pos,wait):[(base.press(i),time.sleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
     def __init__(self,lagency=.02):
-        global suspendFlag
         while suspendFlag:time.sleep(.05)
         if terminateFlag:exit(0)
         time.sleep(lagency)
         fuse.increase()
-        self.im=cv2.resize(base.snapshot()[base.tapOffset[1]:-base.tapOffset[1]if base.tapOffset[1]else None,base.tapOffset[0]:-base.tapOffset[0]if base.tapOffset[0]else None],(1920,1080),interpolation=cv2.INTER_CUBIC)
+        self.im=cv2.resize(base.snapshot(),(1920,1080),interpolation=cv2.INTER_CUBIC)
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
@@ -173,5 +195,4 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
             if chk.isBegin():break
             chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
             doit(' ',(300,))
-def userScript():
-    return oneBattle()
+def userScript():pass
