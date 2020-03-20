@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
 from PyQt5.QtCore import Qt
 from airtest.core.android.adb import ADB
-import time,os,sys,cv2,threading,configparser,traceback,playsound,random
+import os,sys,cv2,threading,configparser,traceback,playsound,random
 
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
@@ -22,7 +22,6 @@ class MyMainWindow(QMainWindow):
         super().__init__(parent)
         self.ui=Ui_fgoMainWindow()
         self.ui.setupUi(self)
-        self.ui.CBX_PARTY.clear()
         self.ui.CBX_PARTY.addItems(config.sections())
         self.ui.CBX_PARTY.setCurrentIndex(-1)
         self.loadParty('DEFAULT')
@@ -73,6 +72,7 @@ class MyMainWindow(QMainWindow):
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接远程设备','adb connect',text='localhost:5555')
         if ok and text:ADB(text)
+    def refreshDevice():fgoFunc.base.setup()
     def checkCheck(self):fgoFunc.Check(0).show()
     def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):

@@ -33,10 +33,7 @@
          </sizepolicy>
         </property>
         <property name="statusTip">
-         <string extracomment="本脚本只能用于fgo简中服">选取编队,若需新建或删除请直接更改config文件</string>
-        </property>
-        <property name="accessibleDescription">
-         <string>残疾人就别玩fgo了</string>
+         <string>选取编队,若需新建或删除请直接更改config文件</string>
         </property>
        </widget>
       </item>
@@ -3330,7 +3327,7 @@
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
    </widget>
-   <widget class="QMenu" name="MENU_SETTING">
+   <widget class="QMenu" name="MENU_SCRIPT">
     <property name="font">
      <font>
       <family>Microsoft YaHei UI Light</family>
@@ -3338,12 +3335,13 @@
      </font>
     </property>
     <property name="title">
-     <string>设置</string>
+     <string>脚本</string>
     </property>
-    <addaction name="MENU_SETTING_STAYONTOP"/>
+    <addaction name="MENU_SCRIPT_STAYONTOP"/>
+    <addaction name="MENU_SCRIPT_REFRESHDEVICE"/>
    </widget>
    <addaction name="MENU_FILE"/>
-   <addaction name="MENU_SETTING"/>
+   <addaction name="MENU_SCRIPT"/>
    <addaction name="MENU_ABOUT"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
@@ -3376,12 +3374,28 @@
     </font>
    </property>
   </action>
-  <action name="MENU_SETTING_STAYONTOP">
+  <action name="MENU_SCRIPT_STAYONTOP">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
     <string>窗口置顶</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionsadad">
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="MENU_SCRIPT_REFRESHDEVICE">
+   <property name="text">
+    <string>刷新显示参数</string>
    </property>
    <property name="font">
     <font>
@@ -3471,11 +3485,16 @@
   <tabstop>TXT_DANGER_1</tabstop>
   <tabstop>TXT_DANGER_2</tabstop>
   <tabstop>TXT_MASTER_0_0</tabstop>
+  <tabstop>TXT_MASTER_0_1</tabstop>
+  <tabstop>TXT_MASTER_0_2</tabstop>
   <tabstop>TXT_MASTER_1_0</tabstop>
   <tabstop>TXT_MASTER_1_1</tabstop>
+  <tabstop>TXT_MASTER_1_2</tabstop>
   <tabstop>TXT_MASTER_2_0</tabstop>
   <tabstop>TXT_MASTER_2_1</tabstop>
+  <tabstop>TXT_MASTER_2_2</tabstop>
   <tabstop>CBX_APPLE</tabstop>
+  <tabstop>TXT_APPLE</tabstop>
   <tabstop>BTN_GETDEVICE</tabstop>
   <tabstop>BTN_ADBCONNECT</tabstop>
   <tabstop>BTN_CHECK</tabstop>
@@ -3486,7 +3505,6 @@
   <tabstop>BTN_USER</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
-  <tabstop>TXT_APPLE</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -3497,8 +3515,8 @@
    <slot>runOneBattle()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>360</x>
-     <y>406</y>
+     <x>411</x>
+     <y>504</y>
     </hint>
     <hint type="destinationlabel">
      <x>321</x>
@@ -3513,8 +3531,8 @@
    <slot>runMain()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>360</x>
-     <y>441</y>
+     <x>411</x>
+     <y>544</y>
     </hint>
     <hint type="destinationlabel">
      <x>343</x>
@@ -3529,8 +3547,8 @@
    <slot>checkCheck()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>205</x>
-     <y>371</y>
+     <x>275</x>
+     <y>504</y>
     </hint>
     <hint type="destinationlabel">
      <x>181</x>
@@ -3545,8 +3563,8 @@
    <slot>runUser()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>308</x>
-     <y>371</y>
+     <x>411</x>
+     <y>584</y>
     </hint>
     <hint type="destinationlabel">
      <x>319</x>
@@ -3561,8 +3579,8 @@
    <slot>pause()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>426</x>
-     <y>364</y>
+     <x>547</x>
+     <y>517</y>
     </hint>
     <hint type="destinationlabel">
      <x>433</x>
@@ -3577,8 +3595,8 @@
    <slot>stop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>426</x>
-     <y>410</y>
+     <x>547</x>
+     <y>570</y>
     </hint>
     <hint type="destinationlabel">
      <x>439</x>
@@ -3609,8 +3627,8 @@
    <slot>saveParty()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>324</x>
-     <y>43</y>
+     <x>448</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>412</x>
@@ -3625,8 +3643,8 @@
    <slot>resetParty()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>432</x>
-     <y>42</y>
+     <x>548</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>439</x>
@@ -3641,8 +3659,8 @@
    <slot>getFriend()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>144</x>
-     <y>391</y>
+     <x>275</x>
+     <y>544</y>
     </hint>
     <hint type="destinationlabel">
      <x>127</x>
@@ -3657,8 +3675,8 @@
    <slot>getDevice()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>29</x>
-     <y>361</y>
+     <x>42</x>
+     <y>517</y>
     </hint>
     <hint type="destinationlabel">
      <x>56</x>
@@ -3673,8 +3691,8 @@
    <slot>adbConnect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>70</x>
-     <y>405</y>
+     <x>83</x>
+     <y>570</y>
     </hint>
     <hint type="destinationlabel">
      <x>78</x>
@@ -3721,8 +3739,8 @@
    <slot>applyAll()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>152</x>
-     <y>430</y>
+     <x>275</x>
+     <y>584</y>
     </hint>
     <hint type="destinationlabel">
      <x>315</x>
@@ -3731,7 +3749,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>MENU_SETTING_STAYONTOP</sender>
+   <sender>MENU_SCRIPT_STAYONTOP</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stayOnTop()</slot>
@@ -3743,6 +3761,22 @@
     <hint type="destinationlabel">
      <x>246</x>
      <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MENU_SCRIPT_REFRESHDEVICE</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>refreshDevice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>313</y>
     </hint>
    </hints>
   </connection>
@@ -3781,6 +3815,7 @@
   <slot>applyAll()</slot>
   <slot>runUser()</slot>
   <slot>stayOnTop()</slot>
+  <slot>refreshDevice()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
