@@ -72,7 +72,7 @@ class MyMainWindow(QMainWindow):
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接远程设备','adb connect',text='localhost:5555')
         if ok and text:ADB(text)
-    def refreshDevice():fgoFunc.base.setup()
+    def refreshDevice(self):fgoFunc.base.setup()
     def checkCheck(self):fgoFunc.Check(0).show()
     def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):

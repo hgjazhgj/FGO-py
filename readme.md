@@ -12,7 +12,7 @@
 > 我不做人啦!JOJO!  
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本[v3.8.0](#版本记录-Version-Logs)  
+当前版本[v3.8.1](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 当前版本更新较快,因此**不建议fork**  
@@ -101,6 +101,15 @@ email huguangjing0411@geektip.cc
 如果以上问题的答案均为"是",请按照前述的方式联系我  
 ***
 # 版本记录 Version Logs  
+## 2020/03/21 v3.8.1  
+上一个版本的奇怪问题解决了,我忘了写self参数  
+......淦  
+为什么直接IDE报错弹框里写"3221226505‬无法转换为int32"呢  
+照着这个0xC0000409去查,百度根本查不到,然后谷歌了半天,在[stackoverflow](https://stackoverflow.com/questions/46710299/why-does-pyqt-crashes-without-information-exit-code-0xc0000409)里看到了这么一段:
+> (NB: if you're using any kind of IDE or debugger, and you are getting unexpected errors or crashes, your first step in diagnosing the problem should always be to test the code in a standard console. Quite often, the IDE or debugger itself can be the cause of the problem, or may mask error messages comming either from Python or from underlying libraries, such as Qt).  
+
+然后进cmd运行,总算看到了TypeError: refreshDevice() takes 0 positional arguments but 2 were given  
+wrng  
 ## 2020/03/20 v3.8.0  
 更新:异形屏黑边兼容啦  
 调整了一些参数  
