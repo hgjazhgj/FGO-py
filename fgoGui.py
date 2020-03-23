@@ -1,10 +1,13 @@
 from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt,pyqtSignal
 from airtest.core.android.adb import ADB
-import os,sys,cv2,threading,configparser,traceback,playsound,random
+import os,sys,cv2,threading,configparser,logging,playsound,random
 
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
+
+logger=logging.getLogger('airtest')
+logger.name='fgoGui'
 
 class NewConfigParser(configparser.ConfigParser):
     def optionxform(self,optionstr):return optionstr
@@ -18,6 +21,8 @@ def choice(x):
 soundName=choice(os.listdir('sound'))
 
 class MyMainWindow(QMainWindow):
+    signalFuncBegin=pyqtSignal()
+    signalFuncEnd=pyqtSignal()
     def __init__(self,parent=None):
         super().__init__(parent)
         self.ui=Ui_fgoMainWindow()
@@ -27,26 +32,36 @@ class MyMainWindow(QMainWindow):
         self.loadParty('DEFAULT')
         self.serialno=fgoFunc.base.serialno
         self.IMG_FRIEND=fgoFunc.IMG_FRIEND
+        self.signalFuncBegin.connect(self.funcBegin)
+        self.signalFuncEnd.connect(self.funcEnd)
     def runFunc(self,func,*args,**kwargs):
         if self.serialno is None:
             QMessageBox.critical(self,'Error','无设备连接',QMessageBox.Ok)
             return
-        self.ui.BTN_ONEBATTLE.setEnabled(False)
-        self.ui.BTN_MAIN.setEnabled(False)
-        self.ui.BTN_PAUSE.setEnabled(True)
-        self.ui.BTN_STOP.setEnabled(True)
         self.applyAll()
         def f():
-            try:func(*args,**kwargs)
+            try:
+                self.signalFuncBegin.emit()
+                func(*args,**kwargs)
             except BaseException as e:
-                if type(e)!=SystemExit:traceback.print_exc()
+                if type(e)!=SystemExit:
+                    logger.exception('')
             finally:
-                self.ui.BTN_ONEBATTLE.setEnabled(True)
-                self.ui.BTN_MAIN.setEnabled(True)
-                self.ui.BTN_PAUSE.setEnabled(False)
-                self.ui.BTN_STOP.setEnabled(False)
+                self.signalFuncEnd.emit()
                 playsound.playsound('sound/'+next(soundName))
         threading.Thread(target=f).start()
+    def funcBegin(self):
+        self.ui.BTN_ONEBATTLE.setEnabled(False)
+        self.ui.BTN_MAIN.setEnabled(False)
+        self.ui.BTN_USER.setEnabled(False)
+        self.ui.BTN_PAUSE.setEnabled(True)
+        self.ui.BTN_STOP.setEnabled(True)
+    def funcEnd(self):
+        self.ui.BTN_ONEBATTLE.setEnabled(True)
+        self.ui.BTN_MAIN.setEnabled(True)
+        self.ui.BTN_USER.setEnabled(True)
+        self.ui.BTN_PAUSE.setEnabled(False)
+        self.ui.BTN_STOP.setEnabled(False)
     def loadParty(self,x):
         skillInfo=eval(config[x]['skillInfo'])
         houguInfo=eval(config[x]['houguInfo'])

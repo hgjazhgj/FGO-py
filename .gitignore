@@ -8,3 +8,4 @@ chk.png
 *.log
 *.jpg
 /backup
+*.xls*
