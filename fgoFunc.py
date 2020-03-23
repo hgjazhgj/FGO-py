@@ -24,9 +24,12 @@
 ###################################################################################################################################################
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,numpy,cv2,re
+import time,os,numpy,cv2,re,logging
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD
+logger=logging.getLogger('airtest')
+logger.name='fgoFunc'
+#logger.setLevel(logging.INFO)
 IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
 IMG_BEGIN=cv2.imread('image/begin.png')
@@ -48,17 +51,15 @@ friendPos=4
 masterSkill=[[4,0,0],[4,0,0],[4,0,0]]
 terminateFlag=False
 suspendFlag=False
-def getTime():return time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())
-def printer(*args,**kwargs):print(getTime(),*args,**kwargs)
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
     def __init__(self,fv=600):
         self.__value=0
         self.__max=fv
     @property
-    def value():return self.__value
+    def value(self):return self.__value
     @property
-    def max():return self.__max
+    def max(self):return self.__max
     def increase(self):
         assert self.__value<self.__max
         self.__value+=1
@@ -85,6 +86,7 @@ class Base(Android):
             'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
             '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
             '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
+        return self
     def touch(self,p):super().touch([round(p[i]*self.scale+self.border[i]+self.res[i])for i in range(2)])
     def swipe(self,rect):super().swipe(*[[round(rect[i<<1|j]*self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)])
     def press(self,c):super().touch(self.key[c])
@@ -101,7 +103,7 @@ class Check:
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
-    def save(self,name=''):cv2.imwrite(getTime()+'.jpg'if name==''else name,self.im);return self
+    def save(self,name=''):cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im);return self
     def show(self):show(cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST));return self
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
     def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
@@ -124,7 +126,7 @@ def chooseFriend():
         for _ in range(16):
             chk=Check(.3)
             for name,_ in filter(lambda x:chk.tapOnCmp(x[1],delta=.015),IMG_FRIEND):
-                printer('  Friend:',name)
+                logger.info('Friend '+name)
                 try:p=re.search('[0-9x]{11}$',name).group()
                 except AttributeError:pass
                 else:
@@ -146,7 +148,7 @@ def oneBattle():
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
             if turn>1:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
             portrait=newPortrait
-            printer('   ',turn,stage,stageTurn,servant)
+            logger.info('{} {} {} {}'.format(turn,stage,stageTurn,servant))
             for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
@@ -160,10 +162,10 @@ def oneBattle():
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and stage>=houguInfo[servant[i]][0]for i in range(3)])(chk.isHouguReady())))(Check())[:3],(200,200,10000))
         elif chk.isBattleOver():
-            printer('  Battle Finished')
+            logger.info('Battle Finished')
             return True
         elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
-            printer('  Battle Failed')
+            logger.info('Battle Failed')
             return False
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
@@ -172,13 +174,13 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         doit('8',(800,))
         if Check().isApEmpty():
             if apple==appleCount:
-                printer('Ap Empty')
+                logger.info('Ap Empty')
                 return base.press('\x12')
             else:
                 apple+=1
-                printer('Apple',apple)
+                logger.info('Apple '+str(apple))
                 doit('W4K8'[appleKind]+'L',(400,1200))
-        printer('  Battle',battle)
+        logger.info('Battle '+str(battle))
         flush=True
         while True:
             chk=Check()
@@ -196,4 +198,5 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
             if chk.isBegin():break
             chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
             doit(' ',(300,))
-def userScript():pass
+def userScript():
+    raise TypeError
