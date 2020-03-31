@@ -6,7 +6,7 @@ import os,sys,cv2,threading,configparser,logging,playsound,random
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
 
-logger=logging.getLogger('airtest')
+logger=logging.getLogger('fgoFunc.fgoGui')
 logger.name='fgoGui'
 
 class NewConfigParser(configparser.ConfigParser):
@@ -44,8 +44,7 @@ class MyMainWindow(QMainWindow):
                 self.signalFuncBegin.emit()
                 func(*args,**kwargs)
             except BaseException as e:
-                if type(e)!=SystemExit:
-                    logger.exception('')
+                if type(e)!=SystemExit:logger.exception(e)
             finally:
                 self.signalFuncEnd.emit()
                 playsound.playsound('sound/'+next(soundName))
@@ -82,10 +81,10 @@ class MyMainWindow(QMainWindow):
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda adbList:QInputDialog.getItem(self,'更改安卓设备','在下拉列表中选择',adbList,adbList.index(self.serialno)if self.serialno and self.serialno in adbList else 0))([i for i,j in ADB().devices()if j=='device'])
+        text,ok=(lambda adbList:QInputDialog.getItem(self,'更改安卓设备','在下拉列表中选择一个设备',adbList,adbList.index(self.serialno)if self.serialno and self.serialno in adbList else 0))([i for i,j in ADB().devices()if j=='device'])
         if ok and text:self.serialno=text
     def adbConnect(self):
-        text,ok=QInputDialog.getText(self,'连接远程设备','adb connect',text='localhost:5555')
+        text,ok=QInputDialog.getText(self,'连接远程设备','设备地址',text='localhost:5555')
         if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base.setup()
     def checkCheck(self):fgoFunc.Check(0).show()
@@ -102,8 +101,10 @@ class MyMainWindow(QMainWindow):
         if self.serialno!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(self.serialno)
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
-    def runMain(self):self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex())
     def runUser(self):self.runFunc(fgoFunc.userScript)
+    def runMain(self):
+        text,ok=QInputDialog.getItem(self,'肝','在下拉列表中选择需要重复执行的战斗函数',['oneBattle','userScript'],0)
+        if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),eval('fgoFunc.'+text))
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
     def stop(self):fgoFunc.terminateFlag=True
     def openFolder(self):os.startfile(os.getcwd())
