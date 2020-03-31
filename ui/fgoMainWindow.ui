@@ -3221,19 +3221,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="BTN_MAIN">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="statusTip">
-           <string>在点击第一个关卡就能进入选择助战界面启动来清空体力</string>
-          </property>
-          <property name="text">
-           <string>肝!</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="BTN_USER">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -3243,6 +3230,19 @@
           </property>
           <property name="text">
            <string>用户脚本</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="BTN_MAIN">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="statusTip">
+           <string>在点击第一个关卡就能进入选择助战界面启动来清空体力</string>
+          </property>
+          <property name="text">
+           <string>肝!</string>
           </property>
          </widget>
         </item>
@@ -3501,8 +3501,8 @@
   <tabstop>BTN_GETFRIEND</tabstop>
   <tabstop>BTN_APPLYALL</tabstop>
   <tabstop>BTN_ONEBATTLE</tabstop>
-  <tabstop>BTN_MAIN</tabstop>
   <tabstop>BTN_USER</tabstop>
+  <tabstop>BTN_MAIN</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
  </tabstops>

@@ -1,7 +1,6 @@
 ###################################################################################################################################################
 #                                                                                                                                                 #
 #                                                                                                                                                 #
-#                                                                                                                                                 #
 #    YYYYYYY       YYYYYYY     LLLLLLLLLLL                     SSSSSSSSSSSSSSS      FFFFFFFFFFFFFFFFFFFFFF     MMMMMMMM               MMMMMMMM    #
 #    Y:::::Y       Y:::::Y     L:::::::::L                   SS:::::::::::::::S     F::::::::::::::::::::F     M:::::::M             M:::::::M    #
 #    Y:::::Y       Y:::::Y     L:::::::::L                  S:::::SSSSSS::::::S     F::::::::::::::::::::F     M::::::::M           M::::::::M    #
@@ -20,16 +19,18 @@
 #        YYYYYYYYYYYYY         LLLLLLLLLLLLLLLLLLLLLLLL      SSSSSSSSSSSSSSS        FFFFFFFFFFF                MMMMMMMM               MMMMMMMM    #
 #                                                                                                                                                 #
 #                                                                                                                                                 #
-#                                                                                                                                                 #
 ###################################################################################################################################################
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
 import time,os,numpy,cv2,re,logging
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD
-logger=logging.getLogger('airtest')
-logger.name='fgoFunc'
-#logger.setLevel(logging.INFO)
+logging.getLogger('airtest').handlers[0].formatter.datefmt='%H:%M:%S'
+logger=logging.getLogger('fgoFunc')
+logger.setLevel(logging.DEBUG)
+handler=logging.StreamHandler()
+handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S'))
+logger.addHandler(handler)
 IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
 IMG_BEGIN=cv2.imread('image/begin.png')
@@ -64,6 +65,7 @@ class Fuse:
         assert self.__value<self.__max
         self.__value+=1
     def reset(self):
+        logger.debug('fuse '+str(self.__value))
         self.__value=0
         return True
 fuse=Fuse()
@@ -95,7 +97,7 @@ base=Base()
 def doit(pos,wait):[(base.press(i),time.sleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
     def __init__(self,lagency=.02):
-        while suspendFlag:time.sleep(.05)
+        while suspendFlag:time.sleep(.1)
         if terminateFlag:exit(0)
         time.sleep(lagency)
         fuse.increase()
@@ -199,4 +201,13 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
             chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
             doit(' ',(300,))
 def userScript():
-    raise TypeError
+    while not Check(.1).isTurnBegin():pass
+    doit('QE2SF2J2 612',(300,300,2700,2700,300,2700,300,2700,2400,200,200,10000))
+    while not Check(.1).isTurnBegin():pass
+    assert Check().getStage()==2
+    doit('H2 612',(300,2700,2400,200,200,10000))
+    while not Check(.1).isTurnBegin():pass
+    assert Check().getStage()==3
+    doit('L2A 612',(300,2700,2700,2400,300,300,10000))
+    while not Check(.1).isBattleOver():pass
+    return True
