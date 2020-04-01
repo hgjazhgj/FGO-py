@@ -102,8 +102,9 @@ class MyMainWindow(QMainWindow):
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
     def runUser(self):self.runFunc(fgoFunc.userScript)
+    def runGacha(self):self.runFunc(fgoFunc.gacha)
     def runMain(self):
-        text,ok=QInputDialog.getItem(self,'肝','在下拉列表中选择需要重复执行的战斗函数',['oneBattle','userScript'],0)
+        text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['oneBattle','userScript'],0)
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),eval('fgoFunc.'+text))
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
     def stop(self):fgoFunc.terminateFlag=True
@@ -111,7 +112,7 @@ class MyMainWindow(QMainWindow):
     def stayOnTop(self):
         self.setWindowFlags(self.windowFlags()^Qt.WindowStaysOnTopHint)
         self.show()
-    def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj\n项目地址:https://github.com/hgjazhgj/FGO-py\n联系方式:huguangjing0411@geektip.cc')
+    def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj  \n项目地址:https://github.com/hgjazhgj/FGO-py  \n联系方式:huguangjing0411@geektip.cc  \n防呆不放蠢,大力出奇迹!')
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
