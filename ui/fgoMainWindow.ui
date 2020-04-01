@@ -3304,41 +3304,24 @@
     </font>
    </property>
    <widget class="QMenu" name="MENU_ABOUT">
-    <property name="font">
-     <font>
-      <family>Microsoft YaHei UI Light</family>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
     <property name="title">
      <string>关于</string>
     </property>
     <addaction name="MENU_ABOUT_ABOUT"/>
    </widget>
    <widget class="QMenu" name="MENU_FILE">
-    <property name="font">
-     <font>
-      <family>Microsoft YaHei UI Light</family>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
     <property name="title">
      <string>文件</string>
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
    </widget>
    <widget class="QMenu" name="MENU_SCRIPT">
-    <property name="font">
-     <font>
-      <family>Microsoft YaHei UI Light</family>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
     <property name="title">
      <string>脚本</string>
     </property>
     <addaction name="MENU_SCRIPT_STAYONTOP"/>
     <addaction name="MENU_SCRIPT_REFRESHDEVICE"/>
+    <addaction name="MENU_SCRIPT_GACHA"/>
    </widget>
    <addaction name="MENU_FILE"/>
    <addaction name="MENU_SCRIPT"/>
@@ -3396,6 +3379,17 @@
   <action name="MENU_SCRIPT_REFRESHDEVICE">
    <property name="text">
     <string>刷新显示参数</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_SCRIPT_GACHA">
+   <property name="text">
+    <string>抽友情</string>
    </property>
    <property name="font">
     <font>
@@ -3780,6 +3774,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MENU_SCRIPT_GACHA</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>runGacha()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>313</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -3816,6 +3826,7 @@
   <slot>runUser()</slot>
   <slot>stayOnTop()</slot>
   <slot>refreshDevice()</slot>
+  <slot>runGacha()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>

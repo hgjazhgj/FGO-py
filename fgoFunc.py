@@ -26,11 +26,7 @@ import time,os,numpy,cv2,re,logging
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD
 logging.getLogger('airtest').handlers[0].formatter.datefmt='%H:%M:%S'
-logger=logging.getLogger('fgoFunc')
-logger.setLevel(logging.DEBUG)
-handler=logging.StreamHandler()
-handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S'))
-logger.addHandler(handler)
+logger=(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[1])(logging.StreamHandler())),logger)[2])(logging.getLogger('fgoFunc'))
 IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
 IMG_BEGIN=cv2.imread('image/begin.png')
@@ -41,12 +37,13 @@ IMG_CHOOSEFRIEND=cv2.imread('image/choosefriend.png')
 IMG_END=cv2.imread('image/end.png')
 IMG_FAILED=cv2.imread('image/failed.png')
 IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
+IMG_GACHA=cv2.imread('image/gacha.png')
 IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
 IMG_NOFRIEND=cv2.imread('image/nofriend.png')
-IMG_STILL=cv2.imread('image/still.png')
 IMG_STAGE=[cv2.imread('image/stage/'+file)for file in os.listdir('image/stage')if file.startswith('stage')and file.endswith('.png')]
-skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]#minstage,minstageturn,obj
-houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]#minstage,priority
+IMG_STILL=cv2.imread('image/still.png')
+skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
+houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
 dangerPos=[0,0,1]
 friendPos=4
 masterSkill=[[4,0,0],[4,0,0],[4,0,0]]
@@ -54,20 +51,23 @@ terminateFlag=False
 suspendFlag=False
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
-    def __init__(self,fv=600):
+    def __init__(self,fv=200):
         self.__value=0
         self.__max=fv
     @property
     def value(self):return self.__value
     @property
     def max(self):return self.__max
-    def increase(self):
-        assert self.__value<self.__max
+    def inc(self):
+        if self.__value>self.__max:
+            logger.warning('Fused')
+            exit(0)
         self.__value+=1
+        return self
     def reset(self):
-        logger.debug('fuse '+str(self.__value))
+        logger.debug('Fuse '+str(self.__value))
         self.__value=0
-        return True
+        return self
 fuse=Fuse()
 class Base(Android):
     def __init__(self,serialno=None):
@@ -85,11 +85,11 @@ class Base(Android):
         self.key={c:[round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)]for c,p in
            {' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
             'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
-            'L':(1336,860),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
+            'L':(1336,860),'M':(1200,1000),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
             '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
             '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
         return self
-    def touch(self,p):super().touch([round(p[i]*self.scale+self.border[i]+self.res[i])for i in range(2)])
+    def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)])
     def swipe(self,rect):super().swipe(*[[round(rect[i<<1|j]*self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)])
     def press(self,c):super().touch(self.key[c])
     def snapshot(self):return cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]]
@@ -100,7 +100,7 @@ class Check:
         while suspendFlag:time.sleep(.1)
         if terminateFlag:exit(0)
         time.sleep(lagency)
-        fuse.increase()
+        fuse.inc()
         self.im=cv2.resize(base.snapshot(),(1920,1080),interpolation=cv2.INTER_CUBIC)
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
@@ -115,14 +115,17 @@ class Check:
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
+    def isGacha(self):return self.compare(IMG_GACHA,rect=(1041,755,1437,907))and fuse.reset()
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845))else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getStage(self):return self.select(IMG_STAGE,(1290,14,1348,60))+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
-def draw():
-    while True:base.press('2')
+def gacha():
+    while fuse.value<40:
+        if Check(.1).isGacha():doit('KK',(200,2200))
+        base.press('M')
 def chooseFriend():
     if len(IMG_FRIEND)==0:
-        doit('8',(1000,))
+        doit('8',(2000,))
         return
     while True:
         for _ in range(16):
@@ -136,7 +139,7 @@ def chooseFriend():
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
                 return time.sleep(1.5)
             base.swipe((220,960,220,550))
-        doit('\xBAJ',(500,1000))
+        doit('\xBAJ',(500,2000))
         while True:
             chk=Check(.2)
             assert not chk.isNoFriend()
@@ -167,7 +170,7 @@ def oneBattle():
             logger.info('Battle Finished')
             return True
         elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
-            logger.info('Battle Failed')
+            logger.warning('Battle Failed')
             return False
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
