@@ -8,7 +8,7 @@
 > 我不做人啦!JOJO!  
 
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-当前版本[v3.8.4](#版本记录-Version-Logs)  
+当前版本[v3.8.5](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 你可以star以便日后访问~~长按star体验一键三连的快感~~  
@@ -35,7 +35,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 比如如果要三回合速刷,请自己写一个战斗函数  
 
 我的
-qq 979449732(加好友请说明来意  
+qq 979449732(加好友请说明来意,**并附上您在GitHub中的账户名**  
 email huguangjing0411@geektip.cc  
 关于airtest首次安装/重新启动带来的本脚本中没有考虑到的问题请提交issue  
 有任何技术问题或bug反馈或本readme中有任何包括但不限于错别字语法错误描述错误的问题请联系,觉得有帮助请为我star  
@@ -58,6 +58,7 @@ email huguangjing0411@geektip.cc
 连代码都不会写难道得从helloworld教起吗  
 怎么想都不是我的问题吧  
 所以我逮到一个憨憨就挂一个,至少起到一个战术威慑的作用  
+[跳过图片部分](#助战-Friends)  
 ![hanhan1](./doc/hanhan_2020-02-28.{8580878A-AB3D-4C7E-80A1-50F01A7DD31F}.png)  
 这位还算有点礼貌,所以我给他打了码  
 ![hanhan2](./doc/hanhan_2020-04-03.{C00FEE01-BDE6-4719-BD69-0B23CB5F546C}.png)  
@@ -120,6 +121,7 @@ STF的minicap宣称能达到30FPS,但是很遗憾兼容性很差,绝大多数模
 并且使用起来也不能很复杂,别像win32一样,我的算法200行,截图另外200行  
 ***
 # 下一步的开发目标 Todo  
+[跳过这个部分](#版本记录-Version-Logs)
 ## 3.x  
 修bug  
 增加一些独立的小工具  
@@ -187,6 +189,11 @@ STF的minicap宣称能达到30FPS,但是很遗憾兼容性很差,绝大多数模
 在引入大量数据之前,应做好相应的算法基础准备  
 另外,锁卡/改变职阶相性/攻击附加效果/指令纹章/改变宝具卡色怎么搞??在json里面塞一段python代码??  
 # 版本记录 Version Logs  
+## 2020/04/03 v3.8.5  
+bug修复:旋转屏幕后点击位置还在旋转前的坐标  
+这是airtest.minitouch的问题,用adb就没有关系,但是效率低  
+也就是说,v3.8.0的更改并没有实际解决问题  
+现在强行创建了一个新设备,之后会想办法作更好的处理  
 ## 2020/04/01 v3.8.4  
 更新:抽友情的功能现在增加到了菜单中  
 我本想着抽友情这种简单独立的工作直接airtestIDE里面随便搞搞就好了,结果效率低得令人难以忍受  
