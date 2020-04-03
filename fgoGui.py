@@ -17,7 +17,7 @@ config.read('fgoConfig.ini')
 def choice(x):
     while True:
         random.shuffle(x)
-        for i in x:yield i
+        yield from x
 soundName=choice(os.listdir('sound'))
 
 class MyMainWindow(QMainWindow):
@@ -86,7 +86,7 @@ class MyMainWindow(QMainWindow):
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接远程设备','设备地址',text='localhost:5555')
         if ok and text:ADB(text)
-    def refreshDevice(self):fgoFunc.base.setup()
+    def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)#fgoFunc.base.setup()
     def checkCheck(self):fgoFunc.Check(0).show()
     def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):
