@@ -3378,7 +3378,7 @@
   </action>
   <action name="MENU_SCRIPT_REFRESHDEVICE">
    <property name="text">
-    <string>刷新显示参数</string>
+    <string>重新建立连接</string>
    </property>
    <property name="font">
     <font>
