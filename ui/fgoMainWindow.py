@@ -1209,5 +1209,5 @@ class Ui_fgoMainWindow(object):
         self.MENU_ABOUT_ABOUT.setText(_translate("fgoMainWindow", "关于"))
         self.MENU_FILE_EXPLORER.setText(_translate("fgoMainWindow", "在资源管理器中查看"))
         self.MENU_SCRIPT_STAYONTOP.setText(_translate("fgoMainWindow", "窗口置顶"))
-        self.MENU_SCRIPT_REFRESHDEVICE.setText(_translate("fgoMainWindow", "刷新显示参数"))
+        self.MENU_SCRIPT_REFRESHDEVICE.setText(_translate("fgoMainWindow", "重新建立连接"))
         self.MENU_SCRIPT_GACHA.setText(_translate("fgoMainWindow", "抽友情"))

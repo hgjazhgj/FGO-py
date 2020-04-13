@@ -41,6 +41,7 @@ IMG_GACHA=cv2.imread('image/gacha.png')
 IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
 IMG_NOFRIEND=cv2.imread('image/nofriend.png')
 IMG_STAGE=[cv2.imread('image/stage/'+file)for file in os.listdir('image/stage')if file.startswith('stage')and file.endswith('.png')]
+IMG_STAGETOTAL=[cv2.imread('image/stage/'+file)for file in os.listdir('image/stage')if file.startswith('total')and file.endswith('.png')]
 IMG_STILL=cv2.imread('image/still.png')
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -90,7 +91,7 @@ class Base(Android):
             '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
         return self
     def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)])
-    def swipe(self,rect):super().swipe(*[[round(rect[i<<1|j]*self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)])
+    def swipe(self,rect):super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)])
     def press(self,c):super().touch(self.key[c])
     def snapshot(self):return cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]]
 base=Base()
@@ -117,7 +118,8 @@ class Check:
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
     def isGacha(self):return self.compare(IMG_GACHA,rect=(1041,755,1437,907))and fuse.reset()
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845))else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
-    def getStage(self):return self.select(IMG_STAGE,(1290,14,1348,60))+1
+    def getStage(self):return self.select(IMG_STAGE,(1296,20,1342,56))+1
+    def getStageTotal(self):return self.select(IMG_STAGETOTAL,(1325,20,1372,56))+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
 def gacha():
     while fuse.value<40:
@@ -137,7 +139,7 @@ def chooseFriend():
                 else:
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
-                return time.sleep(1.5)
+                return time.sleep(2)
             base.swipe((220,960,220,550))
         doit('\xBAJ',(500,2000))
         while True:
@@ -151,21 +153,24 @@ def oneBattle():
         if chk.isTurnBegin():
             turn,stage,stageTurn,skill,newPortrait=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
-            if turn>1:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
+            if turn==1:
+                stageTotal=Check().getStageTotal()
+                logger.info(str(stageTotal))
+            else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
             portrait=newPortrait
             logger.info('{} {} {} {}'.format(turn,stage,stageTurn,servant))
-            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
+            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[i][j][0]and stage<<8|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
                 time.sleep(2)
                 while not Check(.1).isTurnBegin():pass
-            for i in(i for i in range(3)if masterSkill[i][0]==stage and masterSkill[i][1]==stageTurn):
+            for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit('Q'+'WER'[i],(300,300))
                 if masterSkill[i][2]:doit(chr(masterSkill[i][2]+49),(300,))
                 time.sleep(2)
                 while not Check(.1).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and stage>=houguInfo[servant[i]][0]for i in range(3)])(chk.isHouguReady())))(Check())[:3],(200,200,10000))
+            doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(300,300,10000))
         elif chk.isBattleOver():
             logger.info('Battle Finished')
             return True
