@@ -40,8 +40,8 @@ IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('
 IMG_GACHA=cv2.imread('image/gacha.png')
 IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
 IMG_NOFRIEND=cv2.imread('image/nofriend.png')
-IMG_STAGE=[cv2.imread('image/stage/'+file)for file in os.listdir('image/stage')if file.startswith('stage')and file.endswith('.png')]
-IMG_STAGETOTAL=[cv2.imread('image/stage/'+file)for file in os.listdir('image/stage')if file.startswith('total')and file.endswith('.png')]
+IMG_STAGE=[cv2.imread('image/stage/stage'+str(i)+'.png')for i in range(1,4)]
+IMG_STAGETOTAL=[cv2.imread('image/stage/total'+str(i)+'.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -116,15 +116,15 @@ class Check:
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
-    def isGacha(self):return self.compare(IMG_GACHA,rect=(1041,755,1437,907))and fuse.reset()
+    def isGacha(self):return self.compare(IMG_GACHA,rect=(973,960,1312,1052))and fuse.reset()
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845))else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getStage(self):return self.select(IMG_STAGE,(1296,20,1342,56))+1
     def getStageTotal(self):return self.select(IMG_STAGETOTAL,(1325,20,1372,56))+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
 def gacha():
-    while fuse.value<40:
-        if Check(.1).isGacha():doit('KK',(200,2200))
-        base.press('M')
+    while fuse.value<30:
+        if Check(.1).isGacha():doit('MK',(200,2500))
+        base.press('P')
 def chooseFriend():
     if len(IMG_FRIEND)==0:
         doit('8',(2000,))
@@ -152,11 +152,9 @@ def oneBattle():
         chk=Check(.1)
         if chk.isTurnBegin():
             turn,stage,stageTurn,skill,newPortrait=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
-            if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
-            if turn==1:
-                stageTotal=Check().getStageTotal()
-                logger.info(str(stageTotal))
+            if turn==1:stageTotal=Check().getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
+            if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
             portrait=newPortrait
             logger.info('{} {} {} {}'.format(turn,stage,stageTurn,servant))
             for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[i][j][0]and stage<<8|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]):
@@ -170,7 +168,7 @@ def oneBattle():
                 time.sleep(2)
                 while not Check(.1).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(300,300,10000))
+            doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
         elif chk.isBattleOver():
             logger.info('Battle Finished')
             return True
