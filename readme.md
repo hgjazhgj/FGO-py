@@ -1,4 +1,4 @@
-> 为panDownload及其作者默哀  
+> 聚合酶链式反应真尼玛好玩  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -6,21 +6,21 @@
 > 要成为超人的存在才行啊  
 > 我不做人啦!JOJO!  
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-![svg](https://img.shields.io/badge/fgo-作者是FGO国服安卓玩家-225799.svg)
-![svg](https://img.shields.io/badge/天青车道-作者是碧蓝航线玩家-00a2ff.svg)
-![svg](https://img.shields.io/badge/梆梆人-作者是BanGDream玩家-ff3b72.svg)
-![svg](https://img.shields.io/badge/hearthstone-作者是炉石传说玩家-daa520.svg)
-![svg](https://img.shields.io/badge/majsoul-作者是雀魂玩家-8b008b.svg)
-![svg](https://img.shields.io/badge/云程序员-作者是一位云程序员-ffffff.svg)
-![svg](https://img.shields.io/badge/开位-作者是一条开位咸鱼-ffd700.svg)
-![svg](https://img.shields.io/badge/头痛-作者患有头痛宿疾Ex-50a625.svg)
-![svg](https://img.shields.io/badge/病弱-作者是一个病弱厨-e6b5c5.svg)
-![svg](https://img.shields.io/badge/mikon-作者是玉藻俱乐部成员-804313.svg)
-![svg](https://img.shields.io/badge/lv100-作者拥有2130弓呆-00bfff.svg)
-![svg](https://img.shields.io/badge/萝莉控-小学生真是太棒了-b0e0e6.svg)
-![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
-![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)  
-当前版本[v3.8.6](#版本记录-Version-Logs)  
+![svg1](./doc/svg1.svg)
+![svg2](./doc/svg2.svg)
+![svg3](./doc/svg3.svg)
+![svg4](./doc/svg4.svg)
+![svg5](./doc/svg5.svg)
+![svg6](./doc/svg6.svg)
+![svg7](./doc/svg7.svg)
+![svg8](./doc/svg8.svg)
+![svg9](./doc/svg9.svg)
+![svg10](./doc/svg10.svg)
+![svg11](./doc/svg11.svg)
+![svg12](./doc/svg12.svg)
+![svg13](./doc/svg13.svg)
+![svg14](./doc/svg14.svg)  
+当前版本[v3.8.7](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 你可以star以便日后访问~~长按star体验一键三连的快感~~  
@@ -39,19 +39,19 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 `configParser` `airtest` `PyQt5` `playsound`  
 以上库均可`pip install`,其他被这些库依赖的外部库未单独列出  
 速览脚本功能,运行`fgoGui.py`,大部分功能说明也在ui里  
+ui大概长这样:  
+![ui](./doc/ui.png)  
 本脚本的代码部分仅有`fgoFunc.py`是fgo算法相关的  
 `fgoGui.py`也是脚本的一部分,在您知晓本脚本的工作原理前不建议单独使用`fgoFunc.py`进行操作  
-`fgoData.py`目前完全没用,里面有一些游戏的数据,为将来的大更新做准备  
+你只需要想办法重写fgoFunc.Base类,就能用于iOS端  
 这个脚本会帮你放技能(默认不用技能),放宝具(默认充能满就直接放宝具),选卡(优先三色chain,否则优先红卡).  
 合理设定后实战7-12回合能够刷完无限池终本  
-欢迎魔改  
+欢迎魔改,不过我的代码里可能有毒  
 比如如果要三回合速刷,请自己写一个战斗函数  
 
 我的  
 qq 979449732(加好友请说明来意,**并附上您在GitHub中的账户名**  
 email huguangjing0411@geektip.cc  
-关于airtest首次安装/重新启动带来的本脚本中没有考虑到的问题请提交issue  
-有任何技术问题或bug反馈或本readme中有任何包括但不限于错别字语法错误描述错误的问题请联系  
 觉得有帮助请为我star  
 无论通过什么方式反馈bug都请附上出错traceback等必要的信息  
 *不,这不是bug,是feature*  
@@ -65,25 +65,6 @@ email huguangjing0411@geektip.cc
 具体的收费渠道还在思考中  
 建议您仔细阅读readme,尝试使用搜索引擎来解决您的问题,以免给您带来不必要的损失.谢谢.  
 
-再来谈谈panDownload的事情,天下脚本一家亲呀  
-严重侵害他人利益,盈利既遂且数额巨大实属非法,而且可能涉嫌侵犯公民个人隐私,但想必是有一堆人傻钱多的憨憨吧,就像下面挂出来的几位一样  
-其实这个软件好久以前就处于基本不能用的状态  
-实际上,所有类似软件在连续进行所谓"告诉下载"一段时间后都会导致您的ip被短暂封禁~~别问我怎么知道的~~  
-其他的譬如speedPan,甚至BaiduPCS-GO
-我就在想啊,虽然我至今还没收到一分钱,无论是捐赠的还是像上文所述教学所得  
-但要是真的有人哪天转给我一笔巨款,我们就得认真分析其中的法律问题了  
-首先本软件完全开源(倒不如说只有散装的代码),自愿下载使用,b站真要查起来也只能给GitHub发邮件让他们删了这个项目  
-由于我有足够充足的底气认为当前版本下本脚本不会被检测出来,所以应该没有人会被封号  
-其次我有比较充足的底气认为批站根本就不会放着一堆工作室和嚣张的up主不管反而来管一个透明的项目  
-~~我TM介绍/解说/吹B视频早就全都做好堆着了就是不敢发~~  
-本项目是否对游戏运营方造成了实质性的影响,还真不好说,但至少不是那么容易被量化衡量的  
-对于收入,如果是"捐赠所得",有可能得全部交出来;但如果是"教学所得",那就与脚本本身没有任何关系,属合法收入  
-~~反正我估计我也不会有什么所得,惨~~  
-其实最大的损失还是我得全额负担诉讼费,其他就是封号什么的  
-进局子是不会的,我有开源协议保护,那么多开源作者也不会干坐着的  
-其实真要收钱搞不好得用BitCoin,可我还指望那些憨憨搞到比特币钱包???  
-再次为panDownload的作者默哀,再怎么说也是可恨之人必有可怜之处吧  
-
 我真傻,真的,我光知道会有憨憨来烦我,却不知道憨憨根本不会看readme  
 你说你要是愿意支付费用那我也乐意赚这个钱,结果收款码一发过去就删好友是什么意思呢  
 不过我也得反思他们为什么不会用,ui都有了就连双击运行都做不到吗  
@@ -91,43 +72,20 @@ email huguangjing0411@geektip.cc
 怎么想都不是我的问题吧  
 所以我逮到一个憨憨就挂一个,至少起到一个战术威慑的作用  
 [跳过图片部分](#助战-Friends)  
-![hanhan1](./doc/hanhan_2020-02-28.{8580878A-AB3D-4C7E-80A1-50F01A7DD31F}.png)  
+![hanhan1](./doc/hanhan_2020-02-28.png)  
 这位还算有点礼貌,所以我给他打了码  
-![hanhan2](./doc/hanhan_2020-04-03.{C00FEE01-BDE6-4719-BD69-0B23CB5F546C}.png)  
+![hanhan2](./doc/hanhan_2020-04-03.png)  
 这位是真的憨  
 这是本readme中的头两张图片,合影留念  
 ## 助战 Friends  
 你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件,如果image/friend目录下没有png文件,就选取好友列表中的第一个  
 **被截图范围都应该可以点击来选中该好友**  
 助战截图的文件名若以包含技能和宝具信息的11个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo中的设置  
-## 下标/计数器 Subscript/Counter
-毫无疑问,数组的下标是从零开始的,放在数组里的信息下标0就代表第一个  
-因此有些经常用于下标访问的变量就是从0开始的  
-但是有些变量为了和游戏界面一致是从1开始的  
-我自己都得忘,所以留个记录  
-按照在代码中首次出现的顺序排列  
-### 从0开始 Zero Kara  
-+ friendPos //friendPos=5代表你把好友放在了队伍的最后一个  
-+ fuse.value //初始化为0  
-+ servant //servant=[0,1,2]就代表了首发阵容  
-+ appleKind //0金1银2铜3彩  
-+ apple //总是等于从脚本启动时已经吃的苹果数量  
-### 从1开始 Ichi Kara  
-+ turn //虽然初始化为0,但是随即+1,在"需要访问它"的地方就是从1开始编号的,总是等于从当前战斗开始过了多少回合  
-+ stage //面数,总是和战斗界面右上角"战斗场次"显示的内容一致  
-+ stageTurn //同turn,总是等于从当前stage开始过了多少回合  
-+ battle //虽然初始化为0,但是随即+1,总是等于当前正在进行的战斗次数,当前只用于打日志  
-## 释义 Definitions  
-1. 战斗:从点击"开始战斗"后到出现羁绊结算的部分,为`oneBattle`的管理范围  
-2. 面:战斗场次,通常一个战斗有3面  
-3. 脚本打开:运行`fgoGui.py`到界面出现的部分  
-4. 脚本空闲:界面显示但没有进行战斗操作  
-5. 脚本运行:脚本对fgo进行操作,有战斗线程运行  
 ## 快速查错引导 When Error Occurred  
 + 游戏是否已经运行  
 + 路径中是否有空格  
 + 游戏画面是否足够大足够清晰  
-+ 游戏画面是否居中  
++ 游戏画面旋转方向是否未变动  
 + 手机屏幕是否点亮  
 + 相关技能宝具参数配置是否正确  
 + adb的连接是否有效  
@@ -141,9 +99,13 @@ email huguangjing0411@geektip.cc
 
 如果以上问题的答案均为"是",请按照前述的方式联系我  
 # 版本记录 Version Logs  
+## 2020/04/16 v3.8.7  
+更新:前几日的fgo更改了抽卡的机制,现在脚本与之适配  
+警告:现在不会区分友情池和氪金池!!!  
+注意:出于账户资产安全考虑,你需要先抽一次十连,待进入转圈界面时再启动脚本  
 ## 2020/04/11 v3.8.6  
 bug修复:swipe对坐标的映射错误  
-这一错误与3.8.4中的错误是成对出现的,并且就是上下两行  
+这一错误与3.8.4中的错误是成对出现的,并且就是上下两行...  
 更新:最近长草,有一些幕间本/强话本少于3面,增加了一些代码让技能和宝具能够提前使用,让你不必频繁更改队伍配置  
 这些最大面数的截图显然是取自不同关卡的,我对其做了一些处理使得他们的背景看起来是相同的,但是不能保证不出问题  
 注意:由于这些更改会使得战斗行为不完全依照您的设置,所以现在`skillInfo[i][j][0]`和`houguInfo[i][0]==0`时代表不使用技能/宝具  
