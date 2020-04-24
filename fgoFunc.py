@@ -39,9 +39,11 @@ IMG_FAILED=cv2.imread('image/failed.png')
 IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
 IMG_GACHA=cv2.imread('image/gacha.png')
 IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
+IMG_LISTEND=cv2.imread('image/listend.png')
+IMG_LISTNONE=cv2.imread('image/listnone.png')
 IMG_NOFRIEND=cv2.imread('image/nofriend.png')
-IMG_STAGE=[cv2.imread('image/stage/stage'+str(i)+'.png')for i in range(1,4)]
-IMG_STAGETOTAL=[cv2.imread('image/stage/total'+str(i)+'.png')for i in range(1,4)]
+IMG_STAGE=[cv2.imread('image/stage/stage%d.png'%i)for i in range(1,4)]
+IMG_STAGETOTAL=[cv2.imread('image/stage/total%d.png'%i)for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -91,7 +93,9 @@ class Base(Android):
             '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
         return self
     def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)])
-    def swipe(self,rect):super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)])
+    def swipe(self,rect):
+        super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)],duration=.15,steps=2)
+        super().swipe((300,640),(400,640),duration=0.05,steps=1)
     def press(self,c):super().touch(self.key[c])
     def snapshot(self):return cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]]
 base=Base()
@@ -117,6 +121,7 @@ class Check:
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
     def isGacha(self):return self.compare(IMG_GACHA,rect=(973,960,1312,1052))and fuse.reset()
+    def isListEnd(self):return(self.compare(IMG_LISTEND,rect=(1829,1040,1893,1070))or self.compare(IMG_LISTNONE,rect=(1829,1040,1893,1070)))and fuse.reset()
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845))else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getStage(self):return self.select(IMG_STAGE,(1296,20,1342,56))+1
     def getStageTotal(self):return self.select(IMG_STAGETOTAL,(1325,20,1372,56))+1
@@ -126,12 +131,22 @@ def gacha():
         if Check(.1).isGacha():doit('MK',(200,2500))
         base.press('P')
 def chooseFriend():
+    refresh=False
+    while True:
+        chk=Check()
+        if chk.isNoFriend():
+            if refresh:time.sleep(10)
+            doit('\xBAJ',(500,1000))
+            refresh=True
+        if chk.isChooseFriend():break
     if len(IMG_FRIEND)==0:
         doit('8',(2000,))
         return
     while True:
-        for _ in range(16):
+        timer=time.time()
+        while True:
             chk=Check(.3)
+            if chk.isListEnd():break
             for name,_ in filter(lambda x:chk.tapOnCmp(x[1],delta=.015),IMG_FRIEND):
                 logger.info('Friend '+name)
                 try:p=re.search('[0-9x]{11}$',name).group()
@@ -140,11 +155,15 @@ def chooseFriend():
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
                 return time.sleep(2)
-            base.swipe((220,960,220,550))
+            base.swipe((300,960,220,290))
+        if refresh:time.sleep((lambda x:x if x>0 else 0)(timer+10-time.time()))
         doit('\xBAJ',(500,2000))
+        refresh=True
         while True:
             chk=Check(.2)
-            assert not chk.isNoFriend()
+            if chk.isNoFriend():
+                time.sleep(10)
+                doit('\xBAJ',(500,1000))
             if chk.isChooseFriend():break
 def oneBattle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
@@ -178,6 +197,11 @@ def oneBattle():
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
     while True:
+        while True:
+            chk=Check(.3)
+            if chk.isBegin():break
+            chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
+            doit(' ',(300,))
         battle+=1
         doit('8',(800,))
         if Check().isApEmpty():
@@ -189,23 +213,10 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
                 logger.info('Apple '+str(apple))
                 doit('W4K8'[appleKind]+'L',(400,1200))
         logger.info('Battle '+str(battle))
-        flush=True
-        while True:
-            chk=Check()
-            if chk.isNoFriend():
-                if flush:doit('\xBAJ',(500,1000))
-                else:raise AssertionError
-                flush=False
-            if chk.isChooseFriend():break
         chooseFriend()
         doit(' ',(10000,))
         if not battleFunc():doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
-        while True:
-            chk=Check()
-            if chk.isBegin():break
-            chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
-            doit(' ',(300,))
 def userScript():
     while not Check(.1).isTurnBegin():pass
     doit('QE2SF2J2 612',(300,300,2700,2700,300,2700,300,2700,2400,200,200,10000))
