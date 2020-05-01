@@ -1,4 +1,4 @@
-> 咕噜灵波~  
+> 23发魔总  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -6,26 +6,26 @@
 > 要成为超人的存在才行啊  
 > 我不做人啦!JOJO!  
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本  
-![svg1](./doc/svg1.svg)
-![svg2](./doc/svg2.svg)
-![svg3](./doc/svg3.svg)
-![svg4](./doc/svg4.svg)
-![svg5](./doc/svg5.svg)
-![svg6](./doc/svg6.svg)
-![svg7](./doc/svg7.svg)
-![svg8](./doc/svg8.svg)
-![svg9](./doc/svg9.svg)
-![svg10](./doc/svg10.svg)
-![svg11](./doc/svg11.svg)
-![svg12](./doc/svg12.svg)
-![svg13](./doc/svg13.svg)
-![svg14](./doc/svg14.svg)
-![svg15](./doc/svg15.svg)  
-当前版本[v3.8.8](#版本记录-Version-Logs)  
+![svg](https://img.shields.io/badge/fgo-作者是FGO国服安卓玩家-225799.svg)
+![svg](https://img.shields.io/badge/天青车道-作者是碧蓝航线玩家-f2bac2.svg)
+![svg](https://img.shields.io/badge/梆梆人-作者是BanGDream玩家-ff3b72.svg)
+![svg](https://img.shields.io/badge/hearthstone-作者是炉石传说玩家-daa520.svg)
+![svg](https://img.shields.io/badge/majsoul-作者是雀魂玩家-8b008b.svg)
+![svg](https://img.shields.io/badge/骑士-作者是一个公主连结Re:Dive玩家-fab471.svg)
+![svg](https://img.shields.io/badge/云程序员-作者是一位云程序员-ffffff.svg)
+![svg](https://img.shields.io/badge/开位-作者是一条开位咸鱼-ffd700.svg)
+![svg](https://img.shields.io/badge/头痛-作者患有头痛宿疾Ex-50a625.svg)
+![svg](https://img.shields.io/badge/病弱-作者是一个病弱厨-ecbacb.svg)
+![svg](https://img.shields.io/badge/mikon-作者是玉藻俱乐部成员-804313.svg)
+![svg](https://img.shields.io/badge/lv100-作者拥有2130弓呆-00bfff.svg)
+![svg](https://img.shields.io/badge/萝莉控-小学生真是太棒了-b0e0e6.svg)
+![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
+![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
+![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
+当前版本[v3.9.0](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 你可以star以便日后访问~~长按star体验一键三连的快感~~  
-
 # 警告  
 **[<<哔哩哔哩游戏平台用户协议V1.0.0>>](https://yhxy.biligame.com/)第11条第2款规定:**  
 **用户不得通过不正当的手段或其他不公平的手段使用本平台游戏、本平台服务或参与本平台活动。**  
@@ -35,7 +35,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 ***  
 # 使用说明 Instruction  
 脚本可以后台运行  
-分辨率最好是长1920或宽1080,其他分辨率亦可  
+游戏画面分辨率最好是长1920或宽1080,其他分辨率亦可  
 使用了以下外部库:  
 `configParser` `airtest` `PyQt5` `playsound`  
 以上库均可`pip install`,其他被这些库依赖的外部库未单独列出  
@@ -78,8 +78,12 @@ email huguangjing0411@geektip.cc
 ![hanhan2](./doc/hanhan_2020-04-03.png)  
 这位是真的憨  
 这是本readme中的头两张图片,合影留念  
+![hanhan3](./doc/hanhan_2020-04-28.png)  
+您连 *"加好友请说明来意,并附上您在GitHub中的账户名"* 的意思都理解不了,还怎么学会一门编程语言呢  
+如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 ## 助战 Friends  
-你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件,如果image/friend目录下没有png文件,就选取好友列表中的第一个  
+你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件  
+如果image/friend目录下没有png文件,就选取好友列表中的第一个  
 **被截图范围都应该可以点击来选中该好友**  
 助战截图的文件名若以包含技能和宝具信息的11个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo中的设置  
 ## 快速查错引导 When Error Occurred  
@@ -100,11 +104,33 @@ email huguangjing0411@geektip.cc
 
 如果以上问题的答案均为"是",请提交issue,或按照前述的方式联系我  
 # 版本记录 Version Logs  
+## 2020/05/13 v3.9.0  
+最近沉迷母猪连结,工会战群机器人写得我焦头烂额,fgo脚本都没怎么更新了.  
+母猪连结本质音游,音游开挂实属孤儿  
+说到底这个脚本的大厦已经建成,今后只要做一些修修补补的工作就行了,我也没瞧见远处的天空有什么乌云  
+bug修复:在脚本执行时获取截图有可能冲突挺烦人的,就手动写了个锁,反正单例模式没必要调库,到底没几行代码,方便简单透明高效  
+仅仅是因为这一情况相对经常出现才想办法解决,其他小概率要求的很可能将来也不会修复  
+你说人家开发者辛辛苦苦写了异步调用挤出来的那么点性能到我这里怎么就...  
+优化:战斗的暂停和终止能得到更及时的反馈了  
+把一个大sleep改为一堆小sleep加判定,延时仍然是精确的,在大段延时时应优先考虑使用新方法以便操作尽快生效  
+优化:在选完助战确认编队时可能会卡加载,加了一个判断  
+这样整下去我非得把游戏资源一帧一帧全部存下来,当初觉得不错的IMG-Check调用也越来越臃肿了  
+优化:给Check搞了个缓存,方便代码编写  
+虽然搞了个缓存但是之前没有缓存而要用同一次Check的时候挤在一坨lambda里的代码还是没改  
+今后优化选卡逻辑的时候可用  
+另:重构了部分代码,更改了ui内的说明  
+## 2020/04/30 v3.8.9  
+憨憨家族又添一丁  
+优化:ui安全性更改,战斗与抽友情互斥  
+同时简化了资源存储目录  
+脚本开发有两个底线:一不破坏游戏公平,二不损失游戏乐趣  
+脚本只做人能做到的事情,并且不能把人能做到的全做了  
 ## 2020/04/24 v3.8.8  
 街头霸王n3结束了,我终于有空回来写脚本了...  
 bug修复:增加了一些延时  
 在返回主界面后,可能多点了一下打开菜单,这没有关系,反正再点一下就关闭了,但是当前点得太快了,有极低概率动画还没放完就点击了关卡导致没有进入关卡  
 其他地方类似  
+同时调整代码顺序,使你可以在返回主界面的途中运行main  
 更新:更加合理高效地选取助战  
 之前是固定滚动16个页面,现在会在滚动至少10秒钟确保可以刷新之后将剩下的列表项识别完  
 如果没有好友,也会等待10秒然后再找,而不是刷新一次发现没有就报错  
