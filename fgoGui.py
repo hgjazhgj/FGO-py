@@ -53,12 +53,14 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_ONEBATTLE.setEnabled(False)
         self.ui.BTN_MAIN.setEnabled(False)
         self.ui.BTN_USER.setEnabled(False)
+        self.ui.MENU_SCRIPT_GACHA.setEnabled(False)
         self.ui.BTN_PAUSE.setEnabled(True)
         self.ui.BTN_STOP.setEnabled(True)
     def funcEnd(self):
         self.ui.BTN_ONEBATTLE.setEnabled(True)
         self.ui.BTN_MAIN.setEnabled(True)
         self.ui.BTN_USER.setEnabled(True)
+        self.ui.MENU_SCRIPT_GACHA.setEnabled(True)
         self.ui.BTN_PAUSE.setEnabled(False)
         self.ui.BTN_STOP.setEnabled(False)
     def loadParty(self,x):

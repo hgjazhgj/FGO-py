@@ -42,8 +42,8 @@ IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
 IMG_LISTEND=cv2.imread('image/listend.png')
 IMG_LISTNONE=cv2.imread('image/listnone.png')
 IMG_NOFRIEND=cv2.imread('image/nofriend.png')
-IMG_STAGE=[cv2.imread('image/stage/stage%d.png'%i)for i in range(1,4)]
-IMG_STAGETOTAL=[cv2.imread('image/stage/total%d.png'%i)for i in range(1,4)]
+IMG_STAGE=[cv2.imread('image/stage%d.png'%i)for i in range(1,4)]
+IMG_STAGETOTAL=[cv2.imread('image/total%d.png'%i)for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -93,9 +93,9 @@ class Base(Android):
             '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
         return self
     def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)])
-    def swipe(self,rect):
-        super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)],duration=.15,steps=2)
-        super().swipe((300,640),(400,640),duration=0.05,steps=1)
+    def swipe(self,rect,duration=.15,steps=2,fingers=1,stiff=True):
+        super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)],duration,steps,fingers)
+        if stiff:super().swipe((500,640),(600,640),0.05,1)
     def press(self,c):super().touch(self.key[c])
     def snapshot(self):return cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]]
 base=Base()
@@ -120,8 +120,8 @@ class Check:
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
-    def isGacha(self):return self.compare(IMG_GACHA,rect=(973,960,1312,1052))and fuse.reset()
-    def isListEnd(self):return(self.compare(IMG_LISTEND,rect=(1829,1040,1893,1070))or self.compare(IMG_LISTNONE,rect=(1829,1040,1893,1070)))and fuse.reset()
+    def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))and fuse.reset()
+    def isListEnd(self):return any(self.compare(i,(1829,1040,1893,1070))for i in(IMG_LISTEND,IMG_LISTNONE))and fuse.reset()
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845))else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getStage(self):return self.select(IMG_STAGE,(1296,20,1342,56))+1
     def getStageTotal(self):return self.select(IMG_STAGETOTAL,(1325,20,1372,56))+1
@@ -155,8 +155,8 @@ def chooseFriend():
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
                 return time.sleep(2)
-            base.swipe((300,960,220,290))
-        if refresh:time.sleep((lambda x:x if x>0 else 0)(timer+10-time.time()))
+            base.swipe((400,960,400,290))
+        if refresh:time.sleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,2000))
         refresh=True
         while True:
@@ -170,7 +170,8 @@ def oneBattle():
     while True:
         chk=Check(.1)
         if chk.isTurnBegin():
-            turn,stage,stageTurn,skill,newPortrait=[turn+1]+(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
+            turn+=1
+            stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
             if turn==1:stageTotal=Check().getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
@@ -179,19 +180,19 @@ def oneBattle():
             for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[i][j][0]and stage<<8|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
-                time.sleep(2)
+                time.sleep(1.7)
                 while not Check(.1).isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit('Q'+'WER'[i],(300,300))
                 if masterSkill[i][2]:doit(chr(masterSkill[i][2]+49),(300,))
-                time.sleep(2)
+                time.sleep(1.7)
                 while not Check(.1).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
         elif chk.isBattleOver():
             logger.info('Battle Finished')
             return True
-        elif chk.tapOnCmp(IMG_FAILED,rect=(277,406,712,553)):
+        elif chk.tapOnCmp(IMG_FAILED,(277,406,712,553)):
             logger.warning('Battle Failed')
             return False
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
@@ -200,7 +201,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         while True:
             chk=Check(.3)
             if chk.isBegin():break
-            chk.tapOnCmp(IMG_END,rect=(243,863,745,982))
+            chk.tapOnCmp(IMG_END,(243,863,745,982))
             doit(' ',(300,))
         battle+=1
         doit('8',(800,))
@@ -219,12 +220,12 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         doit('    ',(200,200,200,200))
 def userScript():
     while not Check(.1).isTurnBegin():pass
-    doit('QE2SF2J2 612',(300,300,2700,2700,300,2700,300,2700,2400,200,200,10000))
+    doit('AHJ3KL 654',(3000,3000,300,3000,3000,3000,2400,300,300,10000))
     while not Check(.1).isTurnBegin():pass
     assert Check().getStage()==2
-    doit('H2 612',(300,2700,2400,200,200,10000))
+    doit('S 654',(3000,2400,300,300,10000))
     while not Check(.1).isTurnBegin():pass
     assert Check().getStage()==3
-    doit('L2A 612',(300,2700,2700,2400,300,300,10000))
+    doit(' 754',(2400,300,300,10000))
     while not Check(.1).isBattleOver():pass
     return True
