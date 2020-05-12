@@ -43,8 +43,7 @@ class MyMainWindow(QMainWindow):
             try:
                 self.signalFuncBegin.emit()
                 func(*args,**kwargs)
-            except BaseException as e:
-                if type(e)!=SystemExit:logger.exception(e)
+            except Exception as e:logger.exception(e)
             finally:
                 self.signalFuncEnd.emit()
                 playsound.playsound('sound/'+next(soundName))
@@ -88,7 +87,7 @@ class MyMainWindow(QMainWindow):
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接远程设备','设备地址',text='localhost:5555')
         if ok and text:ADB(text)
-    def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)#fgoFunc.base.setup()
+    def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
     def checkCheck(self):fgoFunc.Check(0).show()
     def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):

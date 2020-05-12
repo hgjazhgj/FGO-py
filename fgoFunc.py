@@ -42,9 +42,10 @@ IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
 IMG_LISTEND=cv2.imread('image/listend.png')
 IMG_LISTNONE=cv2.imread('image/listnone.png')
 IMG_NOFRIEND=cv2.imread('image/nofriend.png')
-IMG_STAGE=[cv2.imread('image/stage%d.png'%i)for i in range(1,4)]
-IMG_STAGETOTAL=[cv2.imread('image/total%d.png'%i)for i in range(1,4)]
+IMG_STAGE=[cv2.imread(f'image/stage{i}.png')for i in range(1,4)]
+IMG_STAGETOTAL=[cv2.imread(f'image/total{i}.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
+IMG_BATTLEBEGIN=cv2.imread('image/battlebegin.png')
 skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
 dangerPos=[0,0,1]
@@ -52,6 +53,14 @@ friendPos=4
 masterSkill=[[4,0,0],[4,0,0],[4,0,0]]
 terminateFlag=False
 suspendFlag=False
+lastCheck=None
+def sleep(x,part=.1):
+    timer=time.time()+x-part
+    while time.time()<timer:
+        while suspendFlag and not terminateFlag:time.sleep(.1)
+        if terminateFlag:exit(0)
+        time.sleep(part)
+    time.sleep(timer+part+time.time())
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
     def __init__(self,fv=200):
@@ -68,51 +77,62 @@ class Fuse:
         self.__value+=1
         return self
     def reset(self):
-        logger.debug('Fuse '+str(self.__value))
+        logger.debug(f'Fuse {self.__value}')
         self.__value=0
         return self
 fuse=Fuse()
+def checkLock(func):
+    def wrapper(self,*args,**kwargs):
+        while self.lock:time.sleep(.05)
+        self.lock=True
+        try:return func(self,*args,**kwargs)
+        finally:self.lock=False
+    return wrapper
 class Base(Android):
     def __init__(self,serialno=None):
+        self.lock=False
         try:super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)
         except:self.serialno=None
-        else:self.setup()
-    def setup(self):
-        self.res=[round(i)for i in self.get_render_resolution(True)]
-        if self.res[2]*9>self.res[3]*16:
-            self.scale=1080/(self.res[1]+self.res[3])
-            self.border=(round(self.res[2]-self.res[3]*16/9)>>1,0)
         else:
-            self.scale=1920/(self.res[0]+self.res[2])
-            self.border=(0,round(self.res[3]-self.res[2]*9/16)>>1)
-        self.key={c:[round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)]for c,p in
-           {' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
-            'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
-            'L':(1336,860),'M':(1200,1000),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
-            '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
-            '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
-        return self
+            self.res=[round(i)for i in self.get_render_resolution(True)]
+            if self.res[2]*9>self.res[3]*16:
+                self.scale=1080/(self.res[1]+self.res[3])
+                self.border=(round(self.res[2]-self.res[3]*16/9)>>1,0)
+            else:
+                self.scale=1920/(self.res[0]+self.res[2])
+                self.border=(0,round(self.res[3]-self.res[2]*9/16)>>1)
+            self.key={c:[round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)]for c,p in
+               {' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
+                'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
+                'L':(1336,860),'M':(1200,1000),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
+                '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
+                '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
+    @checkLock
     def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)])
+    @checkLock
     def swipe(self,rect,duration=.15,steps=2,fingers=1,stiff=True):
         super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)],duration,steps,fingers)
         if stiff:super().swipe((500,640),(600,640),0.05,1)
+    @checkLock
     def press(self,c):super().touch(self.key[c])
-    def snapshot(self):return cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]]
+    @checkLock
+    def snapshot(self):return cv2.resize(cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
 base=Base()
-def doit(pos,wait):[(base.press(i),time.sleep(j*.001))for i,j in zip(pos,wait)]
+def doit(pos,wait):[(base.press(i),sleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
-    def __init__(self,lagency=.02):
-        while suspendFlag:time.sleep(.1)
-        if terminateFlag:exit(0)
+    def __init__(self,lagency=.01):
         time.sleep(lagency)
         fuse.inc()
-        self.im=cv2.resize(base.snapshot(),(1920,1080),interpolation=cv2.INTER_CUBIC)
+        self.im=base.snapshot()
+        global lastCheck
+        lastCheck=self
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im);return self
     def show(self):show(cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST));return self
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
+    def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))and fuse.reset()
     def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
     def isHouguReady(self):return(lambda im:[not any([self.compare(j,(470+346*i,258,768+346*i,387))for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.8).im)
@@ -133,9 +153,9 @@ def gacha():
 def chooseFriend():
     refresh=False
     while True:
-        chk=Check()
+        chk=Check(.1)
         if chk.isNoFriend():
-            if refresh:time.sleep(10)
+            if refresh:sleep(10)
             doit('\xBAJ',(500,1000))
             refresh=True
         if chk.isChooseFriend():break
@@ -147,22 +167,22 @@ def chooseFriend():
         while True:
             chk=Check(.3)
             if chk.isListEnd():break
-            for name,_ in filter(lambda x:chk.tapOnCmp(x[1],delta=.015),IMG_FRIEND):
-                logger.info('Friend '+name)
-                try:p=re.search('[0-9x]{11}$',name).group()
+            for i,_ in(i for i in IMG_FRIEND if chk.tapOnCmp(i[1],delta=.015)):
+                logger.info(f'Friend {name}')
+                try:p=re.search('[0-9x]{11}$',i).group()
                 except AttributeError:pass
                 else:
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
-                return time.sleep(2)
+                return sleep(2)
             base.swipe((400,960,400,290))
-        if refresh:time.sleep(max(0,timer+10-time.time()))
+        if refresh:sleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,2000))
         refresh=True
         while True:
             chk=Check(.2)
             if chk.isNoFriend():
-                time.sleep(10)
+                sleep(10)
                 doit('\xBAJ',(500,1000))
             if chk.isChooseFriend():break
 def oneBattle():
@@ -172,20 +192,20 @@ def oneBattle():
         if chk.isTurnBegin():
             turn+=1
             stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
-            if turn==1:stageTotal=Check().getStageTotal()
+            if turn==1:stageTotal=lastCheck.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
             portrait=newPortrait
-            logger.info('{} {} {} {}'.format(turn,stage,stageTurn,servant))
+            logger.info(f'{turn} {stage} {stageTurn} {servant}')
             for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[i][j][0]and stage<<8|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
-                time.sleep(1.7)
+                sleep(1.7)
                 while not Check(.1).isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit('Q'+'WER'[i],(300,300))
                 if masterSkill[i][2]:doit(chr(masterSkill[i][2]+49),(300,))
-                time.sleep(1.7)
+                sleep(1.7)
                 while not Check(.1).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
@@ -199,22 +219,23 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
     while True:
         while True:
-            chk=Check(.3)
+            chk=Check(.2)
             if chk.isBegin():break
             chk.tapOnCmp(IMG_END,(243,863,745,982))
             doit(' ',(300,))
         battle+=1
-        doit('8',(800,))
+        doit('8',(1200,))
         if Check().isApEmpty():
             if apple==appleCount:
                 logger.info('Ap Empty')
                 return base.press('\x12')
             else:
                 apple+=1
-                logger.info('Apple '+str(apple))
+                logger.info(f'Apple {apple}')
                 doit('W4K8'[appleKind]+'L',(400,1200))
-        logger.info('Battle '+str(battle))
+        logger.info(f'Battle {battle}')
         chooseFriend()
+        while Check(.1).isBattleBegin():pass
         doit(' ',(10000,))
         if not battleFunc():doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
