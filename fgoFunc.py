@@ -53,14 +53,14 @@ friendPos=4
 masterSkill=[[4,0,0],[4,0,0],[4,0,0]]
 terminateFlag=False
 suspendFlag=False
-lastCheck=None
+check=None
 def sleep(x,part=.1):
     timer=time.time()+x-part
     while time.time()<timer:
         while suspendFlag and not terminateFlag:time.sleep(.1)
         if terminateFlag:exit(0)
         time.sleep(part)
-    time.sleep(timer+part+time.time())
+    time.sleep(timer+part-time.time())
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
     def __init__(self,fv=200):
@@ -124,8 +124,8 @@ class Check:
         time.sleep(lagency)
         fuse.inc()
         self.im=base.snapshot()
-        global lastCheck
-        lastCheck=self
+        global check
+        check=self
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
@@ -153,21 +153,19 @@ def gacha():
 def chooseFriend():
     refresh=False
     while True:
-        chk=Check(.1)
-        if chk.isNoFriend():
+        if Check(.1).isNoFriend():
             if refresh:sleep(10)
             doit('\xBAJ',(500,1000))
             refresh=True
-        if chk.isChooseFriend():break
+        if check.isChooseFriend():break
     if len(IMG_FRIEND)==0:
         doit('8',(2000,))
         return
     while True:
         timer=time.time()
         while True:
-            chk=Check(.3)
-            if chk.isListEnd():break
-            for i,_ in(i for i in IMG_FRIEND if chk.tapOnCmp(i[1],delta=.015)):
+            if Check(.3).isListEnd():break
+            for i,_ in(i for i in IMG_FRIEND if check.tapOnCmp(i[1],delta=.015)):
                 logger.info(f'Friend {name}')
                 try:p=re.search('[0-9x]{11}$',i).group()
                 except AttributeError:pass
@@ -180,19 +178,17 @@ def chooseFriend():
         doit('\xBAJ',(500,2000))
         refresh=True
         while True:
-            chk=Check(.2)
-            if chk.isNoFriend():
+            if Check(.2).isNoFriend():
                 sleep(10)
                 doit('\xBAJ',(500,1000))
-            if chk.isChooseFriend():break
+            if check.isChooseFriend():break
 def oneBattle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
-        chk=Check(.1)
-        if chk.isTurnBegin():
+        if Check(.1).isTurnBegin():
             turn+=1
             stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
-            if turn==1:stageTotal=lastCheck.getStageTotal()
+            if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
             portrait=newPortrait
@@ -209,19 +205,18 @@ def oneBattle():
                 while not Check(.1).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
-        elif chk.isBattleOver():
+        elif check.isBattleOver():
             logger.info('Battle Finished')
             return True
-        elif chk.tapOnCmp(IMG_FAILED,(277,406,712,553)):
+        elif check.tapOnCmp(IMG_FAILED,(277,406,712,553)):
             logger.warning('Battle Failed')
             return False
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
     while True:
         while True:
-            chk=Check(.2)
-            if chk.isBegin():break
-            chk.tapOnCmp(IMG_END,(243,863,745,982))
+            if Check(.2).isBegin():break
+            check.tapOnCmp(IMG_END,(243,863,745,982))
             doit(' ',(300,))
         battle+=1
         doit('8',(1200,))
