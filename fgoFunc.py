@@ -54,13 +54,15 @@ masterSkill=[[4,0,0],[4,0,0],[4,0,0]]
 terminateFlag=False
 suspendFlag=False
 check=None
+def chekcFlag():
+    while suspendFlag and not terminateFlag:time.sleep(.1)
+    if terminateFlag:exit(0)
 def sleep(x,part=.1):
     timer=time.time()+x-part
     while time.time()<timer:
-        while suspendFlag and not terminateFlag:time.sleep(.1)
-        if terminateFlag:exit(0)
+        checkFlag()
         time.sleep(part)
-    time.sleep(timer+part-time.time())
+    time.sleep(max(0,timer+part-time.time()))
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
     def __init__(self,fv=200):
@@ -84,6 +86,7 @@ fuse=Fuse()
 def checkLock(func):
     def wrapper(self,*args,**kwargs):
         while self.lock:time.sleep(.05)
+        checkFlag()
         self.lock=True
         try:return func(self,*args,**kwargs)
         finally:self.lock=False
@@ -121,6 +124,7 @@ base=Base()
 def doit(pos,wait):[(base.press(i),sleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
     def __init__(self,lagency=.01):
+        checkFlag()
         time.sleep(lagency)
         fuse.inc()
         self.im=base.snapshot()

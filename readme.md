@@ -79,7 +79,7 @@ email huguangjing0411@geektip.cc
 这位是真的憨  
 这是本readme中的头两张图片,合影留念  
 ![hanhan3](./doc/hanhan_2020-04-28.png)  
-您连*"加好友请说明来意,并附上您在GitHub中的账户名"*的意思都理解不了,还怎么学会一门编程语言呢  
+您连 *"加好友请说明来意,并附上您在GitHub中的账户名"* 的意思都理解不了,还怎么学会一门编程语言呢  
 如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 ## 助战 Friends  
 你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件  
