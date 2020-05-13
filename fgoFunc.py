@@ -46,11 +46,11 @@ IMG_STAGE=[cv2.imread(f'image/stage{i}.png')for i in range(1,4)]
 IMG_STAGETOTAL=[cv2.imread(f'image/total{i}.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
 IMG_BATTLEBEGIN=cv2.imread('image/battlebegin.png')
-skillInfo=[[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]],[[4,0,0],[4,0,0],[4,0,0]]]
+skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
 dangerPos=[0,0,1]
 friendPos=4
-masterSkill=[[4,0,0],[4,0,0],[4,0,0]]
+masterSkill=[[0,0,0],[0,0,0],[0,0,0]]
 terminateFlag=False
 suspendFlag=False
 check=None
@@ -130,26 +130,28 @@ class Check:
         self.im=base.snapshot()
         global check
         check=self
-    def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta
+    def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta and fuse.reset()
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im);return self
     def show(self):show(cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST));return self
-    def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))and fuse.reset()
-    def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))and fuse.reset()
-    def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))and fuse.reset()
-    def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))and fuse.reset()
+    def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))
+    def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
+    def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))
+    def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
     def isHouguReady(self):return(lambda im:[not any([self.compare(j,(470+346*i,258,768+346*i,387))for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.8).im)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
-    def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))and fuse.reset()
-    def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))and fuse.reset()
-    def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)and fuse.reset()
-    def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))and fuse.reset()
-    def isListEnd(self):return any(self.compare(i,(1829,1040,1893,1070))for i in(IMG_LISTEND,IMG_LISTNONE))and fuse.reset()
+    def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))
+    def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))
+    def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)
+    def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
+    def isListEnd(self):return any(self.compare(i,(1829,1040,1893,1070))for i in(IMG_LISTEND,IMG_LISTNONE))
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845))else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getStage(self):return self.select(IMG_STAGE,(1296,20,1342,56))+1
     def getStageTotal(self):return self.select(IMG_STAGETOTAL,(1325,20,1372,56))+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
+    def tapFailed(self):return self.tapOnCmp(IMG_FAILED,(277,406,712,553))
+    def tapEnd(self):return self.tapOnCmp(IMG_END,(243,863,745,982))
 def gacha():
     while fuse.value<30:
         if Check(.1).isGacha():doit('MK',(200,2500))
@@ -163,8 +165,7 @@ def chooseFriend():
             refresh=True
         if check.isChooseFriend():break
     if len(IMG_FRIEND)==0:
-        doit('8',(2000,))
-        return
+        return doit('8',(2000,))
     while True:
         timer=time.time()
         while True:
@@ -176,7 +177,7 @@ def chooseFriend():
                 else:
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
-                return sleep(2)
+                return sleep(.7)
             base.swipe((400,960,400,290))
         if refresh:sleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,2000))
@@ -197,7 +198,7 @@ def oneBattle():
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
             portrait=newPortrait
             logger.info(f'{turn} {stage} {stageTurn} {servant}')
-            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[i][j][0]and stage<<8|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]):
+            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and stage<<4|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<4|skillInfo[servant[i]][j][1]):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
                 sleep(1.7)
@@ -212,18 +213,18 @@ def oneBattle():
         elif check.isBattleOver():
             logger.info('Battle Finished')
             return True
-        elif check.tapOnCmp(IMG_FAILED,(277,406,712,553)):
+        elif check.tapFailed():
             logger.warning('Battle Failed')
             return False
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
     while True:
         while True:
-            if Check(.2).isBegin():break
-            check.tapOnCmp(IMG_END,(243,863,745,982))
-            doit(' ',(300,))
+            if Check(.4).isBegin():break
+            check.tapEnd()
+            base.press(' ')
         battle+=1
-        doit('8',(1200,))
+        doit('8',(1500,))
         if Check().isApEmpty():
             if apple==appleCount:
                 logger.info('Ap Empty')
