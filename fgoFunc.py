@@ -54,7 +54,7 @@ masterSkill=[[4,0,0],[4,0,0],[4,0,0]]
 terminateFlag=False
 suspendFlag=False
 check=None
-def chekcFlag():
+def checkFlag():
     while suspendFlag and not terminateFlag:time.sleep(.1)
     if terminateFlag:exit(0)
 def sleep(x,part=.1):
@@ -234,7 +234,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
                 doit('W4K8'[appleKind]+'L',(400,1200))
         logger.info(f'Battle {battle}')
         chooseFriend()
-        while Check(.1).isBattleBegin():pass
+        while not Check(.1).isBattleBegin():pass
         doit(' ',(10000,))
         if not battleFunc():doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
