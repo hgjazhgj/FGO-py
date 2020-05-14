@@ -54,18 +54,18 @@ masterSkill=[[0,0,0],[0,0,0],[0,0,0]]
 terminateFlag=False
 suspendFlag=False
 check=None
-def checkFlag():
+def verifyFlag():
     while suspendFlag and not terminateFlag:time.sleep(.1)
     if terminateFlag:exit(0)
 def sleep(x,part=.1):
     timer=time.time()+x-part
     while time.time()<timer:
-        checkFlag()
+        verifyFlag()
         time.sleep(part)
     time.sleep(max(0,timer+part-time.time()))
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
-    def __init__(self,fv=200):
+    def __init__(self,fv=300):
         self.__value=0
         self.__max=fv
     @property
@@ -83,10 +83,10 @@ class Fuse:
         self.__value=0
         return self
 fuse=Fuse()
-def checkLock(func):
+def acquireLock(func):
     def wrapper(self,*args,**kwargs):
         while self.lock:time.sleep(.05)
-        checkFlag()
+        verifyFlag()
         self.lock=True
         try:return func(self,*args,**kwargs)
         finally:self.lock=False
@@ -110,21 +110,20 @@ class Base(Android):
                 'L':(1336,860),'M':(1200,1000),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
                 '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
                 '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
-    @checkLock
+    @acquireLock
     def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)])
-    @checkLock
+    @acquireLock
     def swipe(self,rect,duration=.15,steps=2,fingers=1,stiff=True):
         super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)],duration,steps,fingers)
         if stiff:super().swipe((500,640),(600,640),0.05,1)
-    @checkLock
+    @acquireLock
     def press(self,c):super().touch(self.key[c])
-    @checkLock
+    @acquireLock
     def snapshot(self):return cv2.resize(cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
 base=Base()
 def doit(pos,wait):[(base.press(i),sleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
     def __init__(self,lagency=.01):
-        checkFlag()
         time.sleep(lagency)
         fuse.inc()
         self.im=base.snapshot()
@@ -139,14 +138,14 @@ class Check:
     def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
     def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
-    def isHouguReady(self):return(lambda im:[not any([self.compare(j,(470+346*i,258,768+346*i,387))for j in(IMG_HOUGUSEALED,IMG_CARDSEALED)])and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.8).im)
+    def isHouguReady(self):return(lambda im:[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.8).im)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
-    def isListEnd(self):return any(self.compare(i,(1829,1040,1893,1070))for i in(IMG_LISTEND,IMG_LISTNONE))
-    def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845))else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
+    def isListEnd(self,pos):return any(self.compare(i,(pos[0]-35,pos[1]-29,pos[0]+35,pos[1]+10),.15)for i in(IMG_LISTEND,IMG_LISTNONE))
+    def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getStage(self):return self.select(IMG_STAGE,(1296,20,1342,56))+1
     def getStageTotal(self):return self.select(IMG_STAGETOTAL,(1325,20,1372,56))+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
@@ -169,7 +168,7 @@ def chooseFriend():
     while True:
         timer=time.time()
         while True:
-            if Check(.3).isListEnd():break
+            if Check(.3).isListEnd((1860,1064)):break
             for i,_ in(i for i in IMG_FRIEND if check.tapOnCmp(i[1],delta=.015)):
                 logger.info(f'Friend {name}')
                 try:p=re.search('[0-9x]{11}$',i).group()
@@ -177,7 +176,7 @@ def chooseFriend():
                 else:
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
-                return sleep(.7)
+                return
             base.swipe((400,960,400,290))
         if refresh:sleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,2000))
