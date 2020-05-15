@@ -112,10 +112,31 @@ class Base(Android):
                 '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
     @acquireLock
     def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)])
+    #@acquireLock
+    #def swipe(self,rect,duration=.15,steps=2,fingers=1):
+    #    super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[j]for j in range(2)]for i in range(2)],duration,steps,fingers)
     @acquireLock
-    def swipe(self,rect,duration=.15,steps=2,fingers=1,stiff=True):
-        super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[i]for j in range(2)]for i in range(2)],duration,steps,fingers)
-        if stiff:super().swipe((500,640),(600,640),0.05,1)
+    def swipe(self,rect):
+        p1,p2=[numpy.array(self._touch_point_by_orientation([round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[j]for j in range(2)]))for i in range(2)]
+        vd=p2-p1
+        legth=numpy.linalg.norm(vd)
+        vx=numpy.array([0.,0.])
+        ve=vd/legth*4
+        self.minitouch.handle('d 0 '+' '.join([str(int(i))for i in p1])+' 50\nc\n')
+        time.sleep(.01)
+        for i in range(2):
+            self.minitouch.handle('m 0 '+' '.join([str(int(i))for i in p1+vx])+' 50\nc\n')
+            vx+=ve
+            time.sleep(.02)
+        ve*=5
+        while numpy.linalg.norm(vx)<legth:
+            self.minitouch.handle('m 0 '+' '.join([str(int(i))for i in p1+vx])+' 50\nc\n')
+            vx+=ve
+            time.sleep(.008)
+        self.minitouch.handle('m 0 '+' '.join([str(int(i))for i in p2])+' 50\nc\n')
+        time.sleep(.3)
+        self.minitouch.handle('u 0\nc\n')
+        time.sleep(.02)
     @acquireLock
     def press(self,c):super().touch(self.key[c])
     @acquireLock
@@ -157,20 +178,18 @@ def gacha():
         base.press('P')
 def chooseFriend():
     refresh=False
-    while True:
-        if Check(.1).isNoFriend():
+    while not Check(.1).isChooseFriend():
+        if check.isNoFriend():
             if refresh:sleep(10)
             doit('\xBAJ',(500,1000))
             refresh=True
-        if check.isChooseFriend():break
     if len(IMG_FRIEND)==0:
         return doit('8',(2000,))
     while True:
         timer=time.time()
-        while True:
-            if Check(.3).isListEnd((1860,1064)):break
+        while not Check(.3).isListEnd((1860,1064)):
             for i,_ in(i for i in IMG_FRIEND if check.tapOnCmp(i[1],delta=.015)):
-                logger.info(f'Friend {name}')
+                logger.info(f'Friend {i}')
                 try:p=re.search('[0-9x]{11}$',i).group()
                 except AttributeError:pass
                 else:
@@ -218,8 +237,7 @@ def oneBattle():
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
     while True:
-        while True:
-            if Check(.4).isBegin():break
+        while not Check(.4).isBegin():
             check.tapEnd()
             base.press(' ')
         battle+=1
@@ -240,12 +258,12 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         doit('    ',(200,200,200,200))
 def userScript():
     while not Check(.1).isTurnBegin():pass
-    doit('AHJ3KL 654',(3000,3000,300,3000,3000,3000,2400,300,300,10000))
+    doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
     while not Check(.1).isTurnBegin():pass
     assert Check().getStage()==2
-    doit('S 654',(3000,2400,300,300,10000))
+    doit('S 654',(3000,2400,350,350,10000))
     while not Check(.1).isTurnBegin():pass
     assert Check().getStage()==3
-    doit(' 754',(2400,300,300,10000))
+    doit(' 754',(2400,350,350,10000))
     while not Check(.1).isBattleOver():pass
     return True
