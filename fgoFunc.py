@@ -97,27 +97,27 @@ class Base(Android):
         try:super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)
         except:self.serialno=None
         else:
-            self.res=[round(i)for i in self.get_render_resolution(True)]
-            if self.res[2]*9>self.res[3]*16:
-                self.scale=1080/(self.res[1]+self.res[3])
-                self.border=(round(self.res[2]-self.res[3]*16/9)>>1,0)
+            self.render=[round(i)for i in self.get_render_resolution(True)]
+            if self.render[2]*9>self.render[3]*16:
+                self.scale=1080/(self.render[1]+self.render[3])
+                self.border=(round(self.render[2]-self.render[3]*16/9)>>1,0)
             else:
-                self.scale=1920/(self.res[0]+self.res[2])
-                self.border=(0,round(self.res[3]-self.res[2]*9/16)>>1)
-            self.key={c:[round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)]for c,p in
+                self.scale=1920/(self.render[0]+self.render[2])
+                self.border=(0,round(self.render[3]-self.render[2]*9/16)>>1)
+            self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in
                {' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
                 'A':(109,860),'B':(1680,368),'C':(845,540),'D':(385,860),'E':(1493,470),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),
                 'L':(1336,860),'M':(1200,1000),'N':(248,1041),'P':(1854,69),'Q':(1800,475),'R':(1626,475),'S':(244,860),'V':(1105,540),'W':(1360,475),'X':(259,932),
                 '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#NUM4 #NUM5 #NUM6 #NUM7 #NUM8 #NUM9
                 '\x09':(1800,304),'\x12':(960,943),'\xA0':(41,197),'\xA1':(41,197),'\xBA':(1247,197)}.items()}# VK_LSHIFT # VK_RSHIFT #; VK_OEM_1 #tab VK_TAB #alt VK_MENU
     @acquireLock
-    def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.res[i])for i in range(2)])
+    def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
     #@acquireLock
     #def swipe(self,rect,duration=.15,steps=2,fingers=1):
     #    super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[j]for j in range(2)]for i in range(2)],duration,steps,fingers)
     @acquireLock
-    def swipe(self,rect):
-        p1,p2=[numpy.array(self._touch_point_by_orientation([round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[j]for j in range(2)]))for i in range(2)]
+    def swipe(self,rect):#v3.9.3
+        p1,p2=[numpy.array(self._touch_point_by_orientation([round(rect[i<<1|j]/self.scale)+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
         vd=p2-p1
         legth=numpy.linalg.norm(vd)
         vx=numpy.array([0.,0.])
@@ -140,7 +140,7 @@ class Base(Android):
     @acquireLock
     def press(self,c):super().touch(self.key[c])
     @acquireLock
-    def snapshot(self):return cv2.resize(cv2.resize(super().snapshot(),(self.res[0]+self.res[2],self.res[1]+self.res[3]),interpolation=cv2.INTER_CUBIC)[self.res[1]+self.border[1]:self.res[1]+self.res[3]-self.border[1],self.res[0]+self.border[0]:self.res[0]+self.res[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
+    def snapshot(self):return cv2.resize(cv2.resize(super().snapshot(),self.get_current_resolution(),interpolation=cv2.INTER_CUBIC)[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
 base=Base()
 def doit(pos,wait):[(base.press(i),sleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
@@ -187,7 +187,7 @@ def chooseFriend():
         return doit('8',(2000,))
     while True:
         timer=time.time()
-        while not Check(.3).isListEnd((1860,1064)):
+        while not Check(.2).isListEnd((1860,1064)):
             for i,_ in(i for i in IMG_FRIEND if check.tapOnCmp(i[1],delta=.015)):
                 logger.info(f'Friend {i}')
                 try:p=re.search('[0-9x]{11}$',i).group()
@@ -257,13 +257,14 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         if not battleFunc():doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
 def userScript():
-    while not Check(.1).isTurnBegin():pass
-    doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
-    while not Check(.1).isTurnBegin():pass
-    assert Check().getStage()==2
-    doit('S 654',(3000,2400,350,350,10000))
-    while not Check(.1).isTurnBegin():pass
-    assert Check().getStage()==3
-    doit(' 754',(2400,350,350,10000))
-    while not Check(.1).isBattleOver():pass
-    return True
+    #while not Check(.1).isTurnBegin():pass
+    #doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
+    #while not Check(.1).isTurnBegin():pass
+    #assert Check().getStage()==2
+    #doit('S 654',(3000,2400,350,350,10000))
+    #while not Check(.1).isTurnBegin():pass
+    #assert Check().getStage()==3
+    #doit(' 754',(2400,350,350,10000))
+    #while not Check(.1).isBattleOver():pass
+    #return True
+    print(base.get_render_resolution(True))
