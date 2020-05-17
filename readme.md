@@ -22,7 +22,7 @@
 ![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v3.9.5](#版本记录-Version-Logs)  
+当前版本[v3.9.6](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 你可以star以便日后访问~~长按star体验一键三连的快感~~  
@@ -84,6 +84,7 @@ email huguangjing0411@geektip.cc
 如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 ## 助战 Friends  
 你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件  
+注意你得先保证游戏画面是1920*1080的再进行截取,建议使用`Check().save(filename:str)`  
 如果image/friend目录下没有png文件,就选取好友列表中的第一个  
 **被截图范围都应该可以点击来选中该好友**  
 助战截图的文件名若以包含技能和宝具信息的11个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo中的设置  
@@ -105,6 +106,11 @@ email huguangjing0411@geektip.cc
 
 如果以上问题的答案均为"是",请提交issue,或按照前述的方式联系我  
 # 版本记录 Version Logs  
+## 2020/05/17 v3.9.6
+又跳过了几层包装调用  
+如果把整个airtest比作一个人,我不是雇佣这个人来给我干活,而是把他的几个脏器挖出来给我用,这就不可避免地有排异反应  
+bug修复:修复了对异型屏的尺寸有可能不能正确缩放的问题  
+这波到此为止,设备io相关方面应该没有问题了,要是您那里不能用,那多半是您的设备不兼容  
 ## 2020/05/17 v3.9.5
 bug修复:修复了新版swipe可能存在的滑动位置不正确的问题  
 部分设备,尤其是模拟器,触摸屏的尺寸和显示的尺寸是不一样的,比如显示器1920*1080,但是触摸输入设备实际上是32768*32768  
