@@ -1,4 +1,4 @@
-> 23发魔总  
+> プリン～プリン～ プリンにしてやるの～  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -22,7 +22,7 @@
 ![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v3.9.4](#版本记录-Version-Logs)  
+当前版本[v3.9.5](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 你可以star以便日后访问~~长按star体验一键三连的快感~~  
@@ -105,6 +105,9 @@ email huguangjing0411@geektip.cc
 
 如果以上问题的答案均为"是",请提交issue,或按照前述的方式联系我  
 # 版本记录 Version Logs  
+## 2020/05/17 v3.9.5
+bug修复:修复了新版swipe可能存在的滑动位置不正确的问题  
+部分设备,尤其是模拟器,触摸屏的尺寸和显示的尺寸是不一样的,比如显示器1920*1080,但是触摸输入设备实际上是32768*32768  
 ## 2020/05/16 v3.9.4  
 bug修复:自v3.8.0以来异型屏黑边的问题看似解决了,实际只解决了一半,在一个方向上能正确获取到截图,在另一方向上则会裁剪错误  
 因为我基本不开刘海所以直到上一个版本改代码时才注意到这个问题,现在将其修复  
