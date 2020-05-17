@@ -122,18 +122,19 @@ class Base(Android):
         legth=numpy.linalg.norm(vd)
         vx=numpy.array([0.,0.])
         ve=vd/legth*4
-        self.minitouch.handle('d 0 '+' '.join([str(int(i))for i in p1])+' 50\nc\n')
+        getPos=lambda x:' '.join([str(int(i))for i in self.minitouch.transform_xy(*x)])
+        self.minitouch.handle('d 0 '+getPos(p1)+' 50\nc\n')
         time.sleep(.01)
-        for i in range(2):
-            self.minitouch.handle('m 0 '+' '.join([str(int(i))for i in p1+vx])+' 50\nc\n')
+        for _ in range(2):
+            self.minitouch.handle('m 0 '+getPos(p1+vx)+' 50\nc\n')
             vx+=ve
             time.sleep(.02)
         ve*=5
         while numpy.linalg.norm(vx)<legth:
-            self.minitouch.handle('m 0 '+' '.join([str(int(i))for i in p1+vx])+' 50\nc\n')
+            self.minitouch.handle('m 0 '+getPos(p1+vx)+' 50\nc\n')
             vx+=ve
             time.sleep(.008)
-        self.minitouch.handle('m 0 '+' '.join([str(int(i))for i in p2])+' 50\nc\n')
+        self.minitouch.handle('m 0 '+getPos(p2)+' 50\nc\n')
         time.sleep(.3)
         self.minitouch.handle('u 0\nc\n')
         time.sleep(.02)
@@ -257,14 +258,13 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         if not battleFunc():doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
 def userScript():
-    #while not Check(.1).isTurnBegin():pass
-    #doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
-    #while not Check(.1).isTurnBegin():pass
-    #assert Check().getStage()==2
-    #doit('S 654',(3000,2400,350,350,10000))
-    #while not Check(.1).isTurnBegin():pass
-    #assert Check().getStage()==3
-    #doit(' 754',(2400,350,350,10000))
-    #while not Check(.1).isBattleOver():pass
-    #return True
-    print(base.get_render_resolution(True))
+    while not Check(.1).isTurnBegin():pass
+    doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
+    while not Check(.1).isTurnBegin():pass
+    assert Check().getStage()==2
+    doit('S 654',(3000,2400,350,350,10000))
+    while not Check(.1).isTurnBegin():pass
+    assert Check().getStage()==3
+    doit(' 754',(2400,350,350,10000))
+    while not Check(.1).isBattleOver():pass
+    return True
