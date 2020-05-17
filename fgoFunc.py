@@ -99,10 +99,10 @@ class Base(Android):
         else:
             self.render=[round(i)for i in self.get_render_resolution(True)]
             if self.render[2]*9>self.render[3]*16:
-                self.scale=1080/(self.render[1]+self.render[3])
+                self.scale=1080/self.render[3]
                 self.border=(round(self.render[2]-self.render[3]*16/9)>>1,0)
             else:
-                self.scale=1920/(self.render[0]+self.render[2])
+                self.scale=1920/self.render[2]
                 self.border=(0,round(self.render[3]-self.render[2]*9/16)>>1)
             self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in
                {' ':(1820,1030),'1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
@@ -114,29 +114,29 @@ class Base(Android):
     def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
     #@acquireLock
     #def swipe(self,rect,duration=.15,steps=2,fingers=1):
-    #    super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.res[j]for j in range(2)]for i in range(2)],duration,steps,fingers)
+    #    super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.render[j]for j in range(2)]for i in range(2)],duration,steps,fingers)
     @acquireLock
     def swipe(self,rect):#v3.9.3
         p1,p2=[numpy.array(self._touch_point_by_orientation([round(rect[i<<1|j]/self.scale)+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
         vd=p2-p1
-        legth=numpy.linalg.norm(vd)
+        lvd=numpy.linalg.norm(vd)
+        ve=vd/lvd*5/self.scale
         vx=numpy.array([0.,0.])
-        ve=vd/legth*4
         getPos=lambda x:' '.join([str(int(i))for i in self.minitouch.transform_xy(*x)])
-        self.minitouch.handle('d 0 '+getPos(p1)+' 50\nc\n')
+        self.minitouch.safe_send('d 0 '+getPos(p1)+' 50\nc\n')
         time.sleep(.01)
         for _ in range(2):
-            self.minitouch.handle('m 0 '+getPos(p1+vx)+' 50\nc\n')
+            self.minitouch.safe_send('m 0 '+getPos(p1+vx)+' 50\nc\n')
             vx+=ve
             time.sleep(.02)
         ve*=5
-        while numpy.linalg.norm(vx)<legth:
-            self.minitouch.handle('m 0 '+getPos(p1+vx)+' 50\nc\n')
+        while numpy.linalg.norm(vx)<lvd:
+            self.minitouch.safe_send('m 0 '+getPos(p1+vx)+' 50\nc\n')
             vx+=ve
             time.sleep(.008)
-        self.minitouch.handle('m 0 '+getPos(p2)+' 50\nc\n')
-        time.sleep(.3)
-        self.minitouch.handle('u 0\nc\n')
+        self.minitouch.safe_send('m 0 '+getPos(p2)+' 50\nc\n')
+        time.sleep(.35)
+        self.minitouch.safe_send('u 0\nc\n')
         time.sleep(.02)
     @acquireLock
     def press(self,c):super().touch(self.key[c])
@@ -199,13 +199,12 @@ def chooseFriend():
                 return
             base.swipe((400,960,400,290))
         if refresh:sleep(max(0,timer+10-time.time()))
-        doit('\xBAJ',(500,2000))
+        doit('\xBAJ',(500,1000))
         refresh=True
-        while True:
-            if Check(.2).isNoFriend():
+        while not Check(.2).isChooseFriend():
+            if check.isNoFriend():
                 sleep(10)
                 doit('\xBAJ',(500,1000))
-            if check.isChooseFriend():break
 def oneBattle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
@@ -258,13 +257,15 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         if not battleFunc():doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
 def userScript():
-    while not Check(.1).isTurnBegin():pass
-    doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
-    while not Check(.1).isTurnBegin():pass
-    assert Check().getStage()==2
-    doit('S 654',(3000,2400,350,350,10000))
-    while not Check(.1).isTurnBegin():pass
-    assert Check().getStage()==3
-    doit(' 754',(2400,350,350,10000))
-    while not Check(.1).isBattleOver():pass
-    return True
+    #while not Check(.1).isTurnBegin():pass
+    #doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
+    #while not Check(.1).isTurnBegin():pass
+    #assert Check().getStage()==2
+    #doit('S 654',(3000,2400,350,350,10000))
+    #while not Check(.1).isTurnBegin():pass
+    #assert Check().getStage()==3
+    #doit(' 754',(2400,350,350,10000))
+    #while not Check(.1).isBattleOver():pass
+    #return True
+    base.swipe((400,960,400,290))
+base.press('P')
