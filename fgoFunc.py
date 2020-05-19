@@ -75,6 +75,7 @@ class Fuse:
     def inc(self):
         if self.__value>self.__max:
             logger.warning('Fused')
+            check.save().show()
             exit(0)
         self.__value+=1
         return self
@@ -113,26 +114,25 @@ class Base(Android):
     @acquireLock
     def touch(self,p):super().touch([round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
     #@acquireLock
-    #def swipe(self,rect,duration=.15,steps=2,fingers=1):
-    #    super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.render[j]for j in range(2)]for i in range(2)],duration,steps,fingers)
+    #def swipe(self,rect,duration=.15,steps=2,fingers=1):super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.render[j]for j in range(2)]for i in range(2)],duration,steps,fingers)
     @acquireLock
     def swipe(self,rect):#v3.9.3
-        p1,p2=[numpy.array(self._touch_point_by_orientation([round(rect[i<<1|j]/self.scale)+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
+        p1,p2=[numpy.array(self._touch_point_by_orientation([rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
         vd=p2-p1
         lvd=numpy.linalg.norm(vd)
-        ve=vd/lvd*5/self.scale
+        vd*=5/lvd/self.scale
         vx=numpy.array([0.,0.])
         getPos=lambda x:' '.join([str(int(i))for i in self.minitouch.transform_xy(*x)])
         self.minitouch.safe_send('d 0 '+getPos(p1)+' 50\nc\n')
         time.sleep(.01)
         for _ in range(2):
             self.minitouch.safe_send('m 0 '+getPos(p1+vx)+' 50\nc\n')
-            vx+=ve
+            vx+=vd
             time.sleep(.02)
-        ve*=5
+        vd*=5
         while numpy.linalg.norm(vx)<lvd:
             self.minitouch.safe_send('m 0 '+getPos(p1+vx)+' 50\nc\n')
-            vx+=ve
+            vx+=vd
             time.sleep(.008)
         self.minitouch.safe_send('m 0 '+getPos(p2)+' 50\nc\n')
         time.sleep(.35)
@@ -160,7 +160,7 @@ class Check:
     def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
     def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
-    def isHouguReady(self):return(lambda im:[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.8).im)
+    def isHouguReady(self):return(lambda im:[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.7).im)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))
@@ -175,7 +175,7 @@ class Check:
     def tapEnd(self):return self.tapOnCmp(IMG_END,(243,863,745,982))
 def gacha():
     while fuse.value<30:
-        if Check(.1).isGacha():doit('MK',(200,2500))
+        if Check(.1).isGacha():doit('MK',(200,2700))
         base.press('P')
 def chooseFriend():
     refresh=False
@@ -184,8 +184,7 @@ def chooseFriend():
             if refresh:sleep(10)
             doit('\xBAJ',(500,1000))
             refresh=True
-    if len(IMG_FRIEND)==0:
-        return doit('8',(2000,))
+    if len(IMG_FRIEND)==0:return base.press('8')
     while True:
         timer=time.time()
         while not Check(.2).isListEnd((1860,1064)):
@@ -210,7 +209,7 @@ def oneBattle():
     while True:
         if Check(.1).isTurnBegin():
             turn+=1
-            stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
+            stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.2))
             if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
             if stageTurn==1:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]]+'P',(250,500))
@@ -221,11 +220,13 @@ def oneBattle():
                 if skillInfo[servant[i]][j][2]:doit(chr(skillInfo[servant[i]][j][2]+49),(300,))
                 sleep(1.7)
                 while not Check(.1).isTurnBegin():pass
+                sleep(.16)
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit('Q'+'WER'[i],(300,300))
                 if masterSkill[i][2]:doit(chr(masterSkill[i][2]+49),(300,))
                 sleep(1.7)
                 while not Check(.1).isTurnBegin():pass
+                sleep(.16)
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
         elif check.isBattleOver():
@@ -241,7 +242,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
             check.tapEnd()
             base.press(' ')
         battle+=1
-        doit('8',(1500,))
+        doit('8',(1800,))
         if Check().isApEmpty():
             if apple==appleCount:
                 logger.info('Ap Empty')
@@ -257,15 +258,13 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         if not battleFunc():doit('VJ',(500,500))
         doit('    ',(200,200,200,200))
 def userScript():
-    #while not Check(.1).isTurnBegin():pass
-    #doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
-    #while not Check(.1).isTurnBegin():pass
-    #assert Check().getStage()==2
-    #doit('S 654',(3000,2400,350,350,10000))
-    #while not Check(.1).isTurnBegin():pass
-    #assert Check().getStage()==3
-    #doit(' 754',(2400,350,350,10000))
-    #while not Check(.1).isBattleOver():pass
-    #return True
-    base.swipe((400,960,400,290))
-base.press('P')
+    while not Check(.1).isTurnBegin():pass
+    doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
+    while not Check(.1).isTurnBegin():pass
+    assert Check().getStage()==2
+    doit('S 654',(3000,2400,350,350,10000))
+    while not Check(.1).isTurnBegin():pass
+    assert Check().getStage()==3
+    doit(' 754',(2400,350,350,10000))
+    while not Check(.1).isBattleOver():pass
+    return True
