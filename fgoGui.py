@@ -42,6 +42,9 @@ class MyMainWindow(QMainWindow):
         def f():
             try:
                 self.signalFuncBegin.emit()
+                fgoFunc.suspendFlag=False
+                fgoFunc.terminateFlag=False
+                fgoFunc.fuse.reset()
                 func(*args,**kwargs)
             except Exception as e:logger.exception(e)
             finally:
@@ -91,9 +94,6 @@ class MyMainWindow(QMainWindow):
     def checkCheck(self):fgoFunc.Check(0).show()
     def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):
-        fgoFunc.suspendFlag=False
-        fgoFunc.terminateFlag=False
-        fgoFunc.fuse.reset()
         fgoFunc.skillInfo=[[[int((lambda self:eval('self.ui.TXT_SKILL_'+str(i)+'_'+str(j)+'_'+str(k)+'.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
         fgoFunc.houguInfo=[[int((lambda self:eval('self.ui.TXT_HOUGU_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(2)]for i in range(6)]
         fgoFunc.dangerPos=[int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]
