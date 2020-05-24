@@ -145,12 +145,13 @@ class Base(Android):
 base=Base()
 def doit(pos,wait):[(base.press(i),sleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
-    def __init__(self,lagency=.01):
-        time.sleep(lagency)
+    def __init__(self,forwordLagency=.01,backwordLagency=0):
+        sleep(forwordLagency)
         fuse.inc()
         self.im=base.snapshot()
         global check
         check=self
+        sleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta and fuse.reset()
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
@@ -158,7 +159,7 @@ class Check:
     def show(self):show(cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST));return self
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))
     def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
-    def isBattleOver(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))
+    def isBattleFinished(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
     def isHouguReady(self):return(lambda im:[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.7).im)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
@@ -179,15 +180,17 @@ def gacha():
         base.press('P')
 def chooseFriend():
     refresh=False
-    while not Check(.1).isChooseFriend():
+    while not Check(.2).isChooseFriend():
         if check.isNoFriend():
             if refresh:sleep(10)
             doit('\xBAJ',(500,1000))
             refresh=True
-    if len(IMG_FRIEND)==0:return base.press('8')
+    if len(IMG_FRIEND)==0:
+        time.sleep(.2)
+        return base.press('8')
     while True:
         timer=time.time()
-        while not Check(.2).isListEnd((1860,1064)):
+        while not Check(.2,.1).isListEnd((1860,1064)):
             for i,_ in(i for i in IMG_FRIEND if check.tapOnCmp(i[1],delta=.015)):
                 logger.info(f'Friend {i}')
                 try:p=re.search('[0-9x]{11}$',i).group()
@@ -196,7 +199,7 @@ def chooseFriend():
                     skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
                     houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
                 return
-            base.swipe((400,960,400,290))
+            base.swipe((400,900,400,300))
         if refresh:sleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,1000))
         refresh=True
@@ -229,7 +232,7 @@ def oneBattle():
                 sleep(.16)
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:([chr(i+54)for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else[chr(j+49)for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+[chr(i+49)for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
-        elif check.isBattleOver():
+        elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
         elif check.tapFailed():
@@ -238,12 +241,12 @@ def oneBattle():
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
     while True:
-        while not Check(.4).isBegin():
+        while not Check(.2,.2).isBegin():
             check.tapEnd()
             base.press(' ')
         battle+=1
-        doit('8',(1800,))
-        if Check().isApEmpty():
+        base.press('8')
+        if Check(.7,.5).isApEmpty():
             if apple==appleCount:
                 logger.info('Ap Empty')
                 return base.press('\x12')
@@ -254,17 +257,21 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         logger.info(f'Battle {battle}')
         chooseFriend()
         while not Check(.1).isBattleBegin():pass
-        doit(' ',(10000,))
+        doit(' ',(12000,))
         if not battleFunc():doit('VJ',(500,500))
-        doit('    ',(200,200,200,200))
+        doit('        ',(200,200,200,200,200,200,200,200))
 def userScript():
+    #while not Check(.1).isTurnBegin():pass
+    #doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
+    #while not Check(.1).isTurnBegin():pass
+    #assert Check().getStage()==2
+    #doit('S 654',(3000,2400,350,350,10000))
+    #while not Check(.1).isTurnBegin():pass
+    #assert Check().getStage()==3
+    #doit(' 754',(2400,350,350,10000))
+    #while not Check(.1).isBattleOver():pass
+    #return True
     while not Check(.1).isTurnBegin():pass
-    doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
-    while not Check(.1).isTurnBegin():pass
-    assert Check().getStage()==2
-    doit('S 654',(3000,2400,350,350,10000))
-    while not Check(.1).isTurnBegin():pass
-    assert Check().getStage()==3
-    doit(' 754',(2400,350,350,10000))
-    while not Check(.1).isBattleOver():pass
+    doit('S2DF2GH2J2KL2QE2 654      ',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,350,350,3000,2400,350,350,16000,300,300,300,300,300,300))
+    while not Check(.1).isBattleFinished():assert not check.isTurnBegin()
     return True
