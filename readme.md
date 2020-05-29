@@ -24,7 +24,7 @@
 ![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v3.9.8](#版本记录-Version-Logs)  
+当前版本[v3.9.9](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 你可以star以便日后访问~~长按star体验一键三连的快感~~  
@@ -108,6 +108,10 @@ email huguangjing0411@geektip.cc
 
 如果以上问题的答案均为"是",请提交issue,或按照前述的方式联系我  
 # 版本记录 Version Logs  
+## 2020/05/29 v3.9.9  
+bug修复:当完成一场战斗且达成了任务条件时,任务进度提示框会把当前检测是否要吃苹果的判定区域遮挡住导致要吃苹果但实际没吃而卡死  
+现在换成了检测回复体力界面的关闭按钮  
+每次更新都东修西补的,导致现在代码不统一,命名也很混乱,等暑假有空了要重构  
 ## 2020/05/24 v3.9.8  
 巴巴托斯我来了  
 跟上个版本一样的原因,在两场战斗交接时增加了延时  
