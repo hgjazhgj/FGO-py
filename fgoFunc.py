@@ -30,6 +30,7 @@ logger=(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda 
 IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
 IMG_BEGIN=cv2.imread('image/begin.png')
+IMG_BATTLEBEGIN=cv2.imread('image/battlebegin.png')
 IMG_BOUND=cv2.imread('image/bound.png')
 IMG_BOUNDUP=cv2.imread('image/boundup.png')
 IMG_CARDSEALED=cv2.imread('image/cardsealed.png')
@@ -45,7 +46,6 @@ IMG_NOFRIEND=cv2.imread('image/nofriend.png')
 IMG_STAGE=[cv2.imread(f'image/stage{i}.png')for i in range(1,4)]
 IMG_STAGETOTAL=[cv2.imread(f'image/total{i}.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
-IMG_BATTLEBEGIN=cv2.imread('image/battlebegin.png')
 skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
 dangerPos=[0,0,1]
@@ -159,11 +159,11 @@ class Check:
     def show(self):show(cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST));return self
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))
     def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
-    def isBattleFinished(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596),.06))
+    def isBattleFinished(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596)))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
     def isHouguReady(self):return(lambda im:[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.7).im)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
-    def isApEmpty(self):return self.compare(IMG_APEMPTY,(800,50,1120,146))
+    def isApEmpty(self):return self.compare(IMG_APEMPTY,(906,897,1017,967))
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
@@ -241,12 +241,12 @@ def oneBattle():
 def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     apple,battle=0,0
     while True:
-        while not Check(.2,.2).isBegin():
+        while not Check(.2,.3).isBegin():
             check.tapEnd()
             base.press(' ')
         battle+=1
         base.press('8')
-        if Check(.7,.5).isApEmpty():
+        if Check(.7,.3).isApEmpty():
             if apple==appleCount:
                 logger.info('Ap Empty')
                 return base.press('\x12')
@@ -261,17 +261,17 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         if not battleFunc():doit('VJ',(500,500))
         doit('        ',(200,200,200,200,200,200,200,200))
 def userScript():
-    #while not Check(.1).isTurnBegin():pass
-    #doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
-    #while not Check(.1).isTurnBegin():pass
-    #assert Check().getStage()==2
-    #doit('S 654',(3000,2400,350,350,10000))
-    #while not Check(.1).isTurnBegin():pass
-    #assert Check().getStage()==3
-    #doit(' 754',(2400,350,350,10000))
-    #while not Check(.1).isBattleOver():pass
-    #return True
     while not Check(.1).isTurnBegin():pass
-    doit('S2DF2GH2J2KL2QE2 654      ',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,350,350,3000,2400,350,350,16000,300,300,300,300,300,300))
-    while not Check(.1).isBattleFinished():assert not check.isTurnBegin()
+    doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
+    while not Check(.1).isTurnBegin():pass
+    assert Check().getStage()==2
+    doit('S 654',(3000,2400,350,350,10000))
+    while not Check(.1).isTurnBegin():pass
+    assert Check().getStage()==3
+    doit(' 754',(2400,350,350,10000))
+    while not Check(.1).isBattleOver():pass
     return True
+    #while not Check(.1).isTurnBegin():pass
+    #doit('S2DF2GH2J2KL2QE2 654      ',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,350,350,3000,2400,350,350,16000,300,300,300,300,300,300))
+    #while not Check(.1).isBattleFinished():assert not check.isTurnBegin()
+    #return True
