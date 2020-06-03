@@ -30,12 +30,12 @@ class MyMainWindow(QMainWindow):
         self.ui.CBX_PARTY.addItems(config.sections())
         self.ui.CBX_PARTY.setCurrentIndex(-1)
         self.loadParty('DEFAULT')
-        self.serialno=fgoFunc.base.serialno
+        self.serial=fgoFunc.base.serial
         self.IMG_FRIEND=fgoFunc.IMG_FRIEND
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def runFunc(self,func,*args,**kwargs):
-        if self.serialno is None:
+        if self.serial is None:
             QMessageBox.critical(self,'Error','无设备连接',QMessageBox.Ok)
             return
         self.applyAll()
@@ -85,12 +85,13 @@ class MyMainWindow(QMainWindow):
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda adbList:QInputDialog.getItem(self,'更改安卓设备','在下拉列表中选择一个设备',adbList,adbList.index(self.serialno)if self.serialno and self.serialno in adbList else 0))([i for i,j in ADB().devices()if j=='device'])
-        if ok and text:self.serialno=text
+        text,ok=(lambda adbList:QInputDialog.getItem(self,'更改安卓设备','在下拉列表中选择一个设备',adbList,adbList.index(self.serial)if self.serial and self.serial in adbList else 0))([i for i,j in ADB().devices()if j=='device'])
+        #text,ok=QInputDialog.getText(self,'更改安卓设备','填写',text='emulator-5554')
+        if ok and text:self.serial=text
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接远程设备','设备地址',text='localhost:5555')
-        if ok and text:ADB(text)
-    def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
+        if ok and text:ADB(text)#os.system(f'adb connect {text}')
+    def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serial)
     def checkCheck(self):fgoFunc.Check(0).show()
     def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):
@@ -99,7 +100,7 @@ class MyMainWindow(QMainWindow):
         fgoFunc.dangerPos=[int((lambda self:eval('self.ui.TXT_DANGER_'+str(i)+'.text()'))(self))for i in range(3)]
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
         fgoFunc.masterSkill=[[int((lambda self:eval('self.ui.TXT_MASTER_'+str(i)+'_'+str(j)+'.text()'))(self))for j in range(3)]for i in range(3)]
-        if self.serialno!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(self.serialno)
+        if self.serial!=fgoFunc.base.serial:fgoFunc.base=fgoFunc.Base(self.serial)
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
     def runUser(self):self.runFunc(fgoFunc.userScript)
