@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>561</width>
-    <height>627</height>
+    <height>628</height>
    </rect>
   </property>
   <property name="font">
@@ -34,6 +34,41 @@
         </property>
         <property name="statusTip">
          <string>选取编队,若需新建或删除请直接更改config文件</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="LBL_PARTY">
+        <property name="text">
+         <string>位置</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="TXT_PARTY">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::NoContextMenu</enum>
+        </property>
+        <property name="statusTip">
+         <string>所选编队在队伍列表中的位置,从左到右1-10,0为无效</string>
+        </property>
+        <property name="maxLength">
+         <number>2</number>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -195,7 +230,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_0_0">
+           <spacer name="SPACER_PARTY_0_0">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -307,7 +342,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_0_1">
+           <spacer name="SPACER_PARTY_0_1">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -419,7 +454,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_0_2">
+           <spacer name="SPACER_PARTY_0_2">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -2628,7 +2663,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
+           <string>优先攻击位置,从右到左1-3,第二行为4-6,0为无效</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -2684,7 +2719,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
+           <string>优先攻击位置,从右到左1-3,第二行为4-6,0为无效</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -2740,7 +2775,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>优先攻击位置,从右到左0-2(第二行为3-5)</string>
+           <string>优先攻击位置,从右到左1-3,第二行为4-6,0为无效</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -2815,7 +2850,7 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="maximum">
-           <number>9999</number>
+           <number>114514</number>
           </property>
          </widget>
         </item>
@@ -2854,7 +2889,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>御主技能的最小使用面数,0为不使用技能</string>
+           <string>御主技能的使用面数,0为不使用技能</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -2882,7 +2917,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>御主技能在最小使用面数的最小使用回合</string>
+           <string>御主技能在使用面数的使用回合</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -2982,7 +3017,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>御主技能在最小使用面数的最小使用回合</string>
+           <string>御主技能在使用面数的使用回合</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -3054,7 +3089,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>御主技能的最小使用面数,0为不使用技能</string>
+           <string>御主技能的使用面数,0为不使用技能</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -3082,7 +3117,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>御主技能在最小使用面数的最小使用回合</string>
+           <string>御主技能在使用面数的使用回合</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -3111,6 +3146,37 @@
           </property>
           <property name="statusTip">
            <string>御主技能的指向目标,从左到右1-3,0为没有目标</string>
+          </property>
+          <property name="inputMask">
+           <string>9</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="TXT_MASTER_2_3">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>34</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>34</height>
+           </size>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
+          </property>
+          <property name="toolTip">
+           <string>如果对应位置没有从者脚本会卡死,请谨慎使用</string>
+          </property>
+          <property name="statusTip">
+           <string>换人礼装的参数,从左到右1-6,0为非换人礼装技能</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -3264,6 +3330,9 @@
           <property name="text">
            <string>挂起战斗</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item>
@@ -3314,6 +3383,7 @@
      <string>文件</string>
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
+    <addaction name="MENU_FILE_CMDHERE"/>
    </widget>
    <widget class="QMenu" name="MENU_SCRIPT">
     <property name="title">
@@ -3322,6 +3392,8 @@
     <addaction name="MENU_SCRIPT_STAYONTOP"/>
     <addaction name="MENU_SCRIPT_REFRESHDEVICE"/>
     <addaction name="MENU_SCRIPT_GACHA"/>
+    <addaction name="separator"/>
+    <addaction name="MENU_SCRIPT_MAPKEY"/>
    </widget>
    <addaction name="MENU_FILE"/>
    <addaction name="MENU_SCRIPT"/>
@@ -3348,7 +3420,7 @@
   </action>
   <action name="MENU_FILE_EXPLORER">
    <property name="text">
-    <string>在资源管理器中查看</string>
+    <string>资源管理器</string>
    </property>
    <property name="font">
     <font>
@@ -3398,9 +3470,35 @@
     </font>
    </property>
   </action>
+  <action name="MENU_SCRIPT_MAPKEY">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>加载按键映射</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_FILE_CMDHERE">
+   <property name="text">
+    <string>命令提示符</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>CBX_PARTY</tabstop>
+  <tabstop>TXT_PARTY</tabstop>
   <tabstop>BTN_PARTYSAVE</tabstop>
   <tabstop>BTN_PARTYRESET</tabstop>
   <tabstop>RBT_FRIEND_0</tabstop>
@@ -3487,6 +3585,7 @@
   <tabstop>TXT_MASTER_2_0</tabstop>
   <tabstop>TXT_MASTER_2_1</tabstop>
   <tabstop>TXT_MASTER_2_2</tabstop>
+  <tabstop>TXT_MASTER_2_3</tabstop>
   <tabstop>CBX_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>
   <tabstop>BTN_GETDEVICE</tabstop>
@@ -3790,6 +3889,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MENU_SCRIPT_MAPKEY</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>mapKey(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>313</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MENU_FILE_CMDHERE</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>cmdHere()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>313</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -3827,6 +3958,8 @@
   <slot>stayOnTop()</slot>
   <slot>refreshDevice()</slot>
   <slot>runGacha()</slot>
+  <slot>mapKey(bool)</slot>
+  <slot>cmdHere()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
