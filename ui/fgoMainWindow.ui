@@ -3325,7 +3325,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>在下一操作前暂停/恢复战斗</string>
+           <string>暂停/恢复战斗</string>
           </property>
           <property name="text">
            <string>挂起战斗</string>
@@ -3344,7 +3344,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>在下一操作前终止</string>
+           <string>终止战斗</string>
           </property>
           <property name="text">
            <string>终止战斗</string>
@@ -3797,7 +3797,7 @@
    <sender>MENU_FILE_EXPLORER</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>openFolder()</slot>
+   <slot>explorerHere()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -3951,7 +3951,7 @@
   <slot>saveParty()</slot>
   <slot>loadParty(QString)</slot>
   <slot>getFriend()</slot>
-  <slot>openFolder()</slot>
+  <slot>explorerHere()</slot>
   <slot>about()</slot>
   <slot>applyAll()</slot>
   <slot>runUser()</slot>

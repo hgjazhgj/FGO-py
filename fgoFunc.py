@@ -39,6 +39,8 @@ IMG_END=cv2.imread('image/end.png')
 IMG_FAILED=cv2.imread('image/failed.png')
 IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
 IMG_GACHA=cv2.imread('image/gacha.png')
+#IMG_GUNBISEISAN=cv2.imread('./image/gunbiseisan.png')#honnoji final only
+#IMG_TEKININ=cv2.imread('./image/tekinin.png')#honnoji final only
 IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
 IMG_LISTEND=cv2.imread('image/listend.png')
 IMG_LISTNONE=cv2.imread('image/listnone.png')
@@ -216,7 +218,7 @@ def oneBattle():
     while True:
         if Check(.1).isTurnBegin():
             turn+=1
-            stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.3))
+            stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.35))
             if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
             if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
@@ -247,6 +249,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     while True:
         while not Check(.2,.3).isBegin():
             if check.isAddFriend():base.press('X')
+            #elif check.compare(IMG_GUNBISEISAN,(838,148,1083,217)):base.press('Z')#honnoji final only
             base.press(' ')
         battle+=1
         base.press('8')
@@ -261,7 +264,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         logger.info(f'Battle {battle}')
         chooseFriend()
         while not Check(.1).isBattleBegin():pass
-        #if partyIndex:doit(('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1],' '),(1000,400))
+        if partyIndex:doit(('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1],' '),(1000,400))
         doit(' ',(12000,))
         if battleFunc():doit('        ',(200,200,200,200,200,200,200,200))
         else:doit('BIJ',(500,500,500))
