@@ -159,7 +159,7 @@ class MyMainWindow(QMainWindow):
         self.serialno=fgoFunc.base.serialno
         self.getDevice()
         self.IMG_FRIEND=fgoFunc.IMG_FRIEND
-        self.signalFuncBegin.connect(self.funcBegin)#,Qt.BlockingQueuedConnection)
+        self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def keyPressEvent(self,key):
         if key.modifiers()==Qt.NoModifier:
@@ -188,8 +188,6 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_PAUSE.setEnabled(True)
         self.ui.BTN_STOP.setEnabled(True)
         self.ui.BTN_PAUSE.setChecked(False)
-        #self.repaint()
-        #self.applyAll()
     def funcEnd(self):
         self.ui.BTN_ONEBATTLE.setEnabled(True)
         self.ui.BTN_MAIN.setEnabled(True)
@@ -228,7 +226,7 @@ class MyMainWindow(QMainWindow):
     def checkCheck(self):
         if fgoFunc.base.serialno is None:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
         fgoFunc.Check(0).show()
-    def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread(f'image/friend/{i}')]for i in os.listdir('image/friend')if i.endswith('.png')]
+    def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):
         fgoFunc.partyIndex=int(self.ui.TXT_PARTY.text())
         fgoFunc.skillInfo=[[[int((lambda self:eval(f'self.ui.TXT_SKILL_{i}_{j}_{k}.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
@@ -246,8 +244,8 @@ class MyMainWindow(QMainWindow):
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),eval('fgoFunc.'+text))
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
     def stop(self):fgoFunc.terminateFlag=True
-    def openFolder(self):os.startfile(os.getcwd())
-    def cmdHere(self):os.system('start cmd')
+    def explorerHere(self):os.startfile('.')
+    def cmdHere(self):os.startfile('cmd')
     def stayOnTop(self):
         self.setWindowFlags(self.windowFlags()^Qt.WindowStaysOnTopHint)
         self.show()
