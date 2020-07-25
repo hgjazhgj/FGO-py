@@ -39,12 +39,11 @@ IMG_END=cv2.imread('image/end.png')
 IMG_FAILED=cv2.imread('image/failed.png')
 IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
 IMG_GACHA=cv2.imread('image/gacha.png')
-#IMG_GUNBISEISAN=cv2.imread('./image/gunbiseisan.png')#honnoji final only
-#IMG_TEKININ=cv2.imread('./image/tekinin.png')#honnoji final only
 IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
 IMG_LISTEND=cv2.imread('image/listend.png')
 IMG_LISTNONE=cv2.imread('image/listnone.png')
 IMG_NOFRIEND=cv2.imread('image/nofriend.png')
+IMG_PARTYINDEX=cv2.imread('image/partyindex.png')
 IMG_STAGE=[cv2.imread(f'image/stage{i}.png')for i in range(1,4)]
 IMG_STAGETOTAL=[cv2.imread(f'image/total{i}.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
@@ -146,7 +145,7 @@ class Base(Android):
         time.sleep(.02)
     @acquireLock
     def press(self,c):super().touch(self.key[c])
-    @acquireLock#cv2.resize(super().snapshot(),self.get_current_resolution(),interpolation=cv2.INTER_CUBIC)
+    @acquireLock
     def snapshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
 base=Base()
 def doit(pos,wait):[(base.press(i),sleep(j*.001))for i,j in zip(pos,wait)]
@@ -178,6 +177,7 @@ class Check:
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
+    def getPartyIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG_PARTYINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37
     def getStage(self):return self.select(IMG_STAGE,(1296,20,1342,56))+1
     def getStageTotal(self):return self.select(IMG_STAGETOTAL,(1325,20,1372,56))+1
 def gacha():
@@ -249,7 +249,6 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
     while True:
         while not Check(.2,.3).isBegin():
             if check.isAddFriend():base.press('X')
-            #elif check.compare(IMG_GUNBISEISAN,(838,148,1083,217)):base.press('Z')#honnoji final only
             base.press(' ')
         battle+=1
         base.press('8')
@@ -264,7 +263,7 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         logger.info(f'Battle {battle}')
         chooseFriend()
         while not Check(.1).isBattleBegin():pass
-        if partyIndex:doit(('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1],' '),(1000,400))
+        if partyIndex and check.getPartyIndex()+1!=partyIndex:doit(('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1],' '),(1000,400))
         doit(' ',(12000,))
         if battleFunc():doit('        ',(200,200,200,200,200,200,200,200))
         else:doit('BIJ',(500,500,500))
