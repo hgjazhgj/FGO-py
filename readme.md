@@ -8,12 +8,10 @@
 > 我不做人啦!JOJO!  
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本
 ![svg](https://img.shields.io/badge/fgo-作者是FGO国服安卓玩家-225799.svg)
-![svg](https://img.shields.io/badge/天青车道-作者是碧蓝航线玩家-f2bac2.svg)
 ![svg](https://img.shields.io/badge/梆梆人-作者是BanGDream玩家-ff3b72.svg)
 ![svg](https://img.shields.io/badge/hearthstone-作者是炉石传说玩家-daa520.svg)
 ![svg](https://img.shields.io/badge/majsoul-作者是雀魂玩家-8b008b.svg)
 ![svg](https://img.shields.io/badge/骑士君-作者是一个公主连结Re:Dive玩家-fab471.svg)
-![svg](https://img.shields.io/badge/深见夏彦-你已经中了万华镜的毒了呢-ce2d4c.svg)
 ![svg](https://img.shields.io/badge/云程序员-作者是一位云程序员-ffffff.svg)
 ![svg](https://img.shields.io/badge/开位-作者是一条开位咸鱼-ffd700.svg)
 ![svg](https://img.shields.io/badge/头痛-作者患有头痛宿疾Ex-50a625.svg)
@@ -22,10 +20,11 @@
 ![svg](https://img.shields.io/badge/萝莉控-小学生真是太棒了-b0e0e6.svg)
 ![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
-当前版本[v4.0.1](#版本记录-Version-Logs)[快速查错引导](#快速查错引导-When-Error-Occurred)  
+![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
+当前版本[v4.0.2](#版本记录-Version-Logs) [快速查错引导](#快速查错引导-When-Error-Occurred)  
 仅适用于命运-冠位指定安卓简体中文版本  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
-你可以star以便日后访问~~长按star体验一键三连的快感~~  
+~~长按star体验一键三连的快感~~  
 # 警告 Warning
 ***
 **[<<哔哩哔哩游戏平台用户协议V1.0.0>>](https://yhxy.biligame.com/)第11条第2款规定:**  
@@ -107,7 +106,7 @@ email huguangjing0411@geektip.cc
 
 如果以上问题的答案均为"是",请提交issue,或按照前述的方式联系我  
 ## 按键映射 HKey
-你通常不需要阅读这张表格,除非你打算改我的代码,或是我本人某日忘记了我当初的编码规则  
+通常这张表格不需要被阅读,除非你打算改我的代码,或是我本人某日忘记了我当初的编码规则  
 |按键      |功能                                    |
 |----------|----------------------------------------|
 |F1-F10    |选取编队                                |
@@ -126,6 +125,11 @@ email huguangjing0411@geektip.cc
 |\<Space\> |选卡/下一步/菜单                        |
 |NUM4-9    |选取敌人,NUM7返回/关闭                  |  
 # 版本记录 Version Logs
+## 2020/07/25 v4.0.2
+bug修复:选取编队功能并非在所有机型上都能正确动作  
+我以为版本更新后修复了这一问题,结果不能用的还是不能用  
+但是这个功能吗真的能省心很多,所以要实现而不能一直处于废弃状态  
+此版本加了一些特判,如果当前编队已经是目标编队,就不会切换编队  
 ## 2020/07/20 v4.0.1
 文本优化  
 ~~更新:魔王信长活动军备生产确认按钮点击~~  
@@ -134,7 +138,7 @@ email huguangjing0411@geektip.cc
 如果你那里不能就改回原来的注释状态吧  
 另:Qt不能跨线程修改ui,但是读取经过测试好像是安全的  
 ## 2020/07/08 v4.0.0
-重要:7月7日airtest终于更新了1.1.4,修复了部分机型截图不正确的bug,见[这个issue](https://github.com/AirtestProject/Airtest/issues/706)和[这个日志](#2020/03/16-v3.6.0),因此截图代码的相关适配有简化更改  
+重要:7月7日airtest终于更新了1.1.4,修复了部分机型截图不正确的bug,见[这个issue](https://github.com/AirtestProject/Airtest/issues/706)和[这篇日志](#2020-03-16-v3.6.0),因此截图代码的相关适配有简化更改  
 注意更新后再次检查adb版本是否有冲突,airtest自带的adb版本较旧  
 重构/优化代码  
 更新:重新编写了按键映射表  
