@@ -205,15 +205,16 @@ class MyMainWindow(QMainWindow):
         for i in range(3):eval(f'self.ui.TXT_DANGER_{i}.setText("{dangerPos[i]}")')
         eval(f'self.ui.RBT_FRIEND_{config[x]["friendPos"]}.setChecked(True)')
         masterSkill=eval(config[x]['masterSkill'])
-        for i,j in((i,j)for i in range(3)for j in(range(4)if i==2else range(3))):eval(f'self.ui.TXT_MASTER_{i}_{j}.setText("{masterSkill[i][j]}")')
+        for i,j in((i,j)for i in range(3)for j in range(4if i==2else 3)):eval(f'self.ui.TXT_MASTER_{i}_{j}.setText("{masterSkill[i][j]}")')
     def saveParty(self):
+        if not self.ui.CBX_PARTY.currentText():return
         config[self.ui.CBX_PARTY.currentText()]={
             'partyIndex':self.ui.TXT_PARTY.text(),
             'skillInfo':str([[[int((lambda self:eval(f'self.ui.TXT_SKILL_{i}_{j}_{k}.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
             'houguInfo':str([[int((lambda self:eval(f'self.ui.TXT_HOUGU_{i}_{j}.text()'))(self))for j in range(2)]for i in range(6)]).replace(' ',''),
             'dangerPos':str([int((lambda self:eval(f'self.ui.TXT_DANGER_{i}.text()'))(self))for i in range(3)]).replace(' ',''),
             'friendPos':self.ui.BTG_FRIEND.checkedButton().objectName()[-1],
-            'masterSkill':str([[int((lambda self:eval(f'self.ui.TXT_MASTER_{i}_{j}.text()'))(self))for j in(range(4)if i==2else range(3))]for i in range(3)]).replace(' ','')}
+            'masterSkill':str([[int((lambda self:eval(f'self.ui.TXT_MASTER_{i}_{j}.text()'))(self))for j in range(4if i==2else 3)]for i in range(3)]).replace(' ','')}
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
@@ -233,7 +234,7 @@ class MyMainWindow(QMainWindow):
         fgoFunc.houguInfo=[[int((lambda self:eval(f'self.ui.TXT_HOUGU_{i}_{j}.text()'))(self))for j in range(2)]for i in range(6)]
         fgoFunc.dangerPos=[int((lambda self:eval(f'self.ui.TXT_DANGER_{i}.text()'))(self))for i in range(3)]
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
-        fgoFunc.masterSkill=[[int((lambda self:eval(f'self.ui.TXT_MASTER_{i}_{j}.text()'))(self))for j in(range(4)if i==2else range(3))]for i in range(3)]
+        fgoFunc.masterSkill=[[int((lambda self:eval(f'self.ui.TXT_MASTER_{i}_{j}.text()'))(self))for j in range(4if i==2else 3)]for i in range(3)]
         if self.serialno!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(self.serialno)
         fgoFunc.IMG_FRIEND=self.IMG_FRIEND
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
