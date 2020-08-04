@@ -11,7 +11,7 @@
 ![svg](https://img.shields.io/badge/梆梆人-作者是BanGDream玩家-ff3b72.svg)
 ![svg](https://img.shields.io/badge/hearthstone-作者是炉石传说玩家-daa520.svg)
 ![svg](https://img.shields.io/badge/majsoul-作者是雀魂玩家-8b008b.svg)
-![svg](https://img.shields.io/badge/骑士君-作者是一个公主连结Re:Dive玩家-fab471.svg)
+![svg](https://img.shields.io/badge/骑士君-作者是公主连结Re:Dive玩家-fab471.svg)
 ![svg](https://img.shields.io/badge/云程序员-作者是一位云程序员-ffffff.svg)
 ![svg](https://img.shields.io/badge/开位-作者是一条开位咸鱼-ffd700.svg)
 ![svg](https://img.shields.io/badge/头痛-作者患有头痛宿疾Ex-50a625.svg)
@@ -21,8 +21,8 @@
 ![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.0.3](#版本记录-Version-Logs) [快速查错引导](#快速查错引导-When-Error-Occurred)  
-仅适用于命运-冠位指定安卓简体中文版本  
+当前版本[v4.1.0](#版本记录-Version-Logs)  
+仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
 # 警告 Warning
@@ -125,10 +125,29 @@ email huguangjing0411@geektip.cc
 |\<Space\> |选卡/下一步/菜单                        |
 |NUM4-9    |选取敌人,NUM7返回/关闭                  |  
 # 版本记录 Version Logs
+## 2020/08/04 v4.1.0
+文本/显示优化  
+泳装三期复刻活动由于会在刷本之间强制插入剧情而不便使用循环刷本功能,再说三种点数也该均衡发展  
+更新:点按方式改为maxtouch,重写swipe  
+上个版本更新时注意到没有屏幕的手机不能用minitouch,而adb实在效率低下  
+随后我就发现剩下的那个maxtouch*好像*在各种环境下都能正确动作,于是就拿来用了  
+并且在当前环境下性能似乎不亚于minitouch,这真是太好了  
+但这也就代表着我得重写swipe,这便是本次更新的重点内容  
+哦我的上帝呀,我又对着airtest的源码翻了半天  
+之前minitouch是有样例数据包格式的而maxtouch没有,我得凭着我的聪明才智把它猜出来  
+其他还有一些零零碎碎的小更改,更新频率低了每次更新内容就有点杂乱  
+另:我发现了一个能用于各个语言版本的[项目](https://github.com/MathewSachin/Fate-Grand-Automata),直接搞成了apk  
+这种直接装在手机上的脚本真的不会被检测封号吗??本人深表怀疑,并且不敢做测试  
+那个解说视频做得跟屎一样,再加上my English is so poor,根本看不下去,只能自己研究  
+搞了半天半天界面很nb,功能其实一般般,并且配置有点麻烦  
+其设计初衷是3t+补刀速刷,好像只能实现相当有限的自动战斗吗,我差点以为本项目"github最强"的地位不保了  
+它号称能在蓝叠模拟器上用结果我搞了半天还是直接模拟器卡死,这就是国际版和国内版的区别吗...  
+有一说一,人家外国的编程社区环境真的相当和谐,跟我这种面向国内的项目真是天差地别  
 ## 2020/07/27 v4.0.3
 bug修复:选卡逻辑  
 在没有宝具和/或三色chain时,不会优先选取无法行动的指令卡  
 我tm刷岐阜城时看见选了无法行动三连直接裂开  
+此外,魅惑等导致不能行动的debuff在选卡时的表现是一样的,都是眩晕的图标加上"行动不能"的文字,这也就意味着我不需要新增模板图片或更改好几个月以前写的代码  
 另:我发现了一个大问题  
 我把我手机屏幕摔了,于是在淘宝上买了屏幕打算自己换,因此先**拆了屏幕**简单拼装一下用scrcpy投屏肝  
 但minitouch是*假装*自己是触摸屏向手机发送触摸信号的,但是现在手机上根本没有屏幕,于是加载失败......  

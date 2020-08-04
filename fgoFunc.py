@@ -18,6 +18,7 @@
 #        Y:::::::::::Y         L::::::::::::::::::::::L     S:::::::::::::::SS      F::::::::FF                M::::::M               M::::::M    #
 #        YYYYYYYYYYYYY         LLLLLLLLLLLLLLLLLLLLLLLL      SSSSSSSSSSSSSSS        FFFFFFFFFFF                MMMMMMMM               MMMMMMMM    #
 #                                                                                                                                                 #
+#        又有人想教yls做游戏? 我不是我没有,我已经帮他做了                                                                                         #
 #                                                                                                                                                 #
 ###################################################################################################################################################
 'Full-automatic FGO Script'
@@ -66,7 +67,7 @@ def sleep(x,part=.1):
     time.sleep(max(0,timer+part-time.time()))
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
-    def __init__(self,fv=300):
+    def __init__(self,fv=400):
         self.__value=0
         self.__max=fv
     @property
@@ -80,7 +81,7 @@ class Fuse:
         self.__value+=1
         return self
     def reset(self):
-        logger.debug(f'Fuse {self.__value}')
+        if self.__value>1:logger.debug(f'Fuse {self.__value}')
         self.__value=0
         return self
 fuse=Fuse()
@@ -98,7 +99,7 @@ class Base(Android):
             self.serialno=None
             return
         self.lock=False
-        try:super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB)#,touch_method=TOUCH_METHOD.ADBTOUCH)
+        try:super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB,touch_method=TOUCH_METHOD.MAXTOUCH)
         except:self.serialno=None
         else:
             self.render=[round(i)for i in self.get_render_resolution(True)]
@@ -127,21 +128,21 @@ class Base(Android):
         lvd=numpy.linalg.norm(vd)
         vd*=5/lvd/self.scale
         vx=numpy.array([0.,0.])
-        getPos=lambda x:' '.join([str(int(i))for i in self.minitouch.transform_xy(*x)])
-        self.minitouch.safe_send('d 0 '+getPos(p1)+' 50\nc\n')
+        send=lambda method,pos:self.maxtouch.safe_send(' '.join((method,'0',*[str(i)for i in self.maxtouch.transform_xy(*pos)],'50\nc\n')))
+        send('d',p1)
         time.sleep(.01)
         for _ in range(2):
-            self.minitouch.safe_send('m 0 '+getPos(p1+vx)+' 50\nc\n')
+            send('m',p1+vx)
             vx+=vd
             time.sleep(.02)
         vd*=5
         while numpy.linalg.norm(vx)<lvd:
-            self.minitouch.safe_send('m 0 '+getPos(p1+vx)+' 50\nc\n')
+            send('m',p1+vx)
             vx+=vd
             time.sleep(.008)
-        self.minitouch.safe_send('m 0 '+getPos(p2)+' 50\nc\n')
+        send('m',p2)
         time.sleep(.35)
-        self.minitouch.safe_send('u 0\nc\n')
+        self.maxtouch.safe_send('u 0\nc\n')
         time.sleep(.02)
     @acquireLock
     def press(self,c):super().touch(self.key[c])
@@ -224,7 +225,7 @@ def oneBattle():
             if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
             portrait=newPortrait
             logger.info(f'{turn} {stage} {stageTurn} {servant}')
-            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and stage<<4|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<4|skillInfo[servant[i]][j][1]):
+            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and stage<<8|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit('234'[skillInfo[servant[i]][j][2]-1],(300,))
                 sleep(1.7)
@@ -237,7 +238,7 @@ def oneBattle():
                 sleep(1.7)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda chk:(lambda c,h:(['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else['12345'[j]for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+['12345'[i]for i in sorted(range(5),key=lambda x:(c[x]&2)>>1|(c[x]&1)<<1)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
+            doit((lambda chk:(lambda c,h:(['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else['12345'[j]for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+['12345'[i]for i in sorted(range(5),key=lambda x:c[x]>>1&1|c[x]<<1&2)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
@@ -268,13 +269,15 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         if battleFunc():doit('        ',(200,200,200,200,200,200,200,200))
         else:doit('BIJ',(500,500,500))
 def userScript():
-    while not Check(0,.2).isTurnBegin():pass
-    doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
-    while not Check(0,.2).isTurnBegin():pass
-    assert Check().getStage()==2
-    doit('S 654',(3000,2400,350,350,10000))
-    while not Check(0,.2).isTurnBegin():pass
-    assert Check().getStage()==3
-    doit(' 754',(2400,350,350,10000))
-    while not Check(0,.2).isBattleOver():pass
-    return True
+    #while not Check(0,.2).isTurnBegin():pass
+    #doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
+    #while not Check(0,.2).isTurnBegin():pass
+    #assert Check().getStage()==2
+    #doit('S 654',(3000,2400,350,350,10000))
+    #while not Check(0,.2).isTurnBegin():pass
+    #assert Check().getStage()==3
+    #doit(' 754',(2400,350,350,10000))
+    #while not Check(0,.2).isBattleOver():pass
+    #return True
+    doit('\xDC',(1000,))
+    base.swipe((400,900,400,300))

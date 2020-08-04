@@ -7,6 +7,8 @@ import os,sys,cv2,threading,configparser,logging
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
 
+import sip
+
 QTK2VK={
     Qt.Key_Left:'\x25',
     Qt.Key_Up:'\x26',
@@ -218,15 +220,15 @@ class MyMainWindow(QMainWindow):
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取安卓设备','在下拉列表中选择一个设备',adbList,adbList.index(self.serialno)if self.serialno and self.serialno in adbList else 0,True,Qt.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
+        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(self.serialno)if self.serialno and self.serialno in adbList else 0,True,Qt.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
         if ok and text:self.serialno=text
     def adbConnect(self):
-        text,ok=QInputDialog.getText(self,'连接远程设备','设备地址',text='localhost:5555')
+        text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
         if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
     def checkCheck(self):
         if fgoFunc.base.serialno is None:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
-        fgoFunc.Check(0).show()
+        fgoFunc.Check(0).show().save()
     def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
     def applyAll(self):
         fgoFunc.partyIndex=int(self.ui.TXT_PARTY.text())
