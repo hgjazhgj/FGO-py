@@ -126,9 +126,9 @@ class Base(Android):
         p1,p2=[numpy.array(self._touch_point_by_orientation([rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
         vd=p2-p1
         lvd=numpy.linalg.norm(vd)
-        vd*=5/lvd/self.scale
+        vd/=.2*self.scale*lvd
         vx=numpy.array([0.,0.])
-        send=lambda method,pos:self.maxtouch.safe_send(' '.join((method,'0',*[str(i)for i in self.maxtouch.transform_xy(*pos)],'50\nc\n')))
+        def send(method,pos):self.maxtouch.safe_send(' '.join((method,'0',*[str(i)for i in self.maxtouch.transform_xy(*pos)],'50\nc\n')))
         send('d',p1)
         time.sleep(.01)
         for _ in range(2):
