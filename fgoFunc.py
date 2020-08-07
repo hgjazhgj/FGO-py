@@ -23,7 +23,7 @@
 ###################################################################################################################################################
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,numpy,cv2,re,logging
+import time,os,re,numpy,cv2,logging,win32file,win32con,threading
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 logging.getLogger('airtest').handlers[0].formatter.datefmt='%H:%M:%S'
@@ -38,7 +38,6 @@ IMG_CARDSEALED=cv2.imread('image/cardsealed.png')
 IMG_CHOOSEFRIEND=cv2.imread('image/choosefriend.png')
 IMG_END=cv2.imread('image/end.png')
 IMG_FAILED=cv2.imread('image/failed.png')
-IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
 IMG_GACHA=cv2.imread('image/gacha.png')
 IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
 IMG_LISTEND=cv2.imread('image/listend.png')
@@ -48,6 +47,7 @@ IMG_PARTYINDEX=cv2.imread('image/partyindex.png')
 IMG_STAGE=[cv2.imread(f'image/stage{i}.png')for i in range(1,4)]
 IMG_STAGETOTAL=[cv2.imread(f'image/total{i}.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
+friendImg={file[:-4]:cv2.imread('image/friend/'+file)for file in os.listdir('image/friend')if file.endswith('.png')}
 partyIndex=0
 skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -67,9 +67,10 @@ def sleep(x,part=.1):
     time.sleep(max(0,timer+part-time.time()))
 def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
-    def __init__(self,fv=400):
+    def __init__(self,fv=400,show=1):
         self.__value=0
         self.__max=fv
+        self.show=1
     @property
     def value(self):return self.__value
     @property
@@ -81,7 +82,7 @@ class Fuse:
         self.__value+=1
         return self
     def reset(self):
-        if self.__value>1:logger.debug(f'Fuse {self.__value}')
+        if self.__value>self.show:logger.debug(f'Fuse {self.__value}')
         self.__value=0
         return self
 fuse=Fuse()
@@ -93,6 +94,26 @@ def acquireLock(func):
         try:return func(self,*args,**kwargs)
         finally:self.lock=False
     return wrapper
+class DirListener:
+    def __init__(self,dir):
+        self.hDir=win32file.CreateFile(dir,win32con.GENERIC_READ,win32con.FILE_SHARE_READ|win32con.FILE_SHARE_WRITE|win32con.FILE_SHARE_DELETE,None,win32con.OPEN_EXISTING,win32con.FILE_FLAG_BACKUP_SEMANTICS,None)
+        self.msg=[]
+        self.lock=False
+        def f():
+            while True:
+                for i in win32file.ReadDirectoryChangesW(self.hDir,0x1000,False,win32con.FILE_NOTIFY_CHANGE_FILE_NAME|win32con.FILE_NOTIFY_CHANGE_LAST_WRITE,None,None):
+                    self.add(i)
+                    logger.debug(f'File modified {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(i[0],"undefined")} {i}')
+        threading.Thread(target=f).start()
+    @acquireLock
+    def add(self,x):
+        self.msg.append(x)
+    @acquireLock
+    def get(self):
+        ans=self.msg
+        self.msg=[]
+        return ans
+friendListener=DirListener('image/friend/')
 class Base(Android):
     def __init__(self,serialno=None):
         if serialno is None:
@@ -103,12 +124,7 @@ class Base(Android):
         except:self.serialno=None
         else:
             self.render=[round(i)for i in self.get_render_resolution(True)]
-            if self.render[2]*9>self.render[3]*16:
-                self.scale=1080/self.render[3]
-                self.border=(round(self.render[2]-self.render[3]*16/9)>>1,0)
-            else:
-                self.scale=1920/self.render[2]
-                self.border=(0,round(self.render[3]-self.render[2]*9/16)>>1)
+            self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
             self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
                 '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74),#VK_F1..10
                 '1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
@@ -192,20 +208,31 @@ def chooseFriend():
             if refresh:sleep(10)
             doit('\xBAJ',(500,1000))
             refresh=True
-    if len(IMG_FRIEND)==0:
+    lastAction=0
+    oldName=None
+    def created(name):friendImg[name]=cv2.imread(f'image/friend/{name}.png')
+    def deleted(name):del friendImg[name]
+    def updated(name):friendImg[name]=cv2.imread(f'image/friend/{name}.png')
+    def renamedFrom(name):
+        nonlocal oldName
+        if oldName is not None:del friendImg[oldName]
+        oldName=name
+    def renamedTo(name):friendImg[name]=friendImg[oldName]if lastAction==4else cv2.imread(f'image/friend/{name}.png')
+    for action,name in((action,file[:-4])for action,file in friendListener.get()if file.endswith('.png')):
+        logger.debug(f'{action} {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(action,"undefined")} {name}')
+        {1:created,2:deleted,3:updated,4:renamedFrom,5:renamedTo}.get(action,lambda name:logger.warning(f'Undefined action {action} on {name}'))(name)
+        lastAction=action
+    if oldName is not None:del friendImg[oldName]
+    logger.debug(f'friendImg {list(friendImg.keys())}')
+    if not friendImg:
         time.sleep(.2)
         return base.press('8')
     while True:
         timer=time.time()
         while not Check(.2,.1).isListEnd((1860,1064)):
-            for i,_ in(i for i in IMG_FRIEND if check.tapOnCmp(i[1],delta=.015)):
-                logger.info(f'Friend {i}')
-                try:p=re.search('[0-9x]{11}$',i).group()
-                except AttributeError:pass
-                else:
-                    skillInfo[friendPos]=[[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)]
-                    houguInfo[friendPos]=[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]
-                return
+            for i in(i[0] for i in friendImg.items()if check.tapOnCmp(i[1],delta=.015)):
+                skillInfo[friendPos],houguInfo[friendPos]=(lambda r:(lambda p:([[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]))(r.group())if r else(skillInfo[friendPos],houguInfo[friendPos]))(re.search('[0-9x]{11}$',i))
+                return logger.info(f'Friend {i}')
             base.swipe((400,900,400,300))
         if refresh:sleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,1000))
@@ -279,5 +306,5 @@ def userScript():
     #doit(' 754',(2400,350,350,10000))
     #while not Check(0,.2).isBattleOver():pass
     #return True
-    doit('\xDC',(1000,))
-    base.swipe((400,900,400,300))
+    doit('8',(1000,))
+    chooseFriend()

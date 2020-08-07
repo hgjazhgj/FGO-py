@@ -2,12 +2,10 @@ from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
 from PyQt5.QtGui import QIntValidator,QRegExpValidator
 from PyQt5.QtCore import Qt,QRegExp,pyqtSignal
 from airtest.core.android.adb import ADB
-import os,sys,cv2,threading,configparser,logging
+import os,re,sys,threading,configparser,logging
 
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
-
-import sip
 
 QTK2VK={
     Qt.Key_Left:'\x25',
@@ -160,7 +158,6 @@ class MyMainWindow(QMainWindow):
         self.loadParty('DEFAULT')
         self.serialno=fgoFunc.base.serialno
         self.getDevice()
-        self.IMG_FRIEND=fgoFunc.IMG_FRIEND
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def keyPressEvent(self,key):
@@ -168,7 +165,7 @@ class MyMainWindow(QMainWindow):
             try:fgoFunc.base.press(QTK2VK[key.key()])
             except:pass
     def runFunc(self,func,*args,**kwargs):
-        if self.serialno is None:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
+        if not self.serialno:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
         def f():
             try:
                 fgoFunc.suspendFlag=False
@@ -221,24 +218,25 @@ class MyMainWindow(QMainWindow):
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
         text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(self.serialno)if self.serialno and self.serialno in adbList else 0,True,Qt.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
-        if ok and text:self.serialno=text
+        if ok:self.serialno=text
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
-        if ok and text:ADB(text)
+        if ok and text and bool(re.fullmatch(r'(0*([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.0*([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}|localhost):0*([0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])',text)):ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
     def checkCheck(self):
         if fgoFunc.base.serialno is None:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
         fgoFunc.Check(0).show().save()
-    def getFriend(self):self.IMG_FRIEND=[[file[:-4],cv2.imread('image/friend/'+file)]for file in os.listdir('image/friend')if file.endswith('.png')]
+    def getFriend(self):pass#{file[:-4]:cv2.imread('image/friend/'+file)for file in os.listdir('image/friend')if file.endswith('.png')}
     def applyAll(self):
+        if self.serialno!=fgoFunc.base.serialno:
+            fgoFunc.base=fgoFunc.Base(self.serialno)
+            self.serialno=fgoFunc.base.serialno
         fgoFunc.partyIndex=int(self.ui.TXT_PARTY.text())
         fgoFunc.skillInfo=[[[int((lambda self:eval(f'self.ui.TXT_SKILL_{i}_{j}_{k}.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
         fgoFunc.houguInfo=[[int((lambda self:eval(f'self.ui.TXT_HOUGU_{i}_{j}.text()'))(self))for j in range(2)]for i in range(6)]
         fgoFunc.dangerPos=[int((lambda self:eval(f'self.ui.TXT_DANGER_{i}.text()'))(self))for i in range(3)]
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
         fgoFunc.masterSkill=[[int((lambda self:eval(f'self.ui.TXT_MASTER_{i}_{j}.text()'))(self))for j in range(4if i==2else 3)]for i in range(3)]
-        if self.serialno!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(self.serialno)
-        fgoFunc.IMG_FRIEND=self.IMG_FRIEND
     def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
     def runUser(self):self.runFunc(fgoFunc.userScript)
     def runGacha(self):self.runFunc(fgoFunc.gacha)

@@ -3242,11 +3242,17 @@
         </item>
         <item>
          <widget class="QPushButton" name="BTN_GETFRIEND">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
            <string>当助战模板更改后,需要手动刷新</string>
+          </property>
+          <property name="whatsThis">
+           <string>你现在不需要手动刷新助战了</string>
           </property>
           <property name="text">
            <string>刷新助战</string>
