@@ -99,15 +99,62 @@ class DirListener:
         self.hDir=win32file.CreateFile(dir,win32con.GENERIC_READ,win32con.FILE_SHARE_READ|win32con.FILE_SHARE_WRITE|win32con.FILE_SHARE_DELETE,None,win32con.OPEN_EXISTING,win32con.FILE_FLAG_BACKUP_SEMANTICS,None)
         self.msg=[]
         self.lock=False
+        self.ren=''
         def f():
             while True:
                 for i in win32file.ReadDirectoryChangesW(self.hDir,0x1000,False,win32con.FILE_NOTIFY_CHANGE_FILE_NAME|win32con.FILE_NOTIFY_CHANGE_LAST_WRITE,None,None):
                     self.add(i)
                     logger.debug(f'File modified {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(i[0],"undefined")} {i}')
+                    logger.debug(str(self.msg))
         threading.Thread(target=f).start()
     @acquireLock
     def add(self,x):
-        self.msg.append(x)
+        def _add(x):
+            def onCreated(file):
+                for i in range(len(self.msg)-1,-1,-1):
+                    if self.msg[i][1]!=file:continue
+                    if self.msg[i][0]==2:
+                        self.msg[i][0]=3
+                        return
+                    if self.msg[i][0]==4:break
+                self.msg.append(list(x))
+            def onDeleted(file):
+                for i in range(len(self.msg)-1,-1,-1):
+                    if self.msg[i][1]!=file:continue
+                    if self.msg[i][0]==1:
+                        del self.msg[i]
+                        return
+                    if self.msg[i][0]==3:
+                        del self.msg[i]
+                        break
+                    if self.msg[i][0]==5:
+                        temp=self.msg[i-1][1]
+                        del self.msg[i-1:i+1]
+                        _add([2,temp])
+                        return
+                self.msg.append(list(x))
+            def onUpdated(file):
+                for i in range(len(self.msg)-1,-1,-1):
+                    if self.msg[i][1]!=file:continue
+                    if self.msg[i][0]==1or self.msg[i][0]==3:return
+                    if self.msg[i][0]==5:
+                        temp=self.msg[i-1][1]
+                        del self.msg[i-1:i+1]
+                        _add((2,temp))
+                        _add((1,file))
+                        return
+                self.msg.append(list(x))
+            def onRenamedFrom(file):self.ren=file
+            def onRenamedTo(file):
+                for i in range(len(self.msg)-1,-1,-1):
+                    if self.msg[i][0]==1and self.msg[i][1]==self.ren:
+                        del self.msg[i]
+                        _add((1,file))
+                        return
+                    if self.msg[i][0]==2and self.msg[i][1]==file or self.msg[i][0]==3and self.msg[i][1]==self.ren:break
+                self.msg+=[[4,self.ren],[5,file]]
+            {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(x[0],lambda x:None)(x[1])
+        _add(x)
     @acquireLock
     def get(self):
         ans=self.msg
@@ -220,10 +267,10 @@ def chooseFriend():
     def renamedTo(name):friendImg[name]=friendImg[oldName]if lastAction==4else cv2.imread(f'image/friend/{name}.png')
     for action,name in((action,file[:-4])for action,file in friendListener.get()if file.endswith('.png')):
         logger.debug(f'{action} {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(action,"undefined")} {name}')
-        {1:created,2:deleted,3:updated,4:renamedFrom,5:renamedTo}.get(action,lambda name:logger.warning(f'Undefined action {action} on {name}'))(name)
+        {1:created,2:deleted,3:updated,4:renamedFrom,5:renamedTo}.get(action,lambda x:logger.warning(f'Undefined action {action} on {name}'))(name)
         lastAction=action
     if oldName is not None:del friendImg[oldName]
-    logger.debug(f'friendImg {list(friendImg.keys())}')
+    logger.debug(f'friendImg {list(friendImg.keys())} {os.listdir("image/friend")}')
     if not friendImg:
         time.sleep(.2)
         return base.press('8')
@@ -306,5 +353,4 @@ def userScript():
     #doit(' 754',(2400,350,350,10000))
     #while not Check(0,.2).isBattleOver():pass
     #return True
-    doit('8',(1000,))
     chooseFriend()
