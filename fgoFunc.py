@@ -103,58 +103,68 @@ class DirListener:
         def f():
             while True:
                 for i in win32file.ReadDirectoryChangesW(self.hDir,0x1000,False,win32con.FILE_NOTIFY_CHANGE_FILE_NAME|win32con.FILE_NOTIFY_CHANGE_LAST_WRITE,None,None):
-                    self.add(i)
+                    try:self.add(i)
+                    except Exception as e:logger.exception(e)
                     logger.debug(f'File modified {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(i[0],"undefined")} {i}')
                     logger.debug(str(self.msg))
         threading.Thread(target=f).start()
     @acquireLock
     def add(self,x):
-        def _add(x):
-            def onCreated(file):
-                for i in range(len(self.msg)-1,-1,-1):
-                    if self.msg[i][1]!=file:continue
-                    if self.msg[i][0]==2:
-                        self.msg[i][0]=3
-                        return
-                    if self.msg[i][0]==4:break
-                self.msg.append(list(x))
-            def onDeleted(file):
-                for i in range(len(self.msg)-1,-1,-1):
-                    if self.msg[i][1]!=file:continue
+        def onCreated(file):
+            for i in range(len(self.msg)-1,-1,-1):
+                if self.msg[i][1]!=file:continue
+                if self.msg[i][0]==2:
+                    self.msg[i][0]=3
+                    return
+                break
+            self.msg.append([1,file])
+        def onDeleted(file):
+            for i in range(len(self.msg)-1,-1,-1):
+                if self.msg[i][1]!=file:continue
+                if self.msg[i][0]==1:
+                    del self.msg[i]
+                    return
+                if self.msg[i][0]==3:
+                    del self.msg[i]
+                    break
+                temp=self.msg[i-1][1]
+                del self.msg[i-1:i+1]
+                onDeleted(temp)
+                return
+            self.msg.append([2,file])
+        def onUpdated(file):
+            for i in range(len(self.msg)-1,-1,-1):
+                if self.msg[i][1]!=file:continue
+                if self.msg[i][0]==1or self.msg[i][0]==3:return
+                if self.msg[i][0]==5:
+                    temp=self.msg[i-1][1]
+                    del self.msg[i-1:i+1]
+                    onDeleted(temp)
+                    onCreated(file)
+                    return
+                break
+            self.msg.append([3,file])
+        def onRenamedFrom(file):self.ren=file
+        def onRenamedTo(file):
+            for i in range(len(self.msg)-1,-1,-1):
+                if self.msg[i][1]==file:break
+                if self.msg[i][1]==self.ren:
                     if self.msg[i][0]==1:
                         del self.msg[i]
+                        onCreated(file)
                         return
                     if self.msg[i][0]==3:
-                        del self.msg[i]
-                        break
+                        self.msg[i][0]=2
+                        onCreated(file)
+                        return
                     if self.msg[i][0]==5:
-                        temp=self.msg[i-1][1]
+                        self.ren=self.msg[i-1][1]
                         del self.msg[i-1:i+1]
-                        _add([2,temp])
-                        return
-                self.msg.append(list(x))
-            def onUpdated(file):
-                for i in range(len(self.msg)-1,-1,-1):
-                    if self.msg[i][1]!=file:continue
-                    if self.msg[i][0]==1or self.msg[i][0]==3:return
-                    if self.msg[i][0]==5:
-                        temp=self.msg[i-1][1]
-                        del self.msg[i-1:i+1]
-                        _add((2,temp))
-                        _add((1,file))
-                        return
-                self.msg.append(list(x))
-            def onRenamedFrom(file):self.ren=file
-            def onRenamedTo(file):
-                for i in range(len(self.msg)-1,-1,-1):
-                    if self.msg[i][0]==1and self.msg[i][1]==self.ren:
-                        del self.msg[i]
-                        _add((1,file))
-                        return
-                    if self.msg[i][0]==2and self.msg[i][1]==file or self.msg[i][0]==3and self.msg[i][1]==self.ren:break
-                self.msg+=[[4,self.ren],[5,file]]
-            {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(x[0],lambda x:None)(x[1])
-        _add(x)
+                        if self.ren==file:return
+                        else:break
+                    break
+            self.msg+=[[4,self.ren],[5,file]]
+        {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(x[0],lambda x:None)(x[1])
     @acquireLock
     def get(self):
         ans=self.msg
@@ -221,7 +231,7 @@ class Check:
         global check
         check=self
         sleep(backwordLagency)
-    def compare(self,img,rect=(0,0,1920,1080),delta=.05):return cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]<delta and fuse.reset()
+    def compare(self,img,rect=(0,0,1920,1080),delta=.05):return delta>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im);return self
@@ -295,21 +305,21 @@ def oneBattle():
             turn+=1
             stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.35))
             if turn==1:stageTotal=check.getStageTotal()
-            else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>=.03])
+            else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.03])
             if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
             portrait=newPortrait
             logger.info(f'{turn} {stage} {stageTurn} {servant}')
-            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and stage<<8|stageTurn>=min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]):
+            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit('234'[skillInfo[servant[i]][j][2]-1],(300,))
-                sleep(1.7)
+                sleep(2)
                 while not Check(0,.2).isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit(('Q','WER'[i]),(300,300))
                 if masterSkill[i][2]:
                     if i==2and masterSkill[2][3]:doit(('TYUIOP'[masterSkill[2][2]-1],'TYUIOP'[masterSkill[2][3]-1],'Z'),(300,300,300))
                     else:doit('234'[masterSkill[i][2]-1],(300,))
-                sleep(1.7)
+                sleep(2)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:(['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else['12345'[j]for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+['12345'[i]for i in sorted(range(5),key=lambda x:c[x]>>1&1|c[x]<<1&2)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
