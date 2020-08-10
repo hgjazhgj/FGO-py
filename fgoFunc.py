@@ -107,7 +107,7 @@ class DirListener:
                     except Exception as e:logger.exception(e)
                     logger.debug(f'File modified {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(i[0],"undefined")} {i}')
                     logger.debug(str(self.msg))
-        threading.Thread(target=f).start()
+        threading.Thread(target=f,daemon=True).start()
     @acquireLock
     def add(self,x):
         def onCreated(file):
@@ -161,7 +161,6 @@ class DirListener:
                         self.ren=self.msg[i-1][1]
                         del self.msg[i-1:i+1]
                         if self.ren==file:return
-                        else:break
                     break
             self.msg+=[[4,self.ren],[5,file]]
         {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(x[0],lambda x:None)(x[1])
@@ -267,17 +266,17 @@ def chooseFriend():
             refresh=True
     lastAction=0
     oldName=None
-    def created(name):friendImg[name]=cv2.imread(f'image/friend/{name}.png')
-    def deleted(name):del friendImg[name]
-    def updated(name):friendImg[name]=cv2.imread(f'image/friend/{name}.png')
-    def renamedFrom(name):
+    def onCreated(name):friendImg[name]=cv2.imread(f'image/friend/{name}.png')
+    def onDeleted(name):del friendImg[name]
+    def onUpdated(name):friendImg[name]=cv2.imread(f'image/friend/{name}.png')
+    def onRenamedFrom(name):
         nonlocal oldName
         if oldName is not None:del friendImg[oldName]
         oldName=name
-    def renamedTo(name):friendImg[name]=friendImg[oldName]if lastAction==4else cv2.imread(f'image/friend/{name}.png')
+    def onRenamedTo(name):friendImg[name]=friendImg[oldName]if lastAction==4else cv2.imread(f'image/friend/{name}.png')
     for action,name in((action,file[:-4])for action,file in friendListener.get()if file.endswith('.png')):
         logger.debug(f'{action} {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(action,"undefined")} {name}')
-        {1:created,2:deleted,3:updated,4:renamedFrom,5:renamedTo}.get(action,lambda x:logger.warning(f'Undefined action {action} on {name}'))(name)
+        {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda x:logger.warning(f'Undefined action {action} on {name}'))(name)
         lastAction=action
     if oldName is not None:del friendImg[oldName]
     logger.debug(f'friendImg {list(friendImg.keys())} {os.listdir("image/friend")}')
@@ -312,14 +311,14 @@ def oneBattle():
             for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit('234'[skillInfo[servant[i]][j][2]-1],(300,))
-                sleep(2)
+                sleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit(('Q','WER'[i]),(300,300))
                 if masterSkill[i][2]:
                     if i==2and masterSkill[2][3]:doit(('TYUIOP'[masterSkill[2][2]-1],'TYUIOP'[masterSkill[2][3]-1],'Z'),(300,300,300))
                     else:doit('234'[masterSkill[i][2]-1],(300,))
-                sleep(2)
+                sleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda chk:(lambda c,h:(['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else['12345'[j]for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+['12345'[i]for i in sorted(range(5),key=lambda x:c[x]>>1&1|c[x]<<1&2)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
@@ -353,14 +352,8 @@ def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
         if battleFunc():doit('        ',(200,200,200,200,200,200,200,200))
         else:doit('BIJ',(500,500,500))
 def userScript():
-    #while not Check(0,.2).isTurnBegin():pass
-    #doit('AHJ3L3QE2 654',(3000,3000,350,3000,350,3000,300,350,3000,2400,350,350,10000))
-    #while not Check(0,.2).isTurnBegin():pass
-    #assert Check().getStage()==2
-    #doit('S 654',(3000,2400,350,350,10000))
-    #while not Check(0,.2).isTurnBegin():pass
-    #assert Check().getStage()==3
-    #doit(' 754',(2400,350,350,10000))
-    #while not Check(0,.2).isBattleOver():pass
-    #return True
-    chooseFriend()
+    while not Check(0,.2).isTurnBegin():pass
+    #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
+    return True

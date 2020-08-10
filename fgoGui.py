@@ -158,12 +158,20 @@ class MyMainWindow(QMainWindow):
         self.loadParty('DEFAULT')
         self.serialno=fgoFunc.base.serialno
         self.getDevice()
+        self.thread=threading.Thread()
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def keyPressEvent(self,key):
         if key.modifiers()==Qt.NoModifier:
             try:fgoFunc.base.press(QTK2VK[key.key()])
             except:pass
+    def closeEvent(self,event):
+        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.Yes|QMessageBox.No,QMessageBox.No)!=QMessageBox.Yes:
+            event.ignore()
+            return
+        fgoFunc.terminateFlag=True
+        self.thread.join()
+        event.accept()
     def runFunc(self,func,*args,**kwargs):
         if not self.serialno:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
         def f():
@@ -178,7 +186,8 @@ class MyMainWindow(QMainWindow):
             finally:
                 self.signalFuncEnd.emit()
                 QApplication.beep()
-        threading.Thread(target=f).start()
+        self.thread=threading.Thread(target=f)
+        self.thread.start()
     def funcBegin(self):
         self.ui.BTN_ONEBATTLE.setEnabled(False)
         self.ui.BTN_MAIN.setEnabled(False)
