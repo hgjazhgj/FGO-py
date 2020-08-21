@@ -32,6 +32,7 @@ IMG_APEMPTY=cv2.imread('image/apempty.png')
 IMG_ATTACK=cv2.imread('image/attack.png')
 IMG_BEGIN=cv2.imread('image/begin.png')
 IMG_BATTLEBEGIN=cv2.imread('image/battlebegin.png')
+IMG_BATTLECONTINUE=cv2.imread('image/battlecontinue.png')
 IMG_BOUND=cv2.imread('image/bound.png')
 IMG_BOUNDUP=cv2.imread('image/boundup.png')
 IMG_CARDSEALED=cv2.imread('image/cardsealed.png')
@@ -107,7 +108,7 @@ class DirListener:
                     except Exception as e:logger.exception(e)
                     logger.debug(f'File modified {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(i[0],"undefined")} {i}')
                     logger.debug(str(self.msg))
-        threading.Thread(target=f,daemon=True).start()
+        threading.Thread(target=f,daemon=True,name='DirListener').start()
     @acquireLock
     def add(self,x):
         def onCreated(file):
@@ -238,6 +239,7 @@ class Check:
     def isAddFriend(self):return self.compare(IMG_END,(243,863,745,982))
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
+    def isBattleContinue(self):return self.compare(IMG_BATTLECONTINUE,(1072,805,1441,895))
     def isBattleFailed(self):return self.compare(IMG_FAILED,(277,406,712,553))
     def isBattleFinished(self):return(self.compare(IMG_BOUND,(95,235,460,318))or self.compare(IMG_BOUNDUP,(978,517,1491,596)))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
@@ -297,7 +299,7 @@ def chooseFriend():
             if check.isNoFriend():
                 sleep(10)
                 doit('\xBAJ',(500,1000))
-def oneBattle():
+def battle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
         if Check(.1).isTurnBegin():
@@ -321,34 +323,47 @@ def oneBattle():
                 sleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda chk:(lambda c,h:(['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else['12345'[j]for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+['12345'[i]for i in sorted(range(5),key=lambda x:c[x]>>1&1|c[x]<<1&2)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check())[:3],(350,350,10000))
+            doit((lambda chk:(lambda c,h:(['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else['12345'[j]for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+['12345'[i]for i in sorted(range(5),key=lambda x:c[x]>>1&1|c[x]<<1&2)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check()),(300,300,300,300,10000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
         elif check.isBattleFailed():
             logger.warning('Battle Failed')
             return False
-def main(appleCount=0,appleKind=0,battleFunc=oneBattle):
-    apple,battle=0,0
-    while True:
-        while not Check(.2,.3).isBegin():
-            if check.isAddFriend():base.press('X')
-            base.press(' ')
-        battle+=1
-        base.press('8')
+def main(appleCount=0,appleKind=0,battleFunc=battle):
+    apple,battleCount=0,0
+    def eatApple():
+        nonlocal apple,appleCount
         if Check(.7,.3).isApEmpty():
             if apple==appleCount:
                 logger.info('Ap Empty')
-                return base.press('Z')
+                base.press('Z')
+                return True
             else:
                 apple+=1
                 logger.info(f'Apple {apple}')
                 doit(('W4K8'[appleKind],'L'),(400,1200))
-        logger.info(f'Battle {battle}')
-        chooseFriend()
-        while not Check(.1).isBattleBegin():pass
-        if partyIndex and check.getPartyIndex()!=partyIndex:doit(('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1],' '),(1000,400))
-        doit(' ',(12000,))
+                return False
+    while True:
+        while True:
+            if Check(.2,.3).isBegin():
+                battleCount+=1
+                base.press('8')
+                if eatApple():return
+                chooseFriend()
+                while not Check(.1).isBattleBegin():pass
+                if partyIndex and check.getPartyIndex()!=partyIndex:doit(('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1],' '),(1000,400))
+                doit(' ',(12000,))
+                break
+            if check.isBattleContinue():
+                battleCount+=1
+                base.press('K')
+                if eatApple():return
+                chooseFriend()
+                break
+            if check.isAddFriend():base.press('X')
+            base.press(' ')
+        logger.info(f'Battle {battleCount}')
         if battleFunc():doit('        ',(200,200,200,200,200,200,200,200))
         else:doit('BIJ',(500,500,500))
 def userScript():
