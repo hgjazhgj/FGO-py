@@ -170,7 +170,7 @@ class MyMainWindow(QMainWindow):
             event.ignore()
             return
         fgoFunc.terminateFlag=True
-        self.thread.join()
+        if not self.thread._started:self.thread.join()
         event.accept()
     def runFunc(self,func,*args,**kwargs):
         if not self.serialno:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
@@ -186,7 +186,7 @@ class MyMainWindow(QMainWindow):
             finally:
                 self.signalFuncEnd.emit()
                 QApplication.beep()
-        self.thread=threading.Thread(target=f)
+        self.thread=threading.Thread(target=f,name='BattleFunc')
         self.thread.start()
     def funcBegin(self):
         self.ui.BTN_ONEBATTLE.setEnabled(False)
@@ -230,7 +230,7 @@ class MyMainWindow(QMainWindow):
         if ok:self.serialno=text
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
-        if ok and text and bool(re.fullmatch(r'(0*([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.0*([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}|localhost):0*([0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])',text)):ADB(text)
+        if ok and text and bool(re.fullmatch(r'(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}|localhost):([0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])',text)):ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
     def checkCheck(self):
         if fgoFunc.base.serialno is None:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
@@ -246,11 +246,11 @@ class MyMainWindow(QMainWindow):
         fgoFunc.dangerPos=[int((lambda self:eval(f'self.ui.TXT_DANGER_{i}.text()'))(self))for i in range(3)]
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
         fgoFunc.masterSkill=[[int((lambda self:eval(f'self.ui.TXT_MASTER_{i}_{j}.text()'))(self))for j in range(4if i==2else 3)]for i in range(3)]
-    def runOneBattle(self):self.runFunc(fgoFunc.oneBattle)
+    def runOneBattle(self):self.runFunc(fgoFunc.battle)
     def runUser(self):self.runFunc(fgoFunc.userScript)
     def runGacha(self):self.runFunc(fgoFunc.gacha)
     def runMain(self):
-        text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['oneBattle','userScript'])
+        text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['battle','userScript'])
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),eval('fgoFunc.'+text))
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
     def stop(self):fgoFunc.terminateFlag=True
