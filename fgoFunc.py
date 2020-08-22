@@ -364,7 +364,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
             if check.isAddFriend():base.press('X')
             base.press(' ')
         logger.info(f'Battle {battleCount}')
-        if battleFunc():doit('        ',(200,200,200,200,200,200,200,200))
+        if battleFunc():doit('     ',(200,200,200,200,200))
         else:doit('BIJ',(500,500,500))
 def userScript():
     while not Check(0,.2).isTurnBegin():pass
