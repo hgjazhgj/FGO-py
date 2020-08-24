@@ -323,7 +323,7 @@ def battle():
                 sleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda chk:(lambda c,h:(['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]if any(h)else['12345'[j]for i in range(3)if c.count(i)>=3for j in range(5)if c[j]==i])+['12345'[i]for i in sorted(range(5),key=lambda x:c[x]>>1&1|c[x]<<1&2)])(chk.getABQ(),(lambda h:[servant[i]<6and h[i]and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i in range(3)])(chk.isHouguReady())))(Check()),(300,300,300,300,10000))
+            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,270,270,10000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True

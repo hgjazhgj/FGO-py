@@ -21,7 +21,7 @@
 ![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.3.1](#版本记录-Version-Logs)  
+当前版本[v4.3.2](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -117,6 +117,10 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 您这*来意*是*打不开*也挺迷人的,我tm拒绝之后才发现*可能*是来问脚本问题的,本来搞不好还能逗他玩玩  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2020/08/25 v4.3.2
+优化:重新设计选卡代码  
+4.3.0的优化并不能在所有情形下都起作用,如三红时红卡会在chain选择和伤害排序中各选一遍,仍无法解决卡顿问题  
+更新后的代码使得选卡序列至少有5张卡,且无重复,比如1红3蓝1绿会排序为*蓝蓝蓝红绿*而非之前的*蓝蓝蓝红蓝蓝蓝绿*  
 ## 2020/08/22 v4.3.1
 小优化  
 ## 2020/08/21 v4.3.0
