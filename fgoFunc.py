@@ -182,6 +182,14 @@ class Base(Android):
         else:
             self.render=[round(i)for i in self.get_render_resolution(True)]
             self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
+        ######## bugfix for airtest.core.android.adb.ADB.getPhysicalDisplayInfo ##################################
+        ######## see https://github.com/AirtestProject/Airtest/issues/796 ########################################
+            with os.popen(f'adb -s {serialno} shell wm size')as p:t=sorted(int(i)for i in re.search(r'\d+x\d+$',p.read()).group().split('x'))
+            self.maxtouch.install_and_setup()
+            self.maxtouch.size_info['width']=t[0]
+            self.maxtouch.size_info['height']=t[1]
+            self._display_info=self.maxtouch.size_info.copy()
+        ######## bugfix end ######################################################################################
             self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
                 '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74),#VK_F1..10
                 '1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
@@ -364,11 +372,12 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
             if check.isAddFriend():base.press('X')
             base.press(' ')
         logger.info(f'Battle {battleCount}')
-        if battleFunc():doit('     ',(200,200,200,200,200))
+        if battleFunc():doit('    ',(200,200,200,200))
         else:doit('BIJ',(500,500,500))
 def userScript():
-    while not Check(0,.2).isTurnBegin():pass
-    #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
-    while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
-    return True
+    # while not Check(0,.2).isTurnBegin():pass
+    # #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    # doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    # while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
+    # return True
+    base.touch((0,0))
