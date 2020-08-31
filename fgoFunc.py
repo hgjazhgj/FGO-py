@@ -184,7 +184,7 @@ class Base(Android):
             self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
         ######## bugfix for airtest.core.android.adb.ADB.getPhysicalDisplayInfo ##################################
         ######## see https://github.com/AirtestProject/Airtest/issues/796 ########################################
-            with os.popen(f'adb -s {serialno} shell wm size')as p:t=sorted(int(i)for i in re.search(r'\d+x\d+$',p.read()).group().split('x'))
+            with os.popen(f'adb -s {serialno} shell wm size')as p:t=[int(i)for i in re.search(r'\d+x\d+$',p.read()).group().split('x')]
             self.maxtouch.install_and_setup()
             self.maxtouch.size_info['width']=t[0]
             self.maxtouch.size_info['height']=t[1]
@@ -354,7 +354,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 return False
     while True:
         while True:
-            if Check(.2,.3).isBegin():
+            if Check(0,.4).isBegin():
                 battleCount+=1
                 base.press('8')
                 if eatApple():return
