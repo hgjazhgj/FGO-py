@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
 from PyQt5.QtGui import QIntValidator,QRegExpValidator
 from PyQt5.QtCore import Qt,QRegExp,pyqtSignal
 from airtest.core.android.adb import ADB
-import os,re,sys,threading,configparser,logging
+import os,sys,threading,configparser,logging
 
 from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
@@ -230,12 +230,12 @@ class MyMainWindow(QMainWindow):
         if ok:self.serialno=text
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
-        if ok and text and bool(re.fullmatch(r'(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}|localhost):([0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])',text)):ADB(text)
+        if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
     def checkCheck(self):
         if fgoFunc.base.serialno is None:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
         fgoFunc.Check(0).show().save()
-    def getFriend(self):pass#{file[:-4]:cv2.imread('image/friend/'+file)for file in os.listdir('image/friend')if file.endswith('.png')}
+    def getFriend(self):pass
     def applyAll(self):
         if self.serialno!=fgoFunc.base.serialno:
             fgoFunc.base=fgoFunc.Base(self.serialno)
