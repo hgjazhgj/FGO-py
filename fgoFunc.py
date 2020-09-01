@@ -57,16 +57,14 @@ friendPos=4
 masterSkill=[[0,0,0],[0,0,0],[0,0,0,0]]
 terminateFlag=False
 suspendFlag=False
-def verifyFlag():
-    while suspendFlag and not terminateFlag:time.sleep(.1)
-    if terminateFlag:exit(0)
-def sleep(x,part=.1):
+def battleSleep(x,part=.1):
     timer=time.time()+x-part
-    while time.time()<timer:
-        verifyFlag()
+    while True:
+        while suspendFlag and not terminateFlag:time.sleep(.1)
+        if terminateFlag:exit(0)
+        if time.time()>=timer:break
         time.sleep(part)
     time.sleep(max(0,timer+part-time.time()))
-def show(img):cv2.imshow('imshow',img),cv2.waitKey(),cv2.destroyAllWindows()
 class Fuse:
     def __init__(self,fv=400,show=1):
         self.__value=0
@@ -90,7 +88,6 @@ fuse=Fuse()
 def acquireLock(func):
     def wrapper(self,*args,**kwargs):
         while self.lock:time.sleep(.05)
-        verifyFlag()
         self.lock=True
         try:return func(self,*args,**kwargs)
         finally:self.lock=False
@@ -104,9 +101,9 @@ class DirListener:
         def f():
             while True:
                 for i in win32file.ReadDirectoryChangesW(self.hDir,0x1000,False,win32con.FILE_NOTIFY_CHANGE_FILE_NAME|win32con.FILE_NOTIFY_CHANGE_LAST_WRITE,None,None):
+                    logger.debug(f'File modified {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(i[0],"undefined")} {i}')
                     try:self.add(i)
                     except Exception as e:logger.exception(e)
-                    logger.debug(f'File modified {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(i[0],"undefined")} {i}')
                     logger.debug(str(self.msg))
         threading.Thread(target=f,daemon=True,name='DirListener').start()
     @acquireLock
@@ -228,20 +225,24 @@ class Base(Android):
     @acquireLock
     def snapshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
 base=Base()
-def doit(pos,wait):[(base.press(i),sleep(j*.001))for i,j in zip(pos,wait)]
+def doit(pos,wait):[(base.press(i),battleSleep(j*.001))for i,j in zip(pos,wait)]
 class Check:
     def __init__(self,forwordLagency=.01,backwordLagency=0):
-        sleep(forwordLagency)
+        battleSleep(forwordLagency)
         fuse.inc()
         self.im=base.snapshot()
         global check
         check=self
-        sleep(backwordLagency)
+        battleSleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return delta>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im);return self
-    def show(self):show(cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST));return self
+    def show(self):
+        cv2.imshow('Check',cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST))
+        cv2.waitKey()
+        cv2.destroyAllWindows()
+        return self
     def isAddFriend(self):return self.compare(IMG_END,(243,863,745,982))
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
@@ -269,7 +270,7 @@ def chooseFriend():
     refresh=False
     while not Check(.2).isChooseFriend():
         if check.isNoFriend():
-            if refresh:sleep(10)
+            if refresh:battleSleep(10)
             doit('\xBAJ',(500,1000))
             refresh=True
     lastAction=0
@@ -298,19 +299,19 @@ def chooseFriend():
                 skillInfo[friendPos],houguInfo[friendPos]=(lambda r:(lambda p:([[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]))(r.group())if r else(skillInfo[friendPos],houguInfo[friendPos]))(re.search('[0-9x]{11}$',i))
                 return logger.info(f'Friend {i}')
             base.swipe((400,900,400,300))
-        if refresh:sleep(max(0,timer+10-time.time()))
+        if refresh:battleSleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,1000))
         refresh=True
         while not Check(.2).isChooseFriend():
             if check.isNoFriend():
-                sleep(10)
+                battleSleep(10)
                 doit('\xBAJ',(500,1000))
 def battle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
         if Check(.1).isTurnBegin():
             turn+=1
-            stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.35))
+            stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
             if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.03])
             if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
@@ -319,14 +320,14 @@ def battle():
             for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit('234'[skillInfo[servant[i]][j][2]-1],(300,))
-                sleep(2.3)
+                battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit(('Q','WER'[i]),(300,300))
                 if masterSkill[i][2]:
                     if i==2and masterSkill[2][3]:doit(('TYUIOP'[masterSkill[2][2]-1],'TYUIOP'[masterSkill[2][3]-1],'Z'),(300,300,300))
                     else:doit('234'[masterSkill[i][2]-1],(300,))
-                sleep(2.3)
+                battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
             doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,270,270,10000))
