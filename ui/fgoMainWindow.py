@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'fgoMainWindow.ui'
-#
 # Created by: PyQt5 UI code generator 5.15.0
 #
 # WARNING: Any manual changes made to this file will be lost when pyuic5 is
@@ -900,6 +898,14 @@ class Ui_fgoMainWindow(object):
         font.setPointSize(11)
         self.MENU_FILE_CMDHERE.setFont(font)
         self.MENU_FILE_CMDHERE.setObjectName("MENU_FILE_CMDHERE")
+        self.MENU_SCRIPT_STOPLATER = QtWidgets.QAction(fgoMainWindow)
+        self.MENU_SCRIPT_STOPLATER.setCheckable(True)
+        self.MENU_SCRIPT_STOPLATER.setEnabled(False)
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        font.setPointSize(11)
+        self.MENU_SCRIPT_STOPLATER.setFont(font)
+        self.MENU_SCRIPT_STOPLATER.setObjectName("MENU_SCRIPT_STOPLATER")
         self.MENU_ABOUT.addAction(self.MENU_ABOUT_ABOUT)
         self.MENU_FILE.addAction(self.MENU_FILE_EXPLORER)
         self.MENU_FILE.addAction(self.MENU_FILE_CMDHERE)
@@ -908,6 +914,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_GACHA)
         self.MENU_SCRIPT.addSeparator()
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_MAPKEY)
+        self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_STOPLATER)
         self.menuBar.addAction(self.MENU_FILE.menuAction())
         self.menuBar.addAction(self.MENU_SCRIPT.menuAction())
         self.menuBar.addAction(self.MENU_ABOUT.menuAction())
@@ -934,6 +941,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_SCRIPT_GACHA.triggered.connect(fgoMainWindow.runGacha)
         self.MENU_SCRIPT_MAPKEY.triggered['bool'].connect(fgoMainWindow.mapKey)
         self.MENU_FILE_CMDHERE.triggered.connect(fgoMainWindow.cmdHere)
+        self.MENU_SCRIPT_STOPLATER.triggered['bool'].connect(fgoMainWindow.stopAfterBattle)
         QtCore.QMetaObject.connectSlotsByName(fgoMainWindow)
         fgoMainWindow.setTabOrder(self.CBX_PARTY, self.TXT_PARTY)
         fgoMainWindow.setTabOrder(self.TXT_PARTY, self.BTN_PARTYSAVE)
@@ -1260,3 +1268,4 @@ class Ui_fgoMainWindow(object):
         self.MENU_SCRIPT_GACHA.setText(_translate("fgoMainWindow", "抽友情"))
         self.MENU_SCRIPT_MAPKEY.setText(_translate("fgoMainWindow", "加载按键映射"))
         self.MENU_FILE_CMDHERE.setText(_translate("fgoMainWindow", "命令提示符"))
+        self.MENU_SCRIPT_STOPLATER.setText(_translate("fgoMainWindow", "本场战斗后终止战斗"))

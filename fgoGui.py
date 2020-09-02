@@ -178,6 +178,7 @@ class MyMainWindow(QMainWindow):
             try:
                 fgoFunc.suspendFlag=False
                 fgoFunc.terminateFlag=False
+                fgoFunc.tobeSuspengFlag=False
                 fgoFunc.fuse.reset()
                 self.signalFuncBegin.emit()
                 self.applyAll()
@@ -196,6 +197,8 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_PAUSE.setEnabled(True)
         self.ui.BTN_STOP.setEnabled(True)
         self.ui.BTN_PAUSE.setChecked(False)
+        self.ui.MENU_SCRIPT_STOPLATER.setEnabled(True)
+        self.ui.MENU_SCRIPT_STOPLATER.setChecked(False)
     def funcEnd(self):
         self.ui.BTN_ONEBATTLE.setEnabled(True)
         self.ui.BTN_MAIN.setEnabled(True)
@@ -203,6 +206,8 @@ class MyMainWindow(QMainWindow):
         self.ui.MENU_SCRIPT_GACHA.setEnabled(True)
         self.ui.BTN_PAUSE.setEnabled(False)
         self.ui.BTN_STOP.setEnabled(False)
+        self.ui.MENU_SCRIPT_STOPLATER.setChecked(False)
+        self.ui.MENU_SCRIPT_STOPLATER.setEnabled(False)
     def loadParty(self,x):
         self.ui.TXT_PARTY.setText(config[x]['partyIndex'])
         skillInfo=eval(config[x]['skillInfo'])
@@ -254,6 +259,7 @@ class MyMainWindow(QMainWindow):
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),eval('fgoFunc.'+text))
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
     def stop(self):fgoFunc.terminateFlag=True
+    def stopAfterBattle(self,x):fgoFunc.tobeTerminatedFlag=x
     def explorerHere(self):os.startfile('.')
     def cmdHere(self):os.startfile('cmd')
     def stayOnTop(self):
