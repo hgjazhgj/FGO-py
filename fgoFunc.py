@@ -57,6 +57,7 @@ friendPos=4
 masterSkill=[[0,0,0],[0,0,0],[0,0,0,0]]
 terminateFlag=False
 suspendFlag=False
+tobeTerminatedFlag=False
 def battleSleep(x,part=.1):
     timer=time.time()+x-part
     while True:
@@ -354,6 +355,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
     while True:
         while True:
             if Check(0,.4).isBegin():
+                if tobeTerminatedFlag:return
                 battleCount+=1
                 base.press('8')
                 if eatApple():return
@@ -363,6 +365,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 doit(' ',(12000,))
                 break
             if check.isBattleContinue():
+                if tobeTerminatedFlag:return base.press('F')
                 battleCount+=1
                 base.press('K')
                 if eatApple():return

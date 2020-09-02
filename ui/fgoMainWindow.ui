@@ -3400,6 +3400,7 @@
     <addaction name="MENU_SCRIPT_GACHA"/>
     <addaction name="separator"/>
     <addaction name="MENU_SCRIPT_MAPKEY"/>
+    <addaction name="MENU_SCRIPT_STOPLATER"/>
    </widget>
    <addaction name="MENU_FILE"/>
    <addaction name="MENU_SCRIPT"/>
@@ -3497,6 +3498,23 @@
    <property name="font">
     <font>
      <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_SCRIPT_STOPLATER">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>本场战斗后终止战斗</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3927,6 +3945,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MENU_SCRIPT_STOPLATER</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>stopAfterBattle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>313</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -3966,6 +4000,7 @@
   <slot>runGacha()</slot>
   <slot>mapKey(bool)</slot>
   <slot>cmdHere()</slot>
+  <slot>stopAfterBattle()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
