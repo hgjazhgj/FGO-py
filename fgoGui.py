@@ -178,7 +178,7 @@ class MyMainWindow(QMainWindow):
             try:
                 fgoFunc.suspendFlag=False
                 fgoFunc.terminateFlag=False
-                fgoFunc.tobeSuspengFlag=False
+                fgoFunc.tobeTerminatedFlag=False
                 fgoFunc.fuse.reset()
                 self.signalFuncBegin.emit()
                 self.applyAll()
@@ -237,9 +237,7 @@ class MyMainWindow(QMainWindow):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
         if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
-    def checkCheck(self):
-        if fgoFunc.base.serialno is None:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
-        fgoFunc.Check(0).show().save()
+    def checkCheck(self):QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)if fgoFunc.base.serialno is None else fgoFunc.Check(0).show().save()
     def getFriend(self):pass
     def applyAll(self):
         if self.serialno!=fgoFunc.base.serialno:
