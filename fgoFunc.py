@@ -70,7 +70,7 @@ class Fuse:
     def __init__(self,fv=400,show=1):
         self.__value=0
         self.__max=fv
-        self.show=1
+        self.show=show
     @property
     def value(self):return self.__value
     @property
@@ -357,6 +357,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
             if Check(0,.4).isBegin():
                 if tobeTerminatedFlag:return
                 battleCount+=1
+                battleSleep(.5)
                 base.press('8')
                 if eatApple():return
                 chooseFriend()
