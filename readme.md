@@ -21,7 +21,7 @@
 ![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.5.1](#版本记录-Version-Logs)  
+当前版本[v4.5.3](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -118,6 +118,8 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 您这*来意*是*打不开*也挺迷人的,我tm拒绝之后才发现*可能*是来问脚本问题的,本来搞不好还能逗他玩玩  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2020/09/07 v4.5.3
+ui修正,延时调整  
 ## 2020/09/04 v4.5.2
 bug修复:手抖了,环刷本时预约本场战斗结束后中止功能对应标志位初始化打错了  
 ## 2020/09/02 v4.5.1

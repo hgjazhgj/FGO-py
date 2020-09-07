@@ -325,9 +325,7 @@ def battle():
                 while not Check(0,.2).isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit(('Q','WER'[i]),(300,300))
-                if masterSkill[i][2]:
-                    if i==2and masterSkill[2][3]:doit(('TYUIOP'[masterSkill[2][2]-1],'TYUIOP'[masterSkill[2][3]-1],'Z'),(300,300,300))
-                    else:doit('234'[masterSkill[i][2]-1],(300,))
+                if masterSkill[i][2]:doit(('TYUIOP'[masterSkill[2][2]-1],'TYUIOP'[masterSkill[2][3]-1],'Z'),(300,300,300))if i==2and masterSkill[2][3]else doit('234'[masterSkill[i][2]-1],(300,))
                 battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
@@ -357,7 +355,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
             if Check(0,.4).isBegin():
                 if tobeTerminatedFlag:return
                 battleCount+=1
-                battleSleep(.5)
+                battleSleep(1)
                 base.press('8')
                 if eatApple():return
                 chooseFriend()
@@ -375,8 +373,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
             if check.isAddFriend():base.press('X')
             base.press(' ')
         logger.info(f'Battle {battleCount}')
-        if battleFunc():doit('    ',(200,200,200,200))
-        else:doit('BIJ',(500,500,500))
+        doit('    ',(200,200,200,200))if battleFunc()else doit('BIJ',(500,500,500))
 def userScript():
     while not Check(0,.2).isTurnBegin():pass
     #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
