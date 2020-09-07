@@ -3486,7 +3486,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI</family>
+     <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3514,7 +3514,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI</family>
+     <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
