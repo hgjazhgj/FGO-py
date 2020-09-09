@@ -1,11 +1,12 @@
-> 要开学了,作业还没写  
-> 福袋BB+1  
+> 泳装一期卡池110发水武藏&卡米拉*2,没有部刑姬,满破五星礼装  
+> 泳装二期卡池90发项羽+皇女恩齐都双黄,大骂ylsfm氪一单后40发兔呆双黄+J总司Λ莉莉丝双紫  
+> 我开始担心起我的寿命了  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
 > 人越是写代码,代码就越可能因意料之外的情况而失效  
 > 要成为超人的存在才行啊  
-> 我不做人啦!JOJO!  
+> 所以我不做人啦!JOJO!  
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本
 ![svg](https://img.shields.io/badge/fgo-作者是FGO国服安卓玩家-225799.svg)
 ![svg](https://img.shields.io/badge/梆梆人-作者是BanGDream玩家-ff3b72.svg)
@@ -21,7 +22,7 @@
 ![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.5.3](#版本记录-Version-Logs)  
+当前版本[v4.5.4](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -35,6 +36,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 ***
 # 使用说明 Instruction
 双击打开用就完了,本脚本几乎没有限制  
+mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.Base类扒出来替换掉现在的那个~~  
 速览脚本功能,运行`fgoGui.py`,大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 这个脚本会比较智能地帮你放技能(默认不用技能),放宝具(默认充能满就直接放宝具),选卡(优先三色chain,否则优先红卡).  
 合理设定后实战7-12回合能够刷完无限池终本  
@@ -118,6 +120,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 您这*来意*是*打不开*也挺迷人的,我tm拒绝之后才发现*可能*是来问脚本问题的,本来搞不好还能逗他玩玩  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2020/09/09 v4.5.4
+修订readme  
+bug修复:延时调整,在未首通时能够正确进本  
+之前动画还没放完就截图识别导致错误,虽然连续战斗能用了但是不连续的不能用了  
+本次沿用了连续战斗上线之前的延时设置,可能有些许优化空间  
 ## 2020/09/07 v4.5.3
 ui修正,延时调整  
 ## 2020/09/04 v4.5.2

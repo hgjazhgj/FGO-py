@@ -352,10 +352,9 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 return False
     while True:
         while True:
-            if Check(0,.4).isBegin():
+            if Check(.3,.3).save().isBegin():
                 if tobeTerminatedFlag:return
                 battleCount+=1
-                battleSleep(1)
                 base.press('8')
                 if eatApple():return
                 chooseFriend()
