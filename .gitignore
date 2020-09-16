@@ -16,3 +16,4 @@ chk.png
 *.spec
 Snipaste*
 *Temp*
+/help

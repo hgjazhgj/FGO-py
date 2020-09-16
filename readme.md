@@ -1,6 +1,5 @@
-> 泳装一期卡池110发水武藏&卡米拉*2,没有部刑姬,满破五星礼装  
-> 泳装二期卡池90发项羽+皇女恩齐都双黄,大骂ylsfm氪一单后40发兔呆双黄+J总司Λ莉莉丝双紫  
-> 我开始担心起我的寿命了  
+> ~~原神真tm好玩~~  
+> 手残不配玩原神  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -8,21 +7,23 @@
 > 要成为超人的存在才行啊  
 > 所以我不做人啦!JOJO!  
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本
-![svg](https://img.shields.io/badge/fgo-作者是FGO国服安卓玩家-225799.svg)
-![svg](https://img.shields.io/badge/梆梆人-作者是BanGDream玩家-ff3b72.svg)
-![svg](https://img.shields.io/badge/hearthstone-作者是炉石传说玩家-daa520.svg)
-![svg](https://img.shields.io/badge/majsoul-作者是雀魂玩家-8b008b.svg)
-![svg](https://img.shields.io/badge/骑士君-作者是公主连结Re:Dive玩家-fab471.svg)
-![svg](https://img.shields.io/badge/云程序员-作者是一位云程序员-ffffff.svg)
-![svg](https://img.shields.io/badge/开位-作者是一条开位咸鱼-ffd700.svg)
-![svg](https://img.shields.io/badge/头痛-作者患有头痛宿疾Ex-50a625.svg)
-![svg](https://img.shields.io/badge/病弱-作者是一个病弱厨-ecbacb.svg)
-![svg](https://img.shields.io/badge/mikon-作者是玉藻俱乐部成员-804313.svg)
+![svg](https://img.shields.io/badge/fgo-FGO国服安卓玩家-225799.svg)
+![svg](https://img.shields.io/badge/梆梆人-BanGDream玩家-ff3b72.svg)
+![svg](https://img.shields.io/badge/hearthstone-炉石传说玩家-daa520.svg)
+![svg](https://img.shields.io/badge/majsoul-雀魂玩家-8b008b.svg)
+![svg](https://img.shields.io/badge/骑士君-公主连结Re:Dive玩家-fab471.svg)
+![svg](https://img.shields.io/badge/云程序员-云程序员-ffffff.svg)
+![svg](https://img.shields.io/badge/开位-一条开位咸鱼-ffd700.svg)
+![svg](https://img.shields.io/badge/头痛-患有头痛宿疾Ex-50a625.svg)
+![svg](https://img.shields.io/badge/病弱-病弱厨-ecbacb.svg)
+![svg](https://img.shields.io/badge/mikon-玉藻俱乐部成员-804313.svg)
 ![svg](https://img.shields.io/badge/萝莉控-小学生真是太棒了-b0e0e6.svg)
-![svg](https://img.shields.io/badge/n4-作者的日语具有N4或同等水平-00ff00.svg)
+![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.5.4](#版本记录-Version-Logs)  
+本项目在2020年9月17日达到100star  
+![100star](./doc/100StarCelebrate.png)  
+当前版本[v4.5.5](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -36,14 +37,13 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 ***
 # 使用说明 Instruction
 双击打开用就完了,本脚本几乎没有限制  
-mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.Base类扒出来替换掉现在的那个~~  
+没有可执行二进制文件,因为我觉得没有必要  
 速览脚本功能,运行`fgoGui.py`,大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 这个脚本会比较智能地帮你放技能(默认不用技能),放宝具(默认充能满就直接放宝具),选卡(优先三色chain,否则优先红卡).  
 合理设定后实战7-12回合能够刷完无限池终本  
 使用了这些外部库:`configParser` `airtest` `pywin32` `PyQt5`  
-以上库均可`pip install`,但是安装`airtest`库需要一些特殊的技巧,所以没有requirements.txt  
-其他被这些库依赖的外部库未单独列出  
-ui大概长这样:  
+以上库均可`pip install`,其他被这些库依赖的外部库未单独列出,但是安装`airtest`库需要一些特殊的技巧,所以没有requirements.txt  
+ui大概长这样(设计视图仅供参考):  
 ![ui](./doc/ui.png)  
 本脚本的代码部分仅有`fgoFunc.py`是fgo算法相关的  
 当然`fgoGui.py`也是脚本的一部分,会自动加载一些配置,在您知晓本脚本的工作原理前不建议单独使用`fgoFunc.py`进行操作  
@@ -59,6 +59,7 @@ ui大概长这样:
 助战截图的文件名若以包含技能和宝具信息的11个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo中的设置  
 你在image/friend目录下的所有更改会在下一次选取助战时自动应用  
 ## 快速查错引导 When Error Occurred
+mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.Base类扒出来替换掉现在的那个~~  
 + 游戏是否已经运行  
 + 路径中是否有空格  
 + 游戏画面旋转方向是否未变动  
@@ -95,31 +96,27 @@ ui大概长这样:
 |\<Space\> |选卡/下一步/菜单                        |
 |NUM4-9    |选取敌人,NUM7返回/关闭                  |  
 ## 如何联系我 Contact Me
-[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
-我很暴躁,这是我的联系方式  
-qq 979449732(加好友请说明来意,**并附上您在GitHub中的账户名**  
-email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
+![Alipay](./doc/行行好吧给颗石头吧.png)![Wechat](./doc/吧头石颗给吧好行行.png)  
 觉得有帮助请为我star,谢谢  
+[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
+去看看过往的issue就能知道我很暴躁,这是我的联系方式,在qq上我会更暴躁  
+qq 979449732(个人账号,加好友请注明是来问*这个脚本*的问题的  
+email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
+关于本脚本算法及实现之外的问题(包括但不限于第三方库/编程语言/特定设备调试)不在支持范围内  
+现在这个脚本居然已经可以从各大搜索引擎上找到,这就导致有很多hwlloworld都不会的小白来找我  
 我乐意回答一些技术问题,但没有义务提供详细的教学.为使耳根清净的最好方法就是收费,故制定以下政策  
-关于本脚本算法及实现之外的问题(包括但不限于adb工具/python语言/win32相关/特定设备调试)不在支持范围内  
-具体的收费渠道还在思考中,不过显然直到您的问题解决为止我都很难定一个价格  
-建议您仔细阅读readme,尝试使用搜索引擎来解决您的问题,以免给您带来不必要的损失.谢谢  
+**没有标明免费的东西都不是免费的**,凡是从QQ或者email联系我的,先收50定金,最终收费不超过一单  
+什么?你想反馈脚本本身的问题?那为什么不发issue?  
+建议您仔细阅读readme,尝试使用搜索引擎来解决您的问题,以免给您带来不必要的损失  
 我只接受对**最新commit**的bug反馈,请检查是否有未拉取的更改  
 *不,这不是bug,是feature*  
-**没有标明免费的东西都不是免费的**  
-如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在下面的*光荣榜*上  
-[跳过图片部分](#版本记录-Version-Logs)  
-![hanhan1](./doc/hanhan_2020-02-28.png)  
-这位还算有点礼貌,所以我给他打了码  
-![hanhan2](./doc/hanhan_2020-04-03.png)  
-这位是真的憨  
-这是本readme中的头两张图片,合影留念  
-![hanhan3](./doc/hanhan_2020-04-28.png)  
-您连*加好友请说明来意,并附上您在GitHub中的账户名*的意思都理解不了,还怎么学会一门编程语言呢  
-![hanhan4](./doc/hanhan_2020-06-03.png)  
-您这*来意*是*打不开*也挺迷人的,我tm拒绝之后才发现*可能*是来问脚本问题的,本来搞不好还能逗他玩玩  
+如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2020/09/16 v4.5.5
+修订readme  
+我计划对本项目的代码风格进行一系列微调,现在是第一步  
+另有微调,谁tm想得到我写个脚本都得玄学调参  
 ## 2020/09/09 v4.5.4
 修订readme  
 bug修复:延时调整,在未首通时能够正确进本  

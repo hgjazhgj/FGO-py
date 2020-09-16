@@ -67,22 +67,23 @@ def battleSleep(x,part=.1):
         time.sleep(part)
     time.sleep(max(0,timer+part-time.time()))
 class Fuse:
-    def __init__(self,fv=400,show=1):
+    def __init__(self,fv=400,show=1,name=''):
         self.__value=0
         self.__max=fv
         self.show=show
+        self.name=name
     @property
     def value(self):return self.__value
     @property
     def max(self):return self.__max
     def inc(self):
         if self.__value>self.__max:
-            logger.warning('Fused')
+            logger.warning(f'Fused {self.name}')
             exit(0)
         self.__value+=1
         return self
     def reset(self):
-        if self.__value>self.show:logger.debug(f'Fuse {self.__value}')
+        if self.__value>self.show:logger.debug(f'Fuse {self.name} {self.__value}')
         self.__value=0
         return self
 fuse=Fuse()
@@ -100,12 +101,7 @@ class DirListener:
         self.lock=False
         self.ren=''
         def f():
-            while True:
-                for i in win32file.ReadDirectoryChangesW(self.hDir,0x1000,False,win32con.FILE_NOTIFY_CHANGE_FILE_NAME|win32con.FILE_NOTIFY_CHANGE_LAST_WRITE,None,None):
-                    logger.debug(f'File modified {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(i[0],"undefined")} {i}')
-                    try:self.add(i)
-                    except Exception as e:logger.exception(e)
-                    logger.debug(str(self.msg))
+            while True:self.add(win32file.ReadDirectoryChangesW(self.hDir,0x1000,False,win32con.FILE_NOTIFY_CHANGE_FILE_NAME|win32con.FILE_NOTIFY_CHANGE_LAST_WRITE,None,None))
         threading.Thread(target=f,daemon=True,name='DirListener').start()
     @acquireLock
     def add(self,x):
@@ -162,7 +158,7 @@ class DirListener:
                         if self.ren==file:return
                     break
             self.msg+=[[4,self.ren],[5,file]]
-        {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(x[0],lambda x:None)(x[1])
+        for i in x:{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda x:None)(i[1])
     @acquireLock
     def get(self):
         ans=self.msg
@@ -180,12 +176,11 @@ class Base(Android):
         else:
             self.render=[round(i)for i in self.get_render_resolution(True)]
             self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
-        ######## bugfix for airtest.core.android.adb.ADB.getPhysicalDisplayInfo ##################################
-        ######## see https://github.com/AirtestProject/Airtest/issues/796 ########################################
+        ######## bugfix for airtest.core.android.adb.ADB.getPhysicalDisplayInfo, see https://github.com/AirtestProject/Airtest/issues/796##################################
             self.maxtouch.install_and_setup()
             self.maxtouch.size_info.update({x:int(y)for x,y in re.search(r'(?P<width>\d+)x(?P<height>\d+)\s*$',self.adb.raw_shell('wm size')).groupdict().items()})
             self._display_info=self.maxtouch.size_info.copy()
-        ######## bugfix end ######################################################################################
+        ######## bugfix end ###############################################################################################################################################
             self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
                 '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74),#VK_F1..10
                 '1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
@@ -227,6 +222,7 @@ class Base(Android):
     def snapshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
 base=Base()
 def doit(pos,wait):[(base.press(i),battleSleep(j*.001))for i,j in zip(pos,wait)]
+check=None
 class Check:
     def __init__(self,forwordLagency=.01,backwordLagency=0):
         battleSleep(forwordLagency)
@@ -237,8 +233,10 @@ class Check:
         battleSleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),delta=.05):return delta>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
     def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
-    def tapOnCmp(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
-    def save(self,name=''):cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im);return self
+    def tap(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
+    def save(self,name=''):
+        cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im)
+        return self
     def show(self):
         cv2.imshow('Check',cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST))
         cv2.waitKey()
@@ -285,7 +283,6 @@ def chooseFriend():
         oldName=name
     def onRenamedTo(name):friendImg[name]=friendImg[oldName]if lastAction==4else cv2.imread(f'image/friend/{name}.png')
     for action,name in((action,file[:-4])for action,file in friendListener.get()if file.endswith('.png')):
-        logger.debug(f'{action} {dict([[1,"created"],[2,"deleted"],[3,"updated"],[4,"renamedFrom"],[5,"renamedTo"]]).get(action,"undefined")} {name}')
         {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda x:logger.warning(f'Undefined action {action} on {name}'))(name)
         lastAction=action
     if oldName is not None:del friendImg[oldName]
@@ -296,7 +293,7 @@ def chooseFriend():
     while True:
         timer=time.time()
         while not Check(.2,.1).isListEnd((1860,1064)):
-            for i in(i[0] for i in friendImg.items()if check.tapOnCmp(i[1],delta=.015)):
+            for i in(i[0] for i in friendImg.items()if check.tap(i[1],delta=.015)):
                 skillInfo[friendPos],houguInfo[friendPos]=(lambda r:(lambda p:([[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]))(r.group())if r else(skillInfo[friendPos],houguInfo[friendPos]))(re.search('[0-9x]{11}$',i))
                 return logger.info(f'Friend {i}')
             base.swipe((400,900,400,300))
@@ -312,7 +309,8 @@ def battle():
     while True:
         if Check(.1).isTurnBegin():
             turn+=1
-            stage,stageTurn,skill,newPortrait=(lambda chk:(lambda x:[x,stageTurn+1if stage==x else 1])(chk.getStage())+[chk.isSkillReady(),chk.getPortrait()])(Check(.4))
+            stage,stageTurn=(lambda x:[x,stageTurn+1if stage==x else 1])(Check(.4).getStage())
+            skill,newPortrait=check.isSkillReady(),check.getPortrait()
             if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.03])
             if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
@@ -329,7 +327,7 @@ def battle():
                 battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,270,270,10000))
+            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,10000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
@@ -352,7 +350,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 return False
     while True:
         while True:
-            if Check(.3,.3).save().isBegin():
+            if Check(.3,.3).isBegin():
                 if tobeTerminatedFlag:return
                 battleCount+=1
                 base.press('8')
