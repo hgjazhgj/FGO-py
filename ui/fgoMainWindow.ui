@@ -3395,15 +3395,21 @@
     <property name="title">
      <string>脚本</string>
     </property>
-    <addaction name="MENU_SCRIPT_STAYONTOP"/>
-    <addaction name="MENU_SCRIPT_REFRESHDEVICE"/>
     <addaction name="MENU_SCRIPT_GACHA"/>
-    <addaction name="separator"/>
-    <addaction name="MENU_SCRIPT_MAPKEY"/>
-    <addaction name="MENU_SCRIPT_STOPLATER"/>
+    <addaction name="MENU_SCRIPT_JACKPOT"/>
+   </widget>
+   <widget class="QMenu" name="MENU_CONTROL">
+    <property name="title">
+     <string>控制</string>
+    </property>
+    <addaction name="MENU_CONTROL_STAYONTOP"/>
+    <addaction name="MENU_CONTROL_REFRESHDEVICE"/>
+    <addaction name="MENU_CONTROL_MAPKEY"/>
+    <addaction name="MENU_CONTROL_STOPLATER"/>
    </widget>
    <addaction name="MENU_FILE"/>
    <addaction name="MENU_SCRIPT"/>
+   <addaction name="MENU_CONTROL"/>
    <addaction name="MENU_ABOUT"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
@@ -3436,7 +3442,7 @@
     </font>
    </property>
   </action>
-  <action name="MENU_SCRIPT_STAYONTOP">
+  <action name="MENU_CONTROL_STAYONTOP">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3455,7 +3461,7 @@
     <string/>
    </property>
   </action>
-  <action name="MENU_SCRIPT_REFRESHDEVICE">
+  <action name="MENU_CONTROL_REFRESHDEVICE">
    <property name="text">
     <string>重新建立连接</string>
    </property>
@@ -3477,7 +3483,7 @@
     </font>
    </property>
   </action>
-  <action name="MENU_SCRIPT_MAPKEY">
+  <action name="MENU_CONTROL_MAPKEY">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3502,7 +3508,7 @@
     </font>
    </property>
   </action>
-  <action name="MENU_SCRIPT_STOPLATER">
+  <action name="MENU_CONTROL_STOPLATER">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3510,7 +3516,18 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>本场战斗后终止战斗</string>
+    <string>本场战斗完成后终止</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_SCRIPT_JACKPOT">
+   <property name="text">
+    <string>抽奖池</string>
    </property>
    <property name="font">
     <font>
@@ -3866,7 +3883,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>MENU_SCRIPT_STAYONTOP</sender>
+   <sender>MENU_CONTROL_STAYONTOP</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stayOnTop()</slot>
@@ -3882,7 +3899,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>MENU_SCRIPT_REFRESHDEVICE</sender>
+   <sender>MENU_CONTROL_REFRESHDEVICE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>refreshDevice()</slot>
@@ -3914,7 +3931,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>MENU_SCRIPT_MAPKEY</sender>
+   <sender>MENU_CONTROL_MAPKEY</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>mapKey(bool)</slot>
@@ -3946,10 +3963,26 @@
    </hints>
   </connection>
   <connection>
-   <sender>MENU_SCRIPT_STOPLATER</sender>
+   <sender>MENU_CONTROL_STOPLATER</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stopAfterBattle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>313</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MENU_SCRIPT_JACKPOT</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>runJackpot()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -4001,6 +4034,7 @@
   <slot>mapKey(bool)</slot>
   <slot>cmdHere()</slot>
   <slot>stopAfterBattle()</slot>
+  <slot>runJackpot()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>

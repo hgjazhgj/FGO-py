@@ -197,8 +197,8 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_PAUSE.setEnabled(True)
         self.ui.BTN_STOP.setEnabled(True)
         self.ui.BTN_PAUSE.setChecked(False)
-        self.ui.MENU_SCRIPT_STOPLATER.setEnabled(True)
-        self.ui.MENU_SCRIPT_STOPLATER.setChecked(False)
+        self.ui.MENU_CONTROL_STOPLATER.setEnabled(True)
+        self.ui.MENU_CONTROL_STOPLATER.setChecked(False)
     def funcEnd(self):
         self.ui.BTN_ONEBATTLE.setEnabled(True)
         self.ui.BTN_MAIN.setEnabled(True)
@@ -206,8 +206,8 @@ class MyMainWindow(QMainWindow):
         self.ui.MENU_SCRIPT_GACHA.setEnabled(True)
         self.ui.BTN_PAUSE.setEnabled(False)
         self.ui.BTN_STOP.setEnabled(False)
-        self.ui.MENU_SCRIPT_STOPLATER.setChecked(False)
-        self.ui.MENU_SCRIPT_STOPLATER.setEnabled(False)
+        self.ui.MENU_CONTROL_STOPLATER.setChecked(False)
+        self.ui.MENU_CONTROL_STOPLATER.setEnabled(False)
     def loadParty(self,x):
         self.ui.TXT_PARTY.setText(config[x]['partyIndex'])
         skillInfo=eval(config[x]['skillInfo'])
@@ -252,6 +252,7 @@ class MyMainWindow(QMainWindow):
     def runOneBattle(self):self.runFunc(fgoFunc.battle)
     def runUser(self):self.runFunc(fgoFunc.userScript)
     def runGacha(self):self.runFunc(fgoFunc.gacha)
+    def runJackpot(self):self.runFunc(fgoFunc.jackpot)
     def runMain(self):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['battle','userScript'])
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),eval('fgoFunc.'+text))
