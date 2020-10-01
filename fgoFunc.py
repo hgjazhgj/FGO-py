@@ -41,6 +41,7 @@ IMG_END=cv2.imread('image/end.png')
 IMG_FAILED=cv2.imread('image/failed.png')
 IMG_GACHA=cv2.imread('image/gacha.png')
 IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
+IMG_JACKPOT=cv2.imread('image/jackpot.png')
 IMG_LISTEND=cv2.imread('image/listend.png')
 IMG_LISTNONE=cv2.imread('image/listnone.png')
 IMG_NOFRIEND=cv2.imread('image/nofriend.png')
@@ -183,7 +184,7 @@ class Base(Android):
         ######## bugfix end ###############################################################################################################################################
             self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
                 '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74),#VK_F1..10
-                '1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),
+                '1':(277,640),'2':(648,640),'3':(974,640),'4':(1262,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),'0':(1819,367),
                 'Q':(1800,475),'W':(1360,475),'E':(1493,475),'R':(1626,475),'T':(210,540),'Y':(510,540),'U':(810,540),'I':(1110,540),'O':(1410,540),'P':(1710,540),'\xDC':(1880,40),#\ VK_OEM_5
                 'A':(109,860),'S':(244,860),'D':(385,860),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),'L':(1336,860),'\xBA':(1247,197),#; VK_OEM_1
                 'Z':(960,943),'X':(259,932),'B':(495,480),'N':(248,1041),'M':(1200,1000),
@@ -253,6 +254,7 @@ class Check:
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
     def isHouguReady(self):return(lambda im:[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.7).im)
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-35,pos[1]-29,pos[0]+35,pos[1]+10),.15)for i in(IMG_LISTEND,IMG_LISTNONE))
+    def isNextJackpot(self):return self.compare(IMG_JACKPOT,(1556,336,1859,397))
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))
@@ -265,6 +267,10 @@ def gacha():
     while fuse.value<30:
         if Check(.1).isGacha():doit('MK',(200,2700))
         base.press('\xDC')
+def jackpot():
+    while fuse.value<130:
+        if Check().isNextJackpot():doit('0JJ',(600,1800,0))
+        for _ in range(20):base.press('2')
 def chooseFriend():
     refresh=False
     while not Check(.2).isChooseFriend():
