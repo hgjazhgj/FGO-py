@@ -1,5 +1,4 @@
-> ~~原神真tm好玩~~  
-> 手残不配玩原神  
+> 两天慢慢悠悠刷了120池,准备咸鱼了...  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -21,9 +20,7 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-本项目在2020年9月17日达到100star  
-![100star](./doc/100StarCelebrate.png)  
-当前版本[v4.5.5](#版本记录-Version-Logs)  
+当前版本[v4.6.2](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -41,8 +38,8 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 速览脚本功能,运行`fgoGui.py`,大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 这个脚本会比较智能地帮你放技能(默认不用技能),放宝具(默认充能满就直接放宝具),选卡(优先三色chain,否则优先红卡).  
 合理设定后实战7-12回合能够刷完无限池终本  
-使用了这些外部库:`configParser` `airtest` `pywin32` `PyQt5`  
-以上库均可`pip install`,其他被这些库依赖的外部库未单独列出,但是安装`airtest`库需要一些特殊的技巧,所以没有requirements.txt  
+使用了这些外部库:`airtest` `pywin32` `PyQt5`  
+以上库均可`pip install`,其他被这些库依赖的外部库未单独列出,但是安装`airtest`库似乎需要一些特殊的技巧,所以没有requirements.txt  
 ui大概长这样(设计视图仅供参考):  
 ![ui](./doc/ui.png)  
 本脚本的代码部分仅有`fgoFunc.py`是fgo算法相关的  
@@ -101,20 +98,32 @@ mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.
 觉得有帮助请为我star,谢谢  
 [提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
 去看看过往的issue就能知道我很暴躁,这是我的联系方式,在qq上我会更暴躁  
-qq 979449732(个人账号,加好友请注明是来问*这个脚本*的问题的  
+qq 979449732(个人账号,加好友请注明是来问*这个脚本*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
 关于本脚本算法及实现之外的问题(包括但不限于第三方库/编程语言/特定设备调试)不在支持范围内  
 现在这个脚本居然已经可以从各大搜索引擎上找到,这就导致有很多hwlloworld都不会的小白来找我  
 我乐意回答一些技术问题,但没有义务提供详细的教学.为使耳根清净的最好方法就是收费,故制定以下政策  
 **没有标明免费的东西都不是免费的**,凡是从QQ或者email联系我的,先收50定金,最终收费不超过一单  
 *什么?你想反馈脚本本身的问题?那为什么不发issue?*  
-建议您仔细阅读readme,尝试使用搜索引擎来解决您的问题,以免给您带来不必要的损失  
+建议您仔细阅读本readme以及ui中的说明,并尝试使用除百度以外的搜索引擎来解决您的问题,以免给您带来不必要的损失  
 我只接受对**最新commit**的bug反馈,请检查是否有未拉取的更改  
 *不,这不是bug,是feature*  
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
-## 2020/10/01 v4.6.6
+## 2020/10/09 v4.6.2
+ui优化  
+每次功能更新后都会有这样一个版本来调整ui上的细节  
+修订readme  
+近期收到了多起不同设备上的兼容性问题反馈且没有发现问题,需要更多样本  
+## 2020/10/02 v4.6.1
+新增:狗粮筛选器  
+看起来没几行代码却磨了我一个下午一个晚上,有点玄学调参的意思了...  
+1.9%匹配失败1.5%匹配成功,这太精细了,搞不好换一台机器就不一样  
+在image/mailfilter目录下有要被筛选的图片模板,领取银狗粮和不多于2个的金狗粮  
+基于归一化模板匹配的特性,这些模板最好拥有接近的大小,并且特征所在的部位要有一定的比例  
+如果你大幅更改了这些模板,很可能需要重新调教参数  
+## 2020/10/01 v4.6.0
 新增:抽无限池  
 本脚本的刷本效率相较去年同期已经有了大幅提升,因此获得的奖券变得太多了  
 所以加了这么一个小功能,同时修改了ui  

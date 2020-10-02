@@ -49,7 +49,6 @@ IMG_PARTYINDEX=cv2.imread('image/partyindex.png')
 IMG_STAGE=[cv2.imread(f'image/stage{i}.png')for i in range(1,4)]
 IMG_STAGETOTAL=[cv2.imread(f'image/total{i}.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('image/still.png')
-friendImg={file[:-4]:cv2.imread('image/friend/'+file)for file in os.listdir('image/friend')if file.endswith('.png')}
 partyIndex=0
 skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -165,7 +164,29 @@ class DirListener:
         ans=self.msg
         self.msg=[]
         return ans
-friendListener=DirListener('image/friend/')
+class ImageListener(dict):
+    def __init__(self,path,ends='.png'):
+        super().__init__((file[:-len(ends)],cv2.imread(path+file))for file in os.listdir(path)if file.endswith(ends))
+        self.path=path
+        self.ends=ends
+        self.listener=DirListener(path)
+    def flush(self):
+        lastAction=0
+        oldName=None
+        def onCreated(name):self[name]=cv2.imread(self.path+name+self.ends)
+        def onDeleted(name):del self[name]
+        def onUpdated(name):self[name]=cv2.imread(self.path+name+self.ends)
+        def onRenamedFrom(name):
+            nonlocal oldName
+            if oldName is not None:del self[oldName]
+            oldName=name
+        def onRenamedTo(name):self[name]=self[oldName]if lastAction==4else cv2.imread(self.path+name+self.ends)
+        for action,name in((action,file[:-len(self.ends)])for action,file in self.listener.get()if file.endswith(self.ends)):
+            {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda x:logger.warning(f'Undefined action {action} on {name}'))(name)
+            lastAction=action
+        if oldName is not None:del self[oldName]
+friendImg=ImageListener('image/friend/')
+mailFilterImg=ImageListener('image/mailfilter/')
 class Base(Android):
     def __init__(self,serialno=None):
         if serialno is None:
@@ -253,7 +274,7 @@ class Check:
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
     def isHouguReady(self):return(lambda im:[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1014:1021,217+480*i:235+480*i])>90or numpy.mean(im[1014:1021,217+480*i:235+480*i])>90)for i in range(3)])(Check(.7).im)
-    def isListEnd(self,pos):return any(self.compare(i,(pos[0]-35,pos[1]-29,pos[0]+35,pos[1]+10),.15)for i in(IMG_LISTEND,IMG_LISTNONE))
+    def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG_LISTEND,IMG_LISTNONE))
     def isNextJackpot(self):return self.compare(IMG_JACKPOT,(1556,336,1859,397))
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
@@ -268,9 +289,13 @@ def gacha():
         if Check(.1).isGacha():doit('MK',(200,2700))
         base.press('\xDC')
 def jackpot():
-    while fuse.value<130:
+    while fuse.value<70:
         if Check().isNextJackpot():doit('0JJ',(600,1800,0))
         for _ in range(20):base.press('2')
+def mailFiltering():
+    mailFilterImg.flush()
+    while not Check(1).isListEnd((1406,1079)):
+        if not any(check.tap(i[1],delta=.015)for i in mailFilterImg.items()):base.swipe((400,900,400,300))
 def chooseFriend():
     refresh=False
     while not Check(.2).isChooseFriend():
@@ -278,21 +303,7 @@ def chooseFriend():
             if refresh:battleSleep(10)
             doit('\xBAJ',(500,1000))
             refresh=True
-    lastAction=0
-    oldName=None
-    def onCreated(name):friendImg[name]=cv2.imread(f'image/friend/{name}.png')
-    def onDeleted(name):del friendImg[name]
-    def onUpdated(name):friendImg[name]=cv2.imread(f'image/friend/{name}.png')
-    def onRenamedFrom(name):
-        nonlocal oldName
-        if oldName is not None:del friendImg[oldName]
-        oldName=name
-    def onRenamedTo(name):friendImg[name]=friendImg[oldName]if lastAction==4else cv2.imread(f'image/friend/{name}.png')
-    for action,name in((action,file[:-4])for action,file in friendListener.get()if file.endswith('.png')):
-        {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda x:logger.warning(f'Undefined action {action} on {name}'))(name)
-        lastAction=action
-    if oldName is not None:del friendImg[oldName]
-    logger.debug(f'friendImg {list(friendImg.keys())} {os.listdir("image/friend")}')
+    friendImg.flush()
     if not friendImg:
         time.sleep(.2)
         return base.press('8')

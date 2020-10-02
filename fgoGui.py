@@ -193,7 +193,7 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_ONEBATTLE.setEnabled(False)
         self.ui.BTN_MAIN.setEnabled(False)
         self.ui.BTN_USER.setEnabled(False)
-        self.ui.MENU_SCRIPT_GACHA.setEnabled(False)
+        self.ui.MENU_SCRIPT.setEnabled(False)
         self.ui.BTN_PAUSE.setEnabled(True)
         self.ui.BTN_STOP.setEnabled(True)
         self.ui.BTN_PAUSE.setChecked(False)
@@ -203,7 +203,7 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_ONEBATTLE.setEnabled(True)
         self.ui.BTN_MAIN.setEnabled(True)
         self.ui.BTN_USER.setEnabled(True)
-        self.ui.MENU_SCRIPT_GACHA.setEnabled(True)
+        self.ui.MENU_SCRIPT.setEnabled(True)
         self.ui.BTN_PAUSE.setEnabled(False)
         self.ui.BTN_STOP.setEnabled(False)
         self.ui.MENU_CONTROL_STOPLATER.setChecked(False)
@@ -253,6 +253,7 @@ class MyMainWindow(QMainWindow):
     def runUser(self):self.runFunc(fgoFunc.userScript)
     def runGacha(self):self.runFunc(fgoFunc.gacha)
     def runJackpot(self):self.runFunc(fgoFunc.jackpot)
+    def runMailFiltering(self):self.runFunc(fgoFunc.mailFiltering)
     def runMain(self):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['battle','userScript'])
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),eval('fgoFunc.'+text))
@@ -260,7 +261,7 @@ class MyMainWindow(QMainWindow):
     def stop(self):fgoFunc.terminateFlag=True
     def stopAfterBattle(self,x):fgoFunc.tobeTerminatedFlag=x
     def explorerHere(self):os.startfile('.')
-    def cmdHere(self):os.startfile('cmd')
+    def psHere(self):os.system('start PowerShell -NoLogo')
     def stayOnTop(self):
         self.setWindowFlags(self.windowFlags()^Qt.WindowStaysOnTopHint)
         self.show()
