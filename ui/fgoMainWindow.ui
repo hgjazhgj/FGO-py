@@ -3389,7 +3389,7 @@
      <string>文件</string>
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
-    <addaction name="MENU_FILE_CMDHERE"/>
+    <addaction name="MENU_FILE_PSHERE"/>
    </widget>
    <widget class="QMenu" name="MENU_SCRIPT">
     <property name="title">
@@ -3397,6 +3397,7 @@
     </property>
     <addaction name="MENU_SCRIPT_GACHA"/>
     <addaction name="MENU_SCRIPT_JACKPOT"/>
+    <addaction name="MENU_SCRIPT_MAILFILTER"/>
    </widget>
    <widget class="QMenu" name="MENU_CONTROL">
     <property name="title">
@@ -3497,9 +3498,9 @@
     </font>
    </property>
   </action>
-  <action name="MENU_FILE_CMDHERE">
+  <action name="MENU_FILE_PSHERE">
    <property name="text">
-    <string>命令提示符</string>
+    <string>PowerShell</string>
    </property>
    <property name="font">
     <font>
@@ -3528,6 +3529,17 @@
   <action name="MENU_SCRIPT_JACKPOT">
    <property name="text">
     <string>抽奖池</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_SCRIPT_MAILFILTER">
+   <property name="text">
+    <string>领购粮</string>
    </property>
    <property name="font">
     <font>
@@ -3666,7 +3678,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>411</x>
-     <y>544</y>
+     <y>585</y>
     </hint>
     <hint type="destinationlabel">
      <x>343</x>
@@ -3698,7 +3710,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>411</x>
-     <y>584</y>
+     <y>545</y>
     </hint>
     <hint type="destinationlabel">
      <x>319</x>
@@ -3947,10 +3959,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>MENU_FILE_CMDHERE</sender>
+   <sender>MENU_FILE_PSHERE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>cmdHere()</slot>
+   <slot>psHere()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -3983,6 +3995,22 @@
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runJackpot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>313</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MENU_SCRIPT_MAILFILTER</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>runMailFiltering()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -4032,9 +4060,10 @@
   <slot>refreshDevice()</slot>
   <slot>runGacha()</slot>
   <slot>mapKey(bool)</slot>
-  <slot>cmdHere()</slot>
+  <slot>psHere()</slot>
   <slot>stopAfterBattle()</slot>
   <slot>runJackpot()</slot>
+  <slot>runMailFiltering()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
