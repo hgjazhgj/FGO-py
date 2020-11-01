@@ -20,7 +20,7 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.6.2](#版本记录-Version-Logs)  
+当前版本[v4.6.3](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -94,6 +94,8 @@ mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.
 |\<Space\> |选卡/下一步/菜单                        |
 |NUM4-9    |选取敌人,NUM7返回/关闭                  |  
 ## 如何联系我 Contact Me
+![img](./doc/contact.png)  
+在占用我的时间之前,先耗费自己的时间  
 ![Alipay](./doc/行行好吧给颗石头吧.png)![Wechat](./doc/吧头石颗给吧好行行.png)  
 觉得有帮助请为我star,谢谢  
 [提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
@@ -111,11 +113,20 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2020/10/11 v4.6.3
+bug修复:  
+-调整判定战斗结束的阈值,试图增强羁绊等级提升时的稳定性  
+-在助战未满一屏导致无滚动条且脚本试图筛选助战时能够正确选取助战而非认为没有助战  
+新增了一张呆毛王的助战模板  
+每次无限池一开这个项目的star数就蹭蹭蹭往上涨,可是这不能当饭吃啊...  
+这个学期课程突然变得超难,顶不住了,更新放缓  
+另:我打算在之后的版本中应用一些python的新特性(尤其是象牙运算符),届时python3.7及以下将无法使用  
 ## 2020/10/09 v4.6.2
 ui优化  
-每次功能更新后都会有这样一个版本来调整ui上的细节  
+每次功能更新后都会有这样一个版本来调整ui上的细节,这也标示着相关功能已经基本稳定  
+将ui里的打开命令提示符换成了PowerShell  
 修订readme  
-近期收到了多起不同设备上的兼容性问题反馈且没有发现问题,需要更多样本  
+近期收到了多起不同设备上的兼容性问题反馈且暂未发现问题,需要更多样本  
 ## 2020/10/02 v4.6.1
 新增:狗粮筛选器  
 看起来没几行代码却磨了我一个下午一个晚上,有点玄学调参的意思了...  

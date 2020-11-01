@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QInputDialog
-from PyQt5.QtGui import QIntValidator,QRegExpValidator
-from PyQt5.QtCore import Qt,QRegExp,pyqtSignal
+import configparser,logging,os,sys,threading
 from airtest.core.android.adb import ADB
-import os,sys,threading,configparser,logging
+from PyQt5.QtCore import QRegExp,Qt,pyqtSignal
+from PyQt5.QtGui import QIntValidator,QRegExpValidator
+from PyQt5.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox
 
-from ui.fgoMainWindow import Ui_fgoMainWindow
 import fgoFunc
+from ui.fgoMainWindow import Ui_fgoMainWindow
 
 QTK2VK={
     Qt.Key_Left:'\x25',
@@ -193,19 +193,19 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_ONEBATTLE.setEnabled(False)
         self.ui.BTN_MAIN.setEnabled(False)
         self.ui.BTN_USER.setEnabled(False)
-        self.ui.MENU_SCRIPT.setEnabled(False)
         self.ui.BTN_PAUSE.setEnabled(True)
-        self.ui.BTN_STOP.setEnabled(True)
         self.ui.BTN_PAUSE.setChecked(False)
+        self.ui.BTN_STOP.setEnabled(True)
+        self.ui.MENU_SCRIPT.setEnabled(False)
         self.ui.MENU_CONTROL_STOPLATER.setEnabled(True)
         self.ui.MENU_CONTROL_STOPLATER.setChecked(False)
     def funcEnd(self):
         self.ui.BTN_ONEBATTLE.setEnabled(True)
         self.ui.BTN_MAIN.setEnabled(True)
         self.ui.BTN_USER.setEnabled(True)
-        self.ui.MENU_SCRIPT.setEnabled(True)
         self.ui.BTN_PAUSE.setEnabled(False)
         self.ui.BTN_STOP.setEnabled(False)
+        self.ui.MENU_SCRIPT.setEnabled(True)
         self.ui.MENU_CONTROL_STOPLATER.setChecked(False)
         self.ui.MENU_CONTROL_STOPLATER.setEnabled(False)
     def loadParty(self,x):
@@ -266,7 +266,7 @@ class MyMainWindow(QMainWindow):
         self.setWindowFlags(self.windowFlags()^Qt.WindowStaysOnTopHint)
         self.show()
     def mapKey(self,x):self.grabKeyboard()if x else self.releaseKeyboard()
-    def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj  \n项目地址:https://github.com/hgjazhgj/FGO-py  \n联系方式:huguangjing0411@geektip.cc  \n防呆不放蠢,大力出奇迹!')
+    def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj  \n项目地址:https://github.com/hgjazhgj/FGO-py  \n联系方式:huguangjing0411@geektip.cc')
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
