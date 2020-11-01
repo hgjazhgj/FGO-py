@@ -23,7 +23,7 @@
 ###################################################################################################################################################
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import time,os,re,numpy,cv2,logging,win32file,win32con,threading
+import logging,os,re,threading,time,cv2,numpy,win32con,win32file
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 logging.getLogger('airtest').handlers[0].formatter.datefmt='%H:%M:%S'
@@ -253,9 +253,9 @@ class Check:
         global check
         check=self
         battleSleep(backwordLagency)
-    def compare(self,img,rect=(0,0,1920,1080),delta=.05):return delta>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
-    def select(self,img,rect=(0,0,1920,1080)):return(lambda x:x.index(min(x)))([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
-    def tap(self,img,rect=(0,0,1920,1080),delta=.05):return(lambda loc:loc[0]<delta and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
+    def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
+    def select(self,img,rect=(0,0,1920,1080)):return numpy.argmax(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img)
+    def tap(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):
         cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im)
         return self
@@ -291,11 +291,11 @@ def gacha():
 def jackpot():
     while fuse.value<70:
         if Check().isNextJackpot():doit('0JJ',(600,1800,0))
-        for _ in range(20):base.press('2')
+        for _ in range(40):base.press('2')
 def mailFiltering():
     mailFilterImg.flush()
     while not Check(1).isListEnd((1406,1079)):
-        if not any(check.tap(i[1],delta=.015)for i in mailFilterImg.items()):base.swipe((400,900,400,300))
+        if not any(check.tap(i[1],threshold=.016)for i in mailFilterImg.items()):base.swipe((400,900,400,300))
 def chooseFriend():
     refresh=False
     while not Check(.2).isChooseFriend():
@@ -309,11 +309,12 @@ def chooseFriend():
         return base.press('8')
     while True:
         timer=time.time()
-        while not Check(.2,.1).isListEnd((1860,1064)):
-            for i in(i[0] for i in friendImg.items()if check.tap(i[1],delta=.015)):
+        while True:
+            for i in(i[0] for i in friendImg.items()if check.tap(i[1])):
                 skillInfo[friendPos],houguInfo[friendPos]=(lambda r:(lambda p:([[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]))(r.group())if r else(skillInfo[friendPos],houguInfo[friendPos]))(re.search('[0-9x]{11}$',i))
                 return logger.info(f'Friend {i}')
             base.swipe((400,900,400,300))
+            if Check(.2,.1).isListEnd((1860,1064)):break
         if refresh:battleSleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,1000))
         refresh=True
@@ -329,7 +330,7 @@ def battle():
             stage,stageTurn=(lambda x:[x,stageTurn+1if stage==x else 1])(Check(.4).getStage())
             skill,newPortrait=check.isSkillReady(),check.getPortrait()
             if turn==1:stageTotal=check.getStageTotal()
-            else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.03])
+            else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
             if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
             portrait=newPortrait
             logger.info(f'{turn} {stage} {stageTurn} {servant}')
@@ -344,7 +345,7 @@ def battle():
                 battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2250,))
-            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,10000))
+            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,8000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
@@ -354,8 +355,8 @@ def battle():
 def main(appleCount=0,appleKind=0,battleFunc=battle):
     apple,battleCount=0,0
     def eatApple():
-        nonlocal apple,appleCount
         if Check(.7,.3).isApEmpty():
+            nonlocal apple,appleCount
             if apple==appleCount:
                 logger.info('Ap Empty')
                 base.press('Z')
@@ -369,7 +370,6 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
         while True:
             if Check(.3,.3).isBegin():
                 if tobeTerminatedFlag:return
-                battleCount+=1
                 base.press('8')
                 if eatApple():return
                 chooseFriend()
@@ -379,18 +379,19 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 break
             if check.isBattleContinue():
                 if tobeTerminatedFlag:return base.press('F')
-                battleCount+=1
                 base.press('K')
                 if eatApple():return
                 chooseFriend()
                 break
             if check.isAddFriend():base.press('X')
             base.press(' ')
+        battleCount+=1
         logger.info(f'Battle {battleCount}')
         doit('    ',(200,200,200,200))if battleFunc()else doit('BIJ',(500,500,500))
 def userScript():
-    while not Check(0,.2).isTurnBegin():pass
-    #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
-    while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
-    return True
+    # while not Check(0,.2).isTurnBegin():pass
+    # #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    # doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    # while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
+    # return True
+    chooseFriend()
