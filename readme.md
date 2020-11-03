@@ -1,4 +1,4 @@
-> 两天慢慢悠悠刷了120池,准备咸鱼了...  
+> 双十一惨,没有宇宙凛  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -20,7 +20,7 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.6.3](#版本记录-Version-Logs)  
+当前版本[v4.6.4](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -113,6 +113,8 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2020/11/03 v4.6.4
+bug修复:正确获取stage,使得优先攻击能正确生效  
 ## 2020/10/11 v4.6.3
 bug修复:  
 -调整判定战斗结束的阈值,试图增强羁绊等级提升时的稳定性  

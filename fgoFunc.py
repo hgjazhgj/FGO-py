@@ -254,7 +254,7 @@ class Check:
         check=self
         battleSleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
-    def select(self,img,rect=(0,0,1920,1080)):return numpy.argmax(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img)
+    def select(self,img,rect=(0,0,1920,1080)):return numpy.argmin([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tap(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):
         cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im)
@@ -313,8 +313,8 @@ def chooseFriend():
             for i in(i[0] for i in friendImg.items()if check.tap(i[1])):
                 skillInfo[friendPos],houguInfo[friendPos]=(lambda r:(lambda p:([[skillInfo[friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[houguInfo[friendPos][i]if p[i]=='x'else int(p[i])for i in range(9,11)]))(r.group())if r else(skillInfo[friendPos],houguInfo[friendPos]))(re.search('[0-9x]{11}$',i))
                 return logger.info(f'Friend {i}')
-            base.swipe((400,900,400,300))
             if Check(.2,.1).isListEnd((1860,1064)):break
+            base.swipe((800,900,800,300))
         if refresh:battleSleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,1000))
         refresh=True
@@ -389,9 +389,8 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
         logger.info(f'Battle {battleCount}')
         doit('    ',(200,200,200,200))if battleFunc()else doit('BIJ',(500,500,500))
 def userScript():
-    # while not Check(0,.2).isTurnBegin():pass
-    # #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    # doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
-    # while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
-    # return True
-    chooseFriend()
+    while not Check(0,.2).isTurnBegin():pass
+    #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
+    return True
