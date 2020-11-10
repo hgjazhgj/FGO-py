@@ -67,7 +67,7 @@ def battleSleep(x,part=.1):
         time.sleep(part)
     time.sleep(max(0,timer+part-time.time()))
 class Fuse:
-    def __init__(self,fv=400,show=1,name=''):
+    def __init__(self,fv=400,show=3,name=''):
         self.__value=0
         self.__max=fv
         self.show=show
@@ -324,6 +324,7 @@ def chooseFriend():
                 doit('\xBAJ',(500,1000))
 def battle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
+    orderChange=[i for i in range(6)]
     while True:
         if Check(.1).isTurnBegin():
             turn+=1
@@ -334,18 +335,25 @@ def battle():
             if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
             portrait=newPortrait
             logger.info(f'{turn} {stage} {stageTurn} {servant}')
-            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
+            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[orderChange[servant[i]]][j][0]and min(skillInfo[orderChange[servant[i]]][j][0],stageTotal)<<8|skillInfo[orderChange[servant[i]]][j][1]<=stage<<8|stageTurn):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
-                if skillInfo[servant[i]][j][2]:doit('234'[skillInfo[servant[i]][j][2]-1],(300,))
+                if skillInfo[orderChange[servant[i]]][j][2]:doit('234'[skillInfo[orderChange[servant[i]]][j][2]-1],(300,))
                 battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit(('Q','WER'[i]),(300,300))
-                if masterSkill[i][2]:doit(('TYUIOP'[masterSkill[2][2]-1],'TYUIOP'[masterSkill[2][3]-1],'Z'),(300,300,300))if i==2and masterSkill[2][3]else doit('234'[masterSkill[i][2]-1],(300,))
+                if masterSkill[i][2]:
+                    if i==2and masterSkill[2][3]:
+                        doit(('TYUIOP'[masterSkill[2][2]-1],'TYUIOP'[masterSkill[2][3]-1],'Z'),(300,300,2600))
+                        orderChange[servant[masterSkill[2][2]-1]],orderChange[max(servant)+masterSkill[2][3]-3]=orderChange[max(servant)+masterSkill[2][3]-3],orderChange[servant[masterSkill[2][2]-1]]
+                        while not Check(0,.2).isTurnBegin():pass
+                        portrait=check.getPortrait()
+                        continue
+                    else:doit('234'[masterSkill[i][2]-1],(300,))
                 battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
-            doit(' ',(2250,))
-            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,8000))
+            doit(' ',(2350,))
+            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[orderChange[servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[orderChange[servant[i]]][0]and stage>=min(houguInfo[orderChange[servant[i]]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,8000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
