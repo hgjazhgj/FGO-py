@@ -20,7 +20,7 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.7.0](#版本记录-Version-Logs)  
+当前版本[v4.7.1](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -113,6 +113,10 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2020/11/14 v4.7.1
+bug修复:在有助战模板时正确选取助战  
+## 2020/11/10 v4.7.0
+调整了新增功能的部分延时,避免了一些你可能永远也不会遇到的问题  
 ## 2020/11/10 v4.7.0alpha
 本次更新内容可靠性未经充分验证,请谨慎下载使用  
 新增:非速刷的换人礼装支持,你仍然可以在战斗中随时更新技能等各项配置  
