@@ -762,6 +762,7 @@ class Ui_fgoMainWindow(object):
         self.TXT_MASTER_2_2.setObjectName("TXT_MASTER_2_2")
         self.LAYOUT_INFO_MASTER.addWidget(self.TXT_MASTER_2_2)
         self.TXT_MASTER_2_3 = QtWidgets.QLineEdit(self.widget)
+        self.TXT_MASTER_2_3.setEnabled(False)
         self.TXT_MASTER_2_3.setMinimumSize(QtCore.QSize(30, 34))
         self.TXT_MASTER_2_3.setMaximumSize(QtCore.QSize(30, 34))
         self.TXT_MASTER_2_3.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
