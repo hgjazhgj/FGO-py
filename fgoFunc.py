@@ -315,7 +315,7 @@ def chooseFriend():
                 return logger.info(f'Friend {i}')
             if check.isListEnd((1860,1064)):break
             base.swipe((800,900,800,300))
-            Check(.25)
+            Check(.3)
         if refresh:battleSleep(max(0,timer+10-time.time()))
         doit('\xBAJ',(500,1000))
         refresh=True
@@ -325,7 +325,6 @@ def chooseFriend():
                 doit('\xBAJ',(500,1000))
 def battle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
-    orderChange=[i for i in range(6)]
     while True:
         if Check(.1).isTurnBegin():
             turn+=1
@@ -336,25 +335,18 @@ def battle():
             if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
             portrait=newPortrait
             logger.info(f'{turn} {stage} {stageTurn} {servant}')
-            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[orderChange[servant[i]]][j][0]and min(skillInfo[orderChange[servant[i]]][j][0],stageTotal)<<8|skillInfo[orderChange[servant[i]]][j][1]<=stage<<8|stageTurn):
+            for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
                 doit(('ASD','FGH','JKL')[i][j],(300,))
-                if skillInfo[orderChange[servant[i]]][j][2]:doit('234'[skillInfo[orderChange[servant[i]]][j][2]-1],(300,))
+                if skillInfo[servant[i]][j][2]:doit('234'[skillInfo[servant[i]][j][2]-1],(300,))
                 battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit(('Q','WER'[i]),(300,300))
-                if masterSkill[i][2]:
-                    if i==2and masterSkill[2][3]:
-                        doit(('TYUIOP'[masterSkill[2][2]-1],'TYUIOP'[masterSkill[2][3]-1],'Z'),(300,300,2600))
-                        orderChange[servant[masterSkill[2][2]-1]],orderChange[max(servant)+masterSkill[2][3]-3]=orderChange[max(servant)+masterSkill[2][3]-3],orderChange[servant[masterSkill[2][2]-1]]
-                        while not Check(.2).isTurnBegin():pass
-                        portrait=Check(.4).getPortrait()
-                        continue
-                    else:doit('234'[masterSkill[i][2]-1],(300,))
+                if masterSkill[i][2]:doit('234'[masterSkill[i][2]-1],(300,))
                 battleSleep(2.3)
                 while not Check(0,.2).isTurnBegin():pass
             doit(' ',(2350,))
-            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[orderChange[servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[orderChange[servant[i]]][0]and stage>=min(houguInfo[orderChange[servant[i]]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,8000))
+            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,8000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
@@ -398,9 +390,8 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
         logger.info(f'Battle {battleCount}')
         doit('    ',(200,200,200,200))if battleFunc()else doit('BIJ',(500,500,500))
 def userScript():
-    # while not Check(0,.2).isTurnBegin():pass
-    # #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    # doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
-    # while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
-    # return True
-    chooseFriend()
+    while not Check(0,.2).isTurnBegin():pass
+    #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
+    return True

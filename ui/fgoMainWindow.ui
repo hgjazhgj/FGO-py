@@ -3157,6 +3157,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_2_3">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>30</width>
