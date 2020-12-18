@@ -164,7 +164,7 @@ class MyMainWindow(QMainWindow):
     def keyPressEvent(self,key):
         if key.modifiers()==Qt.NoModifier:
             try:fgoFunc.base.press(QTK2VK[key.key()])
-            except:pass
+            except KeyError:pass
     def closeEvent(self,event):
         if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.Yes|QMessageBox.No,QMessageBox.No)!=QMessageBox.Yes:
             event.ignore()
@@ -173,7 +173,7 @@ class MyMainWindow(QMainWindow):
         if not self.thread._started:self.thread.join()
         event.accept()
     def runFunc(self,func,*args,**kwargs):
-        if not self.serialno:return QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)
+        if not self.serialno:return QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
         def f():
             try:
                 fgoFunc.suspendFlag=False
@@ -237,7 +237,7 @@ class MyMainWindow(QMainWindow):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
         if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
-    def checkCheck(self):QMessageBox.critical(self,'错误','无设备连接',QMessageBox.Ok)if fgoFunc.base.serialno is None else fgoFunc.Check(0).show().save()
+    def checkCheck(self):QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)if fgoFunc.base.serialno is None else fgoFunc.Check(0).show()
     def getFriend(self):pass
     def applyAll(self):
         if self.serialno!=fgoFunc.base.serialno:
@@ -266,7 +266,7 @@ class MyMainWindow(QMainWindow):
         self.setWindowFlags(self.windowFlags()^Qt.WindowStaysOnTopHint)
         self.show()
     def mapKey(self,x):self.grabKeyboard()if x else self.releaseKeyboard()
-    def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj  \n项目地址:https://github.com/hgjazhgj/FGO-py  \n联系方式:huguangjing0411@geektip.cc')
+    def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj  \n项目地址:https://github.com/hgjazhgj/FGO-py  \n联系方式:huguangjing0411@geektip.cc  \n请给我打钱')
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
