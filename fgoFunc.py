@@ -260,9 +260,8 @@ class Check:
         cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im)
         return self
     def show(self):
-        cv2.imshow('Check',cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST))
-        cv2.waitKey()
-        cv2.destroyAllWindows()
+        cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),None,.4,.4,cv2.INTER_NEAREST))
+        if cv2.waitKey()==ord('s'):self.save()
         return self
     def isAddFriend(self):return self.compare(IMG_END,(243,863,745,982))
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(906,897,1017,967))

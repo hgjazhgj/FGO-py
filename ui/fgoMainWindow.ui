@@ -3235,8 +3235,11 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
-          <property name="statusTip">
+          <property name="toolTip">
            <string>你需要先应用更改才能看到最新的截图</string>
+          </property>
+          <property name="statusTip">
+           <string>检查截图确定连接建立</string>
           </property>
           <property name="text">
            <string>检查截图</string>
@@ -3301,7 +3304,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>编写自定义战斗,然后在这里启用</string>
+           <string>编写自定义战斗,然后在这里调用</string>
           </property>
           <property name="text">
            <string>用户脚本</string>
@@ -3334,7 +3337,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>暂停/恢复战斗</string>
+           <string>暂停/继续战斗</string>
           </property>
           <property name="text">
            <string>挂起战斗</string>
