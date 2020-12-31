@@ -222,6 +222,7 @@ class Base(Android):
         lvd=numpy.linalg.norm(vd)
         vd/=.2*self.scale*lvd
         vx=numpy.array([0.,0.])
+        # def send(method,pos):self.minitouch.safe_send(' '.join((method,'0',*[str(int(i))for i in self.minitouch.transform_xy(*pos)],'50\nc\n')))
         def send(method,pos):self.maxtouch.safe_send(' '.join((method,'0',*[str(i)for i in self.maxtouch.transform_xy(*pos)],'50\nc\n')))
         send('d',p1)
         time.sleep(.01)
@@ -272,11 +273,11 @@ class Check:
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
-    def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1014:1021,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1014:1021,217+478*i:235+478*i])>55)for i in range(3)]
+    def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG_LISTEND,IMG_LISTNONE))
     def isNextJackpot(self):return self.compare(IMG_JACKPOT,(1556,336,1859,397))
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)
-    def isSkillReady(self):return[[not self.compare(IMG_STILL,(65+480*i+141*j,895,107+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
+    def isSkillReady(self):return[[not self.compare(IMG_STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getPartyIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG_PARTYINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
@@ -389,8 +390,9 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
         logger.info(f'Battle {battleCount}')
         doit('    ',(200,200,200,200))if battleFunc()else doit('BIJ',(500,500,500))
 def userScript():
-    while not Check(0,.2).isTurnBegin():pass
-    #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
-    while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
-    return True
+    # while not Check(0,.2).isTurnBegin():pass
+    # #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    # doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    # while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
+    # return True
+    print(Check().isSkillReady(),check.isHouguReady())
