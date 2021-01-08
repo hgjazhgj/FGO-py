@@ -27,28 +27,29 @@ import logging,os,re,threading,time,cv2,numpy,win32con,win32file
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 logging.getLogger('airtest').handlers[0].formatter.datefmt='%H:%M:%S'
-logger=(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[1])(logging.StreamHandler())),logger)[2])(logging.getLogger('fgoFunc'))
-IMG_APEMPTY=cv2.imread('image/apempty.png')
-IMG_ATTACK=cv2.imread('image/attack.png')
-IMG_BEGIN=cv2.imread('image/begin.png')
-IMG_BATTLEBEGIN=cv2.imread('image/battlebegin.png')
-IMG_BATTLECONTINUE=cv2.imread('image/battlecontinue.png')
-IMG_BOUND=cv2.imread('image/bound.png')
-IMG_BOUNDUP=cv2.imread('image/boundup.png')
-IMG_CARDSEALED=cv2.imread('image/cardsealed.png')
-IMG_CHOOSEFRIEND=cv2.imread('image/choosefriend.png')
-IMG_END=cv2.imread('image/end.png')
-IMG_FAILED=cv2.imread('image/failed.png')
-IMG_GACHA=cv2.imread('image/gacha.png')
-IMG_HOUGUSEALED=cv2.imread('image/hougusealed.png')
-IMG_JACKPOT=cv2.imread('image/jackpot.png')
-IMG_LISTEND=cv2.imread('image/listend.png')
-IMG_LISTNONE=cv2.imread('image/listnone.png')
-IMG_NOFRIEND=cv2.imread('image/nofriend.png')
-IMG_PARTYINDEX=cv2.imread('image/partyindex.png')
-IMG_STAGE=[cv2.imread(f'image/stage{i}.png')for i in range(1,4)]
-IMG_STAGETOTAL=[cv2.imread(f'image/total{i}.png')for i in range(1,4)]
-IMG_STILL=cv2.imread('image/still.png')
+(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[1])(logging.StreamHandler())),logger)[2])(logging.getLogger('fgo'))
+logger=logging.getLogger('fgo.Func')
+IMG_APEMPTY=cv2.imread('fgoImage/apempty.png')
+IMG_ATTACK=cv2.imread('fgoImage/attack.png')
+IMG_BEGIN=cv2.imread('fgoImage/begin.png')
+IMG_BATTLEBEGIN=cv2.imread('fgoImage/battlebegin.png')
+IMG_BATTLECONTINUE=cv2.imread('fgoImage/battlecontinue.png')
+IMG_BOUND=cv2.imread('fgoImage/bound.png')
+IMG_BOUNDUP=cv2.imread('fgoImage/boundup.png')
+IMG_CARDSEALED=cv2.imread('fgoImage/cardsealed.png')
+IMG_CHOOSEFRIEND=cv2.imread('fgoImage/choosefriend.png')
+IMG_END=cv2.imread('fgoImage/end.png')
+IMG_FAILED=cv2.imread('fgoImage/failed.png')
+IMG_GACHA=cv2.imread('fgoImage/gacha.png')
+IMG_HOUGUSEALED=cv2.imread('fgoImage/hougusealed.png')
+IMG_JACKPOT=cv2.imread('fgoImage/jackpot.png')
+IMG_LISTEND=cv2.imread('fgoImage/listend.png')
+IMG_LISTNONE=cv2.imread('fgoImage/listnone.png')
+IMG_NOFRIEND=cv2.imread('fgoImage/nofriend.png')
+IMG_PARTYINDEX=cv2.imread('fgoImage/partyindex.png')
+IMG_STAGE=[cv2.imread(f'fgoImage/stage{i}.png')for i in range(1,4)]
+IMG_STAGETOTAL=[cv2.imread(f'fgoImage/total{i}.png')for i in range(1,4)]
+IMG_STILL=cv2.imread('fgoImage/still.png')
 partyIndex=0
 skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -57,7 +58,7 @@ friendPos=4
 masterSkill=[[0,0,0],[0,0,0],[0,0,0,0]]
 terminateFlag=False
 suspendFlag=False
-tobeTerminatedFlag=False
+tobeTerminatedFlag=-1
 def battleSleep(x,part=.1):
     timer=time.time()+x-part
     while True:
@@ -158,7 +159,7 @@ class DirListener:
                         if self.ren==file:return
                     break
             self.msg+=[[4,self.ren],[5,file]]
-        for i in x:{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda x:None)(i[1])
+        for i in x:{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda _:None)(i[1])
     @acquireLock
     def get(self):
         ans=self.msg
@@ -182,11 +183,11 @@ class ImageListener(dict):
             oldName=name
         def onRenamedTo(name):self[name]=self[oldName]if lastAction==4else cv2.imread(self.path+name+self.ends)
         for action,name in((action,file[:-len(self.ends)])for action,file in self.listener.get()if file.endswith(self.ends)):
-            {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda x:logger.warning(f'Undefined action {action} on {name}'))(name)
+            {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda _:None)(name)
             lastAction=action
         if oldName is not None:del self[oldName]
-friendImg=ImageListener('image/friend/')
-mailFilterImg=ImageListener('image/mailfilter/')
+friendImg=ImageListener('fgoImage/friend/')
+mailFilterImg=ImageListener('fgoImage/mailfilter/')
 class Base(Android):
     def __init__(self,serialno=None):
         if serialno is None:
@@ -271,7 +272,7 @@ class Check:
     def isBattleFailed(self):return self.compare(IMG_FAILED,(277,406,712,553))
     def isBattleFinished(self):return(self.compare(IMG_BOUND,(112,250,454,313))or self.compare(IMG_BOUNDUP,(987,485,1468,594)))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
-    def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1628,314,1772,390))
+    def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1249,324,1387,362))
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
     def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG_LISTEND,IMG_LISTNONE))
@@ -354,7 +355,7 @@ def battle():
             logger.warning('Battle Failed')
             return False
 def main(appleCount=0,appleKind=0,battleFunc=battle):
-    apple,battleCount=0,0
+    apple,battle=0,0
     def eatApple():
         if Check(.7,.3).isApEmpty():
             nonlocal apple,appleCount
@@ -367,10 +368,12 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 logger.info(f'Apple {apple}')
                 doit(('W4K8'[appleKind],'L'),(400,1200))
                 return False
+    global tobeTerminatedFlag
     while True:
         while True:
             if Check(.3,.3).isBegin():
-                if tobeTerminatedFlag:return
+                if not tobeTerminatedFlag:return
+                tobeTerminatedFlag-=1
                 base.press('8')
                 if eatApple():return
                 chooseFriend()
@@ -379,15 +382,16 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 doit(' ',(12000,))
                 break
             if check.isBattleContinue():
-                if tobeTerminatedFlag:return base.press('F')
+                if not tobeTerminatedFlag:return base.press('F')
+                tobeTerminatedFlag-=1
                 base.press('K')
                 if eatApple():return
                 chooseFriend()
                 break
             if check.isAddFriend():base.press('X')
             base.press(' ')
-        battleCount+=1
-        logger.info(f'Battle {battleCount}')
+        battle+=1
+        logger.info(f'Battle {battle}')
         doit('    ',(200,200,200,200))if battleFunc()else doit('BIJ',(500,500,500))
 def userScript():
     while not Check(0,.2).isTurnBegin():pass

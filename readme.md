@@ -2,9 +2,9 @@
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
-> 人越是写代码,代码就越可能因意料之外的情况而失效  
+> 人越是写代码,代码就越可能因意料之外的情况而出错  
 > 要成为超人的存在才行啊  
-> 所以我不做人啦!JOJO!  
+> 所以啊,我不做人啦!JOJO!  
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本
 ![svg](https://img.shields.io/badge/fgo-FGO国服安卓玩家-225799.svg)
 ![svg](https://img.shields.io/badge/梆梆人-BanGDream玩家-ff3b72.svg)
@@ -20,7 +20,7 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.9.2](#版本记录-Version-Logs)  
+当前版本[v4.9.3](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -59,9 +59,9 @@ ui大概长这样(设计视图仅供参考):
 你在image/friend目录下的所有更改会在下一次选取助战时自动应用  
 ## 快速查错引导 When Error Occurred
 mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.Base类扒出来替换掉现在的那个~~  
-mac用户请自行修改DirListener类,比如`DirListener=type('DirListenerForMac',(),{'get':lambda self:[]})`  
+mac用户请自行修改ImageListener类并删除DirListener  
 + 游戏是否已经运行  
-+ 路径中是否有空格  
++ 路径中是否有空格或非ASCII字符  
 + 游戏画面旋转方向是否未变动  
 + 手机屏幕是否点亮  
 + 相关技能宝具参数配置是否正确  
@@ -117,13 +117,17 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
-## 2020/01/08 v4.9.2
+## 2021/01/18 v4.9.3
+更新:预约终止可以选定后续战斗数量  
+更改:由"最后登录"识别好友界面,以应对*印象中之前从未出现过的*free系统助战  
+你游又整新活了,正经人谁刷free用NPC助战啊  
+## 2021/01/08 v4.9.2
 更新:针对游戏版本更新进行适配  
 游戏底部菜单增加了"终端"按钮,导致其他图标整体右移,更改了空格映射座标使其功能正常  
 更改:选择设备后立刻应用连接,不再缓存  
 这样做避免了很多问题,但是导致选择设备后卡顿  
 优化:加载按键映射时检测设备连接  
-## 2020/01/07 v4.9.1
+## 2021/01/07 v4.9.1
 bug修复:带有技能宝具配置的助战选取错误  
 这个bug是v3.4.6将好友技能配置由简单的下划线分隔改为正则匹配时编码错误,直到现在这个功能真正被使用了才发现  
 ## 2020/12/31 v4.9.0
