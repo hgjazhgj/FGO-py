@@ -156,7 +156,6 @@ class MyMainWindow(QMainWindow):
         self.ui.CBX_PARTY.setCurrentIndex(-1)
         self.ui.TXT_PARTY.setValidator(QRegExpValidator(QRegExp('10|[0-9]'),self))
         self.loadParty('DEFAULT')
-        self.serialno=fgoFunc.base.serialno
         self.getDevice()
         self.thread=threading.Thread()
         self.signalFuncBegin.connect(self.funcBegin)
@@ -173,7 +172,7 @@ class MyMainWindow(QMainWindow):
         if not self.thread._started:self.thread.join()
         event.accept()
     def runFunc(self,func,*args,**kwargs):
-        if not self.serialno:return QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
+        if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
         def f():
             try:
                 fgoFunc.suspendFlag=False
@@ -231,18 +230,15 @@ class MyMainWindow(QMainWindow):
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(self.serialno)if self.serialno and self.serialno in adbList else 0,True,Qt.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
-        if ok:self.serialno=text
+        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,False,Qt.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
+        if ok and text and text!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(text)
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
         if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
-    def checkCheck(self):QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)if fgoFunc.base.serialno is None else fgoFunc.Check(0).show()
+    def checkCheck(self):fgoFunc.Check().show()if fgoFunc.base.serialno else QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
     def getFriend(self):pass
     def applyAll(self):
-        if self.serialno!=fgoFunc.base.serialno:
-            fgoFunc.base=fgoFunc.Base(self.serialno)
-            self.serialno=fgoFunc.base.serialno
         fgoFunc.partyIndex=int(self.ui.TXT_PARTY.text())
         fgoFunc.skillInfo=[[[int((lambda self:eval(f'self.ui.TXT_SKILL_{i}_{j}_{k}.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
         fgoFunc.houguInfo=[[int((lambda self:eval(f'self.ui.TXT_HOUGU_{i}_{j}.text()'))(self))for j in range(2)]for i in range(6)]
@@ -265,7 +261,11 @@ class MyMainWindow(QMainWindow):
     def stayOnTop(self):
         self.setWindowFlags(self.windowFlags()^Qt.WindowStaysOnTopHint)
         self.show()
-    def mapKey(self,x):self.grabKeyboard()if x else self.releaseKeyboard()
+    def mapKey(self,x):
+        if not fgoFunc.base.serialno:
+            self.ui.MENU_CONTROL_MAPKEY.setChecked(not x)
+            return QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
+        self.grabKeyboard()if x else self.releaseKeyboard()
     def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj  \n项目地址:https://github.com/hgjazhgj/FGO-py  \n联系方式:huguangjing0411@geektip.cc  \n请给我打钱')
 
 if __name__=='__main__':
