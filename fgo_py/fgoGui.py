@@ -5,7 +5,7 @@ from PyQt5.QtGui import QIntValidator,QRegExpValidator
 from PyQt5.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox
 
 import fgoFunc
-from ui.fgoMainWindow import Ui_fgoMainWindow
+from fgoMainWindow import Ui_fgoMainWindow
 
 QTK2VK={
     Qt.Key_Left:'\x25',
@@ -137,12 +137,9 @@ QTK2VK={
     Qt.Key_AsciiTilde:'\xC0', # ~
 }
 
-logger=logging.getLogger('fgoFunc.fgoGui')
-logger.name='fgoGui'
+logger=logging.getLogger('fgo.Gui')
 
-class NewConfigParser(configparser.ConfigParser):
-    def optionxform(self,optionstr):return optionstr
-config=NewConfigParser()
+config=type('NewConfigParser',(configparser.ConfigParser,),{'optionxform':lambda self,optionstr:optionstr})()
 config.read('fgoConfig.ini')
 
 class MyMainWindow(QMainWindow):
@@ -177,7 +174,7 @@ class MyMainWindow(QMainWindow):
             try:
                 fgoFunc.suspendFlag=False
                 fgoFunc.terminateFlag=False
-                fgoFunc.tobeTerminatedFlag=False
+                fgoFunc.tobeTerminatedFlag=-1
                 fgoFunc.fuse.reset()
                 self.signalFuncBegin.emit()
                 self.applyAll()
@@ -195,18 +192,17 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_PAUSE.setEnabled(True)
         self.ui.BTN_PAUSE.setChecked(False)
         self.ui.BTN_STOP.setEnabled(True)
+        self.ui.BTN_STOPLATER.setEnabled(True)
         self.ui.MENU_SCRIPT.setEnabled(False)
-        self.ui.MENU_CONTROL_STOPLATER.setEnabled(True)
-        self.ui.MENU_CONTROL_STOPLATER.setChecked(False)
     def funcEnd(self):
         self.ui.BTN_ONEBATTLE.setEnabled(True)
         self.ui.BTN_MAIN.setEnabled(True)
         self.ui.BTN_USER.setEnabled(True)
         self.ui.BTN_PAUSE.setEnabled(False)
         self.ui.BTN_STOP.setEnabled(False)
+        self.ui.BTN_STOPLATER.setChecked(False)
+        self.ui.BTN_STOPLATER.setEnabled(False)
         self.ui.MENU_SCRIPT.setEnabled(True)
-        self.ui.MENU_CONTROL_STOPLATER.setChecked(False)
-        self.ui.MENU_CONTROL_STOPLATER.setEnabled(False)
     def loadParty(self,x):
         self.ui.TXT_PARTY.setText(config[x]['partyIndex'])
         skillInfo=eval(config[x]['skillInfo'])
@@ -230,14 +226,13 @@ class MyMainWindow(QMainWindow):
         with open('fgoConfig.ini','w')as f:config.write(f)
     def resetParty(self):self.loadParty('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,False,Qt.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
+        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,True,Qt.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
         if ok and text and text!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(text)
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
         if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
     def checkCheck(self):fgoFunc.Check().show()if fgoFunc.base.serialno else QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
-    def getFriend(self):pass
     def applyAll(self):
         fgoFunc.partyIndex=int(self.ui.TXT_PARTY.text())
         fgoFunc.skillInfo=[[[int((lambda self:eval(f'self.ui.TXT_SKILL_{i}_{j}_{k}.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
@@ -255,7 +250,12 @@ class MyMainWindow(QMainWindow):
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),eval('fgoFunc.'+text))
     def pause(self):fgoFunc.suspendFlag=not fgoFunc.suspendFlag
     def stop(self):fgoFunc.terminateFlag=True
-    def stopAfterBattle(self,x):fgoFunc.tobeTerminatedFlag=x
+    def stopLater(self,x):
+        if x:
+            text,ok=QInputDialog.getInt(self,'输入','剩余的战斗数量',0,0,1919810,1)
+            if ok:fgoFunc.tobeTerminatedFlag=text
+            else:self.ui.BTN_STOPLATER.setChecked(False)
+        else:fgoFunc.tobeTerminatedFlag=-1
     def explorerHere(self):os.startfile('.')
     def psHere(self):os.system('start PowerShell -NoLogo')
     def stayOnTop(self):
@@ -266,7 +266,35 @@ class MyMainWindow(QMainWindow):
             self.ui.MENU_CONTROL_MAPKEY.setChecked(not x)
             return QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
         self.grabKeyboard()if x else self.releaseKeyboard()
-    def about(self):QMessageBox.about(self,'关于','作者:\thgjazhgj  \n项目地址:https://github.com/hgjazhgj/FGO-py  \n联系方式:huguangjing0411@geektip.cc  \n请给我打钱')
+    def about(self):QMessageBox.about(self,'关于','''
+<h2>FGO全自动脚本</h2>
+<table border="0">
+  <tr>
+    <td>当前版本</td>
+    <td>v4.9.3</td>
+  </tr>
+  <tr>
+    <td>作者</td>
+    <td>hgjazhgj</td>
+  </tr>
+  <tr>
+    <td>项目地址</td>
+    <td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td>
+  </tr>
+  <tr>
+    <td>电子邮箱</td>
+    <td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td>
+  </tr>
+</table>
+这是我的支付宝收款码,请给我打钱,一分钱也行<br/>
+<img src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/Zt
+BFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9
+/R3wATtkAA==" height="290" width="290"/><br/>
+这是我的微信收款码,请给我打钱,一分钱也行<br/>
+<img src="data:;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0
+hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9
+Wl3wAdBsAA" height="290" width="290"/>
+''')
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
