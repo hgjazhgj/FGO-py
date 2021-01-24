@@ -20,7 +20,7 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.9.3](#版本记录-Version-Logs)  
+当前版本[v4.9.4](#版本记录-Version-Logs)  
 仅适用于命运-冠位指定安卓简体中文版本 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 ~~长按star体验一键三连的快感~~  
@@ -117,6 +117,12 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/01/24 v4.9.4
+更新:截图不加锁  
+airtest 1.1.7新增了一个`threadsafe_generator`专门用来搞多线程截图  
+底层实现原理跟我自己写的是一毛一样的,多了几层调用效率或许变低了??  
+但是,touch/swipe等输入操作,尤其是本人优化过的swipe,仍然是线程不安全的,这不是什么线程安全问题(这里所有数据传输都是线程安全的),而是因为那些touchmethod根本就没记录手指数量和序号,所有操作都是硬编码在0号手指上完成的(pinch当然是在0号和1号手指上完成的),所有暴露出来的接口无法同时按在两个地方  
+另外,很久以前我就把获取锁和检测flag解耦了,因此现在并不需要自己实现锁  
 ## 2021/01/18 v4.9.3
 更新:预约终止可以选定后续战斗数量  
 更改:由"最后登录"识别好友界面,以应对*印象中之前从未出现过的*free系统助战  
