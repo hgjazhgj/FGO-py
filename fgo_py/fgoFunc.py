@@ -26,7 +26,7 @@ __author__='hgjazhgj'
 import logging,os,re,threading,time,cv2,numpy,win32con,win32file
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
-(lambda logger:(logger.setLevel(logging.INFO),logger)[-1])(logging.getLogger('airtest')).handlers[0].formatter.datefmt='%H:%M:%S'
+(lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].formatter.datefmt='%H:%M:%S'
 (lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
 IMG_APEMPTY=cv2.imread('fgoImage/apempty.png')
@@ -233,7 +233,7 @@ class Base(Android):
             send('m',p2)
             time.sleep(.35)
             self.maxtouch.safe_send('u 0\nc\n')
-        time.sleep(.02)
+            time.sleep(.02)
     def press(self,c):
         with self.lock:super().touch(self.key[c])
     def snapshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)

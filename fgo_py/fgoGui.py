@@ -7,136 +7,6 @@ from PyQt5.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox
 import fgoFunc
 from fgoMainWindow import Ui_fgoMainWindow
 
-QTK2VK={
-    Qt.Key_Left:'\x25',
-    Qt.Key_Up:'\x26',
-    Qt.Key_Right:'\x27',
-    Qt.Key_Down:'\x28',
-    Qt.Key_Backspace:'\x08',
-    Qt.Key_Tab:'\x09',
-    Qt.Key_Clear:'\x0C',
-    Qt.Key_Return:'\x0D',
-    Qt.Key_Enter:'\x0D',
-    Qt.Key_Shift:'\x10',
-    Qt.Key_Control:'\x11',
-    Qt.Key_Alt:'\x12',
-    Qt.Key_Pause:'\x13',
-    Qt.Key_CapsLock:'\x14',
-    Qt.Key_Escape:'\x1B',
-    Qt.Key_Space:'\x20',
-    Qt.Key_PageUp:'\x21',
-    Qt.Key_PageDown:'\x22',
-    Qt.Key_End:'\x23',
-    Qt.Key_Home:'\x24',
-    Qt.Key_Select:'\x29',
-    Qt.Key_Print:'\x2A',
-    Qt.Key_Execute:'\x2B',
-    Qt.Key_Printer:'\x2C',
-    Qt.Key_Insert:'\x2D',
-    Qt.Key_Delete:'\x2E',
-    Qt.Key_Help:'\x2F',
-    Qt.Key_0:'\x30',
-    Qt.Key_ParenRight:'\x30', # )
-    Qt.Key_1:'\x31',
-    Qt.Key_Exclam:'\x31', # !
-    Qt.Key_2:'\x32',
-    Qt.Key_At:'\x32', # @
-    Qt.Key_3:'\x33',
-    Qt.Key_NumberSign:'\x33', # #
-    Qt.Key_4:'\x34',
-    Qt.Key_Dollar:'\x34', # $
-    Qt.Key_5:'\x35',
-    Qt.Key_Percent:'\x35', # %
-    Qt.Key_6:'\x36',
-    Qt.Key_AsciiCircum:'\x36', # ^
-    Qt.Key_7:'\x37',
-    Qt.Key_Ampersand:'\x37', # &
-    Qt.Key_8:'\x38',
-    Qt.Key_Asterisk:'\x38', # *
-    Qt.Key_9:'\x39',
-    Qt.Key_ParenLeft:'\x39', # (
-    Qt.Key_A:'\x41',
-    Qt.Key_B:'\x42',
-    Qt.Key_C:'\x43',
-    Qt.Key_D:'\x44',
-    Qt.Key_E:'\x45',
-    Qt.Key_F:'\x46',
-    Qt.Key_G:'\x47',
-    Qt.Key_H:'\x48',
-    Qt.Key_I:'\x49',
-    Qt.Key_J:'\x4A',
-    Qt.Key_K:'\x4B',
-    Qt.Key_L:'\x4C',
-    Qt.Key_M:'\x4D',
-    Qt.Key_N:'\x4E',
-    Qt.Key_O:'\x4F',
-    Qt.Key_P:'\x50',
-    Qt.Key_Q:'\x51',
-    Qt.Key_R:'\x52',
-    Qt.Key_S:'\x53',
-    Qt.Key_T:'\x54',
-    Qt.Key_U:'\x55',
-    Qt.Key_V:'\x56',
-    Qt.Key_W:'\x57',
-    Qt.Key_X:'\x58',
-    Qt.Key_Y:'\x59',
-    Qt.Key_Z:'\x5A',
-    Qt.Key_multiply:'\x6A',
-    Qt.Key_F1:'\x70',
-    Qt.Key_F2:'\x71',
-    Qt.Key_F3:'\x72',
-    Qt.Key_F4:'\x73',
-    Qt.Key_F5:'\x74',
-    Qt.Key_F6:'\x75',
-    Qt.Key_F7:'\x76',
-    Qt.Key_F8:'\x77',
-    Qt.Key_F9:'\x78',
-    Qt.Key_F10:'\x79',
-    Qt.Key_F11:'\x7A',
-    Qt.Key_F12:'\x7B',
-    Qt.Key_F13:'\x7C',
-    Qt.Key_F14:'\x7D',
-    Qt.Key_F15:'\x7E',
-    Qt.Key_F16:'\x7F',
-    Qt.Key_F17:'\x80',
-    Qt.Key_F18:'\x81',
-    Qt.Key_F19:'\x82',
-    Qt.Key_F20:'\x83',
-    Qt.Key_F21:'\x84',
-    Qt.Key_F22:'\x85',
-    Qt.Key_F23:'\x86',
-    Qt.Key_F24:'\x87',
-    Qt.Key_NumLock:'\x90',
-    Qt.Key_ScrollLock:'\x91',
-    Qt.Key_VolumeDown:'\xAE',
-    Qt.Key_VolumeUp:'\xAF',
-    Qt.Key_VolumeMute:'\xAD',
-    Qt.Key_MediaStop:'\xB2',
-    Qt.Key_MediaPlay:'\xB3',
-    Qt.Key_Plus:'\xBB', # +
-    Qt.Key_Minus:'\xBD', # -
-    Qt.Key_Underscore:'\xBD', # _
-    Qt.Key_Equal:'\xBB', # =
-    Qt.Key_Semicolon:'\xBA', # #
-    Qt.Key_Colon:'\xBA', # :
-    Qt.Key_Comma:'\xBC', # ,
-    Qt.Key_Less:'\xBC', # <
-    Qt.Key_Period:'\xBE', # .
-    Qt.Key_Greater:'\xBE', # >
-    Qt.Key_Slash:'\xBF',  # /
-    Qt.Key_Question:'\xBF', # ?
-    Qt.Key_BracketLeft:'\xDB', # [
-    Qt.Key_BraceLeft:'\xDB', # {
-    Qt.Key_BracketRight:'\xDD', # ]
-    Qt.Key_BraceRight:'\xDD', # }
-    Qt.Key_Bar:'\xDC', # |
-    Qt.Key_Backslash:'\xDC', # \\
-    Qt.Key_Apostrophe:'\xDE', # '
-    Qt.Key_QuoteDbl:'\xDE', # "
-    Qt.Key_QuoteLeft:'\xC0', # `
-    Qt.Key_AsciiTilde:'\xC0', # ~
-}
-
 logger=logging.getLogger('fgo.Gui')
 
 config=type('NewConfigParser',(configparser.ConfigParser,),{'optionxform':lambda self,optionstr:optionstr})()
@@ -158,9 +28,9 @@ class MyMainWindow(QMainWindow):
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def keyPressEvent(self,key):
-        if key.modifiers()==Qt.NoModifier:
-            try:fgoFunc.base.press(QTK2VK[key.key()])
-            except KeyError:pass
+        if key.modifiers()==Qt.NoModifier or key.modifiers()==Qt.KeypadModifier:
+            try:fgoFunc.base.press(chr(key.nativeVirtualKey()))
+            except KeyError:logger.warning(f'Key "{chr(key.key())}" {chr(key.key())} {key.nativeVirtualKey()} Ignored')
     def closeEvent(self,event):
         if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.Yes|QMessageBox.No,QMessageBox.No)!=QMessageBox.Yes:
             event.ignore()
@@ -271,7 +141,7 @@ class MyMainWindow(QMainWindow):
 <table border="0">
   <tr>
     <td>当前版本</td>
-    <td>v4.9.4</td>
+    <td>v4.9.5</td>
   </tr>
   <tr>
     <td>作者</td>
