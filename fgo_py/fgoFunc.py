@@ -183,10 +183,10 @@ friendImg=ImageListener('fgoImage/friend/')
 mailFilterImg=ImageListener('fgoImage/mailfilter/')
 class Base(Android):
     def __init__(self,serialno=None):
+        self.lock=threading.Lock()
         if serialno is None:
             self.serialno=None
             return
-        self.lock=threading.Lock()
         try:super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB,touch_method=TOUCH_METHOD.MAXTOUCH)
         except:self.serialno=None
         else:
@@ -243,10 +243,10 @@ check=None
 class Check:
     def __init__(self,forwordLagency=.01,backwordLagency=0):
         sleep(forwordLagency)
-        fuse.inc()
         self.im=base.snapshot()
         global check
         check=self
+        fuse.inc()
         sleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
     def select(self,img,rect=(0,0,1920,1080)):return numpy.argmin([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
@@ -263,7 +263,7 @@ class Check:
     def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
     def isBattleContinue(self):return self.compare(IMG_BATTLECONTINUE,(1072,805,1441,895))
     def isBattleFailed(self):return self.compare(IMG_FAILED,(277,406,712,553))
-    def isBattleFinished(self):return(self.compare(IMG_BOUND,(112,250,454,313))or self.compare(IMG_BOUNDUP,(987,485,1468,594)))
+    def isBattleFinished(self):return(self.compare(IMG_BOUND,(112,250,454,313))or self.compare(IMG_BOUNDUP,(987,350,1468,594)))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1249,324,1387,362))
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
