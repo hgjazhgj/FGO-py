@@ -28,9 +28,9 @@ class MyMainWindow(QMainWindow):
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def keyPressEvent(self,key):
-        if key.modifiers()==Qt.NoModifier or key.modifiers()==Qt.KeypadModifier:
+        if self.ui.MENU_CONTROL_MAPKEY.isChecked()and(key.modifiers()==Qt.NoModifier or key.modifiers()==Qt.KeypadModifier):
             try:fgoFunc.base.press(chr(key.nativeVirtualKey()))
-            except KeyError:logger.warning(f'Key "{chr(key.key())}" {chr(key.key())} {key.nativeVirtualKey()} Ignored')
+            except KeyError:pass
     def closeEvent(self,event):
         if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.Yes|QMessageBox.No,QMessageBox.No)!=QMessageBox.Yes:
             event.ignore()
@@ -127,21 +127,20 @@ class MyMainWindow(QMainWindow):
             else:self.ui.BTN_STOPLATER.setChecked(False)
         else:fgoFunc.tobeTerminatedFlag=-1
     def explorerHere(self):os.startfile('.')
-    def psHere(self):os.system('start PowerShell -NoLogo')
+    def pwsHere(self):os.system('start PowerShell -NoLogo')
     def stayOnTop(self):
         self.setWindowFlags(self.windowFlags()^Qt.WindowStaysOnTopHint)
         self.show()
     def mapKey(self,x):
-        if not fgoFunc.base.serialno:
-            self.ui.MENU_CONTROL_MAPKEY.setChecked(not x)
+        if x and not fgoFunc.base.serialno:
+            self.ui.MENU_CONTROL_MAPKEY.setChecked(False)
             return QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
-        self.grabKeyboard()if x else self.releaseKeyboard()
     def about(self):QMessageBox.about(self,'关于','''
 <h2>FGO全自动脚本</h2>
 <table border="0">
   <tr>
     <td>当前版本</td>
-    <td>v4.9.5</td>
+    <td>v4.9.6</td>
   </tr>
   <tr>
     <td>作者</td>
