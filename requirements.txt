@@ -1,0 +1,3 @@
+airtest
+pywin32
+PyQt5

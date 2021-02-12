@@ -28,18 +28,18 @@ class MyMainWindow(QMainWindow):
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def keyPressEvent(self,key):
-        if self.ui.MENU_CONTROL_MAPKEY.isChecked()and(key.modifiers()==Qt.NoModifier or key.modifiers()==Qt.KeypadModifier):
+        if self.ui.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeypadModifier:
             try:fgoFunc.base.press(chr(key.nativeVirtualKey()))
             except KeyError:pass
     def closeEvent(self,event):
-        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.Yes|QMessageBox.No,QMessageBox.No)!=QMessageBox.Yes:
+        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.Yes|QMessageBox.No)!=QMessageBox.Yes:
             event.ignore()
             return
         fgoFunc.terminateFlag=True
         if not self.thread._started:self.thread.join()
         event.accept()
     def runFunc(self,func,*args,**kwargs):
-        if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
+        if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备')
         def f():
             try:
                 fgoFunc.suspendFlag=False
@@ -102,7 +102,7 @@ class MyMainWindow(QMainWindow):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
         if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
-    def checkCheck(self):fgoFunc.Check().show()if fgoFunc.base.serialno else QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
+    def checkCheck(self):fgoFunc.Check().show()if fgoFunc.base.serialno else QMessageBox.critical(self,'错误','未连接设备')
     def applyAll(self):
         fgoFunc.partyIndex=int(self.ui.TXT_PARTY.text())
         fgoFunc.skillInfo=[[[int((lambda self:eval(f'self.ui.TXT_SKILL_{i}_{j}_{k}.text()'))(self))for k in range(3)]for j in range(3)]for i in range(6)]
@@ -134,13 +134,18 @@ class MyMainWindow(QMainWindow):
     def mapKey(self,x):
         if x and not fgoFunc.base.serialno:
             self.ui.MENU_CONTROL_MAPKEY.setChecked(False)
-            return QMessageBox.critical(self,'错误','未连接设备',QMessageBox.Ok)
+            return QMessageBox.critical(self,'错误','未连接设备')
+    def exec(self):
+        s=QApplication.clipboard().text()
+        if QMessageBox.information(self,'exec',s,QMessageBox.Ok|QMessageBox.Cancel)!=QMessageBox.Ok:return
+        try:exec(s)
+        except BaseException as e:logger.exception(e)
     def about(self):QMessageBox.about(self,'关于','''
 <h2>FGO全自动脚本</h2>
 <table border="0">
   <tr>
     <td>当前版本</td>
-    <td>v4.9.6</td>
+    <td>v4.9.8</td>
   </tr>
   <tr>
     <td>作者</td>
@@ -155,6 +160,7 @@ class MyMainWindow(QMainWindow):
     <td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td>
   </tr>
 </table>
+<!-- 都看到这里了真的不考虑给点钱吗... -->
 这是我的支付宝收款码,请给我打钱,一分钱也行<br/>
 <img src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/Zt
 BFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9

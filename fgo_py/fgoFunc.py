@@ -24,6 +24,7 @@
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
 import logging,os,re,threading,time,cv2,numpy,win32con,win32file
+from subprocess import check_call
 from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 (lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].formatter.datefmt='%H:%M:%S'
@@ -68,25 +69,36 @@ def sleep(x,part=.1):
         time.sleep(part)
     time.sleep(max(0,timer+part-time.time()))
 class Fuse:
-    def __init__(self,fv=400,show=3,name=''):
+    def __init__(self,fv=400,show=3,name='',logsize=16):
         self.__value=0
         self.__max=fv
         self.show=show
         self.name=name
+        self.logsize=logsize
+        self.log=[None for i in range(self.logsize)]
+        self.logptr=0
     @property
     def value(self):return self.__value
     @property
     def max(self):return self.__max
-    def inc(self):
+    def increase(self):
         if self.__value>self.__max:
             logger.warning(f'Fused {self.name}')
+            self.save()
             exit(0)
         self.__value+=1
         return self
     def reset(self):
         if self.__value>self.show:logger.debug(f'Fuse {self.name} {self.__value}')
         self.__value=0
+        if id(check)!=id(self.log[(self.logptr-1)%self.logsize]):
+            self.log[self.logptr]=check
+            self.logptr=(self.logptr+1)%self.logsize
         return self
+    def save(self):
+        for i in range(16):
+            self.log[(i+self.logptr)%self.logsize].save(f'fuselog{i:02}.jpg')
+        check.save()
 fuse=Fuse()
 class DirListener:
     def __init__(self,dir):
@@ -192,11 +204,7 @@ class Base(Android):
         else:
             self.render=[round(i)for i in self.get_render_resolution(True)]
             self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
-        ######## bugfix for airtest.core.android.adb.ADB.getPhysicalDisplayInfo, see https://github.com/AirtestProject/Airtest/issues/796##################################
             self.maxtouch.install_and_setup()
-            self.maxtouch.size_info.update({x:int(y)for x,y in re.search(r'(?P<width>\d+)x(?P<height>\d+)\s*$',self.adb.raw_shell('wm size')).groupdict().items()})
-            self._display_info=self.maxtouch.size_info.copy()
-        ######## bugfix end ###############################################################################################################################################
             self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
                 '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74),#VK_F1..10
                 '1':(277,640),'2':(598,640),'3':(974,640),'4':(1312,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),'0':(1819,367),
@@ -210,13 +218,12 @@ class Base(Android):
         with self.lock:super().touch([round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
     # def swipe(self,rect,duration=.15,steps=2,fingers=1):
     #     with self.lock:super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.render[j]for j in range(2)]for i in range(2)],duration,steps,fingers)
-    def swipe(self,rect):#if this dosen't work, use the above one instead
+    def swipe(self,rect):#if this doesn't work, use the above one instead
         p1,p2=[numpy.array(self._touch_point_by_orientation([rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
         vd=p2-p1
         lvd=numpy.linalg.norm(vd)
         vd/=.2*self.scale*lvd
         vx=numpy.array([0.,0.])
-        # def send(method,pos):self.minitouch.safe_send(' '.join((method,'0',*[str(int(i))for i in self.minitouch.transform_xy(*pos)],'50\nc\n')))
         def send(method,pos):self.maxtouch.safe_send(' '.join((method,'0',*[str(i)for i in self.maxtouch.transform_xy(*pos)],'50\nc\n')))
         with self.lock:
             send('d',p1)
@@ -246,7 +253,7 @@ class Check:
         self.im=base.snapshot()
         global check
         check=self
-        fuse.inc()
+        fuse.increase()
         sleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
     def select(self,img,rect=(0,0,1920,1080)):return numpy.argmin([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
@@ -257,6 +264,7 @@ class Check:
     def show(self):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
         if cv2.waitKey()==ord('s'):self.save()
+        else:cv2.destroyAllWindows()
         return self
     def isAddFriend(self):return self.compare(IMG_END,(243,863,745,982))
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(906,897,1017,967))
@@ -320,9 +328,9 @@ def chooseFriend():
 def battle():
     turn,stage,stageTurn,servant=0,0,0,[0,1,2]
     while True:
-        if Check(.1).isTurnBegin():
+        if Check(0,.1).isTurnBegin():
             turn+=1
-            stage,stageTurn=(lambda x:[x,stageTurn+1if stage==x else 1])(Check(.4).getStage())
+            stage,stageTurn=(lambda x:[x,stageTurn+1if stage==x else 1])(Check(.5).getStage())
             skill,newPortrait=check.isSkillReady(),check.getPortrait()
             if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
@@ -333,14 +341,14 @@ def battle():
                 doit(('ASD','FGH','JKL')[i][j],(300,))
                 if skillInfo[servant[i]][j][2]:doit('234'[skillInfo[servant[i]][j][2]-1],(300,))
                 sleep(2.3)
-                while not Check(0,.2).isTurnBegin():pass
+                while not Check().isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
                 doit(('Q','WER'[i]),(300,300))
                 if masterSkill[i][2]:doit('234'[masterSkill[i][2]-1],(300,))
                 sleep(2.3)
-                while not Check(0,.2).isTurnBegin():pass
+                while not Check().isTurnBegin():pass
             doit(' ',(2350,))
-            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,8000))
+            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,6000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
