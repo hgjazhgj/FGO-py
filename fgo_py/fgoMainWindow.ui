@@ -2933,6 +2933,8 @@
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_REFRESHDEVICE"/>
     <addaction name="MENU_CONTROL_MAPKEY"/>
+    <addaction name="separator"/>
+    <addaction name="MENU_CONTROL_EXEC"/>
    </widget>
    <addaction name="MENU_FILE"/>
    <addaction name="MENU_SCRIPT"/>
@@ -2981,11 +2983,6 @@
      <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
-   </property>
-  </action>
-  <action name="actionsadad">
-   <property name="text">
-    <string/>
    </property>
   </action>
   <action name="MENU_CONTROL_REFRESHDEVICE">
@@ -3071,6 +3068,19 @@
     <font>
      <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_CONTROL_EXEC">
+   <property name="text">
+    <string>Execute</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
     </font>
    </property>
   </action>
@@ -3532,6 +3542,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MENU_CONTROL_EXEC</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>exec()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>293</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -3574,6 +3600,7 @@
   <slot>stopLater()</slot>
   <slot>runJackpot()</slot>
   <slot>runMailFiltering()</slot>
+  <slot>exec()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
