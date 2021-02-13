@@ -264,7 +264,7 @@ class Check:
     def show(self):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
         if cv2.waitKey()==ord('s'):self.save()
-        else:cv2.destroyAllWindows()
+        cv2.destroyAllWindows()
         return self
     def isAddFriend(self):return self.compare(IMG_END,(243,863,745,982))
     def isApEmpty(self):return self.compare(IMG_APEMPTY,(906,897,1017,967))
@@ -273,7 +273,7 @@ class Check:
     def isBattleFailed(self):return self.compare(IMG_FAILED,(277,406,712,553))
     def isBattleFinished(self):return(self.compare(IMG_BOUND,(112,250,454,313))or self.compare(IMG_BOUNDUP,(987,350,1468,594)))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
-    def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1249,324,1387,362))
+    def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1249,324,1387,382))
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
     def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG_LISTEND,IMG_LISTNONE))
@@ -380,7 +380,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 chooseFriend()
                 while not Check(.1).isBattleBegin():pass
                 if partyIndex and check.getPartyIndex()!=partyIndex:doit(('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1],' '),(1000,400))
-                doit(' ',(12000,))
+                doit(' 8',(800,10000))
                 break
             if check.isBattleContinue():
                 if not tobeTerminatedFlag:return base.press('F')

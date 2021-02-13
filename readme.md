@@ -1,4 +1,4 @@
-> 新年あけましておめでとうございます  
+> バレンタイン?リア充爆発しろ!!
 > 开始为caber攒石头  
 
 > 人这东西还真是能力有限啊  
@@ -21,7 +21,7 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.9.8](#版本记录-Version-Logs)  
+当前版本[v4.9.9](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 仅适用于命运-冠位指定安卓简体中文版本,仅能运行在Windows上 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 ~~长按star体验一键三连的快感~~  
@@ -107,6 +107,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/02/13 v4.9.9
+更新:针对游戏活动更新进行适配  
+情人节活动新增向好友赠送友情巧克力的剩余次数提示导致选取助战界面判定位置下移20px  
+适配向好友赠送巧克力特性(虽然我既不缺友情点,也不缺绿方块),需要关闭使用巧克力的确认提示  
+更新:熔断器熔断时保存最近的几次截图  
 ## 2021/02/13 v4.9.8
 更新:增加requirements.txt,修订readme  
 (更新||bug修复)&&优化:延时调整  
@@ -117,7 +122,7 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 参见v4.4.0日志  
 airtest没有作出任何更改,但是我的手机系统更新为adb shell dumpsys display中没有mPhysicalDisplayInfo字段,使得getPhysicalDisplayInfo换用其他方法获取  
 新增:在ui中执行python代码  
-仅用于发现了一个罕见的难以复现的问题而没开调试没有控制台时的最后补救措施,你得先完全理解这个脚本的工作细节才能使用它  
+仅用于发现了一个罕见的难以复现的问题而没开调试没有控制台时的最后补救措施,你得先完全理解这个脚本的工作细节才能使用这个功能  
 ## 2021/02/07 v4.9.6
 bug修复:修改了键盘映射与主窗口的焦点策略,使相关交互符合逻辑  
 bug修复:在羁绊等级上升时正确判定战斗结束  
