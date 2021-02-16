@@ -1,5 +1,4 @@
-> バレンタイン?リア充爆発しろ!!
-> 开始为caber攒石头  
+> 开始为caber攒石头(744/inf)  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -21,9 +20,9 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.9.9](#版本记录-Version-Logs)  
+当前版本[v4.9.10](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
-仅适用于命运-冠位指定安卓简体中文版本,仅能运行在Windows上 [快速查错引导](#快速查错引导-When-Error-Occurred)  
+仅适用于命运-冠位指定安卓简体中文版本,仅能运行在包含Python3.8或更高版本的Windows上 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 ~~长按star体验一键三连的快感~~  
 # 警告 Warning
 ***
@@ -107,6 +106,13 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/02/16 v4.9.10
+bug修复:等待任务奖励弹窗消失后再进行回合数识别 [issue #18](https://github.com/hgjazhgj/FGO-py/issues/18)  
+我设计Check类的时候想的是一个Check对应一张截图,其中的各方法取得图片中的一些信息  
+`isHouguReady`是个例外,由于np条忽明忽暗,可能需要两张截图,但是最多也就两张  
+但是这次出现了"反复截图直到有结果"的方法,那么之后是不是除了`isBegin`之外还得来一个`waitForBegin`方法呢?  
+很烦,晚上又喝多了,打原神连个闪避都按不利索,等以后再慢慢想,现在能跑就行,也没多测试  
+bug修复:熔断器保存截图时的访问错误  
 ## 2021/02/13 v4.9.9
 更新:针对游戏活动更新进行适配  
 情人节活动新增向好友赠送友情巧克力的剩余次数提示导致选取助战界面判定位置下移20px  

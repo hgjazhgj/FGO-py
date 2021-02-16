@@ -145,7 +145,7 @@ class MyMainWindow(QMainWindow):
 <table border="0">
   <tr>
     <td>当前版本</td>
-    <td>v4.9.9</td>
+    <td>v4.9.10</td>
   </tr>
   <tr>
     <td>作者</td>

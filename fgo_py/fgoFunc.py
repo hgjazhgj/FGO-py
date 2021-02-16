@@ -23,10 +23,28 @@
 ###################################################################################################################################################
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-import logging,os,re,threading,time,cv2,numpy,win32con,win32file
-from subprocess import check_call
+import logging
+# 素に銀と鉄。礎に石と契約の大公。
+import os
+# 降り立つ風には壁を。四方の門は閉じ、王冠より出で、王国に至る三叉路は循環せよ。
+import re
+# 閉じよ(満たせ)。閉じよ(満たせ)。閉じよ(満たせ)。閉じよ(満たせ)。閉じよ(満たせ)。
+import threading
+# 繰り返すつどに五度。ただ、満たされる刻を破却する。
+import time
+# ――――告げる。
+import cv2
+# 汝の身は我が下に、我が命運は汝の剣に。
+import numpy
+# 聖杯の寄るべに従い、この意、この理に従うならば応えよ！
+import win32con
+# 誓いを此処に。
+import win32file
+# 我は常世総ての善と成る者、我は常世総ての悪を敷く者。
 from airtest.core.android.android import Android
+# 汝三大の言霊を纏う七天、抑止の輪より来たれ、
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
+# 天秤の守り手よ―――！
 (lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].formatter.datefmt='%H:%M:%S'
 (lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
@@ -96,8 +114,7 @@ class Fuse:
             self.logptr=(self.logptr+1)%self.logsize
         return self
     def save(self):
-        for i in range(16):
-            self.log[(i+self.logptr)%self.logsize].save(f'fuselog{i:02}.jpg')
+        for i in(i for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]):self.log[(i+self.logptr)%self.logsize].save(f'fuselog{i:02}.jpg')
         check.save()
 fuse=Fuse()
 class DirListener:
@@ -256,7 +273,7 @@ class Check:
         fuse.increase()
         sleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
-    def select(self,img,rect=(0,0,1920,1080)):return numpy.argmin([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
+    def select(self,img,rect=(0,0,1920,1080),threshold=.1):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tap(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):
         cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im)
@@ -284,7 +301,21 @@ class Check:
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getPartyIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG_PARTYINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
+    def retryOnError(interval=.1,err=TypeError):
+        def wrapper(func):
+            from functools import wraps
+            @wraps(func)
+            def wrap(self,*args,**kwargs):
+                try:
+                    if(ans:=func(self,*args,**kwargs))is not None:return ans
+                except err:pass
+                logger.warning(f'retry {func} with {args} {kwargs}')
+                return wrapper(func)(Check(interval),*args,**kwargs)
+            return wrap
+        return wrapper
+    @retryOnError()
     def getStage(self):return self.select(IMG_STAGE,(1296,20,1342,56))+1
+    @retryOnError()
     def getStageTotal(self):return self.select(IMG_STAGETOTAL,(1325,20,1372,56))+1
 def gacha():
     while fuse.value<30:
