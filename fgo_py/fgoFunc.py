@@ -46,7 +46,7 @@ from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 # 天秤の守り手よ―――！
 (lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].formatter.datefmt='%H:%M:%S'
-(lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
+(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
 IMG_APEMPTY=cv2.imread('fgoImage/apempty.png')
 IMG_ATTACK=cv2.imread('fgoImage/attack.png')
@@ -66,6 +66,7 @@ IMG_LISTEND=cv2.imread('fgoImage/listend.png')
 IMG_LISTNONE=cv2.imread('fgoImage/listnone.png')
 IMG_NOFRIEND=cv2.imread('fgoImage/nofriend.png')
 IMG_PARTYINDEX=cv2.imread('fgoImage/partyindex.png')
+IMG_SPECIALDROP=cv2.imread('fgoImage/specialdrop.png')
 IMG_STAGE=[cv2.imread(f'fgoImage/stage{i}.png')for i in range(1,4)]
 IMG_STAGETOTAL=[cv2.imread(f'fgoImage/total{i}.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('fgoImage/still.png')
@@ -87,7 +88,7 @@ def sleep(x,part=.1):
         time.sleep(part)
     time.sleep(max(0,timer+part-time.time()))
 class Fuse:
-    def __init__(self,fv=400,show=3,name='',logsize=16):
+    def __init__(self,fv=400,show=3,name='',logsize=10):
         self.__value=0
         self.__max=fv
         self.show=show
@@ -109,13 +110,13 @@ class Fuse:
     def reset(self):
         if self.__value>self.show:logger.debug(f'Fuse {self.name} {self.__value}')
         self.__value=0
-        if id(check)!=id(self.log[(self.logptr-1)%self.logsize]):
+        if check is not self.log[(self.logptr-1)%self.logsize]:
             self.log[self.logptr]=check
             self.logptr=(self.logptr+1)%self.logsize
         return self
     def save(self):
-        for i in(i for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]):self.log[(i+self.logptr)%self.logsize].save(f'fuselog{i:02}.jpg')
-        check.save()
+        for i in(i for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]):self.log[(i+self.logptr)%self.logsize].save(f'fuselog_%Y-%m-%d_%H.%M.%S_{i:02}.jpg')
+        check.save('fuselog_%Y-%m-%d_%H.%M.%S.jpg')
 fuse=Fuse()
 class DirListener:
     def __init__(self,dir):
@@ -273,10 +274,10 @@ class Check:
         fuse.increase()
         sleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
-    def select(self,img,rect=(0,0,1920,1080),threshold=.1):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
+    def select(self,img,rect=(0,0,1920,1080),threshold=.5):return(lambda x:numpy.argmin(x)if not logger.debug(f'Select from {x}')and threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tap(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):
-        cv2.imwrite(time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime())+'.jpg'if name==''else name,self.im)
+        cv2.imwrite(time.strftime(name if name else'%Y-%m-%d_%H.%M.%S.jpg',time.localtime()),self.im)
         return self
     def show(self):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
@@ -288,7 +289,7 @@ class Check:
     def isBattleBegin(self):return self.compare(IMG_BATTLEBEGIN,(1673,959,1899,1069))
     def isBattleContinue(self):return self.compare(IMG_BATTLECONTINUE,(1072,805,1441,895))
     def isBattleFailed(self):return self.compare(IMG_FAILED,(277,406,712,553))
-    def isBattleFinished(self):return(self.compare(IMG_BOUND,(112,250,454,313))or self.compare(IMG_BOUNDUP,(987,350,1468,594)))
+    def isBattleFinished(self):return self.compare(IMG_BOUND,(112,250,454,313))or self.compare(IMG_BOUNDUP,(987,350,1468,594))
     def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1249,324,1387,382))
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
@@ -297,6 +298,7 @@ class Check:
     def isNextJackpot(self):return self.compare(IMG_JACKPOT,(1556,336,1859,397))
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
+    def isSpecialDrop(self):return self.compare(IMG_SPECIALDROP,(8,18,102,102))
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getPartyIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG_PARTYINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
@@ -309,8 +311,8 @@ class Check:
                 try:
                     if(ans:=func(self,*args,**kwargs))is not None:return ans
                 except err:pass
-                logger.warning(f'retry {func} with {args} {kwargs}')
-                return wrapper(func)(Check(interval),*args,**kwargs)
+                logger.warning(f'Retry {func.__qualname__} with {args} {kwargs}')
+                return wrap(Check(interval),*args,**kwargs)
             return wrap
         return wrapper
     @retryOnError()
@@ -365,7 +367,7 @@ def battle():
             skill,newPortrait=check.isSkillReady(),check.getPortrait()
             if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
-            if stageTurn==1and dangerPos[stage-1]:doit(('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1],'\xDC'),(250,500))
+            if stageTurn==1and dangerPos[stage-1]:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1]+'\xDC',(250,500))
             portrait=newPortrait
             logger.info(f'{turn} {stage} {stageTurn} {servant}')
             for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
@@ -374,7 +376,7 @@ def battle():
                 sleep(2.3)
                 while not Check().isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
-                doit(('Q','WER'[i]),(300,300))
+                doit('Q'+'WER'[i],(300,300))
                 if masterSkill[i][2]:doit('234'[masterSkill[i][2]-1],(300,))
                 sleep(2.3)
                 while not Check().isTurnBegin():pass
@@ -398,7 +400,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
             else:
                 apple+=1
                 logger.info(f'Apple {apple}')
-                doit(('W4K8'[appleKind],'L'),(400,1200))
+                doit('W4K8'[appleKind]+'L',(400,1200))
                 return False
     global tobeTerminatedFlag
     while True:
@@ -410,17 +412,21 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 if eatApple():return
                 chooseFriend()
                 while not Check(.1).isBattleBegin():pass
-                if partyIndex and check.getPartyIndex()!=partyIndex:doit(('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1],' '),(1000,400))
+                if partyIndex and check.getPartyIndex()!=partyIndex:doit('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1]+' ',(1000,400))
                 doit(' 8',(800,10000))
                 break
-            if check.isBattleContinue():
+            elif check.isBattleContinue():
                 if not tobeTerminatedFlag:return base.press('F')
                 tobeTerminatedFlag-=1
                 base.press('K')
                 if eatApple():return
                 chooseFriend()
                 break
-            if check.isAddFriend():base.press('X')
+            elif check.isAddFriend():base.press('X')
+            elif check.isSpecialDrop():
+                logger.warning('Special drop')
+                check.save('specialdrop_%Y-%m-%d_%H.%M.%S.jpg')
+                base.press('\x67')
             base.press(' ')
         battle+=1
         logger.info(f'Battle {battle}')

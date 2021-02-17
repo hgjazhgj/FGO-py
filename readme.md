@@ -1,4 +1,5 @@
-> 开始为caber攒石头(744/inf)  
+> 209发清少纳言,叔叔你不要太过分  
+> 开始为caber攒石头(312/inf)  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -20,7 +21,7 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.9.10](#版本记录-Version-Logs)  
+当前版本[v4.9.11](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 仅适用于命运-冠位指定安卓简体中文版本,仅能运行在包含Python3.8或更高版本的Windows上 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 ~~长按star体验一键三连的快感~~  
@@ -39,7 +40,7 @@ ui大概长这样(设计视图仅供参考):
 ![ui](./doc/ui.png)  
 这个脚本会依据你的设置比较智能地帮你放技能(默认不用),放宝具(默认充能满就放),选卡(优先三色chain,其次优先红卡),吃苹果(默认不吃),合理设定后可以无脑通过绝大部分非高难关卡,实战7-12回合能够刷完无限池终本  
 本脚本的代码部分仅有`fgoFunc.py`是fgo算法相关的,当然`fgoGui.py`也是脚本的一部分,会自动加载一些配置,在您知晓本脚本的工作原理前不建议单独使用`fgoFunc.py`进行操作  
-理论上讲,你只需要想办法重写fgoFunc.Base类就能用于iOS端;你只需要更改图片模板和fgoFunc.Check类就能用于其他语言的FGO版本;你只需要修改DirListener就能用于MacOs  
+理论上讲,你只需要想办法重写fgoFunc.Base类就能用于iOS端;你只需要更改图片模板和fgoFunc.Check类就能用于FGO的其他语言版本;你只需要修改DirListener就能用于MacOs  
 欢迎魔改,不过**我的代码里有毒**  
 ## 助战 Friends
 你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件  
@@ -106,6 +107,8 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/02/18 v4.9.11
+优化:避免特殊掉落导致卡顿,包括活动礼装/点数奖励/羁绊礼装等  
 ## 2021/02/16 v4.9.10
 bug修复:等待任务奖励弹窗消失后再进行回合数识别 [issue #18](https://github.com/hgjazhgj/FGO-py/issues/18)  
 我设计Check类的时候想的是一个Check对应一张截图,其中的各方法取得图片中的一些信息  
