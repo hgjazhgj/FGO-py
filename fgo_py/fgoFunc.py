@@ -50,13 +50,13 @@ from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 logger=logging.getLogger('fgo.Func')
 IMG_APEMPTY=cv2.imread('fgoImage/apempty.png')
 IMG_ATTACK=cv2.imread('fgoImage/attack.png')
-IMG_BEGIN=cv2.imread('fgoImage/begin.png')
 IMG_BATTLEBEGIN=cv2.imread('fgoImage/battlebegin.png')
 IMG_BATTLECONTINUE=cv2.imread('fgoImage/battlecontinue.png')
 IMG_BOUND=cv2.imread('fgoImage/bound.png')
 IMG_BOUNDUP=cv2.imread('fgoImage/boundup.png')
 IMG_CARDSEALED=cv2.imread('fgoImage/cardsealed.png')
 IMG_CHOOSEFRIEND=cv2.imread('fgoImage/choosefriend.png')
+IMG_CLOSE=cv2.imread('fgoImage/close.png')
 IMG_END=cv2.imread('fgoImage/end.png')
 IMG_FAILED=cv2.imread('fgoImage/failed.png')
 IMG_GACHA=cv2.imread('fgoImage/gacha.png')
@@ -64,11 +64,11 @@ IMG_HOUGUSEALED=cv2.imread('fgoImage/hougusealed.png')
 IMG_JACKPOT=cv2.imread('fgoImage/jackpot.png')
 IMG_LISTEND=cv2.imread('fgoImage/listend.png')
 IMG_LISTNONE=cv2.imread('fgoImage/listnone.png')
+IMG_MENU=cv2.imread('fgoImage/menu.png')
 IMG_NOFRIEND=cv2.imread('fgoImage/nofriend.png')
 IMG_PARTYINDEX=cv2.imread('fgoImage/partyindex.png')
-IMG_SPECIALDROP=cv2.imread('fgoImage/specialdrop.png')
 IMG_STAGE=[cv2.imread(f'fgoImage/stage{i}.png')for i in range(1,4)]
-IMG_STAGETOTAL=[cv2.imread(f'fgoImage/total{i}.png')for i in range(1,4)]
+IMG_STAGETOTAL=[cv2.imread(f'fgoImage/stagetotal{i}.png')for i in range(1,4)]
 IMG_STILL=cv2.imread('fgoImage/still.png')
 partyIndex=0
 skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
@@ -290,15 +290,15 @@ class Check:
     def isBattleContinue(self):return self.compare(IMG_BATTLECONTINUE,(1072,805,1441,895))
     def isBattleFailed(self):return self.compare(IMG_FAILED,(277,406,712,553))
     def isBattleFinished(self):return self.compare(IMG_BOUND,(112,250,454,313))or self.compare(IMG_BOUNDUP,(987,350,1468,594))
-    def isBegin(self):return self.compare(IMG_BEGIN,(1630,950,1919,1079))
     def isChooseFriend(self):return self.compare(IMG_CHOOSEFRIEND,(1249,324,1387,382))
     def isGacha(self):return self.compare(IMG_GACHA,(973,960,1312,1052))
     def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG_HOUGUSEALED,IMG_CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG_LISTEND,IMG_LISTNONE))
+    def isMainInterface(self):return self.compare(IMG_MENU,(1630,950,1919,1079))
     def isNextJackpot(self):return self.compare(IMG_JACKPOT,(1556,336,1859,397))
     def isNoFriend(self):return self.compare(IMG_NOFRIEND,(369,545,1552,797),.1)
     def isSkillReady(self):return[[not self.compare(IMG_STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
-    def isSpecialDrop(self):return self.compare(IMG_SPECIALDROP,(8,18,102,102))
+    def isSpecialDrop(self):return self.compare(IMG_CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self.compare(IMG_ATTACK,(1567,932,1835,1064))
     def getABQ(self):return[-1if self.compare(IMG_CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
     def getPartyIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG_PARTYINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
@@ -405,7 +405,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
     global tobeTerminatedFlag
     while True:
         while True:
-            if Check(.3,.3).isBegin():
+            if Check(.3,.3).isMainInterface():
                 if not tobeTerminatedFlag:return
                 tobeTerminatedFlag-=1
                 base.press('8')
@@ -413,7 +413,7 @@ def main(appleCount=0,appleKind=0,battleFunc=battle):
                 chooseFriend()
                 while not Check(.1).isBattleBegin():pass
                 if partyIndex and check.getPartyIndex()!=partyIndex:doit('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[partyIndex-1]+' ',(1000,400))
-                doit(' 8',(800,10000))
+                doit(' 8M',(800,800,10000))
                 break
             elif check.isBattleContinue():
                 if not tobeTerminatedFlag:return base.press('F')
