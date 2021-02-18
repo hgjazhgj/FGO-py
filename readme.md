@@ -21,10 +21,27 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
-当前版本[v4.9.11](#版本记录-Version-Logs)  
+<table>
+  <tr>
+    <td><img src="doc/star/1.png" width="82" height="82"/></td>
+    <td><img src="doc/star/2.png" width="82" height="82"/></td>
+    <td><img src="doc/star/3.png" width="82" height="82"/></td>
+  </tr>
+  <tr>
+    <td><img src="doc/star/4.png" width="82" height="82"/></td>
+    <td><img src="https://img.shields.io/github/stars/hgjazhgj/FGO-py.svg?style=social"/></td>
+    <td><img src="doc/star/6.png" width="82" height="82"/></td>
+  </tr>
+  <tr>
+    <td><img src="doc/star/7.png" width="82" height="82"/></td>
+    <td><img src="doc/star/8.png" width="82" height="82"/></td>
+    <td><img src="doc/star/9.png" width="82" height="82"/></td>
+  </tr>
+</table>
+
+当前版本[v4.9.12](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 仅适用于命运-冠位指定安卓简体中文版本,仅能运行在包含Python3.8或更高版本的Windows上 [快速查错引导](#快速查错引导-When-Error-Occurred)  
-~~长按star体验一键三连的快感~~  
 # 警告 Warning
 ***
 [<<哔哩哔哩游戏平台用户协议V1.0.0>>](https://yhxy.biligame.com/)第11条第2款规定:  
@@ -37,7 +54,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 这个项目的设计初衷是打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境,以达到不浪费羁绊点数和御主礼装经验的目的.尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!**  
 速览脚本功能,运行`fgoGui.py`,大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 ui大概长这样(设计视图仅供参考):  
-![ui](./doc/ui.png)  
+![ui](doc/ui.png)  
 这个脚本会依据你的设置比较智能地帮你放技能(默认不用),放宝具(默认充能满就放),选卡(优先三色chain,其次优先红卡),吃苹果(默认不吃),合理设定后可以无脑通过绝大部分非高难关卡,实战7-12回合能够刷完无限池终本  
 本脚本的代码部分仅有`fgoFunc.py`是fgo算法相关的,当然`fgoGui.py`也是脚本的一部分,会自动加载一些配置,在您知晓本脚本的工作原理前不建议单独使用`fgoFunc.py`进行操作  
 理论上讲,你只需要想办法重写fgoFunc.Base类就能用于iOS端;你只需要更改图片模板和fgoFunc.Check类就能用于FGO的其他语言版本;你只需要修改DirListener就能用于MacOs  
@@ -88,9 +105,9 @@ mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.
 |\<Space\> |选卡/下一步/菜单                        |
 |NUM4-9    |选取敌人,NUM7返回/关闭                  |  
 ## 如何联系我 Contact Me
-![img](./doc/contact.png)  
+![img](doc/contact.png)  
 在占用我的时间之前,先耗费自己的时间  
-![Alipay](./doc/行行好吧给颗石头吧.png)![Wechat](./doc/吧头石颗给吧好行行.png)  
+![Alipay](doc/行行好吧给颗石头吧.png)![Wechat](doc/吧头石颗给吧好行行.png)  
 觉得有帮助请为我star,谢谢  
 [提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
 去看看过往的issue就能知道我很暴躁,这是我的联系方式,在qq上我会更暴躁  
@@ -104,9 +121,12 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 建议您仔细阅读本readme以及ui中的说明,并尝试使用除百度以外的搜索引擎来解决您的问题,以免给您带来不必要的损失  
 另,我只接受对**最新稳定commit**的bug反馈,请检查是否有未拉取的更改  
 *不,这不是bug,是feature*  
-如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](./doc/奇人共赏.md)上  
+如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/02/19 v4.9.12
+更新:针对游戏活动更新进行适配  
+在没有友情巧克力时正常进入战斗  
 ## 2021/02/18 v4.9.11
 优化:避免特殊掉落导致卡顿,包括活动礼装/点数奖励/羁绊礼装等  
 ## 2021/02/16 v4.9.10
@@ -171,7 +191,7 @@ bug修复:在羁绊等级上升时正确判定战斗结束
 其下方可能有一行(追加可在个人空间中播放的语音)(获得圣晶石或苹果)或两行(从者的资料已更新\n追加可在个人空间中播放的语音)文字  
 而该提示框是相对某座标居中的,因而引发了位置变动  
 羁绊5以及之后的显示形式未经完全验证,如果后续仍然出现此问题再改  
-另:[奇人共赏](./doc/奇人共赏.md)时隔数月终于更新了!  
+另:[奇人共赏](doc/奇人共赏.md)时隔数月终于更新了!  
 这么大的更新间隔确实证明了前述的收费政策具有十足的威慑力  
 同时这次的事件更警醒本人一定要将之严格贯彻落实  
 ## 2020/12/03 v4.8.0
