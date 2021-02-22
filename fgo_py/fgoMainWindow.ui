@@ -26,9 +26,9 @@
   <widget class="QWidget" name="widget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="LAYOUT_PARTY">
+     <layout class="QHBoxLayout" name="LAYOUT_TEAM">
       <item>
-       <widget class="QComboBox" name="CBX_PARTY">
+       <widget class="QComboBox" name="CBX_TEAM">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -41,14 +41,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="LBL_PARTY">
+       <widget class="QLabel" name="LBL_TEAM">
         <property name="text">
          <string>位置</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="TXT_PARTY">
+       <widget class="QLineEdit" name="TXT_TEAM">
         <property name="maximumSize">
          <size>
           <width>24</width>
@@ -70,7 +70,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="BTN_PARTYSAVE">
+       <widget class="QPushButton" name="BTN_TEAMSAVE">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
@@ -83,7 +83,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="BTN_PARTYRESET">
+       <widget class="QPushButton" name="BTN_TEAMRESET">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
@@ -119,16 +119,16 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <layout class="QFormLayout" name="LAYOUT_INFO_PARTY">
+       <layout class="QFormLayout" name="LAYOUT_INFO_TEAM">
         <item row="0" column="0">
-         <widget class="QLabel" name="LBL_PARTY_0">
+         <widget class="QLabel" name="LBL_TEAM_0">
           <property name="text">
            <string>1</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_0">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_0">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_0">
             <property name="statusTip">
@@ -209,7 +209,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_0_0">
+           <spacer name="SPACER_TEAM_0_0">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -303,7 +303,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_0_1">
+           <spacer name="SPACER_TEAM_0_1">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -397,7 +397,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_0_2">
+           <spacer name="SPACER_TEAM_0_2">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -471,14 +471,14 @@
          </layout>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="LBL_PARTY_1">
+         <widget class="QLabel" name="LBL_TEAM_1">
           <property name="text">
            <string>2</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_1">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_1">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_1">
             <property name="statusTip">
@@ -559,7 +559,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_1_0">
+           <spacer name="SPACER_TEAM_1_0">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -653,7 +653,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_1_1">
+           <spacer name="SPACER_TEAM_1_1">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -747,7 +747,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_1_2">
+           <spacer name="SPACER_TEAM_1_2">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -821,14 +821,14 @@
          </layout>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="LBL_PARTY_2">
+         <widget class="QLabel" name="LBL_TEAM_2">
           <property name="text">
            <string>3</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_2">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_2">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_2">
             <property name="statusTip">
@@ -909,7 +909,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_2_0">
+           <spacer name="SPACER_TEAM_2_0">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1003,7 +1003,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_2_1">
+           <spacer name="SPACER_TEAM_2_1">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1097,7 +1097,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_2_2">
+           <spacer name="SPACER_TEAM_2_2">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1171,14 +1171,14 @@
          </layout>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="LBL_PARTY_3">
+         <widget class="QLabel" name="LBL_TEAM_3">
           <property name="text">
            <string>4</string>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_3">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_3">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_3">
             <property name="statusTip">
@@ -1259,7 +1259,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_3_0">
+           <spacer name="SPACER_TEAM_3_0">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1353,7 +1353,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_3_1">
+           <spacer name="SPACER_TEAM_3_1">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1447,7 +1447,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_3_2">
+           <spacer name="SPACER_TEAM_3_2">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1521,14 +1521,14 @@
          </layout>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="LBL_PARTY_4">
+         <widget class="QLabel" name="LBL_TEAM_4">
           <property name="text">
            <string>5</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_4">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_4">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_4">
             <property name="cursor">
@@ -1615,7 +1615,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_4_0">
+           <spacer name="SPACER_TEAM_4_0">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1709,7 +1709,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_4_1">
+           <spacer name="SPACER_TEAM_4_1">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1803,7 +1803,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_4_2">
+           <spacer name="SPACER_TEAM_4_2">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1877,14 +1877,14 @@
          </layout>
         </item>
         <item row="5" column="0">
-         <widget class="QLabel" name="LBL_PARTY_5">
+         <widget class="QLabel" name="LBL_TEAM_5">
           <property name="text">
            <string>6</string>
           </property>
          </widget>
         </item>
         <item row="5" column="1">
-         <layout class="QHBoxLayout" name="LAYOUT_INFO_PARTY_5">
+         <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_5">
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_5">
             <property name="statusTip">
@@ -1968,7 +1968,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_5_0">
+           <spacer name="SPACER_TEAM_5_0">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -2062,7 +2062,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_5_1">
+           <spacer name="SPACER_TEAM_5_1">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -2156,7 +2156,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="SPACER_PARTY_5_2">
+           <spacer name="SPACER_TEAM_5_2">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -2936,8 +2936,16 @@
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_EXEC"/>
    </widget>
+   <widget class="QMenu" name="MENU_SETTINGS">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <addaction name="MENU_SETTINGS_STOPONSPECIALDROP"/>
+    <addaction name="MENU_SETTINGS_STOPONDEFEATED"/>
+   </widget>
    <addaction name="MENU_FILE"/>
    <addaction name="MENU_SCRIPT"/>
+   <addaction name="MENU_SETTINGS"/>
    <addaction name="MENU_CONTROL"/>
    <addaction name="MENU_ABOUT"/>
   </widget>
@@ -3084,12 +3092,40 @@
     </font>
    </property>
   </action>
+  <action name="MENU_SETTINGS_STOPONSPECIALDROP">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>特殊掉落时终止脚本运行</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_SETTINGS_STOPONDEFEATED">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>战斗撤退时终止脚本运行</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
  </widget>
  <tabstops>
-  <tabstop>CBX_PARTY</tabstop>
-  <tabstop>TXT_PARTY</tabstop>
-  <tabstop>BTN_PARTYSAVE</tabstop>
-  <tabstop>BTN_PARTYRESET</tabstop>
+  <tabstop>CBX_TEAM</tabstop>
+  <tabstop>TXT_TEAM</tabstop>
+  <tabstop>BTN_TEAMSAVE</tabstop>
+  <tabstop>BTN_TEAMRESET</tabstop>
   <tabstop>RBT_FRIEND_0</tabstop>
   <tabstop>RBT_FRIEND_1</tabstop>
   <tabstop>RBT_FRIEND_2</tabstop>
@@ -3287,10 +3323,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>CBX_PARTY</sender>
+   <sender>CBX_TEAM</sender>
    <signal>activated(QString)</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>loadParty(QString)</slot>
+   <slot>loadTeam(QString)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>34</x>
@@ -3303,10 +3339,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>BTN_PARTYSAVE</sender>
+   <sender>BTN_TEAMSAVE</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>saveParty()</slot>
+   <slot>saveTeam()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>331</x>
@@ -3319,10 +3355,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>BTN_PARTYRESET</sender>
+   <sender>BTN_TEAMRESET</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>resetParty()</slot>
+   <slot>resetTeam()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>431</x>
@@ -3558,6 +3594,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MENU_SETTINGS_STOPONDEFEATED</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>stopOnDefeated()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>293</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MENU_SETTINGS_STOPONSPECIALDROP</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>stopOnSpecialDrop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>293</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -3579,14 +3647,14 @@
  <slots>
   <slot>runOneBattle()</slot>
   <slot>runMain()</slot>
-  <slot>resetParty()</slot>
+  <slot>resetTeam()</slot>
   <slot>checkCheck()</slot>
   <slot>adbConnect()</slot>
   <slot>getDevice()</slot>
   <slot>pause()</slot>
   <slot>stop()</slot>
-  <slot>saveParty()</slot>
-  <slot>loadParty(QString)</slot>
+  <slot>saveTeam()</slot>
+  <slot>loadTeam(QString)</slot>
   <slot>getFriend()</slot>
   <slot>explorerHere()</slot>
   <slot>about()</slot>
@@ -3601,6 +3669,8 @@
   <slot>runJackpot()</slot>
   <slot>runMailFiltering()</slot>
   <slot>exec()</slot>
+  <slot>stopOnSpecialDrop()</slot>
+  <slot>stopOnDefeated()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
