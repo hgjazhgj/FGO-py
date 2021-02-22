@@ -7,11 +7,11 @@
 > 要成为超人的存在才行啊  
 > 所以啊,我不做人啦!JOJO!  
 # "智能战斗不间断,不靠礼装不用拐"的FGO全自动脚本
-![svg](https://img.shields.io/badge/fgo-FGO国服安卓玩家-225799.svg)
+![svg](https://img.shields.io/badge/bgo-FGO简中服安卓玩家-225799.svg)
 ![svg](https://img.shields.io/badge/梆梆人-BanGDream玩家-ff3b72.svg)
-![svg](https://img.shields.io/badge/hearthstone-炉石传说玩家-daa520.svg)
-![svg](https://img.shields.io/badge/majsoul-雀魂玩家-8b008b.svg)
-![svg](https://img.shields.io/badge/骑士君-公主连结Re:Dive玩家-fab471.svg)
+![svg](https://img.shields.io/badge/旅店老板-炉石传说玩家-daa520.svg)
+![svg](https://img.shields.io/badge/魂之缔造者-雀魂玩家-8b008b.svg)
+![svg](https://img.shields.io/badge/原来你也玩原神-原神玩家-1aa3ff.svg)
 ![svg](https://img.shields.io/badge/云程序员-云程序员-ffffff.svg)
 ![svg](https://img.shields.io/badge/开位-一条开位咸鱼-ffd700.svg)
 ![svg](https://img.shields.io/badge/头痛-患有头痛宿疾Ex-50a625.svg)
@@ -39,7 +39,7 @@
   </tr>
 </table>
 
-当前版本[v4.9.12](#版本记录-Version-Logs)  
+[版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 仅适用于命运-冠位指定安卓简体中文版本,仅能运行在包含Python3.8或更高版本的Windows上 [快速查错引导](#快速查错引导-When-Error-Occurred)  
 # 警告 Warning
@@ -58,7 +58,7 @@ ui大概长这样(设计视图仅供参考):
 这个脚本会依据你的设置比较智能地帮你放技能(默认不用),放宝具(默认充能满就放),选卡(优先三色chain,其次优先红卡),吃苹果(默认不吃),合理设定后可以无脑通过绝大部分非高难关卡,实战7-12回合能够刷完无限池终本  
 本脚本的代码部分仅有`fgoFunc.py`是fgo算法相关的,当然`fgoGui.py`也是脚本的一部分,会自动加载一些配置,在您知晓本脚本的工作原理前不建议单独使用`fgoFunc.py`进行操作  
 理论上讲,你只需要想办法重写fgoFunc.Base类就能用于iOS端;你只需要更改图片模板和fgoFunc.Check类就能用于FGO的其他语言版本;你只需要修改DirListener就能用于MacOs  
-欢迎魔改,不过**我的代码里有毒**  
+照  着  做  应  该  不  难,欢迎魔改,不过**我的代码里有毒**  
 ## 助战 Friends
 你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件  
 **被截图范围都应该可以点击来选中该好友**  
@@ -83,7 +83,7 @@ mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.
 + 在标准控制台里运行依然出错吗  
 + 你持有的版本是不是最新的  
 
-如果以上问题的答案均为"是",请提交issue,或按照后述的方式联系我  
+如果以上问题的答案均为"是",请选择bug_report模板创建并提交issue,或按照后述的方式联系我  
 ## 按键映射 HKey
 通常这张表格不需要被阅读,除非你打算改我的代码,或是我本人某日忘记了我当初的编码规则  
 |按键      |功能                                    |
@@ -124,6 +124,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/02/23 v4.10.0
+重构,好起来了  
+更新:可设置战斗失败或特殊掉落时中断  
+更改:fgoConfig.ini更名为fgoTeamup.ini  
+原文件名日后可能用来存放其他配置  
 ## 2021/02/19 v4.9.12
 更新:针对游戏活动更新进行适配  
 在没有友情巧克力时正常进入战斗  
