@@ -1,5 +1,4 @@
-> 209发清少纳言,叔叔你不要太过分  
-> 开始为caber攒石头(312/inf)  
+> 为caber攒石头(328/inf)  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -21,6 +20,8 @@
 ![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
+![Alipay](doc/行行好吧给颗石头吧.png)![Wechat](doc/吧头石颗给吧好行行.png)  
+觉得有帮助请为我star,谢谢  
 <table>
   <tr>
     <td><img src="doc/star/1.png" width="82" height="82"/></td>
@@ -41,7 +42,7 @@
 
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
-仅适用于命运-冠位指定安卓简体中文版本,仅能运行在包含Python3.8或更高版本的Windows上 [快速查错引导](#快速查错引导-When-Error-Occurred)  
+仅适用于命运-冠位指定安卓简体中文版本,仅能运行在包含Python3.8或更高版本的Windows上  
 # 警告 Warning
 ***
 [<<哔哩哔哩游戏平台用户协议V1.0.0>>](https://yhxy.biligame.com/)第11条第2款规定:  
@@ -66,26 +67,7 @@ ui大概长这样(设计视图仅供参考):
 如果image/friend目录下没有png文件,就选取好友列表中的第一个  
 助战截图的文件名若以包含技能和宝具信息的11个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo中的设置  
 你在image/friend目录下的所有更改会在下一次选取助战时自动应用  
-## 快速查错引导 When Error Occurred
-mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.Base类扒出来替换掉现在的那个~~  
-+ 游戏是否已经运行  
-+ 路径中是否有空格或非ASCII字符  
-+ 游戏画面旋转方向是否未变动  
-+ 手机屏幕是否点亮  
-+ 相关技能宝具参数配置是否正确  
-+ adb的连接是否有效  
-+ adb设备是否对应  
-+ 设备是否被airtest支持  
-+ 模板图片是否正确  
-+ 你的手机是否运行流畅  
-+ 当前场上从者与脚本中的从者是否对应  
-+ 该错误是否重复出现  
-+ 在标准控制台里运行依然出错吗  
-+ 你持有的版本是不是最新的  
-
-如果以上问题的答案均为"是",请选择bug_report模板创建并提交issue,或按照后述的方式联系我  
 ## 按键映射 HKey
-通常这张表格不需要被阅读,除非你打算改我的代码,或是我本人某日忘记了我当初的编码规则  
 |按键      |功能                                    |
 |----------|----------------------------------------|
 |F1-F10    |选取编队                                |
@@ -104,11 +86,9 @@ mumu模拟器用户请换模拟器~~或者自己把v4.0.0版本里面的fgoFunc.
 |M         |再次进行十连召唤                        |
 |\<Space\> |选卡/下一步/菜单                        |
 |NUM4-9    |选取敌人,NUM7返回/关闭                  |  
-## 如何联系我 Contact Me
+# 如何联系我 Contact Me
 ![img](doc/contact.png)  
-在占用我的时间之前,先耗费自己的时间  
-![Alipay](doc/行行好吧给颗石头吧.png)![Wechat](doc/吧头石颗给吧好行行.png)  
-觉得有帮助请为我star,谢谢  
+在占用我的时间之前,先耗费自己的时间,发现bug请按bug_report模板建立issue,其他issue多半会被直接删除,尤其是enhancement(你在教我做事?)和feature-request(伸手党4000+)  
 [提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
 去看看过往的issue就能知道我很暴躁,这是我的联系方式,在qq上我会更暴躁  
 qq 979449732(个人账号,加好友请注明是来问*这个脚本*的问题的.如果你有GitHub账户,请附上  
@@ -124,6 +104,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/02/26 v4.10.1
+bug修复:检查截图不会因已熔断的熔断器和其他错误导致进程退出  
+正在研究即将到来的fgo全面屏适配,被yls这狗屁不通的界面整糊涂了  
+我有三条路可以走:1.限定16:9使用;2.舍弃当前的按键映射适配全面屏;3.在每个设备初次连接时启动按键定位引导  
+如果选择第二条道路,应该怎样重新设计本脚本的结构?  
 ## 2021/02/23 v4.10.0
 重构,好起来了  
 更新:可设置战斗失败或特殊掉落时中断  

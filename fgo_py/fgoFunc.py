@@ -23,7 +23,7 @@
 ###################################################################################################################################################
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v4.10.0'
+__version__='v4.10.1'
 import logging
 # 素に銀と鉄。礎に石と契約の大公。
 import os
@@ -236,11 +236,9 @@ class Base(Android):
                 ' ':(1846,1030),
                 '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),#VK-NUMPAD4..9
                 }.items()}
-    def touch(self,p):
-        with self.lock:super().touch([round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
-    # def swipe(self,rect,duration=.15,steps=2,fingers=1):
-    #     with self.lock:super().swipe(*[[round(rect[i<<1|j]/self.scale)+self.border[j]+self.render[j]for j in range(2)]for i in range(2)],duration,steps,fingers)
-    def swipe(self,rect):#if this doesn't work, use the above one instead
+    def touch(self,pos):
+        with self.lock:super().touch([round(pos[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
+    def swipe(self,rect):
         p1,p2=[numpy.array(self._touch_point_by_orientation([rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
         vd=p2-p1
         lvd=numpy.linalg.norm(vd)
@@ -263,17 +261,17 @@ class Base(Android):
             time.sleep(.35)
             self.maxtouch.safe_send('u 0\nc\n')
             time.sleep(.02)
-    def press(self,c):
-        with self.lock:super().touch(self.key[c])
-    def snapshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
+    def press(self,key):
+        with self.lock:super().touch(self.key[key])
+    def perform(self,pos,wait):[(self.press(i),control.sleep(j*.001))for i,j in zip(pos,wait)]
+    def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
     def skipHouguAnime(self):raise NotImplementedError('什么,你不会真的以为有这个功能吧,不会吧不会吧...')
 base=Base()
-def doit(pos,wait):[(base.press(i),control.sleep(j*.001))for i,j in zip(pos,wait)]
 check=None
 class Check:
     def __init__(self,forwordLagency=.01,backwordLagency=0):
         control.sleep(forwordLagency)
-        self.im=base.snapshot()
+        self.im=base.screenshot()
         global check
         check=self
         fuse.increase()
@@ -326,11 +324,11 @@ class Check:
     def getStageTotal(self):return self.select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56))+1
 def gacha():
     while fuse.value<30:
-        if Check(.1).isGacha():doit('MK',(200,2700))
+        if Check(.1).isGacha():base.perform('MK',(200,2700))
         base.press('\xDC')
 def jackpot():
     while fuse.value<70:
-        if Check().isNextJackpot():doit('0JJ',(600,1800,0))
+        if Check().isNextJackpot():base.perform('0JJ',(600,1800,0))
         for _ in range(40):base.press('2')
 def mailFiltering():
     mailFilterImg.flush()
@@ -345,21 +343,21 @@ def battle():
             skill,newPortrait=check.isSkillReady(),check.getPortrait()
             if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
-            if stageTurn==1and dangerPos[stage-1]:doit('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1]+'\xDC',(250,500))
+            if stageTurn==1and dangerPos[stage-1]:base.perform('\x69\x68\x67\x66\x65\x64'[dangerPos[stage-1]-1]+'\xDC',(250,500))
             portrait=newPortrait
             logger.info(f'{turn} {stage} {stageTurn} {servant}')
             for i,j in((i,j)for i in range(3)if servant[i]<6for j in range(3)if skill[i][j]and skillInfo[servant[i]][j][0]and min(skillInfo[servant[i]][j][0],stageTotal)<<8|skillInfo[servant[i]][j][1]<=stage<<8|stageTurn):
-                doit(('ASD','FGH','JKL')[i][j],(300,))
-                if skillInfo[servant[i]][j][2]:doit('234'[skillInfo[servant[i]][j][2]-1],(300,))
+                base.perform(('ASD','FGH','JKL')[i][j],(300,))
+                if skillInfo[servant[i]][j][2]:base.perform('234'[skillInfo[servant[i]][j][2]-1],(300,))
                 control.sleep(2.3)
                 while not Check().isTurnBegin():pass
             for i in(i for i in range(3)if stage==min(masterSkill[i][0],stageTotal)and stageTurn==masterSkill[i][1]):
-                doit('Q'+'WER'[i],(300,300))
-                if masterSkill[i][2]:doit('234'[masterSkill[i][2]-1],(300,))
+                base.perform('Q'+'WER'[i],(300,300))
+                if masterSkill[i][2]:base.perform('234'[masterSkill[i][2]-1],(300,))
                 control.sleep(2.3)
                 while not Check().isTurnBegin():pass
-            doit(' ',(2350,))
-            doit((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,6000))
+            base.perform(' ',(2350,))
+            base.perform((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,6000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
@@ -378,14 +376,14 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
             else:
                 appleCount+=1
                 logger.info(f'Apple {appleCount}')
-                doit('W4K8'[appleKind]+'L',(400,1200))
+                base.perform('W4K8'[appleKind]+'L',(400,1200))
                 return False
     def chooseFriend():
         refresh=False
         while not Check(.2).isChooseFriend():
             if check.isNoFriend():
                 if refresh:control.sleep(10)
-                doit('\xBAJ',(500,1000))
+                base.perform('\xBAJ',(500,1000))
                 refresh=True
         friendImg.flush()
         if not friendImg:
@@ -401,12 +399,12 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
                 base.swipe((800,900,800,300))
                 Check(.3)
             if refresh:control.sleep(max(0,timer+10-time.time()))
-            doit('\xBAJ',(500,1000))
+            base.perform('\xBAJ',(500,1000))
             refresh=True
             while not Check(.2).isChooseFriend():
                 if check.isNoFriend():
                     control.sleep(10)
-                    doit('\xBAJ',(500,1000))
+                    base.perform('\xBAJ',(500,1000))
     appleCount,battleCount=0,0
     while True:
         while True:
@@ -416,8 +414,8 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
                 if eatApple():return
                 chooseFriend()
                 while not Check(.1).isBattleBegin():pass
-                if teamIndex and check.getTeamIndex()!=teamIndex:doit('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[teamIndex-1]+' ',(1000,400))
-                doit(' 8M',(800,800,10000))
+                if teamIndex and check.getTeamIndex()!=teamIndex:base.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[teamIndex-1]+' ',(1000,400))
+                base.perform(' 8M',(800,800,10000))
                 break
             elif check.isBattleContinue():
                 try:control.checkTerminateLater()
@@ -437,10 +435,10 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
             base.press(' ')
         battleCount+=1
         logger.info(f'Battle {battleCount}')
-        doit('    ',(200,200,200,200))if battleFunc()else doit('BIJ',(500,500,500))
+        base.perform('        ',(200,200,200,200,200,200,200,200))if battleFunc()else base.perform('BIJ',(500,500,500))
 def userScript():
     while not Check(0,.2).isTurnBegin():pass
     #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    doit('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    base.perform('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
     while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
     return True
