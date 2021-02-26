@@ -1,7 +1,7 @@
 import configparser,logging,os,sys,threading
 from airtest.core.android.adb import ADB
 from PyQt5.QtCore import QRegExp,Qt,pyqtSignal
-from PyQt5.QtGui import QIntValidator,QRegExpValidator
+from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox
 
 import fgoFunc
@@ -31,6 +31,7 @@ class MyMainWindow(QMainWindow):
         if self.ui.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeypadModifier:
             try:fgoFunc.base.press(chr(key.nativeVirtualKey()))
             except KeyError:pass
+            except Exception as e:logger.critical(e)
     def closeEvent(self,event):
         if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.Yes|QMessageBox.No)!=QMessageBox.Yes:
             event.ignore()
@@ -42,8 +43,6 @@ class MyMainWindow(QMainWindow):
         if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备')
         def f():
             try:
-                fgoFunc.control.reset()
-                fgoFunc.fuse.reset()
                 self.signalFuncBegin.emit()
                 self.applyAll()
                 func(*args,**kwargs)
@@ -51,6 +50,8 @@ class MyMainWindow(QMainWindow):
             except Exception as e:logger.exception(e)
             finally:
                 self.signalFuncEnd.emit()
+                fgoFunc.control.reset()
+                fgoFunc.fuse.reset()
                 QApplication.beep()
         self.thread=threading.Thread(target=f,name=f'{func.__qualname__}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
         self.thread.start()
@@ -97,7 +98,10 @@ class MyMainWindow(QMainWindow):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
         if ok and text:ADB(text)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
-    def checkCheck(self):fgoFunc.Check().show()if fgoFunc.base.serialno else QMessageBox.critical(self,'错误','未连接设备')
+    def checkCheck(self):
+        if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备')
+        try:fgoFunc.Check().show()
+        except Exception as e:logger.critical(e)
     def applyAll(self):
         fgoFunc.teamIndex=int(self.ui.TXT_TEAM.text())
         fgoFunc.skillInfo=[[[int(getattr(self.ui,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]
