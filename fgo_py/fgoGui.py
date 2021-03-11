@@ -73,6 +73,7 @@ class MyMainWindow(QMainWindow):
         self.ui.BTN_STOPLATER.setChecked(False)
         self.ui.BTN_STOPLATER.setEnabled(False)
         self.ui.MENU_SCRIPT.setEnabled(True)
+        self.ui.TXT_APPLE.setValue(0)
     def loadTeam(self,teamName):
         self.ui.TXT_TEAM.setText(config[teamName]['teamIndex'])
         (lambda skillInfo:[getattr(self.ui,f'TXT_SKILL_{i}_{j}_{k}').setText(str(skillInfo[i][j][k]))for i in range(6)for j in range(3)for k in range(3)])(eval(config[teamName]['skillInfo']))
@@ -115,7 +116,7 @@ class MyMainWindow(QMainWindow):
     def runJackpot(self):self.runFunc(fgoFunc.jackpot)
     def runMailFiltering(self):self.runFunc(fgoFunc.mailFiltering)
     def runMain(self):
-        text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'])
+        text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'],0,False)
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),{'完成战斗':fgoFunc.battle,'用户脚本':fgoFunc.userScript}[text])
     def pause(self):fgoFunc.control.suspend()
     def stop(self):fgoFunc.control.terminate()
