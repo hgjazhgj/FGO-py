@@ -23,7 +23,7 @@
 ###################################################################################################################################################
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v4.10.1'
+__version__='v4.10.2'
 import logging
 # 素に銀と鉄。礎に石と契約の大公。
 import os
@@ -47,7 +47,7 @@ from airtest.core.android.android import Android
 from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 # 天秤の守り手よ―――！
 (lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].formatter.datefmt='%H:%M:%S'
-(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
+(lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
 teamIndex=0
 skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
@@ -265,7 +265,6 @@ class Base(Android):
         with self.lock:super().touch(self.key[key])
     def perform(self,pos,wait):[(self.press(i),control.sleep(j*.001))for i,j in zip(pos,wait)]
     def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
-    def skipHouguAnime(self):raise NotImplementedError('什么,你不会真的以为有这个功能吧,不会吧不会吧...')
 base=Base()
 check=None
 class Check:
@@ -277,7 +276,7 @@ class Check:
         fuse.increase()
         control.sleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
-    def select(self,img,rect=(0,0,1920,1080),threshold=.5):return(lambda x:numpy.argmin(x)if not logger.debug(f'Select from {x}')and threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
+    def select(self,img,rect=(0,0,1920,1080),threshold=.4):return(lambda x:numpy.argmin(x)if not logger.debug(f'Select from {x}')and threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tap(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):
         cv2.imwrite(time.strftime(name if name else'%Y-%m-%d_%H.%M.%S.jpg',time.localtime()),self.im)
@@ -295,7 +294,7 @@ class Check:
     def isBattleFinished(self):return self.compare(IMG.BOUND,(112,250,454,313))or self.compare(IMG.BOUNDUP,(987,350,1468,594))
     def isChooseFriend(self):return self.compare(IMG.CHOOSEFRIEND,(1249,324,1387,382))
     def isGacha(self):return self.compare(IMG.GACHA,(973,960,1312,1052))
-    def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,768+346*i,387),.3)for j in(IMG.HOUGUSEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
+    def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,768+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
     def isMainInterface(self):return self.compare(IMG.MENU,(1630,950,1919,1079))
     def isNextJackpot(self):return self.compare(IMG.JACKPOT,(1556,336,1859,397))
@@ -314,7 +313,7 @@ class Check:
                 try:
                     if(ans:=func(self,*args,**kwargs))is not None:return ans
                 except err:pass
-                logger.warning(f'Retry {func.__qualname__} with {args} {kwargs}')
+                logger.warning(f'Retry {func.__qualname__}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
                 return wrap(Check(interval),*args,**kwargs)
             return wrap
         return wrapper
@@ -438,7 +437,7 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
         base.perform('        ',(200,200,200,200,200,200,200,200))if battleFunc()else base.perform('BIJ',(500,500,500))
 def userScript():
     while not Check(0,.2).isTurnBegin():pass
-    #                            S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    #                                    S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
     base.perform('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
     while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
     return True
