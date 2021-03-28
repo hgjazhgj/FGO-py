@@ -23,7 +23,7 @@
 ###################################################################################################################################################
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v4.10.2'
+__version__='v4.10.3'
 import logging
 # 素に銀と鉄。礎に石と契約の大公。
 import os
@@ -60,8 +60,8 @@ ScriptTerminate=type('ScriptTerminate',(Exception,),{'__init__':lambda self,msg=
 class Control:
     def __init__(self):
         self.reset()
-        self.__stopOnDefeatedFlag=False
-        self.__stopOnSpecialDropFlag=False
+        self.__stopOnDefeatedFlag=True
+        self.__stopOnSpecialDropFlag=True
     def reset(self):
         self.__terminateFlag=False
         self.__suspendFlag=False
@@ -436,8 +436,9 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
         logger.info(f'Battle {battleCount}')
         base.perform('        ',(200,200,200,200,200,200,200,200))if battleFunc()else base.perform('BIJ',(500,500,500))
 def userScript():
+    # BX WCBA 极地用迦勒底制服
     while not Check(0,.2).isTurnBegin():pass
-    #                                    S    2    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    base.perform('S2DF2GH2J2KL2QE2 654',(350,3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    #                                    S    D    3    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    base.perform('SD3F2GH2J2KL2QE2 654',(3000,350,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
     while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
     return True

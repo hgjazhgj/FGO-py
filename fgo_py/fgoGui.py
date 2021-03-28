@@ -1,8 +1,8 @@
 import configparser,logging,os,sys,threading
 from airtest.core.android.adb import ADB
-from PyQt5.QtCore import QRegExp,Qt,pyqtSignal
-from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox
+from PyQt6.QtCore import QRegularExpression,Qt,pyqtSignal
+from PyQt6.QtGui import QRegularExpressionValidator
+from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox
 
 import fgoFunc
 from fgoMainWindow import Ui_fgoMainWindow
@@ -21,7 +21,7 @@ class MyMainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.CBX_TEAM.addItems(config.sections())
         self.ui.CBX_TEAM.setCurrentIndex(-1)
-        self.ui.TXT_TEAM.setValidator(QRegExpValidator(QRegExp('10|[0-9]'),self))
+        self.ui.TXT_TEAM.setValidator(QRegularExpressionValidator(QRegularExpression('10|[0-9]'),self))
         self.loadTeam('DEFAULT')
         self.getDevice()
         self.thread=threading.Thread()
@@ -93,7 +93,7 @@ class MyMainWindow(QMainWindow):
         with open('fgoTeamup.ini','w')as f:config.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,True,Qt.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
+        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,True,Qt.WindowFlags.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
         if ok and text and text!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(text)
     def adbConnect(self):
         text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
@@ -177,4 +177,4 @@ if __name__=='__main__':
     app=QApplication(sys.argv)
     myWin=MyMainWindow()
     myWin.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

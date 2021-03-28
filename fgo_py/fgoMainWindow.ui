@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
+<ui version="4.0" connectslotsbyname="false">
  <author>hgjazhgj</author>
  <class>fgoMainWindow</class>
  <widget class="QMainWindow" name="fgoMainWindow">
@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>488</width>
-    <height>587</height>
+    <width>417</width>
+    <height>527</height>
    </rect>
   </property>
   <property name="font">
@@ -49,10 +49,16 @@
       </item>
       <item>
        <widget class="QLineEdit" name="TXT_TEAM">
+        <property name="minimumSize">
+         <size>
+          <width>20</width>
+          <height>25</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>24</width>
-          <height>30</height>
+          <width>20</width>
+          <height>25</height>
          </size>
         </property>
         <property name="contextMenuPolicy">
@@ -144,10 +150,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -166,10 +178,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -188,10 +206,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -238,10 +262,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_1_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -260,10 +290,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_1_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -282,10 +318,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_1_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -332,10 +374,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_2_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -354,10 +402,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_2_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -376,10 +430,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_2_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -426,10 +486,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_0_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -448,10 +514,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_0_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -494,10 +566,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -516,10 +594,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -538,10 +622,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -588,10 +678,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_1_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -610,10 +706,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_1_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -632,10 +734,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_1_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -682,10 +790,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_2_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -704,10 +818,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_2_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -726,10 +846,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_2_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -776,10 +902,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_1_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -798,10 +930,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_1_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -844,10 +982,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -866,10 +1010,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -888,10 +1038,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -938,10 +1094,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_1_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -960,10 +1122,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_1_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -982,10 +1150,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_1_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1032,10 +1206,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_2_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1054,10 +1234,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_2_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1076,10 +1262,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_2_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1126,10 +1318,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_2_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1148,10 +1346,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_2_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1194,10 +1398,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1216,10 +1426,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1238,10 +1454,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1288,10 +1510,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_1_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1310,10 +1538,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_1_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1332,10 +1566,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_1_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1382,10 +1622,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_2_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1404,10 +1650,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_2_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1426,10 +1678,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_2_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1476,10 +1734,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_3_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1498,10 +1762,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_3_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1550,10 +1820,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1572,10 +1848,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1594,10 +1876,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1644,10 +1932,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_1_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1666,10 +1960,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_1_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1688,10 +1988,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_1_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1738,10 +2044,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_2_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1760,10 +2072,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_2_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1782,10 +2100,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_2_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1832,10 +2156,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_4_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1854,10 +2184,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_4_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1903,10 +2239,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1925,10 +2267,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1947,10 +2295,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -1997,10 +2351,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_1_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -2019,10 +2379,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_1_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -2041,10 +2407,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_1_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -2091,10 +2463,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_2_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -2113,10 +2491,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_2_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -2135,10 +2519,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_2_2">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -2185,10 +2575,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_5_0">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -2207,10 +2603,16 @@
           </item>
           <item>
            <widget class="QLineEdit" name="TXT_HOUGU_5_1">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>24</width>
-              <height>30</height>
+              <width>20</width>
+              <height>25</height>
              </size>
             </property>
             <property name="contextMenuPolicy">
@@ -2248,10 +2650,16 @@
        <layout class="QHBoxLayout" name="LAYOUT_INFO_DANGER">
         <item>
          <widget class="QLineEdit" name="TXT_DANGER_0">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2298,10 +2706,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_DANGER_1">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2348,10 +2762,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_DANGER_2">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2443,10 +2863,16 @@
        <layout class="QHBoxLayout" name="LAYOUT_INFO_MASTER">
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_0_0">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2465,10 +2891,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_0_1">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2487,10 +2919,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_0_2">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2525,10 +2963,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_1_0">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2547,10 +2991,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_1_1">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2569,10 +3019,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_1_2">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2607,10 +3063,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_2_0">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2629,10 +3091,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_2_1">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2651,10 +3119,16 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_2_2">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2676,10 +3150,16 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>24</width>
-            <height>30</height>
+            <width>20</width>
+            <height>25</height>
            </size>
           </property>
           <property name="contextMenuPolicy">
@@ -2894,8 +3374,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>488</width>
-     <height>30</height>
+     <width>417</width>
+     <height>26</height>
     </rect>
    </property>
    <property name="font">
@@ -3087,13 +3567,15 @@
     <font>
      <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
-     <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
   </action>
   <action name="MENU_SETTINGS_STOPONSPECIALDROP">
    <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="text">
@@ -3108,6 +3590,9 @@
   </action>
   <action name="MENU_SETTINGS_STOPONDEFEATED">
    <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="text">
@@ -3324,7 +3809,7 @@
   </connection>
   <connection>
    <sender>CBX_TEAM</sender>
-   <signal>activated(QString)</signal>
+   <signal>textActivated(QString)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>loadTeam(QString)</slot>
    <hints>
@@ -3627,23 +4112,6 @@
    </hints>
   </connection>
  </connections>
- <designerdata>
-  <property name="gridDeltaX">
-   <number>10</number>
-  </property>
-  <property name="gridDeltaY">
-   <number>10</number>
-  </property>
-  <property name="gridSnapX">
-   <bool>true</bool>
-  </property>
-  <property name="gridSnapY">
-   <bool>true</bool>
-  </property>
-  <property name="gridVisible">
-   <bool>true</bool>
-  </property>
- </designerdata>
  <slots>
   <slot>runOneBattle()</slot>
   <slot>runMain()</slot>
