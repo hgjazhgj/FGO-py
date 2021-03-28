@@ -1,5 +1,5 @@
 >开学了(悲),两个月的寒假终于结束了...  
-> 为caber攒石头(420/inf)  
+> 为caber攒石头:(510+2/7+35*3)/inf  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -20,7 +20,7 @@
 ![svg](https://img.shields.io/badge/病弱-病弱厨-ecbacb.svg)
 ![svg](https://img.shields.io/badge/mikon-玉藻俱乐部成员-804313.svg)
 ![svg](https://img.shields.io/badge/萝莉控-小学生真是太棒了-b0e0e6.svg)
-![svg](https://img.shields.io/badge/n4-日语N4或同等水平-00ff00.svg)
+![svg](https://img.shields.io/badge/n2-日语N2或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 ![Alipay](doc/行行好吧给颗石头吧.png)![Wechat](doc/吧头石颗给吧好行行.png)  
@@ -45,6 +45,7 @@
 
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
+在点击fork按钮之前,请确保你具备相关知识,知道系列功能如何使用,并确实有修改本项目的计划  
 仅适用于命运-冠位指定安卓简体中文版本,仅能运行在包含Python3.8或更高版本的Windows上  
 # 警告 Warning
 ***
@@ -107,6 +108,18 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/03/29 v6.0.0
+问:为什么没有v5.x版本?  
+答:那是留给全面屏适配用的版本号  
+问:为什么要这样安排  
+答:因为6代表**Qt6**  
+没错,这个项目的UI现在基于Qt6  
+在使用pyuic6编译ui文件之后,还需要将  
+`self.LAYOUT_INFO.setRowWrapPolicy(QtWidgets.QFormLayout.WrapLongRows)`  
+改为  
+`self.LAYOUT_INFO.setRowWrapPolicy(QtWidgets.QFormLayout.RowWrapPolicy.WrapLongRows)`  
+在Qt6中,各Flag由enum变为了enum class,但是部分选项uic里没改过来,例如xml中`Qt::AlignRight`会被正确编译为`QtCore.Qt.Alignment.AlignRight`而`QFormLayout::WrapLongRows`被遗漏了  
+由于缩放策略的改变,Qt5时缩放不正确的bug被修复了,现在在不同缩放分辨率的屏幕之间拖动窗口不会导致布局改变,因此先前的UI设计现在会看起来有点不舒服,这会在之后的更新中逐步调整  
 ## 2021/03/11 v4.10.2
 优化:战斗结束后将苹果输入清零等小细节优化  
 更新license  
