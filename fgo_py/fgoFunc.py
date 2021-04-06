@@ -438,7 +438,7 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
 def userScript():
     # BX WCBA 极地用迦勒底制服
     while not Check(0,.2).isTurnBegin():pass
-    #                                    S    D    3    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    base.perform('SD3F2GH2J2KL2QE2 654',(3000,350,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    #                                    A    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    base.perform('ADF2GH2J2KL2QE2 654',(3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
     while not Check(0,.2).isBattleFinished():assert not check.isTurnBegin()
     return True

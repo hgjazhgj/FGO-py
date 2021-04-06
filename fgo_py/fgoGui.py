@@ -28,12 +28,12 @@ class MyMainWindow(QMainWindow):
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def keyPressEvent(self,key):
-        if self.ui.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeypadModifier:
+        if self.ui.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifiers.KeypadModifier:
             try:fgoFunc.base.press(chr(key.nativeVirtualKey()))
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
-        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.Yes|QMessageBox.No)!=QMessageBox.Yes:
+        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.StandardButtons.Yes|QMessageBox.StandardButtons.No)!=QMessageBox.StandardButtons.Yes:
             event.ignore()
             return
         fgoFunc.control.terminate()
@@ -129,9 +129,8 @@ class MyMainWindow(QMainWindow):
     def stopOnDefeated(self):fgoFunc.control.stopOnDefeated()
     def stopOnSpecialDrop(self):fgoFunc.control.stopOnSpecialDrop()
     def explorerHere(self):os.startfile('.')
-    def pwsHere(self):os.system('start PowerShell -NoLogo')
     def stayOnTop(self):
-        self.setWindowFlags(self.windowFlags()^Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(self.windowFlags()^Qt.WindowFlags.WindowStaysOnTopHint)
         self.show()
     def mapKey(self,x):
         if x and not fgoFunc.base.serialno:
@@ -139,7 +138,7 @@ class MyMainWindow(QMainWindow):
             return QMessageBox.critical(self,'错误','未连接设备')
     def exec(self):
         s=QApplication.clipboard().text()
-        if QMessageBox.information(self,'exec',s,QMessageBox.Ok|QMessageBox.Cancel)!=QMessageBox.Ok:return
+        if QMessageBox.information(self,'exec',s,QMessageBox.StandardButtons.Ok|QMessageBox.StandardButtons.Cancel)!=QMessageBox.StandardButtons.Ok:return
         try:exec(s)
         except BaseException as e:logger.exception(e)
     def about(self):QMessageBox.about(self,'关于',f'''
