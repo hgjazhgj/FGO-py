@@ -52,7 +52,7 @@ class MyMainWindow(QMainWindow):
                 self.signalFuncEnd.emit()
                 fgoFunc.control.reset()
                 fgoFunc.fuse.reset()
-                QApplication.beep()
+                QApplication.beep()# print('\a',end='')
         self.thread=threading.Thread(target=f,name=f'{func.__qualname__}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
         self.thread.start()
     def funcBegin(self):
@@ -129,8 +129,8 @@ class MyMainWindow(QMainWindow):
     def stopOnDefeated(self):fgoFunc.control.stopOnDefeated()
     def stopOnSpecialDrop(self):fgoFunc.control.stopOnSpecialDrop()
     def explorerHere(self):os.startfile('.')
-    def stayOnTop(self):
-        self.setWindowFlags(self.windowFlags()^Qt.WindowFlags.WindowStaysOnTopHint)
+    def stayOnTop(self,x):
+        self.setWindowFlag(Qt.WindowFlags.WindowStaysOnTopHint,x)
         self.show()
     def mapKey(self,x):
         if x and not fgoFunc.base.serialno:
@@ -165,11 +165,11 @@ class MyMainWindow(QMainWindow):
 这是我的支付宝收款码,请给我打钱,一分钱也行<br/>
 <img src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/Zt
 BFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9
-/R3wATtkAA==" height="290" width="290"/><br/>
+/R3wATtkAA==" height="203" width="203"/><br/>
 这是我的微信收款码,请给我打钱,一分钱也行<br/>
 <img src="data:;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0
 hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9
-Wl3wAdBsAA" height="290" width="290"/>
+Wl3wAdBsAA" height="203" width="203"/>
 ''')
 
 if __name__=='__main__':

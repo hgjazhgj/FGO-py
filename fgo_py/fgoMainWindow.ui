@@ -3925,9 +3925,9 @@
   </connection>
   <connection>
    <sender>MENU_CONTROL_STAYONTOP</sender>
-   <signal>triggered()</signal>
+   <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>stayOnTop()</slot>
+   <slot>stayOnTop(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -4100,7 +4100,7 @@
   <slot>about()</slot>
   <slot>applyAll()</slot>
   <slot>runUser()</slot>
-  <slot>stayOnTop()</slot>
+  <slot>stayOnTop(bool)</slot>
   <slot>refreshDevice()</slot>
   <slot>runGacha()</slot>
   <slot>mapKey(bool)</slot>
