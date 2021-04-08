@@ -972,7 +972,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_FILE_EXPLORER.triggered.connect(fgoMainWindow.explorerHere)
         self.MENU_ABOUT_ABOUT.triggered.connect(fgoMainWindow.about)
         self.BTN_APPLYALL.clicked.connect(fgoMainWindow.applyAll)
-        self.MENU_CONTROL_STAYONTOP.triggered.connect(fgoMainWindow.stayOnTop)
+        self.MENU_CONTROL_STAYONTOP.triggered['bool'].connect(fgoMainWindow.stayOnTop)
         self.MENU_CONTROL_REFRESHDEVICE.triggered.connect(fgoMainWindow.refreshDevice)
         self.MENU_SCRIPT_GACHA.triggered.connect(fgoMainWindow.runGacha)
         self.MENU_CONTROL_MAPKEY.triggered['bool'].connect(fgoMainWindow.mapKey)
