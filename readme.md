@@ -1,6 +1,6 @@
 > 20发大公,好耶!  
-> 大明狐,到关服!
-> 为caber攒石头:(529+1*3)/inf  
+> 大明狐,到关服!  
+> 为caber攒石头:(530+1*3)/inf  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -96,6 +96,7 @@ ui大概长这样(设计视图仅供参考):
 在占用我的时间之前,先耗费自己的时间--Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
 发现bug请按bug_report模板建立issue,其他issue多半会被直接删除,尤其是enhancement(你在教我做事?)和feature-request(伸手党4000+)  
 [提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
+本人已在知乎开启[付费咨询](https://www.zhihu.com/consult/people/1149733177244516352),我觉得这总比qq要靠谱一点  
 去看看过往的issue就能知道我很暴躁,这是我的联系方式,在qq上我会更暴躁  
 qq 979449732(个人账号,加好友请注明是来问*这个脚本*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
