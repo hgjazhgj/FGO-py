@@ -1,53 +1,48 @@
-###################################################################################################################################################
-#                                                                                                                                                 #
-#                                                                                                                                                 #
-#    YYYYYYY       YYYYYYY     LLLLLLLLLLL                     SSSSSSSSSSSSSSS      FFFFFFFFFFFFFFFFFFFFFF     MMMMMMMM               MMMMMMMM    #
-#    Y:::::Y       Y:::::Y     L:::::::::L                   SS:::::::::::::::S     F::::::::::::::::::::F     M:::::::M             M:::::::M    #
-#    Y:::::Y       Y:::::Y     L:::::::::L                  S:::::SSSSSS::::::S     F::::::::::::::::::::F     M::::::::M           M::::::::M    #
-#    Y::::::Y     Y::::::Y     LL:::::::LL                  S:::::S     SSSSSSS     FF::::::FFFFFFFFF::::F     M:::::::::M         M:::::::::M    #
-#    YYY:::::Y   Y:::::YYY       L:::::L                    S:::::S                   F:::::F       FFFFFF     M::::::::::M       M::::::::::M    #
-#       Y:::::Y Y:::::Y          L:::::L                    S:::::S                   F:::::F                  M:::::::::::M     M:::::::::::M    #
-#        Y:::::Y:::::Y           L:::::L                     S::::SSSS                F::::::FFFFFFFFFF        M:::::::M::::M   M::::M:::::::M    #
-#         Y:::::::::Y            L:::::L                      SS::::::SSSSS           F:::::::::::::::F        M::::::M M::::M M::::M M::::::M    #
-#          Y:::::::Y             L:::::L                        SSS::::::::SS         F:::::::::::::::F        M::::::M  M::::M::::M  M::::::M    #
-#           Y:::::Y              L:::::L                           SSSSSS::::S        F::::::FFFFFFFFFF        M::::::M   M:::::::M   M::::::M    #
-#           Y:::::Y              L:::::L                                S:::::S       F:::::F                  M::::::M    M:::::M    M::::::M    #
-#           Y:::::Y              L:::::L         LLLLLL                 S:::::S       F:::::F                  M::::::M     MMMMM     M::::::M    #
-#           Y:::::Y            LL:::::::LLLLLLLLL:::::L     SSSSSSS     S:::::S     FF:::::::FF                M::::::M               M::::::M    #
-#        YYYY:::::YYYY         L::::::::::::::::::::::L     S::::::SSSSSS:::::S     F::::::::FF                M::::::M               M::::::M    #
-#        Y:::::::::::Y         L::::::::::::::::::::::L     S:::::::::::::::SS      F::::::::FF                M::::::M               M::::::M    #
-#        YYYYYYYYYYYYY         LLLLLLLLLLLLLLLLLLLLLLLL      SSSSSSSSSSSSSSS        FFFFFFFFFFF                MMMMMMMM               MMMMMMMM    #
-#                                                                                                                                                 #
-#        又有人想教yls做游戏? 我不是我没有,我已经帮他做了                                                                                         #
-#                                                                                                                                                 #
-###################################################################################################################################################
+# Stars  Cosmos Gods  Animus    Antrum       Unbirth    Anima Animusphere
+# 星の形.宙の形.神の形.我の形.天体は空洞なり.空洞は虚空なり.虚空には神ありき.
+# 地を照らし,空に在り,天上の座標を示せ.
+# カルディアの灯よ.
+# どうか今一度,旅人の標とならん事を.
+# ここで,Bgo運営の敗北を宣言する!
+# .        OO---O---O-o\
+# .       // \ / \ / \ \\
+# .      OO   O   O   O \\
+# .     // \   \ /   / \ \\
+# .    oO---O---O---O---O-Oo
+# .     \\ /   / \   \ / //
+# .      \O   O   O   O //
+# .       \\ / \ / \ / //
+# .        oO---O---Oo-O
+# .             ^^
+# .  Grand Order/Anima Animusphere
+# .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.0.2'
+__version__='v6.0.3'
+# 素に銀と鉄.礎に石と契約の大公.
 import logging
-# 素に銀と鉄。礎に石と契約の大公。
+# 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
 import os
-# 降り立つ風には壁を。四方の門は閉じ、王冠より出で、王国に至る三叉路は循環せよ。
+# 満たせ.満たせ.満たせ.満たせ.満たせ.
 import re
-# 満たせ。満たせ。満たせ。満たせ。満たせ。
+# 繰り返すつどに五度.ただ,満たされる刻を破却する.
 import threading
-# 繰り返すつどに五度。ただ、満たされる刻を破却する。
+# ――――告げる.
 import time
-# ――――告げる。
+# 汝の身は我が下に,我が命運は汝の剣に.
 import cv2
-# 汝の身は我が下に、我が命運は汝の剣に。
+# 聖杯の寄るべに従い,この意,この理に従うならば応えよ!
 import numpy
-# 聖杯の寄るべに従い、この意、この理に従うならば応えよ！
+# 誓いを此処に.
 import win32con
-# 誓いを此処に。
+# 我は常世総ての善と成る者,我は常世総ての悪を敷く者.
 import win32file
-# 我は常世総ての善と成る者、我は常世総ての悪を敷く者。
+# 汝三大の言霊を纏う七天,抑止の輪より来たれ,
 from airtest.core.android.android import Android
-# 汝三大の言霊を纏う七天、抑止の輪より来たれ、
-from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 # 天秤の守り手よ―――！
-(lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'31','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
-(lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'31','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
+from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
+(lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
+(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
 teamIndex=0
 skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
@@ -302,7 +297,7 @@ class Check:
     def isSkillReady(self):return[[not self.compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self.compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self.compare(IMG.ATTACK,(1567,932,1835,1064))
-    def getABQ(self):return[-1if self.compare(IMG.CARDSEALED,(43+386*i,667,345+386*i,845),.3)else(lambda x:x.index(max(x)))([numpy.mean(self.im[771:919,108+386*i:318+386*i,j])for j in(2,1,0)])for i in range(5)]
+    def getABQ(self):return[-1if self.compare(IMG.CARDSEALED,(43+386*i,667,345+386*i,845),.3)else self.select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))for i in range(5)]
     def getTeamIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG.TEAMINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
     def retryOnError(interval=.1,err=TypeError):
@@ -356,7 +351,7 @@ def battle():
                 control.sleep(2.3)
                 while not Check().isTurnBegin():pass
             base.perform(' ',(2350,))
-            base.perform((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:c[x]<<1&2|c[x]>>1&1)if any(h)else(lambda x:-1if c[x]!=-1and c.count(c[x])>=3else c[x]<<1&2|c[x]>>1&1))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,6000))
+            base.perform((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-x)if any(h)else(lambda x:-3if c[x]!=-1and c.count(c[x])>=3else-x))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,6000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
