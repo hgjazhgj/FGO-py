@@ -351,7 +351,7 @@ def battle():
                 control.sleep(2.3)
                 while not Check().isTurnBegin():pass
             base.perform(' ',(2350,))
-            base.perform((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-x)if any(h)else(lambda x:-3if c[x]!=-1and c.count(c[x])>=3else-x))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,6000))
+            base.perform((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-houguInfo[servant[x]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-c[x])if any(h)else(lambda x:-3if c[x]!=-1and c.count(c[x])>=3else-c[x]))])(Check().getABQ(),[servant[i]<6and j and houguInfo[servant[i]][0]and stage>=min(houguInfo[servant[i]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,6000))
         elif check.isBattleFinished():
             logger.info('Battle Finished')
             return True
