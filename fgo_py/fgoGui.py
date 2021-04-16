@@ -161,7 +161,7 @@ class MyMainWindow(QMainWindow):
     <td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td>
   </tr>
 </table>
-<!-- 都看到这里了真的不考虑给点钱吗... -->
+<!-- 都看到这里了真的不考虑资瓷一下吗... -->
 这是我的支付宝收款码,请给我打钱,一分钱也行<br/>
 <img src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/Zt
 BFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9
