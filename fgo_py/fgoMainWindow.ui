@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>417</width>
-    <height>527</height>
+    <width>418</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="font">
@@ -105,9 +105,6 @@
     </item>
     <item>
      <layout class="QFormLayout" name="LAYOUT_INFO">
-      <property name="rowWrapPolicy">
-       <enum>QFormLayout::WrapLongRows</enum>
-      </property>
       <property name="labelAlignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
@@ -2790,62 +2787,6 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="1">
-       <layout class="QHBoxLayout" name="LAYOUT_INFO_APPLE">
-        <item>
-         <widget class="QComboBox" name="CBX_APPLE">
-          <property name="statusTip">
-           <string>要吃的苹果种类</string>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <item>
-           <property name="text">
-            <string>金</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>银</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>铜</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>彩</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="TXT_APPLE">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
-          <property name="statusTip">
-           <string>要吃的苹果数量</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <property name="maximum">
-           <number>114514</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="LBL_MASTER">
         <property name="maximumSize">
@@ -3194,43 +3135,100 @@
         </property>
        </widget>
       </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="LAYOUT_FUNC">
-      <item>
-       <layout class="QVBoxLayout" name="LAYOUT_FUNC_ANDROID">
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="LAYOUT_INFO_APPLE">
         <item>
-         <widget class="QPushButton" name="BTN_GETDEVICE">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
+         <widget class="QComboBox" name="CBX_APPLE">
           <property name="statusTip">
-           <string>更改安卓设备</string>
+           <string>要吃的苹果种类</string>
           </property>
-          <property name="text">
-           <string>更改设备</string>
+          <property name="currentIndex">
+           <number>0</number>
           </property>
+          <item>
+           <property name="text">
+            <string>金</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>银</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>铜</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>彩</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="BTN_ADBCONNECT">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
+         <widget class="QSpinBox" name="TXT_APPLE">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="toolTip">
-           <string>这个功能可能不能正常运行</string>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>连接远程调试,不同模拟器端口不同</string>
+           <string>要吃的苹果数量</string>
           </property>
-          <property name="text">
-           <string>连接设备</string>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="maximum">
+           <number>114514</number>
           </property>
          </widget>
         </item>
        </layout>
       </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="LBL_CURRENTDEVICE">
+        <property name="text">
+         <string>当前设备</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="LBL_DEVICE">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="BTN_GETDEVICE">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="statusTip">
+         <string>更改安卓设备</string>
+        </property>
+        <property name="text">
+         <string>更改</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="LAYOUT_FUNC">
       <item>
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_MAIN">
         <item>
@@ -3259,6 +3257,10 @@
           </property>
          </widget>
         </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QPushButton" name="BTN_MAIN">
           <property name="cursor">
@@ -3269,6 +3271,22 @@
           </property>
           <property name="text">
            <string>肝!</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="BTN_STOP">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="statusTip">
+           <string>终止战斗</string>
+          </property>
+          <property name="text">
+           <string>终止战斗</string>
           </property>
          </widget>
         </item>
@@ -3292,22 +3310,6 @@
           </property>
           <property name="checkable">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_STOP">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="statusTip">
-           <string>终止战斗</string>
-          </property>
-          <property name="text">
-           <string>终止战斗</string>
           </property>
          </widget>
         </item>
@@ -3374,7 +3376,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>417</width>
+     <width>418</width>
      <height>26</height>
     </rect>
    </property>
@@ -3686,13 +3688,12 @@
   <tabstop>TXT_MASTER_2_3</tabstop>
   <tabstop>CBX_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>
-  <tabstop>BTN_GETDEVICE</tabstop>
-  <tabstop>BTN_ADBCONNECT</tabstop>
   <tabstop>BTN_ONEBATTLE</tabstop>
   <tabstop>BTN_USER</tabstop>
+  <tabstop>BTN_GETDEVICE</tabstop>
   <tabstop>BTN_MAIN</tabstop>
-  <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
+  <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOPLATER</tabstop>
   <tabstop>BTN_CHECK</tabstop>
   <tabstop>BTN_APPLYALL</tabstop>
@@ -3856,22 +3857,6 @@
     <hint type="destinationlabel">
      <x>56</x>
      <y>337</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTN_ADBCONNECT</sender>
-   <signal>clicked()</signal>
-   <receiver>fgoMainWindow</receiver>
-   <slot>adbConnect()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>96</x>
-     <y>538</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>78</x>
-     <y>390</y>
     </hint>
    </hints>
   </connection>
@@ -4089,7 +4074,6 @@
   <slot>runMain()</slot>
   <slot>resetTeam()</slot>
   <slot>checkCheck()</slot>
-  <slot>adbConnect()</slot>
   <slot>getDevice()</slot>
   <slot>pause()</slot>
   <slot>stop()</slot>
