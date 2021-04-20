@@ -33,9 +33,7 @@ class MyMainWindow(QMainWindow):
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
-        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.StandardButtons.Yes|QMessageBox.StandardButtons.No)!=QMessageBox.StandardButtons.Yes:
-            event.ignore()
-            return
+        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.StandardButtons.Yes|QMessageBox.StandardButtons.No)!=QMessageBox.StandardButtons.Yes:return event.ignore()
         fgoFunc.control.terminate()
         if not self.thread._started:self.thread.join()
         event.accept()
@@ -93,11 +91,12 @@ class MyMainWindow(QMainWindow):
         with open('fgoTeamup.ini','w')as f:config.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,True,Qt.WindowFlags.WindowStaysOnTopHint))([i for i,j in ADB().devices()if j=='device'])
-        if ok and text and text!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(text)
-    def adbConnect(self):
-        text,ok=QInputDialog.getText(self,'连接设备','远程设备地址',text='localhost:5555')
-        if ok and text:ADB(text)
+        adbList=[i for i,j in ADB().devices()if j=='device']
+        text,ok=QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,True,Qt.WindowFlags.WindowStaysOnTopHint)
+        if ok and text:
+            if text not in adbList:ADB(text)
+            if text!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(text)
+            self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
     def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
     def checkCheck(self):
         if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备')
