@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.1.0'
+__version__='v6.1.1'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
@@ -44,6 +44,7 @@ from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 (lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
 (lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
+bilibili=[1,2,3,4,5,6,7,8,10,11,12]
 teamIndex=0
 skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
 houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -223,13 +224,13 @@ class Base(Android):
             self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
             self.maxtouch.install_and_setup()
             self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
-                '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74),# VK_F1..10
+                '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74), # VK_F1..10
                 '1':(277,640),'2':(598,640),'3':(974,640),'4':(1312,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),'0':(1819,367),
-                'Q':(1800,475),'W':(1360,475),'E':(1493,475),'R':(1626,475),'T':(210,540),'Y':(510,540),'U':(810,540),'I':(1110,540),'O':(1410,540),'P':(1710,540),'\xDC':(1880,40),# \ VK_OEM_5
-                'A':(109,860),'S':(244,860),'D':(385,860),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),'L':(1336,860),'\xBA':(1247,197),# ; VK_OEM_1
+                'Q':(1800,475),'W':(1360,475),'E':(1493,475),'R':(1626,475),'T':(210,540),'Y':(510,540),'U':(810,540),'I':(1110,540),'O':(1410,540),'P':(1710,540),'\xDC':(1880,40), # \ VK_OEM_5
+                'A':(109,860),'S':(244,860),'D':(385,860),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),'L':(1336,860),'\xBA':(1247,197), # ; VK_OEM_1
                 'Z':(960,943),'X':(259,932),'B':(495,480),'N':(248,1041),'M':(1200,1000),
                 ' ':(1846,1030),
-                '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69),# VK-NUMPAD4..9
+                '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69), # VK-NUMPAD4..9
                 }.items()}
     def touch(self,pos):
         with self.lock:super().touch([round(pos[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
@@ -271,7 +272,7 @@ class Check:
         fuse.increase()
         control.sleep(backwordLagency)
     def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
-    def select(self,img,rect=(0,0,1920,1080),threshold=.4):return(lambda x:numpy.argmin(x)if not logger.debug(f'Select from {x}')and threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
+    def select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if not logger.debug(f'Select from {x}')and threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tap(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):
         cv2.imwrite(time.strftime(name if name else'%Y-%m-%d_%H.%M.%S.jpg',time.localtime()),self.im)
@@ -289,7 +290,7 @@ class Check:
     def isBattleFinished(self):return self.compare(IMG.BOUND,(112,250,454,313))or self.compare(IMG.BOUNDUP,(987,350,1468,594))
     def isChooseFriend(self):return self.compare(IMG.CHOOSEFRIEND,(1249,324,1387,382))
     def isGacha(self):return self.compare(IMG.GACHA,(973,960,1312,1052))
-    def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,768+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
+    def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
     def isMainInterface(self):return self.compare(IMG.MENU,(1630,950,1919,1079))
     def isNextJackpot(self):return self.compare(IMG.JACKPOT,(1556,336,1859,397))
@@ -297,7 +298,7 @@ class Check:
     def isSkillReady(self):return[[not self.compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self.compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self.compare(IMG.ATTACK,(1567,932,1835,1064))
-    def getABQ(self):return[-1if self.compare(IMG.CARDSEALED,(43+386*i,667,345+386*i,845),.3)else self.select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))for i in range(5)]
+    def getABQ(self):return[-1if any(self.compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))else self.select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))for i in range(5)]
     def getTeamIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG.TEAMINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
     def retryOnError(interval=.1,err=TypeError):
@@ -313,9 +314,9 @@ class Check:
             return wrap
         return wrapper
     @retryOnError()
-    def getStage(self):return self.select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1296,20,1342,56))+1
+    def getStage(self):return self.select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1296,20,1342,56),.5)+1
     @retryOnError()
-    def getStageTotal(self):return self.select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56))+1
+    def getStageTotal(self):return self.select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56),.5)+1
 def gacha():
     while fuse.value<30:
         if Check(.1).isGacha():base.perform('MK',(200,2700))
@@ -333,7 +334,7 @@ def battle():
     while True:
         if Check(0,.1).isTurnBegin():
             turn+=1
-            stage,stageTurn=(lambda x:[x,stageTurn+1if stage==x else 1])(Check(.5).getStage())
+            stage,stageTurn=(lambda x:[x,1+stageTurn*(stage==x)])(Check(.5).getStage())
             skill,newPortrait=check.isSkillReady(),check.getPortrait()
             if turn==1:stageTotal=check.getStageTotal()
             else:servant=(lambda m,p:[m+p.index(i)+1if i in p else servant[i]for i in range(3)])(max(servant),[i for i in range(3)if servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
@@ -356,7 +357,6 @@ def battle():
             logger.info('Battle Finished')
             return True
         elif check.isBattleDefeated():
-            control.checkDefeated()
             logger.warning('Battle Defeated')
             return False
 def main(appleTotal=0,appleKind=0,battleFunc=battle):
@@ -429,7 +429,10 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
             base.press(' ')
         battleCount+=1
         logger.info(f'Battle {battleCount}')
-        base.perform('        ',(200,200,200,200,200,200,200,200))if battleFunc()else base.perform('BIJ',(500,500,500))
+        if battleFunc():base.perform('        ',(200,200,200,200,200,200,200,200))
+        else:
+            control.checkDefeated()
+            base.perform('BIJ',(500,500,500))
 def userScript():
     # BX WCBA 极地用迦勒底制服
     while not Check(0,.2).isTurnBegin():pass

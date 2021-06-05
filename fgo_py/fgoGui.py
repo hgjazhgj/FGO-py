@@ -33,7 +33,7 @@ class MyMainWindow(QMainWindow):
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
-        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.StandardButtons.Yes|QMessageBox.StandardButtons.No)!=QMessageBox.StandardButtons.Yes:return event.ignore()
+        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.StandardButtons.Yes|QMessageBox.StandardButtons.No,QMessageBox.StandardButtons.No)!=QMessageBox.StandardButtons.Yes:return event.ignore()
         fgoFunc.control.terminate()
         if not self.thread._started:self.thread.join()
         event.accept()
@@ -50,7 +50,7 @@ class MyMainWindow(QMainWindow):
                 self.signalFuncEnd.emit()
                 fgoFunc.control.reset()
                 fgoFunc.fuse.reset()
-                QApplication.beep()# print('\a',end='')
+                QApplication.beep() # print('\a',end='')
         self.thread=threading.Thread(target=f,name=f'{func.__qualname__}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
         self.thread.start()
     def funcBegin(self):
@@ -78,7 +78,7 @@ class MyMainWindow(QMainWindow):
         (lambda houguInfo:[getattr(self.ui,f'TXT_HOUGU_{i}_{j}').setText(str(houguInfo[i][j]))for i in range(6)for j in range(2)])(eval(config[teamName]['houguInfo']))
         (lambda dangerPos:[getattr(self.ui,f'TXT_DANGER_{i}').setText(str(dangerPos[i]))for i in range(3)])(eval(config[teamName]['dangerPos']))
         getattr(self.ui,f'RBT_FRIEND_{config[teamName]["friendPos"]}').setChecked(True)
-        (lambda masterSkill:[getattr(self.ui,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i]))for i in range(3)for j in range(4if i==2else 3)])(eval(config[teamName]['masterSkill']))
+        (lambda masterSkill:[getattr(self.ui,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i]))for i in range(3)for j in range(3+(i==2))])(eval(config[teamName]['masterSkill']))
     def saveTeam(self):
         if not self.ui.CBX_TEAM.currentText():return
         config[self.ui.CBX_TEAM.currentText()]={
@@ -87,17 +87,15 @@ class MyMainWindow(QMainWindow):
             'houguInfo':str([[int(getattr(self.ui,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]).replace(' ',''),
             'dangerPos':str([int(getattr(self.ui,f'TXT_DANGER_{i}').text())for i in range(3)]).replace(' ',''),
             'friendPos':self.ui.BTG_FRIEND.checkedButton().objectName()[-1],
-            'masterSkill':str([[int(getattr(self.ui,f'TXT_MASTER_{i}_{j}').text())for j in range(4if i==2else 3)]for i in range(3)]).replace(' ','')}
+            'masterSkill':str([[int(getattr(self.ui,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]).replace(' ','')}
         with open('fgoTeamup.ini','w')as f:config.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        adbList=[i for i,j in ADB().devices()if j=='device']
-        text,ok=QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,True,Qt.WindowFlags.WindowStaysOnTopHint)
+        text,ok=QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',[i for i,j in ADB().devices()if j=='device'],-bool(fgoFunc.base.serialno),True,Qt.WindowFlags.WindowStaysOnTopHint)
         if ok and text:
-            if text not in adbList:ADB(text)
-            if text!=fgoFunc.base.serialno:fgoFunc.base=fgoFunc.Base(text)
+            ADB(text)
+            fgoFunc.base=fgoFunc.Base(text.replace(' ',''))
             self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
-    def refreshDevice(self):fgoFunc.base=fgoFunc.Base(fgoFunc.base.serialno)
     def checkCheck(self):
         if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备')
         try:fgoFunc.Check().show()
@@ -108,7 +106,7 @@ class MyMainWindow(QMainWindow):
         fgoFunc.houguInfo=[[int(getattr(self.ui,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]
         fgoFunc.dangerPos=[int(getattr(self.ui,f'TXT_DANGER_{i}').text())for i in range(3)]
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
-        fgoFunc.masterSkill=[[int(getattr(self.ui,f'TXT_MASTER_{i}_{j}').text())for j in range(4if i==2else 3)]for i in range(3)]
+        fgoFunc.masterSkill=[[int(getattr(self.ui,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]
     def runOneBattle(self):self.runFunc(fgoFunc.battle)
     def runUser(self):self.runFunc(fgoFunc.userScript)
     def runGacha(self):self.runFunc(fgoFunc.gacha)

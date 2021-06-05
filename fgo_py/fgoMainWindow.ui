@@ -3412,7 +3412,6 @@
     </property>
     <addaction name="MENU_CONTROL_STAYONTOP"/>
     <addaction name="separator"/>
-    <addaction name="MENU_CONTROL_REFRESHDEVICE"/>
     <addaction name="MENU_CONTROL_MAPKEY"/>
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_EXEC"/>
@@ -3466,17 +3465,6 @@
    </property>
    <property name="text">
     <string>窗口置顶</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-  </action>
-  <action name="MENU_CONTROL_REFRESHDEVICE">
-   <property name="text">
-    <string>重新建立连接</string>
    </property>
    <property name="font">
     <font>
@@ -3925,22 +3913,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>MENU_CONTROL_REFRESHDEVICE</sender>
-   <signal>triggered()</signal>
-   <receiver>fgoMainWindow</receiver>
-   <slot>refreshDevice()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>313</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>MENU_SCRIPT_GACHA</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
@@ -4085,7 +4057,6 @@
   <slot>applyAll()</slot>
   <slot>runUser()</slot>
   <slot>stayOnTop(bool)</slot>
-  <slot>refreshDevice()</slot>
   <slot>runGacha()</slot>
   <slot>mapKey(bool)</slot>
   <slot>stopLater()</slot>

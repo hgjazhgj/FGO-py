@@ -1,5 +1,3 @@
-# Form implementation generated from reading ui file 'c:\HGJ\Work\VisualStudioDocs\fgo_py\fgo_py\fgoMainWindow.ui'
-#
 # Created by: PyQt6 UI code generator 6.0.3
 #
 # WARNING: Any manual changes made to this file will be lost when pyuic6 is
@@ -886,12 +884,6 @@ class Ui_fgoMainWindow(object):
         font.setPointSize(11)
         self.MENU_CONTROL_STAYONTOP.setFont(font)
         self.MENU_CONTROL_STAYONTOP.setObjectName("MENU_CONTROL_STAYONTOP")
-        self.MENU_CONTROL_REFRESHDEVICE = QtGui.QAction(fgoMainWindow)
-        font = QtGui.QFont()
-        font.setFamily("Microsoft YaHei UI Light")
-        font.setPointSize(11)
-        self.MENU_CONTROL_REFRESHDEVICE.setFont(font)
-        self.MENU_CONTROL_REFRESHDEVICE.setObjectName("MENU_CONTROL_REFRESHDEVICE")
         self.MENU_SCRIPT_GACHA = QtGui.QAction(fgoMainWindow)
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI Light")
@@ -955,7 +947,6 @@ class Ui_fgoMainWindow(object):
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_MAILFILTER)
         self.MENU_CONTROL.addAction(self.MENU_CONTROL_STAYONTOP)
         self.MENU_CONTROL.addSeparator()
-        self.MENU_CONTROL.addAction(self.MENU_CONTROL_REFRESHDEVICE)
         self.MENU_CONTROL.addAction(self.MENU_CONTROL_MAPKEY)
         self.MENU_CONTROL.addSeparator()
         self.MENU_CONTROL.addAction(self.MENU_CONTROL_EXEC)
@@ -983,7 +974,6 @@ class Ui_fgoMainWindow(object):
         self.MENU_ABOUT_ABOUT.triggered.connect(fgoMainWindow.about)
         self.BTN_APPLYALL.clicked.connect(fgoMainWindow.applyAll)
         self.MENU_CONTROL_STAYONTOP.triggered['bool'].connect(fgoMainWindow.stayOnTop)
-        self.MENU_CONTROL_REFRESHDEVICE.triggered.connect(fgoMainWindow.refreshDevice)
         self.MENU_SCRIPT_GACHA.triggered.connect(fgoMainWindow.runGacha)
         self.MENU_CONTROL_MAPKEY.triggered['bool'].connect(fgoMainWindow.mapKey)
         self.BTN_STOPLATER.clicked.connect(fgoMainWindow.stopLater)
@@ -1312,7 +1302,6 @@ class Ui_fgoMainWindow(object):
         self.MENU_ABOUT_ABOUT.setText(_translate("fgoMainWindow", "关于"))
         self.MENU_FILE_EXPLORER.setText(_translate("fgoMainWindow", "资源管理器"))
         self.MENU_CONTROL_STAYONTOP.setText(_translate("fgoMainWindow", "窗口置顶"))
-        self.MENU_CONTROL_REFRESHDEVICE.setText(_translate("fgoMainWindow", "重新建立连接"))
         self.MENU_SCRIPT_GACHA.setText(_translate("fgoMainWindow", "抽友情"))
         self.MENU_CONTROL_MAPKEY.setText(_translate("fgoMainWindow", "加载按键映射"))
         self.MENU_CONTROL_STOPLATER.setText(_translate("fgoMainWindow", "本场战斗完成后终止"))
