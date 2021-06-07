@@ -28,12 +28,12 @@ class MyMainWindow(QMainWindow):
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
     def keyPressEvent(self,key):
-        if self.ui.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifiers.KeypadModifier:
+        if self.ui.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifier.KeypadModifier:
             try:fgoFunc.base.press(chr(key.nativeVirtualKey()))
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
-        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.StandardButtons.Yes|QMessageBox.StandardButtons.No,QMessageBox.StandardButtons.No)!=QMessageBox.StandardButtons.Yes:return event.ignore()
+        if self.thread.is_alive()and QMessageBox.warning(self,'关闭','战斗正在进行,确认关闭?',QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No,QMessageBox.StandardButton.No)!=QMessageBox.StandardButton.Yes:return event.ignore()
         fgoFunc.control.terminate()
         if not self.thread._started:self.thread.join()
         event.accept()
@@ -91,7 +91,7 @@ class MyMainWindow(QMainWindow):
         with open('fgoTeamup.ini','w')as f:config.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        text,ok=QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',[i for i,j in ADB().devices()if j=='device'],-bool(fgoFunc.base.serialno),True,Qt.WindowFlags.WindowStaysOnTopHint)
+        text,ok=QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',[i for i,j in ADB().devices()if j=='device'],-bool(fgoFunc.base.serialno),True,Qt.WindowType.WindowStaysOnTopHint)
         if ok and text:
             ADB(text)
             fgoFunc.base=fgoFunc.Base(text.replace(' ',''))
@@ -127,7 +127,7 @@ class MyMainWindow(QMainWindow):
     def stopOnSpecialDrop(self):fgoFunc.control.stopOnSpecialDrop()
     def explorerHere(self):os.startfile('.')
     def stayOnTop(self,x):
-        self.setWindowFlag(Qt.WindowFlags.WindowStaysOnTopHint,x)
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x)
         self.show()
     def mapKey(self,x):
         if x and not fgoFunc.base.serialno:
@@ -135,7 +135,7 @@ class MyMainWindow(QMainWindow):
             return QMessageBox.critical(self,'错误','未连接设备')
     def exec(self):
         s=QApplication.clipboard().text()
-        if QMessageBox.information(self,'exec',s,QMessageBox.StandardButtons.Ok|QMessageBox.StandardButtons.Cancel)!=QMessageBox.StandardButtons.Ok:return
+        if QMessageBox.information(self,'exec',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
         try:exec(s)
         except BaseException as e:logger.exception(e)
     def about(self):QMessageBox.about(self,'关于',f'''
