@@ -115,6 +115,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/06/07 v6.1.2
+高考第一个出考场记得让mhy策划加强刻晴  
+更改:适配Qt更新,在requirements.txt中限制了版本号  
+Qt6还处于快速迭代阶段,总是会有杂七杂八的更改  
+但是这种WindowFlags->WindowType,StandardButtons->StandardButton,Alignment->AlignmentFlag这种就有点搞人心态了...  
 ## 2021/06/05 v6.1.1
 更新:"指令卡封印"导致的行动不能  
 F/R联动的最后一个奖励关卡新增的东西  
