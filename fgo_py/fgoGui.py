@@ -1,4 +1,4 @@
-import configparser,logging,os,sys,threading
+import configparser,logging,re,os,sys,threading
 from airtest.core.android.adb import ADB
 from PyQt6.QtCore import QRegularExpression,Qt,pyqtSignal
 from PyQt6.QtGui import QRegularExpressionValidator
@@ -92,9 +92,9 @@ class MyMainWindow(QMainWindow):
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
         text,ok=QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',[i for i,j in ADB().devices()if j=='device'],-bool(fgoFunc.base.serialno),True,Qt.WindowType.WindowStaysOnTopHint)
-        if ok and text:
+        if ok and(text:=((lambda p:(re.search('Default Gateway: *(.*)',p.read()).group(1)+':5555',p.close())[0])(os.popen('netsh interface ip show address WLAN'))if text=='fuck'else text).replace(' ','')):
             ADB(text)
-            fgoFunc.base=fgoFunc.Base(text.replace(' ',''))
+            fgoFunc.base=fgoFunc.Base(text)
             self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
     def checkCheck(self):
         if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备')

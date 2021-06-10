@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.1.2'
+__version__='v6.1.3'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
@@ -323,7 +323,7 @@ def gacha():
         base.press('\xDC')
 def jackpot():
     while fuse.value<70:
-        if Check().isNextJackpot():base.perform('0JJ',(600,1800,0))
+        if Check().isNextJackpot():base.perform('0KK',(600,1800,0))
         for _ in range(40):base.press('2')
 def mailFiltering():
     mailFilterImg.flush()
@@ -377,7 +377,7 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
         while not Check(.2).isChooseFriend():
             if check.isNoFriend():
                 if refresh:control.sleep(10)
-                base.perform('\xBAJ',(500,1000))
+                base.perform('\xBAK',(500,1000))
                 refresh=True
         friendImg.flush()
         if not friendImg:
@@ -393,12 +393,12 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
                 base.swipe((800,900,800,300))
                 Check(.3)
             if refresh:control.sleep(max(0,timer+10-time.time()))
-            base.perform('\xBAJ',(500,1000))
+            base.perform('\xBAK',(500,1000))
             refresh=True
             while not Check(.2).isChooseFriend():
                 if check.isNoFriend():
                     control.sleep(10)
-                    base.perform('\xBAJ',(500,1000))
+                    base.perform('\xBAK',(500,1000))
     appleCount,battleCount=0,0
     while True:
         while True:
@@ -432,7 +432,7 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
         if battleFunc():base.perform('        ',(200,200,200,200,200,200,200,200))
         else:
             control.checkDefeated()
-            base.perform('BIJ',(500,500,500))
+            base.perform('BIK',(500,500,500))
 def userScript():
     # BX WCBA 极地用迦勒底制服
     while not Check(0,.2).isTurnBegin():pass
