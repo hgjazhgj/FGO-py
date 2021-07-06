@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.1.3'
+__version__='v6.2.0'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
@@ -40,7 +40,6 @@ import win32file
 # 汝三大の言霊を纏う七天,抑止の輪より来たれ,
 from airtest.core.android.android import Android
 # 天秤の守り手よ―――！
-from airtest.core.android.constant import CAP_METHOD,ORI_METHOD,TOUCH_METHOD
 (lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
 (lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
@@ -217,46 +216,25 @@ class Base(Android):
         if serialno is None:
             self.serialno=None
             return
-        try:super().__init__(serialno,cap_method=CAP_METHOD.JAVACAP,ori_method=ORI_METHOD.ADB,touch_method=TOUCH_METHOD.MAXTOUCH)
+        try:super().__init__(serialno)
         except:self.serialno=None
-        else:
-            self.render=[round(i)for i in self.get_render_resolution(True)]
-            self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
-            self.maxtouch.install_and_setup()
-            self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
-                '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74), # VK_F1..10
-                '1':(277,640),'2':(598,640),'3':(974,640),'4':(1312,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),'0':(1819,367),
-                'Q':(1800,475),'W':(1360,475),'E':(1493,475),'R':(1626,475),'T':(210,540),'Y':(510,540),'U':(810,540),'I':(1110,540),'O':(1410,540),'P':(1710,540),'\xDC':(1880,40), # \ VK_OEM_5
-                'A':(109,860),'S':(244,860),'D':(385,860),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),'L':(1336,860),'\xBA':(1247,197), # ; VK_OEM_1
-                'Z':(960,943),'X':(259,932),'B':(495,480),'N':(248,1041),'M':(1200,1000),
-                ' ':(1846,1030),
-                '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69), # VK-NUMPAD4..9
-                }.items()}
+        else:self.refreshOrentation()
+    def refreshOrentation(self):
+        self.render=[round(i)for i in self.get_render_resolution(True)]
+        self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
+        self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
+            '\x70':(790,74),'\x71':(828,74),'\x72':(866,74),'\x73':(903,74),'\x74':(940,74),'\x75':(978,74),'\x76':(1016,74),'\x77':(1053,74),'\x78':(1091,74),'\x79':(1128,74), # VK_F1..10
+            '1':(277,640),'2':(598,640),'3':(974,640),'4':(1312,640),'5':(1651,640),'6':(646,304),'7':(976,304),'8':(1267,304),'0':(1819,367),
+            'Q':(1800,475),'W':(1360,475),'E':(1493,475),'R':(1626,475),'T':(210,540),'Y':(510,540),'U':(810,540),'I':(1110,540),'O':(1410,540),'P':(1710,540),'\xDC':(1880,40), # \ VK_OEM_5
+            'A':(109,860),'S':(244,860),'D':(385,860),'F':(582,860),'G':(724,860),'H':(861,860),'J':(1056,860),'K':(1201,860),'L':(1336,860),'\xBA':(1247,197), # ; VK_OEM_1
+            'Z':(960,943),'X':(259,932),'B':(495,480),'N':(248,1041),'M':(1200,1000),
+            ' ':(1846,1030),
+            '\x64':(70,221),'\x65':(427,221),'\x66':(791,221),'\x67':(70,69),'\x68':(427,69),'\x69':(791,69), # VK-NUMPAD4..9
+            }.items()}
     def touch(self,pos):
         with self.lock:super().touch([round(pos[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
     def swipe(self,rect):
-        p1,p2=[numpy.array(self._touch_point_by_orientation([rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
-        vd=p2-p1
-        lvd=numpy.linalg.norm(vd)
-        vd/=.2*self.scale*lvd
-        vx=numpy.array([0.,0.])
-        def send(method,pos):self.maxtouch.safe_send(' '.join((method,'0',*[str(i)for i in self.maxtouch.transform_xy(*pos)],'50\nc\n')))
-        with self.lock:
-            send('d',p1)
-            time.sleep(.01)
-            for _ in range(2):
-                send('m',p1+vx)
-                vx+=vd
-                time.sleep(.02)
-            vd*=5
-            while numpy.linalg.norm(vx)<lvd:
-                send('m',p1+vx)
-                vx+=vd
-                time.sleep(.008)
-            send('m',p2)
-            time.sleep(.35)
-            self.maxtouch.safe_send('u 0\nc\n')
-            time.sleep(.02)
+        with self.lock:super().swipe(*[[rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]for i in range(2)])
     def press(self,key):
         with self.lock:super().touch(self.key[key])
     def perform(self,pos,wait):[(self.press(i),control.sleep(j*.001))for i,j in zip(pos,wait)]
@@ -275,7 +253,7 @@ class Check:
     def select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if not logger.debug(f'Select from {x}')and threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
     def tap(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def save(self,name=''):
-        cv2.imwrite(time.strftime(name if name else'%Y-%m-%d_%H.%M.%S.jpg',time.localtime()),self.im)
+        cv2.imwrite(time.strftime(name if name else'%Y-%m-%d_%H.%M.%S.jpg'),self.im)
         return self
     def show(self):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
@@ -288,7 +266,7 @@ class Check:
     def isBattleContinue(self):return self.compare(IMG.BATTLECONTINUE,(1072,805,1441,895))
     def isBattleDefeated(self):return self.compare(IMG.DEFEATED,(445,456,702,523))
     def isBattleFinished(self):return self.compare(IMG.BOUND,(112,250,454,313))or self.compare(IMG.BOUNDUP,(987,350,1468,594))
-    def isChooseFriend(self):return self.compare(IMG.CHOOSEFRIEND,(1249,324,1387,382))
+    def isChooseFriend(self):return self.compare(IMG.CHOOSEFRIEND,(1555,34,1900,88))
     def isGacha(self):return self.compare(IMG.GACHA,(973,960,1312,1052))
     def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))

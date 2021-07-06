@@ -1,4 +1,4 @@
-import configparser,logging,re,os,sys,threading
+import configparser,logging,os,sys,threading
 from airtest.core.android.adb import ADB
 from PyQt6.QtCore import QRegularExpression,Qt,pyqtSignal
 from PyQt6.QtGui import QRegularExpressionValidator
@@ -92,7 +92,7 @@ class MyMainWindow(QMainWindow):
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
         text,ok=QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',[i for i,j in ADB().devices()if j=='device'],-bool(fgoFunc.base.serialno),True,Qt.WindowType.WindowStaysOnTopHint)
-        if ok and(text:=((lambda p:(re.search('Default Gateway: *(.*)',p.read()).group(1)+':5555',p.close())[0])(os.popen('netsh interface ip show address WLAN'))if text=='fuck'else text).replace(' ','')):
+        if ok and(text:=__import__('netifaces').gateways()['default'][2][0]+':5555'if text=='fuck'else text.replace(' ','')):
             ADB(text)
             fgoFunc.base=fgoFunc.Base(text)
             self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
@@ -133,6 +133,7 @@ class MyMainWindow(QMainWindow):
         if x and not fgoFunc.base.serialno:
             self.ui.MENU_CONTROL_MAPKEY.setChecked(False)
             return QMessageBox.critical(self,'错误','未连接设备')
+    def refreshOrentation(self):fgoFunc.base.refreshOrentation()
     def exec(self):
         s=QApplication.clipboard().text()
         if QMessageBox.information(self,'exec',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return

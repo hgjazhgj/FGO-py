@@ -3413,6 +3413,7 @@
     <addaction name="MENU_CONTROL_STAYONTOP"/>
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_MAPKEY"/>
+    <addaction name="MENU_CONTROL_REFRESHORENTATION"/>
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_EXEC"/>
    </widget>
@@ -3575,6 +3576,17 @@
    </property>
    <property name="text">
     <string>战斗撤退时终止脚本运行</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_CONTROL_REFRESHORENTATION">
+   <property name="text">
+    <string>刷新屏幕方向</string>
    </property>
    <property name="font">
     <font>
@@ -4040,6 +4052,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MENU_CONTROL_REFRESHORENTATION</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>refreshOrentation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>208</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>runOneBattle()</slot>
@@ -4065,6 +4093,7 @@
   <slot>exec()</slot>
   <slot>stopOnSpecialDrop()</slot>
   <slot>stopOnDefeated()</slot>
+  <slot>refreshOrentation()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
