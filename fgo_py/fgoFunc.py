@@ -266,7 +266,7 @@ class Check:
     def isBattleContinue(self):return self.compare(IMG.BATTLECONTINUE,(1072,805,1441,895))
     def isBattleDefeated(self):return self.compare(IMG.DEFEATED,(445,456,702,523))
     def isBattleFinished(self):return self.compare(IMG.BOUND,(112,250,454,313))or self.compare(IMG.BOUNDUP,(987,350,1468,594))
-    def isChooseFriend(self):return self.compare(IMG.CHOOSEFRIEND,(1555,34,1900,88))
+    def isChooseFriend(self):return self.compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))
     def isGacha(self):return self.compare(IMG.GACHA,(973,960,1312,1052))
     def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
     def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
@@ -369,7 +369,7 @@ def main(appleTotal=0,appleKind=0,battleFunc=battle):
                     return logger.info(f'Friend {i}')
                 if check.isListEnd((1860,1064)):break
                 base.swipe((800,900,800,300))
-                Check(.3)
+                Check(.4)
             if refresh:control.sleep(max(0,timer+10-time.time()))
             base.perform('\xBAK',(500,1000))
             refresh=True
