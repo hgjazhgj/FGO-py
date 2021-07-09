@@ -25,6 +25,7 @@
 ![svg](https://img.shields.io/badge/n2-日语N2或同等水平-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
+**Buy me a Saint Quartz**  
 ![Alipay](doc/行行好吧给颗石头吧.png)![Wechat](doc/吧头石颗给吧好行行.png)  
 觉得有帮助请为我star,谢谢  
 <table>
@@ -112,6 +113,12 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/07/09 v6.2.1
+更新:适配airtest 1.2.0  
+上回说到,初始化时touch_proxy会点击(0,0)作为初始化的最后一步,随后就是用户点击操作,这导致几乎同时点击了屏幕的两个地方,在fgo中,后一个点击很可能就不被响应了...
+为此,还是跟原来一样,在建立连接时完成触摸的初始化  
+更新:既然又要动到具体实现了,我就把我自己的swipe改了改加回去了  
+更新:在屏幕方向发生改变时自动更新,移除了手动更新选项  
 ## 2021/07/06 v6.2.0
 更新:适配airtest 1.2.0,具体参见[https://github.com/AirtestProject/Airtest/releases/tag/v1.2.0](https://github.com/AirtestProject/Airtest/releases/tag/v1.2.0)  
 连接手机时无需设置参数的更新让人迷惑,方便使用的初衷挺好,也切实加强了本脚本的兼容性,但实际上就是把之前的屎山包了一层漂亮的外壳,并且留下了一个巨大的隐患:touch_proxy会试图在(0,0)处点击一次看有没有exception来判断当前touch_method是否可用.不过还好点不到fgo左上角的返回按钮,应该不会影响全面屏适配后的表现,如果之后发现这个点击产生了影响就还是得换回先前手动指定的样子  

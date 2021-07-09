@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.2.0'
+__version__='v6.2.1'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
@@ -33,6 +33,7 @@ import time
 import cv2
 # 聖杯の寄るべに従い,この意,この理に従うならば応えよ!
 import numpy
+from numpy.core.fromnumeric import shape, transpose
 # 誓いを此処に.
 import win32con
 # 我は常世総ての善と成る者,我は常世総ての悪を敷く者.
@@ -40,7 +41,7 @@ import win32file
 # 汝三大の言霊を纏う七天,抑止の輪より来たれ,
 from airtest.core.android.android import Android
 # 天秤の守り手よ―――！
-(lambda logger:(logger.setLevel(logging.WARNING),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
+(lambda logger:(logger.setLevel(logging.INFO),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
 (lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
 bilibili=[1,2,3,4,5,6,7,8,10,11,12]
@@ -218,8 +219,10 @@ class Base(Android):
             return
         try:super().__init__(serialno)
         except:self.serialno=None
-        else:self.refreshOrentation()
-    def refreshOrentation(self):
+        else:
+            self.rotation_watcher.reg_callback(lambda _:self.refreshOrientation())
+            self.touch_proxy
+    def refreshOrientation(self):
         self.render=[round(i)for i in self.get_render_resolution(True)]
         self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
         self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
@@ -233,8 +236,31 @@ class Base(Android):
             }.items()}
     def touch(self,pos):
         with self.lock:super().touch([round(pos[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
-    def swipe(self,rect):
-        with self.lock:super().swipe(*[[rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]for i in range(2)])
+    # def swipe(self,rect):
+    #     with self.lock:super().swipe(*[[rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]for i in range(2)])
+    def swipe(self,rect): # If this doesn't work, use the above one instead
+        p1,p2=[numpy.array(self._touch_point_by_orientation([rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
+        vd=p2-p1
+        lvd=numpy.linalg.norm(vd)
+        vd/=.2*self.scale*lvd
+        vx=numpy.array([0.,0.])
+        def send(method,pos):self.touch_proxy.handle(' '.join((method,'0',*[str(i)for i in self.touch_proxy.transform_xy(*pos)],'50\nc\n')))
+        with self.lock:
+            send('d',p1)
+            time.sleep(.01)
+            for _ in range(2):
+                send('m',p1+vx)
+                vx+=vd
+                time.sleep(.02)
+            vd*=5
+            while numpy.linalg.norm(vx)<lvd:
+                send('m',p1+vx)
+                vx+=vd
+                time.sleep(.008)
+            send('m',p2)
+            time.sleep(.35)
+            self.touch_proxy.handle('u 0\nc\n')
+            time.sleep(.02)
     def press(self,key):
         with self.lock:super().touch(self.key[key])
     def perform(self,pos,wait):[(self.press(i),control.sleep(j*.001))for i,j in zip(pos,wait)]
