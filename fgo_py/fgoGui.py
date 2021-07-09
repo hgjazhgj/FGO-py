@@ -133,7 +133,6 @@ class MyMainWindow(QMainWindow):
         if x and not fgoFunc.base.serialno:
             self.ui.MENU_CONTROL_MAPKEY.setChecked(False)
             return QMessageBox.critical(self,'错误','未连接设备')
-    def refreshOrentation(self):fgoFunc.base.refreshOrentation()
     def exec(self):
         s=QApplication.clipboard().text()
         if QMessageBox.information(self,'exec',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
