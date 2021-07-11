@@ -3675,7 +3675,7 @@
    <sender>BTN_ONEBATTLE</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>runOneBattle()</slot>
+   <slot>runBattle()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>217</x>
@@ -3723,7 +3723,7 @@
    <sender>BTN_USER</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>runUser()</slot>
+   <slot>runUserScript()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>217</x>
@@ -3737,9 +3737,9 @@
   </connection>
   <connection>
    <sender>BTN_PAUSE</sender>
-   <signal>clicked()</signal>
+   <signal>clicked(bool)</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>pause()</slot>
+   <slot>pause(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>323</x>
@@ -4025,12 +4025,12 @@
   </connection>
  </connections>
  <slots>
-  <slot>runOneBattle()</slot>
+  <slot>runBattle()</slot>
   <slot>runMain()</slot>
   <slot>resetTeam()</slot>
   <slot>checkCheck()</slot>
   <slot>getDevice()</slot>
-  <slot>pause()</slot>
+  <slot>pause(bool)</slot>
   <slot>stop()</slot>
   <slot>saveTeam()</slot>
   <slot>loadTeam(QString)</slot>
@@ -4038,7 +4038,7 @@
   <slot>explorerHere()</slot>
   <slot>about()</slot>
   <slot>applyAll()</slot>
-  <slot>runUser()</slot>
+  <slot>runUserScript()</slot>
   <slot>stayOnTop(bool)</slot>
   <slot>runGacha()</slot>
   <slot>mapKey(bool)</slot>
