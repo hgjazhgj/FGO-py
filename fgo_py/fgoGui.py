@@ -38,7 +38,7 @@ class MyMainWindow(QMainWindow):
         if not self.thread._started:self.thread.join()
         event.accept()
     def runFunc(self,func,*args,**kwargs):
-        if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备')
+        if not fgoFunc.base.avaliable:return QMessageBox.critical(self,'错误','未连接设备')
         def f():
             try:
                 self.signalFuncBegin.emit()
@@ -91,13 +91,12 @@ class MyMainWindow(QMainWindow):
         with open('fgoTeamup.ini','w')as f:config.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        text,ok=QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',[i for i,j in ADB().devices()if j=='device'],-bool(fgoFunc.base.serialno),True,Qt.WindowType.WindowStaysOnTopHint)
+        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,True,Qt.WindowType.WindowStaysOnTopHint))([i for i,_ in ADB().devices('device')])
         if ok and(text:=__import__('netifaces').gateways()['default'][2][0]+':5555'if text=='fuck'else text.replace(' ','')):
-            ADB(text)
             fgoFunc.base=fgoFunc.Base(text)
             self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
     def checkCheck(self):
-        if not fgoFunc.base.serialno:return QMessageBox.critical(self,'错误','未连接设备')
+        if not fgoFunc.base.avaliable:return QMessageBox.critical(self,'错误','未连接设备')
         try:fgoFunc.Check().show()
         except Exception as e:logger.critical(e)
     def applyAll(self):
@@ -107,15 +106,19 @@ class MyMainWindow(QMainWindow):
         fgoFunc.dangerPos=[int(getattr(self.ui,f'TXT_DANGER_{i}').text())for i in range(3)]
         fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
         fgoFunc.masterSkill=[[int(getattr(self.ui,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]
-    def runOneBattle(self):self.runFunc(fgoFunc.battle)
-    def runUser(self):self.runFunc(fgoFunc.userScript)
+    def runBattle(self):self.runFunc(fgoFunc.battle)
+    def runUserScript(self):self.runFunc(fgoFunc.userScript)
     def runGacha(self):self.runFunc(fgoFunc.gacha)
     def runJackpot(self):self.runFunc(fgoFunc.jackpot)
     def runMailFiltering(self):self.runFunc(fgoFunc.mailFiltering)
     def runMain(self):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'],0,False)
         if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),{'完成战斗':fgoFunc.battle,'用户脚本':fgoFunc.userScript}[text])
-    def pause(self):fgoFunc.control.suspend()
+    def pause(self,x):
+        if not x and not fgoFunc.base.avaliable:
+            self.ui.BTN_PAUSE.setChecked(True)
+            return QMessageBox.critical(self,'错误','未连接设备')
+        fgoFunc.control.suspend()
     def stop(self):fgoFunc.control.terminate()
     def stopLater(self,x):
         if x:
@@ -130,7 +133,7 @@ class MyMainWindow(QMainWindow):
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x)
         self.show()
     def mapKey(self,x):
-        if x and not fgoFunc.base.serialno:
+        if x and not fgoFunc.base.avaliable:
             self.ui.MENU_CONTROL_MAPKEY.setChecked(False)
             return QMessageBox.critical(self,'错误','未连接设备')
     def exec(self):

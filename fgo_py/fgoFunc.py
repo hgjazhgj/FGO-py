@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.2.1'
+__version__='v6.2.2'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
@@ -33,7 +33,6 @@ import time
 import cv2
 # 聖杯の寄るべに従い,この意,この理に従うならば応えよ!
 import numpy
-from numpy.core.fromnumeric import shape, transpose
 # 誓いを此処に.
 import win32con
 # 我は常世総ての善と成る者,我は常世総ての悪を敷く者.
@@ -95,7 +94,7 @@ class Fuse:
         self.__max=fv
         self.show=show
         self.logsize=logsize
-        self.log=[None]*self.logsize
+        self.log=[None]*logsize
         self.logptr=0
     @property
     def value(self):return self.__value
@@ -214,14 +213,19 @@ mailFilterImg=ImageListener('fgoImage/mailfilter/')
 class Base(Android):
     def __init__(self,serialno=None):
         self.lock=threading.Lock()
-        if serialno is None:
-            self.serialno=None
-            return
-        try:super().__init__(serialno)
-        except:self.serialno=None
-        else:
+        try:
+            assert serialno
+            super().__init__(serialno)
             self.rotation_watcher.reg_callback(lambda _:self.refreshOrientation())
             self.touch_proxy
+        except:self.serialno=None
+    @property
+    def avaliable(self):
+        if not self.serialno:return False
+        # if self.rotation_watcher._t.is_alive():return True # More out-sync
+        if self.touch_proxy.server_proc.poll()is None:return True # Only compatible with minitouch & maxtouch
+        self.serialno=None
+        return False
     def refreshOrientation(self):
         self.render=[round(i)for i in self.get_render_resolution(True)]
         self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
