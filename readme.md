@@ -31,19 +31,19 @@
 觉得有帮助请为我star,谢谢  
 <table>
   <tr>
-    <td><img src=「doc/star/1.png」 width=「82」 height=「82」/></td>
-    <td><img src=「doc/star/2.png」 width=「82」 height=「82」/></td>
-    <td><img src=「doc/star/3.png」 width=「82」 height=「82」/></td>
+    <td><img src="doc/star/1.png" width="82" height="82"/></td>
+    <td><img src="doc/star/2.png" width="82" height="82"/></td>
+    <td><img src="doc/star/3.png" width="82" height="82"/></td>
   </tr>
   <tr>
-    <td><img src=「doc/star/4.png」 width=「82」 height=「82」/></td>
-    <td><img src=「https://img.shields.io/github/stars/hgjazhgj/FGO-py.svg?style=social」/></td>
-    <td><img src=「doc/star/6.png」 width=「82」 height=「82」/></td>
+    <td><img src="doc/star/4.png" width="82" height="82"/></td>
+    <td><img src="https://img.shields.io/github/stars/hgjazhgj/FGO-py.svg?style=social"/></td>
+    <td><img src="doc/star/6.png" width="82" height="82"/></td>
   </tr>
   <tr>
-    <td><img src=「doc/star/7.png」 width=「82」 height=「82」/></td>
-    <td><img src=「doc/star/8.png」 width=「82」 height=「82」/></td>
-    <td><img src=「doc/star/9.png」 width=「82」 height=「82」/></td>
+    <td><img src="doc/star/7.png" width="82" height="82"/></td>
+    <td><img src="doc/star/8.png" width="82" height="82"/></td>
+    <td><img src="doc/star/9.png" width="82" height="82"/></td>
   </tr>
 </table>
 
@@ -114,6 +114,12 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/07/31 v6.2.3
+更新:重构部分代码,使之具有能在错误发生时不丢失当前战斗状态的特性  
+随着90+本逐渐出现,战斗算法需要进一步提升,首先要实现的是更多战斗参数的获取  
+我本人的精力显然不够,既没有办法更新各个从者的技能信息,更没有精力每出一个活动就对90+本写一个关卡配置,所以只能实时获取当前场景的信息经验主义贪心一下,仍然没法知道技能的实际效果,或是下一面会有什么敌人  
+另外,尽管airtest修复了内存泄漏的问题,但是僵尸线程好像仍然存在,当连接对象被GC后,相关的各个线程均未kill  
+对于一些模拟器,airtest加载截图方式时会导致模拟器黑屏,截图不会报错但就是黑色,这就很tm操蛋,所以还是指定了截图方法  
 ## 2021/07/11 v6.2.2
 注意:本更新的兼容性未经充分验证  
 更新:试图获取当前连接是否仍然可用,以替代先前的是否曾经建立过连接,并在从暂停中恢复脚本执行时添加判断  
