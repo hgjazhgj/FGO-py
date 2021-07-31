@@ -1,5 +1,4 @@
 import configparser,logging,os,sys,threading
-from airtest.core.android.adb import ADB
 from PyQt6.QtCore import QRegularExpression,Qt,pyqtSignal
 from PyQt6.QtGui import QRegularExpressionValidator
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox
@@ -37,8 +36,13 @@ class MyMainWindow(QMainWindow):
         fgoFunc.control.terminate()
         if not self.thread._started:self.thread.join()
         event.accept()
+    def isDeviceAvaliable(self):
+        if not fgoFunc.base.avaliable:
+            self.ui.LBL_DEVICE.clear()
+            return False
+        return True
     def runFunc(self,func,*args,**kwargs):
-        if not fgoFunc.base.avaliable:return QMessageBox.critical(self,'错误','未连接设备')
+        if not self.isDeviceAvaliable():return QMessageBox.critical(self,'错误','未连接设备')
         def f():
             try:
                 self.signalFuncBegin.emit()
@@ -51,7 +55,7 @@ class MyMainWindow(QMainWindow):
                 fgoFunc.control.reset()
                 fgoFunc.fuse.reset()
                 QApplication.beep() # print('\a',end='')
-        self.thread=threading.Thread(target=f,name=f'{func.__qualname__}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
+        self.thread=threading.Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
         self.thread.start()
     def funcBegin(self):
         self.ui.BTN_ONEBATTLE.setEnabled(False)
@@ -74,48 +78,58 @@ class MyMainWindow(QMainWindow):
         self.ui.TXT_APPLE.setValue(0)
     def loadTeam(self,teamName):
         self.ui.TXT_TEAM.setText(config[teamName]['teamIndex'])
+        getattr(self.ui,f'RBT_FRIEND_{config[teamName]["friendPos"]}').setChecked(True)
         (lambda skillInfo:[getattr(self.ui,f'TXT_SKILL_{i}_{j}_{k}').setText(str(skillInfo[i][j][k]))for i in range(6)for j in range(3)for k in range(3)])(eval(config[teamName]['skillInfo']))
         (lambda houguInfo:[getattr(self.ui,f'TXT_HOUGU_{i}_{j}').setText(str(houguInfo[i][j]))for i in range(6)for j in range(2)])(eval(config[teamName]['houguInfo']))
         (lambda dangerPos:[getattr(self.ui,f'TXT_DANGER_{i}').setText(str(dangerPos[i]))for i in range(3)])(eval(config[teamName]['dangerPos']))
-        getattr(self.ui,f'RBT_FRIEND_{config[teamName]["friendPos"]}').setChecked(True)
         (lambda masterSkill:[getattr(self.ui,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i]))for i in range(3)for j in range(3+(i==2))])(eval(config[teamName]['masterSkill']))
     def saveTeam(self):
         if not self.ui.CBX_TEAM.currentText():return
         config[self.ui.CBX_TEAM.currentText()]={
             'teamIndex':self.ui.TXT_TEAM.text(),
+            'friendPos':self.ui.BTG_FRIEND.checkedButton().objectName()[-1],
             'skillInfo':str([[[int(getattr(self.ui,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
             'houguInfo':str([[int(getattr(self.ui,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]).replace(' ',''),
             'dangerPos':str([int(getattr(self.ui,f'TXT_DANGER_{i}').text())for i in range(3)]).replace(' ',''),
-            'friendPos':self.ui.BTG_FRIEND.checkedButton().objectName()[-1],
             'masterSkill':str([[int(getattr(self.ui,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]).replace(' ','')}
         with open('fgoTeamup.ini','w')as f:config.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda adbList:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',adbList,adbList.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in adbList else 0,True,Qt.WindowType.WindowStaysOnTopHint))([i for i,_ in ADB().devices('device')])
-        if ok and(text:=__import__('netifaces').gateways()['default'][2][0]+':5555'if text=='fuck'else text.replace(' ','')):
-            fgoFunc.base=fgoFunc.Base(text)
+        text,ok=(lambda l:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',l,l.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in l else 0,True,Qt.WindowType.WindowStaysOnTopHint))(fgoFunc.Base.enumDevices())
+        if text.startswith('/'):
+            try:
+                import winreg,netifaces
+                text={
+                    'gw':lambda:netifaces.gateways()["default"][netifaces.AF_INET][0]+':5555',
+                    'bs':lambda:'127.0.0.1:'+str(winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config"),"BstAdbPort")[0])
+                }[text[1:]]()
+            except Exception as e:
+                logger.exception(e)
+                return
+        if ok and text:
+            fgoFunc.base=fgoFunc.Base(text.replace(' ',''))
             self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
     def checkCheck(self):
-        if not fgoFunc.base.avaliable:return QMessageBox.critical(self,'错误','未连接设备')
+        if not self.isDeviceAvaliable():return QMessageBox.critical(self,'错误','未连接设备')
         try:fgoFunc.Check().show()
         except Exception as e:logger.critical(e)
     def applyAll(self):
-        fgoFunc.teamIndex=int(self.ui.TXT_TEAM.text())
-        fgoFunc.skillInfo=[[[int(getattr(self.ui,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]
-        fgoFunc.houguInfo=[[int(getattr(self.ui,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]
-        fgoFunc.dangerPos=[int(getattr(self.ui,f'TXT_DANGER_{i}').text())for i in range(3)]
-        fgoFunc.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
-        fgoFunc.masterSkill=[[int(getattr(self.ui,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]
-    def runBattle(self):self.runFunc(fgoFunc.battle)
+        fgoFunc.Main.teamIndex=int(self.ui.TXT_TEAM.text())
+        fgoFunc.Main.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
+        fgoFunc.Battle.skillInfo=[[[int(getattr(self.ui,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]
+        fgoFunc.Battle.houguInfo=[[int(getattr(self.ui,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]
+        fgoFunc.Battle.dangerPos=[int(getattr(self.ui,f'TXT_DANGER_{i}').text())for i in range(3)]
+        fgoFunc.Battle.masterSkill=[[int(getattr(self.ui,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]
+    def runBattle(self):self.runFunc(fgoFunc.Battle())
     def runUserScript(self):self.runFunc(fgoFunc.userScript)
     def runGacha(self):self.runFunc(fgoFunc.gacha)
     def runJackpot(self):self.runFunc(fgoFunc.jackpot)
     def runMailFiltering(self):self.runFunc(fgoFunc.mailFiltering)
     def runMain(self):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'],0,False)
-        if ok and text:self.runFunc(fgoFunc.main,self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),{'完成战斗':fgoFunc.battle,'用户脚本':fgoFunc.userScript}[text])
+        if ok and text:self.runFunc(fgoFunc.Main(self.ui.TXT_APPLE.value(),self.ui.CBX_APPLE.currentIndex(),{'完成战斗':lambda:fgoFunc.Battle()(),'用户脚本':fgoFunc.userScript}[text]))
     def pause(self,x):
-        if not x and not fgoFunc.base.avaliable:
+        if not x and not self.isDeviceAvaliable():
             self.ui.BTN_PAUSE.setChecked(True)
             return QMessageBox.critical(self,'错误','未连接设备')
         fgoFunc.control.suspend()
@@ -133,7 +147,7 @@ class MyMainWindow(QMainWindow):
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x)
         self.show()
     def mapKey(self,x):
-        if x and not fgoFunc.base.avaliable:
+        if x and not self.isDeviceAvaliable():
             self.ui.MENU_CONTROL_MAPKEY.setChecked(False)
             return QMessageBox.critical(self,'错误','未连接设备')
     def exec(self):
