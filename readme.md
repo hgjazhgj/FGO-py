@@ -1,8 +1,8 @@
 > 考研,烦  
 
-> 为caber攒石头:(386+24*3)/inf  
+> 为caber攒石头:(501+38*3)/inf  
 > 2021年7月6日到抽caber池子总共大概还有250石头和26呼符  
-> 五周年福袋出水黑呆我反向洗地  
+> 五周年福袋出水黑呆我反向洗地<-我忽然发现水黑呆有复刻...那我去抽两仪式的福袋了  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -17,7 +17,6 @@
 ![svg](https://img.shields.io/badge/原来你也玩原神-原神玩家-1aa3ff.svg)
 ![svg](https://img.shields.io/badge/云程序员-云程序员-ffffff.svg)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
-[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 ![svg](https://img.shields.io/badge/开位-一条开位咸鱼-ffd700.svg)
 ![svg](https://img.shields.io/badge/头痛-患有头痛宿疾Ex-50a625.svg)
 ![svg](https://img.shields.io/badge/病弱-病弱厨-ecbacb.svg)
@@ -75,6 +74,16 @@ ui大概长这样(设计视图仅供参考):
 如果image/friend目录下没有png文件,就选取好友列表中的第一个  
 助战截图的文件名若以包含技能和宝具信息的11个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo中的设置  
 你在image/friend目录下的所有更改会在下一次选取助战时自动应用  
+## 连接到设备 Connect Your Device
+如果你使用数据线将手机连接到电脑,那么你的手机自然会出现在设备列表中  
+但是很多情况下,设备不会自动出现在设备列表中,尽管脚本会帮你运行connect命令,但是你还要手动输入设备序列号或ip,有些时候这些数据还不是固定的,比如模拟器启动时刷新,或是DHCP重新分配了你的ip,这就需要比较繁琐的步骤才能拿到  
+为此,我写了一个小魔法,在连接设备对话框中有一些以「/」开头的指令,让你用短短几个字符便完成复杂的操作  
+**这里需要用到的包未在requirements.txt中列出,此功能发生的问题无法获得技术支持**  
+基于本人的实际使用场景,这里现在有两个命令  
+1. `/gw` 手机开热点打fgo笔记本连热点挂脚本的情况,获取网关ip  
+2. `/bs` 兼容Hyper-V的BlueStacks4国际版,从注册表读取adb端口  
+
+你可以自己编写你需要的功能,如果你认为你的场景别人也会遇到,请发个issue或pr让我加进这个项目里  
 ## 按键映射 HKey
 |按键      |功能                                    |
 |----------|----------------------------------------|
@@ -96,7 +105,8 @@ ui大概长这样(设计视图仅供参考):
 |NUM4-9    |选取敌人,NUM7返回/关闭                  |  
 # 如何联系我 Contact Me
 ![img](doc/contact.png)  
-在占用我的时间之前,先耗费自己的时间--Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
+在占用我的时间之前,先耗费自己的时间  
+--Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
 发现bug请按bug_report模板建立issue,其他issue多半会被直接删除,尤其是enhancement(你在教我做事?)和feature-request(伸手党4000+)  
 [提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
 本人已在知乎开启[付费咨询](https://www.zhihu.com/consult/people/1149733177244516352),我觉得这总比qq要靠谱一点  
@@ -114,6 +124,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/08/04 v6.3.0
+6.3.x版本计划实现那些@returnOnError修饰的方法  
+更新:选卡考虑克制关系,以应对多职阶混合本,或是提高速刷后补刀效率  
+但是当前的选卡仍然不是最优,具体的优化要在getCardGroup实现Brave Chain识别之后再做  
+另外,我觉得本项目中的一些英文有点问题,有些从翻译软件得来的要改成美服正式使用的  
 ## 2021/07/31 v6.2.3
 更新:重构部分代码,使之具有能在错误发生时不丢失当前战斗状态的特性  
 随着90+本逐渐出现,战斗算法需要进一步提升,首先要实现的是更多战斗参数的获取  

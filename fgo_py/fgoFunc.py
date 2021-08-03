@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.2.3'
+__version__='v6.3.0'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
@@ -43,10 +43,11 @@ from functools import wraps
 from airtest.core.android.android import Android
 from airtest.core.android.adb import ADB
 (lambda logger:(logger.setLevel(logging.INFO),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
-(lambda logger:(logger.setLevel(logging.INFO),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
+(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
 bilibili=[1,2,3,4,5,6,7,8,10,11,12]
-IMG=(lambda t:([setattr(t,i[:-4].upper(),cv2.imread(f'fgoImage/{i}'))for i in os.listdir('fgoImage')if i.endswith('.png')],t)[-1])(type('IMG',(),{}))
+IMG=(lambda t:([setattr(t,i[:-4].upper(),cv2.imread(f'fgoImage/{i}'))for i in os.listdir('fgoImage')if i[-4:]=='.png'],t)[-1])(type('IMG',(),{}))
+DebugMeta=type('DebugMeta',(type,),{'__new__':lambda cls,name,bases,attrs:type(name,bases,{i:cls.logit()(j)if callable(j)and i[0]!='_'else j for i,j in attrs.items()}),'logit':staticmethod(lambda level=logging.DEBUG:lambda func:wraps(func)(lambda*args,**kwargs:(lambda x:(logger.log(level,' '.join((func.__name__,str(x).split("\n",1)[0]))),x)[-1]if x is not None else x)(func(*args,**kwargs))))})
 ScriptTerminate=type('ScriptTerminate',(Exception,),{'__init__':lambda self,msg='Unknown Reason':Exception.__init__(self,f'Script Stopped: {msg}')})
 class Control:
     def __init__(self):
@@ -101,14 +102,13 @@ class Fuse:
             self.save()
             raise ScriptTerminate('Fused')
         self.__value+=1
-        return self
     def reset(self):
         if self.__value>self.show:logger.debug(f'Fuse {self.__value}')
         self.__value=0
         if check is not self.log[(self.logptr-1)%self.logsize]:
             self.log[self.logptr]=check
             self.logptr=(self.logptr+1)%self.logsize
-        return self
+        return True
     def save(self):
         for i in(i for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]):self.log[(i+self.logptr)%self.logsize].save(f'fuselog_%Y-%m-%d_%H.%M.%S_{i:02}.jpg')
         check.save('fuselog_%Y-%m-%d_%H.%M.%S.jpg')
@@ -270,7 +270,7 @@ class Base(Android):
     def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
 base=Base()
 check=None
-class Check:
+class Check(metaclass=DebugMeta):
     def __init__(self,forwordLagency=.01,backwordLagency=0):
         control.sleep(forwordLagency)
         self.im=base.screenshot()
@@ -278,34 +278,31 @@ class Check:
         check=self
         fuse.increase()
         control.sleep(backwordLagency)
-    def compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
-    def select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if not logger.debug(f'Select from {x}')and threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
-    def tap(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
-    def save(self,name=''):
-        cv2.imwrite(time.strftime(name if name else'%Y-%m-%d_%H.%M.%S.jpg'),self.im)
-        return self
+    def __call__(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
+    def _compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
+    def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
+    def save(self,name=''):cv2.imwrite(time.strftime(name if name else'%Y-%m-%d_%H.%M.%S.jpg'),self.im)
     def show(self):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
-        return self
-    def isAddFriend(self):return self.compare(IMG.END,(243,863,745,982))
-    def isApEmpty(self):return self.compare(IMG.APEMPTY,(906,897,1017,967))
-    def isBattleBegin(self):return self.compare(IMG.BATTLEBEGIN,(1673,959,1899,1069))
-    def isBattleContinue(self):return self.compare(IMG.BATTLECONTINUE,(1072,805,1441,895))
-    def isBattleDefeated(self):return self.compare(IMG.DEFEATED,(445,456,702,523))
-    def isBattleFinished(self):return self.compare(IMG.BOUND,(112,250,454,313))or self.compare(IMG.BOUNDUP,(987,350,1468,594))
-    def isChooseFriend(self):return self.compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))
-    def isGacha(self):return self.compare(IMG.GACHA,(973,960,1312,1052))
-    def isHouguReady(self):return[not any(self.compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
-    def isListEnd(self,pos):return any(self.compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
-    def isMainInterface(self):return self.compare(IMG.MENU,(1630,950,1919,1079))
-    def isNextJackpot(self):return self.compare(IMG.JACKPOT,(1556,336,1859,397))
-    def isNoFriend(self):return self.compare(IMG.NOFRIEND,(369,545,1552,797),.1)
-    def isSkillReady(self):return[[not self.compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
-    def isSpecialDrop(self):return self.compare(IMG.CLOSE,(8,18,102,102))
-    def isTurnBegin(self):return self.compare(IMG.ATTACK,(1567,932,1835,1064))
-    def getCardColor(self):return[-1if any(self.compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))else self.select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))for i in range(5)]
+    def isAddFriend(self):return self._compare(IMG.END,(243,863,745,982))
+    def isApEmpty(self):return self._compare(IMG.APEMPTY,(906,897,1017,967))
+    def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1673,959,1899,1069))
+    def isBattleContinue(self):return self._compare(IMG.BATTLECONTINUE,(1072,805,1441,895))
+    def isBattleDefeated(self):return self._compare(IMG.DEFEATED,(445,456,702,523))
+    def isBattleFinished(self):return self._compare(IMG.BOUND,(112,250,454,313))or self._compare(IMG.BOUNDUP,(987,350,1468,594))
+    def isChooseFriend(self):return self._compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))
+    def isGacha(self):return self._compare(IMG.GACHA,(973,960,1312,1052))
+    def isHouguReady(self):return[not any(self._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
+    def isListEnd(self,pos):return any(self._compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
+    def isMainInterface(self):return self._compare(IMG.MENU,(1630,950,1919,1079))
+    def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1556,336,1859,397))
+    def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,1552,797),.1)
+    def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
+    def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
+    def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
+    def getCardColor(self):return[0if any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))else [8,10,15][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))]for i in range(5)]
     def getTeamIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG.TEAMINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
     def retryOnError(interval=.1,err=TypeError):
@@ -320,24 +317,24 @@ class Check:
             return wrap
         return wrapper
     @retryOnError()
-    def getStage(self):return self.select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1296,20,1342,56),.5)+1
+    def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1296,20,1342,56),.5)+1
     @retryOnError()
-    def getStageTotal(self):return self.select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56),.5)+1
+    def getStageTotal(self):return self._select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56),.5)+1
     def returnOnError(value,err=BaseException):
         def wrapper(func):
             @wraps(func)
             def wrap(self,*args,**kwargs):
                 try:
                     if(ans:=func(self,*args,**kwargs))is not None:return ans
-                except err:
-                    logger.warning(f'Exception in {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
+                except err as e:
+                    logger.warning(f'{e} in {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
                     return value
             return wrap
         return wrapper
     @returnOnError([0,0,1,1,2])
     def getCardGroup(self):raise NotImplementedError
-    @returnOnError([0,0,0,0,0])
-    def getCardResistance(self):raise NotImplementedError
+    @returnOnError([1,1,1,1,1])
+    def getCardResist(self):return[{0:4,1:1}.get(self._select((IMG.EFFECTIVE,IMG.RESIST),(270+386*i,530,305+386*i,630)),2)for i in range(5)]
     @returnOnError([0,0,0])
     def getHP(self):raise NotImplementedError
     @returnOnError([0,0,0])
@@ -357,7 +354,7 @@ def jackpot():
 def mailFiltering():
     if not mailFilterImg.flush():return
     while not Check(1).isListEnd((1406,1079)):
-        if not any(check.tap(i[1],threshold=.016)for i in mailFilterImg.items()):base.swipe((400,900,400,300))
+        if not any(check(i[1],threshold=.016)for i in mailFilterImg.items()):base.swipe((400,900,400,300))
 class Battle:
     skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
     houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -375,29 +372,62 @@ class Battle:
                 self.turn+=1
                 self.stage,self.stageTurn=(lambda x:[x,1+self.stageTurn*(self.stage==x)])(Check(.5).getStage())
                 skill,newPortrait=check.isSkillReady(),check.getPortrait()
-                if self.turn==1:stageTotal=check.getStageTotal()
+                if self.turn==1:self.stageTotal=check.getStageTotal()
                 else:self.servant=(lambda m,p:[m+p.index(i)+1if i in p else self.servant[i]for i in range(3)])(max(self.servant),[i for i in range(3)if self.servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
                 if self.stageTurn==1and self.dangerPos[self.stage-1]:base.perform('\x69\x68\x67\x66\x65\x64'[self.dangerPos[self.stage-1]-1]+'\xDC',(250,500))
                 portrait=newPortrait
-                logger.info(f'{self.turn} {self.stage} {self.stageTurn} {self.servant}')
-                for i,j in((i,j)for i in range(3)if self.servant[i]<6for j in range(3)if skill[i][j]and self.skillInfo[self.orderChange[self.servant[i]]][j][0]and min(self.skillInfo[self.orderChange[self.servant[i]]][j][0],stageTotal)<<8|self.skillInfo[self.orderChange[self.servant[i]]][j][1]<=self.stage<<8|self.stageTurn):
+                logger.info(f'Turn {self.turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
+                for i,j in((i,j)for i in range(3)if self.servant[i]<6for j in range(3)if skill[i][j]and self.skillInfo[self.orderChange[self.servant[i]]][j][0]and min(self.skillInfo[self.orderChange[self.servant[i]]][j][0],self.stageTotal)<<8|self.skillInfo[self.orderChange[self.servant[i]]][j][1]<=self.stage<<8|self.stageTurn):
                     base.perform(('ASD','FGH','JKL')[i][j],(300,))
                     if self.skillInfo[self.orderChange[self.servant[i]]][j][2]:base.perform('234'[self.skillInfo[self.orderChange[self.servant[i]]][j][2]-1],(300,))
                     control.sleep(2.3)
                     while not Check().isTurnBegin():pass
-                for i in(i for i in range(3)if self.stage==min(self.masterSkill[i][0],stageTotal)and self.stageTurn==self.masterSkill[i][1]):
+                for i in(i for i in range(3)if self.stage==min(self.masterSkill[i][0],self.stageTotal)and self.stageTurn==self.masterSkill[i][1]):
                     base.perform('Q'+'WER'[i],(300,300))
                     if self.masterSkill[i][2]:base.perform('234'[self.masterSkill[i][2]-1],(300,))
                     control.sleep(2.3)
                     while not Check().isTurnBegin():pass
                 base.perform(' ',(2350,))
-                base.perform((lambda c,h:['678'[i]for i in sorted((i for i in range(3)if h[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-c[x])if any(h)else(lambda x:-3if c[x]!=-1and c.count(c[x])>=3else-c[x]))])(Check().getCardColor(),[self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],stageTotal)for i,j in zip(range(3),check.isHouguReady())]),(270,270,2270,1270,6000))
+                base.perform(self.selectCard(),(270,270,2270,1270,6000))
             elif check.isBattleFinished():
                 logger.info('Battle Finished')
                 return True
             elif check.isBattleDefeated():
                 logger.warning('Battle Defeated')
                 return False
+    @DebugMeta.logit(logging.INFO)
+    def selectCard(self):
+        return ''.join((lambda c,r,h:
+            [
+                '678'[i]
+                for i in 
+                sorted(
+                    (i for i in range(3)if h[i]),
+                    key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1]
+                )
+            ]+[
+                '12345'[i]
+                for i in 
+                sorted(
+                    range(5),
+                    key=
+                        (lambda x:-c[x]*r[x])
+                        if any(h)else
+                        (lambda x:-((c[x]and c.count(c[x])>=3)<<8)-c[x]*r[x])
+                )
+            ]
+        )(
+            Check().getCardColor(),
+            check.getCardResist(),
+            [
+                self.servant[i]<6
+                and j 
+                and self.houguInfo[self.orderChange[self.servant[i]]][0]
+                and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)
+                for i,j in 
+                zip(range(3),check.isHouguReady())
+            ]
+        ))
 class Main:
     teamIndex=0
     friendPos=0
@@ -463,7 +493,7 @@ class Main:
         while True:
             timer=time.time()
             while True:
-                for i in(i[0]for i in friendImg.items()if check.tap(i[1])):
+                for i in(i for i,j in friendImg.items()if check(j)):
                     Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]=(lambda r:(lambda p:([[Battle.skillInfo[self.friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[Battle.houguInfo[self.friendPos][i]if p[i+9]=='x'else int(p[i+9])for i in range(2)]))(r.group())if r else(Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]))(re.search('[0-9x]{11}$',i))
                     return logger.info(f'Friend {i}')
                 if check.isListEnd((1860,1064)):break

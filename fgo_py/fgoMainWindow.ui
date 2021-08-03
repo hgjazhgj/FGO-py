@@ -36,7 +36,7 @@
          </sizepolicy>
         </property>
         <property name="statusTip">
-         <string>选取编队,若需新建或删除请直接更改config文件</string>
+         <string>选取编队,若需新建或删除请直接更改teamup文件</string>
         </property>
        </widget>
       </item>
