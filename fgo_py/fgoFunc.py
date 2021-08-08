@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.3.0'
+__version__='v6.3.1'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
@@ -33,6 +33,7 @@ import time
 import cv2
 # 聖杯の寄るべに従い,この意,この理に従うならば応えよ!
 import numpy
+from numpy.core.numeric import isclose
 # 誓いを此処に.
 import win32con
 # 我は常世総ての善と成る者,我は常世総ての悪を敷く者.
@@ -40,6 +41,7 @@ import win32file
 # 汝三大の言霊を纏う七天,抑止の輪より来たれ,
 from functools import wraps
 # 天秤の守り手よ―――！
+from itertools import permutations
 from airtest.core.android.android import Android
 from airtest.core.android.adb import ADB
 (lambda logger:(logger.setLevel(logging.INFO),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
@@ -47,7 +49,7 @@ from airtest.core.android.adb import ADB
 logger=logging.getLogger('fgo.Func')
 bilibili=[1,2,3,4,5,6,7,8,10,11,12]
 IMG=(lambda t:([setattr(t,i[:-4].upper(),cv2.imread(f'fgoImage/{i}'))for i in os.listdir('fgoImage')if i[-4:]=='.png'],t)[-1])(type('IMG',(),{}))
-DebugMeta=type('DebugMeta',(type,),{'__new__':lambda cls,name,bases,attrs:type(name,bases,{i:cls.logit()(j)if callable(j)and i[0]!='_'else j for i,j in attrs.items()}),'logit':staticmethod(lambda level=logging.DEBUG:lambda func:wraps(func)(lambda*args,**kwargs:(lambda x:(logger.log(level,' '.join((func.__name__,str(x).split("\n",1)[0]))),x)[-1]if x is not None else x)(func(*args,**kwargs))))})
+DebugMeta=type('DebugMeta',(type,),{'__new__':lambda cls,name,bases,attrs:type(name,bases,{i:cls.logit()(j)if callable(j)and i[0]!='_'else j for i,j in attrs.items()}),'logit':staticmethod(lambda level=logging.DEBUG:lambda func:wraps(func)(lambda*args,**kwargs:(lambda x:(logger.log(level,' '.join((func.__name__,str(x)[:100].split("\n",1)[0]))),x)[-1]if x is not None else x)(func(*args,**kwargs))))})
 ScriptTerminate=type('ScriptTerminate',(Exception,),{'__init__':lambda self,msg='Unknown Reason':Exception.__init__(self,f'Script Stopped: {msg}')})
 class Control:
     def __init__(self):
@@ -70,12 +72,11 @@ class Control:
     def checkTerminateLater(self):
         if not self.__terminateLaterFlag:raise ScriptTerminate('Terminate Appointment Effected')
         self.__terminateLaterFlag-=1
-    def sleep(self,x,part=.1):
+    def sleep(self,x,part=.07):
         timer=time.time()+x-part
-        while True:
+        while time.time()<timer:
             self.checkSuspend()
             self.checkTerminate()
-            if time.time()>=timer:break
             time.sleep(part)
         time.sleep(max(0,timer+part-time.time()))
     def stopOnDefeated(self):self.__stopOnDefeatedFlag=not self.__stopOnDefeatedFlag
@@ -294,7 +295,7 @@ class Check(metaclass=DebugMeta):
     def isBattleFinished(self):return self._compare(IMG.BOUND,(112,250,454,313))or self._compare(IMG.BOUNDUP,(987,350,1468,594))
     def isChooseFriend(self):return self._compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))
     def isGacha(self):return self._compare(IMG.GACHA,(973,960,1312,1052))
-    def isHouguReady(self):return[not any(self._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)]
+    def isHouguReady(self):return[(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)and not any(self._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))for i in range(3)]
     def isListEnd(self,pos):return any(self._compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,950,1919,1079))
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1556,336,1859,397))
@@ -302,7 +303,7 @@ class Check(metaclass=DebugMeta):
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
-    def getCardColor(self):return[0if any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))else [8,10,15][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))]for i in range(5)]
+    def getCardColor(self):return[0.if any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))else [.8,1.,1.5][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))]for i in range(5)]
     def getTeamIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG.TEAMINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
     def retryOnError(interval=.1,err=TypeError):
@@ -320,28 +321,20 @@ class Check(metaclass=DebugMeta):
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1296,20,1342,56),.5)+1
     @retryOnError()
     def getStageTotal(self):return self._select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56),.5)+1
-    def returnOnError(value,err=BaseException):
-        def wrapper(func):
-            @wraps(func)
-            def wrap(self,*args,**kwargs):
-                try:
-                    if(ans:=func(self,*args,**kwargs))is not None:return ans
-                except err as e:
-                    logger.warning(f'{e} in {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
-                    return value
-            return wrap
-        return wrapper
-    @returnOnError([0,0,1,1,2])
-    def getCardGroup(self):raise NotImplementedError
-    @returnOnError([1,1,1,1,1])
-    def getCardResist(self):return[{0:4,1:1}.get(self._select((IMG.EFFECTIVE,IMG.RESIST),(270+386*i,530,305+386*i,630)),2)for i in range(5)]
-    @returnOnError([0,0,0])
+    def getCardGroup(self):
+        universe={0,1,2,3,4}
+        result=[-1]*5
+        index=0
+        while universe:
+            group=(lambda item:{item}|set(i for i in universe if cv2.minMaxLoc(cv2.matchTemplate(self.im[660:737,160+386*item:225+386*item],self.im[690:707,163+386*i:222+386*i],cv2.TM_SQDIFF_NORMED))[0]<.01))(universe.pop())
+            for i in group:result[i]=index
+            index+=1
+            universe-=group
+        return result
+    def getCardResist(self):return[{0:2.,1:.5}.get(self._select((IMG.WEAK,IMG.RESIST),(270+386*i,530,305+386*i,630)),1.)for i in range(5)]
     def getHP(self):raise NotImplementedError
-    @returnOnError([0,0,0])
     def getNP(self):raise NotImplementedError
-    @returnOnError([0,0,0])
     def getEnemyHP(self):raise NotImplementedError
-    @returnOnError([[0,0],[0,0],[0,0]])
     def getEnemyNP(self):raise NotImplementedError
 def gacha():
     while fuse.value<30:
@@ -387,7 +380,7 @@ class Battle:
                     if self.masterSkill[i][2]:base.perform('234'[self.masterSkill[i][2]-1],(300,))
                     control.sleep(2.3)
                     while not Check().isTurnBegin():pass
-                base.perform(' ',(2350,))
+                base.perform(' ',(2150,))
                 base.perform(self.selectCard(),(270,270,2270,1270,6000))
             elif check.isBattleFinished():
                 logger.info('Battle Finished')
@@ -396,38 +389,7 @@ class Battle:
                 logger.warning('Battle Defeated')
                 return False
     @DebugMeta.logit(logging.INFO)
-    def selectCard(self):
-        return ''.join((lambda c,r,h:
-            [
-                '678'[i]
-                for i in 
-                sorted(
-                    (i for i in range(3)if h[i]),
-                    key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1]
-                )
-            ]+[
-                '12345'[i]
-                for i in 
-                sorted(
-                    range(5),
-                    key=
-                        (lambda x:-c[x]*r[x])
-                        if any(h)else
-                        (lambda x:-((c[x]and c.count(c[x])>=3)<<8)-c[x]*r[x])
-                )
-            ]
-        )(
-            Check().getCardColor(),
-            check.getCardResist(),
-            [
-                self.servant[i]<6
-                and j 
-                and self.houguInfo[self.orderChange[self.servant[i]]][0]
-                and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)
-                for i,j in 
-                zip(range(3),check.isHouguReady())
-            ]
-        ))
+    def selectCard(self):return''.join((lambda hougu,color,resist:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(max(((card,(lambda isColorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]for i,j in enumerate(card))+5.*isColorChain+(firstCardBonus+1.)*(3.5if isColorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]])(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5)))for card in permutations(range(5),3)),key=lambda x:x[1])[0])])(check.getCardGroup()))([self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)for i,j in zip(range(3),Check().isHouguReady())],check.getCardColor(),check.getCardResist()))
 class Main:
     teamIndex=0
     friendPos=0
@@ -453,7 +415,7 @@ class Main:
                     try:control.checkTerminateLater()
                     except ScriptTerminate as e:
                         base.press('F')
-                        raise e
+                        raise
                     base.press('K')
                     if self.eatApple():return
                     self.chooseFriend()

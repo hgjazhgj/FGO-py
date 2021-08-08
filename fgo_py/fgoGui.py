@@ -96,7 +96,7 @@ class MyMainWindow(QMainWindow):
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
         text,ok=(lambda l:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',l,l.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in l else 0,True,Qt.WindowType.WindowStaysOnTopHint))(fgoFunc.Base.enumDevices())
-        if text[0]=='/':
+        if text.startswith('/'):
             try:
                 import winreg,netifaces
                 text={
