@@ -18,32 +18,33 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.3.1'
+__version__='v6.3.2'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
-# 降り立つ風には壁を.四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
+# 降り立つ風には壁を.
 import os
-# 満たせ.満たせ.満たせ.満たせ.満たせ.
+# 四方の門は閉じ,王冠より出で,王国に至る三叉路は循環せよ.
 import re
-# 繰り返すつどに五度.ただ,満たされる刻を破却する.
+# 満たせ.満たせ.満たせ.満たせ.満たせ.
 import threading
-# ――――告げる.
+# 繰り返すつどに五度.
 import time
+# ただ,満たされる刻を破却する.
+from functools import wraps
+# ――――告げる.
+from itertools import permutations
 # 汝の身は我が下に,我が命運は汝の剣に.
 import cv2
 # 聖杯の寄るべに従い,この意,この理に従うならば応えよ!
 import numpy
-from numpy.core.numeric import isclose
 # 誓いを此処に.
 import win32con
 # 我は常世総ての善と成る者,我は常世総ての悪を敷く者.
 import win32file
 # 汝三大の言霊を纏う七天,抑止の輪より来たれ,
-from functools import wraps
-# 天秤の守り手よ―――！
-from itertools import permutations
-from airtest.core.android.android import Android
 from airtest.core.android.adb import ADB
+# 天秤の守り手よ―――！
+from airtest.core.android.android import Android
 (lambda logger:(logger.setLevel(logging.INFO),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
 (lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
 logger=logging.getLogger('fgo.Func')
@@ -272,6 +273,17 @@ class Base(Android):
 base=Base()
 check=None
 class Check(metaclass=DebugMeta):
+    def retryOnError(interval=.1,err=TypeError):
+        def wrapper(func):
+            @wraps(func)
+            def wrap(self,*args,**kwargs):
+                try:
+                    if(ans:=func(self,*args,**kwargs))is not None:return ans
+                except err:pass
+                logger.warning(f'Retry {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
+                return wrap(Check(interval),*args,**kwargs)
+            return wrap
+        return wrapper
     def __init__(self,forwordLagency=.01,backwordLagency=0):
         control.sleep(forwordLagency)
         self.im=base.screenshot()
@@ -294,6 +306,7 @@ class Check(metaclass=DebugMeta):
     def isBattleDefeated(self):return self._compare(IMG.DEFEATED,(445,456,702,523))
     def isBattleFinished(self):return self._compare(IMG.BOUND,(112,250,454,313))or self._compare(IMG.BOUNDUP,(987,350,1468,594))
     def isChooseFriend(self):return self._compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))
+    def isCardSealed(self):return[any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isGacha(self):return self._compare(IMG.GACHA,(973,960,1312,1052))
     def isHouguReady(self):return[(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)and not any(self._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))for i in range(3)]
     def isListEnd(self,pos):return any(self._compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
@@ -303,24 +316,7 @@ class Check(metaclass=DebugMeta):
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
-    def getCardColor(self):return[0.if any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))else [.8,1.,1.5][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))]for i in range(5)]
-    def getTeamIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG.TEAMINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
-    def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
-    def retryOnError(interval=.1,err=TypeError):
-        def wrapper(func):
-            @wraps(func)
-            def wrap(self,*args,**kwargs):
-                try:
-                    if(ans:=func(self,*args,**kwargs))is not None:return ans
-                except err:pass
-                logger.warning(f'Retry {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
-                return wrap(Check(interval),*args,**kwargs)
-            return wrap
-        return wrapper
-    @retryOnError()
-    def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1296,20,1342,56),.5)+1
-    @retryOnError()
-    def getStageTotal(self):return self._select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56),.5)+1
+    def getCardColor(self):return[[.8,1.,1.5][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))]for i in range(5)]
     def getCardGroup(self):
         universe={0,1,2,3,4}
         result=[-1]*5
@@ -332,6 +328,12 @@ class Check(metaclass=DebugMeta):
             universe-=group
         return result
     def getCardResist(self):return[{0:2.,1:.5}.get(self._select((IMG.WEAK,IMG.RESIST),(270+386*i,530,305+386*i,630)),1.)for i in range(5)]
+    def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
+    @retryOnError()
+    def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1296,20,1342,56),.5)+1
+    @retryOnError()
+    def getStageTotal(self):return self._select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56),.5)+1
+    def getTeamIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG.TEAMINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
     def getHP(self):raise NotImplementedError
     def getNP(self):raise NotImplementedError
     def getEnemyHP(self):raise NotImplementedError
@@ -389,7 +391,7 @@ class Battle:
                 logger.warning('Battle Defeated')
                 return False
     @DebugMeta.logit(logging.INFO)
-    def selectCard(self):return''.join((lambda hougu,color,resist:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(max(((card,(lambda isColorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]for i,j in enumerate(card))+5.*isColorChain+(firstCardBonus+1.)*(3.5if isColorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]])(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5)))for card in permutations(range(5),3)),key=lambda x:x[1])[0])])(check.getCardGroup()))([self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)for i,j in zip(range(3),Check().isHouguReady())],check.getCardColor(),check.getCardResist()))
+    def selectCard(self):return''.join((lambda hougu,sealed,color,resist:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+''.join(('   'if i%5else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(5.*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(5.*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5))))])(check.getCardGroup()))([self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)for i,j in enumerate(Check().isHouguReady())],check.isCardSealed(),check.getCardColor(),check.getCardResist()))
 class Main:
     teamIndex=0
     friendPos=0
