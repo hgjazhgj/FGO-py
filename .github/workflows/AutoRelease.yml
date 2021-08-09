@@ -1,0 +1,29 @@
+name: Auto Release On New Tag
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    name: Auto Release On New Tag
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Install Requirements
+        run: python -m pip install -r requirements.txt
+      - name: Install Pyinstaller
+        run: python -m pip install pyinstaller
+      - name: Build
+        run: pyinstaller fgo_py/fgoBuild.spec
+      - name: Zip
+        run: tar -cvzf FGO-py.tar.gz -C dist FGO-py
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: FGO-py.tar.gz
