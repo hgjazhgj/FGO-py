@@ -60,6 +60,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 **由于使用本脚本而导致的包括但不限于上述各项的损失本人概不负责,您下载并使用该脚本即代表您已知晓使用脚本可能带来的风险并愿意承担可能出现的后果**  
 ***
 # 使用说明 Instruction
+本项目的release如无说明均为自动构建,不保证能跑,有些边缘功能不可用,出了问题也多半解决不了,仅作试用  
 这个项目的设计初衷是打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境,以达到不浪费羁绊点数和御主礼装经验的目的.尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!**  
 速览脚本功能,运行`fgoGui.py`,大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 ui大概长这样(设计视图仅供参考):  
@@ -105,13 +106,23 @@ ui大概长这样(设计视图仅供参考):
 |\<Space\> |选卡/下一步/菜单                        |
 |NUM4-9    |选取敌人,NUM7返回/关闭                  |  
 # 如何联系我 Contact Me
+> 关于如何提问题  
+> 在提问题之前至少花费 5 分钟来思考和准备, 才会有人花费他的 5 分钟来帮助你. "XX怎么运行不了", "XX卡住了" 这样的描述将不会得到回复. 一个有效的提问应大致包含一下信息:  
+>
+> 1. 经过什么操作后会产生这个问题  
+> 2. 这个问题导致程序产生了什么现象  
+> 3. 你希望正确的运行是怎么样的  
+> 4. 提供 log (运行日志) 和一张截图.  
+> 5. 如果程序报错, 找到 log 中提示的保存目录, 比如 Saving error: ./log/error/1595883037588, 打包为压缩包然后上传  
+> 6. 使用可拼写的昵称以方便联系, 尽量不要使用空昵称或用特殊字符作为昵称  
+>
+> -- Alas-dev 群公告, [https://github.com/LmeSzinc/AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)  
+
 ![img](doc/contact.png)  
 在占用我的时间之前,先耗费自己的时间  
---Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
-发现bug请按bug_report模板建立issue,其他issue多半会被直接删除,尤其是enhancement(你在教我做事?)和feature-request(伸手党4000+)  
-[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))  
+Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
+发现**最新稳定commit**的bug请按bug_report模板建立issue,其他你想到的东西都可以发,但是多半会被直接删除,尤其是enhancement(你在教我做事?)和feature-request(伸手党4000+)  
 本人已在知乎开启[付费咨询](https://www.zhihu.com/consult/people/1149733177244516352),我觉得这总比qq要靠谱一点  
-去看看过往的issue就能知道我很暴躁,这是我的联系方式,在qq上我会更暴躁  
 qq 979449732(个人账号,加好友请注明是来问*这个脚本*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
 现在这个脚本居然已经可以从各大搜索引擎上找到,这就导致有很多hwlloworld都不会的小白来找我  
@@ -120,13 +131,13 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 这是无奈之举,卖的是本人的时间和精力,而用到知识和经验的解决具体问题另算,更详细的说明会在收费前给出,我发誓我一定会收费  
 *什么?你想反馈脚本本身的问题?那为什么不发issue?*  
 建议您仔细阅读本readme以及ui中的说明,并尝试使用除百度以外的搜索引擎来解决您的问题,以免给您带来不必要的损失  
-另,我只接受对**最新稳定commit**的bug反馈,请检查是否有未拉取的更改  
-*不,这不是bug,是feature*  
-如果你没能有*提问的智慧*而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
+如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
 ## 2021/08/09
 添加workflow来在release时自动打包  
+每当我添加了一个以v开头的tag就会构建项目一次并release  
+打包方式跟自己电脑上打包是一样的,但我也不知道这样打包出来的东西能不能在全新的环境中使用,如果使用遇到问题,请提交issue,但是以本人的水平多半解决不了  
 ## 2021/08/09 v6.3.2
 bugfix:避免无法行动三连  
 如果首红无法行动,后续指令卡仍可以得到首红加成,故将判断无法行动从判断颜色接口分离  
