@@ -12,7 +12,7 @@ chk.png
 *.xls*
 *.7z
 */*build
-/dist
+*/*dist
 *.spec
 Snipaste*
 *Temp*
