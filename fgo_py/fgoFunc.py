@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.3.2'
+__version__='v6.3.3'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.
@@ -126,16 +126,14 @@ class DirListener:
         threading.Thread(target=f,daemon=True,name=f'DirListener({dir})').start()
     def add(self,x):
         def onCreated(file):
-            for i in range(len(self.msg)-1,-1,-1):
-                if self.msg[i][1]!=file:continue
+            for i in(i for i in range(len(self.msg)-1,-1,-1)if self.msg[i][1]==file):
                 if self.msg[i][0]==2:
                     self.msg[i][0]=3
                     return
                 break
             self.msg.append([1,file])
         def onDeleted(file):
-            for i in range(len(self.msg)-1,-1,-1):
-                if self.msg[i][1]!=file:continue
+            for i in(i for i in range(len(self.msg)-1,-1,-1)if self.msg[i][1]==file):
                 if self.msg[i][0]==1:
                     del self.msg[i]
                     return
@@ -144,19 +142,16 @@ class DirListener:
                     break
                 temp=self.msg[i-1][1]
                 del self.msg[i-1:i+1]
-                onDeleted(temp)
-                return
+                return onDeleted(temp)
             self.msg.append([2,file])
         def onUpdated(file):
-            for i in range(len(self.msg)-1,-1,-1):
-                if self.msg[i][1]!=file:continue
+            for i in(i for i in range(len(self.msg)-1,-1,-1)if self.msg[i][1]==file):
                 if self.msg[i][0]==1or self.msg[i][0]==3:return
                 if self.msg[i][0]==5:
                     temp=self.msg[i-1][1]
                     del self.msg[i-1:i+1]
                     onDeleted(temp)
-                    onCreated(file)
-                    return
+                    return onCreated(file)
                 break
             self.msg.append([3,file])
         def onRenamedFrom(file):self.ren=file
@@ -166,24 +161,19 @@ class DirListener:
                 if self.msg[i][1]==self.ren:
                     if self.msg[i][0]==1:
                         del self.msg[i]
-                        onCreated(file)
-                        return
+                        return onCreated(file)
                     if self.msg[i][0]==3:
                         self.msg[i][0]=2
-                        onCreated(file)
-                        return
+                        return onCreated(file)
                     if self.msg[i][0]==5:
                         self.ren=self.msg[i-1][1]
                         del self.msg[i-1:i+1]
                         if self.ren==file:return
                     break
             self.msg+=[[4,self.ren],[5,file]]
-        with self.lock:
-            for i in x:{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda _:None)(i[1])
+        with self.lock:[{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda _:logger.warning(f'Unknown Operate {i}'))(i[1])for i in x]
     def get(self):
-        with self.lock:
-            ans=self.msg
-            self.msg=[]
+        with self.lock:ans,self.msg=self.msg,[]
         return ans
 class ImageListener(dict):
     def __init__(self,path,ends='.png'):
@@ -363,9 +353,9 @@ class Battle:
         self.orderChange=[0,1,2,3,4,5]
     def __call__(self):
         while True:
-            if Check(0,.1).isTurnBegin():
+            if Check(0,.25).isTurnBegin():
                 self.turn+=1
-                self.stage,self.stageTurn=(lambda x:[x,1+self.stageTurn*(self.stage==x)])(Check(.5).getStage())
+                self.stage,self.stageTurn=(lambda x:[x,1+self.stageTurn*(self.stage==x)])(Check().getStage())
                 skill,newPortrait=check.isSkillReady(),check.getPortrait()
                 if self.turn==1:self.stageTotal=check.getStageTotal()
                 else:self.servant=(lambda m,p:[m+p.index(i)+1if i in p else self.servant[i]for i in range(3)])(max(self.servant),[i for i in range(3)if self.servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
@@ -379,7 +369,23 @@ class Battle:
                     while not Check().isTurnBegin():pass
                 for i in(i for i in range(3)if self.stage==min(self.masterSkill[i][0],self.stageTotal)and self.stageTurn==self.masterSkill[i][1]):
                     base.perform('Q'+'WER'[i],(300,300))
-                    if self.masterSkill[i][2]:base.perform('234'[self.masterSkill[i][2]-1],(300,))
+                    if self.masterSkill[i][2]:
+                        if i==2and self.masterSkill[2][3]:
+                            if self.masterSkill[2][2]-1not in self.servant or self.masterSkill[2][3]-1in self.servant:
+                                base.perform('\xDC',(300,))
+                                continue
+                            base.perform(('TYUIOP'[self.servant.index(self.masterSkill[2][2]-1)],'TYUIOP'[self.masterSkill[2][3]-max(self.servant)+1],'Z'),(300,300,2600))
+                            self.orderChange[self.masterSkill[2][2]-1],self.orderChange[self.masterSkill[2][3]-1]=self.orderChange[self.masterSkill[2][3]-1],self.orderChange[self.masterSkill[2][2]-1]
+                            control.sleep(2.3)
+                            while not Check().isTurnBegin():pass
+                            portrait=Check(.25).getPortrait()
+                            for j in(j for j in range(3)if self.skillInfo[self.masterSkill[2][3]-1][j][0]and min(self.skillInfo[self.masterSkill[2][3]-1][j][0],self.stageTotal)<<8|self.skillInfo[self.masterSkill[2][3]-1][j][1]<=self.stage<<8|self.stageTurn):
+                                base.perform(('ASD','FGH','JKL')[self.servant.index(self.masterSkill[2][2]-1)][j],(300,))
+                                if self.skillInfo[self.masterSkill[2][3]-1][j][2]:base.perform('234'[self.skillInfo[self.masterSkill[2][3]-1][j][2]-1],(300,))
+                                control.sleep(2.3)
+                                while not Check().isTurnBegin():pass
+                            continue
+                        base.perform('234'[self.masterSkill[i][2]-1],(300,))
                     control.sleep(2.3)
                     while not Check().isTurnBegin():pass
                 base.perform(' ',(2150,))
@@ -391,7 +397,7 @@ class Battle:
                 logger.warning('Battle Defeated')
                 return False
     @DebugMeta.logit(logging.INFO)
-    def selectCard(self):return''.join((lambda hougu,sealed,color,resist:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+''.join(('   'if i%5else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(5.*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(5.*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5))))])(check.getCardGroup()))([self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)for i,j in enumerate(Check().isHouguReady())],check.isCardSealed(),check.getCardColor(),check.getCardResist()))
+    def selectCard(self):return''.join((lambda hougu,sealed,color,resist:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(5.*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(5.*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5))))])(check.getCardGroup()))([self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)for i,j in enumerate(Check().isHouguReady())],check.isCardSealed(),check.getCardColor(),check.getCardResist()))
 class Main:
     teamIndex=0
     friendPos=0
@@ -407,7 +413,7 @@ class Main:
                 if Check(.3,.3).isMainInterface():
                     control.checkTerminateLater()
                     base.press('8')
-                    if self.eatApple():return
+                    if Check(.7,.3).isApEmpty()and self.eatApple():return
                     self.chooseFriend()
                     while not Check(.1).isBattleBegin():pass
                     if self.teamIndex and check.getTeamIndex()!=self.teamIndex:base.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,400))
@@ -419,7 +425,7 @@ class Main:
                         base.press('F')
                         raise
                     base.press('K')
-                    if self.eatApple():return
+                    if Check(.7,.3).isApEmpty()and self.eatApple():return
                     self.chooseFriend()
                     break
                 elif check.isAddFriend():base.press('X')
@@ -436,16 +442,14 @@ class Main:
                 control.checkDefeated()
                 base.perform('BIK',(500,500,500))
     def eatApple(self):
-        if Check(.7,.3).isApEmpty():
-            if self.appleCount==self.appleTotal:
-                logger.info('Ap Empty')
-                base.press('Z')
-                return True
-            else:
-                self.appleCount+=1
-                logger.info(f'Apple {self.appleCount}')
-                base.perform('W4K8'[self.appleKind]+'L',(400,1200))
-                return False
+        if self.appleCount==self.appleTotal:
+            logger.info('Ap Empty')
+            base.press('Z')
+            return True
+        self.appleCount+=1
+        logger.info(f'Apple {self.appleCount}')
+        base.perform('W4K8'[self.appleKind]+'L',(400,1200))
+        return False
     def chooseFriend(self):
         refresh=False
         while not Check(.2).isChooseFriend():

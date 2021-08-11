@@ -6,11 +6,12 @@ block_cipher = None
 
 
 a = Analysis(['fgoGui.py'],
-             pathex=['F:\\Work\\VisualStudioDocs\\fgo_py\\fgo_py'],
+             pathex=['F:/Work/VisualStudioDocs/fgo_py/fgo_py'],
              binaries=[],
              datas=[
                  ('fgoImage', 'fgoImage'),
                  ('fgoTeamup.ini', '.'),
+                 ('../LICENSE','.'),
                  (HOMEPATH+'/airtest/core/android/static', 'airtest/core/android/static')
              ],
              hiddenimports=[],
