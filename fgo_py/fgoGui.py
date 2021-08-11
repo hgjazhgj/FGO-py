@@ -96,17 +96,16 @@ class MyMainWindow(QMainWindow):
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
         text,ok=(lambda l:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',l,l.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in l else 0,True,Qt.WindowType.WindowStaysOnTopHint))(fgoFunc.Base.enumDevices())
-        if text.startswith('/'):
-            try:
-                import winreg,netifaces
-                text={
-                    'gw':lambda:netifaces.gateways()["default"][netifaces.AF_INET][0]+':5555',
-                    'bs':lambda:'127.0.0.1:'+str(winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config"),"BstAdbPort")[0])
-                }[text[1:]]()
-            except Exception as e:
-                logger.exception(e)
-                return
-        if ok and text:
+        if ok:
+            if text.startswith('/'):
+                try:
+                    if text=='/gw':
+                        import netifaces
+                        text=f'{netifaces.gateways()["default"][netifaces.AF_INET][0]}:5555'
+                    elif text=='/bs':
+                        import winreg
+                        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config')as key:text=f'127.0.0.1:{winreg.QueryValueEx(key,"BstAdbPort")[0]}'
+                except Exception as e:return logger.exception(e)
             fgoFunc.base=fgoFunc.Base(text.replace(' ',''))
             self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
     def checkCheck(self):
@@ -185,6 +184,7 @@ BFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdf
 hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9
 Wl3wAdBsAA" height="203" width="203"/>
 ''')
+    def license(self):os.system('notepad LICENSE')if os.path.isfile('LICENSE')else os.system('notepad ../LICENSE')
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
