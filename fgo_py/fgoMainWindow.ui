@@ -3088,9 +3088,6 @@
         </item>
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_2_3">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="minimumSize">
            <size>
             <width>20</width>
@@ -3106,11 +3103,8 @@
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
-          <property name="toolTip">
-           <string>如果对应位置没有从者脚本会卡死,请谨慎使用</string>
-          </property>
           <property name="statusTip">
-           <string>换人礼装的参数,从左到右1-6,0为非换人礼装技能</string>
+           <string>仅用于换人礼装,编队界面从左到右1-6,非换人礼装填0</string>
           </property>
           <property name="inputMask">
            <string>9</string>
@@ -3391,6 +3385,7 @@
      <string>关于</string>
     </property>
     <addaction name="MENU_ABOUT_ABOUT"/>
+    <addaction name="MENU_ABOUT_LICENSE"/>
    </widget>
    <widget class="QMenu" name="MENU_FILE">
     <property name="title">
@@ -3558,6 +3553,17 @@
    </property>
    <property name="text">
     <string>战斗撤退时终止脚本运行</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="MENU_ABOUT_LICENSE">
+   <property name="text">
+    <string>使用许可</string>
    </property>
    <property name="font">
     <font>
@@ -4023,6 +4029,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MENU_ABOUT_LICENSE</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>license()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>208</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>runBattle()</slot>
@@ -4048,6 +4070,7 @@
   <slot>exec()</slot>
   <slot>stopOnSpecialDrop()</slot>
   <slot>stopOnDefeated()</slot>
+  <slot>license()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
