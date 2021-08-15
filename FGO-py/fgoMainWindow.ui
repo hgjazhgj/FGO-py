@@ -3,14 +3,6 @@
  <author>hgjazhgj</author>
  <class>fgoMainWindow</class>
  <widget class="QMainWindow" name="fgoMainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>418</width>
-    <height>529</height>
-   </rect>
-  </property>
   <property name="font">
    <font>
     <family>Microsoft YaHei UI Light</family>
@@ -125,8 +117,23 @@
        <layout class="QFormLayout" name="LAYOUT_INFO_TEAM">
         <item row="0" column="0">
          <widget class="QLabel" name="LBL_TEAM_0">
+          <property name="minimumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="text">
            <string>1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -541,8 +548,23 @@
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="LBL_TEAM_1">
+          <property name="minimumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="text">
            <string>2</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -957,8 +979,23 @@
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="LBL_TEAM_2">
+          <property name="minimumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="text">
            <string>3</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -1373,8 +1410,23 @@
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="LBL_TEAM_3">
+          <property name="minimumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="text">
            <string>4</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -1789,8 +1841,23 @@
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="LBL_TEAM_4">
+          <property name="minimumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="text">
            <string>5</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -2211,8 +2278,23 @@
         </item>
         <item row="5" column="0">
          <widget class="QLabel" name="LBL_TEAM_5">
+          <property name="minimumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>8</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="text">
            <string>6</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -3103,6 +3185,9 @@
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
+          <property name="toolTip">
+           <string>如果对应位置没有从者脚本会卡死,请谨慎使用</string>
+          </property>
           <property name="statusTip">
            <string>仅用于换人礼装,编队界面从左到右1-6,非换人礼装填0</string>
           </property>
@@ -3188,7 +3273,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="LAYOUT_DEVICE">
       <item>
        <widget class="QLabel" name="LBL_CURRENTDEVICE">
         <property name="text">
@@ -3224,7 +3309,7 @@
     <item>
      <layout class="QHBoxLayout" name="LAYOUT_FUNC">
       <item>
-       <layout class="QVBoxLayout" name="LAYOUT_FUNC_MAIN">
+       <layout class="QVBoxLayout" name="LAYOUT_FUNC_BATTLE">
         <item>
          <widget class="QPushButton" name="BTN_ONEBATTLE">
           <property name="cursor">
@@ -3254,7 +3339,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="LAYOUT_FUMC_MAIN">
         <item>
          <widget class="QPushButton" name="BTN_MAIN">
           <property name="cursor">
@@ -3352,7 +3437,7 @@
            <string>如果你不清楚你在干什么,就不要在战斗中点这个按钮</string>
           </property>
           <property name="statusTip">
-           <string>立刻应用所有更改,就算战斗正在进行,不会更改苹果的种类和数量</string>
+           <string>立刻应用技能宝具优先攻击的更改,就算战斗正在进行</string>
           </property>
           <property name="text">
            <string>应用更改</string>
@@ -3366,17 +3451,9 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>418</width>
-     <height>26</height>
-    </rect>
-   </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3427,7 +3504,7 @@
   <widget class="QStatusBar" name="statusBar">
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3438,7 +3515,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3449,7 +3526,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3463,7 +3540,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3474,7 +3551,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3488,7 +3565,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3499,7 +3576,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3510,7 +3587,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3521,7 +3598,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
      <bold>false</bold>
     </font>
@@ -3539,7 +3616,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3556,7 +3633,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -3567,7 +3644,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Microsoft YaHei UI Light</family>
+    <family>Microsoft YaHei UI Light</family>
      <pointsize>11</pointsize>
     </font>
    </property>

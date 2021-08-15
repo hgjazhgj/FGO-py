@@ -6,7 +6,7 @@ block_cipher = None
 
 
 a = Analysis(['fgoGui.py'],
-             pathex=['F:/Work/VisualStudioDocs/fgo_py/fgo_py'],
+             pathex=[],
              binaries=[],
              datas=[
                  ('fgoImage', 'fgoImage'),
@@ -30,7 +30,7 @@ exe = EXE(pyz,
           a.scripts, 
           [],
           exclude_binaries=True,
-          name='main',
+          name='FGO-py',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,

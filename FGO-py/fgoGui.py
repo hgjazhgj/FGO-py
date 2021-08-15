@@ -49,13 +49,13 @@ class MyMainWindow(QMainWindow):
                 self.applyAll()
                 func(*args,**kwargs)
             except fgoFunc.ScriptTerminate as e:logger.critical(e)
-            except Exception as e:logger.exception(e)
+            except BaseException as e:logger.exception(e)
             finally:
                 self.signalFuncEnd.emit()
                 fgoFunc.control.reset()
                 fgoFunc.fuse.reset()
                 QApplication.beep() # print('\a',end='')
-        self.thread=threading.Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
+        self.thread=threading.Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
         self.thread.start()
     def funcBegin(self):
         self.ui.BTN_ONEBATTLE.setEnabled(False)
@@ -110,8 +110,8 @@ class MyMainWindow(QMainWindow):
             self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
     def checkCheck(self):
         if not self.isDeviceAvaliable():return QMessageBox.critical(self,'错误','未连接设备')
-        try:fgoFunc.Check().show()
-        except Exception as e:logger.critical(e)
+        try:fgoFunc.Check(0).show()
+        except Exception as e:logger.exception(e)
     def applyAll(self):
         fgoFunc.Main.teamIndex=int(self.ui.TXT_TEAM.text())
         fgoFunc.Main.friendPos=int(self.ui.BTG_FRIEND.checkedButton().objectName()[-1])
@@ -154,37 +154,41 @@ class MyMainWindow(QMainWindow):
         if QMessageBox.information(self,'exec',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
         try:exec(s)
         except BaseException as e:logger.exception(e)
-    def about(self):QMessageBox.about(self,'关于',f'''
-<h2>FGO全自动脚本</h2>
-<table border="0">
+    def about(self):QMessageBox.about(self,'关于','''
+<style>
+  body{font-family: "Microsoft YaHei UI Light"; font-size: 15px}
+</style>
+<body>
+  <h1>FGO-py</h1>
+  <table border="0">
   <tr>
-    <td>当前版本</td>
-    <td>{fgoFunc.__version__}</td>
+      <td>当前版本</td>
+      <td>%s</td>
   </tr>
   <tr>
-    <td>作者</td>
-    <td>hgjazhgj</td>
+      <td>作者</td>
+      <td>hgjazhgj</td>
   </tr>
   <tr>
-    <td>项目地址</td>
-    <td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td>
+      <td>项目地址</td>
+      <td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td>
   </tr>
   <tr>
-    <td>电子邮箱</td>
-    <td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td>
+      <td>电子邮箱</td>
+      <td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td>
   </tr>
-</table>
-<!-- 都看到这里了真的不考虑资瓷一下吗... -->
-这是我的支付宝收款码,请给我打钱,一分钱也行<br/>
-<img src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/Zt
-BFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9
-/R3wATtkAA==" height="203" width="203"/><br/>
-这是我的微信收款码,请给我打钱,一分钱也行<br/>
-<img src="data:;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0
-hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9
-Wl3wAdBsAA" height="203" width="203"/>
-''')
-    def license(self):os.system('notepad LICENSE')if os.path.isfile('LICENSE')else os.system('notepad ../LICENSE')
+  </table>
+  <!-- 都看到这里了真的不考虑资瓷一下吗... -->
+  这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>收款码,请给我打钱,一分钱也行<br/>
+  <img src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/Zt
+  BFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9
+  /R3wATtkAA==" height="174" width="174"/>
+  <img src="data:;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0
+  hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9
+  Wl3wAdBsAA" height="174" width="174"/>
+</body>
+'''%fgoFunc.__version__)
+    def license(self):os.system(f'start notepad {"LICENSE"if os.path.isfile("LICENSE")else"../LICENSE"}')
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
