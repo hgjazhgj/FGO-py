@@ -11,6 +11,7 @@ __pycache__/
 backup/
 *.xls*
 *.7z
+*.tar.gz
 build/
 dist/
 Snipaste*

@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.3.3'
+__version__='v6.3.4'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.
@@ -30,7 +30,7 @@ import threading
 # 繰り返すつどに五度.
 import time
 # ただ,満たされる刻を破却する.
-from functools import wraps
+from functools import wraps,reduce
 # ――――告げる.
 from itertools import permutations
 # 汝の身は我が下に,我が命運は汝の剣に.
@@ -68,7 +68,7 @@ class Control:
     def checkSuspend(self):
         while self.__suspendFlag:
             self.checkTerminate()
-            time.sleep(.1)
+            time.sleep(.07)
     def terminateLater(self,count=-1):self.__terminateLaterFlag=count
     def checkTerminateLater(self):
         if not self.__terminateLaterFlag:raise ScriptTerminate('Terminate Appointment Effected')
@@ -111,9 +111,9 @@ class Fuse:
             self.log[self.logptr]=check
             self.logptr=(self.logptr+1)%self.logsize
         return True
-    def save(self):
-        for i in(i for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]):self.log[(i+self.logptr)%self.logsize].save(f'fuselog_%Y-%m-%d_%H.%M.%S_{i:02}.jpg')
-        check.save('fuselog_%Y-%m-%d_%H.%M.%S.jpg')
+    def save(self,path='.'):
+        for i in(i for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]):self.log[(i+self.logptr)%self.logsize].save(f'{path}/fuselog_%Y-%m-%d_%H.%M.%S_{i:02}.jpg')
+        check.save(f'{path}/fuselog_%Y-%m-%d_%H.%M.%S.jpg')
 fuse=Fuse()
 class DirListener:
     def __init__(self,dir):
@@ -203,11 +203,10 @@ class Base(Android):
     def __init__(self,serialno=None):
         self.lock=threading.Lock()
         try:
-            assert serialno
             super().__init__(serialno,cap_method='JAVACAP')
             self.rotation_watcher.reg_callback(lambda _:self.refreshOrientation())
             self.touch_proxy
-        except:self.serialno=None
+        except Exception:self.serialno=None
     @property
     def avaliable(self):
         if not self.serialno:return False
@@ -270,11 +269,11 @@ class Check(metaclass=DebugMeta):
                 try:
                     if(ans:=func(self,*args,**kwargs))is not None:return ans
                 except err:pass
-                logger.warning(f'Retry {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join((i+"="+repr(j))for i,j in kwargs.items())})')
+                logger.warning(f'Retry {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
                 return wrap(Check(interval),*args,**kwargs)
             return wrap
         return wrapper
-    def __init__(self,forwordLagency=.01,backwordLagency=0):
+    def __init__(self,forwordLagency=.1,backwordLagency=0):
         control.sleep(forwordLagency)
         self.im=base.screenshot()
         global check
@@ -284,7 +283,8 @@ class Check(metaclass=DebugMeta):
     def __call__(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:loc[0]<threshold and(base.touch((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1))),fuse.reset())[1])(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
     def _compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset()
     def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
-    def save(self,name=''):cv2.imwrite(time.strftime(name if name else'%Y-%m-%d_%H.%M.%S.jpg'),self.im)
+    def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR,numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0and(hierarchy[0][i][2]==-1or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self.im[rect[1]:rect[3],rect[0]:rect[2]],cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
+    def save(self,file=''):cv2.imwrite(time.strftime(file if file else'%Y-%m-%d_%H.%M.%S.jpg'),self.im)
     def show(self):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
         if cv2.waitKey()==ord('s'):self.save()
@@ -306,31 +306,33 @@ class Check(metaclass=DebugMeta):
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
-    def getCardColor(self):return[[.8,1.,1.5][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,811,196+386*i,866))]for i in range(5)]
+    def getCardColor(self):return[[.8,1.,1.5][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,806,196+386*i,871))]for i in range(5)]
     def getCardGroup(self):
         universe={0,1,2,3,4}
         result=[-1]*5
         index=0
         while universe:
-            group=(lambda item:{item}|set(i for i in universe if cv2.minMaxLoc(cv2.matchTemplate(self.im[660:737,160+386*item:225+386*item],self.im[690:707,163+386*i:222+386*i],cv2.TM_SQDIFF_NORMED))[0]<.01))(universe.pop())
+            group=(lambda item:{item}|{i for i in universe if cv2.minMaxLoc(cv2.matchTemplate(self.im[660:737,160+386*item:225+386*item],self.im[690:707,170+386*i:215+386*i],cv2.TM_SQDIFF_NORMED))[0]<.01})(universe.pop())
             for i in group:result[i]=index
             index+=1
             universe-=group
         return result
-    def getCardResist(self):return[{0:2.,1:.5}.get(self._select((IMG.WEAK,IMG.RESIST),(270+386*i,530,305+386*i,630)),1.)for i in range(5)]
+    def getCardResist(self):return[{0:2.,1:.5}.get(self._select((IMG.WEAK,IMG.RESIST),(263+386*i,530,307+386*i,630)),1.)for i in range(5)]
+    def getEnemyHP(self):return[self._ocr((150+375*i,61,332+375*i,97))for i in range(3)]
+    def getHP(self):return[self._ocr((300+476*i,930,439+476*i,965))for i in range(3)]
+    def getNP(self):return[self._ocr((330+476*i,983,411+476*i,1020))for i in range(3)]
     def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1296,20,1342,56),.5)+1
     @retryOnError()
     def getStageTotal(self):return self._select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1325,20,1372,56),.5)+1
     def getTeamIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG.TEAMINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
-    def getHP(self):raise NotImplementedError
-    def getNP(self):raise NotImplementedError
-    def getEnemyHP(self):raise NotImplementedError
+    def isEnemyDanger(self):raise NotImplementedError
+    def getEnemyHPGauge(self):raise NotImplementedError
     def getEnemyNP(self):raise NotImplementedError
 def gacha():
     while fuse.value<30:
-        if Check(.1).isGacha():base.perform('MK',(200,2700))
+        if Check().isGacha():base.perform('MK',(200,2700))
         base.press('\xDC')
 def jackpot():
     while fuse.value<70:
@@ -353,10 +355,11 @@ class Battle:
         self.orderChange=[0,1,2,3,4,5]
     def __call__(self):
         while True:
-            if Check(0,.25).isTurnBegin():
+            if Check(0,.3).isTurnBegin():
                 self.turn+=1
-                self.stage,self.stageTurn=(lambda x:[x,1+self.stageTurn*(self.stage==x)])(Check().getStage())
+                self.stage,self.stageTurn=(lambda x:[x,1+self.stageTurn*(self.stage==x)])(Check(.2).getStage())
                 skill,newPortrait=check.isSkillReady(),check.getPortrait()
+                check.getHP(),check.getNP(),check.getEnemyHP()
                 if self.turn==1:self.stageTotal=check.getStageTotal()
                 else:self.servant=(lambda m,p:[m+p.index(i)+1if i in p else self.servant[i]for i in range(3)])(max(self.servant),[i for i in range(3)if self.servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
                 if self.stageTurn==1and self.dangerPos[self.stage-1]:base.perform('\x69\x68\x67\x66\x65\x64'[self.dangerPos[self.stage-1]-1]+'\xDC',(250,500))
@@ -378,7 +381,7 @@ class Battle:
                             self.orderChange[self.masterSkill[2][2]-1],self.orderChange[self.masterSkill[2][3]-1]=self.orderChange[self.masterSkill[2][3]-1],self.orderChange[self.masterSkill[2][2]-1]
                             control.sleep(2.3)
                             while not Check().isTurnBegin():pass
-                            portrait=Check(.25).getPortrait()
+                            portrait=Check(.5).getPortrait()
                             for j in(j for j in range(3)if self.skillInfo[self.masterSkill[2][3]-1][j][0]and min(self.skillInfo[self.masterSkill[2][3]-1][j][0],self.stageTotal)<<8|self.skillInfo[self.masterSkill[2][3]-1][j][1]<=self.stage<<8|self.stageTurn):
                                 base.perform(('ASD','FGH','JKL')[self.servant.index(self.masterSkill[2][2]-1)][j],(300,))
                                 if self.skillInfo[self.masterSkill[2][3]-1][j][2]:base.perform('234'[self.skillInfo[self.masterSkill[2][3]-1][j][2]-1],(300,))
@@ -388,7 +391,7 @@ class Battle:
                         base.perform('234'[self.masterSkill[i][2]-1],(300,))
                     control.sleep(2.3)
                     while not Check().isTurnBegin():pass
-                base.perform(' ',(2150,))
+                base.perform(' ',(2000,))
                 base.perform(self.selectCard(),(270,270,2270,1270,6000))
             elif check.isBattleFinished():
                 logger.info('Battle Finished')
@@ -415,18 +418,19 @@ class Main:
                     base.press('8')
                     if Check(.7,.3).isApEmpty()and self.eatApple():return
                     self.chooseFriend()
-                    while not Check(.1).isBattleBegin():pass
+                    while not Check().isBattleBegin():pass
                     if self.teamIndex and check.getTeamIndex()!=self.teamIndex:base.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,400))
                     base.perform(' 8M',(800,800,10000))
                     break
                 elif check.isBattleContinue():
                     try:control.checkTerminateLater()
-                    except ScriptTerminate as e:
+                    except ScriptTerminate:
                         base.press('F')
                         raise
                     base.press('K')
                     if Check(.7,.3).isApEmpty()and self.eatApple():return
                     self.chooseFriend()
+                    control.sleep(6)
                     break
                 elif check.isAddFriend():base.press('X')
                 elif check.isSpecialDrop():
