@@ -13,7 +13,7 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>FGO script - hgjazhgj</string>
+   <string>FGO-py - hgjazhgj</string>
   </property>
   <widget class="QWidget" name="widget">
    <layout class="QVBoxLayout" name="verticalLayout">

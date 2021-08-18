@@ -160,32 +160,17 @@ class MyMainWindow(QMainWindow):
 </style>
 <body>
   <h1>FGO-py</h1>
+  FGO全自动脚本
   <table border="0">
-  <tr>
-      <td>当前版本</td>
-      <td>%s</td>
-  </tr>
-  <tr>
-      <td>作者</td>
-      <td>hgjazhgj</td>
-  </tr>
-  <tr>
-      <td>项目地址</td>
-      <td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td>
-  </tr>
-  <tr>
-      <td>电子邮箱</td>
-      <td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td>
-  </tr>
+    <tr><td>当前版本</td><td>%s</td></tr>
+    <tr><td>作者</td><td>hgjazhgj</td></tr>
+    <tr><td>项目地址</td><td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td></tr>
+    <tr><td>电子邮箱</td><td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td></tr>
   </table>
   <!-- 都看到这里了真的不考虑资瓷一下吗... -->
   这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>收款码,请给我打钱,一分钱也行<br/>
-  <img src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/Zt
-  BFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9
-  /R3wATtkAA==" height="174" width="174"/>
-  <img src="data:;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0
-  hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9
-  Wl3wAdBsAA" height="174" width="174"/>
+  <img height="174" width="174" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/ZtBFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9/R3wATtkAA=="/>
+  <img height="174" width="174" src="data:;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9Wl3wAdBsAA"/>
 </body>
 '''%fgoFunc.__version__)
     def license(self):os.system(f'start notepad {"LICENSE"if os.path.isfile("LICENSE")else"../LICENSE"}')
