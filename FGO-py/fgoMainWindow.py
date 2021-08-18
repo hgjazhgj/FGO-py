@@ -1100,7 +1100,7 @@ class Ui_fgoMainWindow(object):
 
     def retranslateUi(self, fgoMainWindow):
         _translate = QtCore.QCoreApplication.translate
-        fgoMainWindow.setWindowTitle(_translate("fgoMainWindow", "FGO script - hgjazhgj"))
+        fgoMainWindow.setWindowTitle(_translate("fgoMainWindow", "FGO-py - hgjazhgj"))
         self.CBX_TEAM.setStatusTip(_translate("fgoMainWindow", "选取编队,若需新建或删除请直接更改teamup文件"))
         self.LBL_TEAM.setText(_translate("fgoMainWindow", "位置"))
         self.TXT_TEAM.setStatusTip(_translate("fgoMainWindow", "所选编队在队伍列表中的位置,从左到右1-10,0为无效"))
