@@ -27,7 +27,7 @@
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
-![Alipay](doc/行行好吧给颗石头吧.png)![Wechat](doc/吧头石颗给吧好行行.png)  
+![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
 如果我在这个项目里公布我的B站账号或许能有些许[大会员每月5B币券](https://account.bilibili.com/account/big/myPackage)充电,但我还是不想跟睿站扯上太多关系,所以大家不如去给[MOONCELL](https://space.bilibili.com/3176666/)或是你们喜欢的其他创作者充电吧!另外不要付费充B币,因为5B币到手只有3.36CNY  
 觉得有帮助请为我star,谢谢  
 <table>
