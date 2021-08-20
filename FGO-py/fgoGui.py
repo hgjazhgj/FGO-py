@@ -82,7 +82,7 @@ class MyMainWindow(QMainWindow):
         (lambda skillInfo:[getattr(self.ui,f'TXT_SKILL_{i}_{j}_{k}').setText(str(skillInfo[i][j][k]))for i in range(6)for j in range(3)for k in range(3)])(eval(config[teamName]['skillInfo']))
         (lambda houguInfo:[getattr(self.ui,f'TXT_HOUGU_{i}_{j}').setText(str(houguInfo[i][j]))for i in range(6)for j in range(2)])(eval(config[teamName]['houguInfo']))
         (lambda dangerPos:[getattr(self.ui,f'TXT_DANGER_{i}').setText(str(dangerPos[i]))for i in range(3)])(eval(config[teamName]['dangerPos']))
-        (lambda masterSkill:[getattr(self.ui,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i]))for i in range(3)for j in range(3+(i==2))])(eval(config[teamName]['masterSkill']))
+        (lambda masterSkill:[getattr(self.ui,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i][j]))for i in range(3)for j in range(3+(i==2))])(eval(config[teamName]['masterSkill']))
     def saveTeam(self):
         if not self.ui.CBX_TEAM.currentText():return
         config[self.ui.CBX_TEAM.currentText()]={
@@ -96,18 +96,18 @@ class MyMainWindow(QMainWindow):
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
         text,ok=(lambda l:QInputDialog.getItem(self,'选取设备','在下拉列表中选择一个设备',l,l.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in l else 0,True,Qt.WindowType.WindowStaysOnTopHint))(fgoFunc.Base.enumDevices())
-        if ok:
-            if text.startswith('/'):
-                try:
-                    if text=='/gw':
-                        import netifaces
-                        text=f'{netifaces.gateways()["default"][netifaces.AF_INET][0]}:5555'
-                    elif text=='/bs':
-                        import winreg
-                        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config')as key:text=f'127.0.0.1:{winreg.QueryValueEx(key,"BstAdbPort")[0]}'
-                except Exception as e:return logger.exception(e)
-            fgoFunc.base=fgoFunc.Base(text.replace(' ',''))
-            self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
+        if not ok:return
+        if text.startswith('/'):
+            try:
+                if text=='/gw':
+                    import netifaces
+                    text=f'{netifaces.gateways()["default"][netifaces.AF_INET][0]}:5555'
+                elif text=='/bs':
+                    import winreg
+                    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config')as key:text=f'127.0.0.1:{winreg.QueryValueEx(key,"BstAdbPort")[0]}'
+            except Exception as e:return logger.exception(e)
+        fgoFunc.base=fgoFunc.Base(text.replace(' ',''))
+        self.ui.LBL_DEVICE.setText(fgoFunc.base.serialno)
     def checkCheck(self):
         if not self.isDeviceAvaliable():return QMessageBox.critical(self,'错误','未连接设备')
         try:fgoFunc.Check(0).show()
