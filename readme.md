@@ -135,6 +135,10 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/08/20 v6.3.5
+bugfix:[issue #24](https://github.com/hgjazhgj/FGO-py/issues/24)  
+我就说好像有些时候加载了明明没有写过的配置,现在总算是去检查了一下  
+优化:调整了选卡算法,使得color chain--尤其是Quick Chain--不那么容易出现了,应该  
 ## 2021/08/16 v6.3.4
 更新:手写了一个轻量级的ocr,以识别我方的HP/NP和敌方的HP  
 这个功能已经写好有差不多半个月了,期间一直在各种关卡中测试准确度并优化算法,现在差不多能堪一用了,准确率应该不低于98%,如果你发现某个识别出了偏差,请立刻保存截图并提交issue(复制`fgoFunc.fuse.save()`然后选择控制-Execute菜单选项能够保存最近的若干张截图),我会依此调整算法  
