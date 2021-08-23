@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.3.5'
+__version__='v6.4.0'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.
@@ -53,10 +53,11 @@ IMG=(lambda t:([setattr(t,i[:-4].upper(),cv2.imread(f'fgoImage/{i}'))for i in os
 DebugMeta=type('DebugMeta',(type,),{'__new__':lambda cls,name,bases,attrs:type(name,bases,{i:cls.logit()(j)if callable(j)and i[0]!='_'else j for i,j in attrs.items()}),'logit':staticmethod(lambda level=logging.DEBUG:lambda func:wraps(func)(lambda*args,**kwargs:(lambda x:(logger.log(level,' '.join((func.__name__,str(x)[:100].split("\n",1)[0]))),x)[-1]if x is not None else x)(func(*args,**kwargs))))})
 ScriptTerminate=type('ScriptTerminate',(Exception,),{'__init__':lambda self,msg='Unknown Reason':Exception.__init__(self,f'Script Stopped: {msg}')})
 class Control:
+    speed=1
     def __init__(self):
         self.reset()
-        self.__stopOnDefeatedFlag=True
-        self.__stopOnSpecialDropFlag=True
+        self.__stopOnDefeatedFlag=False
+        self.__stopOnSpecialDropFlag=False
     def reset(self):
         self.__terminateFlag=False
         self.__suspendFlag=False
@@ -68,27 +69,27 @@ class Control:
     def checkSuspend(self):
         while self.__suspendFlag:
             self.checkTerminate()
-            time.sleep(.07)
+            time.sleep(.07/self.speed)
     def terminateLater(self,count=-1):self.__terminateLaterFlag=count
     def checkTerminateLater(self):
         if not self.__terminateLaterFlag:raise ScriptTerminate('Terminate Appointment Effected')
         self.__terminateLaterFlag-=1
     def sleep(self,x,part=.07):
-        timer=time.time()+x-part
+        timer=time.time()+(x-part)/self.speed
         while time.time()<timer:
             self.checkSuspend()
             self.checkTerminate()
-            time.sleep(part)
-        time.sleep(max(0,timer+part-time.time()))
-    def stopOnDefeated(self):self.__stopOnDefeatedFlag=not self.__stopOnDefeatedFlag
+            time.sleep(part/self.speed)
+        time.sleep(max(0,timer+part/self.speed-time.time()))
+    def stopOnDefeated(self,x):self.__stopOnDefeatedFlag=x
     def checkDefeated(self):
         if self.__stopOnDefeatedFlag:raise ScriptTerminate('Battle Defeated')
-    def stopOnSpecialDrop(self):self.__stopOnSpecialDropFlag=not self.__stopOnSpecialDropFlag
+    def stopOnSpecialDrop(self,x):self.__stopOnSpecialDropFlag=x
     def checkSpecialDrop(self):
         if self.__stopOnSpecialDropFlag:raise ScriptTerminate('Special Drop')
 control=Control()
 class Fuse:
-    def __init__(self,fv=400,show=3,logsize=10):
+    def __init__(self,fv=300,show=3,logsize=10):
         self.__value=0
         self.__max=fv
         self.show=show
@@ -203,6 +204,7 @@ class Base(Android):
     def __init__(self,serialno=None):
         self.lock=threading.Lock()
         try:
+            assert serialno
             super().__init__(serialno,cap_method='JAVACAP')
             self.rotation_watcher.reg_callback(lambda _:self.refreshOrientation())
             self.touch_proxy
@@ -345,7 +347,6 @@ def mailFiltering():
 class Battle:
     skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
     houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
-    dangerPos=[0,0,1]
     masterSkill=[[0,0,0],[0,0,0],[0,0,0,0]]
     def __init__(self):
         self.turn=0;
@@ -359,10 +360,10 @@ class Battle:
                 self.turn+=1
                 self.stage,self.stageTurn=(lambda x:[x,1+self.stageTurn*(self.stage==x)])(Check(.2).getStage())
                 skill,newPortrait=check.isSkillReady(),check.getPortrait()
-                check.getHP(),check.getNP(),check.getEnemyHP()
+                check.getHP(),check.getNP()
                 if self.turn==1:self.stageTotal=check.getStageTotal()
                 else:self.servant=(lambda m,p:[m+p.index(i)+1if i in p else self.servant[i]for i in range(3)])(max(self.servant),[i for i in range(3)if self.servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
-                if self.stageTurn==1and self.dangerPos[self.stage-1]:base.perform('\x69\x68\x67\x66\x65\x64'[self.dangerPos[self.stage-1]-1]+'\xDC',(250,500))
+                if self.stageTurn==1:base.perform('\x67\x68\x69'[numpy.argmax(check.getEnemyHP())]+'\xDC',(250,500))
                 portrait=newPortrait
                 logger.info(f'Turn {self.turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
                 for i,j in((i,j)for i in range(3)if self.servant[i]<6for j in range(3)if skill[i][j]and self.skillInfo[self.orderChange[self.servant[i]]][j][0]and min(self.skillInfo[self.orderChange[self.servant[i]]][j][0],self.stageTotal)<<8|self.skillInfo[self.orderChange[self.servant[i]]][j][1]<=self.stage<<8|self.stageTurn):

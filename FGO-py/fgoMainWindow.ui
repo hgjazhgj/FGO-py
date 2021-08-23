@@ -3,17 +3,14 @@
  <author>hgjazhgj</author>
  <class>fgoMainWindow</class>
  <widget class="QMainWindow" name="fgoMainWindow">
-  <property name="font">
-   <font>
-    <family>Microsoft YaHei UI Light</family>
-    <pointsize>11</pointsize>
-   </font>
-  </property>
   <property name="focusPolicy">
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
    <string>FGO-py - hgjazhgj</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{font-family:&quot;Microsoft YaHei UI Light&quot;;font-size:15px}</string>
   </property>
   <widget class="QWidget" name="widget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -238,18 +235,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_0_0">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -350,18 +335,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_0_1">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -462,18 +435,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_0_2">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -669,18 +630,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_1_0">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -781,18 +730,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_1_1">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -893,18 +830,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_1_2">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1100,18 +1025,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_2_0">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1212,18 +1125,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_2_1">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1324,18 +1225,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_2_2">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1531,18 +1420,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_3_0">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1643,18 +1520,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_3_1">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1755,18 +1620,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_3_2">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -1968,18 +1821,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_4_0">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2080,18 +1921,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_4_1">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2192,18 +2021,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_4_2">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2402,18 +2219,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_5_0">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2514,18 +2319,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_5_1">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2626,18 +2419,6 @@
           </item>
           <item>
            <spacer name="SPACER_TEAM_5_2">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>28</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>28</height>
-             </size>
-            </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
@@ -2713,163 +2494,6 @@
        </layout>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="LBL_DANGERPOS">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>28</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>优先攻击</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <layout class="QHBoxLayout" name="LAYOUT_INFO_DANGER">
-        <item>
-         <widget class="QLineEdit" name="TXT_DANGER_0">
-          <property name="minimumSize">
-           <size>
-            <width>20</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>20</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
-          <property name="statusTip">
-           <string>优先攻击位置,从右到左1-3,第二行为4-6,0为无效</string>
-          </property>
-          <property name="inputMask">
-           <string>9</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="SPACER_DANGER_0">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="TXT_DANGER_1">
-          <property name="minimumSize">
-           <size>
-            <width>20</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>20</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
-          <property name="statusTip">
-           <string>优先攻击位置,从右到左1-3,第二行为4-6,0为无效</string>
-          </property>
-          <property name="inputMask">
-           <string>9</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="SPACER_DANGER_1">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="TXT_DANGER_2">
-          <property name="minimumSize">
-           <size>
-            <width>20</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>20</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
-          <property name="statusTip">
-           <string>优先攻击位置,从右到左1-3,第二行为4-6,0为无效</string>
-          </property>
-          <property name="inputMask">
-           <string>9</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0">
        <widget class="QLabel" name="LBL_MASTER">
         <property name="maximumSize">
          <size>
@@ -2882,7 +2506,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="1" column="1">
        <layout class="QHBoxLayout" name="LAYOUT_INFO_MASTER">
         <item>
          <widget class="QLineEdit" name="TXT_MASTER_0_0">
@@ -3201,7 +2825,7 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="LBL_APPLE">
         <property name="maximumSize">
          <size>
@@ -3214,7 +2838,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="2" column="1">
        <layout class="QHBoxLayout" name="LAYOUT_INFO_APPLE">
         <item>
          <widget class="QComboBox" name="CBX_APPLE">
@@ -3437,7 +3061,7 @@
            <string>如果你不清楚你在干什么,就不要在战斗中点这个按钮</string>
           </property>
           <property name="statusTip">
-           <string>立刻应用技能宝具优先攻击的更改,就算战斗正在进行</string>
+           <string>立刻应用编队信息和御主技能的更改,就算战斗正在进行</string>
           </property>
           <property name="text">
            <string>应用更改</string>
@@ -3451,12 +3075,6 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
    <widget class="QMenu" name="MENU_ABOUT">
     <property name="title">
      <string>关于</string>
@@ -3469,6 +3087,7 @@
      <string>文件</string>
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
+    <addaction name="MENU_FILE_QUIT"/>
    </widget>
    <widget class="QMenu" name="MENU_SCRIPT">
     <property name="title">
@@ -3483,6 +3102,7 @@
      <string>控制</string>
     </property>
     <addaction name="MENU_CONTROL_STAYONTOP"/>
+    <addaction name="MENU_CONTROL_TRAY"/>
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_MAPKEY"/>
     <addaction name="separator"/>
@@ -3492,8 +3112,8 @@
     <property name="title">
      <string>设置</string>
     </property>
-    <addaction name="MENU_SETTINGS_STOPONSPECIALDROP"/>
-    <addaction name="MENU_SETTINGS_STOPONDEFEATED"/>
+    <addaction name="MENU_SETTINGS_SPECIALDROP"/>
+    <addaction name="MENU_SETTINGS_DEFEATED"/>
    </widget>
    <addaction name="MENU_FILE"/>
    <addaction name="MENU_SCRIPT"/>
@@ -3501,34 +3121,15 @@
    <addaction name="MENU_CONTROL"/>
    <addaction name="MENU_ABOUT"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar">
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="MENU_ABOUT_ABOUT">
    <property name="text">
     <string>关于</string>
-   </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
    </property>
   </action>
   <action name="MENU_FILE_EXPLORER">
    <property name="text">
     <string>资源管理器</string>
-   </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
    </property>
   </action>
   <action name="MENU_CONTROL_STAYONTOP">
@@ -3538,22 +3139,10 @@
    <property name="text">
     <string>窗口置顶</string>
    </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
   </action>
   <action name="MENU_SCRIPT_GACHA">
    <property name="text">
     <string>抽友情</string>
-   </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
    </property>
   </action>
   <action name="MENU_CONTROL_MAPKEY">
@@ -3563,90 +3152,54 @@
    <property name="text">
     <string>加载按键映射</string>
    </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
   </action>
   <action name="MENU_SCRIPT_JACKPOT">
    <property name="text">
     <string>抽奖池</string>
-   </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
    </property>
   </action>
   <action name="MENU_SCRIPT_MAILFILTER">
    <property name="text">
     <string>领购粮</string>
    </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
   </action>
   <action name="MENU_CONTROL_EXEC">
    <property name="text">
     <string>Execute</string>
    </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-     <bold>false</bold>
-    </font>
-   </property>
   </action>
-  <action name="MENU_SETTINGS_STOPONSPECIALDROP">
+  <action name="MENU_SETTINGS_SPECIALDROP">
    <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="text">
     <string>特殊掉落时终止脚本运行</string>
    </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
   </action>
-  <action name="MENU_SETTINGS_STOPONDEFEATED">
+  <action name="MENU_SETTINGS_DEFEATED">
    <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="text">
     <string>战斗撤退时终止脚本运行</string>
-   </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
    </property>
   </action>
   <action name="MENU_ABOUT_LICENSE">
    <property name="text">
     <string>使用许可</string>
    </property>
-   <property name="font">
-    <font>
-    <family>Microsoft YaHei UI Light</family>
-     <pointsize>11</pointsize>
-    </font>
+  </action>
+  <action name="MENU_FILE_QUIT">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="MENU_CONTROL_TRAY">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>关闭到托盘</string>
    </property>
   </action>
  </widget>
@@ -3727,9 +3280,6 @@
   <tabstop>TXT_HOUGU_4_1</tabstop>
   <tabstop>TXT_HOUGU_5_0</tabstop>
   <tabstop>TXT_HOUGU_5_1</tabstop>
-  <tabstop>TXT_DANGER_0</tabstop>
-  <tabstop>TXT_DANGER_1</tabstop>
-  <tabstop>TXT_DANGER_2</tabstop>
   <tabstop>TXT_MASTER_0_0</tabstop>
   <tabstop>TXT_MASTER_0_1</tabstop>
   <tabstop>TXT_MASTER_0_2</tabstop>
@@ -3759,368 +3309,150 @@
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runBattle()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>217</x>
-     <y>472</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>321</x>
-     <y>281</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_MAIN</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runMain()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>217</x>
-     <y>552</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>343</x>
-     <y>301</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_CHECK</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>checkCheck()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>430</x>
-     <y>485</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>181</x>
-     <y>295</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_USER</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runUserScript()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>217</x>
-     <y>512</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>319</x>
-     <y>338</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_PAUSE</sender>
    <signal>clicked(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>pause(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>323</x>
-     <y>472</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>433</x>
-     <y>454</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_STOP</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stop()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>323</x>
-     <y>512</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>439</x>
-     <y>454</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CBX_TEAM</sender>
    <signal>textActivated(QString)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>loadTeam(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>34</x>
-     <y>44</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>57</x>
-     <y>74</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_TEAMSAVE</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>saveTeam()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>331</x>
-     <y>74</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>412</x>
-     <y>58</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_TEAMRESET</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>resetTeam()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>431</x>
-     <y>74</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>439</x>
-     <y>38</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_GETDEVICE</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>getDevice()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>55</x>
-     <y>485</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>56</x>
-     <y>337</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MENU_FILE_EXPLORER</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>explorerHere()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>246</x>
-     <y>239</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MENU_ABOUT_ABOUT</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>about()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>246</x>
-     <y>239</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_APPLYALL</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>applyAll()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>430</x>
-     <y>538</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>315</x>
-     <y>452</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MENU_CONTROL_STAYONTOP</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stayOnTop(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>246</x>
-     <y>239</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MENU_SCRIPT_GACHA</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runGacha()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>313</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MENU_CONTROL_MAPKEY</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>mapKey(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>313</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BTN_STOPLATER</sender>
-   <signal>clicked()</signal>
+   <signal>clicked(bool)</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>stopLater()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>323</x>
-     <y>552</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>313</y>
-    </hint>
-   </hints>
+   <slot>stopLater(bool)</slot>
   </connection>
   <connection>
    <sender>MENU_SCRIPT_JACKPOT</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runJackpot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>313</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MENU_SCRIPT_MAILFILTER</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runMailFiltering()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>313</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MENU_CONTROL_EXEC</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>exec()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>243</x>
-     <y>293</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
-   <sender>MENU_SETTINGS_STOPONDEFEATED</sender>
-   <signal>triggered()</signal>
+   <sender>MENU_SETTINGS_DEFEATED</sender>
+   <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>stopOnDefeated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>243</x>
-     <y>293</y>
-    </hint>
-   </hints>
+   <slot>stopOnDefeated(bool)</slot>
   </connection>
   <connection>
-   <sender>MENU_SETTINGS_STOPONSPECIALDROP</sender>
-   <signal>triggered()</signal>
+   <sender>MENU_SETTINGS_SPECIALDROP</sender>
+   <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>stopOnSpecialDrop()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>243</x>
-     <y>293</y>
-    </hint>
-   </hints>
+   <slot>stopOnSpecialDrop(bool)</slot>
   </connection>
   <connection>
    <sender>MENU_ABOUT_LICENSE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>license()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>208</x>
-     <y>264</y>
-    </hint>
-   </hints>
+  </connection>
+  <connection>
+   <sender>MENU_FILE_QUIT</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>quit()</slot>
+  </connection>
+  <connection>
+   <sender>MENU_CONTROL_TRAY</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>closeToTray(bool)</slot>
   </connection>
  </connections>
  <slots>
@@ -4133,7 +3465,6 @@
   <slot>stop()</slot>
   <slot>saveTeam()</slot>
   <slot>loadTeam(QString)</slot>
-  <slot>getFriend()</slot>
   <slot>explorerHere()</slot>
   <slot>about()</slot>
   <slot>applyAll()</slot>
@@ -4141,13 +3472,15 @@
   <slot>stayOnTop(bool)</slot>
   <slot>runGacha()</slot>
   <slot>mapKey(bool)</slot>
-  <slot>stopLater()</slot>
+  <slot>stopLater(bool)</slot>
   <slot>runJackpot()</slot>
   <slot>runMailFiltering()</slot>
   <slot>exec()</slot>
-  <slot>stopOnSpecialDrop()</slot>
-  <slot>stopOnDefeated()</slot>
+  <slot>stopOnSpecialDrop(bool)</slot>
+  <slot>stopOnDefeated(bool)</slot>
   <slot>license()</slot>
+  <slot>quit()</slot>
+  <slot>closeToTray(bool)</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>

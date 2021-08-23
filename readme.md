@@ -28,6 +28,8 @@
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
 ![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
+Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY.  
+![Monero](doc/monero.png)  
 如果我在这个项目里公布我的B站账号或许能有些许[大会员每月5B币券](https://account.bilibili.com/account/big/myPackage)充电,但我还是不想跟睿站扯上太多关系,所以大家不如去给[MOONCELL](https://space.bilibili.com/3176666/)或是你们喜欢的其他创作者充电吧!另外不要付费充B币,因为5B币到手只有3.36CNY  
 觉得有帮助请为我star,谢谢  
 <table>
@@ -50,7 +52,6 @@
 
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
-在点击fork按钮之前,请确保你具备相关知识,知道系列功能如何使用,并确实有修改本项目的计划  
 仅适用于命运-冠位指定安卓简体中文版本,仅能运行在Windows操作系统上  
 # 警告 Warning
 ***
@@ -66,7 +67,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 ui大概长这样(设计视图仅供参考):  
 ![ui](doc/ui.png)  
-这个脚本会依据你的设置比较智能地帮你放技能,放宝具,选卡(依据特殊的选卡算法),吃苹果,合理设定后可以无脑通过绝大部分非高难关卡,实战7-12回合能够刷完无限池终本  
+这个脚本能识别技能和宝具是否可以使用,指令卡颜色和克制关系,无法行动及指令卡封印状态,会依据你的设置比较智能地帮你筛选助战,放技能,放宝具,吃苹果,依据特殊的选卡算法选卡,合理设定后可以无脑通过绝大部分非高难关卡,实战7-12回合能够刷完无限池终本,也可以半路接管战斗,就算是剧情限定了出场从者,你也可以尝试手动开完技能后让脚本接管战斗  
 理论上讲,你只需要想办法重写fgoFunc.Base类就能用于iOS端;你只需要更改图片模板和fgoFunc.Check类就能用于FGO的其他语言版本;你只需要修改DirListener就能用于MacOs  
 照  着  做  应  该  不  难,欢迎魔改,不过**我的代码里有毒**  
 本项目的release均为自动构建,部分边缘功能不可用,仅作试用  
@@ -135,6 +136,18 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/08/24 v6.4.0
+更新:自动选择每面血量最高的敌人,弃用「优先攻击」设定  
+更新:增加了一些可保存的配置项,置于`fgoConfig.json`内  
+更新:添加托盘图标,可设置关闭到托盘  
+在启用「关闭到托盘」时,通过「文件」菜单中的「退出」来关闭脚本进程  
+更新:战斗完成时通知,取代原先的beep  
+系统通知受勿扰与专注等系统设置控制  
+做这个托盘图标是考虑到有「老板键」的需求,但是就算程序已经最小化到托盘战斗也不会暂停,甚至会在完成时弹出系统通知  
+什么tmd叫惊喜?这tmd就叫惊喜!  
+优化:各对话框风格统一,并且使ui文件体积更小了  
+我挺想搞一个深色风格的,就想着是和Windows深色主题一样,可惜Qt里没有现成的能用,自己写调色板样式表也太顶了...  
+叔叔我啊,最讨厌做前端了  
 ## 2021/08/20 v6.3.5
 bugfix:[issue #24](https://github.com/hgjazhgj/FGO-py/issues/24)  
 我就说好像有些时候加载了明明没有写过的配置,现在总算是去检查了一下  
