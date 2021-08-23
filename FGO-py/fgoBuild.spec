@@ -4,13 +4,13 @@
 
 block_cipher = None
 
-
-a = Analysis(['fgoGui.py'],
+a = Analysis(['fgoGui.pyw'],
              pathex=[],
              binaries=[],
              datas=[
                  ('fgoImage', 'fgoImage'),
                  ('fgoTeamup.ini', '.'),
+                 ('fgoConfig.json', '.'),
                  ('../LICENSE','.'),
                  (HOMEPATH+'/airtest/core/android/static', 'airtest/core/android/static')
              ],
@@ -25,7 +25,6 @@ a = Analysis(['fgoGui.py'],
              noarchive=False)
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
-
 exe = EXE(pyz,
           a.scripts, 
           [],
@@ -35,7 +34,7 @@ exe = EXE(pyz,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          console=True,
+          console=False,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
