@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.4.0'
+__version__='v6.4.1'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.
@@ -203,12 +203,16 @@ mailFilterImg=ImageListener('fgoImage/mailfilter/')
 class Base(Android):
     def __init__(self,serialno=None):
         self.lock=threading.Lock()
+        if serialno is None:
+            self.serialno=None
+            return
         try:
-            assert serialno
             super().__init__(serialno,cap_method='JAVACAP')
             self.rotation_watcher.reg_callback(lambda _:self.refreshOrientation())
-            self.touch_proxy
-        except Exception:self.serialno=None
+        ######## patch for airtest 1.2.2, see https://github.com/AirtestProject/Airtest/issues/796 ######################
+            self._display_info=self.get_display_info()|{i:int(j)for i,j in re.search(r'(?P<width>\d+)x(?P<height>\d+)\s*$',self.adb.raw_shell('wm size')).groupdict().items()}
+        ######## patch end ##############################################################################################
+        except Exception as e:logger.exception(e)
     @property
     def avaliable(self):
         if not self.serialno:return False
