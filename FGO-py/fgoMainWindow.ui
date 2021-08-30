@@ -3074,7 +3074,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
+  <widget class="QMenuBar" name="MENU">
    <widget class="QMenu" name="MENU_ABOUT">
     <property name="title">
      <string>关于</string>
@@ -3087,7 +3087,6 @@
      <string>文件</string>
     </property>
     <addaction name="MENU_FILE_EXPLORER"/>
-    <addaction name="MENU_FILE_QUIT"/>
    </widget>
    <widget class="QMenu" name="MENU_SCRIPT">
     <property name="title">
@@ -3121,7 +3120,7 @@
    <addaction name="MENU_CONTROL"/>
    <addaction name="MENU_ABOUT"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="STATUS"/>
   <action name="MENU_ABOUT_ABOUT">
    <property name="text">
     <string>关于</string>
@@ -3443,12 +3442,6 @@
    <slot>license()</slot>
   </connection>
   <connection>
-   <sender>MENU_FILE_QUIT</sender>
-   <signal>triggered()</signal>
-   <receiver>fgoMainWindow</receiver>
-   <slot>quit()</slot>
-  </connection>
-  <connection>
    <sender>MENU_CONTROL_TRAY</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
@@ -3479,7 +3472,6 @@
   <slot>stopOnSpecialDrop(bool)</slot>
   <slot>stopOnDefeated(bool)</slot>
   <slot>license()</slot>
-  <slot>quit()</slot>
   <slot>closeToTray(bool)</slot>
  </slots>
  <buttongroups>

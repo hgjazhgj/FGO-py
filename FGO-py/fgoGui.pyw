@@ -1,7 +1,7 @@
-import configparser,html,json,logging,os,sys,threading
-from PyQt6.QtCore import QRegularExpression, Qt, pyqtSignal
-from PyQt6.QtGui import QRegularExpressionValidator
-from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QStyle,QSystemTrayIcon
+import configparser,json,logging,os,sys,threading
+from PyQt6.QtCore import QRegularExpression,Qt,pyqtSignal
+from PyQt6.QtGui import QRegularExpressionValidator,QAction
+from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QStyle,QSystemTrayIcon,QMenu
 
 import fgoFunc
 from fgoMainWindow import Ui_fgoMainWindow
@@ -12,31 +12,52 @@ NewConfigParser=type('NewConfigParser',(configparser.ConfigParser,),{'__init__':
 teamup=NewConfigParser('fgoTeamup.ini')
 # with open('fgoTeamup.json','w') as f:json.dump({i:{a:eval(b)for a,b in dict(j).items()}for i,j in dict(teamup).items()},f,indent=4)
 
-with open('fgoConfig.json','r')as f:config=json.load(f)
+class Config:
+    def __init__(self,link=None):
+        with open('fgoConfig.json','r')as f:self.config=json.load(f)
+        self.link=link if isinstance(link,dict)else{}
+        for configName,(menuItem,controlFunc)in self.link.items():
+            menuItem.setChecked(bool(self.config[configName]))
+            if callable(controlFunc):controlFunc(self.config[configName])
+    def __getitem__(self,key):return self.config[key]
+    def __setitem__(self,key,value):
+        self.config[key]=value
+        # self.link[key][0].setChecked(bool(value))
+        if callable(self.link[key][1]):self.link[key][1](value)
+    def save(self):
+        with open('fgoConfig.json','w')as f:json.dump(self.config,f,indent=4)
 
 class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     signalFuncBegin=pyqtSignal()
-    signalFuncEnd=pyqtSignal()
+    signalFuncEnd=pyqtSignal(object)
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi(self)
         self.TRAY=QSystemTrayIcon(self)
         self.TRAY.setIcon(QApplication.style().standardIcon(QStyle.StandardPixmap.SP_MessageBoxInformation))
         self.TRAY.setToolTip('FGO-py')
+        self.MENU_TRAY=QMenu(self)
+        self.MENU_TRAY_QUIT=QAction('退出',self.MENU_TRAY)
+        self.MENU_TRAY.addAction(self.MENU_TRAY_QUIT)
+        self.MENU_TRAY_FORCEQUIT=QAction('强制退出',self.MENU_TRAY)
+        self.MENU_TRAY.addAction(self.MENU_TRAY_FORCEQUIT)
+        self.TRAY.setContextMenu(self.MENU_TRAY)
         self.TRAY.show()
         self.CBX_TEAM.addItems(teamup.sections())
         self.CBX_TEAM.setCurrentIndex(-1)
         self.TXT_TEAM.setValidator(QRegularExpressionValidator(QRegularExpression('10|[0-9]'),self))
         self.loadTeam('DEFAULT')
-        self.MENU_SETTINGS_DEFEATED.setChecked(config['stopOnDefeated'])
-        fgoFunc.control.stopOnDefeated(config['stopOnDefeated'])
-        self.MENU_SETTINGS_SPECIALDROP.setChecked(config['stopOnSpecialDrop'])
-        fgoFunc.control.stopOnSpecialDrop(config['stopOnSpecialDrop'])
-        self.MENU_CONTROL_TRAY.setChecked(config['closeToTray'])
+        self.config=Config({
+            'stopOnDefeated':(self.MENU_SETTINGS_DEFEATED,fgoFunc.control.stopOnDefeated),
+            'stopOnSpecialDrop':(self.MENU_SETTINGS_SPECIALDROP,fgoFunc.control.stopOnSpecialDrop),
+            'closeToTray':(self.MENU_CONTROL_TRAY,None),
+            'stayOnTop':(self.MENU_CONTROL_STAYONTOP,lambda x:self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x))})
         self.worker=threading.Thread()
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
-        self.TRAY.activated.connect(self.show)
+        self.TRAY.activated.connect(lambda reason:self.show()if reason==QSystemTrayIcon.ActivationReason.Trigger else None)
+        self.MENU_TRAY_QUIT.triggered.connect(lambda:QApplication.quit()if self.askQuit()else None)
+        self.MENU_TRAY_FORCEQUIT.triggered.connect(QApplication.quit)
         self.getDevice()
     def keyPressEvent(self,key):
         if self.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifier.KeypadModifier:
@@ -44,9 +65,19 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
+        if self.config['closeToTray']:
+            self.hide()
+            return event.ignore()
+        if self.askQuit():return event.accept()
         event.ignore()
-        if config['closeToTray']:self.hide()
-        else:self.quit()
+    def askQuit(self):
+        if self.worker.is_alive():
+            if QMessageBox.warning(self,'FGO-py','战斗正在进行,确认关闭?',QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No,QMessageBox.StandardButton.No)!=QMessageBox.StandardButton.Yes:return False
+            fgoFunc.control.terminate()
+            self.worker.join()
+        self.TRAY.hide()
+        self.config.save()
+        return True
     def isDeviceAvaliable(self):
         if not fgoFunc.base.avaliable:
             self.LBL_DEVICE.clear()
@@ -62,13 +93,13 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                 func(*args,**kwargs)
             except fgoFunc.ScriptTerminate as e:
                 logger.critical(e)
-                self.TRAY.showMessage('FGO-py',str(e),QSystemTrayIcon.MessageIcon.Warning)
+                msg=(str(e),QSystemTrayIcon.MessageIcon.Warning)
             except BaseException as e:
                 logger.exception(e)
-                self.TRAY.showMessage('FGO-py',repr(e),QSystemTrayIcon.MessageIcon.Critical)
-            else:self.TRAY.showMessage('FGO-py','战斗完成',QSystemTrayIcon.MessageIcon.Information)
+                msg=(repr(e),QSystemTrayIcon.MessageIcon.Critical)
+            else:msg=('战斗完成',QSystemTrayIcon.MessageIcon.Information)
             finally:
-                self.signalFuncEnd.emit()
+                self.signalFuncEnd.emit(msg)
                 fgoFunc.control.reset()
                 fgoFunc.fuse.reset()
         self.worker=threading.Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
@@ -82,7 +113,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOP.setEnabled(True)
         self.BTN_STOPLATER.setEnabled(True)
         self.MENU_SCRIPT.setEnabled(False)
-    def funcEnd(self):
+    def funcEnd(self,msg):
         self.BTN_ONEBATTLE.setEnabled(True)
         self.BTN_MAIN.setEnabled(True)
         self.BTN_USER.setEnabled(True)
@@ -92,6 +123,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOPLATER.setEnabled(False)
         self.MENU_SCRIPT.setEnabled(True)
         self.TXT_APPLE.setValue(0)
+        self.TRAY.showMessage('FGO-py',*msg)
     def loadTeam(self,teamName):
         self.TXT_TEAM.setText(teamup[teamName]['teamIndex'])
         getattr(self,f'RBT_FRIEND_{teamup[teamName]["friendPos"]}').setChecked(True)
@@ -148,30 +180,19 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoFunc.Battle.houguInfo=[[int(getattr(self,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]
         fgoFunc.Battle.masterSkill=[[int(getattr(self,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]
     def explorerHere(self):os.startfile('.')
-    def quit(self):
-        if self.worker.is_alive():
-            if QMessageBox.warning(self,'FGO-py','战斗正在进行,确认关闭?',QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No,QMessageBox.StandardButton.No)!=QMessageBox.StandardButton.Yes:return
-            fgoFunc.control.terminate()
-            self.worker.join()
-        with open('fgoConfig.json','w')as f:json.dump(config,f,indent=4)
-        QApplication.quit()
     def runGacha(self):self.runFunc(fgoFunc.gacha)
     def runJackpot(self):self.runFunc(fgoFunc.jackpot)
     def runMailFiltering(self):self.runFunc(fgoFunc.mailFiltering)
-    def stopOnDefeated(self,x):
-        fgoFunc.control.stopOnDefeated(x)
-        config["stopOnDefeated"]=x
-    def stopOnSpecialDrop(self,x):
-        fgoFunc.control.stopOnSpecialDrop(x)
-        config["stopOnSpecialDrop"]=x
+    def stopOnDefeated(self,x):self.config['stopOnDefeated']=x
+    def stopOnSpecialDrop(self,x):self.config['stopOnSpecialDrop']=x
     def stayOnTop(self,x):
-        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x)
+        self.config['stayOnTop']=x
         self.show()
-    def closeToTray(self,x):config['closeToTray']=x
+    def closeToTray(self,x):self.config['closeToTray']=x
     def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvaliable())
     def exec(self):
         s=QApplication.clipboard().text()
-        if QMessageBox.information(self,'FGO-py',html.escape(s).replace('\n','<br/>'),QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
+        if QMessageBox.information(self,'FGO-py',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
         try:exec(s)
         except BaseException as e:logger.exception(e)
     def about(self):QMessageBox.about(self,'FGO-py - About',f'''
@@ -195,7 +216,6 @@ FGO全自动脚本
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
-    # app.setQuitOnLastWindowClosed(False)
     myWin=MyMainWindow()
     myWin.show()
     sys.exit(app.exec())
