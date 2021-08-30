@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v6.4.1'
+__version__='v6.4.2'
 # 素に銀と鉄.礎に石と契約の大公.
 import logging
 # 降り立つ風には壁を.
@@ -45,8 +45,8 @@ import win32file
 from airtest.core.android.adb import ADB
 # 天秤の守り手よ―――！
 from airtest.core.android.android import Android
-(lambda logger:(logger.setLevel(logging.INFO),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S'))
-(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s','%H:%M:%S')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
+(lambda logger:(logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(type('ColoredFormatter',(logging.Formatter,),{'__init__':lambda self,*args,**kwargs:logging.Formatter.__init__(self,*args,**kwargs),'format':lambda self,record:(setattr(record,'levelname','\033[{}m[{}]'.format({'WARNING':'33','INFO':'34','DEBUG':'37','CRITICAL':'35','ERROR':'31'}.get(record.levelname,'0'),record.levelname)),logging.Formatter.format(self,record))[-1]})('\033[32m[%(asctime)s]%(levelname)s\033[36m<%(name)s>\033[0m %(message)s')),handler)[-1])(logging.StreamHandler()))))(logging.getLogger('fgo'))
+(lambda logger:(logger.setLevel(logging.INFO),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(logging.getLogger('fgo').handlers[0].formatter)
 logger=logging.getLogger('fgo.Func')
 bilibili=[1,2,3,4,5,6,7,8,10,11,12]
 IMG=(lambda t:([setattr(t,i[:-4].upper(),cv2.imread(f'fgoImage/{i}'))for i in os.listdir('fgoImage')if i[-4:]=='.png'],t)[-1])(type('IMG',(),{}))
@@ -201,18 +201,23 @@ class ImageListener(dict):
 friendImg=ImageListener('fgoImage/friend/')
 mailFilterImg=ImageListener('fgoImage/mailfilter/')
 class Base(Android):
-    def __init__(self,serialno=None):
+    def __init__(self,serialno=None,**kwargs):
         self.lock=threading.Lock()
         if serialno is None:
             self.serialno=None
             return
         try:
-            super().__init__(serialno,cap_method='JAVACAP')
+            super().__init__(serialno,**({'cap_method':'JAVACAP'}|kwargs))
             self.rotation_watcher.reg_callback(lambda _:self.refreshOrientation())
-        ######## patch for airtest 1.2.2, see https://github.com/AirtestProject/Airtest/issues/796 ######################
+        ######## patch for airtest.core.android.adb.ADB.getPhysicalDisplayInfo in airtest 1.2.2 ###############################
+        ######## see https://github.com/AirtestProject/Airtest/issues/960, the best way to avoid it is to use airtest<=1.2.0 ##
+        ######## source: https://github.com/AirtestProject/Airtest/commit/fdac5e5334acc9b6b8c0831bf0ed0d37c15c1ee4 ############
+        ######## notice that this patch may backfire on some devices! see https://github.com/hgjazhgj/FGO-py/issues/27 ########
             self._display_info=self.get_display_info()|{i:int(j)for i,j in re.search(r'(?P<width>\d+)x(?P<height>\d+)\s*$',self.adb.raw_shell('wm size')).groupdict().items()}
-        ######## patch end ##############################################################################################
-        except Exception as e:logger.exception(e)
+        ######## patch end ####################################################################################################
+        except Exception as e:
+            logger.exception(e)
+            self.serialno=None
     @property
     def avaliable(self):
         if not self.serialno:return False
@@ -304,7 +309,7 @@ class Check(metaclass=DebugMeta):
     def isChooseFriend(self):return self._compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))
     def isCardSealed(self):return[any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isGacha(self):return self._compare(IMG.GACHA,(973,960,1312,1052))
-    def isHouguReady(self):return[(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(Check(.2).im[1019:1026,217+478*i:235+478*i])>55)and not any(self._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))for i in range(3)]
+    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(that.im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)])(Check(.15)if that is None else that)
     def isListEnd(self,pos):return any(self._compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,950,1919,1079))
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1556,336,1859,397))
@@ -396,7 +401,7 @@ class Battle:
                         base.perform('234'[self.masterSkill[i][2]-1],(300,))
                     control.sleep(2.3)
                     while not Check().isTurnBegin():pass
-                base.perform(' ',(2000,))
+                base.perform(' ',(2100,))
                 base.perform(self.selectCard(),(270,270,2270,1270,6000))
             elif check.isBattleFinished():
                 logger.info('Battle Finished')
