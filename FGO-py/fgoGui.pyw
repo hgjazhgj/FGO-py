@@ -1,4 +1,4 @@
-import configparser,json,logging,os,sys,threading
+import configparser,json,os,sys,threading
 from PyQt6.QtCore import QRegularExpression,Qt,pyqtSignal
 from PyQt6.QtGui import QRegularExpressionValidator,QAction
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QStyle,QSystemTrayIcon,QMenu
@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QS
 import fgoFunc
 from fgoMainWindow import Ui_fgoMainWindow
 
-logger=logging.getLogger('fgo.Gui')
+logger=fgoFunc.getLogger('Gui')
 
 NewConfigParser=type('NewConfigParser',(configparser.ConfigParser,),{'__init__':lambda self,file:(configparser.ConfigParser.__init__(self),self.read(file),None)[-1],'optionxform':lambda self,optionstr:optionstr})
 teamup=NewConfigParser('fgoTeamup.ini')
@@ -61,7 +61,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.getDevice()
     def keyPressEvent(self,key):
         if self.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifier.KeypadModifier:
-            try:fgoFunc.base.press(chr(key.nativeVirtualKey()))
+            try:fgoFunc.device.press(chr(key.nativeVirtualKey()))
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
@@ -79,7 +79,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.config.save()
         return True
     def isDeviceAvaliable(self):
-        if not fgoFunc.base.avaliable:
+        if not fgoFunc.device.avaliable:
             self.LBL_DEVICE.clear()
             QMessageBox.critical(self,'FGO-py','未连接设备')
             return False
@@ -141,7 +141,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         with open('fgoTeamup.ini','w')as f:teamup.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda l:QInputDialog.getItem(self,'FGO-py','在下拉列表中选择一个设备',l,l.index(fgoFunc.base.serialno)if fgoFunc.base.serialno and fgoFunc.base.serialno in l else 0,True,Qt.WindowType.WindowStaysOnTopHint))(fgoFunc.Base.enumDevices())
+        text,ok=(lambda l:QInputDialog.getItem(self,'FGO-py','在下拉列表中选择一个设备',l,l.index(fgoFunc.device.name)if fgoFunc.device.name and fgoFunc.device.name in l else 0,True,Qt.WindowType.WindowStaysOnTopHint))(fgoFunc.Device.enumDevices())
         if not ok:return
         if text.startswith('/'):
             try:
@@ -152,8 +152,8 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                     import winreg
                     with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config')as key:text=f'127.0.0.1:{winreg.QueryValueEx(key,"BstAdbPort")[0]}'
             except Exception as e:return logger.exception(e)
-        fgoFunc.base=fgoFunc.Base(text.replace(' ',''))
-        self.LBL_DEVICE.setText(fgoFunc.base.serialno)
+        fgoFunc.device=fgoFunc.Device(text.replace(' ',''))
+        self.LBL_DEVICE.setText(fgoFunc.device.name)
     def runBattle(self):self.runFunc(fgoFunc.Battle())
     def runUserScript(self):self.runFunc(fgoFunc.userScript)
     def runMain(self):
@@ -169,7 +169,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             if ok:fgoFunc.control.terminateLater(num)
             else:self.BTN_STOPLATER.setChecked(False)
         else:fgoFunc.control.terminateLater()
-    def checkCheck(self):
+    def checkScreenshot(self):
         if not self.isDeviceAvaliable():return
         try:fgoFunc.Check(0).show()
         except Exception as e:logger.exception(e)

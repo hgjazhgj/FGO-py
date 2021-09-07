@@ -2125,9 +2125,6 @@
             <property name="text">
              <string/>
             </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
             <attribute name="buttonGroup">
              <string notr="true">BTG_FRIEND</string>
             </attribute>
@@ -3319,7 +3316,7 @@
    <sender>BTN_CHECK</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>checkCheck()</slot>
+   <slot>checkScreenshot()</slot>
   </connection>
   <connection>
    <sender>BTN_USER</sender>
@@ -3452,7 +3449,7 @@
   <slot>runBattle()</slot>
   <slot>runMain()</slot>
   <slot>resetTeam()</slot>
-  <slot>checkCheck()</slot>
+  <slot>checkScreenshot()</slot>
   <slot>getDevice()</slot>
   <slot>pause(bool)</slot>
   <slot>stop()</slot>
