@@ -1,3 +1,5 @@
+# Form implementation generated from reading ui file 'f:\Work\VisualStudioDocs\fgo_py\FGO-py\fgoMainWindow.ui'
+#
 # Created by: PyQt6 UI code generator 6.1.1
 #
 # WARNING: Any manual changes made to this file will be lost when pyuic6 is
@@ -554,7 +556,6 @@ class Ui_fgoMainWindow(object):
         self.LAYOUT_INFO_TEAM_5.setObjectName("LAYOUT_INFO_TEAM_5")
         self.RBT_FRIEND_5 = QtWidgets.QRadioButton(self.widget)
         self.RBT_FRIEND_5.setText("")
-        self.RBT_FRIEND_5.setChecked(False)
         self.RBT_FRIEND_5.setObjectName("RBT_FRIEND_5")
         self.BTG_FRIEND.addButton(self.RBT_FRIEND_5)
         self.LAYOUT_INFO_TEAM_5.addWidget(self.RBT_FRIEND_5)
@@ -892,7 +893,7 @@ class Ui_fgoMainWindow(object):
         self.CBX_APPLE.setCurrentIndex(0)
         self.BTN_ONEBATTLE.clicked.connect(fgoMainWindow.runBattle)
         self.BTN_MAIN.clicked.connect(fgoMainWindow.runMain)
-        self.BTN_CHECK.clicked.connect(fgoMainWindow.checkCheck)
+        self.BTN_CHECK.clicked.connect(fgoMainWindow.checkScreenshot)
         self.BTN_USER.clicked.connect(fgoMainWindow.runUserScript)
         self.BTN_PAUSE.clicked['bool'].connect(fgoMainWindow.pause)
         self.BTN_STOP.clicked.connect(fgoMainWindow.stop)
