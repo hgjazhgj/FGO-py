@@ -190,6 +190,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.show()
     def closeToTray(self,x):self.config['closeToTray']=x
     def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvaliable())
+    def invoke169(self):
+        if not self.isDeviceAvaliable():return
+        fgoFunc.device.invoke169()
+    def revoke169(self):
+        if not self.isDeviceAvaliable():return
+        fgoFunc.device.revoke169()
     def exec(self):
         s=QApplication.clipboard().text()
         if QMessageBox.information(self,'FGO-py',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return

@@ -3097,10 +3097,18 @@
     <property name="title">
      <string>控制</string>
     </property>
+    <widget class="QMenu" name="MENU_CONTROL_169">
+     <property name="title">
+      <string>全面屏适配</string>
+     </property>
+     <addaction name="MENU_CONTROL_169_INVOKE"/>
+     <addaction name="MENU_CONTROL_169_REVOKE"/>
+    </widget>
     <addaction name="MENU_CONTROL_STAYONTOP"/>
     <addaction name="MENU_CONTROL_TRAY"/>
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_MAPKEY"/>
+    <addaction name="MENU_CONTROL_169"/>
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_EXEC"/>
    </widget>
@@ -3196,6 +3204,16 @@
    </property>
    <property name="text">
     <string>关闭到托盘</string>
+   </property>
+  </action>
+  <action name="MENU_CONTROL_169_INVOKE">
+   <property name="text">
+    <string>调整为16:9</string>
+   </property>
+  </action>
+  <action name="MENU_CONTROL_169_REVOKE">
+   <property name="text">
+    <string>恢复原分辨率</string>
    </property>
   </action>
  </widget>
@@ -3444,6 +3462,18 @@
    <receiver>fgoMainWindow</receiver>
    <slot>closeToTray(bool)</slot>
   </connection>
+  <connection>
+   <sender>MENU_CONTROL_169_INVOKE</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>invoke169()</slot>
+  </connection>
+  <connection>
+   <sender>MENU_CONTROL_169_REVOKE</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>revoke169()</slot>
+  </connection>
  </connections>
  <slots>
   <slot>runBattle()</slot>
@@ -3470,6 +3500,8 @@
   <slot>stopOnDefeated(bool)</slot>
   <slot>license()</slot>
   <slot>closeToTray(bool)</slot>
+  <slot>invoke169()</slot>
+  <slot>revoke169()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
