@@ -47,7 +47,7 @@ def jackpot():
         for _ in range(40):device.press('2')
 def mailFiltering():
     if not mailFilterImg.flush():return
-    while not Check(1).isListEnd((1406,1079)):
+    while not Check(1).isListEnd((1406,1018)):
         if not any((lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(i[1],threshold=.016))for i in mailFilterImg.items()):device.swipe((400,900,400,300))
 class Battle:
     skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
@@ -172,7 +172,7 @@ class Main:
                 for i in(i for i,j in friendImg.items()if(lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(j))):
                     Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]=(lambda r:(lambda p:([[Battle.skillInfo[self.friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[Battle.houguInfo[self.friendPos][i]if p[i+9]=='x'else int(p[i+9])for i in range(2)]))(r.group())if r else(Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]))(re.search('[0-9x]{11}$',i))
                     return i
-                if Check.cache.isListEnd((1860,1064)):break
+                if Check.cache.isListEnd((1882,1064)):break
                 device.swipe((800,900,800,300))
                 Check(.4)
             if refresh:control.sleep(max(0,timer+10-time.time()))
