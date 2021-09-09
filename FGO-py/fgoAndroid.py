@@ -76,3 +76,10 @@ class Android(Airtest):
         with self.lock:super().touch(self.key[key])
     def perform(self,pos,wait):[(self.press(i),control.sleep(j*.001))for i,j in zip(pos,wait)]
     def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
+    def invoke169(self):
+        x,y=(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size')))
+        if x<y:
+            if x*16<y*9:self.adb.raw_shell('wm size %dx%d'%(x,x*16//9))
+        else:
+            if y*16<x*9:self.adb.raw_shell('wm size %dx%d'%(y*16//9,y))
+    def revoke169(self):self.adb.raw_shell('wm size %dx%d'%(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size'))))
