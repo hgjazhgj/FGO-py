@@ -1,2 +1,2 @@
-airtest
+airtest==1.2.0
 PyQt6
