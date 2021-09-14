@@ -171,6 +171,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/0914 v7.1.1
+妹的,airtst那个bug半天不修,8月24号提的issue到现在连个回复都没有,连个屁都不会放  
+爷直接回滚到1.2.0重新打包,等爷考完研tmd一定要砍了这该死的airtest  
+随便去alas上抄个aScreencap或uiautomator2,再不济直接adb都行  
+好家伙要是真的用回adb了拿怕不是回到v2.7.0时代...  
 ## 2021/09/09 v7.1.0
 更新:全面屏适配  
 问:什么是「全面屏适配」?  

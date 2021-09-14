@@ -4,7 +4,7 @@
 
 block_cipher = None
 
-a = Analysis(['fgoGui.pyw'],
+a = Analysis(['fgoGui.py'],
              pathex=[],
              binaries=[],
              datas=[
