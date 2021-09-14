@@ -14,12 +14,6 @@ class Android(Airtest):
         try:
             super().__init__(name,**({'cap_method':CAP_METHOD.JAVACAP}|kwargs))
             self.rotation_watcher.reg_callback(lambda _:self.refreshOrientation())
-        ######## patch for airtest.core.android.adb.ADB.getPhysicalDisplayInfo in airtest 1.2.2 ###############################
-        ######## see https://github.com/AirtestProject/Airtest/issues/960, the best way to avoid it is to use airtest<=1.2.0 ##
-        ######## source: https://github.com/AirtestProject/Airtest/commit/fdac5e5334acc9b6b8c0831bf0ed0d37c15c1ee4 ############
-        ######## notice that this patch may backfire on some devices! see https://github.com/hgjazhgj/FGO-py/issues/27 ########
-            self._display_info=self.get_display_info()|{i:int(j)for i,j in re.search(r'(?P<width>\d+)x(?P<height>\d+)\s*$',self.adb.raw_shell('wm size')).groupdict().items()}
-        ######## patch end ####################################################################################################
         except Exception as e:
             logger.exception(e)
             self.name=None
