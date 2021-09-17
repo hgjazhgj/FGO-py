@@ -1,6 +1,6 @@
 {
     "stopOnDefeated": true,
     "stopOnSpecialDrop": true,
-    "stayOnTop": false,
+    "stayOnTop": true,
     "closeToTray": false
 }
