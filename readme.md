@@ -49,7 +49,7 @@ Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4Q
 
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
-仅适用于命运-冠位指定安卓简体中文版本,仅能运行在Windows操作系统上,iOS等请看[在其他系统环境下使用](#在其他系统环境下使用-Ues-in-Other-Environments)  
+仅适用于命运-冠位指定安卓简体中文版本,仅能运行在Windows操作系统上,iOS等请看[在其他系统环境下使用](#在其他系统环境下使用-Use-in-Other-Environments)  
 # 警告 Warning
 ***
 [<<哔哩哔哩游戏平台用户协议>>](https://yhxy.biligame.com/)第11条第2款规定:  
@@ -171,7 +171,15 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
-## 2021/0914 v7.1.1
+## 2021/09/17 v7.2.0
+90+混合本客观地具有更高的难度,请合理安排队伍成员,仔细配置技能参数  
+更新:调整了抽奖池相关的识别图像和点按位置  
+原先是「重置比赛奖品」,现在是「重置战士的报酬」,形状也不一样,于是直接匹配「0/300」中的「0/」  
+更新:在每回合开始前点击屏幕,以跳过三面特写镜头  
+另:筛选狗粮的功能好像也有一点小问题,但是当前游戏内可以对邮箱内物品的种类和稀有度进行筛选,所以还能凑合着用,暂时未做更改  
+游戏副本难度的增大给了我些许压力,现在除了已在计划中的getEnemyNp,还想做一个getCriticalRate识别暴击星数量  
+getEnemyNp需要新的图像识别方法,getCriticalRate需要新的ocr模型和参数,都不见得是一行代码能搞定的  
+## 2021/09/14 v7.1.1
 妹的,airtst那个bug半天不修,8月24号提的issue到现在连个回复都没有,连个屁都不会放  
 爷直接回滚到1.2.0重新打包,等爷考完研tmd一定要砍了这该死的airtest  
 随便去alas上抄个aScreencap或uiautomator2,再不济直接adb都行  
