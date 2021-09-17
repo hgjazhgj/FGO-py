@@ -50,7 +50,7 @@ class Check(metaclass=logMeta(logger)):
     def isListEnd(self,pos):return any(self._compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
     # modified (1630,950,1919,1079)
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,920,1919,1049))
-    def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1556,336,1859,397))
+    def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1220,347,1318,389))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,1552,797),.1)
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
@@ -81,3 +81,4 @@ class Check(metaclass=logMeta(logger)):
     # def isEnemyDanger(self):raise NotImplementedError
     def getEnemyHPGauge(self):raise NotImplementedError
     def getEnemyNP(self):raise NotImplementedError
+    def getCriticalRate(self):raise NotImplementedError
