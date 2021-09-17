@@ -43,7 +43,7 @@ def gacha():
         device.press('\xDC')
 def jackpot():
     while fuse.value<50:
-        if Check().isNextJackpot():device.perform('0KJ',(600,1800,500))
+        if Check().isNextJackpot():device.perform('0KJ',(600,2400,500))
         for _ in range(40):device.press('2')
 def mailFiltering():
     if not mailFilterImg.flush():return

@@ -171,6 +171,10 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/09/18 v7.2.1
+更新:全面屏适配时代的邮箱筛选  
+重新截取了模板图片,算法未变  
+奇人共赏更新了  
 ## 2021/09/17 v7.2.0
 90+混合本客观地具有更高的难度,请合理安排队伍成员,仔细配置技能参数  
 更新:调整了抽奖池相关的识别图像和点按位置  
