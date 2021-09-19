@@ -80,6 +80,7 @@ class ImageListener(dict):
         def onRenamedTo(name):self[name]=self[oldName]if lastAction==4else cv2.imread(self.path+name+self.ends)
         for action,name in((action,file[:-len(self.ends)])for action,file in self.listener.get()if file.endswith(self.ends)):
             {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda _:None)(name)
+            logger.info(f'{dict(((1,"Create"),(2,"Delete"),(3,"Update"),(4,"RenameFrom"),(5,"RenameTo"))).get(action,None)} {name}')
             lastAction=action
         if oldName is not None:del self[oldName]
         return self

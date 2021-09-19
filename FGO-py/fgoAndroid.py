@@ -13,7 +13,7 @@ class Android(Airtest):
             return
         try:
             super().__init__(name,**({'cap_method':CAP_METHOD.JAVACAP}|kwargs))
-            self.rotation_watcher.reg_callback(lambda _:self.refreshOrientation())
+            self.rotation_watcher.reg_callback(lambda _:self.adjustOffset())
         except Exception as e:
             logger.exception(e)
             self.name=None
@@ -27,7 +27,7 @@ class Android(Airtest):
         return False
     @staticmethod
     def enumDevices():return[i for i,_ in ADB().devices('device')]
-    def refreshOrientation(self):
+    def adjustOffset(self):
         self.render=[round(i)for i in self.get_render_resolution(True)]
         self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
         self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in{
@@ -76,4 +76,5 @@ class Android(Airtest):
             if x*16<y*9:self.adb.raw_shell('wm size %dx%d'%(x,x*16//9))
         else:
             if y*16<x*9:self.adb.raw_shell('wm size %dx%d'%(y*16//9,y))
+        self.adjustOffset()
     def revoke169(self):self.adb.raw_shell('wm size %dx%d'%(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size'))))
