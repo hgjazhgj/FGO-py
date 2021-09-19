@@ -139,7 +139,7 @@
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_0">
             <property name="statusTip">
-             <string>助战的位置,助战的技能设置不会生效</string>
+             <string>助战的位置,助战的技能设置或被覆盖</string>
             </property>
             <property name="text">
              <string/>
@@ -534,7 +534,7 @@
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_1">
             <property name="statusTip">
-             <string>助战的位置,助战的技能设置不会生效</string>
+             <string>助战的位置,助战的技能设置或被覆盖</string>
             </property>
             <property name="text">
              <string/>
@@ -929,7 +929,7 @@
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_2">
             <property name="statusTip">
-             <string>助战的位置,助战的技能设置不会生效</string>
+             <string>助战的位置,助战的技能设置或被覆盖</string>
             </property>
             <property name="text">
              <string/>
@@ -1324,7 +1324,7 @@
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_3">
             <property name="statusTip">
-             <string>助战的位置,助战的技能设置不会生效</string>
+             <string>助战的位置,助战的技能设置或被覆盖</string>
             </property>
             <property name="text">
              <string/>
@@ -1722,7 +1722,7 @@
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="statusTip">
-             <string>助战的位置,助战的技能设置不会生效</string>
+             <string>助战的位置,助战的技能设置或被覆盖</string>
             </property>
             <property name="text">
              <string/>
@@ -2120,7 +2120,7 @@
           <item>
            <widget class="QRadioButton" name="RBT_FRIEND_5">
             <property name="statusTip">
-             <string>助战的位置,助战的技能设置不会生效</string>
+             <string>助战的位置,助战的技能设置或被覆盖</string>
             </property>
             <property name="text">
              <string/>

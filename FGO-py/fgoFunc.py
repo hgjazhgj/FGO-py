@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.1.0'
+__version__='v7.3.0'
 import logging,re,time,cv2,numpy
 from itertools import permutations
 from fgoAndroid import Android
@@ -28,9 +28,9 @@ from fgoFuse import fuse
 from fgoImageListener import ImageListener
 from fgoLogging import getLogger,logit
 logger=getLogger('Func')
-(lambda logger:(logger.setLevel(logging.INFO),logger)[-1])(logging.getLogger('airtest')).handlers[0].setFormatter(logging.getLogger('fgo').handlers[0].formatter)
 friendImg=ImageListener('fgoImage/friend/')
-mailFilterImg=ImageListener('fgoImage/mailfilter/')
+mailFilterImg=ImageListener('fgoImage/mailFilter/')
+dropFilterImg=ImageListener('fgoImage/dropFilter/')
 class Device(Android):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -101,6 +101,11 @@ class Battle:
                 device.perform(self.selectCard(),(270,270,2270,1270,6000))
             elif Check.cache.isBattleFinished():
                 logger.info('Battle Finished')
+                for i in(i for i,j in dropFilterImg.items()if Check.cache.find(j)):
+                    control.checkSpecialDrop()
+                    logger.warning(f'Special drop {i}')
+                    Check.cache.save('fgoLogs/SpecialDrop')
+                    break
                 return True
             elif Check.cache.isBattleDefeated():
                 logger.warning('Battle Defeated')
@@ -143,13 +148,12 @@ class Main:
                 elif Check.cache.isSpecialDrop():
                     control.checkSpecialDrop()
                     logger.warning('Special drop')
-                    Check.cache.save('specialdrop_%Y-%m-%d_%H.%M.%S.jpg')
+                    Check.cache.save('fgoLogs/SpecialDrop')
                     device.press('\x67')
                 device.press(' ')
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
-            if self.battleFunc():device.perform('        ',(200,200,200,200,200,200,200,200))
-            else:
+            if not self.battleFunc():
                 control.checkDefeated()
                 device.perform('BIK',(500,500,500))
     @logit(logger,logging.INFO)

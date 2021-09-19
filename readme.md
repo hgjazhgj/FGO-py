@@ -84,7 +84,7 @@ ui大概长这样(设计视图仅供参考):
 - 是否在点击关闭按钮时最小化到托盘  
 
 其他可配置项会在进程退出后丢失  
-## 助战 Friends
+## 助战/邮箱筛选/特殊掉落 Friends/MailBox Filter/Special Drop
 你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件  
 **被截图范围都应该可以点击来选中该好友**  
 **截图应对应1920\*1080的游戏画面分辨率**,建议使用UI中的`检查截图`按钮  
@@ -105,16 +105,17 @@ ui大概长这样(设计视图仅供参考):
 ## 在其他系统环境下使用 Use In Other Environments
 理论上讲,你只需要想办法重写fgoFunc.Device类就能用于iOS端;你只需要更改图片模板和fgoCheck.Check类就能用于FGO的其他语言版本;你只需要修改fgoImageListener.DirListener类就能用于其他操作系统,但是可能还存在一些其他手段  
 ### 非16:9屏幕
-这个命令在ui中亦有提供  
+这个命令在ui中亦有提供,请注意你必须要**在未更改分辨率的状态下连接到设备**,如果你已经更改过分辨率,就先执行「恢复原分辨率」,然后连接到设备,再执行「调整为16:9」,别问为什么,问就是airtest傻逼  
+该调整的具体效果是未知的,上述注意事项很可能是错误的或不全面的  
 由于长宽比小于16:9的屏幕的游戏画面上下方仍为蓝边可以如同全面屏适配前一般使用,所以只有长宽比大于16:9的屏幕才需要以下步骤  
 你可以尝试如下指令强制你的手机以16:9显示:
 `adb shell wm size 1080x1920`  
 在fgo中热更改分辨率会有奇怪的布局bug,所以你需要在fgo未处于运行状态时执行这些命令  
-在我的手机(OnePlus 8 Pro和RedMi 8A)上大概是这么个效果,其它系统具体表现如何我也不清楚:  
+在我的手机(OnePlus 8 Pro和RedMi 8A)上大概是这么个效果,**其它系统具体表现如何我也不清楚**:  
 ![16-9](doc/16-9.png)  
 由于这个更改是很快的,fgo的全面屏适配又跟屎一样不如没有,并且你完全可以在关闭fgo后立刻改回来不影响其他应用,你甚至可以在一些手机的模拟终端(如[Termux](https://termux.com/))中执行这个命令而无需连接电脑,所以我暂时不打算写全面屏适配  
 ### 电脑为OSX
-修改fgoImageListener.DirListener为`type('DirListener',(),{'get':lambda self:[]})`  
+修改fgoImageListener.DirListener为`type('DirListener',(),{'get':lambda self:[]})`,删除所有的win32包引用  
 如果你需要动态监控目录更改,就自己写这个类  
 ### 手机为iOS
 思路来源于[BV1Yf4y1A7gG](https://www.bilibili.com/video/BV1Yf4y1A7gG)  
@@ -171,6 +172,15 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/09/19 v7.3.0
+更新:判断战斗结束  
+由于7.2.0中会在回合间点按屏幕,所以现在检测战斗胜利只需要看战利品框  
+更新:specialDrop除了新物品以外还可以是image/dropFilter下的png  
+会对战利品框进行识别,图片制造方式参考助战模板  
+要说掉活动礼装就短信通知什么的我觉得不至于  
+更新:日志保存到文件  
+优化:日志显示算法  
+另:16:9调整的功能有诸多限制,请自行摸索  
 ## 2021/09/18 v7.2.1
 更新:全面屏适配时代的邮箱筛选  
 重新截取了模板图片,算法未变  

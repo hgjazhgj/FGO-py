@@ -21,6 +21,8 @@ assignees: ''
 **期待的行为**  
 
 **截图/日志**  
+> Trobleshooting any problem without the error log is like driving with your eyes closed.  
+> -- Getting Started - Apache HTTP Server
 
 **设备信息**  
 

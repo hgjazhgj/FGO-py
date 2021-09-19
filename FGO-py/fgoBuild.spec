@@ -11,6 +11,7 @@ a = Analysis(['fgoGui.py'],
                  ('fgoImage', 'fgoImage'),
                  ('fgoTeamup.ini', '.'),
                  ('fgoConfig.json', '.'),
+                 ('fgoLogs/.gitkeep', 'fgoLogs'),
                  ('../LICENSE','.'),
                  (HOMEPATH+'/airtest/core/android/static', 'airtest/core/android/static')
              ],
