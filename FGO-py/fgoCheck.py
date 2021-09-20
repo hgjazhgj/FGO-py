@@ -41,15 +41,15 @@ class Check(metaclass=logMeta(logger)):
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1639,951,1865,1061))
     def isBattleContinue(self):return self._compare(IMG.BATTLECONTINUE,(1072,805,1441,895))
     def isBattleDefeated(self):return self._compare(IMG.DEFEATED,(445,456,702,523))
-    def isBattleFinished(self):return self._compare(IMG.DROPITEM,(165,46,515,113))
+    def isBattleFinished(self):return self._compare(IMG.DROPITEM,(165,46,396,113))
     def isChooseFriend(self):return self._compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))
     def isCardSealed(self):return[any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isGacha(self):return self._compare(IMG.GACHA,(973,960,1312,1052))
     def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(that.im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)])(Check(.15)if that is None else that)
-    def isListEnd(self,pos):return any(self._compare(i,(pos[0]-30,pos[1]-20,pos[0]+30,pos[1]+1),.25)for i in(IMG.LISTEND,IMG.LISTNONE))
+    def isListEnd(self,pos):return not self._compare(IMG.LISTBAR,(pos[0]-20,pos[1]-17,pos[0]+20,pos[1]+4),.25)
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,920,1919,1049))
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1220,347,1318,389))
-    def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,1552,797),.1)
+    def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
