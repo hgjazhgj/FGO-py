@@ -27,7 +27,7 @@
 ![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
 Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY.  
 ![Monero](doc/monero.png)  
-如果我在这个项目里公布我的B站账号或许能有些许[大会员每月5B币券](https://account.bilibili.com/account/big/myPackage)充电,但我还是不想跟睿站扯上太多关系,所以大家不如去给[MOONCELL](https://space.bilibili.com/3176666/)或是你们喜欢的其他创作者充电吧!另外不要付费充B币,因为5B币到手只有3.36CNY  
+如果我在这个项目里公布我的B站账号或许能有些许[大会员每月5B币券](https://account.bilibili.com/account/big/myPackage)充电,但我还是不想跟睿站扯上太多关系,所以大家不如去给[MOONCELL](https://space.bilibili.com/3176666/)或是你们喜欢的其他创作者充电吧!另外不要付费充B币,因为5B币到手只有3.36CNY(iOS为1.7CNY)  
 觉得有帮助请为我star,谢谢  
 <table>
   <tr>
@@ -61,7 +61,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 # 使用说明 Instruction
 对于非16:9的屏幕,尝试使用ui中`控制-全面屏适配`菜单选项,详见[非16:9屏幕](#非169屏幕)  
 这个项目的设计初衷是打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境,以达到不浪费羁绊点数和御主礼装经验的目的,**从此不用考虑强度只用考虑xp来抽卡**,在大量90+阴间本的环境下,xjbd能带给你最阳间的体验.尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!**  
-速览脚本功能,运行`fgoGui.pyw`,无需填写任何配置,去冬木大桥刷一根凶骨吧!  
+速览脚本功能,运行`fgoGui.py`,无需填写任何配置,去冬木大桥刷一根凶骨吧!  
 大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 ui大概长这样(设计视图仅供参考):  
 ![ui](doc/ui.png)  
@@ -105,7 +105,7 @@ ui大概长这样(设计视图仅供参考):
 ## 在其他系统环境下使用 Use In Other Environments
 理论上讲,你只需要想办法重写fgoFunc.Device类就能用于iOS端;你只需要更改图片模板和fgoCheck.Check类就能用于FGO的其他语言版本;你只需要修改fgoImageListener.DirListener类就能用于其他操作系统,但是可能还存在一些其他手段  
 ### 非16:9屏幕
-这个命令在ui中亦有提供,请注意你必须要**在未更改分辨率的状态下连接到设备**,如果你已经更改过分辨率,就先执行「恢复原分辨率」,然后连接到设备,再执行「调整为16:9」,别问为什么,问就是airtest傻逼  
+这个命令在ui中亦有提供,请注意你必须要**在未更改分辨率的状态下连接到设备**,如果你已经更改过分辨率,就先执行「恢复原分辨率」,然后重新连接到设备,再执行「调整为16:9」,别问为什么,问就是airtest傻逼  
 该调整的具体效果是未知的,上述注意事项很可能是错误的或不全面的  
 由于长宽比小于16:9的屏幕的游戏画面上下方仍为蓝边可以如同全面屏适配前一般使用,所以只有长宽比大于16:9的屏幕才需要以下步骤  
 你可以尝试如下指令强制你的手机以16:9显示:
@@ -172,6 +172,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/09/20 v7.3.1
+优化:避免任务奖励弹窗影响回合结束判断  
+优化:筛选邮箱时,等领取完毕后再进行下一次领取,避免网络卡顿造成的误领  
+优化:调整了检测列表滚动到底的判断方式  
+优化:缩小了检测没有好友的模板  
 ## 2021/09/19 v7.3.0
 更新:判断战斗结束  
 由于7.2.0中会在回合间点按屏幕,所以现在检测战斗胜利只需要看战利品框  

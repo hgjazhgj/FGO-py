@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.3.0'
+__version__='v7.3.1'
 import logging,re,time,cv2,numpy
 from itertools import permutations
 from fgoAndroid import Android
@@ -47,8 +47,11 @@ def jackpot():
         for _ in range(40):device.press('2')
 def mailFiltering():
     if not mailFilterImg.flush():return
-    while not Check(1).isListEnd((1406,1018)):
-        if not any((lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(i[1],threshold=.016))for i in mailFilterImg.items()):device.swipe((400,900,400,300))
+    while not Check().isListEnd((1406,1018)):
+        while any((lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(i[1],threshold=.016))for i in mailFilterImg.items()):
+            tmp=Check.cache.im[156:186,303:378]
+            while Check()._compare(tmp,(303,156,378,186)):pass
+        device.swipe((400,900,400,300))
 class Battle:
     skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
     houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
