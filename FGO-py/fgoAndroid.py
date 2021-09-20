@@ -21,7 +21,6 @@ class Android(Airtest):
     @property
     def avaliable(self):
         if not self.name:return False
-        # if self.rotation_watcher._t.is_alive():return True # More out-sync
         if self.touch_proxy.server_proc.poll()is None:return True # Only compatible with minitouch & maxtouch
         self.name=None
         return False
