@@ -18,8 +18,8 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.3.1'
-import logging,re,time,cv2,numpy
+__version__='v7.3.2'
+import logging,re,time,numpy
 from itertools import permutations
 from fgoAndroid import Android
 from fgoCheck import Check
@@ -29,8 +29,8 @@ from fgoImageListener import ImageListener
 from fgoLogging import getLogger,logit
 logger=getLogger('Func')
 friendImg=ImageListener('fgoImage/friend/')
-mailFilterImg=ImageListener('fgoImage/mailFilter/')
-dropFilterImg=ImageListener('fgoImage/dropFilter/')
+mailImg=ImageListener('fgoImage/mail/')
+dropImg=ImageListener('fgoImage/drop/')
 class Device(Android):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -46,12 +46,13 @@ def jackpot():
         if Check().isNextJackpot():device.perform('0KJ',(600,2400,500))
         for _ in range(40):device.press('2')
 def mailFiltering():
-    if not mailFilterImg.flush():return
-    while not Check().isListEnd((1406,1018)):
-        while any((lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(i[1],threshold=.016))for i in mailFilterImg.items()):
-            tmp=Check.cache.im[156:186,303:378]
-            while Check()._compare(tmp,(303,156,378,186)):pass
+    if not mailImg.flush():return
+    Check().setupMailDone()
+    while True:
+        while any((lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(i[1],threshold=.016))for i in mailImg.items()):
+            while not Check().isMailDone():pass
         device.swipe((400,900,400,300))
+        if Check().isMailListEnd():break
 class Battle:
     skillInfo=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
     houguInfo=[[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
@@ -67,14 +68,14 @@ class Battle:
             if Check(0,.3).isTurnBegin():
                 self.turn+=1
                 self.stage,self.stageTurn=(lambda x:[x,1+self.stageTurn*(self.stage==x)])(Check(.2).getStage())
-                skill,newPortrait=Check.cache.isSkillReady(),Check.cache.getPortrait()
                 Check.cache.getHP(),Check.cache.getNP()
-                if self.turn==1:self.stageTotal=Check.cache.getStageTotal()
-                else:self.servant=(lambda m,p:[m+p.index(i)+1if i in p else self.servant[i]for i in range(3)])(max(self.servant),[i for i in range(3)if self.servant[i]<6and cv2.matchTemplate(newPortrait[i],portrait[i],cv2.TM_SQDIFF_NORMED)[0][0]>.04])
-                if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Check.cache.getEnemyHP())]+'\xDC',(250,500))
-                portrait=newPortrait
+                if self.turn==1:
+                    Check.cache.setupServantDead()
+                    self.stageTotal=Check.cache.getStageTotal()
+                else:self.servant=(lambda m,p:[m+p.index(i)+1if i in p else self.servant[i]for i in range(3)])(max(self.servant),(lambda dead:[i for i in range(3)if self.servant[i]<6and dead[i]])(Check.cache.isServantDead()))
                 logger.info(f'Turn {self.turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
-                for i,j in((i,j)for i in range(3)if self.servant[i]<6for j in range(3)if skill[i][j]and self.skillInfo[self.orderChange[self.servant[i]]][j][0]and min(self.skillInfo[self.orderChange[self.servant[i]]][j][0],self.stageTotal)<<8|self.skillInfo[self.orderChange[self.servant[i]]][j][1]<=self.stage<<8|self.stageTurn):
+                if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Check.cache.getEnemyHP())]+'\xDC',(250,500))
+                for i,j in(lambda skill:((i,j)for i in range(3)if self.servant[i]<6for j in range(3)if skill[i][j]and self.skillInfo[self.orderChange[self.servant[i]]][j][0]and min(self.skillInfo[self.orderChange[self.servant[i]]][j][0],self.stageTotal)<<8|self.skillInfo[self.orderChange[self.servant[i]]][j][1]<=self.stage<<8|self.stageTurn))(Check.cache.isSkillReady()):
                     device.perform(('ASD','FGH','JKL')[i][j],(300,))
                     if self.skillInfo[self.orderChange[self.servant[i]]][j][2]:device.perform('234'[self.skillInfo[self.orderChange[self.servant[i]]][j][2]-1],(300,))
                     control.sleep(2.3)
@@ -90,7 +91,7 @@ class Battle:
                             self.orderChange[self.masterSkill[2][2]-1],self.orderChange[self.masterSkill[2][3]-1]=self.orderChange[self.masterSkill[2][3]-1],self.orderChange[self.masterSkill[2][2]-1]
                             control.sleep(2.3)
                             while not Check().isTurnBegin():pass
-                            portrait=Check(.5).getPortrait()
+                            Check(.5).setupServantDead()
                             for j in(j for j in range(3)if self.skillInfo[self.masterSkill[2][3]-1][j][0]and min(self.skillInfo[self.masterSkill[2][3]-1][j][0],self.stageTotal)<<8|self.skillInfo[self.masterSkill[2][3]-1][j][1]<=self.stage<<8|self.stageTurn):
                                 device.perform(('ASD','FGH','JKL')[self.servant.index(self.masterSkill[2][2]-1)][j],(300,))
                                 if self.skillInfo[self.masterSkill[2][3]-1][j][2]:device.perform('234'[self.skillInfo[self.masterSkill[2][3]-1][j][2]-1],(300,))
@@ -104,7 +105,7 @@ class Battle:
                 device.perform(self.selectCard(),(270,270,2270,1270,6000))
             elif Check.cache.isBattleFinished():
                 logger.info('Battle Finished')
-                for i in(i for i,j in dropFilterImg.items()if Check.cache.find(j)):
+                for i in(i for i,j in dropImg.items()if Check.cache.find(j)):
                     control.checkSpecialDrop()
                     logger.warning(f'Special drop {i}')
                     Check.cache.save('fgoLogs/SpecialDrop')
@@ -180,7 +181,7 @@ class Main:
                 for i in(i for i,j in friendImg.items()if(lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(j))):
                     Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]=(lambda r:(lambda p:([[Battle.skillInfo[self.friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[Battle.houguInfo[self.friendPos][i]if p[i+9]=='x'else int(p[i+9])for i in range(2)]))(r.group())if r else(Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]))(re.search('[0-9x]{11}$',i))
                     return i
-                if Check.cache.isListEnd((1882,1064)):break
+                if Check.cache.isFriendListEnd():break
                 device.swipe((800,900,800,300))
                 Check(.4)
             if refresh:control.sleep(max(0,timer+10-time.time()))

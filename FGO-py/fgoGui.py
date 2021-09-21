@@ -8,7 +8,7 @@ from fgoMainWindow import Ui_fgoMainWindow
 
 logger=fgoFunc.getLogger('Gui')
 
-NewConfigParser=type('NewConfigParser',(configparser.ConfigParser,),{'__init__':lambda self,file:(configparser.ConfigParser.__init__(self),self.read(file),None)[-1],'optionxform':lambda self,optionstr:optionstr})
+NewConfigParser=type('NewConfigParser',(configparser.ConfigParser,),{'__init__':lambda self,file:(configparser.ConfigParser.__init__(self),self.read(file))[0],'optionxform':lambda self,optionstr:optionstr})
 teamup=NewConfigParser('fgoTeamup.ini')
 # with open('fgoTeamup.json','w') as f:json.dump({i:{a:eval(b)for a,b in dict(j).items()}for i,j in dict(teamup).items()},f,indent=4)
 
