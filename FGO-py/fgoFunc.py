@@ -74,7 +74,7 @@ class Battle:
                     self.stageTotal=Check.cache.getStageTotal()
                 else:self.servant=(lambda m,p:[m+p.index(i)+1if i in p else self.servant[i]for i in range(3)])(max(self.servant),(lambda dead:[i for i in range(3)if self.servant[i]<6and dead[i]])(Check.cache.isServantDead()))
                 logger.info(f'Turn {self.turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
-                if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Check.cache.getEnemyHP())]+'\xDC',(250,500))
+                if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Check.cache.getEnemyHP())]+'\xDC',(500,500))
                 for i,j in(lambda skill:((i,j)for i in range(3)if self.servant[i]<6for j in range(3)if skill[i][j]and self.skillInfo[self.orderChange[self.servant[i]]][j][0]and min(self.skillInfo[self.orderChange[self.servant[i]]][j][0],self.stageTotal)<<8|self.skillInfo[self.orderChange[self.servant[i]]][j][1]<=self.stage<<8|self.stageTurn))(Check.cache.isSkillReady()):
                     device.perform(('ASD','FGH','JKL')[i][j],(300,))
                     if self.skillInfo[self.orderChange[self.servant[i]]][j][2]:device.perform('234'[self.skillInfo[self.orderChange[self.servant[i]]][j][2]-1],(300,))
@@ -105,15 +105,10 @@ class Battle:
                 device.perform(self.selectCard(),(270,270,2270,1270,6000))
             elif Check.cache.isBattleFinished():
                 logger.info('Battle Finished')
-                for i in(i for i,j in dropImg.items()if Check.cache.find(j)):
-                    control.checkSpecialDrop()
-                    logger.warning(f'Special drop {i}')
-                    Check.cache.save('fgoLogs/SpecialDrop')
-                    break
-                return True
+                return self.turn
             elif Check.cache.isBattleDefeated():
                 logger.warning('Battle Defeated')
-                return False
+                return 0
             device.press('\xDC')
     @logit(logger,logging.INFO)
     def selectCard(self):return''.join((lambda hougu,sealed,color,resist:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(4.8*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(5.*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5))))])(Check.cache.getCardGroup()))([self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)for i,j in enumerate(Check().isHouguReady())],Check.cache.isCardSealed(),Check.cache.getCardColor(),Check.cache.getCardResist()))
@@ -154,6 +149,12 @@ class Main:
                     logger.warning('Special drop')
                     Check.cache.save('fgoLogs/SpecialDrop')
                     device.press('\x67')
+                elif Check.cache.isBattleFinished():
+                    for i in(i for i,j in dropImg.items()if Check.cache.find(j)):
+                        control.checkSpecialDrop()
+                        logger.warning(f'Special drop {i}')
+                        Check.cache.save('fgoLogs/SpecialDrop')
+                        break
                 device.press(' ')
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
