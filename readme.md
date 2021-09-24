@@ -50,6 +50,7 @@ Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4Q
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 仅适用于命运-冠位指定安卓简体中文版本,仅能运行在Windows操作系统上,iOS等请看[在其他系统环境下使用](#在其他系统环境下使用-Use-in-Other-Environments)  
+2021年9月24日,本人的原神自动钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不安全的,为此,本人先建立了一个QQ群,群号932481680,作为一个备用的手段,其他事项日后再议  
 # 警告 Warning
 ***
 [<<哔哩哔哩游戏平台用户协议>>](https://yhxy.biligame.com/)第11条第2款规定:  
@@ -85,12 +86,12 @@ ui大概长这样(设计视图仅供参考):
 
 其他可配置项会在进程退出后丢失  
 ## 助战/邮箱筛选/特殊掉落 Friends/MailBox Filter/Special Drop
-你需要事先将你期望的各种助战的样子截图为png放在image/friend下,参照image/friend/unused中的文件  
+你需要事先将你期望的各种助战的样子截图为png放在fgoImage/friend下,参照fgoImage/friend/unused中的文件  
 **被截图范围都应该可以点击来选中该好友**  
 **截图应对应1920\*1080的游戏画面分辨率**,建议使用UI中的`检查截图`按钮  
-如果image/friend目录下没有png文件,就选取好友列表中的第一个  
+如果fgoImage/friend目录下没有png文件,就选取好友列表中的第一个  
 助战截图的文件名若以包含技能和宝具信息的11个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo中的设置  
-你在image/friend目录下的所有更改会在下一次选取助战时自动应用  
+你在fgoImage/friend目录下的所有更改会在下一次选取助战时自动应用  
 ## 连接到设备 Connect Your Device
 如果你使用数据线将手机连接到电脑,那么你的手机自然会出现在设备列表中  
 如果没有,请参阅[Google的adb文档](https://developer.android.com/studio/command-line/adb?hl=zh-cn)和/或[airtest文档的设备连接部分](https://airtest.readthedocs.io/zh_CN/latest/wiki/device/device.html)  
@@ -189,7 +190,7 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 ## 2021/09/19 v7.3.0
 更新:判断战斗结束  
 由于7.2.0中会在回合间点按屏幕,所以现在检测战斗胜利只需要看战利品框  
-更新:specialDrop除了新物品以外还可以是image/dropFilter下的png  
+更新:specialDrop除了新物品以外还可以是fgoImage/dropFilter下的png  
 会对战利品框进行识别,图片制造方式参考助战模板  
 要说掉活动礼装就短信通知什么的我觉得不至于  
 更新:日志保存到文件  
