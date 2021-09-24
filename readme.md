@@ -1,6 +1,4 @@
-> 问:什么是「全面屏适配」?  
-> 答:让游戏画面*适应*脚本,而不是让脚本*迁就*游戏画面  
-> なんと強欲な発言!  
+> **2021年9月24日,本人的原神自动钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个备用的手段,其他事项日后再议**  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -8,6 +6,7 @@
 > 要成为超人的存在才行啊  
 > 所以啊,我不做人啦!JOJO!  
 # 「智能战斗不间断,不靠礼装不用拐」的Fate/Grand Order全自动脚本
+
 ![svg](https://img.shields.io/badge/bgo-FGO简中服安卓玩家-225799.svg)
 ![svg](https://img.shields.io/badge/梆梆人-BanGDream玩家-ff3b72.svg)
 ![svg](https://img.shields.io/badge/旅店老板-炉石传说玩家-daa520.svg)
@@ -50,7 +49,6 @@ Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4Q
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 仅适用于命运-冠位指定安卓简体中文版本,仅能运行在Windows操作系统上,iOS等请看[在其他系统环境下使用](#在其他系统环境下使用-Use-in-Other-Environments)  
-2021年9月24日,本人的原神自动钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不安全的,为此,本人先建立了一个QQ群,群号932481680,作为一个备用的手段,其他事项日后再议  
 # 警告 Warning
 ***
 [<<哔哩哔哩游戏平台用户协议>>](https://yhxy.biligame.com/)第11条第2款规定:  
@@ -162,6 +160,7 @@ ui大概长这样(设计视图仅供参考):
 ![img](doc/contact.png)  
 在占用我的时间之前,先耗费自己的时间  
 Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
+**2021年9月24日,本人的原神自动钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个备用的手段,其他事项日后再议**  
 发现**最新稳定commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
 qq 979449732(个人账号,加好友请注明是来问*FGO-py*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
