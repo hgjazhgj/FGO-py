@@ -209,7 +209,7 @@ FGO全自动脚本
   <tr><td>作者</td><td>hgjazhgj</td></tr>
   <tr><td>项目地址</td><td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td></tr>
   <tr><td>电子邮箱</td><td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td></tr>
-  <tr><td>QQ群</td><td>932481680</td></tr>
+  <tr><td>QQ群</td><td><a href="https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa">932481680</a></td></tr>
 </table>
 <!-- 都看到这里了真的不考虑资瓷一下吗... -->
 这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>/<font color="#C50000">数字人民币</font>收款码,请给我打钱<br/>
