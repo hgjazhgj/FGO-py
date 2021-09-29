@@ -1,4 +1,4 @@
-> **2021年9月24日,本人的原神钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个FGO-py的备用发布手段,其他事项日后再议**  
+> **2021年9月24日,本人的原神钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号见后,作为一个FGO-py的备用发布手段,其他事项日后再议**  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -157,11 +157,11 @@ ui大概长这样(设计视图仅供参考):
 >
 > -- [Alas](https://github.com/LmeSzinc/AzurLaneAutoScript)-dev 群公告  
 
-![img](doc/contact.png)  
+![img](doc/contact.png)![QQ](doc/QQ.png)  
 在占用我的时间之前,先耗费自己的时间  
 Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
-**2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个备用的手段,其他事项日后再议**  
-![QQ](doc/QQ.png)  
+**2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个FGO-py的备用手段,其他事项日后再议**  
+近日已有些许人加群,尽管我已经写明了「自然语言」,但大部分人都未能正确回答问题,在此提示:答案不是77272085000313  
 发现**最新稳定commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
 qq 979449732(个人账号,加好友请注明是来问*FGO-py*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
