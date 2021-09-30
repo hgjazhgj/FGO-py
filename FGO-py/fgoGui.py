@@ -154,6 +154,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             except Exception as e:return logger.exception(e)
         fgoFunc.device=fgoFunc.Device(text.replace(' ',''))
         self.LBL_DEVICE.setText(fgoFunc.device.name)
+        self.MENU_CONTROL_MAPKEY.setChecked(False)
     def runBattle(self):self.runFunc(fgoFunc.Battle())
     def runUserScript(self):self.runFunc(fgoFunc.userScript)
     def runMain(self):
