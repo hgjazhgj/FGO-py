@@ -1,4 +1,4 @@
-> **2021年9月24日,本人的原神钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号见后,作为一个FGO-py的备用发布手段,其他事项日后再议**  
+> 国庆快乐...吗?我并不快乐,我的心中只有感恩  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -62,7 +62,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 这个项目的设计初衷是打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境,以达到不浪费羁绊点数和御主礼装经验的目的,**从此不用考虑强度只用考虑xp来抽卡**,在大量90+阴间本的环境下,xjbd能带给你最阳间的体验.尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!比如[FGA](https://github.com/Fate-Grand-Automata/FGA)**  
 速览程序功能,运行`fgoGui.py`,无需填写任何配置,去冬木大桥刷一根凶骨吧!  
 大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
-ui大概长这样(设计视图仅供参考):  
+ui大概长这样:  
 ![ui](doc/ui.png)  
 这个程序能识别技能和宝具是否可以使用,指令卡颜色和克制关系,无法行动及指令卡封印状态,可以半路接管战斗,会依据你的设置比较智能地帮你筛选助战,放技能,放宝具,吃苹果,依据特殊的选卡算法选卡,合理设定后可以无脑通过绝大部分非高难关卡,实战7-12回合能够刷完无限池终本  
 除战斗功能外,还提供以下功能:抽友情池,抽无限池,领邮箱狗粮  
@@ -160,8 +160,7 @@ ui大概长这样(设计视图仅供参考):
 ![img](doc/contact.png)![QQ](doc/QQ.png)  
 在占用我的时间之前,先耗费自己的时间  
 Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
-**2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个FGO-py的备用手段,其他事项日后再议**  
-近日已有些许人加群,尽管我已经写明了「自然语言」,但大部分人都未能正确回答问题,在此提示:答案不是77272085000313  
+**2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个FGO-py的备用手段,其他事项日后再议.**近日已有些许人加群,尽管我已写明「自然语言」,但大部分人都未能正确回答问题,故提示:答案不是77272085000313  
 发现**最新稳定commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
 qq 979449732(个人账号,加好友请注明是来问*FGO-py*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
@@ -175,6 +174,15 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/09/30 v7.3.4
+[我8月24日给airtest提的issue](https://github.com/AirtestProject/Airtest/issues/960)终于在9月30日给出了一个修复,一看release,好家伙,这一个版本就为修我这一个issue,然后仔细看对应的commit吧,还真就用我说的wm size来获取分辨率了!请大家把排面打在discussion里!  
+其实吧,这样的改动并说不上完全正确,比如本项目的16:9适配会强行更改手机分辨率,此时wm size第一行为原始分辨率,第二行为调整过后的分辨率,此时getPhysicalInfo只拿了第一行,到此为止都是正确的,这些数据也能使功能正确运转,但是get_current_resolution就是调用的getPhysicalInfo,也就是说这个接口返回的数据或许可以说是「名不副实」的,当然我现在使用的get_render_resolution是没问题的,希望airtest别哪天脑抽了把这些东西给破坏了  
+其实这些接口一开始就摆在那里,期望实现的功能都没变过,只不过有那么一点「小小的」bug  
+我觉得让用户通过版本限制来规避bug是不合适的,所以移除了requirements中的版本限制  
+此外,我移回了自动打包的yml,具体是否启用还在思考,反正摆一个在那里呢就谁都能看着来打包了  
+优化:按键映射随设备切换关闭  
+避免打开按键映射后切换设备而触摸方法未初始化导致无效输入  
+其实还是应该放弃这个懒加载,毕竟触摸初始化强行点击一个(0,0)不是什么好事  
 ## 2021/09/25
 经过一晚上的复盘,我认为原神钓鱼项目被删除的原因是我写了英文的readme而被分析了,据此,本人对本readme中的一些词语进行了替换  
 ## 2021/09/21 v7.3.2

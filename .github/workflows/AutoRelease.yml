@@ -1,0 +1,38 @@
+name: Auto Release On New Tag
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    name: Auto Release On New Tag
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install wheel
+          pip install pyinstaller
+          pip install -r requirements.txt
+      - name: Build
+        run: pyinstaller FGO-py/fgoBuild.spec
+      - name: Compress
+        run: |
+          cd dist
+          7z a ../FGO-py.zip
+          7z a ../FGO-py.7z -mx9
+          tar -cvzf ../FGO-py.tar.gz *
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          prerelease: false
+          files: |
+            FGO-py.zip
+            FGO-py.7z
+            FGO-py.tar.gz
