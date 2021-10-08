@@ -160,7 +160,7 @@ ui大概长这样:
 ![img](doc/contact.png)![QQ](doc/QQ.png)  
 在占用我的时间之前,先耗费自己的时间  
 Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
-**2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个FGO-py的备用手段,其他事项日后再议.**近日已有些许人加群,尽管我已写明「自然语言」,但大部分人都未能正确回答问题,故提示:答案不是77272085000313  
+**2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个FGO-py的备用发布手段,其他事项日后再议.** 近日已有些许人加群,尽管我已写明「自然语言」,但大部分人都未能正确入群回答问题,故提示:答案不是77272085000313  
 发现**最新稳定commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
 qq 979449732(个人账号,加好友请注明是来问*FGO-py*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
@@ -171,9 +171,14 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 这是无奈之举,卖的是本人的时间和精力,而用到知识和经验的解决具体问题另算,更详细的说明会在收费前给出,我发誓我一定会收费  
 *什么?你想反馈项目本身的问题?那为什么不发issue?*  
 建议您仔细阅读本readme以及ui中的说明,并尝试使用除百度以外的搜索引擎来解决您的问题,以免给您带来不必要的损失  
-如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被挂在[奇人共赏](doc/奇人共赏.md)上  
+如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被倒在[垃圾场](doc/垃圾场.md)里  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/10/08 v7.4.0
+恢复了自动打包  
+新增:刷新编队信息  
+更改编队文件后可以直接刷新不用重启脚本  
+同时扩大了编队下拉列表最大大小  
 ## 2021/09/30 v7.3.4
 [我8月24日给airtest提的issue](https://github.com/AirtestProject/Airtest/issues/960)终于在9月30日给出了一个修复,一看release,好家伙,这一个版本就为修我这一个issue,然后仔细看对应的commit吧,还真就用我说的wm size来获取分辨率了!请大家把排面打在discussion里!  
 其实吧,这样的改动并说不上完全正确,比如本项目的16:9适配会强行更改手机分辨率,此时wm size第一行为原始分辨率,第二行为调整过后的分辨率,此时getPhysicalInfo只拿了第一行,到此为止都是正确的,这些数据也能使功能正确运转,但是get_current_resolution就是调用的getPhysicalInfo,也就是说这个接口返回的数据或许可以说是「名不副实」的,当然我现在使用的get_render_resolution是没问题的,希望airtest别哪天脑抽了把这些东西给破坏了  
@@ -527,8 +532,6 @@ ui优化
 近期收到了多起不同设备上的兼容性问题反馈且暂未发现问题,需要更多样本  
 ## 2020/10/02 v4.6.1
 新增:狗粮筛选器  
-看起来没几行代码却磨了我一个下午一个晚上,有点玄学调参的意思了...  
-1.9%匹配失败1.5%匹配成功,这太精细了,搞不好换一台机器就不一样  
 在image/mailfilter目录下有要被筛选的图片模板,领取银狗粮和不多于2个的金狗粮  
 基于归一化模板匹配的特性,这些模板最好拥有接近的大小,并且特征所在的部位要有一定的比例  
 如果你大幅更改了这些模板,很可能需要重新调教参数  

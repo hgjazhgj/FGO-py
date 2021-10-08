@@ -3,9 +3,6 @@
  <author>hgjazhgj</author>
  <class>fgoMainWindow</class>
  <widget class="QMainWindow" name="fgoMainWindow">
-  <property name="focusPolicy">
-   <enum>Qt::StrongFocus</enum>
-  </property>
   <property name="windowTitle">
    <string>FGO-py - hgjazhgj</string>
   </property>
@@ -26,6 +23,9 @@
         </property>
         <property name="statusTip">
          <string>选取编队,若需新建或删除请直接更改teamup文件</string>
+        </property>
+        <property name="maxVisibleItems">
+         <number>17</number>
         </property>
        </widget>
       </item>
@@ -3106,6 +3106,7 @@
     </widget>
     <addaction name="MENU_CONTROL_STAYONTOP"/>
     <addaction name="MENU_CONTROL_TRAY"/>
+    <addaction name="MENU_CONTROL_RELOADTEAMUP"/>
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_MAPKEY"/>
     <addaction name="MENU_CONTROL_169"/>
@@ -3214,6 +3215,11 @@
   <action name="MENU_CONTROL_169_REVOKE">
    <property name="text">
     <string>恢复原分辨率</string>
+   </property>
+  </action>
+  <action name="MENU_CONTROL_RELOADTEAMUP">
+   <property name="text">
+    <string>重新载入编队</string>
    </property>
   </action>
  </widget>
@@ -3474,6 +3480,12 @@
    <receiver>fgoMainWindow</receiver>
    <slot>revoke169()</slot>
   </connection>
+  <connection>
+   <sender>MENU_CONTROL_RELOADTEAMUP</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>reloadTeamup()</slot>
+  </connection>
  </connections>
  <slots>
   <slot>runBattle()</slot>
@@ -3502,6 +3514,7 @@
   <slot>closeToTray(bool)</slot>
   <slot>invoke169()</slot>
   <slot>revoke169()</slot>
+  <slot>reloadTeamup()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="BTG_FRIEND"/>
