@@ -9,8 +9,6 @@ from fgoMainWindow import Ui_fgoMainWindow
 logger=fgoFunc.getLogger('Gui')
 
 NewConfigParser=type('NewConfigParser',(configparser.ConfigParser,),{'__init__':lambda self,file:(configparser.ConfigParser.__init__(self),self.read(file))[0],'optionxform':lambda self,optionstr:optionstr})
-teamup=NewConfigParser('fgoTeamup.ini')
-# with open('fgoTeamup.json','w') as f:json.dump({i:{a:eval(b)for a,b in dict(j).items()}for i,j in dict(teamup).items()},f,indent=4)
 
 class Config:
     def __init__(self,link=None):
@@ -43,10 +41,8 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_TRAY.addAction(self.MENU_TRAY_FORCEQUIT)
         self.TRAY.setContextMenu(self.MENU_TRAY)
         self.TRAY.show()
-        self.CBX_TEAM.addItems(teamup.sections())
-        self.CBX_TEAM.setCurrentIndex(-1)
         self.TXT_TEAM.setValidator(QRegularExpressionValidator(QRegularExpression('10|[0-9]'),self))
-        self.loadTeam('DEFAULT')
+        self.reloadTeamup()
         self.config=Config({
             'stopOnDefeated':(self.MENU_SETTINGS_DEFEATED,fgoFunc.control.stopOnDefeated),
             'stopOnSpecialDrop':(self.MENU_SETTINGS_SPECIALDROP,fgoFunc.control.stopOnSpecialDrop),
@@ -125,20 +121,20 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.TXT_APPLE.setValue(0)
         self.TRAY.showMessage('FGO-py',*msg)
     def loadTeam(self,teamName):
-        self.TXT_TEAM.setText(teamup[teamName]['teamIndex'])
-        getattr(self,f'RBT_FRIEND_{teamup[teamName]["friendPos"]}').setChecked(True)
-        (lambda skillInfo:[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').setText(str(skillInfo[i][j][k]))for i in range(6)for j in range(3)for k in range(3)])(eval(teamup[teamName]['skillInfo']))
-        (lambda houguInfo:[getattr(self,f'TXT_HOUGU_{i}_{j}').setText(str(houguInfo[i][j]))for i in range(6)for j in range(2)])(eval(teamup[teamName]['houguInfo']))
-        (lambda masterSkill:[getattr(self,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i][j]))for i in range(3)for j in range(3+(i==2))])(eval(teamup[teamName]['masterSkill']))
+        self.TXT_TEAM.setText(self.teamup[teamName]['teamIndex'])
+        getattr(self,f'RBT_FRIEND_{self.teamup[teamName]["friendPos"]}').setChecked(True)
+        (lambda skillInfo:[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').setText(str(skillInfo[i][j][k]))for i in range(6)for j in range(3)for k in range(3)])(eval(self.teamup[teamName]['skillInfo']))
+        (lambda houguInfo:[getattr(self,f'TXT_HOUGU_{i}_{j}').setText(str(houguInfo[i][j]))for i in range(6)for j in range(2)])(eval(self.teamup[teamName]['houguInfo']))
+        (lambda masterSkill:[getattr(self,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i][j]))for i in range(3)for j in range(3+(i==2))])(eval(self.teamup[teamName]['masterSkill']))
     def saveTeam(self):
         if not self.CBX_TEAM.currentText():return
-        teamup[self.CBX_TEAM.currentText()]={
+        self.teamup[self.CBX_TEAM.currentText()]={
             'teamIndex':self.TXT_TEAM.text(),
             'friendPos':self.BTG_FRIEND.checkedButton().objectName()[-1],
             'skillInfo':str([[[int(getattr(self,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
             'houguInfo':str([[int(getattr(self,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]).replace(' ',''),
             'masterSkill':str([[int(getattr(self,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]).replace(' ','')}
-        with open('fgoTeamup.ini','w')as f:teamup.write(f)
+        with open('fgoTeamup.ini','w')as f:self.teamup.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
         text,ok=(lambda l:QInputDialog.getItem(self,'FGO-py','在下拉列表中选择一个设备',l,l.index(fgoFunc.device.name)if fgoFunc.device.name and fgoFunc.device.name in l else 0,True,Qt.WindowType.WindowStaysOnTopHint))(fgoFunc.Device.enumDevices())
@@ -190,6 +186,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.config['stayOnTop']=x
         self.show()
     def closeToTray(self,x):self.config['closeToTray']=x
+    def reloadTeamup(self):
+        self.teamup=NewConfigParser('fgoTeamup.ini')
+        self.CBX_TEAM.clear()
+        self.CBX_TEAM.addItems(self.teamup.sections())
+        self.CBX_TEAM.setCurrentIndex(-1)
+        self.loadTeam('DEFAULT')
     def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvaliable())
     def invoke169(self):
         if not self.isDeviceAvaliable():return
