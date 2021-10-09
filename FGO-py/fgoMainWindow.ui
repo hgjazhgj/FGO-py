@@ -137,19 +137,6 @@
         <item row="0" column="1">
          <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_0">
           <item>
-           <widget class="QRadioButton" name="RBT_FRIEND_0">
-            <property name="statusTip">
-             <string>助战的位置,助战的技能设置或被覆盖</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">BTG_FRIEND</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
            <widget class="QLineEdit" name="TXT_SKILL_0_0_0">
             <property name="minimumSize">
              <size>
@@ -531,19 +518,6 @@
         </item>
         <item row="1" column="1">
          <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_1">
-          <item>
-           <widget class="QRadioButton" name="RBT_FRIEND_1">
-            <property name="statusTip">
-             <string>助战的位置,助战的技能设置或被覆盖</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">BTG_FRIEND</string>
-            </attribute>
-           </widget>
-          </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_1_0_0">
             <property name="minimumSize">
@@ -927,19 +901,6 @@
         <item row="2" column="1">
          <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_2">
           <item>
-           <widget class="QRadioButton" name="RBT_FRIEND_2">
-            <property name="statusTip">
-             <string>助战的位置,助战的技能设置或被覆盖</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">BTG_FRIEND</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
            <widget class="QLineEdit" name="TXT_SKILL_2_0_0">
             <property name="minimumSize">
              <size>
@@ -1321,19 +1282,6 @@
         </item>
         <item row="3" column="1">
          <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_3">
-          <item>
-           <widget class="QRadioButton" name="RBT_FRIEND_3">
-            <property name="statusTip">
-             <string>助战的位置,助战的技能设置或被覆盖</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">BTG_FRIEND</string>
-            </attribute>
-           </widget>
-          </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_3_0_0">
             <property name="minimumSize">
@@ -1717,25 +1665,6 @@
         <item row="4" column="1">
          <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_4">
           <item>
-           <widget class="QRadioButton" name="RBT_FRIEND_4">
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="statusTip">
-             <string>助战的位置,助战的技能设置或被覆盖</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">BTG_FRIEND</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
            <widget class="QLineEdit" name="TXT_SKILL_4_0_0">
             <property name="minimumSize">
              <size>
@@ -2117,19 +2046,6 @@
         </item>
         <item row="5" column="1">
          <layout class="QHBoxLayout" name="LAYOUT_INFO_TEAM_5">
-          <item>
-           <widget class="QRadioButton" name="RBT_FRIEND_5">
-            <property name="statusTip">
-             <string>助战的位置,助战的技能设置或被覆盖</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">BTG_FRIEND</string>
-            </attribute>
-           </widget>
-          </item>
           <item>
            <widget class="QLineEdit" name="TXT_SKILL_5_0_0">
             <property name="minimumSize">
@@ -3228,12 +3144,6 @@
   <tabstop>TXT_TEAM</tabstop>
   <tabstop>BTN_TEAMSAVE</tabstop>
   <tabstop>BTN_TEAMRESET</tabstop>
-  <tabstop>RBT_FRIEND_0</tabstop>
-  <tabstop>RBT_FRIEND_1</tabstop>
-  <tabstop>RBT_FRIEND_2</tabstop>
-  <tabstop>RBT_FRIEND_3</tabstop>
-  <tabstop>RBT_FRIEND_4</tabstop>
-  <tabstop>RBT_FRIEND_5</tabstop>
   <tabstop>TXT_SKILL_0_0_0</tabstop>
   <tabstop>TXT_SKILL_0_0_1</tabstop>
   <tabstop>TXT_SKILL_0_0_2</tabstop>
@@ -3312,9 +3222,9 @@
   <tabstop>TXT_MASTER_2_3</tabstop>
   <tabstop>CBX_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>
+  <tabstop>BTN_GETDEVICE</tabstop>
   <tabstop>BTN_ONEBATTLE</tabstop>
   <tabstop>BTN_USER</tabstop>
-  <tabstop>BTN_GETDEVICE</tabstop>
   <tabstop>BTN_MAIN</tabstop>
   <tabstop>BTN_STOP</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
@@ -3516,7 +3426,4 @@
   <slot>revoke169()</slot>
   <slot>reloadTeamup()</slot>
  </slots>
- <buttongroups>
-  <buttongroup name="BTG_FRIEND"/>
- </buttongroups>
 </ui>
