@@ -122,7 +122,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.TRAY.showMessage('FGO-py',*msg)
     def loadTeam(self,teamName):
         self.TXT_TEAM.setText(self.teamup[teamName]['teamIndex'])
-        getattr(self,f'RBT_FRIEND_{self.teamup[teamName]["friendPos"]}').setChecked(True)
         (lambda skillInfo:[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').setText(str(skillInfo[i][j][k]))for i in range(6)for j in range(3)for k in range(3)])(eval(self.teamup[teamName]['skillInfo']))
         (lambda houguInfo:[getattr(self,f'TXT_HOUGU_{i}_{j}').setText(str(houguInfo[i][j]))for i in range(6)for j in range(2)])(eval(self.teamup[teamName]['houguInfo']))
         (lambda masterSkill:[getattr(self,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i][j]))for i in range(3)for j in range(3+(i==2))])(eval(self.teamup[teamName]['masterSkill']))
@@ -130,7 +129,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         if not self.CBX_TEAM.currentText():return
         self.teamup[self.CBX_TEAM.currentText()]={
             'teamIndex':self.TXT_TEAM.text(),
-            'friendPos':self.BTG_FRIEND.checkedButton().objectName()[-1],
             'skillInfo':str([[[int(getattr(self,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
             'houguInfo':str([[int(getattr(self,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]).replace(' ',''),
             'masterSkill':str([[int(getattr(self,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]).replace(' ','')}
@@ -172,7 +170,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         except Exception as e:logger.exception(e)
     def applyAll(self):
         fgoFunc.Main.teamIndex=int(self.TXT_TEAM.text())
-        fgoFunc.Main.friendPos=int(self.BTG_FRIEND.checkedButton().objectName()[-1])
         fgoFunc.Battle.skillInfo=[[[int(getattr(self,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]
         fgoFunc.Battle.houguInfo=[[int(getattr(self,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]
         fgoFunc.Battle.masterSkill=[[int(getattr(self,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]

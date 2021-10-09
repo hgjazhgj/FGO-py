@@ -174,6 +174,12 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被倒在[垃圾场](doc/垃圾场.md)里  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/10/09 v7.4.1
+bug修复:在选取了与编队中成员完全相同的助战时正确判定死亡  
+助战的头上会带一个「+助战」的标签,由此判定.这个标签也可能写的是「+临时加入」,但是临时加入的从者不会是助战,助战的头上一定写着助战,一个队伍中不会出现同一个正式加入和临时加入的队员,故无需判定  
+更新:自动识别助战位置  
+移除了助战位置的配置信息,这导致在通过继续战斗进入战斗时会使用本次程序运行以来上一次从关卡列表进入战斗时获取的助战位置,可能会有数据一致性问题  
+新增了卑弥呼的助战模板  
 ## 2021/10/08 v7.4.0
 恢复了自动打包  
 新增:刷新编队信息  

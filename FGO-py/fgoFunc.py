@@ -128,9 +128,11 @@ class Main:
                     control.checkTerminateLater()
                     device.press('8')
                     if Check(.7,.3).isApEmpty()and not self.eatApple():return
-                    self.chooseFriend()
+                    friend=self.chooseFriend()
                     while not Check().isBattleBegin():pass
-                    if self.teamIndex and Check.cache.getTeamIndex()!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,400))
+                    Main.friendPos=Check.cache.getFriendPos()
+                    self.applyFriend(friend)
+                    if self.teamIndex and Check.cache.getTeamIndex()+1!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,400))
                     device.perform(' 8M',(800,800,10000))
                     break
                 elif Check.cache.isBattleContinue():
@@ -140,7 +142,7 @@ class Main:
                         raise
                     device.press('K')
                     if Check(.7,.3).isApEmpty()and not self.eatApple():return
-                    self.chooseFriend()
+                    self.applyFriend(self.chooseFriend())
                     control.sleep(6)
                     break
                 elif Check.cache.isAddFriend():device.press('X')
@@ -180,7 +182,6 @@ class Main:
             timer=time.time()
             while True:
                 for i in(i for i,j in friendImg.items()if(lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(j))):
-                    Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]=(lambda r:(lambda p:([[Battle.skillInfo[self.friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[Battle.houguInfo[self.friendPos][i]if p[i+9]=='x'else int(p[i+9])for i in range(2)]))(r.group())if r else(Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]))(re.search('[0-9x]{11}$',i))
                     return i
                 if Check.cache.isFriendListEnd():break
                 device.swipe((800,900,800,300))
@@ -192,6 +193,7 @@ class Main:
                 if Check.cache.isNoFriend():
                     control.sleep(10)
                     device.perform('\xBAK',(500,1000))
+    def applyFriend(self,friend):Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]=(lambda r:(lambda p:([[Battle.skillInfo[self.friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[Battle.houguInfo[self.friendPos][i]if p[i+9]=='x'else int(p[i+9])for i in range(2)]))(r.group())if r else(Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]))(re.search('[0-9x]{11}$',friend)if friend else None)
 def userScript():
     # BX WCBA 极地用迦勒底制服
     while not Check(0,.2).isTurnBegin():pass
