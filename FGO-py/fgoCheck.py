@@ -1,5 +1,4 @@
 import os,time,cv2,numpy
-from types import new_class
 from functools import reduce,wraps
 from fgoControl import control
 from fgoFuse import fuse
@@ -33,26 +32,38 @@ class Check(metaclass=logMeta(logger)):
         Check.cache=self
         fuse.increase()
         control.sleep(backwardLagency)
-    def _compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED))[0]and fuse.reset(self)
-    def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],i,cv2.TM_SQDIFF_NORMED))[0]for i in img])
+    def _clip(self,rect):return self.im[rect[1]:rect[3],rect[0]:rect[2]]
+    def _loc(self,img,rect=(0,0,1920,1080)):return cv2.minMaxLoc(cv2.matchTemplate(self._clip(rect),img,cv2.TM_SQDIFF_NORMED))
+    def _compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>self._loc(img,rect)[0]and fuse.reset(self)
+    def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
     def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR,numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0and(hierarchy[0][i][2]==-1or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self.im[rect[1]:rect[3],rect[0]:rect[2]],cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     @startIter
-    def _iter(self,rect,threshold=.05):
-        img=self.im[rect[1]:rect[3],rect[0]:rect[2]]
+    def _iterChange(self,rect,threshold=.05):
+        img=self._clip(rect)
         check=yield None
         while True:
-            tmp=check.im[rect[1]:rect[3],rect[0]:rect[2]]
+            tmp=check._clip(rect)
             check=yield threshold<cv2.matchTemplate(img,tmp,cv2.TM_SQDIFF_NORMED)[0][0]and fuse.reset(check)
             img=tmp
+    @startIter
+    def _iterCompare(self,img,rect,threshold=.05):
+        result=self._compare(img,rect,threshold)
+        check=yield None
+        while True:
+            tmp=check._compare(img,rect,threshold)
+            check=yield result^tmp
+            result=tmp
     def _isListEnd(self,pos):return not self._compare(IMG.LISTBAR,(pos[0]-20,pos[1]-17,pos[0]+20,pos[1]+4),.25)
     def save(self,name='Capture'):cv2.imwrite(time.strftime(f'{name}_%Y-%m-%d_%H.%M.%S.png'),self.im)
     def show(self):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
-    def find(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(cv2.minMaxLoc(cv2.matchTemplate(self.im[rect[1]:rect[3],rect[0]:rect[2]],img,cv2.TM_SQDIFF_NORMED)))
-    def setupMailDone(self):Check._iterMailDone=self._iter((303,156,378,186))
-    def setupServantDead(self):Check._iterServantDead=[self._iter((195+480*i,640,296+480*i,740))for i in range(3)]
+    def find(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
+    def setupMailDone(self):Check._iterMailDone=self._iterChange((303,156,378,186))
+    def setupServantDead(self):
+        Check._iterServantFace=[self._iterChange((195+480*i,640,296+480*i,740))for i in range(3)]
+        Check._iterServantFriend=[self._iterCompare(IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
     def isAddFriend(self):return self._compare(IMG.END,(243,863,745,982))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1639,951,1865,1061))
@@ -69,7 +80,7 @@ class Check(metaclass=logMeta(logger)):
     def isMailListEnd(self):return self._isListEnd((1406,1018))
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1220,347,1318,389))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
-    def isServantDead(self):return[self._iterServantDead[i].send(self)for i in range(3)]
+    def isServantDead(self):return[self._iterServantFace[i].send(self)or self._iterServantFriend[i].send(self)for i in range(3)]
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
@@ -79,7 +90,7 @@ class Check(metaclass=logMeta(logger)):
         result=[-1]*5
         index=0
         while universe:
-            group=(lambda item:{item}|{i for i in universe if cv2.minMaxLoc(cv2.matchTemplate(self.im[660:737,160+386*item:225+386*item],self.im[690:707,170+386*i:215+386*i],cv2.TM_SQDIFF_NORMED))[0]<.01})(universe.pop())
+            group=(lambda item:{item}|{i for i in universe if self._loc(self._clip((170+386*i,690,215+386*i,707)),(160+386*item,660,225+386*item,737))[0]<.01})(universe.pop())
             for i in group:result[i]=index
             index+=1
             universe-=group
@@ -88,12 +99,12 @@ class Check(metaclass=logMeta(logger)):
     def getEnemyHP(self):return[self._ocr((150+375*i,61,332+375*i,97))for i in range(3)]
     def getHP(self):return[self._ocr((300+476*i,930,439+476*i,965))for i in range(3)]
     def getNP(self):return[self._ocr((330+476*i,983,411+476*i,1020))for i in range(3)]
-    def getPortrait(self):return[self.im[640:740,195+480*i:296+480*i]for i in range(3)]
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1326,20,1372,56),.5)+1
     @retryOnError()
     def getStageTotal(self):return self._select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1350,20,1397,56),.5)+1
-    def getTeamIndex(self):return cv2.minMaxLoc(cv2.matchTemplate(self.im[58:92,768:1152],IMG.TEAMINDEX,cv2.TM_SQDIFF_NORMED))[2][0]//37+1
+    def getTeamIndex(self):return self._loc(IMG.TEAMINDEX,(768,52,1152,92))[2][0]//37
+    def getFriendPos(self):return self._loc(IMG.SUPPORT,(162,270,1855,314))[2][0]//304
     def getEnemyHPGauge(self):raise NotImplementedError
     def getEnemyNP(self):raise NotImplementedError
     def getCriticalRate(self):raise NotImplementedError
