@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.3.2'
+__version__='v7.4.2'
 import logging,re,time,numpy
 from itertools import permutations
 from fgoAndroid import Android
@@ -145,7 +145,7 @@ class Main:
                     self.applyFriend(self.chooseFriend())
                     control.sleep(6)
                     break
-                elif Check.cache.isAddFriend():device.press('X')
+                elif Check.cache.isAddFriend():device.perform('X',(300,))
                 elif Check.cache.isSpecialDrop():
                     control.checkSpecialDrop()
                     logger.warning('Special drop')

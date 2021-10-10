@@ -24,9 +24,9 @@
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
 ![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
-Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY.  
+Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY  
 ![Monero](doc/monero.png)  
-如果我在这个项目里公布我的B站账号或许能有些许[大会员每月5B币券](https://account.bilibili.com/account/big/myPackage)充电,但我还是不想跟睿站扯上太多关系,所以大家不如去给[MOONCELL](https://space.bilibili.com/3176666/)或是你们喜欢的其他创作者充电吧!另外不要付费充B币,因为5B币到手只有3.36CNY(iOS为1.7CNY)  
+[B站充电](https://space.bilibili.com/2632341),大会员每月[领取5B币券](https://account.bilibili.com/account/big/myPackage),**不要付费充电**  
 觉得有帮助请为我star,谢谢  
 <table>
   <tr>
@@ -174,6 +174,9 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被倒在[垃圾场](doc/垃圾场.md)里  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 版本记录 Version Logs
+## 2021/10/10 v7.4.2
+bugfix:修复了由短路运算导致的在选择了与编队中成员不同的助战上场后的下一回合仍被判定死亡的问题  
+优化:略微下移了\键的映射位置,尽可能避免其呼出状态栏  
 ## 2021/10/09 v7.4.1
 bug修复:在选取了与编队中成员完全相同的助战时正确判定死亡  
 助战的头上会带一个「+助战」的标签,由此判定.这个标签也可能写的是「+临时加入」,但是临时加入的从者不会是助战,助战的头上一定写着助战,一个队伍中不会出现同一个正式加入和临时加入的队员,故无需判定  

@@ -46,12 +46,12 @@ class Check(metaclass=logMeta(logger)):
             check=yield threshold<cv2.matchTemplate(img,tmp,cv2.TM_SQDIFF_NORMED)[0][0]and fuse.reset(check)
             img=tmp
     @startIter
-    def _iterCompare(self,img,rect,threshold=.05):
-        result=self._compare(img,rect,threshold)
+    def _iterCall(self,func,*args,**kwargs):
+        result=func(self,*args,**kwargs)
         check=yield None
         while True:
-            tmp=check._compare(img,rect,threshold)
-            check=yield result^tmp
+            tmp=func(check,*args,**kwargs)
+            check=yield result!=tmp
             result=tmp
     def _isListEnd(self,pos):return not self._compare(IMG.LISTBAR,(pos[0]-20,pos[1]-17,pos[0]+20,pos[1]+4),.25)
     def save(self,name='Capture'):cv2.imwrite(time.strftime(f'{name}_%Y-%m-%d_%H.%M.%S.png'),self.im)
@@ -63,7 +63,7 @@ class Check(metaclass=logMeta(logger)):
     def setupMailDone(self):Check._iterMailDone=self._iterChange((303,156,378,186))
     def setupServantDead(self):
         Check._iterServantFace=[self._iterChange((195+480*i,640,296+480*i,740))for i in range(3)]
-        Check._iterServantFriend=[self._iterCompare(IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
+        Check._iterServantFriend=[self._iterCall(Check._compare,IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
     def isAddFriend(self):return self._compare(IMG.END,(243,863,745,982))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1639,951,1865,1061))
@@ -80,7 +80,7 @@ class Check(metaclass=logMeta(logger)):
     def isMailListEnd(self):return self._isListEnd((1406,1018))
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1220,347,1318,389))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
-    def isServantDead(self):return[self._iterServantFace[i].send(self)or self._iterServantFriend[i].send(self)for i in range(3)]
+    def isServantDead(self):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(self)))for i in range(3)]
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
