@@ -4,7 +4,7 @@ from fgoControl import control
 from fgoFuse import fuse
 from fgoLogging import getLogger,logMeta
 logger=getLogger('Check')
-IMG=(lambda t:([setattr(t,i[:-4].upper(),cv2.imread(f'fgoImage/{i}'))for i in os.listdir('fgoImage')if i[-4:]=='.png'],t)[-1])(type('IMG',(),{}))
+IMG=type('IMG',(),{i[:-4].upper():cv2.imread(f'fgoImage/{i}')for i in os.listdir('fgoImage')if i[-4:]=='.png'})
 class Check(metaclass=logMeta(logger)):
     cache=None
     device=None
@@ -33,10 +33,10 @@ class Check(metaclass=logMeta(logger)):
         fuse.increase()
         control.sleep(backwardLagency)
     def _clip(self,rect):return self.im[rect[1]:rect[3],rect[0]:rect[2]]
-    def _loc(self,img,rect=(0,0,1920,1080)):return cv2.minMaxLoc(cv2.matchTemplate(self._clip(rect),img,cv2.TM_SQDIFF_NORMED))
+    def _loc(self,img,rect=(0,0,1920,1080)):return cv2.minMaxLoc(cv2.matchTemplate(self._clip(rect),img,cv2.TM_SQDIFF_NORMED,mask=numpy.max(img,axis=2)>>1))
     def _compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>self._loc(img,rect)[0]and fuse.reset(self)
     def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
-    def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR,numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0and(hierarchy[0][i][2]==-1or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self.im[rect[1]:rect[3],rect[0]:rect[2]],cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
+    def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR,numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0and(hierarchy[0][i][2]==-1or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self._clip(rect),cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     @startIter
     def _iterChange(self,rect,threshold=.05):
         img=self._clip(rect)
@@ -78,33 +78,33 @@ class Check(metaclass=logMeta(logger)):
     def isMailDone(self):return self._iterMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,920,1919,1049))
     def isMailListEnd(self):return self._isListEnd((1406,1018))
-    def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1220,347,1318,389))
+    def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1245,347,1318,389))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
     def isServantDead(self):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(self)))for i in range(3)]
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
-    def getCardColor(self):return[[.8,1.,1.5][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,806,196+386*i,871))]for i in range(5)]
+    def getCardColor(self):return[[.8,1.,1.1][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,806,196+386*i,871))]for i in range(5)]
     def getCardGroup(self):
         universe={0,1,2,3,4}
         result=[-1]*5
         index=0
         while universe:
-            group=(lambda item:{item}|{i for i in universe if self._loc(self._clip((170+386*i,690,215+386*i,707)),(160+386*item,660,225+386*item,737))[0]<.01})(universe.pop())
+            group=(lambda item:{item}|{i for i in universe if self._loc(self._clip((170+386*i,690,215+386*i,707)),(160+386*item,660,225+386*item,737))[0]<.025})(universe.pop())
             for i in group:result[i]=index
             index+=1
             universe-=group
         return result
     def getCardResist(self):return[{0:2.,1:.5}.get(self._select((IMG.WEAK,IMG.RESIST),(263+386*i,530,307+386*i,630)),1.)for i in range(5)]
+    def getCriticalRate(self):return[(lambda x:0.if x is None else(x+1)/10)(self._select((IMG.CRITICAL1,IMG.CRITICAL2,IMG.CRITICAL3,IMG.CRITICAL4,IMG.CRITICAL5,IMG.CRITICAL6,IMG.CRITICAL7,IMG.CRITICAL8,IMG.CRITICAL9,IMG.CRITICAL0),(114+386*i,526,169+386*i,607),.06))for i in range(5)]
     def getEnemyHP(self):return[self._ocr((150+375*i,61,332+375*i,97))for i in range(3)]
     def getHP(self):return[self._ocr((300+476*i,930,439+476*i,965))for i in range(3)]
     def getNP(self):return[self._ocr((330+476*i,983,411+476*i,1020))for i in range(3)]
     @retryOnError()
-    def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1326,20,1372,56),.5)+1
+    def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1326,20,1352,56),.5)+1
     @retryOnError()
-    def getStageTotal(self):return self._select((IMG.STAGETOTAL1,IMG.STAGETOTAL2,IMG.STAGETOTAL3),(1350,20,1397,56),.5)+1
+    def getStageTotal(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1369,20,1397,56),.5)+1
     def getTeamIndex(self):return self._loc(IMG.TEAMINDEX,(768,52,1152,92))[2][0]//37
     def getFriendPos(self):return self._loc(IMG.SUPPORT,(162,270,1855,314))[2][0]//304
     def getEnemyHPGauge(self):raise NotImplementedError
     def getEnemyNP(self):raise NotImplementedError
-    def getCriticalRate(self):raise NotImplementedError

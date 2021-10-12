@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.4.2'
+__version__='v7.5.0'
 import logging,re,time,numpy
 from itertools import permutations
 from fgoAndroid import Android
@@ -111,7 +111,7 @@ class Battle:
                 return 0
             device.press('\xDC')
     @logit(logger,logging.INFO)
-    def selectCard(self):return''.join((lambda hougu,sealed,color,resist:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(4.8*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not(sealed[card[0]]or sealed[card[1]]or sealed[card[2]]))*(5.*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(group[card[0]]==group[card[1]]==group[card[2]])*resist[card[0]]))(color[card[0]]==color[card[1]]==color[card[2]],.5*(color[card[0]]==1.5))))])(Check.cache.getCardGroup()))([self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)for i,j in enumerate(Check().isHouguReady())],Check.cache.isCardSealed(),Check.cache.getCardColor(),Check.cache.getCardResist()))
+    def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:-self.houguInfo[self.orderChange[self.servant[x]]][1])]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(3.3*colorChain+(firstCardBonus+1.)*(3.5if colorChain else 2.)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.5*(color[card[0]]==1.1)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(3.3*colorChain+(firstCardBonus+1.)*(3if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.5*(color[card[0]]==1.1))))])(Check.cache.getCardGroup()))([self.servant[i]<6and j and self.houguInfo[self.orderChange[self.servant[i]]][0]and self.stage>=min(self.houguInfo[self.orderChange[self.servant[i]]][0],self.stageTotal)for i,j in enumerate(Check().isHouguReady())],Check.cache.isCardSealed(),Check.cache.getCardColor(),Check.cache.getCardResist(),Check.cache.getCriticalRate()))
 class Main:
     teamIndex=0
     friendPos=0
@@ -195,9 +195,14 @@ class Main:
                     device.perform('\xBAK',(500,1000))
     def applyFriend(self,friend):Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]=(lambda r:(lambda p:([[Battle.skillInfo[self.friendPos][i][j]if p[i*3+j]=='x'else int(p[i*3+j])for j in range(3)]for i in range(3)],[Battle.houguInfo[self.friendPos][i]if p[i+9]=='x'else int(p[i+9])for i in range(2)]))(r.group())if r else(Battle.skillInfo[self.friendPos],Battle.houguInfo[self.friendPos]))(re.search('[0-9x]{11}$',friend)if friend else None)
 def userScript():
-    # BX WCBA 极地用迦勒底制服
-    while not Check(0,.2).isTurnBegin():pass
-    #                                    A    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
-    device.perform('ADF2GH2J2KL2QE2 654',(3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
-    while not Check(0,.2).isBattleFinished():assert not Check.cache.isTurnBegin()
+    while not Check(0,.3).isTurnBegin():device.press('\xDC')
+    # # BX WCBA 极地用迦勒底制服
+    # #                                      A    D    F    2    G   H    2   J   2    K    L    2   Q   E   2     _   6   5    4
+    # device.perform('ADF2GH2J2KL2QE2 654',(3000,3000,350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    # # Arashi Nobu      hiroinnX wcba kyokuchi
+    # #                                  F    2    G   H    2   J    2    K   L    2   Q   E    2    _   6   5    4
+    device.perform('F2GH2J2KL2QE2 654',(350,3000,3000,350,3000,350,3000,3000,350,3000,300,350,3000,2400,350,350,10000))
+    while not Check(0,.3).isBattleFinished():
+        assert not Check.cache.isTurnBegin()
+        device.press('\xDC')
     return True
