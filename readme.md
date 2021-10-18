@@ -116,7 +116,15 @@ ui大概长这样:
 ![16-9](doc/16-9.png)  
 由于这个更改是很快的,fgo的全面屏适配又跟屎一样不如没有,并且你完全可以在关闭fgo后立刻改回来不影响其他应用,你甚至可以在一些手机的模拟终端(如[Termux](https://termux.com/))中执行这个命令而无需连接电脑,所以我暂时不打算写全面屏适配  
 ### 非Windows电脑
-修改fgoImageListener.DirListener为`type('DirListener',(),{'get':lambda self:[]})`,删除所有的win32包引用  
+修改fgoImageListener.py为如下内容  
+··· python3
+import os,cv2
+class ImageListener(dict):
+    def __init__(self,path,ends='.png'):
+        super().__init__((file[:-len(ends)],cv2.imread(path+file))for file in os.listdir(path)if file.endswith(ends))
+    def flush(self):
+        return self
+···
 如果你需要动态监控目录更改,就自己写这个类  
 ### 非Android手机
 简单重写一下fgoFunc.Device类就可以了  
@@ -180,11 +188,18 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 + 新的选卡算法
 + 技能施放顺序可控/新的技能模型  
 + 「确认」按键检测  
-+ Main的断点恢复  
++ friendPos数据不同步  
 + 新的用户脚本调用  
 + ...  
 
 # 版本记录 Version Logs
+## 2021/10/18 v7.5.1
+更新:Main可以在战斗中途调用了  
+这是为短线/闪退等异常原因导致脚本中断后的*补救*,使之能够从中断处继续运行而不至于先调用Battle等待战斗完成后再调用Main  
+你**不应该**在((没有从主界面进入战斗过||在上次战斗后切换了关卡)&&会继续战斗&&助战模板有技能信息)的情况下在战斗中途调用Main,不然由于没有获取过助战位置,会导致助战信息被放到错误的地方  
+这个地方得想个办法解决一下,我不想粗暴地加个校验禁止这样的情况发生,因为我的多数场景下助战模板时没有技能信息的  
+现在的想法是在Battle中增加额外的friendInfo,并识别当前从者是否为助战  
+bugfix:修复了7.4.0误删的主窗口焦点策略导致的按键映射失效  
 ## 2021/10/13 v7.5.0
 注意:此版本未经全面测试并且**可能包含严重bug**!  
 几个小时后原神新版本新地图,要是现在不commit就得拖好几天到时候活动都关了,所以直接进行一个测试的跳过  
