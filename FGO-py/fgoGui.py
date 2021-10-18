@@ -109,6 +109,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOP.setEnabled(True)
         self.BTN_STOPLATER.setEnabled(True)
         self.MENU_SCRIPT.setEnabled(False)
+        self.TXT_APPLE.setValue(0)
     def funcEnd(self,msg):
         self.BTN_ONEBATTLE.setEnabled(True)
         self.BTN_MAIN.setEnabled(True)
@@ -118,7 +119,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOPLATER.setChecked(False)
         self.BTN_STOPLATER.setEnabled(False)
         self.MENU_SCRIPT.setEnabled(True)
-        self.TXT_APPLE.setValue(0)
         self.TRAY.showMessage('FGO-py',*msg)
     def loadTeam(self,teamName):
         self.TXT_TEAM.setText(self.teamup[teamName]['teamIndex'])
@@ -150,10 +150,10 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.LBL_DEVICE.setText(fgoFunc.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
     def runBattle(self):self.runFunc(fgoFunc.Battle())
-    def runUserScript(self):self.runFunc(fgoFunc.userScript)
+    def runUserScript(self):self.runFunc(fgoFunc.UserScript())
     def runMain(self):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'],0,False)
-        if ok and text:self.runFunc(fgoFunc.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':lambda:fgoFunc.Battle()(),'用户脚本':fgoFunc.userScript}[text]))
+        if ok and text:self.runFunc(fgoFunc.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':fgoFunc.Battle(),'用户脚本':fgoFunc.UserScript()}[text]))
     def pause(self,x):
         if not x and not self.isDeviceAvaliable():return self.BTN_PAUSE.setChecked(True)
         fgoFunc.control.suspend()
