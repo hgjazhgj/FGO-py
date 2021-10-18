@@ -10,6 +10,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_fgoMainWindow(object):
     def setupUi(self, fgoMainWindow):
         fgoMainWindow.setObjectName("fgoMainWindow")
+        fgoMainWindow.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
         fgoMainWindow.setStyleSheet("QWidget{font-family:\"Microsoft YaHei UI Light\";font-size:15px}")
         self.widget = QtWidgets.QWidget(fgoMainWindow)
         self.widget.setObjectName("widget")

@@ -3,6 +3,9 @@
  <author>hgjazhgj</author>
  <class>fgoMainWindow</class>
  <widget class="QMainWindow" name="fgoMainWindow">
+  <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>FGO-py - hgjazhgj</string>
   </property>
