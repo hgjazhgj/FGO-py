@@ -1,6 +1,6 @@
 import configparser,json,os,sys,threading
-from PyQt6.QtCore import QRegularExpression,Qt,pyqtSignal
-from PyQt6.QtGui import QRegularExpressionValidator,QAction
+from PyQt6.QtCore import Qt,pyqtSignal
+from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QStyle,QSystemTrayIcon,QMenu
 
 import fgoFunc
@@ -41,7 +41,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_TRAY.addAction(self.MENU_TRAY_FORCEQUIT)
         self.TRAY.setContextMenu(self.MENU_TRAY)
         self.TRAY.show()
-        self.TXT_TEAM.setValidator(QRegularExpressionValidator(QRegularExpression('10|[0-9]'),self))
         self.reloadTeamup()
         self.config=Config({
             'stopOnDefeated':(self.MENU_SETTINGS_DEFEATED,fgoFunc.control.stopOnDefeated),
@@ -86,6 +85,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             try:
                 self.signalFuncBegin.emit()
                 self.applyAll()
+                fgoFunc.Battle.friendInfo=[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]]
                 func(*args,**kwargs)
             except fgoFunc.ScriptTerminate as e:
                 logger.critical(e)
@@ -121,21 +121,21 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_SCRIPT.setEnabled(True)
         self.TRAY.showMessage('FGO-py',*msg)
     def loadTeam(self,teamName):
-        self.TXT_TEAM.setText(self.teamup[teamName]['teamIndex'])
-        (lambda skillInfo:[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').setText(str(skillInfo[i][j][k]))for i in range(6)for j in range(3)for k in range(3)])(eval(self.teamup[teamName]['skillInfo']))
-        (lambda houguInfo:[getattr(self,f'TXT_HOUGU_{i}_{j}').setText(str(houguInfo[i][j]))for i in range(6)for j in range(2)])(eval(self.teamup[teamName]['houguInfo']))
-        (lambda masterSkill:[getattr(self,f'TXT_MASTER_{i}_{j}').setText(str(masterSkill[i][j]))for i in range(3)for j in range(3+(i==2))])(eval(self.teamup[teamName]['masterSkill']))
+        self.TXT_TEAM.setValue(int(self.teamup[teamName]['teamIndex']))
+        (lambda skillInfo:[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').setValue(skillInfo[i][j][k])for i in range(6)for j in range(3)for k in range(4)])(eval(self.teamup[teamName]['skillInfo']))
+        (lambda houguInfo:[getattr(self,f'TXT_HOUGU_{i}_{j}').setValue(houguInfo[i][j])for i in range(6)for j in range(2)])(eval(self.teamup[teamName]['houguInfo']))
+        (lambda masterSkill:[getattr(self,f'TXT_MASTER_{i}_{j}').setValue(masterSkill[i][j])for i in range(3)for j in range(4+(i==2))])(eval(self.teamup[teamName]['masterSkill']))
     def saveTeam(self):
         if not self.CBX_TEAM.currentText():return
         self.teamup[self.CBX_TEAM.currentText()]={
-            'teamIndex':self.TXT_TEAM.text(),
-            'skillInfo':str([[[int(getattr(self,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]).replace(' ',''),
-            'houguInfo':str([[int(getattr(self,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]).replace(' ',''),
-            'masterSkill':str([[int(getattr(self,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]).replace(' ','')}
+            'teamIndex':self.TXT_TEAM.value(),
+            'skillInfo':str([[[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').value()for k in range(4)]for j in range(3)]for i in range(6)]).replace(' ',''),
+            'houguInfo':str([[getattr(self,f'TXT_HOUGU_{i}_{j}').value()for j in range(2)]for i in range(6)]).replace(' ',''),
+            'masterSkill':str([[getattr(self,f'TXT_MASTER_{i}_{j}').value()for j in range(4+(i==2))]for i in range(3)]).replace(' ','')}
         with open('fgoTeamup.ini','w')as f:self.teamup.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        text,ok=(lambda l:QInputDialog.getItem(self,'FGO-py','在下拉列表中选择一个设备',l,l.index(fgoFunc.device.name)if fgoFunc.device.name and fgoFunc.device.name in l else 0,True,Qt.WindowType.WindowStaysOnTopHint))(fgoFunc.Device.enumDevices())
+        text,ok=QInputDialog.getItem(self,'FGO-py','在下拉列表中选择一个设备',l:=fgoFunc.Device.enumDevices(),l.index(fgoFunc.device.name)if fgoFunc.device.name and fgoFunc.device.name in l else 0,True,Qt.WindowType.WindowStaysOnTopHint)
         if not ok:return
         if text.startswith('/'):
             try:
@@ -160,7 +160,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def stop(self):fgoFunc.control.terminate()
     def stopLater(self,x):
         if x:
-            num,ok=QInputDialog.getInt(self,'输入','剩余的战斗数量',0,0,1919810,1)
+            num,ok=QInputDialog.getInt(self,'输入','剩余的战斗数量',1,1,1919810,1)
             if ok:fgoFunc.control.terminateLater(num)
             else:self.BTN_STOPLATER.setChecked(False)
         else:fgoFunc.control.terminateLater()
@@ -169,10 +169,10 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         try:fgoFunc.Check(0).show()
         except Exception as e:logger.exception(e)
     def applyAll(self):
-        fgoFunc.Main.teamIndex=int(self.TXT_TEAM.text())
-        fgoFunc.Battle.skillInfo=[[[int(getattr(self,f'TXT_SKILL_{i}_{j}_{k}').text())for k in range(3)]for j in range(3)]for i in range(6)]
-        fgoFunc.Battle.houguInfo=[[int(getattr(self,f'TXT_HOUGU_{i}_{j}').text())for j in range(2)]for i in range(6)]
-        fgoFunc.Battle.masterSkill=[[int(getattr(self,f'TXT_MASTER_{i}_{j}').text())for j in range(3+(i==2))]for i in range(3)]
+        fgoFunc.Main.teamIndex=self.TXT_TEAM.value()
+        fgoFunc.Battle.skillInfo=[[[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').value()for k in range(4)]for j in range(3)]for i in range(6)]
+        fgoFunc.Battle.houguInfo=[[getattr(self,f'TXT_HOUGU_{i}_{j}').value()for j in range(2)]for i in range(6)]
+        fgoFunc.Battle.masterSkill=[[getattr(self,f'TXT_MASTER_{i}_{j}').value()for j in range(4+(i==2))]for i in range(3)]
     def explorerHere(self):os.startfile('.')
     def runGacha(self):self.runFunc(fgoFunc.gacha)
     def runJackpot(self):self.runFunc(fgoFunc.jackpot)

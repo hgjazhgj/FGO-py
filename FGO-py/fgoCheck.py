@@ -29,6 +29,7 @@ class Check(metaclass=logMeta(logger)):
     def __init__(self,forwardLagency=.1,backwardLagency=0):
         control.sleep(forwardLagency)
         self.im=self.device.screenshot()
+        self.time=time.time()
         Check.cache=self
         fuse.increase()
         control.sleep(backwardLagency)
@@ -38,7 +39,7 @@ class Check(metaclass=logMeta(logger)):
     def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
     def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR,numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0and(hierarchy[0][i][2]==-1or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self._clip(rect),cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     @startIter
-    def _iterChange(self,rect,threshold=.05):
+    def _iterMatch(self,rect,threshold=.05):
         img=self._clip(rect)
         check=yield None
         while True:
@@ -46,24 +47,23 @@ class Check(metaclass=logMeta(logger)):
             check=yield threshold<cv2.matchTemplate(img,tmp,cv2.TM_SQDIFF_NORMED)[0][0]and fuse.reset(check)
             img=tmp
     @startIter
-    def _iterCall(self,func,*args,**kwargs):
-        result=func(self,*args,**kwargs)
-        check=yield None
+    def _iterChange(self,init):
+        a=[init,(yield None)]
+        p=0
         while True:
-            tmp=func(check,*args,**kwargs)
-            check=yield result!=tmp
-            result=tmp
+            a[p]=yield a[0]!=a[1]
+            p^=1
     def _isListEnd(self,pos):return not self._compare(IMG.LISTBAR,(pos[0]-20,pos[1]-17,pos[0]+20,pos[1]+4),.25)
-    def save(self,name='Capture'):cv2.imwrite(time.strftime(f'{name}_%Y-%m-%d_%H.%M.%S.png'),self.im)
+    def save(self,name='Capture'):cv2.imwrite(time.strftime(f'{name}_%Y-%m-%d_%H.%M.%S.png',time.localtime(self.time)),self.im)
     def show(self):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
     def find(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
-    def setupMailDone(self):Check._iterMailDone=self._iterChange((303,156,378,186))
-    def setupServantDead(self):
-        Check._iterServantFace=[self._iterChange((195+480*i,640,296+480*i,740))for i in range(3)]
-        Check._iterServantFriend=[self._iterCall(Check._compare,IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
+    def setupMailDone(self):Check._iterMailDone=self._iterMatch((303,156,378,186))
+    def setupServantDead(self,friend=None):
+        Check._iterServantFace=[self._iterMatch((195+480*i,640,296+480*i,740))for i in range(3)]
+        Check._iterServantFriend=[self._iterChange(i)for i in(self.isServantFriend()if friend is None else friend)]
     def isAddFriend(self):return self._compare(IMG.END,(243,863,745,982))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1639,951,1865,1061))
@@ -80,9 +80,11 @@ class Check(metaclass=logMeta(logger)):
     def isMailListEnd(self):return self._isListEnd((1406,1018))
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1245,347,1318,389))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
-    def isServantDead(self):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(self)))for i in range(3)]
+    def isServantDead(self,friend=None):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
+    def isServantFriend(self):return[self._compare(IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
-    def isSpecialDrop(self):return self._compare(IMG.CLOSE,(8,18,102,102))
+    def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(1436,3,1483,36))
+    def isSpecialDropSuspended(self):return self._compare(IMG.CLOSE,(12,17,107,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
     def getCardColor(self):return[[.8,1.,1.1][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,806,196+386*i,871))]for i in range(5)]
     def getCardGroup(self):
@@ -95,7 +97,7 @@ class Check(metaclass=logMeta(logger)):
             index+=1
             universe-=group
         return result
-    def getCardResist(self):return[{0:2.,1:.5}.get(self._select((IMG.WEAK,IMG.RESIST),(263+386*i,530,307+386*i,630)),1.)for i in range(5)]
+    def getCardResist(self):return[{0:1.7,1:.6}.get(self._select((IMG.WEAK,IMG.RESIST),(263+386*i,530,307+386*i,630)),1.)for i in range(5)]
     def getCriticalRate(self):return[(lambda x:0.if x is None else(x+1)/10)(self._select((IMG.CRITICAL1,IMG.CRITICAL2,IMG.CRITICAL3,IMG.CRITICAL4,IMG.CRITICAL5,IMG.CRITICAL6,IMG.CRITICAL7,IMG.CRITICAL8,IMG.CRITICAL9,IMG.CRITICAL0),(114+386*i,526,169+386*i,607),.06))for i in range(5)]
     def getEnemyHP(self):return[self._ocr((150+375*i,61,332+375*i,97))for i in range(3)]
     def getHP(self):return[self._ocr((300+476*i,930,439+476*i,965))for i in range(3)]
@@ -105,6 +107,5 @@ class Check(metaclass=logMeta(logger)):
     @retryOnError()
     def getStageTotal(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1369,20,1397,56),.5)+1
     def getTeamIndex(self):return self._loc(IMG.TEAMINDEX,(768,52,1152,92))[2][0]//37
-    def getFriendPos(self):return self._loc(IMG.SUPPORT,(162,270,1855,314))[2][0]//304
     def getEnemyHPGauge(self):raise NotImplementedError
     def getEnemyNP(self):raise NotImplementedError
