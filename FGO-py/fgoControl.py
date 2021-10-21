@@ -20,8 +20,8 @@ class Control:
             time.sleep(.07/self.speed)
     def terminateLater(self,count=-1):self.__terminateLaterFlag=count
     def checkTerminateLater(self):
-        if not self.__terminateLaterFlag:raise ScriptTerminate('Terminate Appointment Effected')
         self.__terminateLaterFlag-=1
+        if not self.__terminateLaterFlag:raise ScriptTerminate('Terminate Appointment Effected')
     def sleep(self,x,part=.07):
         timer=time.time()+(x-part)/self.speed
         while time.time()<timer:
