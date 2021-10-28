@@ -166,10 +166,10 @@ class ImageListener(dict):
 >
 > -- [Alas](https://github.com/LmeSzinc/AzurLaneAutoScript)-dev 群公告  
 
-![img](doc/contact.png)![QQ](doc/QQ.png)  
+![img](doc/contact.png) 
 在占用我的时间之前,先耗费自己的时间  
 Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
-**2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号[932481680](https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa),作为一个FGO-py的备用发布手段,其他事项日后再议.** 近日已有些许人加群,尽管我已写明「自然语言」,但大部分人都未能正确入群回答问题,故提示:答案不是77272085000313  
+**2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
 发现**最新稳定commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
 qq 979449732(个人账号,加好友请注明是来问*FGO-py*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
@@ -192,6 +192,10 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 - ...  
 
 # 版本记录 Version Logs
+## 2021/10/27
+rnm我群里有内鬼...  
+换了个入群问题  
+另外,qq通过扫描二维码加群时可能会出现不用回答入群问题就能加入的bug,故移除了了群二维码图片  
 ## 2021/10/21 v7.6.0
 注意:本版本进行了较大幅度的更新,源码有大量更改,尽管已经经过测试,但仍不能保证相对较少的bug  
 注意:本次更新后fgoTeamup.ini配置文件与先前的不兼容  
