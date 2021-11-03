@@ -153,7 +153,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def runUserScript(self):self.runFunc(fgoFunc.UserScript())
     def runMain(self):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'],0,False)
-        if ok and text:self.runFunc(fgoFunc.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':fgoFunc.Battle(),'用户脚本':fgoFunc.UserScript()}[text]))
+        if ok and text:self.runFunc(fgoFunc.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':lambda:fgoFunc.Battle()(),'用户脚本':fgoFunc.UserScript()}[text]))
     def pause(self,x):
         if not x and not self.isDeviceAvaliable():return self.BTN_PAUSE.setChecked(True)
         fgoFunc.control.suspend()
