@@ -192,6 +192,8 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 - ...  
 
 # 版本记录 Version Logs
+## 2021/11/03 v7.6.1
+bugfix:[issue #37](https://github.com/hgjazhgj/FGO-py/issues/37)  
 ## 2021/10/27
 rnm我群里有内鬼...  
 换了个入群问题  
