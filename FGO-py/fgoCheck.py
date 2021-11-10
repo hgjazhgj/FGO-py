@@ -67,7 +67,7 @@ class Check(metaclass=logMeta(logger)):
     def isAddFriend(self):return self._compare(IMG.END,(243,863,745,982))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1639,951,1865,1061))
-    def isBattleContinue(self):return self._compare(IMG.BATTLECONTINUE,(1072,805,1441,895))
+    def isBattleContinue(self):return self._compare(IMG.BATTLECONTINUE,(860,256,1060,308))
     def isBattleDefeated(self):return self._compare(IMG.DEFEATED,(445,456,702,523))
     def isBattleFinished(self):return self._compare(IMG.DROPITEM,(165,46,396,113))
     def isChooseFriend(self):return self._compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))

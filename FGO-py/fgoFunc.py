@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.6.1'
+__version__='v7.6.2'
 import logging,re,time,numpy
 from itertools import permutations
 from fgoAndroid import Android
@@ -141,10 +141,10 @@ class Main:
                     self.chooseFriend()
                     while not Check().isBattleBegin():pass
                     if self.teamIndex and Check.cache.getTeamIndex()+1!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,400))
-                    device.perform(' 8M',(800,800,10000))
+                    device.perform(' M',(800,10000))
                     break
                 elif Check.cache.isBattleContinue():
-                    device.press('K')
+                    device.press('L')
                     if Check(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
                     control.sleep(6)
