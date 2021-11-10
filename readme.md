@@ -24,7 +24,7 @@
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
-![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
+![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)![UnionPay](doc/unionpay.png)  
 Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY  
 ![Monero](doc/monero.png)  
 [B站充电](https://space.bilibili.com/2632341),大会员每月[领取5B币券](https://account.bilibili.com/account/big/myPackage),**不要付费充电**  
@@ -166,8 +166,7 @@ class ImageListener(dict):
 >
 > -- [Alas](https://github.com/LmeSzinc/AzurLaneAutoScript)-dev 群公告  
 
-![img](doc/contact.png) 
-在占用我的时间之前,先耗费自己的时间  
+![img](doc/contact.png) 在占用我的时间之前,先耗费自己的时间  
 Try to think at least 5 minutes before you want to make someone waste those 5 minutes to help you.  
 **2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
 发现**最新稳定commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
@@ -183,15 +182,24 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被倒在[垃圾场](doc/垃圾场.md)里  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 有想到但是实际不一定会做的东西 TODO
+- web UI  
+- linux DirListener  
+- docker  
+- ARM
 - getEnemyHPGauge  
 - getEnemyNP
 - 新的选卡算法
 - 新的技能模型  
 - 「确认」按键检测  
 - 新的用户脚本调用  
+- 搓丸子
 - ...  
 
 # 版本记录 Version Logs
+## 2021/11/10 v7.6.2
+更新:不使用「援护请求」  
+今年情人节v4.9.9版本更新对「进入战斗前选择使用道具」的场景进行了适配,友情巧克力自然是能用就用,但是这个活动里打free的时候(也是需要脚本选择使用道具的主要场景)是应该不使用用这个东西的  
+然后,连续出击的地方也加了个「使用援护请求并连续出击」的选项,原先的「不使用援护请求并连续出击」右移了,现使用「是否连续进行同一关卡?」进行识别,同时也改变的点按的位置  
 ## 2021/11/03 v7.6.1
 bugfix:[issue #37](https://github.com/hgjazhgj/FGO-py/issues/37)  
 ## 2021/10/27
