@@ -209,18 +209,19 @@ FGO全自动脚本
   <tr><td>作者</td><td>hgjazhgj</td></tr>
   <tr><td>项目地址</td><td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td></tr>
   <tr><td>电子邮箱</td><td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td></tr>
-  <tr><td>QQ群</td><td><a href="https://qm.qq.com/cgi-bin/qm/qr?k=gEKGWCJYC_Rn2_qE2PUWcR_2mcwXyAVa">932481680</a></td></tr>
+  <tr><td>QQ群</td><td>932481680</td></tr>
 </table>
 <!-- 都看到这里了真的不考虑资瓷一下吗... -->
-这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>/<font color="#C50000">数字人民币</font>收款码,请给我打钱<br/>
+这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>/<font color="#C50000">数字人民币</font>/银联<font color="#DE3232">云</font><font color="#004889">闪</font><font color="#007F89">付</font>收款码&Monero地址<br/>请给我打钱<br/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/ZtBFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9/R3wATtkAA=="/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9Wl3wAdBsAA=="/>
-<img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAAADFAP///wABNA0YfTD8EEX4EAhFkOqQRfjAKH0sd3gBRkUY/1w3OGEUAEB/Uud4Oe4EsDpSpUDMTx+Ywi9i0FgGU5jv/ORgGaTV8Fc2xTjI2tt4hrZmSDiqDzj/z8f4AVVUAH3llfBFPe0QRXGdEEX0XRB9nd3wAeM0AA=="/><br/>
-这是我的Monero地址,请给我打钱
+<img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAAADFAP///wABNA0YfTD8EEX4EAhFkOqQRfjAKH0sd3gBRkUY/1w3OGEUAEB/Uud4Oe4EsDpSpUDMTx+Ywi9i0FgGU5jv/ORgGaTV8Fc2xTjI2tt4hrZmSDiqDzj/z8f4AVVUAH3llfBFPe0QRXGdEEX0XRB9nd3wAeM0AA=="/>
 <table border="0"><tr>
+  <td><img height="132" width="132" src="data:image/bmp;base64,Qk3gAgAAAAAAAEoAAAAoAAAAIQAAACEAAAABAAQAAAAAAJYCAAASCwAAEgsAAAUAAAAFAAAAiUgAAIl/AAAyMt4A////AAAAAAAiIiIjIiMwAzAwABMzMTMTMAAAACMzMyMjMDADMAMzMREzETMQACIiIyIjIyMjMAAwAwARMxEzMzAAIzMjIiMjIjMzAAMDMzETMTMzFEQjIiMiIyMyIwMDAzMwMRERExEwACMiIzMzIzMgMwMDADATEzMRExREIyIiIiIjMiAwMwAAABETExEzNEQjMzMzMzMjMAMAMAADExMzETM0RCIiIzMzIyIjAwAAAAMzERERMxREMzMyIiMyMjMzMzMwMzMzEzExMAAjMzMjIiIjIAAzMzMDMTExMxEQADIiIzMjMjMzAAMzMDARExExMRAAMyMzMiMiIzAAMzAwABMTMTMTMAAjMzIzMjMzMwMwADADETExMTMURDMyIiMyIzMgAzAzAwAzEzMxMTREMjMyMyMyMiMAMAMDMzExExETFEQiIzIiIiMzMDMzAzAwMREREREURDIzMjMjMjIjADMDAzAzExMzEzAAMiIiMiMiMiMDAwMwMxMzERMTMAAyMyIzMjIyIDAAMAADEzMzMREwACIyMiMzIjIwMzAAAwMzMzMRMzAAIjMiIjMyIzAAMDMzMzMxExMxNEQyIyMzIyIjMzADAwMAERERMxEURCIiIyIzMjIzMwMzMDMxEREzERREIzMiIjMjIzMzMzAwABMRMxETFBQjIjMzMzMyMDMAMDMDMTMzMzMwACIiIiIiIyMjAwMDAwMTExERERAAMzMjMzMjMjMDAzMwABMzEzMzEAAiIiMiIyMiIDMwMwADEzMTERMQACMzIyIjIyIwMDAAAwMzMxMRExREIyIjIiMjIzAAAwMAMxMzExETGAQjIiMzMyMzMzADMDMzMTMTMzMURCMiIiIiIyIzMwMwMDARExERERREIzMAAA=="/></td>
   <td><img height="148" width="148" src="data:image/bmp;base64,Qk1mAQAAAAAAAD4AAAAoAAAAJQAAACUAAAABAAEAAAAAACgBAAB0EgAAdBIAAAAAAAAAAAAAAAAAAP///wABNpugAAAAAH0Q2oL4AAAARb1nmkAAAABFZnR3IAAAAEXpv9AwAAAAfZSA10AAAAABXdMVYAAAAP8qTsdQAAAAMd998EgAAACighiQeAAAAFCt3LiwAAAAo3aTXIAAAACAQzl8SAAAAEehYzFgAAAAcZ0FlEAAAACmEjZXoAAAAD2l77w4AAAAvy27zoAAAAD4P5FWQAAAAEYVS3VwAAAAyXKhYYAAAACvQwA4OAAAALyhfNNwAAAAhuODSLAAAABIC/+BMAAAABpa6jMwAAAA6TltfQAAAAATihl8wAAAACzQ8IxIAAAA/zQAZ/gAAAABVVVUAAAAAH0qre3wAAAARXxupRAAAABFiJ3tEAAAAEUGtG0QAAAAfWa6DfAAAAABsL3cAAAAAA=="/></td>
   <td><font face="Courier New">42Cnr V9Tuz E1jiS<br/>2ucGw tzN8g F6o4y<br/>9SkHs X1eZE vtiDf<br/>4QcL1 NXvfZ PhDu7<br/>LYStW rbsQM 9UUGW<br/>nqXgh ManMB dqjEW<br/>5oaDY</font></td>
 </tr></table>
+<a href="https://space.bilibili.com/2632341">BiliBili充电</a>(请勿氪金充电,<a href="https://account.bilibili.com/account/big/myPackage">大会员每月5B币券</a>)
 ''')
     def license(self):os.system(f'start notepad {"LICENSE"if os.path.isfile("LICENSE")else"../LICENSE"}')
 
