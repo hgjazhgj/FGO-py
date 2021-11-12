@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.6.2'
+__version__='v7.6.3'
 import logging,re,time,numpy
 from itertools import permutations
 from fgoAndroid import Android
@@ -76,7 +76,7 @@ class Battle:
                     self.stageTotal=Check.cache.getStageTotal()
                 else:self.servant=(lambda m,p:[m+p.index(i)+1 if i in p else self.servant[i]for i in range(3)])(max(self.servant),(lambda dead:[i for i in range(3)if self.servant[i]<6 and dead[i]])(Check.cache.isServantDead(self.friend)))
                 logger.info(f'Turn {self.turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
-                if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Check.cache.getEnemyHP())]+'\xDC',(500,500))
+                if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Check.cache.getEnemyHP())]+'\xDC',(800,500))
                 while(s:=(lambda skill:[(self.getSkillInfo(i,j,3),0,(i,j))for i in range(3)if self.servant[i]<6 for j in range(3)if skill[i][j]and(t:=self.getSkillInfo(i,j,0))and min(t,self.stageTotal)<<8|self.getSkillInfo(i,j,1)<=self.stage<<8|self.stageTurn])(Check.cache.isSkillReady())+[(self.masterSkill[i][-1],1,i)for i in range(3)if self.masterSkillReady[i]and self.stage==min(self.masterSkill[i][0],self.stageTotal)and self.stageTurn==self.masterSkill[i][1]]):
                     _,cast,arg=max(s,key=lambda x:x[0])
                     if cast==0:
@@ -179,7 +179,7 @@ class Main:
             while True:
                 for i in(i for i,j in friendImg.items()if(lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(j))):
                     Battle.friendInfo=(lambda r:(lambda p:([[-1 if p[i*4+j]=='x'else int(p[i*4+j])for j in range(4)]for i in range(3)]+[-1 if p[i+12]=='x'else int(p[i+12])for i in range(2)]))(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.search('[0-9xX]{14}$',i)if i else None)
-                    return
+                    return i
                 if Check.cache.isFriendListEnd():break
                 device.swipe((800,900,800,300))
                 Check(.4)
