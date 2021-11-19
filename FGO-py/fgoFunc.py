@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.6.3'
+__version__='v7.6.4'
 import logging,re,time,numpy
 from itertools import permutations
 from fgoAndroid import Android
