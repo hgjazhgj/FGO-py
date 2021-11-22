@@ -1,4 +1,4 @@
-> 本项目已经存在直接在运行fgo的手机上运行的解决方案,具体参见[#直接在手机上运行](#直接在手机上运行)  
+> 本项目已经存在直接在运行fgo的手机上运行的解决方案,具体参见[直接在手机上运行](#直接在手机上运行)  
 
 > 人这东西还真是能力有限啊  
 > 我从短暂的人生当中学到的就是  
@@ -60,7 +60,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 ***
 # 使用说明 Instruction
 对于非16:9的屏幕,尝试使用ui中`控制-全面屏适配`菜单选项,详见[非16:9屏幕](#非169屏幕)  
-项目已经存在直接在运行fgo的手机上运行的解决方案,具体参见[#直接在手机上运行](#直接在手机上运行)  
+本项目已经存在直接在运行fgo的手机上运行的解决方案,具体参见[直接在手机上运行](#直接在手机上运行)  
 这个项目的设计初衷是打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境,以达到不浪费羁绊点数和御主礼装经验的目的,**从此不用考虑强度只用考虑xp来抽卡**,在大量90+阴间本的环境下,xjbd能带给你最阳间的体验.尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!比如[FGA](https://github.com/Fate-Grand-Automata/FGA)**  
 速览程序功能,运行`fgoGui.py`,无需填写任何配置,去冬木大桥刷一根凶骨吧!  
 大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
@@ -68,7 +68,7 @@ ui大概长这样:
 ![ui](doc/ui.png)  
 这个程序能识别技能和宝具是否可以使用,指令卡颜色克制关系暴击率,无法行动及指令卡封印状态,敌我HP/NP等战斗中用得上或用不上的数据,**可以半路接管战斗**,会依据你的设置比较智能地帮你筛选助战,放技能,放宝具,吃苹果,依据特殊的选卡算法选卡,合理设定后可以**无脑通过绝大部分非高难关卡**,实战7-12回合能够刷完无限池终本  
 除战斗功能外,还提供以下功能:抽友情池,抽无限池,领邮箱狗粮  
-照  着  做  应  该  不  难,欢迎魔改,不过**我的代码里有毒**  
+照  着  做  应  该  不  难,欢迎魔改,不过**我的代码里有毒**,而且代码里没有注释,如果要我详细地对代码进行说明就会像[v7.6.5更新日志](#2021-11-22-v7.6.5)一样3行代码10行文档,本项目的诸多环节都是经过细致考虑和反复调整的,祝你好运  
 本项目的release均为智能构建,部分边缘功能不可用,仅作试用,无法保证获得技术支持  
 ## 配置 Config
 以下项目保存在`fgoTeamup.ini`内,只要填写就会应用于后续战斗,点击「应用更改」使之立即生效,保存需要点击按钮  
@@ -137,33 +137,12 @@ class ImageListener(dict):
 开虫洞的电脑可以是虚拟机,所以最终你只需要一台电脑和一部iPhone  
 ### 直接在手机上运行
 上面那条中引用到的视频的作者向我推荐了一个安卓软件:[AidLux](http://www.aidlearning.net/),类似于Android Subsystem for Linux(我愿称之为ASL)  
-官方已经提供了opencv等必要的机器学习相关库,几乎避免了ARM处理器上的各种问题,最重要的是免费,故以此为基础搭建FGO-py环境  
-``` bash
-apt install -y gcc g++ clang make git zlib* openssl libssl* adb
-wget https://www.python.org/ftp/python/3.9.9/Python-3.9.9.tgz # http://npm.taobao.org/mirrors/python/3.9.9/Python-3.9.9.tgz
-tar zxvf Python-3.9.9.tgz
-cd Python-3.9.9
-./configure --enable-optimizations
-make -j8
-make altinstall
-# pip3.9 config set global.index-url https://mirrors.aliyun.com/pypi/simple/
-# pip3.9 config set install.trusted-host mirrors.aliyun.com
-pip3.9 install airtest
-cp /usr/bin/adb /usr/local/lib/python3.9/site-packages/airtest/core/android/static/adb/linux/
-git clone https://github.com/hgjazhgj/FGO-py.git # https://gitee.com/hgjazhgj/FGO-py.git
-cd FGO-py/FGO-py
-cat > fgoImageListener.py << EOF
-import os,cv2
-class ImageListener(dict):
-    def __init__(self,path,ends='.png'):
-        super().__init__((file[:-len(ends)],cv2.imread(path+file))for file in os.listdir(path)if file.endswith(ends))
-    def flush(self):
-        return self
-EOF
-python3.9 -i fgoFunc.py
-```
-在展现出的python交互窗口中自由地使用FGO-py吧,注意由于没有UI,你需要手动连接设备/更改配置,**并在交互退出后kill python3.9**  
-因此,基于web的UI是当前最优先的开发内容  
+官方已经提供了opencv等必要的机器学习相关库,几乎避免了ARM处理器上的各种问题,最重要的是免费,故以此为基础搭建FGO-py环境,此方案已经被验证为完全可行,我现在用得很舒服  
+首先,你需要安装gcc等相关库  
+然后,编译安装python3.9  
+最后,以交互方式运行fgoFunc.py  
+在展现出的python交互窗口中自由地使用FGO-py吧  
+当然Qt的ui是没有的,注意由于没有UI,你需要手动连接设备/更改配置,**并在交互退出后kill python3.9**,因此,基于web的UI是当前最优先的开发内容  
 ## 按键映射 HKey
 |按键      |功能                                    |
 |----------|----------------------------------------|
@@ -226,6 +205,12 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 - ...  
 
 # 版本记录 Version Logs
+## 2021/11/22 v7.6.5
+**如果要我详细地对代码进行说明就会像本次更新日志一样2行代码10行文档,本项目的诸多环节都是经过细致考虑和反复调整的,所以别再说我代码没注释了**  
+bugfix:调整特殊掉落彩箱子的判定  
+先前在检测到「>>获得的战利品」判定战斗结束后在战利品展示页面检测特殊掉落的彩箱子,但是任务奖励的弹窗可能将其遮挡,可能导致漏判特殊掉落  
+我真傻,真的,我光考虑到奖励弹框可能遮挡「>>获得的战利品」所以只匹配了「>>获得的占」(v7.3.1),却不知道奖励弹框也会遮挡彩箱子  
+为完成此更改扩大此识别范围等待弹窗消失是得不偿失的,毕竟奖励弹框可能多到下一局开始后retry getStage(v4.9.10),现在会在自动机主循环中检测彩箱子,检测到就set flag,由于从敌人死亡掉落彩箱子到网络连接完成弹出任务进度框*应该*有足够的时间,而且会掉礼装的关底boss通常血量最高会被优先攻击选取(v6.4.0)而最先死亡,不会造成漏判,但是对代码造成了侵入性修改  
 ## 2021/11/19 v7.6.4
 更改:调整了「无法行动」的模板  
 这个模板很久很久以前(v2.10.2)就有了,当时研究发现「眩晕/魅惑/石化」在指令卡上反馈的图标和文字是一样的,就把图标也截进去了  
