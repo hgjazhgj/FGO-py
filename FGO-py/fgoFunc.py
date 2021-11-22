@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.6.4'
+__version__='v7.6.5'
 import logging,re,time,numpy
 from itertools import permutations
 from fgoAndroid import Android
@@ -64,6 +64,7 @@ class Battle:
         self.servant=[0,1,2]
         self.orderChange=[0,1,2,3,4,5]
         self.masterSkillReady=[True,True,True]
+        self.specialDrop=False
     def __call__(self):
         while True:
             if Check(0,.3).isTurnBegin():
@@ -109,9 +110,10 @@ class Battle:
                 logger.warning('Special drop')
                 Check.cache.save('fgoLogs/SpecialDrop')
                 device.press('\x67')
+            elif not self.specialDrop and Check.cache.isSpecialDropRainbowBox():self.specialDrop=True
             elif Check.cache.isBattleFinished():
                 logger.info('Battle Finished')
-                if Check.cache.isSpecialDropRainbowBox():
+                if self.specialDrop:
                     control.checkSpecialDrop()
                     logger.warning('Special drop')
                     Check.cache.save('fgoLogs/SpecialDrop')
