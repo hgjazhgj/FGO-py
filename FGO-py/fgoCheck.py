@@ -83,7 +83,7 @@ class Check(metaclass=logMeta(logger)):
     def isServantDead(self,friend=None):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
     def isServantFriend(self):return[self._compare(IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
-    def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(1436,3,1483,36))
+    def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(1436,3,1484,59))
     def isSpecialDropSuspended(self):return self._compare(IMG.CLOSE,(12,17,107,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
     def getCardColor(self):return[[.8,1.,1.1][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,806,196+386*i,871))]for i in range(5)]
