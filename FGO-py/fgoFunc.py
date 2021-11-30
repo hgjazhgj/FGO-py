@@ -18,8 +18,9 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.6.5'
+__version__='v7.7.0'
 import logging,re,time,numpy
+from threading import Thread
 from itertools import permutations
 from fgoAndroid import Android
 from fgoCheck import Check
@@ -35,6 +36,15 @@ class Device(Android):
         super().__init__(*args,**kwargs)
         Check.device=self
 device=Device()
+def guardian():
+    prev=None
+    while True:
+        if Check.cache is not prev and Check.cache.isNetworkError():
+            prev=Check.cache
+            logger.warning('Reconnecting')
+            device.press('K')
+        time.sleep(3)
+Thread(target=guardian,daemon=True,name='Guardian').start()
 
 def gacha():
     while fuse.value<30:
@@ -56,8 +66,8 @@ class Battle:
     skillInfo=[[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]]]
     houguInfo=[[1,7],[1,7],[1,7],[1,7],[1,7],[1,7]]
     masterSkill=[[0,0,0,7],[0,0,0,7],[0,0,0,0,7]]
-    friendInfo=[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]]
     def __init__(self):
+        Battle.friendInfo=[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]]
         self.turn=0
         self.stage=0
         self.stageTurn=0
@@ -128,14 +138,15 @@ class Battle:
     def getHouguInfo(self,pos,arg):return self.friendInfo[1][arg]if self.friend[pos]and self.friendInfo[1][arg]>=0 else self.houguInfo[self.orderChange[self.servant[pos]]][arg]
 class Main:
     teamIndex=0
-    def __init__(self,appleTotal=0,appleKind=0,battleFunc=lambda:Battle()()):
+    def __init__(self,appleTotal=0,appleKind=0,battleClass=Battle):
         self.appleTotal=appleTotal
         self.appleKind=appleKind
-        self.battleFunc=battleFunc
+        self.battleClass=battleClass
         self.appleCount=0
         self.battleCount=0
     def __call__(self):
         while True:
+            self.battleFunc=self.battleClass()
             while True:
                 if Check(.3,.3).isMainInterface():
                     device.press('8')

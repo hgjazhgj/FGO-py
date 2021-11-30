@@ -1,4 +1,6 @@
-import configparser,json,os,sys,threading
+import json,os,sys
+from configparser import ConfigParser
+from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QStyle,QSystemTrayIcon,QMenu
@@ -8,7 +10,7 @@ from fgoMainWindow import Ui_fgoMainWindow
 
 logger=fgoFunc.getLogger('Gui')
 
-NewConfigParser=type('NewConfigParser',(configparser.ConfigParser,),{'__init__':lambda self,file:(configparser.ConfigParser.__init__(self),self.read(file))[0],'optionxform':lambda self,optionstr:optionstr})
+NewConfigParser=type('NewConfigParser',(ConfigParser,),{'__init__':lambda self,file:(ConfigParser.__init__(self),self.read(file))[0],'optionxform':lambda self,optionstr:optionstr})
 
 class Config:
     def __init__(self,link=None):
@@ -47,7 +49,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             'stopOnSpecialDrop':(self.MENU_SETTINGS_SPECIALDROP,fgoFunc.control.stopOnSpecialDrop),
             'closeToTray':(self.MENU_CONTROL_TRAY,None),
             'stayOnTop':(self.MENU_CONTROL_STAYONTOP,lambda x:self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x))})
-        self.worker=threading.Thread()
+        self.worker=Thread()
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
         self.TRAY.activated.connect(lambda reason:self.show()if reason==QSystemTrayIcon.ActivationReason.Trigger else None)
@@ -68,7 +70,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def askQuit(self):
         if self.worker.is_alive():
             if QMessageBox.warning(self,'FGO-py','战斗正在进行,确认关闭?',QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No,QMessageBox.StandardButton.No)!=QMessageBox.StandardButton.Yes:return False
-            fgoFunc.control.terminate()
+            fgoFunc.control.terminate('Quit')
             self.worker.join()
         self.TRAY.hide()
         self.config.save()
@@ -85,7 +87,8 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             try:
                 self.signalFuncBegin.emit()
                 self.applyAll()
-                fgoFunc.Battle.friendInfo=[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]]
+                fgoFunc.control.reset()
+                fgoFunc.fuse.reset()
                 func(*args,**kwargs)
             except fgoFunc.ScriptTerminate as e:
                 logger.critical(e)
@@ -93,12 +96,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             except BaseException as e:
                 logger.exception(e)
                 msg=(repr(e),QSystemTrayIcon.MessageIcon.Critical)
-            else:msg=('战斗完成',QSystemTrayIcon.MessageIcon.Information)
-            finally:
-                self.signalFuncEnd.emit(msg)
-                fgoFunc.control.reset()
-                fgoFunc.fuse.reset()
-        self.worker=threading.Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
+            else:msg=('Done',QSystemTrayIcon.MessageIcon.Information)
+            finally:self.signalFuncEnd.emit(msg)
+        self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
         self.worker.start()
     def funcBegin(self):
         self.BTN_ONEBATTLE.setEnabled(False)
@@ -153,11 +153,11 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def runUserScript(self):self.runFunc(fgoFunc.UserScript())
     def runMain(self):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'],0,False)
-        if ok and text:self.runFunc(fgoFunc.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':lambda:fgoFunc.Battle()(),'用户脚本':fgoFunc.UserScript()}[text]))
+        if ok and text:self.runFunc(fgoFunc.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':fgoFunc.Battle,'用户脚本':fgoFunc.UserScript}[text]))
     def pause(self,x):
         if not x and not self.isDeviceAvaliable():return self.BTN_PAUSE.setChecked(True)
         fgoFunc.control.suspend()
-    def stop(self):fgoFunc.control.terminate()
+    def stop(self):fgoFunc.control.terminate('Terminate Command Effected')
     def stopLater(self,x):
         if x:
             num,ok=QInputDialog.getInt(self,'输入','剩余的战斗数量',1,1,1919810,1)
@@ -166,7 +166,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         else:fgoFunc.control.terminateLater()
     def checkScreenshot(self):
         if not self.isDeviceAvaliable():return
-        try:fgoFunc.Check(0).show()
+        try:fgoFunc.Check(0,blockFuse=True).show()
         except Exception as e:logger.exception(e)
     def applyAll(self):
         fgoFunc.Main.teamIndex=self.TXT_TEAM.value()
