@@ -7,21 +7,21 @@ class Control:
         self.__stopOnDefeatedFlag=False
         self.__stopOnSpecialDropFlag=False
     def reset(self):
-        self.__terminateFlag=False
+        self.__terminateMsg=''
         self.__suspendFlag=False
-        self.__terminateLaterFlag=-1
-    def terminate(self):self.__terminateFlag=True
+        self.__terminateLaterCount=-1
+    def terminate(self,msg='Terminated'):self.__terminateMsg=msg
     def checkTerminate(self):
-        if self.__terminateFlag:raise ScriptTerminate('Terminate Command Effected')
+        if self.__terminateMsg:raise ScriptTerminate(self.__terminateMsg)
     def suspend(self):self.__suspendFlag=not self.__suspendFlag
     def checkSuspend(self):
         while self.__suspendFlag:
             self.checkTerminate()
-            time.sleep(.07/self.speed)
-    def terminateLater(self,count=-1):self.__terminateLaterFlag=count
+            time.sleep(.07)
+    def terminateLater(self,count=-1):self.__terminateLaterCount=count
     def checkTerminateLater(self):
-        self.__terminateLaterFlag-=1
-        if not self.__terminateLaterFlag:raise ScriptTerminate('Terminate Appointment Effected')
+        self.__terminateLaterCount-=1
+        if not self.__terminateLaterCount:raise ScriptTerminate('Terminate Appointment Effected')
     def sleep(self,x,part=.07):
         timer=time.time()+(x-part)/self.speed
         while time.time()<timer:

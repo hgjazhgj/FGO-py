@@ -26,16 +26,16 @@ class Check(metaclass=logMeta(logger)):
             next(ans)
             return ans
         return wrapper
-    def __init__(self,forwardLagency=.1,backwardLagency=0):
+    def __init__(self,forwardLagency=.1,backwardLagency=0,blockFuse=False):
         control.sleep(forwardLagency)
         self.im=self.device.screenshot()
         self.time=time.time()
         Check.cache=self
-        fuse.increase()
+        if not blockFuse:fuse.increase()
         control.sleep(backwardLagency)
     def _clip(self,rect):return self.im[rect[1]:rect[3],rect[0]:rect[2]]
     def _loc(self,img,rect=(0,0,1920,1080)):return cv2.minMaxLoc(cv2.matchTemplate(self._clip(rect),img,cv2.TM_SQDIFF_NORMED,mask=numpy.max(img,axis=2)>>1))
-    def _compare(self,img,rect=(0,0,1920,1080),threshold=.05):return threshold>self._loc(img,rect)[0]and fuse.reset(self)
+    def _compare(self,img,rect=(0,0,1920,1080),threshold=.05,blockFuse=False):return threshold>self._loc(img,rect)[0]and(blockFuse or fuse.reset(self))
     def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
     def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR,numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0and(hierarchy[0][i][2]==-1or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self._clip(rect),cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     @startIter
@@ -78,6 +78,7 @@ class Check(metaclass=logMeta(logger)):
     def isMailDone(self):return self._iterMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,920,1919,1049))
     def isMailListEnd(self):return self._isListEnd((1406,1018))
+    def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(816,392,1085,518),blockFuse=True)
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1245,347,1318,389))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
     def isServantDead(self,friend=None):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
