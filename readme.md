@@ -49,7 +49,7 @@ Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4Q
 
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
-仅适用于命运-冠位指定安卓简体中文版本,仅能运行在Windows操作系统上,iOS等请看[在其他系统环境下使用](#在其他系统环境下使用-Use-in-Other-Environments)  
+仅适用于命运-冠位指定安卓简体中文版本,iOS等请看[在其他系统环境下使用](#在其他系统环境下使用-Use-in-Other-Environments)  
 # 警告 Warning
 ***
 [<<哔哩哔哩游戏平台用户协议>>](https://yhxy.biligame.com/)第11条第2款规定:  
@@ -116,17 +116,6 @@ ui大概长这样:
 在我的手机(OnePlus 8 Pro和RedMi 8A)上大概是这么个效果,**其它系统具体表现如何我也不清楚**:  
 ![16-9](doc/16-9.png)  
 由于这个更改是很快的,fgo的全面屏适配又跟屎一样不如没有,并且你完全可以在关闭fgo后立刻改回来不影响其他应用,你甚至可以在一些手机的模拟终端(如[Termux](https://termux.com/))中执行这个命令而无需连接电脑,所以我暂时不打算写全面屏适配  
-### 非Windows电脑
-修改fgoImageListener.py为如下内容  
-``` python3
-import os,cv2
-class ImageListener(dict):
-    def __init__(self,path,ends='.png'):
-        super().__init__((file[:-len(ends)],cv2.imread(path+file))for file in os.listdir(path)if file.endswith(ends))
-    def flush(self):
-        return self
-```
-如果你需要动态监控目录更改,就自己写这个类  
 ### 非Android手机
 简单重写一下fgoFunc.Device类就可以了  
 此外,如果你碰巧拥有一部iPhone/iPad和一台Windows电脑,或可参考以下步骤,思路来源于[BV1Yf4y1A7gG](https://www.bilibili.com/video/BV1Yf4y1A7gG)  
@@ -135,14 +124,12 @@ class ImageListener(dict):
 第一台电脑上开程序连接到安卓模拟器  
 属于是曲线救国了  
 开虫洞的电脑可以是虚拟机,所以最终你只需要一台电脑和一部iPhone  
+### 非Windows电脑
+现已可直接使用,但是目录监控功能无效,如果你更改了助战模板等文件,需要重新运行程序  
 ### 直接在手机上运行
 上面那条中引用到的视频的作者向我推荐了一个安卓软件:[AidLux](http://www.aidlearning.net/),类似于Android Subsystem for Linux(我愿称之为ASL)  
 官方已经提供了opencv等必要的机器学习相关库,几乎避免了ARM处理器上的各种问题,最重要的是免费,故以此为基础搭建FGO-py环境,此方案已经被验证为完全可行,我现在用得很舒服  
-首先,你需要安装gcc等相关库  
-然后,编译安装python3.9  
-最后,以交互方式运行fgoFunc.py  
-在展现出的python交互窗口中自由地使用FGO-py吧  
-当然Qt的ui是没有的,注意由于没有UI,你需要手动连接设备/更改配置,**并在交互退出后kill python3.9**,因此,基于web的UI是当前最优先的开发内容  
+当然Qt的ui是没有的,注意由于没有UI,你需要以交互方式运行fgoFunc.py,自己手动连接设备/更改配置,**并在交互退出后kill python3.9**,因此,基于web的UI是当前最优先的开发内容  
 ## 按键映射 HKey
 |按键      |功能                                    |
 |----------|----------------------------------------|
@@ -192,9 +179,7 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 有想到但是实际不一定会做的东西 TODO
 - web UI  
-- linux DirListener  
 - docker  
-- ARM
 - getEnemyHPGauge  
 - getEnemyNP
 - 新的选卡算法
@@ -205,8 +190,14 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 - ...  
 
 # 版本记录 Version Logs
+## 2021/12/03 v7.8.0
+更新:兼容非windows电脑  
+你不再需要手动替换一些代码  
+更新:战败撤退  
+灵脉石使得战败界面布局改变了  
+另:docker上的方案已经确认,待webUI完成后一并放出  
 ## 2021/12/01 v7.7.0
-更新:断线检测自动重连  
+更新:断线重连  
 ## 2021/11/22 v7.6.5
 **如果要我详细地对代码进行说明就会像本次更新日志一样2行代码10行文档,本项目的诸多环节都是经过细致考虑和反复调整的,所以别再说我代码没注释了**  
 bugfix:调整特殊掉落彩箱子的判定  
