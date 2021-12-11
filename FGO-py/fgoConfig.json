@@ -2,5 +2,9 @@
     "stopOnDefeated": true,
     "stopOnSpecialDrop": true,
     "stayOnTop": true,
-    "closeToTray": false
+    "closeToTray": false,
+    "notifyEnable": false,
+    "notifyParam": {
+        "scKey": ""
+    }
 }
