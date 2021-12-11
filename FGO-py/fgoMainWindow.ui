@@ -3845,6 +3845,7 @@
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_MAPKEY"/>
     <addaction name="MENU_CONTROL_169"/>
+    <addaction name="MENU_CONTROL_NOTIFY"/>
     <addaction name="separator"/>
     <addaction name="MENU_CONTROL_EXEC"/>
    </widget>
@@ -3955,6 +3956,14 @@
   <action name="MENU_CONTROL_RELOADTEAMUP">
    <property name="text">
     <string>重新载入编队</string>
+   </property>
+  </action>
+  <action name="MENU_CONTROL_NOTIFY">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>消息推送</string>
    </property>
   </action>
  </widget>
@@ -4236,6 +4245,12 @@
    <receiver>fgoMainWindow</receiver>
    <slot>reloadTeamup()</slot>
   </connection>
+  <connection>
+   <sender>MENU_CONTROL_NOTIFY</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>notify()</slot>
+  </connection>
  </connections>
  <slots>
   <slot>runBattle()</slot>
@@ -4265,5 +4280,6 @@
   <slot>invoke169()</slot>
   <slot>revoke169()</slot>
   <slot>reloadTeamup()</slot>
+  <slot>notify()</slot>
  </slots>
 </ui>

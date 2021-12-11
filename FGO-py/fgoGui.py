@@ -6,6 +6,7 @@ from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QStyle,QSystemTrayIcon,QMenu
 
 import fgoFunc
+from fgoServerChann import ServerChann
 from fgoMainWindow import Ui_fgoMainWindow
 
 logger=fgoFunc.getLogger('Gui')
@@ -48,7 +49,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             'stopOnDefeated':(self.MENU_SETTINGS_DEFEATED,fgoFunc.control.stopOnDefeated),
             'stopOnSpecialDrop':(self.MENU_SETTINGS_SPECIALDROP,fgoFunc.control.stopOnSpecialDrop),
             'closeToTray':(self.MENU_CONTROL_TRAY,None),
-            'stayOnTop':(self.MENU_CONTROL_STAYONTOP,lambda x:self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x))})
+            'stayOnTop':(self.MENU_CONTROL_STAYONTOP,lambda x:self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x)),
+            'notifyEnable':(self.MENU_CONTROL_NOTIFY,None)})
+        self.notifier=ServerChann(*self.config['notifyParam'])
         self.worker=Thread()
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
@@ -97,7 +100,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                 logger.exception(e)
                 msg=(repr(e),QSystemTrayIcon.MessageIcon.Critical)
             else:msg=('Done',QSystemTrayIcon.MessageIcon.Information)
-            finally:self.signalFuncEnd.emit(msg)
+            finally:
+                self.signalFuncEnd.emit(msg)
+                if self.config['notifyEnable']and not self.notifier(msg[0]):logger.critical('Notify post failed')
         self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
         self.worker.start()
     def funcBegin(self):
@@ -196,6 +201,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def revoke169(self):
         if not self.isDeviceAvaliable():return
         fgoFunc.device.revoke169()
+    def notify(self,x):self.config['notifyEnable']=x
     def exec(self):
         s=QApplication.clipboard().text()
         if QMessageBox.information(self,'FGO-py',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
@@ -212,16 +218,13 @@ FGO全自动脚本
   <tr><td>QQ群</td><td>932481680</td></tr>
 </table>
 <!-- 都看到这里了真的不考虑资瓷一下吗... -->
-这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>/<font color="#C50000">数字人民币</font>/银联<font color="#DE3232">云</font><font color="#004889">闪</font><font color="#007F89">付</font>收款码&Monero地址<br/>请给我打钱<br/>
+这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>收款码和Monero地址<br/>请给我打钱<br/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/ZtBFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9/R3wATtkAA=="/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9Wl3wAdBsAA=="/>
-<img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAAADFAP///wABNA0YfTD8EEX4EAhFkOqQRfjAKH0sd3gBRkUY/1w3OGEUAEB/Uud4Oe4EsDpSpUDMTx+Ywi9i0FgGU5jv/ORgGaTV8Fc2xTjI2tt4hrZmSDiqDzj/z8f4AVVUAH3llfBFPe0QRXGdEEX0XRB9nd3wAeM0AA=="/>
 <table border="0"><tr>
-  <td><img height="132" width="132" src="data:image/bmp;base64,Qk3gAgAAAAAAAEoAAAAoAAAAIQAAACEAAAABAAQAAAAAAJYCAAASCwAAEgsAAAUAAAAFAAAAiUgAAIl/AAAyMt4A////AAAAAAAiIiIjIiMwAzAwABMzMTMTMAAAACMzMyMjMDADMAMzMREzETMQACIiIyIjIyMjMAAwAwARMxEzMzAAIzMjIiMjIjMzAAMDMzETMTMzFEQjIiMiIyMyIwMDAzMwMRERExEwACMiIzMzIzMgMwMDADATEzMRExREIyIiIiIjMiAwMwAAABETExEzNEQjMzMzMzMjMAMAMAADExMzETM0RCIiIzMzIyIjAwAAAAMzERERMxREMzMyIiMyMjMzMzMwMzMzEzExMAAjMzMjIiIjIAAzMzMDMTExMxEQADIiIzMjMjMzAAMzMDARExExMRAAMyMzMiMiIzAAMzAwABMTMTMTMAAjMzIzMjMzMwMwADADETExMTMURDMyIiMyIzMgAzAzAwAzEzMxMTREMjMyMyMyMiMAMAMDMzExExETFEQiIzIiIiMzMDMzAzAwMREREREURDIzMjMjMjIjADMDAzAzExMzEzAAMiIiMiMiMiMDAwMwMxMzERMTMAAyMyIzMjIyIDAAMAADEzMzMREwACIyMiMzIjIwMzAAAwMzMzMRMzAAIjMiIjMyIzAAMDMzMzMxExMxNEQyIyMzIyIjMzADAwMAERERMxEURCIiIyIzMjIzMwMzMDMxEREzERREIzMiIjMjIzMzMzAwABMRMxETFBQjIjMzMzMyMDMAMDMDMTMzMzMwACIiIiIiIyMjAwMDAwMTExERERAAMzMjMzMjMjMDAzMwABMzEzMzEAAiIiMiIyMiIDMwMwADEzMTERMQACMzIyIjIyIwMDAAAwMzMxMRExREIyIjIiMjIzAAAwMAMxMzExETGAQjIiMzMyMzMzADMDMzMTMTMzMURCMiIiIiIyIzMwMwMDARExERERREIzMAAA=="/></td>
   <td><img height="148" width="148" src="data:image/bmp;base64,Qk1mAQAAAAAAAD4AAAAoAAAAJQAAACUAAAABAAEAAAAAACgBAAB0EgAAdBIAAAAAAAAAAAAAAAAAAP///wABNpugAAAAAH0Q2oL4AAAARb1nmkAAAABFZnR3IAAAAEXpv9AwAAAAfZSA10AAAAABXdMVYAAAAP8qTsdQAAAAMd998EgAAACighiQeAAAAFCt3LiwAAAAo3aTXIAAAACAQzl8SAAAAEehYzFgAAAAcZ0FlEAAAACmEjZXoAAAAD2l77w4AAAAvy27zoAAAAD4P5FWQAAAAEYVS3VwAAAAyXKhYYAAAACvQwA4OAAAALyhfNNwAAAAhuODSLAAAABIC/+BMAAAABpa6jMwAAAA6TltfQAAAAATihl8wAAAACzQ8IxIAAAA/zQAZ/gAAAABVVVUAAAAAH0qre3wAAAARXxupRAAAABFiJ3tEAAAAEUGtG0QAAAAfWa6DfAAAAABsL3cAAAAAA=="/></td>
   <td><font face="Courier New">42Cnr V9Tuz E1jiS<br/>2ucGw tzN8g F6o4y<br/>9SkHs X1eZE vtiDf<br/>4QcL1 NXvfZ PhDu7<br/>LYStW rbsQM 9UUGW<br/>nqXgh ManMB dqjEW<br/>5oaDY</font></td>
 </tr></table>
-<a href="https://space.bilibili.com/2632341">BiliBili充电</a>(请勿氪金充电,<a href="https://account.bilibili.com/account/big/myPackage">大会员每月5B币券</a>)
 ''')
     def license(self):os.system(f'start notepad {"LICENSE"if os.path.isfile("LICENSE")else"../LICENSE"}')
 
