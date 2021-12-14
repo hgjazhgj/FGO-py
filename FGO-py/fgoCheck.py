@@ -6,6 +6,7 @@ from fgoLogging import getLogger,logMeta
 logger=getLogger('Check')
 IMG=type('IMG',(),{i[:-4].upper():cv2.imread(f'fgoImage/{i}')for i in os.listdir('fgoImage')if i[-4:]=='.png'})
 class Check(metaclass=logMeta(logger)):
+    # The accuracy of each API here is designed to be 100% at 1920x1080 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Check.cache.save() or fuse.save().
     cache=None
     device=None
     def retryOnError(interval=.1,err=TypeError):
