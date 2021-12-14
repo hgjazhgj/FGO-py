@@ -147,9 +147,13 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                 if text=='/gw':
                     import netifaces
                     text=f'{netifaces.gateways()["default"][netifaces.AF_INET][0]}:5555'
-                elif text=='/bs':
+                elif text=='/bs4':
                     import winreg
-                    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config')as key:text=f'127.0.0.1:{winreg.QueryValueEx(key,"BstAdbPort")[0]}'
+                    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config')as key:text='127.0.0.1:'+winreg.QueryValueEx(key,"BstAdbPort")[0]
+                elif text=='/bs5':
+                    import re,winreg
+                    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_nxt')as key:text=winreg.QueryValueEx(key,'UserDefinedDir')[0]
+                    with open(os.path.join(text,'bluestacks.conf'))as f:text='127.0.0.1:'+re.search(r'bst\.instance\.Nougat64\.status\.adb_port="(\d*)"',f.read()).group(1)
             except Exception as e:return logger.exception(e)
         fgoFunc.device=fgoFunc.Device(text.replace(' ',''))
         self.LBL_DEVICE.setText(fgoFunc.device.name)
