@@ -51,7 +51,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             'closeToTray':(self.MENU_CONTROL_TRAY,None),
             'stayOnTop':(self.MENU_CONTROL_STAYONTOP,lambda x:self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x)),
             'notifyEnable':(self.MENU_CONTROL_NOTIFY,None)})
-        self.notifier=ServerChann(*self.config['notifyParam'])
+        self.notifier=ServerChann(**self.config['notifyParam'])
         self.worker=Thread()
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
