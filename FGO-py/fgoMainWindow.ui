@@ -256,7 +256,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -393,7 +393,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -530,7 +530,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -608,7 +608,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -843,7 +843,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -980,7 +980,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -1117,7 +1117,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -1195,7 +1195,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -1320,7 +1320,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -1457,7 +1457,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -1594,7 +1594,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -1672,7 +1672,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -1797,7 +1797,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -1934,7 +1934,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -2071,7 +2071,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -2149,7 +2149,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -2274,7 +2274,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -2411,7 +2411,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -2548,7 +2548,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -2626,7 +2626,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -2751,7 +2751,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -2888,7 +2888,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -3025,7 +3025,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -3103,7 +3103,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
-             <number>255</number>
+             <number>15</number>
             </property>
             <property name="displayIntegerBase">
              <number>16</number>
@@ -3243,7 +3243,7 @@
            <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
           <property name="maximum">
-           <number>255</number>
+           <number>15</number>
           </property>
           <property name="displayIntegerBase">
            <number>16</number>
@@ -3380,7 +3380,7 @@
            <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
           <property name="maximum">
-           <number>255</number>
+           <number>15</number>
           </property>
           <property name="displayIntegerBase">
            <number>16</number>
@@ -3548,7 +3548,7 @@
            <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
           <property name="maximum">
-           <number>255</number>
+           <number>15</number>
           </property>
           <property name="displayIntegerBase">
            <number>16</number>
@@ -3853,8 +3853,9 @@
     <property name="title">
      <string>设置</string>
     </property>
-    <addaction name="MENU_SETTINGS_SPECIALDROP"/>
     <addaction name="MENU_SETTINGS_DEFEATED"/>
+    <addaction name="MENU_SETTINGS_KIZUNAREISOU"/>
+    <addaction name="MENU_SETTINGS_SPECIALDROP"/>
    </widget>
    <addaction name="MENU_FILE"/>
    <addaction name="MENU_SCRIPT"/>
@@ -3909,20 +3910,25 @@
     <string>Execute</string>
    </property>
   </action>
-  <action name="MENU_SETTINGS_SPECIALDROP">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>特殊掉落时终止脚本运行</string>
-   </property>
-  </action>
   <action name="MENU_SETTINGS_DEFEATED">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>战斗撤退时终止脚本运行</string>
+    <string>战败撤退时终止脚本运行</string>
+   </property>
+  </action>
+  <action name="MENU_SETTINGS_KIZUNAREISOU">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>获得羁绊礼装时终止脚本运行</string>
+   </property>
+  </action>
+  <action name="MENU_SETTINGS_SPECIALDROP">
+   <property name="text">
+    <string>若干特殊掉落后终止脚本运行</string>
    </property>
   </action>
   <action name="MENU_ABOUT_LICENSE">
@@ -4210,10 +4216,16 @@
    <slot>stopOnDefeated(bool)</slot>
   </connection>
   <connection>
-   <sender>MENU_SETTINGS_SPECIALDROP</sender>
+   <sender>MENU_SETTINGS_KIZUNAREISOU</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>stopOnSpecialDrop(bool)</slot>
+   <slot>stopOnKizunaReisou(bool)</slot>
+  </connection>
+  <connection>
+   <sender>MENU_SETTINGS_SPECIALDROP</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>stopOnSpecialDrop()</slot>
   </connection>
   <connection>
    <sender>MENU_ABOUT_LICENSE</sender>
@@ -4273,8 +4285,9 @@
   <slot>runJackpot()</slot>
   <slot>runMailFiltering()</slot>
   <slot>exec()</slot>
-  <slot>stopOnSpecialDrop(bool)</slot>
   <slot>stopOnDefeated(bool)</slot>
+  <slot>stopOnKizunaReisou(bool)</slot>
+  <slot>stopOnSpecialDrop(bool)</slot>
   <slot>license()</slot>
   <slot>closeToTray(bool)</slot>
   <slot>invoke169()</slot>
