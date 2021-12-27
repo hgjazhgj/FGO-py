@@ -5,7 +5,8 @@ class Control:
     def __init__(self):
         self.reset()
         self.__stopOnDefeatedFlag=False
-        self.__stopOnSpecialDropFlag=False
+        self.__stopOnKizunaReisouFlag=False
+        self.__stopOnSpecialDropCount=0
     def reset(self):
         self.__terminateMsg=''
         self.__suspendFlag=False
@@ -32,7 +33,11 @@ class Control:
     def stopOnDefeated(self,x):self.__stopOnDefeatedFlag=x
     def checkDefeated(self):
         if self.__stopOnDefeatedFlag:raise ScriptTerminate('Battle Defeated')
-    def stopOnSpecialDrop(self,x):self.__stopOnSpecialDropFlag=x
+    def stopOnKizunaReisou(self,x):self.__stopOnKizunaReisouFlag=x
+    def checkKizunaReisou(self):
+        if self.__stopOnKizunaReisouFlag:raise ScriptTerminate('Kizuna Reisou')
+    def stopOnSpecialDrop(self,x=0):self.__stopOnSpecialDropCount=x
     def checkSpecialDrop(self):
-        if self.__stopOnSpecialDropFlag:raise ScriptTerminate('Special Drop')
+        self.__stopOnSpecialDropCount-=1
+        if not self.__stopOnSpecialDropCount:raise ScriptTerminate('Special Drop')
 control=Control()

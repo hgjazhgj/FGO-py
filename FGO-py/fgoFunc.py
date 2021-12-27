@@ -18,7 +18,7 @@
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
-__version__='v7.9.2'
+__version__='v7.10.0'
 import logging,re,time,numpy
 from threading import Thread
 from itertools import permutations
@@ -74,7 +74,7 @@ class Battle:
         self.servant=[0,1,2]
         self.orderChange=[0,1,2,3,4,5]
         self.masterSkillReady=[True,True,True]
-        self.specialDrop=False
+        self.rainbowBox=False
     def __call__(self):
         while True:
             if Check(0,.3).isTurnBegin():
@@ -116,20 +116,21 @@ class Battle:
                 device.perform(' ',(2100,))
                 device.perform(self.selectCard(),(270,270,2270,1270,6000))
             elif Check.cache.isSpecialDropSuspended():
-                control.checkSpecialDrop()
-                logger.warning('Special drop')
-                Check.cache.save('fgoLogs/SpecialDrop')
+                control.checkKizunaReisou()
+                logger.warning('Kizuna Reisou')
+                Check.cache.save('fgoLog/SpecialDrop')
                 device.press('\x67')
-            elif not self.specialDrop and Check.cache.isSpecialDropRainbowBox():self.specialDrop=True
+            elif not self.rainbowBox and Check.cache.isSpecialDropRainbowBox():self.rainbowBox=True
             elif Check.cache.isBattleFinished():
                 logger.info('Battle Finished')
-                if self.specialDrop:
+                if self.rainbowBox:
                     control.checkSpecialDrop()
                     logger.warning('Special drop')
-                    Check.cache.save('fgoLogs/SpecialDrop')
+                    Check.cache.save('fgoLog/SpecialDrop')
                 return self.turn
             elif Check.cache.isBattleDefeated():
                 logger.warning('Battle Defeated')
+                control.checkDefeated()
                 return 0
             device.press('\xBB')
     @logit(logger,logging.INFO)
@@ -169,9 +170,7 @@ class Main:
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
             if self.battleFunc():device.press(' ')
-            else:
-                control.checkDefeated()
-                device.perform('BIK',(500,500,500))
+            else:device.perform('BIK',(500,500,500))
             control.checkTerminateLater()
     @logit(logger,logging.INFO)
     def eatApple(self):
@@ -192,7 +191,7 @@ class Main:
             timer=time.time()
             while True:
                 for i in(i for i,j in friendImg.items()if(lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(j))):
-                    Battle.friendInfo=(lambda r:(lambda p:([[-1 if p[i*4+j]=='x'else int(p[i*4+j])for j in range(4)]for i in range(3)]+[-1 if p[i+12]=='x'else int(p[i+12])for i in range(2)]))(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.search('[0-9xX]{14}$',i)if i else None)
+                    Battle.friendInfo=(lambda r:(lambda p:([[[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i[-14:].upper()))
                     return i
                 if Check.cache.isFriendListEnd():break
                 device.swipe((800,900,800,300))

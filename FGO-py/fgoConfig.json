@@ -1,6 +1,6 @@
 {
     "stopOnDefeated": true,
-    "stopOnSpecialDrop": true,
+    "stopOnKizunaReisou": true,
     "stayOnTop": true,
     "closeToTray": false,
     "notifyEnable": false,

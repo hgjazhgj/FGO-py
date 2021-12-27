@@ -47,7 +47,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.reloadTeamup()
         self.config=Config({
             'stopOnDefeated':(self.MENU_SETTINGS_DEFEATED,fgoFunc.control.stopOnDefeated),
-            'stopOnSpecialDrop':(self.MENU_SETTINGS_SPECIALDROP,fgoFunc.control.stopOnSpecialDrop),
+            'stopOnKizunaReisou':(self.MENU_SETTINGS_KIZUNAREISOU,fgoFunc.control.stopOnKizunaReisou),
             'closeToTray':(self.MENU_CONTROL_TRAY,None),
             'stayOnTop':(self.MENU_CONTROL_STAYONTOP,lambda x:self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x)),
             'notifyEnable':(self.MENU_CONTROL_NOTIFY,None)})
@@ -187,7 +187,10 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def runJackpot(self):self.runFunc(fgoFunc.jackpot)
     def runMailFiltering(self):self.runFunc(fgoFunc.mailFiltering)
     def stopOnDefeated(self,x):self.config['stopOnDefeated']=x
-    def stopOnSpecialDrop(self,x):self.config['stopOnSpecialDrop']=x
+    def stopOnKizunaReisou(self,x):self.config['stopOnKizunaReisou']=x
+    def stopOnSpecialDrop(self):
+        num,ok=QInputDialog.getInt(self,'输入','剩余的特殊掉落数量',1,0,1919810,1)
+        if ok:fgoFunc.control.stopOnSpecialDrop(num)
     def stayOnTop(self,x):
         self.config['stayOnTop']=x
         self.show()
@@ -232,7 +235,7 @@ FGO全自动脚本
 ''')
     def license(self):os.system(f'start notepad {"LICENSE"if os.path.isfile("LICENSE")else"../LICENSE"}')
 
-if __name__=='__main__':
+def main():
     app=QApplication(sys.argv)
     myWin=MyMainWindow()
     myWin.show()
