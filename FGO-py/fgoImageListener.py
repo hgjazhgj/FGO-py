@@ -35,7 +35,7 @@ if platform.system()=='Windows':
                 self.msg.append([2,file])
             def onUpdated(file):
                 for i in(i for i in range(len(self.msg)-1,-1,-1)if self.msg[i][1]==file):
-                    if self.msg[i][0]==1or self.msg[i][0]==3:return
+                    if self.msg[i][0]==1 or self.msg[i][0]==3:return
                     if self.msg[i][0]==5:
                         temp=self.msg[i-1][1]
                         del self.msg[i-1:i+1]
@@ -84,7 +84,7 @@ class ImageListener(dict):
             nonlocal oldName
             if oldName is not None:del self[oldName]
             oldName=name
-        def onRenamedTo(name):self[name]=self[oldName]if lastAction==4else cv2.imread(self.path+name+self.ends)
+        def onRenamedTo(name):self[name]=self[oldName]if lastAction==4 else cv2.imread(self.path+name+self.ends)
         for action,name in((action,file[:-len(self.ends)])for action,file in self.listener.get()if file.endswith(self.ends)):
             {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda _:None)(name)
             logger.info(f'{dict(((1,"Create"),(2,"Delete"),(3,"Update"),(4,"RenameFrom"),(5,"RenameTo"))).get(action,None)} {name}')

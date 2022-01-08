@@ -89,7 +89,7 @@ class Check(metaclass=logMeta(logger)):
     def isSpecialDropSuspended(self):return self._compare(IMG.CLOSE,(12,17,107,102))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
     def getCardColor(self):return[[.8,1.,1.1][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,806,196+386*i,871))]for i in range(5)]
-    def getCardGroup(self):
+    def getCardGroup(self): # When your servant and the support one has the same command card portrait, getCardGroup will see them as in the same group, which is not true and hard to fix, because the support tag on a command card might be covered when there are many buff icons. This problem causes selectCard to not provide the best solve
         universe={0,1,2,3,4}
         result=[-1]*5
         index=0
