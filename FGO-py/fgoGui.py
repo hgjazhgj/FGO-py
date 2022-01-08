@@ -6,6 +6,7 @@ from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QStyle,QSystemTrayIcon,QMenu
 
 import fgoFunc
+from fgoConst import version
 from fgoServerChann import ServerChann
 from fgoMainWindow import Ui_fgoMainWindow
 
@@ -218,7 +219,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
 <h2>FGO-py</h2>
 FGO全自动脚本
 <table border="0">
-  <tr><td>当前版本</td><td>{fgoFunc.__version__}</td></tr>
+  <tr><td>当前版本</td><td>{version}</td></tr>
   <tr><td>作者</td><td>hgjazhgj</td></tr>
   <tr><td>项目地址</td><td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td></tr>
   <tr><td>电子邮箱</td><td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td></tr>
