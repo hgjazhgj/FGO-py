@@ -1,5 +1,27 @@
-import time
-ScriptTerminate=type('ScriptTerminate',(Exception,),{'__init__':lambda self,msg='Unknown Reason':Exception.__init__(self,f'Script Stopped: {msg}')})
+import time,requests,urllib3
+
+def send2bark(title, content):
+    bl = "https://api.day.app/8k3gznD9TwuSvDvnXRbSkX"
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    try:
+        msg = "{0}/{1}/{2}".format(bl, title, content)
+        link = msg
+        session = requests.Session()
+        session.trust_env = False
+        session.get(link)
+    except Exception as e:
+        print('Reason:', e)
+        return
+    return
+
+def barkerror(func,msg):
+    msg = f'Script Stopped: {msg}'
+    send2bark('FGO-PY', msg)
+    Exception.__init__(func, f'Script Stopped: {msg}')
+
+
+ScriptTerminate = type('ScriptTerminate', (Exception,), {
+                       '__init__': lambda self, msg='Unknown Reason': barkerror(self,msg)})
 class Control:
     speed=1
     def __init__(self):

@@ -10,9 +10,11 @@ from fgoConst import version
 from fgoServerChann import ServerChann
 from fgoMainWindow import Ui_fgoMainWindow
 
+from fgoControl import send2bark
+
 logger=fgoFunc.getLogger('Gui')
 
-NewConfigParser=type('NewConfigParser',(ConfigParser,),{'__init__':lambda self,file:(ConfigParser.__init__(self),self.read(file))[0],'optionxform':lambda self,optionstr:optionstr})
+NewConfigParser=type('NewConfigParser',(ConfigParser,),{'__init__':lambda self,file:(ConfigParser.__init__(self),self.read(file,'utf-8'))[0],'optionxform':lambda self,optionstr:optionstr})
 
 class Config:
     def __init__(self,link=None):
@@ -100,7 +102,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             except BaseException as e:
                 logger.exception(e)
                 msg=(repr(e),QSystemTrayIcon.MessageIcon.Critical)
-            else:msg=('Done',QSystemTrayIcon.MessageIcon.Information)
+            else:
+                msg=('Done',QSystemTrayIcon.MessageIcon.Information)
+                send2bark('FGO-PY','Done')
             finally:
                 self.signalFuncEnd.emit(msg)
                 if self.config['notifyEnable']and not self.notifier(msg[0]):logger.critical('Notify post failed')
