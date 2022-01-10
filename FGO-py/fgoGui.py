@@ -14,7 +14,7 @@ from fgoControl import send2bark
 
 logger=fgoFunc.getLogger('Gui')
 
-NewConfigParser=type('NewConfigParser',(ConfigParser,),{'__init__':lambda self,file:(ConfigParser.__init__(self),self.read(file))[0],'optionxform':lambda self,optionstr:optionstr})
+NewConfigParser=type('NewConfigParser',(ConfigParser,),{'__init__':lambda self,file:(ConfigParser.__init__(self),self.read(file,'utf-8'))[0],'optionxform':lambda self,optionstr:optionstr})
 
 class Config:
     def __init__(self,link=None):
