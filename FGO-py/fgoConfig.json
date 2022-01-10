@@ -1,7 +1,7 @@
 {
     "stopOnDefeated": true,
     "stopOnKizunaReisou": true,
-    "stayOnTop": true,
+    "stayOnTop": false,
     "closeToTray": false,
     "notifyEnable": false,
     "notifyParam": {
