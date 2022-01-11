@@ -1,9 +1,16 @@
-import re,threading,time,cv2,numpy
+import re
+import threading
+import time
+
+import cv2
+import numpy
 from airtest.core.android.adb import ADB
 from airtest.core.android.android import Android as Airtest
 from airtest.core.android.constant import CAP_METHOD
+
 from fgoControl import control
 from fgoLogging import getLogger
+
 logger=getLogger('Android')
 class Android(Airtest):
     def __init__(self,name=None,**kwargs):
@@ -12,7 +19,7 @@ class Android(Airtest):
             self.name=None
             return
         try:
-            super().__init__(name,**({'cap_method':CAP_METHOD.JAVACAP}|kwargs))
+            super().__init__(name,**{'cap_method':CAP_METHOD.JAVACAP}|kwargs)
             self.rotation_watcher.reg_callback(lambda _:self.adjustOffset())
         except Exception as e:
             logger.exception(e)

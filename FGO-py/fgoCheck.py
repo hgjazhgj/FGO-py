@@ -60,7 +60,7 @@ class Check(metaclass=logMeta(logger)):
         cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
-    def find(self,img,rect=(0,0,1920,1080),threshold=.02):return(lambda loc:((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
+    def _find(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
     def setupMailDone(self):Check._iterMailDone=self._iterMatch((303,156,378,186))
     def setupServantDead(self,friend=None):
         Check._iterServantFace=[self._iterMatch((195+480*i,640,296+480*i,740))for i in range(3)]
@@ -109,5 +109,7 @@ class Check(metaclass=logMeta(logger)):
     @retryOnError()
     def getStageTotal(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1369,20,1397,56),.5)+1
     def getTeamIndex(self):return self._loc(IMG.TEAMINDEX,(768,52,1152,92))[2][0]//37
+    def findFriend(self,img):return self._find(img,(20,250,1850,1080))
+    def findMail(self,img):return self._find(img,(110,250,1380,1080),threshold=.016)
     def getEnemyHPGauge(self):raise NotImplementedError
     def getEnemyNP(self):raise NotImplementedError
