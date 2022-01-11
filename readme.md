@@ -95,7 +95,7 @@ Cli大概长这样(在docker中运行时的截图):
 **被截图范围都应该可以点击来选中该好友**  
 **截图应对应1920\*1080的游戏画面分辨率**,建议使用gui中的`检查截图`按钮或cli的`screenshot`指令  
 如果fgoImage/friend目录下没有png文件,就选取好友列表中的第一个  
-助战截图的文件名若以包含技能和宝具信息的14个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo中的设置  
+助战截图的文件名在移除连字符(-)后若以包含技能和宝具信息的14个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo和houguInfo中的设置  
 你在fgoImage/friend目录下的所有更改会在下一次选取助战时智能应用  
 ## 连接到设备 Connect Your Device
 如果你使用数据线将手机连接到电脑,那么你的手机自然会出现在设备列表中  
@@ -189,13 +189,25 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 - ...  
 
 # 版本记录 Version Logs
+## 2022/01/12 v8.2.0
+更新:tab自动完成  
+这便是cli的完全体,至此我认为cli已可取代gui  
+以下是一些自动完成生效的例子  
+`t` -> `teamup`  
+`teamup l` -> \[`load` `list`\]  
+`teamup lo` -> `teamup load`  
+`teamup load E` -> \[`Empty` `Extra`\] (read from fgoTeamup.ini)  
+`teamup load S` -> `teamup load Saber` (read from fgoTeamup.ini)  
+带位置参数的命令在当前参数为字符串且有可选择的值时都有对应的自动完成  
+自动完成没有考虑可选参数,你需要把可选参数放在最后书写  
+bugfix: remove hyphens in `teamup set` and sync to chooseFriend  
 ## 2022/01/11 v8.1.0
 更新:控制台交互式前端  
 启动时带上cli参数来进入文本交互,此处已提供本项目面向游戏的完整功能  
 在手机上运行本项目时,这可能是最优雅的方式了  
 优化:[pr #41](https://github.com/hgjazhgj/FGO-py/pull/41)  
 我希望能用一个美观且通用的字体,可惜找不到  
-优化:助战选择及邮箱筛选的图像识别优化  
+优化:[issue 40](https://github.com/hgjazhgj/FGO-py/issues/40)  
 谁能想到迦勒底午餐时光和助战选择界面顶部空白的TM_SQDIFF_NORMED只有0.4呢  
 ## 2022/01/08 v8.0.0
 v8.x标志着本项目正式拥有多前端  

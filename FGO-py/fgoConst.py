@@ -1,1 +1,1 @@
-version='v8.1.0'
+version='v8.2.0'
