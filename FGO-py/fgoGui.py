@@ -1,18 +1,14 @@
 import json,os,sys
-from configparser import ConfigParser
 from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
 from PyQt6.QtGui import QAction
-from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMessageBox,QStyle,QSystemTrayIcon,QMenu
+from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QStyle,QSystemTrayIcon
 
-import fgoFunc
-from fgoConst import version
-from fgoServerChann import ServerChann
+import fgoCore
+from fgoIniParser import IniParser
 from fgoMainWindow import Ui_fgoMainWindow
-
-logger=fgoFunc.getLogger('Gui')
-
-NewConfigParser=type('NewConfigParser',(ConfigParser,),{'__init__':lambda self,file:(ConfigParser.__init__(self),self.read(file))[0],'optionxform':lambda self,optionstr:optionstr})
+from fgoServerChann import ServerChann
+logger=fgoCore.getLogger('Qt')
 
 class Config:
     def __init__(self,link=None):
@@ -47,8 +43,8 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.TRAY.show()
         self.reloadTeamup()
         self.config=Config({
-            'stopOnDefeated':(self.MENU_SETTINGS_DEFEATED,fgoFunc.control.stopOnDefeated),
-            'stopOnKizunaReisou':(self.MENU_SETTINGS_KIZUNAREISOU,fgoFunc.control.stopOnKizunaReisou),
+            'stopOnDefeated':(self.MENU_SETTINGS_DEFEATED,fgoCore.control.stopOnDefeated),
+            'stopOnKizunaReisou':(self.MENU_SETTINGS_KIZUNAREISOU,fgoCore.control.stopOnKizunaReisou),
             'closeToTray':(self.MENU_CONTROL_TRAY,None),
             'stayOnTop':(self.MENU_CONTROL_STAYONTOP,lambda x:self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x)),
             'notifyEnable':(self.MENU_CONTROL_NOTIFY,None)})
@@ -62,7 +58,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.getDevice()
     def keyPressEvent(self,key):
         if self.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifier.KeypadModifier:
-            try:fgoFunc.device.press(chr(key.nativeVirtualKey()))
+            try:fgoCore.device.press(chr(key.nativeVirtualKey()))
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
@@ -74,13 +70,13 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def askQuit(self):
         if self.worker.is_alive():
             if QMessageBox.warning(self,'FGO-py','战斗正在进行,确认关闭?',QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No,QMessageBox.StandardButton.No)!=QMessageBox.StandardButton.Yes:return False
-            fgoFunc.control.terminate('Quit')
+            fgoCore.control.terminate('Quit')
             self.worker.join()
         self.TRAY.hide()
         self.config.save()
         return True
     def isDeviceAvaliable(self):
-        if not fgoFunc.device.avaliable:
+        if not fgoCore.device.avaliable:
             self.LBL_DEVICE.clear()
             QMessageBox.critical(self,'FGO-py','未连接设备')
             return False
@@ -91,10 +87,10 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             try:
                 self.signalFuncBegin.emit()
                 self.applyAll()
-                fgoFunc.control.reset()
-                fgoFunc.fuse.reset()
+                fgoCore.control.reset()
+                fgoCore.fuse.reset()
                 func(*args,**kwargs)
-            except fgoFunc.ScriptTerminate as e:
+            except fgoCore.ScriptTerminate as e:
                 logger.critical(e)
                 msg=(str(e),QSystemTrayIcon.MessageIcon.Warning)
             except BaseException as e:
@@ -141,63 +137,50 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         with open('fgoTeamup.ini','w')as f:self.teamup.write(f)
     def resetTeam(self):self.loadTeam('DEFAULT')
     def getDevice(self):
-        text,ok=QInputDialog.getItem(self,'FGO-py','在下拉列表中选择一个设备',l:=fgoFunc.Device.enumDevices(),l.index(fgoFunc.device.name)if fgoFunc.device.name and fgoFunc.device.name in l else 0,True,Qt.WindowType.WindowStaysOnTopHint)
+        text,ok=QInputDialog.getItem(self,'FGO-py','在下拉列表中选择一个设备',l:=fgoCore.Device.enumDevices(),l.index(fgoCore.device.name)if fgoCore.device.name and fgoCore.device.name in l else 0,True,Qt.WindowType.WindowStaysOnTopHint)
         if not ok:return
-        if text.startswith('/'):
-            try:
-                if text=='/gw':
-                    import netifaces
-                    text=f'{netifaces.gateways()["default"][netifaces.AF_INET][0]}:5555'
-                elif text=='/bs4':
-                    import winreg
-                    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config')as key:text='127.0.0.1:'+winreg.QueryValueEx(key,"BstAdbPort")[0]
-                elif text=='/bs5':
-                    import re,winreg
-                    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_nxt')as key:text=winreg.QueryValueEx(key,'UserDefinedDir')[0]
-                    with open(os.path.join(text,'bluestacks.conf'))as f:text='127.0.0.1:'+re.search(r'bst\.instance\.Nougat64\.status\.adb_port="(\d*)"',f.read()).group(1)
-            except Exception as e:return logger.exception(e)
-        fgoFunc.device=fgoFunc.Device(text.replace(' ',''))
-        self.LBL_DEVICE.setText(fgoFunc.device.name)
+        fgoCore.device=fgoCore.Device(text)
+        self.LBL_DEVICE.setText(fgoCore.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
-    def runBattle(self):self.runFunc(fgoFunc.Battle())
-    def runUserScript(self):self.runFunc(fgoFunc.UserScript())
+    def runBattle(self):self.runFunc(fgoCore.Battle())
+    def runUserScript(self):self.runFunc(fgoCore.UserScript())
     def runMain(self):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'],0,False)
-        if ok and text:self.runFunc(fgoFunc.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':fgoFunc.Battle,'用户脚本':fgoFunc.UserScript}[text]))
+        if ok and text:self.runFunc(fgoCore.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':fgoCore.Battle,'用户脚本':fgoCore.UserScript}[text]))
     def pause(self,x):
         if not x and not self.isDeviceAvaliable():return self.BTN_PAUSE.setChecked(True)
-        fgoFunc.control.suspend()
-    def stop(self):fgoFunc.control.terminate('Terminate Command Effected')
+        fgoCore.control.suspend()
+    def stop(self):fgoCore.control.terminate('Terminate Command Effected')
     def stopLater(self,x):
         if x:
             num,ok=QInputDialog.getInt(self,'输入','剩余的战斗数量',1,1,1919810,1)
-            if ok:fgoFunc.control.terminateLater(num)
+            if ok:fgoCore.control.terminateLater(num)
             else:self.BTN_STOPLATER.setChecked(False)
-        else:fgoFunc.control.terminateLater()
+        else:fgoCore.control.terminateLater()
     def checkScreenshot(self):
         if not self.isDeviceAvaliable():return
-        try:fgoFunc.Check(0,blockFuse=True).show()
+        try:fgoCore.Check(0,blockFuse=True).show()
         except Exception as e:logger.exception(e)
     def applyAll(self):
-        fgoFunc.Main.teamIndex=self.TXT_TEAM.value()
-        fgoFunc.Battle.skillInfo=[[[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').value()for k in range(4)]for j in range(3)]for i in range(6)]
-        fgoFunc.Battle.houguInfo=[[getattr(self,f'TXT_HOUGU_{i}_{j}').value()for j in range(2)]for i in range(6)]
-        fgoFunc.Battle.masterSkill=[[getattr(self,f'TXT_MASTER_{i}_{j}').value()for j in range(4+(i==2))]for i in range(3)]
+        fgoCore.Main.teamIndex=self.TXT_TEAM.value()
+        fgoCore.Battle.skillInfo=[[[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').value()for k in range(4)]for j in range(3)]for i in range(6)]
+        fgoCore.Battle.houguInfo=[[getattr(self,f'TXT_HOUGU_{i}_{j}').value()for j in range(2)]for i in range(6)]
+        fgoCore.Battle.masterSkill=[[getattr(self,f'TXT_MASTER_{i}_{j}').value()for j in range(4+(i==2))]for i in range(3)]
     def explorerHere(self):os.startfile('.')
-    def runGacha(self):self.runFunc(fgoFunc.gacha)
-    def runJackpot(self):self.runFunc(fgoFunc.jackpot)
-    def runMailFiltering(self):self.runFunc(fgoFunc.mailFiltering)
+    def runGacha(self):self.runFunc(fgoCore.gacha)
+    def runJackpot(self):self.runFunc(fgoCore.jackpot)
+    def runMailFiltering(self):self.runFunc(fgoCore.mailFiltering)
     def stopOnDefeated(self,x):self.config['stopOnDefeated']=x
     def stopOnKizunaReisou(self,x):self.config['stopOnKizunaReisou']=x
     def stopOnSpecialDrop(self):
         num,ok=QInputDialog.getInt(self,'输入','剩余的特殊掉落数量',1,0,1919810,1)
-        if ok:fgoFunc.control.stopOnSpecialDrop(num)
+        if ok:fgoCore.control.stopOnSpecialDrop(num)
     def stayOnTop(self,x):
         self.config['stayOnTop']=x
         self.show()
     def closeToTray(self,x):self.config['closeToTray']=x
     def reloadTeamup(self):
-        self.teamup=NewConfigParser('fgoTeamup.ini')
+        self.teamup=IniParser('fgoTeamup.ini')
         self.CBX_TEAM.clear()
         self.CBX_TEAM.addItems(self.teamup.sections())
         self.CBX_TEAM.setCurrentIndex(-1)
@@ -205,10 +188,10 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvaliable())
     def invoke169(self):
         if not self.isDeviceAvaliable():return
-        fgoFunc.device.invoke169()
+        fgoCore.device.invoke169()
     def revoke169(self):
         if not self.isDeviceAvaliable():return
-        fgoFunc.device.revoke169()
+        fgoCore.device.revoke169()
     def notify(self,x):self.config['notifyEnable']=x
     def exec(self):
         s=QApplication.clipboard().text()
@@ -219,7 +202,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
 <h2>FGO-py</h2>
 FGO全自动脚本
 <table border="0">
-  <tr><td>当前版本</td><td>{version}</td></tr>
+  <tr><td>当前版本</td><td>{fgoCore.version}</td></tr>
   <tr><td>作者</td><td>hgjazhgj</td></tr>
   <tr><td>项目地址</td><td><a href="https://github.com/hgjazhgj/FGO-py">https://github.com/hgjazhgj/FGO-py</a></td></tr>
   <tr><td>电子邮箱</td><td><a href="mailto:huguangjing0411@geektip.cc">huguangjing0411@geektip.cc</a></td></tr>
