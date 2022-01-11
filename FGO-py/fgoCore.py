@@ -19,20 +19,24 @@
 'Full-automatic FGO Script'
 __author__='hgjazhgj'
 import logging,re,time,numpy
-from threading import Thread
 from itertools import permutations
+from threading import Thread
 from fgoAndroid import Android
 from fgoCheck import Check
-from fgoControl import control,ScriptTerminate
+from fgoConst import *
+from fgoConnectHelper import convert
+from fgoControl import ScriptTerminate,control
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
 from fgoLogging import getLogger,logit
-logger=getLogger('Func')
+
+logger=getLogger('Core')
 friendImg=ImageListener('fgoImage/friend/')
 mailImg=ImageListener('fgoImage/mail/')
 class Device(Android):
-    def __init__(self,*args,**kwargs):
-        super().__init__(*args,**kwargs)
+    def __init__(self,name=None,*args,**kwargs):
+        name=convert(name)
+        super().__init__(name,*args,**kwargs)
         Check.device=self
 device=Device()
 def guardian():
@@ -57,7 +61,7 @@ def mailFiltering():
     if not mailImg.flush():return
     Check().setupMailDone()
     while True:
-        while any((pos:=Check.cache.find(i[1],threshold=.016))and(device.touch(pos),True)[-1]for i in mailImg.items()):
+        while any((pos:=Check.cache.findMail(i[1]))and(device.touch(pos),True)[-1]for i in mailImg.items()):
             while not Check().isMailDone():pass
         device.swipe((400,900,400,300))
         if Check().isMailListEnd():break
@@ -189,7 +193,7 @@ class Main:
         while True:
             timer=time.time()
             while True:
-                for i in(i for i,j in friendImg.items()if(lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.find(j))):
+                for i in(i for i,j in friendImg.items()if(lambda pos:pos and(device.touch(pos),True)[-1])(Check.cache.findFriend(j))):
                     Battle.friendInfo=(lambda r:(lambda p:([[[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i[-14:].upper()))
                     return i
                 if Check.cache.isFriendListEnd():break
