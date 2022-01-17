@@ -3772,7 +3772,7 @@
       <item>
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_WIN">
         <item>
-         <widget class="QPushButton" name="BTN_CHECK">
+         <widget class="QPushButton" name="BTN_SCREENSHOT">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -4084,7 +4084,7 @@
   <tabstop>BTN_STOP</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOPLATER</tabstop>
-  <tabstop>BTN_CHECK</tabstop>
+  <tabstop>BTN_SCREENSHOT</tabstop>
   <tabstop>BTN_APPLYALL</tabstop>
  </tabstops>
  <resources/>
@@ -4102,7 +4102,7 @@
    <slot>runMain()</slot>
   </connection>
   <connection>
-   <sender>BTN_CHECK</sender>
+   <sender>BTN_SCREENSHOT</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>checkScreenshot()</slot>

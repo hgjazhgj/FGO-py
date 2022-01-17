@@ -1,4 +1,4 @@
-from fgoControl import ScriptTerminate
+from fgoSchedule import ScriptTerminate
 from fgoLogging import getLogger
 logger=getLogger('Fuse')
 class Fuse:
@@ -14,10 +14,10 @@ class Fuse:
             self.save()
             raise ScriptTerminate('Fused')
         self.value+=1
-    def reset(self,check=None):
+    def reset(self,detect=None):
         self.value=0
-        if check is not None and check is not self.log[(self.logptr-1)%self.logsize]:
-            self.log[self.logptr]=check
+        if detect is not None and detect is not self.log[(self.logptr-1)%self.logsize]:
+            self.log[self.logptr]=detect
             self.logptr=(self.logptr+1)%self.logsize
         return True
     def save(self,path='fgoLog'):[self.log[(i+self.logptr)%self.logsize].save(f'{path}/FuseLog_{i:02}') for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]]
