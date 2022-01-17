@@ -1,9 +1,9 @@
 import argparse,cmd,functools,json,os,re,time
-import fgoCore
+import fgoKernel
 from fgoConnectHelper import helpers
 from fgoIniParser import IniParser
 
-logger=fgoCore.getLogger('Cli')
+logger=fgoKernel.getLogger('Cli')
 
 def wrapTry(func):
     @functools.wraps(func)
@@ -13,12 +13,12 @@ def wrapTry(func):
             if e.args[0]is not None:logger.error(e)
         except KeyboardInterrupt:logger.critical('KeyboardInterrupt')
         except BaseException as e:logger.exception(e)
-        finally:self.prompt='FGO-py\033[32m@{}\033[36m({})\033[0m> '.format(fgoCore.device.name,self.currentTeam)
+        finally:self.prompt='FGO-py\033[32m@{}\033[36m({})\033[0m> '.format(fgoKernel.device.name,self.currentTeam)
     return wrapper
 
 class Cmd(cmd.Cmd,metaclass=lambda name,bases,attrs:type(name,bases,{i:wrapTry(j)if i.startswith('do_')else j for i,j in attrs.items()})):
     intro=f'''
-FGO-py {fgoCore.version}, Copyright (c) 2019-2022 hgjazhgj
+FGO-py {fgoKernel.__version__}, Copyright (c) 2019-2022 hgjazhgj
 
 Connect device and load teamup first, then type main to empty your AP gauge.
 Type help or ? to list commands, help <command> to get more information.
@@ -27,31 +27,32 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     prompt='FGO-py\033[32m@Device\033[36m(Team)\033[0m> '
     def __init__(self):
         super().__init__()
+        fgoKernel.Device.enumDevices()
         self.teamup=IniParser('fgoTeamup.ini')
         self.teamup_load(argparse.Namespace(name='DEFAULT'))
         with open('fgoConfig.json','r')as f:self.config=json.load(f)
-        fgoCore.control.stopOnDefeated(self.config['stopOnDefeated'])
-        fgoCore.control.stopOnKizunaReisou(self.config['stopOnKizunaReisou'])
+        fgoKernel.schedule.stopOnDefeated(self.config['stopOnDefeated'])
+        fgoKernel.schedule.stopOnKizunaReisou(self.config['stopOnKizunaReisou'])
     def emptyline(self):return
     def precmd(self,line):
         if line:logger.info(line)
         return line
     def completenames(self,text,*ignored):return[f'{i} 'for i in super().completenames(text,*ignored)]
-    def completecommands(self,table,text,line,begidx,endidx):return[f'{i} 'for i in[j for i,j in table.items()if re.match(f'{i}$',' '.join(line.split()[slice(None,None if begidx==endidx else -1)]))][0]if i.startswith(text)]
+    def completecommands(self,table,text,line,begidx,endidx):return[f'{i} 'for i in[j for i,j in table.items()if re.match(f'{i}$',' '.join(line.split()[slice(1,None if begidx==endidx else -1)]))][0]if i.startswith(text)]
     def teamup_load(self,arg):
         self.currentTeam=arg.name
-        fgoCore.Main.teamIndex=int(self.teamup[arg.name]['teamIndex'])
-        fgoCore.Battle.skillInfo=eval(self.teamup[arg.name]['skillInfo'])
-        fgoCore.Battle.houguInfo=eval(self.teamup[arg.name]['houguInfo'])
-        fgoCore.Battle.masterSkill=eval(self.teamup[arg.name]['masterSkill'])
+        fgoKernel.Main.teamIndex=int(self.teamup[arg.name]['teamIndex'])
+        fgoKernel.Battle.skillInfo=eval(self.teamup[arg.name]['skillInfo'])
+        fgoKernel.Battle.houguInfo=eval(self.teamup[arg.name]['houguInfo'])
+        fgoKernel.Battle.masterSkill=eval(self.teamup[arg.name]['masterSkill'])
         if arg.name!='DEFAULT':self.teamup_show(0)
     def teamup_save(self,arg):
         if self.currentTeam=='DEFAULT':return
         self.teamup[self.currentTeam]={
-            'teamIndex':fgoCore.Main.teamIndex,
-            'skillInfo':str(fgoCore.Battle.skillInfo).replace(' ',''),
-            'houguInfo':str(fgoCore.Battle.houguInfo).replace(' ',''),
-            'masterSkill':str(fgoCore.Battle.masterSkill).replace(' ','')}
+            'teamIndex':fgoKernel.Main.teamIndex,
+            'skillInfo':str(fgoKernel.Battle.skillInfo).replace(' ',''),
+            'houguInfo':str(fgoKernel.Battle.houguInfo).replace(' ',''),
+            'masterSkill':str(fgoKernel.Battle.masterSkill).replace(' ','')}
         with open('fgoTeamup.ini','w')as f:self.teamup.write(f)
     def teamup_clear(self,arg):
         store=self.currentTeam
@@ -59,21 +60,21 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.currentTeam=store
     def teamup_reload(self,arg):self.teamup=IniParser('teamup.ini')
     def teamup_list(self,arg):print('\n'.join(self.teamup.sections()))
-    def teamup_show(self,arg):print('\n'.join([f'team name: {self.currentTeam}',f'team index: {fgoCore.Main.teamIndex}','servant skill & hougu:','\n'.join(['  '.join([str(i+1),'-'.join([''.join([str(x)for x in fgoCore.Battle.skillInfo[i][j]])for j in range(3)]+[''.join([str(x)for x in fgoCore.Battle.houguInfo[i]])])])for i in range(6)]),'master skill:','   '+'-'.join([''.join([str(x)for x in fgoCore.Battle.masterSkill[i]])for i in range(3)])]))
+    def teamup_show(self,arg):print('\n'.join([f'team name: {self.currentTeam}',f'team index: {fgoKernel.Main.teamIndex}','servant skill & hougu:','\n'.join(['  '.join([str(i+1),'-'.join([''.join([str(x)for x in fgoKernel.Battle.skillInfo[i][j]])for j in range(3)]+[''.join([str(x)for x in fgoKernel.Battle.houguInfo[i]])])])for i in range(6)]),'master skill:','   '+'-'.join([''.join([str(x)for x in fgoKernel.Battle.masterSkill[i]])for i in range(3)])]))
     def teamup_set(self,arg):getattr(self,f'teamup_set_{arg.subcommand_1}')(arg)
     def teamup_set_servant(self,arg):
         if self.currentTeam=='DEFAULT':return
         pos=arg.pos-1
-        fgoCore.Battle.skillInfo[pos],fgoCore.Battle.houguInfo[pos]=(lambda r:(lambda p:([[[fgoCore.Battle.skillInfo[pos][i][j]if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[fgoCore.Battle.houguInfo[pos][i]if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[fgoCore.Battle.skillInfo[pos],fgoCore.Battle.houguInfo[pos]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',arg.value.replace('-','')))
-        print('Change skill & hougu info of servant',arg.pos,'to','-'.join([''.join([str(x)for x in fgoCore.Battle.skillInfo[pos][i]])for i in range(3)]+[''.join([str(x)for x in fgoCore.Battle.houguInfo[pos]])]))
+        fgoKernel.Battle.skillInfo[pos],fgoKernel.Battle.houguInfo[pos]=(lambda r:(lambda p:([[[fgoKernel.Battle.skillInfo[pos][i][j]if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[fgoKernel.Battle.houguInfo[pos][i]if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[fgoKernel.Battle.skillInfo[pos],fgoKernel.Battle.houguInfo[pos]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',arg.value.replace('-','')))
+        print('Change skill & hougu info of servant',arg.pos,'to','-'.join([''.join([str(x)for x in fgoKernel.Battle.skillInfo[pos][i]])for i in range(3)]+[''.join([str(x)for x in fgoKernel.Battle.houguInfo[pos]])]))
     def teamup_set_master(self,arg):
         if self.currentTeam=='DEFAULT':return
-        fgoCore.Battle.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j])for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoCore.Battle.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
-        print('Change master skill info to','-'.join([''.join([str(x)for x in fgoCore.Battle.masterSkill[i]])for i in range(3)]))
+        fgoKernel.Battle.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j])for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoKernel.Battle.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
+        print('Change master skill info to','-'.join([''.join([str(x)for x in fgoKernel.Battle.masterSkill[i]])for i in range(3)]))
     def teamup_set_index(self,arg):
         if self.currentTeam=='DEFAULT':return
-        fgoCore.Main.teamIndex=arg.value
-        print('Change team index to',fgoCore.Main.teamIndex)
+        fgoKernel.Main.teamIndex=arg.value
+        print('Change team index to',fgoKernel.Main.teamIndex)
     def do_exec(self,line):exec(line)
     def do_shell(self,line):os.system(line)
     def do_exit(self,line):
@@ -83,15 +84,15 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_EOF(self,line):return self.do_exit(line)
     def do_version(self,line):
         'Show FGO-py version'
-        print(fgoCore.version)
+        print(fgoKernel.__version__)
     def do_connect(self,line):
         'Connect to a device'
         arg=parser_connect.parse_args(line.split())
-        if arg.list:return print('\n'.join(fgoCore.Device.enumDevices()))
-        fgoCore.device=fgoCore.Device(arg.name)
+        if arg.list:return print('\n'.join(fgoKernel.Device.enumDevices()))
+        fgoKernel.device=fgoKernel.Device(arg.name)
     def complete_connect(self,text,line,begidx,endidx):
         return self.completecommands({
-            'connect':[f'/{i}'for i in helpers]+fgoCore.Device.enumDevices()
+            '':[f'/{i}'for i in helpers]+fgoKernel.Device.enumDevices()
         },text,line,begidx,endidx)
     def do_teamup(self,line):
         'Setup your teams'
@@ -99,34 +100,34 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         getattr(self,f'teamup_{arg.subcommand_0}')(arg)
     def complete_teamup(self,text,line,begidx,endidx):
         return self.completecommands({
-            'teamup':['load','save','clear','reload','list','show','set'],
-            'teamup load':self.teamup.sections(),
-            'teamup set':['servant','master','index']
+            '':['load','save','clear','reload','list','show','set'],
+            'load':self.teamup.sections(),
+            'set':['servant','master','index']
         },text,line,begidx,endidx)
     def do_battle(self,line):
         'Finish the current battle'
         arg=parser_battle.parse_args(line.split())
-        self.work=fgoCore.Battle()
+        self.work=fgoKernel.Battle()
         time.sleep(arg.sleep)
         self.do_continue('')
     def do_main(self,line):
         'Loop for battle until AP empty'
         arg=parser_main.parse_args(line.split())
-        self.work=fgoCore.Main(arg.appleCount,['gold','silver','copper','quartz'].index(arg.appleKind),{'Battle':fgoCore.Battle,'UserScript':fgoCore.UserScript}[arg.battleClass])
+        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','copper','quartz'].index(arg.appleKind),{'Battle':fgoKernel.Battle,'UserScript':fgoKernel.UserScript}[arg.battleClass])
         time.sleep(arg.sleep)
         self.do_continue('')
     def complete_main(self,text,line,begidx,endidx):
         return self.completecommands({
-            r'main \d+':['gold','silver','copper','quartz'],
-            r'main \d+ (gold|silver|copper|quartz)':['battle','userScript']
+            r'\d+':['gold','silver','copper','quartz'],
+            r'\d+ (gold|silver|copper|quartz)':['battle','userScript']
         },text,line,begidx,endidx)
     def do_continue(self,line):
         'Continue last battle after abnormal break, use it as same as battle'
         arg=parser_battle.parse_args(line.split())
         time.sleep(arg.sleep)
-        assert fgoCore.device.avaliable
+        assert fgoKernel.device.avaliable
         try:self.work()
-        except fgoCore.ScriptTerminate as e:
+        except fgoKernel.ScriptTerminate as e:
             logger.critical(e)
             msg=str(e)
         except KeyboardInterrupt:raise
@@ -135,8 +136,8 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
             msg=repr(e)
         else:msg='Done'
         finally:
-            fgoCore.fuse.reset()
-            fgoCore.control.reset()
+            fgoKernel.fuse.reset()
+            fgoKernel.schedule.reset()
         # todo: notify
         # if self.config['notifyEnable']:
         #     for i in self.config['notifyParam']:
@@ -144,41 +145,41 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_call(self,line):
         'Call a Additional feature'
         arg=parser_call.parse_args(line.split())
-        assert fgoCore.device.avaliable
+        assert fgoKernel.device.avaliable
         time.sleep(arg.sleep)
-        self.work=getattr(fgoCore,arg.func)
+        self.work=getattr(fgoKernel,arg.func)
         self.do_continue('')
     def complete_call(self,text,line,begidx,endidx):
         return self.completecommands({
-            r'call':['gacha','jackpot','mailFiltering']
+            '':['gacha','jackpot','mailFiltering']
         },text,line,begidx,endidx)
     def do_config(self,line):
-        'Edit config item if exists and forward to control'
+        'Edit config item if exists and forward to schedule'
         key,value=line.split()
         value=eval(value)
-        if hasattr(fgoCore.control,key):getattr(fgoCore.control,key)(value)
+        if hasattr(fgoKernel.schedule,key):getattr(fgoKernel.schedule,key)(value)
         if key in self.config:self.config[key]=value
     def complete_config(self,text,line,begidx,endidx):
         return self.completecommands({
-            'config':['notifyEnable','terminateLater','stopOnDefeated','stopOnKizunaReisou','stopOnSpecialDrop']
+            '':['notifyEnable','stopLater','stopOnDefeated','stopOnKizunaReisou','stopOnSpecialDrop']
         },text,line,begidx,endidx)
     def do_screenshot(self,line):
         'Take a screenshot'
-        assert fgoCore.device.avaliable
-        fgoCore.Check(0,blockFuse=True).save()
+        assert fgoKernel.device.avaliable
+        fgoKernel.Detect(0,blockFuse=True).save()
     def do_169(self,line):
         'Adapt none 16:9 screen'
         arg=parser_169.parse_args(line.split())
-        assert fgoCore.device.avaliable
-        getattr(fgoCore.device,f'{arg.action}169')()
+        assert fgoKernel.device.avaliable
+        getattr(fgoKernel.device,f'{arg.action}169')()
     def complete_169(self,text,line,begidx,endidx):
         return self.completecommands({
-            '169':['invoke','revoke']
+            '':['invoke','revoke']
         },text,line,begidx,endidx)
     def do_press(self,line):
         'Map key press'
         arg=parser_press.parse_args(line.split())
-        fgoCore.device.press(chr(eval(arg.button))if arg.code else arg.button)
+        fgoKernel.device.press(chr(eval(arg.button))if arg.code else arg.button)
 
 ArgError=type('ArgError',(Exception,),{})
 class ArgParser(argparse.ArgumentParser):

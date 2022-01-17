@@ -1,6 +1,6 @@
 import time
 ScriptTerminate=type('ScriptTerminate',(Exception,),{'__init__':lambda self,msg='Unknown Reason':Exception.__init__(self,f'Script Stopped: {msg}')})
-class Control:
+class Schedule:
     speed=1
     def __init__(self):
         self.reset()
@@ -8,21 +8,21 @@ class Control:
         self.__stopOnKizunaReisouFlag=False
         self.__stopOnSpecialDropCount=0
     def reset(self):
-        self.__terminateMsg=''
-        self.__suspendFlag=False
-        self.__terminateLaterCount=-1
-    def terminate(self,msg='Terminated'):self.__terminateMsg=msg
+        self.__stopMsg=''
+        self.__pauseFlag=False
+        self.__stopLaterCount=-1
+    def stop(self,msg='Terminated'):self.__stopMsg=msg
     def checkTerminate(self):
-        if self.__terminateMsg:raise ScriptTerminate(self.__terminateMsg)
-    def suspend(self):self.__suspendFlag=not self.__suspendFlag
+        if self.__stopMsg:raise ScriptTerminate(self.__stopMsg)
+    def pause(self):self.__pauseFlag=not self.__pauseFlag
     def checkSuspend(self):
-        while self.__suspendFlag:
+        while self.__pauseFlag:
             self.checkTerminate()
             time.sleep(.07)
-    def terminateLater(self,count=-1):self.__terminateLaterCount=count
+    def stopLater(self,count=-1):self.__stopLaterCount=count
     def checkTerminateLater(self):
-        self.__terminateLaterCount-=1
-        if not self.__terminateLaterCount:raise ScriptTerminate('Terminate Appointment Effected')
+        self.__stopLaterCount-=1
+        if not self.__stopLaterCount:raise ScriptTerminate('Terminate Appointment Effected')
     def sleep(self,x,part=.07):
         timer=time.time()+(x-part)/self.speed
         while time.time()<timer:
@@ -40,4 +40,4 @@ class Control:
     def checkSpecialDrop(self):
         self.__stopOnSpecialDropCount-=1
         if not self.__stopOnSpecialDropCount:raise ScriptTerminate('Special Drop')
-control=Control()
+schedule=Schedule()

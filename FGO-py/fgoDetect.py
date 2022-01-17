@@ -1,12 +1,12 @@
 import os,time,cv2,numpy
 from functools import reduce,wraps
-from fgoControl import control
+from fgoSchedule import schedule
 from fgoFuse import fuse
-from fgoLogging import getLogger,logMeta
-logger=getLogger('Check')
+from fgoLogging import getLogger,logMeta,logit
+logger=getLogger('Detect')
 IMG=type('IMG',(),{i[:-4].upper():cv2.imread(f'fgoImage/{i}')for i in os.listdir('fgoImage')if i[-4:]=='.png'})
-class Check(metaclass=logMeta(logger)):
-    # The accuracy of each API here is designed to be 100% at 1920x1080 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Check.cache.save() or fuse.save().
+class Detect(metaclass=logMeta(logger)):
+    # The accuracy of each API here is designed to be 100% at 1920x1080 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Detect.cache.save() or fuse.save().
     cache=None
     device=None
     def retryOnError(interval=.1,err=TypeError):
@@ -17,7 +17,7 @@ class Check(metaclass=logMeta(logger)):
                     if(ans:=func(self,*args,**kwargs))is not None:return ans
                 except err:pass
                 logger.warning(f'Retry {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
-                return wrap(Check(interval),*args,**kwargs)
+                return wrap(Detect(interval),*args,**kwargs)
             return wrap
         return wrapper
     def startIter(iter):
@@ -28,13 +28,14 @@ class Check(metaclass=logMeta(logger)):
             return ans
         return wrapper
     def __init__(self,forwardLagency=.1,backwardLagency=0,blockFuse=False):
-        control.sleep(forwardLagency)
+        schedule.sleep(forwardLagency)
         self.im=self.device.screenshot()
         self.time=time.time()
-        Check.cache=self
+        Detect.cache=self
         if not blockFuse:fuse.increase()
-        control.sleep(backwardLagency)
+        schedule.sleep(backwardLagency)
     def _clip(self,rect):return self.im[rect[1]:rect[3],rect[0]:rect[2]]
+    # @logit(logger)
     def _loc(self,img,rect=(0,0,1920,1080)):return cv2.minMaxLoc(cv2.matchTemplate(self._clip(rect),img,cv2.TM_SQDIFF_NORMED,mask=numpy.max(img,axis=2)>>1))
     def _compare(self,img,rect=(0,0,1920,1080),threshold=.05,blockFuse=False):return threshold>self._loc(img,rect)[0]and(blockFuse or fuse.reset(self))
     def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
@@ -43,10 +44,10 @@ class Check(metaclass=logMeta(logger)):
     @startIter
     def _iterMatch(self,rect,threshold=.05):
         img=self._clip(rect)
-        check=yield None
+        detect=yield None
         while True:
-            tmp=check._clip(rect)
-            check=yield threshold<cv2.matchTemplate(img,tmp,cv2.TM_SQDIFF_NORMED)[0][0]and fuse.reset(check)
+            tmp=detect._clip(rect)
+            detect=yield threshold<cv2.matchTemplate(img,tmp,cv2.TM_SQDIFF_NORMED)[0][0]and fuse.reset(detect)
             img=tmp
     @startIter
     def _iterChange(self,init):
@@ -58,13 +59,13 @@ class Check(metaclass=logMeta(logger)):
     def _isListEnd(self,pos):return not self._compare(IMG.LISTBAR,(pos[0]-20,pos[1]-17,pos[0]+20,pos[1]+4),.25)
     def save(self,name='Capture'):cv2.imwrite(time.strftime(f'{name}_%Y-%m-%d_%H.%M.%S.png',time.localtime(self.time)),self.im)
     def show(self):
-        cv2.imshow('Check Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
+        cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.4,fy=.4))
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
-    def setupMailDone(self):Check._iterMailDone=self._iterMatch((303,156,378,186))
+    def setupMailDone(self):Detect._iterMailDone=self._iterMatch((303,156,378,186))
     def setupServantDead(self,friend=None):
-        Check._iterServantFace=[self._iterMatch((195+480*i,640,296+480*i,740))for i in range(3)]
-        Check._iterServantFriend=[self._iterChange(i)for i in(self.isServantFriend()if friend is None else friend)]
+        Detect._iterServantFace=[self._iterMatch((195+480*i,640,296+480*i,740))for i in range(3)]
+        Detect._iterServantFriend=[self._iterChange(i)for i in(self.isServantFriend()if friend is None else friend)]
     def isAddFriend(self):return self._compare(IMG.END,(243,863,745,982))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1639,951,1865,1061))
@@ -75,7 +76,7 @@ class Check(metaclass=logMeta(logger)):
     def isCardSealed(self):return[any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isFriendListEnd(self):return self._isListEnd((1882,1064))
     def isGacha(self):return self._compare(IMG.GACHA,(973,960,1312,1052))
-    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(that.im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)])(Check(.15)if that is None else that)
+    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(that.im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)])(Detect(.15)if that is None else that)
     def isMailDone(self):return self._iterMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,920,1919,1049))
     def isMailListEnd(self):return self._isListEnd((1406,1018))
