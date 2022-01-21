@@ -1136,6 +1136,8 @@ class Ui_fgoMainWindow(object):
         self.MENU_CONTROL_STAYONTOP.setObjectName("MENU_CONTROL_STAYONTOP")
         self.MENU_SCRIPT_GACHA = QtGui.QAction(fgoMainWindow)
         self.MENU_SCRIPT_GACHA.setObjectName("MENU_SCRIPT_GACHA")
+        self.MENU_SCRIPT_SYNTHESIS = QtGui.QAction(fgoMainWindow)
+        self.MENU_SCRIPT_SYNTHESIS.setObjectName("MENU_SCRIPT_SYNTHESIS")
         self.MENU_CONTROL_MAPKEY = QtGui.QAction(fgoMainWindow)
         self.MENU_CONTROL_MAPKEY.setCheckable(True)
         self.MENU_CONTROL_MAPKEY.setObjectName("MENU_CONTROL_MAPKEY")
@@ -1175,6 +1177,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_GACHA)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_JACKPOT)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_MAILFILTER)
+        self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_SYNTHESIS)
         self.MENU_CONTROL_169.addAction(self.MENU_CONTROL_169_INVOKE)
         self.MENU_CONTROL_169.addAction(self.MENU_CONTROL_169_REVOKE)
         self.MENU_CONTROL.addAction(self.MENU_CONTROL_STAYONTOP)
@@ -1212,10 +1215,11 @@ class Ui_fgoMainWindow(object):
         self.BTN_APPLYALL.clicked.connect(fgoMainWindow.applyAll) # type: ignore
         self.MENU_CONTROL_STAYONTOP.triggered['bool'].connect(fgoMainWindow.stayOnTop) # type: ignore
         self.MENU_SCRIPT_GACHA.triggered.connect(fgoMainWindow.runGacha) # type: ignore
+        self.MENU_SCRIPT_SYNTHESIS.triggered.connect(fgoMainWindow.runSynthesis) # type: ignore
         self.MENU_CONTROL_MAPKEY.triggered['bool'].connect(fgoMainWindow.mapKey) # type: ignore
         self.BTN_STOPLATER.clicked['bool'].connect(fgoMainWindow.stopLater) # type: ignore
         self.MENU_SCRIPT_JACKPOT.triggered.connect(fgoMainWindow.runJackpot) # type: ignore
-        self.MENU_SCRIPT_MAILFILTER.triggered.connect(fgoMainWindow.runMailFiltering) # type: ignore
+        self.MENU_SCRIPT_MAILFILTER.triggered.connect(fgoMainWindow.runMail) # type: ignore
         self.MENU_CONTROL_EXEC.triggered.connect(fgoMainWindow.exec) # type: ignore
         self.MENU_SETTINGS_DEFEATED.triggered['bool'].connect(fgoMainWindow.stopOnDefeated) # type: ignore
         self.MENU_SETTINGS_KIZUNAREISOU.triggered['bool'].connect(fgoMainWindow.stopOnKizunaReisou) # type: ignore
@@ -1491,6 +1495,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_FILE_EXPLORER.setText(_translate("fgoMainWindow", "资源管理器"))
         self.MENU_CONTROL_STAYONTOP.setText(_translate("fgoMainWindow", "窗口置顶"))
         self.MENU_SCRIPT_GACHA.setText(_translate("fgoMainWindow", "抽友情"))
+        self.MENU_SCRIPT_SYNTHESIS.setText(_translate("fgoMainWindow", "礼装强化"))
         self.MENU_CONTROL_MAPKEY.setText(_translate("fgoMainWindow", "加载按键映射"))
         self.MENU_SCRIPT_JACKPOT.setText(_translate("fgoMainWindow", "抽奖池"))
         self.MENU_SCRIPT_MAILFILTER.setText(_translate("fgoMainWindow", "领购粮"))

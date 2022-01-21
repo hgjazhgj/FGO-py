@@ -3827,6 +3827,7 @@
     <addaction name="MENU_SCRIPT_GACHA"/>
     <addaction name="MENU_SCRIPT_JACKPOT"/>
     <addaction name="MENU_SCRIPT_MAILFILTER"/>
+    <addaction name="MENU_SCRIPT_SYNTHESIS"/>
    </widget>
    <widget class="QMenu" name="MENU_CONTROL">
     <property name="title">
@@ -3887,6 +3888,11 @@
     <string>抽友情</string>
    </property>
   </action>
+  <action name="MENU_SCRIPT_SYNTHESIS">
+    <property name="text">
+     <string>礼装强化</string>
+    </property>
+   </action>
   <action name="MENU_CONTROL_MAPKEY">
    <property name="checkable">
     <bool>true</bool>
@@ -4180,6 +4186,12 @@
    <slot>runGacha()</slot>
   </connection>
   <connection>
+   <sender>MENU_SCRIPT_SYNTHESIS</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>runSynthesis()</slot>
+  </connection>
+  <connection>
    <sender>MENU_CONTROL_MAPKEY</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
@@ -4201,7 +4213,7 @@
    <sender>MENU_SCRIPT_MAILFILTER</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>runMailFiltering()</slot>
+   <slot>runMail()</slot>
   </connection>
   <connection>
    <sender>MENU_CONTROL_EXEC</sender>
@@ -4283,7 +4295,8 @@
   <slot>mapKey(bool)</slot>
   <slot>stopLater(bool)</slot>
   <slot>runJackpot()</slot>
-  <slot>runMailFiltering()</slot>
+  <slot>runMail()</slot>
+  <slot>runSynthesis</slot>
   <slot>exec()</slot>
   <slot>stopOnDefeated(bool)</slot>
   <slot>stopOnKizunaReisou(bool)</slot>
