@@ -169,7 +169,8 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def explorerHere(self):os.startfile('.')
     def runGacha(self):self.runFunc(fgoKernel.gacha)
     def runJackpot(self):self.runFunc(fgoKernel.jackpot)
-    def runMailFiltering(self):self.runFunc(fgoKernel.mailFiltering)
+    def runMail(self):self.runFunc(fgoKernel.mail)
+    def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
     def stopOnDefeated(self,x):self.config['stopOnDefeated']=x
     def stopOnKizunaReisou(self,x):self.config['stopOnKizunaReisou']=x
     def stopOnSpecialDrop(self):

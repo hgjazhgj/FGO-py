@@ -76,7 +76,7 @@ class Detect(metaclass=logMeta(logger)):
     def isCardSealed(self):return[any(self._compare(j,(43+386*i,667,350+386*i,845),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isFriendListEnd(self):return self._isListEnd((1882,1064))
     def isGacha(self):return self._compare(IMG.GACHA,(973,960,1312,1052))
-    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55or numpy.mean(that.im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)])(Detect(.15)if that is None else that)
+    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55 or numpy.mean(that.im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)])(Detect(.15)if that is None else that)
     def isMailDone(self):return self._iterMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,920,1919,1049))
     def isMailListEnd(self):return self._isListEnd((1406,1018))
@@ -87,7 +87,9 @@ class Detect(metaclass=logMeta(logger)):
     def isServantFriend(self):return[self._compare(IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(1436,3,1484,59))
-    def isSpecialDropSuspended(self):return self._compare(IMG.CLOSE,(12,17,107,102))
+    def isSpecialDropSuspended(self):return self._compare(IMG.CLOSESHORT,(12,17,107,102))
+    def isSynthesisBegin(self):return self._compare(IMG.CLOSELONG,(24,19,225,109))
+    def isSynthesisFinished(self):return self._compare(IMG.DECIDEDISABLED,(1644,968,1810,1052))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1567,932,1835,1064))
     def getCardColor(self):return[[.8,1.,1.1][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(120+386*i,806,196+386*i,871))]for i in range(5)]
     def getCardGroup(self): # When your servant and the support one has the same command card portrait, getCardGroup will see them as in the same group, which is not true and hard to fix, because the support tag on a command card might be covered when there are many buff icons. This problem causes selectCard to not provide the best solve

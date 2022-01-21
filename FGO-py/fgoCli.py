@@ -151,7 +151,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.do_continue('')
     def complete_call(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['gacha','jackpot','mailFiltering']
+            '':['gacha','jackpot','mail','synthesis']
         },text,line,begidx,endidx)
     def do_config(self,line):
         'Edit config item if exists and forward to schedule'
@@ -218,7 +218,7 @@ parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team i
 parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
 
 parser_call=ArgParser(prog='call',description=Cmd.do_call.__doc__)
-parser_call.add_argument('func',help='Additional feature name',choices=['gacha','jackpot','mailFiltering'])
+parser_call.add_argument('func',help='Additional feature name',choices=['gacha','jackpot','mail','synthesis'])
 parser_call.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=float,default=0)
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)

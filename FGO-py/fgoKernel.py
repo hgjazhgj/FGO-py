@@ -62,7 +62,7 @@ def jackpot():
     while fuse.value<50:
         if Detect().isNextJackpot():device.perform('\xDCKJ',(600,2400,500))
         for _ in range(40):device.press('2')
-def mailFiltering():
+def mail():
     if not mailImg.flush():return
     Detect().setupMailDone()
     while True:
@@ -70,6 +70,16 @@ def mailFiltering():
             while not Detect().isMailDone():pass
         device.swipe((400,900,400,300))
         if Detect().isMailListEnd():break
+def synthesis():
+    while True:
+        device.perform('8',(1000,))
+        for i in range(4):
+            for j in range(7):
+                device.touch((200+200*j,380+210*i))
+                schedule.sleep(.1)
+        if Detect().isSynthesisFinished():break
+        device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
+        while not Detect().isSynthesisBegin():device.press('\xBB')
 class Battle:
     skillInfo=[[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]]]
     houguInfo=[[1,7],[1,7],[1,7],[1,7],[1,7],[1,7]]
@@ -122,7 +132,7 @@ class Battle:
                     while not Detect().isTurnBegin():pass
                     Detect(.5)
                 device.perform(' ',(2100,))
-                device.perform(self.selectCard(),(270,270,2270,1270,6000))
+                device.perform(self.selectCard(),(300,300,2300,1300,6000))
             elif Detect.cache.isSpecialDropSuspended():
                 schedule.checkKizunaReisou()
                 logger.warning('Kizuna Reisou')
@@ -140,7 +150,7 @@ class Battle:
                 logger.warning('Battle Defeated')
                 schedule.checkDefeated()
                 return 0
-            device.press('\x08')
+            device.perform('\xBB\x08',(100,100))
     @logit(logger,logging.INFO)
     def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:self.getHouguInfo(x,1))]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5 else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup()))([self.servant[i]<6 and j and(t:=self.getHouguInfo(i,0))and self.stage>=min(t,self.stageTotal)for i,j in enumerate(Detect().isHouguReady())],Detect.cache.isCardSealed(),Detect.cache.getCardColor(),Detect.cache.getCardResist(),Detect.cache.getCriticalRate()))
     def getSkillInfo(self,pos,skill,arg):return self.friendInfo[0][skill][arg]if self.friend[pos]and self.friendInfo[0][skill][arg]>=0 else self.skillInfo[self.orderChange[self.servant[pos]]][skill][arg]
