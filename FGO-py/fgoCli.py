@@ -38,7 +38,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         if line:logger.info(line)
         return line
     def completenames(self,text,*ignored):return[f'{i} 'for i in super().completenames(text,*ignored)]
-    def completecommands(self,table,text,line,begidx,endidx):return[f'{i} 'for i in[j for i,j in table.items()if re.match(f'{i}$',' '.join(line.split()[slice(1,None if begidx==endidx else -1)]))][0]if i.startswith(text)]
+    def completecommands(self,table,text,line,begidx,endidx):return sum([[f'{k} 'for k in j if k.startswith(text)]for i,j in table.items()if re.match(f'{i}$',' '.join(line.split()[1:None if begidx==endidx else -1]))],[])
     def teamup_load(self,arg):
         self.currentTeam=arg.name
         fgoKernel.Main.teamIndex=int(self.teamup[arg.name]['teamIndex'])
