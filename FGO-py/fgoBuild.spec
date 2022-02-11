@@ -14,7 +14,9 @@ a = Analysis(['fgo.py'],
                  ('fgoLog/.gitkeep', 'fgoLog'),
                  ('fgoTemp/.gitkeep', 'fgoTemp'),
                  ('../LICENSE','.'),
-                 (HOMEPATH+'/airtest/core/android/static', 'airtest/core/android/static')
+                 (HOMEPATH+'/airtest/core/android/static/adb/windows', 'airtest/core/android/static/adb/windows'),
+                 (HOMEPATH+'/airtest/core/android/static/apks', 'airtest/core/android/static/adb/apks'),
+                 (HOMEPATH+'/airtest/core/android/static/stf_libs', 'airtest/core/android/static/stf_libs')
              ],
              hiddenimports=[],
              hookspath=[],

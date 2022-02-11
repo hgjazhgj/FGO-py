@@ -187,7 +187,7 @@ class Main:
                 device.press('\xBB')
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
-            if self.battleFunc():device.press(' ')
+            if self.battleFunc():device.perform('      ',(200,200,200,200,200,200))
             else:device.perform('BIK',(500,500,500))
             schedule.checkTerminateLater()
     @logit(logger,logging.INFO)

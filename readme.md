@@ -1,5 +1,3 @@
-> 本项目在2022年1月6日达到了300star!超越fga指日可待!  
-> ![300starcelebrate](./doc/300starcelebrate.png)  
 > 本项目已经存在直接在运行fgo的手机上运行的解决方案,具体参见[直接在手机上运行](#直接在手机上运行)  
 > WSA supported! see: [Windows Subsystem for Android](#Windows-Subsystem-for-Android)  
 > Run in Docker, see Dockerfile  
@@ -93,7 +91,7 @@ Cli大概长这样(在docker和手机中运行时的截图):
 有一些软件能在安卓手机上提供Linux环境,比如[AidLux](http://www.aidlearning.net/)([GitHub](https://github.com/aidlearning/AidLearning-Framework)),类似于Android Subsystem for Linux(我愿称之为ASL)  
 相较于[Termux](https://termux.com/)等模拟终端,AidLux自带了编译好的opencv等基础库,避免了ARM处理器上的各种问题,故以此为基础搭建FGO-py环境,具体搭建方式于通常Linux无异,可参考`AidLux.sh`,此方案已在多机型上被验证为可行,我现在用得很舒服  
 当然Qt的UI多半是没有的,此时你只能使用文本交互方式运行本项目,这就体现出web ui的优越性了  
-此外,tensorflow/caffe/mxnet等其他数十种智能计算领域常用的软件均可在AidLux特有的软件源中直接安装,碧蓝航线的[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)/明日方舟的[ArknightsAutoHelper](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)等基于安卓调试的自动化脚本都可按类似的方式在装有AidLux的手机上运行,我断言,逐渐地,AidLux会在手游自动化方面被更加广泛地使用,是大势所趋,早用早享受  
+此外,tensorflow/caffe/mxnet等其他数十种智能计算领域常用的软件均可在AidLux特有的软件源中直接安装,碧蓝航线的[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)/明日方舟的[ArknightsAutoHelper](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)等基于安卓调试的自动化脚本都可按类似的方式在装有AidLux的手机上运行--我断言,逐渐地,AidLux会在手游自动化方面被更加广泛地使用,是大势所趋,早用早享受  
 ### Windows Subsystem for Android
 这个功能非常未来可期,目前不能保证在你的设备上也能运行,不过能折腾出wsa上跑fgo的人应该也有能力解决或者定位遇到的问题  
 在连接到wsa时输入的设备序列号必须为wsa这三个英文字符,同时fgo必须已经正在运行  
@@ -201,6 +199,9 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 - ...  
 
 # 版本记录 Version Logs
+## 2022/02/12 v8.4.1
+更新:打包时剔除了一些无需的文件  
+更改:战利品结算后还有活动点数奖励结算  
 ## 2022/02/08 Happy Lunar New Year
 本次没有功能更新,但是有更为重要的新年礼物  
 新年礼物包括三部分:  
