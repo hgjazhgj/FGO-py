@@ -1,4 +1,4 @@
-import os,cv2,platform
+import os,cv2,numpy,platform
 from fgoLogging import getLogger
 logger=getLogger('ImageListener')
 
@@ -70,7 +70,7 @@ else:
         def get(self):return[]
 class ImageListener(dict):
     def __init__(self,path,ends='.png'):
-        super().__init__((file[:-len(ends)],cv2.imread(path+file))for file in os.listdir(path)if file.endswith(ends))
+        super().__init__((file[:-len(ends)],(lambda x:(x,numpy.max(x,axis=2)>>1))(cv2.imread(path+file)))for file in os.listdir(path)if file.endswith(ends))
         self.path=path
         self.ends=ends
         self.listener=DirListener(path)

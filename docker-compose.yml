@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  fgo-py:
+    build: .
+    image: hgjazhgj/fgo-py:latest
+    container_name: fgo-py
+    command: python3 fgo.py web
+    working_dir: /FGO-py
+    ports:
+      - 5000:5000
+    volumes:
+      - ./FGO-py:/FGO-py

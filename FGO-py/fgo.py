@@ -9,7 +9,7 @@ arg=parser.parse_args()
 
 if arg.entrypoint=='gui':from fgoGui import main
 elif arg.entrypoint=='cli':from fgoCli import main
-elif arg.entrypoint=='web':raise NotImplementedError
+elif arg.entrypoint=='web':from fgoWebServer import main
 
 import fgoLogging
 fgoLogging.logging.getLogger('fgo').handlers[-1].setLevel(arg.loglevel)

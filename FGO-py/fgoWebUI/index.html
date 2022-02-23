@@ -1,0 +1,169 @@
+<html>
+
+<head>
+    <title>FGO-py - hgjazhgj</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script>
+        function _dumpTeamup() {
+            return {
+                teamIndex: Number(teamIndex.value),
+                skillInfo: [...Array(6).keys()].map(i =>
+                    [...Array(3).keys()].map(j =>
+                        [...Array(4).keys()].map(k =>
+                            Number($("#skill_" + i + "_" + j + "_" + k).val()),
+                        )
+                    )
+                ),
+                houguInfo: [...Array(6).keys()].map(i =>
+                    [...Array(2).keys()].map(j =>
+                        Number($("#hougu_" + i + "_" + j).val()),
+                    )
+                ),
+                masterSkill: [...Array(3).keys()].map(i =>
+                    [...Array(4).keys()].map(j =>
+                        Number($("#master_" + i + "_" + j).val()),
+                    )
+                )
+            }
+        }
+
+        function connect() {
+            let serial = prompt("连接到设备");
+            if (serial == null) {
+                return;
+            }
+            $.ajax({
+                url: "{{ url_for("connect") }}",
+                type: "POST",
+                data: {
+                    serial: serial,
+                },
+                success: function (data) {
+                    $("#device").html(data);
+                }
+            });
+        }
+
+        function teamupLoad(teamName) {
+            $.ajax({
+                url: "{{ url_for("teamupLoad") }}",
+                type: "POST",
+                data: {
+                    teamName: teamName,
+                },
+                success: function (data) {
+                    for (let i=0; i<6; i++) {
+                        for (let j=0; j<3; j++) {
+                            for (let k=0; k<4; k++) {
+                                $("#skill_" + i + "_" + j + "_" + k).val(data.skillInfo[i][j][k]);
+                            }
+                        }
+                        for (let j=0; j<2; j++) {
+                            $("#hougu_" + i + "_" + j).val(data.houguInfo[i][j]);
+                        }
+                    }
+                    for (let i=0; i<3; i++) {
+                        for (let j=0; j<4; j++) {
+                            $("#master_" + i + "_" + j).val(data.masterSkill[i][j]);
+                        }
+                    }
+                    teamIndex.value=data.teamIndex;
+                }
+            });
+        }
+
+        function teamupSave() {
+            $.ajax({
+                url: "{{ url_for("teamupSave") }}",
+                type: "POST",
+                data: {
+                    teamName: teamName.value,
+                    data: JSON.stringify(_dumpTeamup())
+                }
+            });
+        }
+
+        function teamupReset() {
+            teamupLoad("DEFAULT");
+        }
+
+        function apply() {
+            $.ajax({
+                url: "{{ url_for("apply") }}",
+                type: "POST",
+                data: {
+                    data: JSON.stringify(_dumpTeamup())
+                }
+            });
+        }
+
+        function battle(param) {
+            apply();
+            $.ajax({
+                url: "{{ url_for("run", action="Battle") }}",
+                type: "POST"
+            });
+        }
+        
+        function main(param) {
+            apply();
+            $.ajax({
+                url: "{{ url_for("run", action="Main") }}",
+                type: "POST",
+                data: {
+                    appleTotal: Number(appleTotal.value),
+                    appleKind: appleKind.selectIndex,
+                }
+            });
+        }
+    </script>
+</head>
+
+<body onload="teamupReset()">
+    <h1>FGO-py</h1>
+    <select id="teamName" onchange="teamupLoad(this.value)">
+        {% for teamName in teamups %}
+            <option>{{ teamName }}</option>
+        {% endfor %}
+    </select>
+    位置<input type="number" id="teamIndex" min="0" max="10"/>
+    <button onclick="teamupSave()">保存</button>
+    <button onclick="teamupReset()">重置</button>
+    <br/>
+    编队信息<br/>
+    {% for i in range(6) %}
+        {{ i+1 }}
+        {% for j in range(3) %}
+            {% for k in range(4) %}
+                <input type="number" id="skill_{{ i }}_{{ j }}_{{ k }}" min="0" max="{{ 15 if k==3 else 9 }}"/>
+            {% endfor %}|
+        {% endfor %}
+        {% for j in range(2) %}
+            <input type="number" id="hougu_{{ i }}_{{ j }}" min="0" max="{{ 15 if j==1 else 9 }}"/>
+        {% endfor %}<br/>
+    {% endfor %}
+    御主技能
+    {% for i in range(3) %}
+        {% for j in range(4) %}
+            <input type="number" id="master_{{ i }}_{{ j }}" min="0" max="{{ 15 if j==3 else 9 }}"/>
+        {% endfor %}{% if i!=2 %}|{% endif %}
+    {% endfor %}<br/>
+    苹果
+    <select id="appleKind">
+        <option>金</option>
+        <option>银</option>
+        <option>铜</option>
+        <option>彩</option>
+    </select>
+    <input type="number" id="appleTotal" min="0" max="114514" value="0"/><br/>
+    当前设备 <a id="device">{{ device }}</a> <button onclick="connect()">更改</button><br/>
+    <button onclick="battle()">完成战斗</button>
+    <button onclick="main()">肝</button>
+    <button onclick="pause()">挂起战斗</button>
+    <button onclick="stop()">终止战斗</button>
+    <button onclick="stopLater()">预约终止</button>
+    <button onclick="checkScreenshot()">检查截图</button>
+    <button onclick="apply()">应用更改</button>
+</body>
+
+</html>
