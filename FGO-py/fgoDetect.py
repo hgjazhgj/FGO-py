@@ -4,7 +4,7 @@ from fgoSchedule import schedule
 from fgoFuse import fuse
 from fgoLogging import getLogger,logMeta,logit
 logger=getLogger('Detect')
-IMG=type('IMG',(),{i[:-4].upper():cv2.imread(f'fgoImage/{i}')for i in os.listdir('fgoImage')if i[-4:]=='.png'})
+IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x,numpy.max(x,axis=2)>>1))(cv2.imread(f'fgoImage/{i}'))for i in os.listdir('fgoImage')if i[-4:]=='.png'})
 class Detect(metaclass=logMeta(logger)):
     # The accuracy of each API here is designed to be 100% at 1920x1080 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Detect.cache.save() or fuse.save().
     cache=None
@@ -36,11 +36,11 @@ class Detect(metaclass=logMeta(logger)):
         schedule.sleep(backwardLagency)
     def _clip(self,rect):return self.im[rect[1]:rect[3],rect[0]:rect[2]]
     # @logit(logger)
-    def _loc(self,img,rect=(0,0,1920,1080)):return cv2.minMaxLoc(cv2.matchTemplate(self._clip(rect),img,cv2.TM_SQDIFF_NORMED,mask=numpy.max(img,axis=2)>>1))
+    def _loc(self,img,rect=(0,0,1920,1080)):return cv2.minMaxLoc(cv2.matchTemplate(self._clip(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1]))
     def _compare(self,img,rect=(0,0,1920,1080),threshold=.05,blockFuse=False):return threshold>self._loc(img,rect)[0]and(blockFuse or fuse.reset(self))
     def _select(self,img,rect=(0,0,1920,1080),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
-    def _find(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img.shape[1]>>1),rect[1]+loc[2][1]+(img.shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
-    def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR,numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0and(hierarchy[0][i][2]==-1or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self._clip(rect),cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
+    def _find(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img[0].shape[1]>>1),rect[1]+loc[2][1]+(img[0].shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
+    def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR[0],numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0and(hierarchy[0][i][2]==-1or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self._clip(rect),cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     @startIter
     def _iterMatch(self,rect,threshold=.05):
         img=self._clip(rect)
@@ -97,7 +97,7 @@ class Detect(metaclass=logMeta(logger)):
         result=[-1]*5
         index=0
         while universe:
-            group=(lambda item:{item}|{i for i in universe if self._loc(self._clip((170+386*i,690,215+386*i,707)),(160+386*item,660,225+386*item,737))[0]<.025})(universe.pop())
+            group=(lambda item:{item}|{i for i in universe if self._loc((self._clip((170+386*i,690,215+386*i,707)),None),(160+386*item,660,225+386*item,737))[0]<.025})(universe.pop())
             for i in group:result[i]=index
             index+=1
             universe-=group

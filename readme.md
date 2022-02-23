@@ -100,7 +100,8 @@ Cli大概长这样(在docker和手机中运行时的截图):
 在我使用的wsa上截图有不低的概率截到带有成条噪音的黑底图片或有一半是游戏画面,此时会导致不期望的识别结果或直接报错,故不宜长时间无人值守,这锅得微软背  
 综上所述,我的建议是试一试wsa,但暂时不要真正使用,同时由于本人的主力生产环境还是Win10,所以wsa的支持不见得会积极更新  
 ### Docker
-参阅Dockerfile头部的注释  
+直接`docker-compose up`  
+如果你要使用cli,参阅Dockerfile头部的注释  
 ## 配置 Config
 以下项目保存在`fgoTeamup.ini`内,只要填写就会应用于后续战斗,点击「应用更改」使之立即生效,保存需要点击按钮  
 - 各队伍编组的索引  
@@ -184,10 +185,10 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被倒在[垃圾场](doc/垃圾场.md)里  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 # 有想到但是实际不一定会做的东西 TODO
-- web UI  
-- docker  
+- 方法命名统一  
 - getEnemyHPGauge  
 - getEnemyNP  
+- 战斗断点续行
 - 御主技能多次使用  
 - 指令卡具体分组  
 - 新的选卡算法与技能模型  
@@ -199,6 +200,14 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 - ...  
 
 # 版本记录 Version Logs
+## 2022/02/22 v8.5.0
+更新:webUI  
+写了一半,目前只能选编队连设备点开始  
+这是本人第一次写javascript,更别提其他前端技术了,有哪里写的不好的还请高抬贵手  
+这webUI其实鸽了挺久了~~后半部分可能会鸽更久~~,我曾经用flask写过一些很小型的后端,那时试图加前端但是效果很不理想,本想着从别的项目里抄个现成的框架过来也都觉得太复杂驾驭不了,直到我看到了昔日给iOS用的[FGO_Bluetooth_Assistant](https://github.com/McLaren12345/FGO_Bluetooth_Assistant)转生Android整了个web前端[FGO_Automation_WebUI](https://github.com/McLaren12345/FGO_Automation_WebUI),这告诉我这条道路是可行的,于是熬了两个晚上现学js挤了些代码出来  
+为了玩fgo从win32api/python/adb/qt一路学到javascript,这个项目里的大部分东西都是现学现用写下的第一行~~我上大学学了个屁~~,真就娱乐是第一生产力  
+更新:docker-compose  
+优化:图像识别蒙版在启动时全部计算  
 ## 2022/02/12 v8.4.1
 更新:打包时剔除了一些无需的文件  
 更改:战利品结算后还有活动点数奖励结算  
