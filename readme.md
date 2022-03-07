@@ -200,6 +200,8 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 - ...  
 
 # 版本记录 Version Logs
+## 2022/03/07 v8.5.1
+bugfix:ImageListener侦听到图片变动时图像识别蒙版计算之未尽事宜  
 ## 2022/02/22 v8.5.0
 更新:webUI  
 写了一半,目前只能选编队连设备点开始  
