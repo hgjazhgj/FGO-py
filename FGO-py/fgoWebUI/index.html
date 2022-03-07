@@ -111,8 +111,8 @@
                 url: "{{ url_for("run", action="Main") }}",
                 type: "POST",
                 data: {
-                    appleTotal: Number(appleTotal.value),
-                    appleKind: appleKind.selectIndex,
+                    appleTotal: appleTotal.value,
+                    appleKind: appleKind.selectedIndex
                 }
             });
         }

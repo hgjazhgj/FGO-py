@@ -77,14 +77,14 @@ class ImageListener(dict):
     def flush(self):
         lastAction=0
         oldName=None
-        def onCreated(name):self[name]=cv2.imread(self.path+name+self.ends)
+        def onCreated(name):self[name]=(lambda x:(x,numpy.max(x,axis=2)>>1))(cv2.imread(self.path+name+self.ends))
         def onDeleted(name):del self[name]
-        def onUpdated(name):self[name]=cv2.imread(self.path+name+self.ends)
+        def onUpdated(name):self[name]=(lambda x:(x,numpy.max(x,axis=2)>>1))(cv2.imread(self.path+name+self.ends))
         def onRenamedFrom(name):
             nonlocal oldName
             if oldName is not None:del self[oldName]
             oldName=name
-        def onRenamedTo(name):self[name]=self[oldName]if lastAction==4 else cv2.imread(self.path+name+self.ends)
+        def onRenamedTo(name):self[name]=self[oldName]if lastAction==4 else(lambda x:(x,numpy.max(x,axis=2)>>1))(cv2.imread(self.path+name+self.ends))
         for action,name in((action,file[:-len(self.ends)])for action,file in self.listener.get()if file.endswith(self.ends)):
             {1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(action,lambda _:None)(name)
             logger.info(f'{dict(((1,"Create"),(2,"Delete"),(3,"Update"),(4,"RenameFrom"),(5,"RenameTo"))).get(action,None)} {name}')

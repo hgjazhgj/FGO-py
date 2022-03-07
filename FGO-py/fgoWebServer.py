@@ -48,7 +48,7 @@ def apply():
 def run(action):
     if not fgoKernel.device.avaliable:
         return 'Device not avaliable'
-    getattr(fgoKernel,action)(**request.form)()
+    getattr(fgoKernel,action)(**{i:int(j)for i,j in request.form})()
     return 'Done'
 
 
