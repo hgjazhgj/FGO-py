@@ -42,17 +42,17 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def teamup_load(self,arg):
         self.currentTeam=arg.name
         fgoKernel.Main.teamIndex=int(self.teamup[arg.name]['teamIndex'])
-        fgoKernel.Battle.skillInfo=eval(self.teamup[arg.name]['skillInfo'])
-        fgoKernel.Battle.houguInfo=eval(self.teamup[arg.name]['houguInfo'])
-        fgoKernel.Battle.masterSkill=eval(self.teamup[arg.name]['masterSkill'])
+        fgoKernel.Turn.skillInfo=eval(self.teamup[arg.name]['skillInfo'])
+        fgoKernel.Turn.houguInfo=eval(self.teamup[arg.name]['houguInfo'])
+        fgoKernel.Turn.masterSkill=eval(self.teamup[arg.name]['masterSkill'])
         if arg.name!='DEFAULT':self.teamup_show(0)
     def teamup_save(self,arg):
         if self.currentTeam=='DEFAULT':return
         self.teamup[self.currentTeam]={
             'teamIndex':fgoKernel.Main.teamIndex,
-            'skillInfo':str(fgoKernel.Battle.skillInfo).replace(' ',''),
-            'houguInfo':str(fgoKernel.Battle.houguInfo).replace(' ',''),
-            'masterSkill':str(fgoKernel.Battle.masterSkill).replace(' ','')}
+            'skillInfo':str(fgoKernel.Turn.skillInfo).replace(' ',''),
+            'houguInfo':str(fgoKernel.Turn.houguInfo).replace(' ',''),
+            'masterSkill':str(fgoKernel.Turn.masterSkill).replace(' ','')}
         with open('fgoTeamup.ini','w')as f:self.teamup.write(f)
     def teamup_clear(self,arg):
         store=self.currentTeam
@@ -60,17 +60,17 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.currentTeam=store
     def teamup_reload(self,arg):self.teamup=IniParser('teamup.ini')
     def teamup_list(self,arg):print('\n'.join(self.teamup.sections()))
-    def teamup_show(self,arg):print('\n'.join([f'team name: {self.currentTeam}',f'team index: {fgoKernel.Main.teamIndex}','servant skill & hougu:','\n'.join(['  '.join([str(i+1),'-'.join([''.join([str(x)for x in fgoKernel.Battle.skillInfo[i][j]])for j in range(3)]+[''.join([str(x)for x in fgoKernel.Battle.houguInfo[i]])])])for i in range(6)]),'master skill:','   '+'-'.join([''.join([str(x)for x in fgoKernel.Battle.masterSkill[i]])for i in range(3)])]))
+    def teamup_show(self,arg):print('\n'.join([f'team name: {self.currentTeam}',f'team index: {fgoKernel.Main.teamIndex}','servant skill & hougu:','\n'.join(['  '.join([str(i+1),'-'.join([''.join([str(x)for x in fgoKernel.Turn.skillInfo[i][j]])for j in range(3)]+[''.join([str(x)for x in fgoKernel.Turn.houguInfo[i]])])])for i in range(6)]),'master skill:','   '+'-'.join([''.join([str(x)for x in fgoKernel.Turn.masterSkill[i]])for i in range(3)])]))
     def teamup_set(self,arg):getattr(self,f'teamup_set_{arg.subcommand_1}')(arg)
     def teamup_set_servant(self,arg):
         if self.currentTeam=='DEFAULT':return
         pos=arg.pos-1
-        fgoKernel.Battle.skillInfo[pos],fgoKernel.Battle.houguInfo[pos]=(lambda r:(lambda p:([[[fgoKernel.Battle.skillInfo[pos][i][j]if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[fgoKernel.Battle.houguInfo[pos][i]if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[fgoKernel.Battle.skillInfo[pos],fgoKernel.Battle.houguInfo[pos]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',arg.value.replace('-','')))
-        print('Change skill & hougu info of servant',arg.pos,'to','-'.join([''.join([str(x)for x in fgoKernel.Battle.skillInfo[pos][i]])for i in range(3)]+[''.join([str(x)for x in fgoKernel.Battle.houguInfo[pos]])]))
+        fgoKernel.Turn.skillInfo[pos],fgoKernel.Turn.houguInfo[pos]=(lambda r:(lambda p:([[[fgoKernel.Turn.skillInfo[pos][i][j]if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[fgoKernel.Turn.houguInfo[pos][i]if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[fgoKernel.Turn.skillInfo[pos],fgoKernel.Turn.houguInfo[pos]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',arg.value.replace('-','')))
+        print('Change skill & hougu info of servant',arg.pos,'to','-'.join([''.join([str(x)for x in fgoKernel.Turn.skillInfo[pos][i]])for i in range(3)]+[''.join([str(x)for x in fgoKernel.Turn.houguInfo[pos]])]))
     def teamup_set_master(self,arg):
         if self.currentTeam=='DEFAULT':return
-        fgoKernel.Battle.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j])for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoKernel.Battle.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
-        print('Change master skill info to','-'.join([''.join([str(x)for x in fgoKernel.Battle.masterSkill[i]])for i in range(3)]))
+        fgoKernel.Turn.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j])for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoKernel.Turn.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
+        print('Change master skill info to','-'.join([''.join([str(x)for x in fgoKernel.Turn.masterSkill[i]])for i in range(3)]))
     def teamup_set_index(self,arg):
         if self.currentTeam=='DEFAULT':return
         fgoKernel.Main.teamIndex=arg.value

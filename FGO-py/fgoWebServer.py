@@ -39,9 +39,9 @@ def teamupSave():
 def apply():
     data=json.loads(request.form['data'])
     fgoKernel.Main.teamIndex=data['teamIndex']
-    fgoKernel.Battle.skillInfo=data['skillInfo']
-    fgoKernel.Battle.houguInfo=data['houguInfo']
-    fgoKernel.Battle.masterSkill=data['masterSkill']
+    fgoKernel.Turn.skillInfo=data['skillInfo']
+    fgoKernel.Turn.houguInfo=data['houguInfo']
+    fgoKernel.Turn.masterSkill=data['masterSkill']
     return ''
 
 @app.route('/api/run/<action>',methods=['POST'])

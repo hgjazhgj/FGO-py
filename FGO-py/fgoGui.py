@@ -163,9 +163,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         except Exception as e:logger.exception(e)
     def applyAll(self):
         fgoKernel.Main.teamIndex=self.TXT_TEAM.value()
-        fgoKernel.Battle.skillInfo=[[[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').value()for k in range(4)]for j in range(3)]for i in range(6)]
-        fgoKernel.Battle.houguInfo=[[getattr(self,f'TXT_HOUGU_{i}_{j}').value()for j in range(2)]for i in range(6)]
-        fgoKernel.Battle.masterSkill=[[getattr(self,f'TXT_MASTER_{i}_{j}').value()for j in range(4+(i==2))]for i in range(3)]
+        fgoKernel.Turn.skillInfo=[[[getattr(self,f'TXT_SKILL_{i}_{j}_{k}').value()for k in range(4)]for j in range(3)]for i in range(6)]
+        fgoKernel.Turn.houguInfo=[[getattr(self,f'TXT_HOUGU_{i}_{j}').value()for j in range(2)]for i in range(6)]
+        fgoKernel.Turn.masterSkill=[[getattr(self,f'TXT_MASTER_{i}_{j}').value()for j in range(4+(i==2))]for i in range(3)]
     def explorerHere(self):os.startfile('.')
     def runGacha(self):self.runFunc(fgoKernel.gacha)
     def runJackpot(self):self.runFunc(fgoKernel.jackpot)

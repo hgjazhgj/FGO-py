@@ -8,10 +8,9 @@ def regHelper(func):
 def convert(text):
     if text is None:return None
     text=text.removeprefix(' ').removesuffix(' ')
-    if text.startswith('/'):
-        try:return helpers[text[1:]]()
-        except Exception as e:return logger.exception(e)
-    return text
+    if not text.startswith('/'):return text
+    try:return helpers[text[1:]]()
+    except Exception as e:return logger.exception(e)
 
 @regHelper
 def gw():
