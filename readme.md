@@ -1,3 +1,6 @@
+**重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)**  
+> 花嫁1300石一宝,可怜可怜我吧  
+
 > 本项目已经存在直接在运行fgo的手机上运行的解决方案,具体参见[直接在手机上运行](#直接在手机上运行)  
 > WSA supported! see: [Windows Subsystem for Android](#Windows-Subsystem-for-Android)  
 > Run in Docker, see Dockerfile  
@@ -60,7 +63,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 **由于使用本程序而导致的包括但不限于上述各项的损失本人概不负责,您下载并使用该程序即代表您已知晓使用程序可能带来的风险并愿意承担可能出现的后果**  
 ***
 # 说明 Instruction
-FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境*作为自身的初心使命;从此羁绊点数和御主礼装经验不再被浪费,**玩家抽卡不用考虑强度只用考虑xp**;在大量90+阴间本的环境下,xjbd能带给玩家最阳间的体验;尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!比如[FGA](https://github.com/Fate-Grand-Automata/FGA)**  
+FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境*作为自身的初心使命;从此羁绊点数和御主礼装经验不再被浪费,**玩家抽卡不用考虑强度只用考虑xp**;在大量90+阴间本的环境下,xjbd能带给玩家最阳间的体验,不管什么本直接上就行连作业都不用抄;尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!比如[FGA](https://github.com/Fate-Grand-Automata/FGA)**  
 这个程序能识别技能和宝具是否可以使用,指令卡颜色,克制关系,暴击率,无法行动及指令卡封印状态,敌我HP/NP等战斗中用得上或用不上的数据,**可以半路接管战斗**,会依据你的设置比较智能地帮你筛选助战,放技能,放宝具,吃苹果,依据特制的选卡算法选卡,一次合理设定后可以**无脑通过绝大部分非高难关卡,包括主线关卡**,实战7-12回合能够刷完无限池终本  
 除战斗功能外,还提供以下功能:抽友情池,抽无限池,领邮箱狗粮,礼装强化  
 照  着  做  应  该  不  难,尽管这看起来是一个1000行的*小项目*,但是你最好把它当成有10000行代码来看待  
@@ -91,7 +94,7 @@ Cli大概长这样(在docker和手机中运行时的截图):
 有一些软件能在安卓手机上提供Linux环境,比如[AidLux](http://www.aidlearning.net/)([GitHub](https://github.com/aidlearning/AidLearning-Framework)),类似于Android Subsystem for Linux(我愿称之为ASL)  
 相较于[Termux](https://termux.com/)等模拟终端,AidLux自带了编译好的opencv等基础库,避免了ARM处理器上的各种问题,故以此为基础搭建FGO-py环境,具体搭建方式于通常Linux无异,可参考`AidLux.sh`,此方案已在多机型上被验证为可行,我现在用得很舒服  
 当然Qt的UI多半是没有的,此时你只能使用文本交互方式运行本项目,这就体现出web ui的优越性了  
-此外,tensorflow/caffe/mxnet等其他数十种智能计算领域常用的软件均可在AidLux特有的软件源中直接安装,碧蓝航线的[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)/明日方舟的[ArknightsAutoHelper](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)等基于安卓调试的自动化脚本都可按类似的方式在装有AidLux的手机上运行--我断言,逐渐地,AidLux会在手游自动化方面被更加广泛地使用,是大势所趋,早用早享受  
+此外,tensorflow/caffe/mxnet等其他数十种智能计算领域常用的软件均可在AidLux特有的软件源中直接安装,碧蓝航线的[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)/明日方舟的[ArknightsAutoHelper](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)等基于安卓调试的自动化脚本都可按类似的方式在装有AidLux的手机上运行--我断言,逐渐地,AidLux会在手游自动化方面被更加广泛地使用,是大势所趋,早用6早享受  
 ### Windows Subsystem for Android
 这个功能非常未来可期,目前不能保证在你的设备上也能运行,不过能折腾出wsa上跑fgo的人应该也有能力解决或者定位遇到的问题  
 在连接到wsa时输入的设备序列号必须为wsa这三个英文字符,同时fgo必须已经正在运行  
@@ -102,7 +105,27 @@ Cli大概长这样(在docker和手机中运行时的截图):
 ### Docker
 直接`docker-compose up`  
 如果你要使用cli,参阅Dockerfile头部的注释  
-## 配置 Config
+## 连接到设备 Connect Your Device
+如果你使用数据线将手机连接到电脑,那么你的手机自然会出现在设备列表中  
+但是很多情况下,设备不会智能出现在设备列表中,尽管程序会帮你运行connect命令,但是你还要手动输入设备序列号或ip,有些时候这些数据还不是固定的,比如模拟器启动时刷新,或是DHCP重新分配了你的ip,这就需要比较繁琐的步骤才能拿到  
+为此,我写了一个小魔法,在连接设备时以「/」开头的指令代替设备序列号,让你用短短几个字符便完成复杂的操作  
+**这里需要用到的包未在requirements.txt中列出,此功能发生的问题无法获得技术支持**  
+基于本人的实际使用场景,这里现在有以下命令  
+1. `wsa` 这是给wsa做的特化,当连接到wsa时必须填写wsa而不能填写其他内容,这个指令不以「/」开头  
+2. `/gw` 手机开热点打fgo电脑连热点,获取网关ip  
+3. `/bs4` 兼容Hyper-V的BlueStacks 4国际版,从注册表读取adb端口  
+4. `/bs5` 兼容Hyper-V的BlueStacks 5国际版,从注册表读取配置文件路径,在配置文件中查找adb端口  
+
+你可以自己编写你需要的功能,如果你认为你的场景别人也会遇到,请发个issue或pr让我加进这个项目里  
+## 助战/邮箱筛选 Friends/Mail Filter
+我希望就算哪一天我弃坑了,本项目也要能够继续长久使用,无需定期维护,所以所有与游戏进度相关的内容都要允许用户自以非编程的方式自行制作/管理,我仅仅为此提供了一些示例和一小部分当前常用的情况  
+你需要事先将你期望的各种助战的样子截图为png放在fgoImage/friend下,参照fgoImage/friend/unused中的文件  
+**被截图范围都应该可以点击来选中该好友**  
+**截图应对应1920\*1080的游戏画面分辨率**,建议使用gui中的`检查截图`按钮或cli的`screenshot`指令  
+如果fgoImage/friend目录下没有png文件,就选取好友列表中的第一个  
+助战截图的文件名在移除连字符(-)后若以包含技能和宝具信息的14个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo和houguInfo中的设置  
+你在fgoImage/friend目录下的所有更改会在下一次选取助战时智能应用  
+## 配置文件 Config Files
 以下项目保存在`fgoTeamup.ini`内,只要填写就会应用于后续战斗,点击「应用更改」使之立即生效,保存需要点击按钮  
 - 各队伍编组的索引  
 - 各队伍编组的从者技能信息  
@@ -146,26 +169,6 @@ Cli大概长这样(在docker和手机中运行时的截图):
 > b priority  
 
 我觉得这个还差点什么东西,有任何想法请发discussion或加开发群  
-## 助战/邮箱筛选 Friends/Mail Filter
-我希望就算哪一天我弃坑了,本项目也要能够继续长久使用,无需定期维护,所以所有与游戏进度相关的内容都要允许用户自以非编程的方式自行制作/管理,我仅仅为此提供了一些示例和一小部分当前常用的情况  
-你需要事先将你期望的各种助战的样子截图为png放在fgoImage/friend下,参照fgoImage/friend/unused中的文件  
-**被截图范围都应该可以点击来选中该好友**  
-**截图应对应1920\*1080的游戏画面分辨率**,建议使用gui中的`检查截图`按钮或cli的`screenshot`指令  
-如果fgoImage/friend目录下没有png文件,就选取好友列表中的第一个  
-助战截图的文件名在移除连字符(-)后若以包含技能和宝具信息的14个数字或占位符x**结尾**,则会将这些信息**覆盖**skillInfo和houguInfo中的设置  
-你在fgoImage/friend目录下的所有更改会在下一次选取助战时智能应用  
-## 连接到设备 Connect Your Device
-如果你使用数据线将手机连接到电脑,那么你的手机自然会出现在设备列表中  
-但是很多情况下,设备不会智能出现在设备列表中,尽管程序会帮你运行connect命令,但是你还要手动输入设备序列号或ip,有些时候这些数据还不是固定的,比如模拟器启动时刷新,或是DHCP重新分配了你的ip,这就需要比较繁琐的步骤才能拿到  
-为此,我写了一个小魔法,在连接设备时以「/」开头的指令代替设备序列号,让你用短短几个字符便完成复杂的操作  
-**这里需要用到的包未在requirements.txt中列出,此功能发生的问题无法获得技术支持**  
-基于本人的实际使用场景,这里现在有以下命令  
-1. `wsa` 这是给wsa做的特化,当连接到wsa时必须填写wsa而不能填写其他内容,这个指令不以「/」开头  
-2. `/gw` 手机开热点打fgo电脑连热点,获取网关ip  
-3. `/bs4` 兼容Hyper-V的BlueStacks 4国际版,从注册表读取adb端口  
-4. `/bs5` 兼容Hyper-V的BlueStacks 5国际版,从注册表读取配置文件路径,在配置文件中查找adb端口  
-
-你可以自己编写你需要的功能,如果你认为你的场景别人也会遇到,请发个issue或pr让我加进这个项目里  
 ## 按键映射 HKey
 |按键         |功能                                    |
 |-------------|----------------------------------------|
@@ -189,7 +192,7 @@ Cli大概长这样(在docker和手机中运行时的截图):
 # 如何联系我 Contact Me
 ![img](doc/contact.png) 在占用我的时间之前,先耗费自己的时间  
 **2021年9月24日,本人的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
-加入QQ群需要提供你的Github用户名,且该帐号在30天内有活跃行为,如果你不希望Github帐号与QQ号有所关联,在加群问题回答中填入任意**有相当意义**的内容亦可.QQ号需要至少16级(有一个太阳,使用大约1年)  
+加入QQ群需要提供你的Github用户名(必须严格等于登陆时输入的Username字段),且该帐号在30天内有活跃行为,如果你不希望Github帐号与QQ号有所关联,在加群问题回答中填入任意**有相当意义**的内容亦可.QQ号需要至少16级(有一个太阳,使用大约1年)  
 发现**最新commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
 qq 979449732(个人账号,加好友请注明是来问*FGO-py*的问题的.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
@@ -230,11 +233,14 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 
 # 参考 Refs
 当你遇到问题,这里的文档可能有帮助  
-[Android 调试桥 (adb)](https://developer.android.com/studio/command-line/adb?hl=zh-cn)  
+[Android 调试桥 (adb)](https://developer.android.com/studio/command-line/adb)  
 [Device Connection](https://airtest.readthedocs.io/zh_CN/latest/wiki/device/device.html)  
 [Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
 # 版本记录 Version Logs
+## 2022/04/09
+重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)  
+不知阿b是有意还是无意  
 ## 2022/03/27 v8.5.2
 更新:getEnemyNP  
 更改:重构了部分代码,为将来的新技能模型做准备  

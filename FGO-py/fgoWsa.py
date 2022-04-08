@@ -17,7 +17,7 @@ class Wsa:
             self.key={c:(p[0]*self.width//1920,p[1]*self.height//1080)for c,p in KEYMAP.items()}
         except:self.name=None
     @property
-    def avaliable(self):return True
+    def available(self):return True
     @staticmethod
     def enumDevices():return['wsa'] # [i for i,j in[line.split()for line in str(shell('adb devices')).split('\n')[1:-2]]if j=='device']
     def touch(self,pos):
