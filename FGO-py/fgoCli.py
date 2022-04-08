@@ -125,7 +125,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Continue last battle after abnormal break, use it as same as battle'
         arg=parser_battle.parse_args(line.split())
         time.sleep(arg.sleep)
-        assert fgoKernel.device.avaliable
+        assert fgoKernel.device.available
         try:self.work()
         except fgoKernel.ScriptTerminate as e:
             logger.critical(e)
@@ -145,7 +145,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_call(self,line):
         'Call a Additional feature'
         arg=parser_call.parse_args(line.split())
-        assert fgoKernel.device.avaliable
+        assert fgoKernel.device.available
         time.sleep(arg.sleep)
         self.work=getattr(fgoKernel,arg.func)
         self.do_continue('')
@@ -165,12 +165,12 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         },text,line,begidx,endidx)
     def do_screenshot(self,line):
         'Take a screenshot'
-        assert fgoKernel.device.avaliable
+        assert fgoKernel.device.available
         fgoKernel.Detect(0,blockFuse=True).save()
     def do_169(self,line):
         'Adapt none 16:9 screen'
         arg=parser_169.parse_args(line.split())
-        assert fgoKernel.device.avaliable
+        assert fgoKernel.device.available
         getattr(fgoKernel.device,f'{arg.action}169')()
     def complete_169(self,text,line,begidx,endidx):
         return self.completecommands({

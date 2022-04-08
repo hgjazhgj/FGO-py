@@ -8,7 +8,7 @@ import fgoKernel
 from fgoIniParser import IniParser
 from fgoMainWindow import Ui_fgoMainWindow
 from fgoServerChann import ServerChann
-logger=fgoKernel.getLogger('Qt')
+logger=fgoKernel.getLogger('Gui')
 
 class Config:
     def __init__(self,link=None):
@@ -75,14 +75,14 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.TRAY.hide()
         self.config.save()
         return True
-    def isDeviceAvaliable(self):
-        if not fgoKernel.device.avaliable:
+    def isDeviceAvailable(self):
+        if not fgoKernel.device.available:
             self.LBL_DEVICE.clear()
             QMessageBox.critical(self,'FGO-py','未连接设备')
             return False
         return True
     def runFunc(self,func,*args,**kwargs):
-        if not self.isDeviceAvaliable():return
+        if not self.isDeviceAvailable():return
         def f():
             try:
                 self.signalFuncBegin.emit()
@@ -148,7 +148,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         text,ok=QInputDialog.getItem(self,'肝哪个','在下拉列表中选择战斗函数',['完成战斗','用户脚本'],0,False)
         if ok and text:self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),{'完成战斗':fgoKernel.Battle,'用户脚本':fgoKernel.UserScript}[text]))
     def pause(self,x):
-        if not x and not self.isDeviceAvaliable():return self.BTN_PAUSE.setChecked(True)
+        if not x and not self.isDeviceAvailable():return self.BTN_PAUSE.setChecked(True)
         fgoKernel.schedule.pause()
     def stop(self):fgoKernel.schedule.stop('Terminate Command Effected')
     def stopLater(self,x):
@@ -158,7 +158,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             else:self.BTN_STOPLATER.setChecked(False)
         else:fgoKernel.schedule.stopLater()
     def checkScreenshot(self):
-        if not self.isDeviceAvaliable():return
+        if not self.isDeviceAvailable():return
         try:fgoKernel.Detect(0,blockFuse=True).show()
         except Exception as e:logger.exception(e)
     def applyAll(self):
@@ -186,12 +186,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.CBX_TEAM.addItems(self.teamup.sections())
         self.CBX_TEAM.setCurrentIndex(-1)
         self.loadTeam('DEFAULT')
-    def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvaliable())
+    def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvailable())
     def invoke169(self):
-        if not self.isDeviceAvaliable():return
+        if not self.isDeviceAvailable():return
         fgoKernel.device.invoke169()
     def revoke169(self):
-        if not self.isDeviceAvaliable():return
+        if not self.isDeviceAvailable():return
         fgoKernel.device.revoke169()
     def notify(self,x):self.config['notifyEnable']=x
     def exec(self):

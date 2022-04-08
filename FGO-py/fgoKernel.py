@@ -32,7 +32,7 @@ from fgoLogging import getLogger,logit
 from fgoSchedule import ScriptTerminate,schedule
 from fgoWsa import Wsa
 
-logger=getLogger('Core')
+logger=getLogger('Kernel')
 friendImg=ImageListener('fgoImage/friend/')
 mailImg=ImageListener('fgoImage/mail/')
 class Device(Android):
@@ -99,6 +99,7 @@ class Turn:
             self.stageTotal=Detect.cache.getStageTotal()
         else:self.servant=(lambda m,p:[m+p.index(i)+1 if i in p else self.servant[i]for i in range(3)])(max(self.servant),(lambda dead:[i for i in range(3)if self.servant[i]<6 and dead[i]])(Detect.cache.isServantDead(self.friend)))
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
+        Detect.cache.getHP(),Detect.cache.getNP(),Detect.cache.getEnemyNP()
         if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Detect.cache.getEnemyHP())]+'\xBB',(800,500))
         self.dispatchSkill()
         device.perform(' ',(2100,))

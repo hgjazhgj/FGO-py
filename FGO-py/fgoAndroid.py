@@ -27,7 +27,7 @@ class Android(Airtest):
             self.name=None
         else:self.name=self.serialno
     @property
-    def avaliable(self):
+    def available(self):
         if not self.name:return False
         if self.touch_proxy.server_proc.poll()is None:return True # Only compatible with minitouch & maxtouch
         self.name=None
