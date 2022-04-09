@@ -70,7 +70,7 @@ class Detect(metaclass=logMeta(logger)):
     def isAddFriend(self):return self._compare(IMG.END,(243,863,745,982))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1639,951,1865,1061))
-    def isBattleContinue(self):return self._compare(IMG.BATTLECONTINUE,(860,256,1060,308))
+    def isBattleContinue(self):return self._compare(IMG.BATTLECONTINUE,(1147,820,1373,878))
     def isBattleDefeated(self):return self._compare(IMG.DEFEATED,(905,151,1034,263))
     def isBattleFinished(self):return self._compare(IMG.DROPITEM,(165,46,396,113))
     def isChooseFriend(self):return self._compare(IMG.CHOOSEFRIEND,(1249,270,1387,650))
@@ -81,7 +81,7 @@ class Detect(metaclass=logMeta(logger)):
     def isMailDone(self):return self._iterMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,920,1919,1049))
     def isMailListEnd(self):return self._isListEnd((1406,1018))
-    def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(816,392,1085,518),blockFuse=True)
+    def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(1197,816,1318,876),blockFuse=True)
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1245,347,1318,389))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
     def isServantDead(self,friend=None):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]

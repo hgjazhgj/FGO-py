@@ -238,9 +238,9 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
 # 版本记录 Version Logs
-## 2022/04/09
+## 2022/04/09 v8.5.3
 重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)  
-不知阿b是有意还是无意  
+bugfix:修改了isBattleContinue和isNetWorkError识别的特征  
 ## 2022/03/27 v8.5.2
 更新:getEnemyNP  
 更改:重构了部分代码,为将来的新技能模型做准备  
