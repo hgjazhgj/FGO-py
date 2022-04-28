@@ -57,7 +57,7 @@ Thread(target=guardian,daemon=True,name='Guardian').start()
 def gacha():
     while fuse.value<30:
         if Detect().isGacha():device.perform('MK',(200,2700))
-        device.press('\xBB')
+        device.press('\x08')
 def jackpot():
     while fuse.value<50:
         if Detect().isNextJackpot():device.perform('\xDCKJ',(600,2400,500))
@@ -108,7 +108,7 @@ class Turn:
         while(s:=(lambda skill:[(self.getSkillInfo(i,j,3),0,(i,j))for i in range(3)if self.servant[i]<6 for j in range(3)if skill[i][j]and(t:=self.getSkillInfo(i,j,0))and min(t,self.stageTotal)<<8|self.getSkillInfo(i,j,1)<=self.stage<<8|self.stageTurn])(Detect.cache.isSkillReady())+[(self.masterSkill[i][-1],1,(i,))for i in range(3)if self.masterSkillReady[i]and self.stage==min(self.masterSkill[i][0],self.stageTotal)and self.stageTurn==self.masterSkill[i][1]]):
             _,cast,arg=min(s,key=lambda x:x[0])
             [self.castServantSkill,self.castMasterSkill][cast](*arg)
-            device.perform('\x08',(2300,))
+            device.perform('\x08',(1800,))
             while not Detect().isTurnBegin():pass
             Detect(.5)
     @logit(logger,logging.INFO)
@@ -116,8 +116,9 @@ class Turn:
     def getSkillInfo(self,pos,skill,arg):return self.friendInfo[0][skill][arg]if self.friend[pos]and self.friendInfo[0][skill][arg]>=0 else self.skillInfo[self.orderChange[self.servant[pos]]][skill][arg]
     def getHouguInfo(self,pos,arg):return self.friendInfo[1][arg]if self.friend[pos]and self.friendInfo[1][arg]>=0 else self.houguInfo[self.orderChange[self.servant[pos]]][arg]
     def castServantSkill(self,pos,skill):
-        device.perform(('ASD','FGH','JKL')[pos][skill],(300,))
-        if t:=self.getSkillInfo(pos,skill,2):device.perform('234'[t-1],(300,))
+        device.press(('ASD','FGH','JKL')[pos][skill])
+        if Detect(.5).isSkillCastFailed():return device.press('J')
+        if t:=Detect.cache.getSkillTargetCount():device.perform(['333','244','234'][t-1][self.getSkillInfo(pos,skill,2)-1],(300,))
     def castMasterSkill(self,skill):
         self.masterSkillReady[skill]=False
         device.perform('Q'+'WER'[skill],(300,300))
@@ -153,7 +154,7 @@ class Battle:
                 logger.info('Battle Finished')
                 if self.rainbowBox:
                     schedule.checkSpecialDrop()
-                    logger.warning('Special drop')
+                    logger.warning('Special Drop')
                     Detect.cache.save('fgoLog/SpecialDrop')
                 return self.turn
             elif Detect.cache.isBattleDefeated():
