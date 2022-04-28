@@ -30,6 +30,7 @@
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
 ![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
+B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B币券[充电](https://space.bilibili.com/2632341)  
 Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY  
 ![Monero](doc/monero.png)  
 觉得有帮助请为我star,谢谢  
@@ -80,7 +81,7 @@ FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固�
 Cli大概长这样(在docker和手机中运行时的截图):  
 ![cli](doc/cli.png)  
 ### 非FGO简体中文服
-修改图片模板和fgoCheck.Check类  
+修改图片模板和fgoDetect.Detect类  
 ### 非16:9屏幕
 尝试使用ui中的「控制-全面屏适配-调整为16:9」功能  
 由于长宽比小于16:9的屏幕的游戏画面上下方仍为蓝边可以如同全面屏适配前一般使用,所以只有长宽比大于16:9的屏幕才需要此操作  
@@ -94,7 +95,7 @@ Cli大概长这样(在docker和手机中运行时的截图):
 有一些软件能在安卓手机上提供Linux环境,比如[AidLux](http://www.aidlearning.net/)([GitHub](https://github.com/aidlearning/AidLearning-Framework)),类似于Android Subsystem for Linux(我愿称之为ASL)  
 相较于[Termux](https://termux.com/)等模拟终端,AidLux自带了编译好的opencv等基础库,避免了ARM处理器上的各种问题,故以此为基础搭建FGO-py环境,具体搭建方式于通常Linux无异,可参考`AidLux.sh`,此方案已在多机型上被验证为可行,我现在用得很舒服  
 当然Qt的UI多半是没有的,此时你只能使用文本交互方式运行本项目,这就体现出web ui的优越性了  
-此外,tensorflow/caffe/mxnet等其他数十种智能计算领域常用的软件均可在AidLux特有的软件源中直接安装,碧蓝航线的[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)/明日方舟的[ArknightsAutoHelper](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)等基于安卓调试的自动化脚本都可按类似的方式在装有AidLux的手机上运行--我断言,逐渐地,AidLux会在手游自动化方面被更加广泛地使用,是大势所趋,早用6早享受  
+此外,tensorflow/caffe/mxnet等其他数十种智能计算领域常用的软件均可在AidLux特有的软件源中直接安装,碧蓝航线的[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)/明日方舟的[ArknightsAutoHelper](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)等基于安卓调试的自动化脚本都可按类似的方式在装有AidLux的手机上运行--我断言,逐渐地,AidLux会在手游自动化方面被更加广泛地使用,是大势所趋,早用早享受  
 ### Windows Subsystem for Android
 这个功能非常未来可期,目前不能保证在你的设备上也能运行,不过能折腾出wsa上跑fgo的人应该也有能力解决或者定位遇到的问题  
 在连接到wsa时输入的设备序列号必须为wsa这三个英文字符,同时fgo必须已经正在运行  
@@ -218,13 +219,9 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 # 有想到但是实际不一定会做的东西 TODO
 - 方法命名统一  
 - getEnemyHPGauge  
-- isSkillTargetRequired  
-- isSkillCastFailed  
-- 战斗断点续行
 - 御主技能多次使用  
 - 指令卡具体分组  
 - 新的选卡算法与技能模型  
-- 「确认」按键检测  
 - 搓丸子
 - 素材掉落计数  
 - 配置文件/助战模板云端同步  
@@ -238,6 +235,17 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
 # 版本记录 Version Logs
+## 2022/04/27 v8.6.0
+bugfix:[issue #47](https://github.com/hgjazhgj/FGO-py/issues/47)  
+更新:getSkillTargetCount  
+在战斗减员导致场上成员不足三人时成功选择目标施放技能  
+这也使红A宝具变色等目标二选一的技能能够直观地配置为1或2而并非反直觉的1或3  
+更新:isSkillCastFailed  
+~~在技能不满足施放条件时取消施放,比如大老师和雪山樱~~  
+图像识别有了战斗表现还没写  
+更新:在cmd窗口等默认不开启颜色转义的终端中显示颜色  
+我想写`SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE)ENABLE_VIRTUAL_TERMINAL_PROCESSING)`,但是The latest pywin32 version(303, 20 Dec 2021) still does not support SetConsoleMode though it's already in the [sourcecode](https://github.com/mhammond/pywin32/blob/main/win32/src/win32consolemodule.cpp#:~:text=PyObject%20*PyConsoleScreenBuffer%3A%3A-,PySetConsoleMode,-(PyObject%20*self%2C%20PyObject) since 29 Aug 2021 or before  
+Thus, call the function in dll directly via ctypes  
 ## 2022/04/09 v8.5.3
 重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)  
 bugfix:修改了isBattleContinue和isNetWorkError识别的特征  

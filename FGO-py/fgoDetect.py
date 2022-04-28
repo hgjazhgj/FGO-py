@@ -86,6 +86,7 @@ class Detect(metaclass=logMeta(logger)):
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
     def isServantDead(self,friend=None):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
     def isServantFriend(self):return[self._compare(IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
+    def isSkillCastFailed(self):return self._compare(IMG.SKILLERROR,(893,809,1026,878))
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]
     def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(1436,3,1484,59))
     def isSpecialDropSuspended(self):return self._compare(IMG.CLOSESHORT,(12,17,107,102))
@@ -109,6 +110,7 @@ class Detect(metaclass=logMeta(logger)):
     def getEnemyNP(self):return[(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0),count(IMG.CHARGE1),))(count(IMG.CHARGE2)))(lambda img:self._count(img,(240+376*i,101,375+376*i,131)))for i in range(3)]
     def getHP(self):return[self._ocr((300+476*i,930,439+476*i,965))for i in range(3)]
     def getNP(self):return[self._ocr((330+476*i,983,411+476*i,1020))for i in range(3)]
+    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(numpy.max(cv2.threshold(cv2.cvtColor(self.im[480:820:10,460:1460:10],cv2.COLOR_BGR2GRAY),70,1,cv2.THRESH_BINARY)[1],axis=0))if self._compare(IMG.CROSS,(1613,197,1681,260))else 0
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1326,20,1352,56),.5)+1
     @retryOnError()
@@ -116,6 +118,4 @@ class Detect(metaclass=logMeta(logger)):
     def getTeamIndex(self):return self._loc(IMG.TEAMINDEX,(768,52,1152,92))[2][0]//37
     def findFriend(self,img):return self._find(img,(20,250,1850,1080))
     def findMail(self,img):return self._find(img,(110,250,1380,1080),threshold=.016)
-    def isSkillTargetRequired(self):raise NotImplementedError
-    def isSkillCastFailed(self):raise NotImplementedError
     def getEnemyHPGauge(self):raise NotImplementedError
