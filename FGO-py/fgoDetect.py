@@ -110,7 +110,7 @@ class Detect(metaclass=logMeta(logger)):
     def getEnemyNP(self):return[(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0),count(IMG.CHARGE1),))(count(IMG.CHARGE2)))(lambda img:self._count(img,(240+376*i,101,375+376*i,131)))for i in range(3)]
     def getHP(self):return[self._ocr((300+476*i,930,439+476*i,965))for i in range(3)]
     def getNP(self):return[self._ocr((330+476*i,983,411+476*i,1020))for i in range(3)]
-    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(numpy.max(cv2.threshold(cv2.cvtColor(self.im[480:820:10,460:1460:10],cv2.COLOR_BGR2GRAY),70,1,cv2.THRESH_BINARY)[1],axis=0))if self._compare(IMG.CROSS,(1613,197,1681,260))else 0
+    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(numpy.max(cv2.dilate(cv2.threshold(cv2.cvtColor(self._crop((460,480,1460,820)),cv2.COLOR_BGR2GRAY),57,1,cv2.THRESH_BINARY)[1],cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(99,99))),axis=0))if self._compare(IMG.CROSS,(1613,197,1681,260))else 0
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(1326,20,1352,56),.5)+1
     @retryOnError()

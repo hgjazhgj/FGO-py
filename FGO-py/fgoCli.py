@@ -219,7 +219,7 @@ parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,c
 
 parser_call=ArgParser(prog='call',description=Cmd.do_call.__doc__)
 parser_call.add_argument('func',help='Additional feature name',choices=['gacha','jackpot','mail','synthesis'])
-parser_call.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=float,default=0)
+parser_call.add_argument('-s','--sleep',help='Sleep several seconds before run (default: %(default)s)',type=float,default=0)
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)
 parser_169.add_argument('action',help='Action',type=str.lower,choices=['invoke','revoke'])

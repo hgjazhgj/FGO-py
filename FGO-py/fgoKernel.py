@@ -132,8 +132,7 @@ class Turn:
                 while not Detect().isTurnBegin():pass
                 self.friend=Detect(.5).isServantFriend()
                 Detect.cache.setupServantDead(self.friend)
-                return
-            device.perform('234'[self.masterSkill[skill][2]-1],(300,))
+            elif t:=Detect(.5).getSkillTargetCount():device.perform(['333','244','234'][t-1][self.masterSkill[skill][2]-1],(300,))
 class Battle:
     def __init__(self,turnClass=Turn):
         self.turn=0

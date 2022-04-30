@@ -235,6 +235,11 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
 # 版本记录 Version Logs
+## 2022/04/30 v8.6.1
+bugfix:调整了getSkillTargetCount算法  
+防止某些深色头像从者被一分为二  
+原本的算法有一些为节约资源而牺牲精度的取舍,而新算法写得非常激进,把每一步都几乎拉满了只求识别结果正确,执行时间和内存消耗可能是之前的数百倍  
+必要な犠牲でした  
 ## 2022/04/27 v8.6.0
 bugfix:[issue #47](https://github.com/hgjazhgj/FGO-py/issues/47)  
 更新:getSkillTargetCount  
@@ -244,7 +249,7 @@ bugfix:[issue #47](https://github.com/hgjazhgj/FGO-py/issues/47)
 ~~在技能不满足施放条件时取消施放,比如大老师和雪山樱~~  
 图像识别有了战斗表现还没写  
 更新:在cmd窗口等默认不开启颜色转义的终端中显示颜色  
-我想写`SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE)ENABLE_VIRTUAL_TERMINAL_PROCESSING)`,但是The latest pywin32 version(303, 20 Dec 2021) still does not support SetConsoleMode though it's already in the [sourcecode](https://github.com/mhammond/pywin32/blob/main/win32/src/win32consolemodule.cpp#:~:text=PyObject%20*PyConsoleScreenBuffer%3A%3A-,PySetConsoleMode,-(PyObject%20*self%2C%20PyObject) since 29 Aug 2021 or before  
+我想写`SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE),ENABLE_VIRTUAL_TERMINAL_PROCESSING)`,但是The latest pywin32 version(303, 20 Dec 2021) still does not support SetConsoleMode though it's already in the [sourcecode](https://github.com/mhammond/pywin32/blob/main/win32/src/win32consolemodule.cpp#:~:text=PyObject%20*PyConsoleScreenBuffer%3A%3A-,PySetConsoleMode,-(PyObject%20*self%2C%20PyObject) since 29 Aug 2021 or before  
 Thus, call the function in dll directly via ctypes  
 ## 2022/04/09 v8.5.3
 重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)  
