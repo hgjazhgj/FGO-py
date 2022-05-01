@@ -235,6 +235,9 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
 # 版本记录 Version Logs
+## 2022/05/01 v8.6.2
+新增:cli下的bench  
+看看截图和点击有多快  
 ## 2022/04/30 v8.6.1
 bugfix:调整了getSkillTargetCount算法  
 防止某些深色头像从者被一分为二  

@@ -180,6 +180,20 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Map key press'
         arg=parser_press.parse_args(line.split())
         fgoKernel.device.press(chr(eval(arg.button))if arg.code else arg.button)
+    def do_bench(self,line):
+        'Benchmark'
+        assert fgoKernel.device.available
+        screenshotBench=[]
+        for _ in range(20):
+            begin=time.time()
+            fgoKernel.device.screenshot()
+            screenshotBench.append(time.time()-begin)
+        touchBench=[]
+        for _ in range(20):
+            begin=time.time()
+            fgoKernel.device.press('\xBB')
+            touchBench.append(time.time()-begin)
+        logger.warning(f'Benchmark: screenshot {(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/18:.2f}ms, touch {(sum(touchBench)-max(touchBench)-min(touchBench))*1000/18:.2f}ms')
 
 ArgError=type('ArgError',(Exception,),{})
 class ArgParser(argparse.ArgumentParser):
