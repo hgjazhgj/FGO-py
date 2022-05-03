@@ -1,0 +1,19 @@
+name: Gitee mirror
+
+on:
+  push:
+
+jobs:
+  run:
+    name: Gitee mirror
+    runs-on: ubuntu-latest
+    steps:
+    - name: Mirror the Github repos to Gitee.
+      uses: Yikun/hub-mirror-action@master
+      with:
+        src: github/hgjazhgj
+        dst: gitee/hgjazhgj
+        dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+        dst_token: ${{ secrets.GITEE_TOKEN }}
+        static_list: 'FGO-py'
+        force_update: true

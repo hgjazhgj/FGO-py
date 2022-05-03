@@ -127,7 +127,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         time.sleep(arg.sleep)
         assert fgoKernel.device.available
         try:self.work()
-        except fgoKernel.ScriptTerminate as e:
+        except fgoKernel.ScriptStop as e:
             logger.critical(e)
             msg=str(e)
         except KeyboardInterrupt:raise

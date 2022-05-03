@@ -1,4 +1,4 @@
-from fgoSchedule import ScriptTerminate
+from fgoSchedule import ScriptStop
 from fgoLogging import getLogger
 logger=getLogger('Fuse')
 class Fuse:
@@ -12,7 +12,7 @@ class Fuse:
         logger.debug(f'{self.value}')
         if self.value>self.max:
             self.save()
-            raise ScriptTerminate('Fused')
+            raise ScriptStop('Fused')
         self.value+=1
     def reset(self,detect=None):
         self.value=0
