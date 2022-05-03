@@ -90,7 +90,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                 fgoKernel.schedule.reset()
                 fgoKernel.fuse.reset()
                 func(*args,**kwargs)
-            except fgoKernel.ScriptTerminate as e:
+            except fgoKernel.ScriptStop as e:
                 logger.critical(e)
                 msg=(str(e),QSystemTrayIcon.MessageIcon.Warning)
             except BaseException as e:
@@ -150,7 +150,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def pause(self,x):
         if not x and not self.isDeviceAvailable():return self.BTN_PAUSE.setChecked(True)
         fgoKernel.schedule.pause()
-    def stop(self):fgoKernel.schedule.stop('Terminate Command Effected')
+    def stop(self):fgoKernel.schedule.stop('Stop Command Effected')
     def stopLater(self,x):
         if x:
             num,ok=QInputDialog.getInt(self,'输入','剩余的战斗数量',1,1,1919810,1)

@@ -29,7 +29,7 @@ from fgoDetect import Detect
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
 from fgoLogging import getLogger,logit
-from fgoSchedule import ScriptTerminate,schedule
+from fgoSchedule import ScriptStop,schedule
 from fgoWsa import Wsa
 
 logger=getLogger('Kernel')
@@ -38,7 +38,7 @@ mailImg=ImageListener('fgoImage/mail/')
 class Device(Android):
     def __new__(cls,name=None,*args,**kwargs):
         result=Wsa()if name and name.lower()=='wsa'else super().__new__(cls)
-        Detect.device=result
+        Detect.screenshot=result.screenshot
         return result
     def __init__(self,name=None,*args,**kwargs):
         name=convert(name)
@@ -118,7 +118,7 @@ class Turn:
     def castServantSkill(self,pos,skill):
         device.press(('ASD','FGH','JKL')[pos][skill])
         if Detect(.5).isSkillCastFailed():return device.press('J')
-        if t:=Detect.cache.getSkillTargetCount():device.perform(['333','244','234'][t-1][self.getSkillInfo(pos,skill,2)-1],(300,))
+        if t:=Detect.cache.getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][self.getSkillInfo(pos,skill,2)],(300,))
     def castMasterSkill(self,skill):
         self.masterSkillReady[skill]=False
         device.perform('Q'+'WER'[skill],(300,300))
@@ -177,7 +177,7 @@ class Main:
                     device.press('8')
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
-                    while not Detect().isBattleBegin():pass
+                    while not Detect(0,.3).isBattleBegin():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,400))
                     device.perform(' M',(800,10000))
                     break
@@ -195,7 +195,7 @@ class Main:
             logger.info(f'Battle {self.battleCount}')
             if self.battleProc():device.perform('      ',(200,200,200,200,200,200))
             else:device.perform('BIK',(500,500,500))
-            schedule.checkTerminateLater()
+            schedule.checkStopLater()
     @logit(logger,logging.INFO)
     def eatApple(self):
         if self.appleCount==self.appleTotal:return device.press('Z')
@@ -205,7 +205,7 @@ class Main:
     @logit(logger,logging.INFO)
     def chooseFriend(self):
         refresh=False
-        while not Detect(.2).isChooseFriend():
+        while not Detect(0,.3).isChooseFriend():
             if Detect.cache.isNoFriend():
                 if refresh:schedule.sleep(10)
                 device.perform('\xBAK',(500,1000))
