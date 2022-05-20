@@ -1,4 +1,4 @@
-import logging,sys,time
+import logging,sys,time,airtest.utils.logger
 from copy import copy
 from functools import wraps
 from fgoConst import VERSION

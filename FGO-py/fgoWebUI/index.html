@@ -28,7 +28,7 @@
         }
 
         function connect() {
-            let serial = prompt("连接到设备");
+            let serial = prompt("连接到设备").replaceAll(" ","");
             if (serial == null) {
                 return;
             }

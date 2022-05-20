@@ -1,8 +1,7 @@
 import argparse,cmd,functools,json,os,re,time
 import fgoKernel
-from fgoConnectHelper import helpers
+from fgoDevice import helpers
 from fgoIniParser import IniParser
-
 logger=fgoKernel.getLogger('Cli')
 
 def wrapTry(func):
@@ -92,7 +91,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         fgoKernel.device=fgoKernel.Device(arg.name)
     def complete_connect(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':[f'/{i}'for i in helpers]+fgoKernel.Device.enumDevices()
+            '':['wsa','win32']+[f'/{i}'for i in helpers]+fgoKernel.Device.enumDevices()
         },text,line,begidx,endidx)
     def do_teamup(self,line):
         'Setup your teams'

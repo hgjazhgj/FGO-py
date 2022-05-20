@@ -1,7 +1,6 @@
 import cv2,numpy,re,subprocess,threading
 
 from fgoConst import KEYMAP
-from fgoSchedule import schedule
 
 def shell(cmd,encoding='utf-8'):
     return (lambda b:b.decode(encoding)if encoding else b.replace(b'\r\n',b'\n'))(subprocess.Popen(cmd,stdout=subprocess.PIPE).communicate()[0])
@@ -9,7 +8,7 @@ def shell(cmd,encoding='utf-8'):
 class Wsa:
     def __init__(self,serial='127.0.0.1:58526'):
         self.lock=threading.Lock()
-        self.name=serial
+        self.name='wsa'
         if not serial:return
         try:
             shell(f'adb connect {serial}')
@@ -26,6 +25,5 @@ class Wsa:
         with self.lock:shell(f'adb -s {self.name} shell input -d {self.displayId} swipe {rect[0]*self.width//1920} {rect[1]*self.height//1080} {rect[2]*self.width//1920} {rect[3]*self.height//1080}')
     def press(self,key):
         with self.lock:shell(f'adb -s {self.name} shell input -d {self.displayId} tap {" ".join(map(str,self.key[key]))}')
-    def perform(self,pos,wait):[(self.press(i),schedule.sleep(j*.001))for i,j in zip(pos,wait)]
     def screenshot(self):
         with self.lock:return cv2.resize(cv2.imdecode(numpy.frombuffer(shell(f'adb -s {self.name} shell screencap -d {self.displayId} -p',encoding=None),numpy.uint8),cv2.IMREAD_COLOR),(1920,1080),interpolation=cv2.INTER_CUBIC)

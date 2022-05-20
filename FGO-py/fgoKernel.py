@@ -23,26 +23,16 @@ __author__='hgjazhgj'
 import logging,re,time,numpy
 from itertools import permutations
 from threading import Thread
-from fgoAndroid import Android
-from fgoConnectHelper import convert
 from fgoDetect import Detect
+from fgoDevice import Device
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
-from fgoLogging import getLogger,logit
 from fgoSchedule import ScriptStop,schedule
-from fgoWsa import Wsa
-
+from fgoLogging import getLogger,logit
 logger=getLogger('Kernel')
+
 friendImg=ImageListener('fgoImage/friend/')
 mailImg=ImageListener('fgoImage/mail/')
-class Device(Android):
-    def __new__(cls,name=None,*args,**kwargs):
-        result=Wsa()if name and name.lower()=='wsa'else super().__new__(cls)
-        Detect.screenshot=result.screenshot
-        return result
-    def __init__(self,name=None,*args,**kwargs):
-        name=convert(name)
-        super().__init__(name,*args,**kwargs)
 device=Device()
 def guardian():
     prev=None
@@ -194,7 +184,7 @@ class Main:
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
             if self.battleProc():device.perform('      ',(200,200,200,200,200,200))
-            else:device.perform('BIK',(500,500,500))
+            else:device.perform('CIK',(500,500,500))
             schedule.checkStopLater()
     @logit(logger,logging.INFO)
     def eatApple(self):

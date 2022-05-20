@@ -1,11 +1,10 @@
 import json
 from flask import Flask,redirect,render_template,request,url_for
-from zmq import device
 import fgoKernel
 from fgoLogging import getLogger
 from fgoIniParser import IniParser
-
 logger=getLogger('fgo.Web')
+
 teamup=IniParser('fgoTeamup.ini')
 with open('fgoConfig.json','r')as f:
     config=json.load(f)
