@@ -216,7 +216,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -353,7 +353,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -490,7 +490,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -803,7 +803,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -940,7 +940,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1077,7 +1077,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1280,7 +1280,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1417,7 +1417,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1554,7 +1554,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1757,7 +1757,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1894,7 +1894,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2031,7 +2031,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2234,7 +2234,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2371,7 +2371,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2508,7 +2508,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2711,7 +2711,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2848,7 +2848,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2985,7 +2985,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>技能的目标,从左往右1-3,0为没有目标</string>
+             <string>技能的目标,从左往右1-3,0为不关心目标</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3203,7 +3203,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>技能的目标,从左往右1-3,0为没有目标</string>
+           <string>技能的目标,从左往右1-3,0为不关心目标</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3340,7 +3340,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>技能的目标,从左往右1-3,0为没有目标</string>
+           <string>技能的目标,从左往右1-3,0为不关心目标</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3477,7 +3477,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>技能的目标,从左往右1-3,0为没有目标</string>
+           <string>技能的目标,从左往右1-3,0为不关心目标</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

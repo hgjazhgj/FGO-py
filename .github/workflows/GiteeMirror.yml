@@ -1,14 +1,11 @@
-name: Gitee mirror
-
-on:
-  push:
-
+name: Gitee Mirror on Push
+on: push
 jobs:
-  run:
-    name: Gitee mirror
+  main:
+    name: Gitee Mirror on Push
     runs-on: ubuntu-latest
     steps:
-    - name: Mirror the Github repos to Gitee.
+    - name: Single repo mirror
       uses: Yikun/hub-mirror-action@master
       with:
         src: github/hgjazhgj

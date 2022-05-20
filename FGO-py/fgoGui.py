@@ -3,7 +3,6 @@ from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QStyle,QSystemTrayIcon
-
 import fgoKernel
 from fgoIniParser import IniParser
 from fgoMainWindow import Ui_fgoMainWindow
@@ -139,7 +138,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def getDevice(self):
         text,ok=QInputDialog.getItem(self,'FGO-py','在下拉列表中选择一个设备',l:=fgoKernel.Device.enumDevices(),l.index(fgoKernel.device.name)if fgoKernel.device.name and fgoKernel.device.name in l else 0,True,Qt.WindowType.WindowStaysOnTopHint)
         if not ok:return
-        fgoKernel.device=fgoKernel.Device(text)
+        fgoKernel.device=fgoKernel.Device(text.replace(' ',''))
         self.LBL_DEVICE.setText(fgoKernel.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
     def runBattle(self):self.runFunc(fgoKernel.Battle())

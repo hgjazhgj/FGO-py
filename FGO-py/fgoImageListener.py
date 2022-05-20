@@ -60,7 +60,7 @@ if platform.system()=='Windows':
                             if self.ren==file:return
                         break
                 self.msg+=[[4,self.ren],[5,file]]
-            with self.lock:[{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda _:logger.warning(f'Unknown Operate {i}'))(i[1])for i in x]
+            with self.lock:[{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda _:logger.warning(f'Unknown Operate {i}'))(i[1])for i in x] # 1:FILE_ACTION_ADDED 2:FILE_ACTION_REMOVED 3:FILE_ACTION_MODIFIED 4:FILE_ACTION_RENAMED_OLD_NAME 5:FILE_ACTION_RENAMED_NEW_NAME
         def get(self):
             with self.lock:ans,self.msg=self.msg,[]
             return ans

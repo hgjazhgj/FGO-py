@@ -1,6 +1,7 @@
 from fgoSchedule import ScriptStop
 from fgoLogging import getLogger
 logger=getLogger('Fuse')
+
 class Fuse:
     def __init__(self,fv=300,logsize=10):
         self.value=0
