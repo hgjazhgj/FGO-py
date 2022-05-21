@@ -1,17 +1,11 @@
-import numpy,sys
+import sys,numpy
+from fgoLogging import getLogger
+logger=getLogger('Win32')
 
 BLACK=numpy.zeros((1080,1920,3),numpy.uint8)
 if sys.platform=='win32':
-    import time
-    import cv2
-    import ctypes
-    import win32api
-    import win32con
-    import win32gui
-    import win32ui
+    import ctypes,time,cv2,win32api,win32con,win32gui,win32ui
     from fgoConst import KEYMAP
-    from fgoLogging import getLogger
-    logger=getLogger('Win32')
 
     user32=ctypes.windll.user32
     user32.SetProcessDpiAwarenessContext(-4) # -4:DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 win10 1703
@@ -96,7 +90,7 @@ else:
     class Window:
         name='Unavailable_on_current_platform'
         available=False
-        def __init__(self,hWnd):pass
+        def __init__(self,hWnd):logger.critical('Win 32 is not available on this platform')
         @staticmethod
         def enumDevices():return[0]
         def touch(self,pos):pass

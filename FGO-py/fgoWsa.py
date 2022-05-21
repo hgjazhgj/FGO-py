@@ -1,5 +1,4 @@
 import cv2,numpy,re,subprocess,threading
-
 from fgoConst import KEYMAP
 
 def shell(cmd,encoding='utf-8'):
@@ -16,9 +15,9 @@ class Wsa:
             self.key={c:(p[0]*self.width//1920,p[1]*self.height//1080)for c,p in KEYMAP.items()}
         except:self.name=None
     @property
-    def available(self):return True
+    def available(self):return self.name is not None
     @staticmethod
-    def enumDevices():return['wsa'] # [i for i,j in[line.split()for line in str(shell('adb devices')).split('\n')[1:-2]]if j=='device']
+    def enumDevices():return['wsa']
     def touch(self,pos):
         with self.lock:shell(f'adb -s {self.name} shell input -d {self.displayId} tap {pos[0]*self.width//1920} {pos[1]*self.height//1080}')
     def swipe(self,rect):
