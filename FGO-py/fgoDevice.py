@@ -50,3 +50,4 @@ class Device:
     def name(self):return self.I.name if self.I is self.O else'|'.join((self.I.name,self.O.name))
     def perform(self,pos,wait):[(self.press(i),schedule.sleep(j*.001))for i,j in zip(pos,wait)]
     enumDevices=Android.enumDevices
+    def __getattr__(self,attr):return getattr(self.I,attr,getattr(self.O,attr))
