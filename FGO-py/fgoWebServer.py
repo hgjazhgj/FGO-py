@@ -1,4 +1,4 @@
-import json
+import json,time
 from flask import Flask,redirect,render_template,request,url_for
 import fgoKernel
 from fgoLogging import getLogger
@@ -50,6 +50,11 @@ def run(action):
     getattr(fgoKernel,action)(**{i:int(j)for i,j in request.form})()
     return 'Done'
 
+@app.route('/api/bench',methods=['POST'])
+def bench():
+    if not fgoKernel.device.available:
+        return 'Device not available'
+    return(lambda bench:f'{f"点击 {bench[0]:.2f}ms"if bench[0]else""}{", "if all(bench)else""}{f"截图 {bench[1]:.2f}ms"if bench[1]else""}')(fgoKernel.bench(15))
 
 def main():
     app.run(host='0.0.0.0')

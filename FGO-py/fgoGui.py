@@ -1,4 +1,4 @@
-import json,os,sys
+import json,os,sys,time
 from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
 from PyQt6.QtGui import QAction
@@ -193,6 +193,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         if not self.isDeviceAvailable():return
         fgoKernel.device.revoke169()
     def notify(self,x):self.config['notifyEnable']=x
+    def bench(self):
+        if not self.isDeviceAvailable():return
+        QMessageBox.information(self,'FGO-py',(lambda bench:f'{f"点击 {bench[0]:.2f}ms"if bench[0]else""}{", "if all(bench)else""}{f"截图 {bench[1]:.2f}ms"if bench[1]else""}')(fgoKernel.bench()))
     def exec(self):
         s=QApplication.clipboard().text()
         if QMessageBox.information(self,'FGO-py',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return

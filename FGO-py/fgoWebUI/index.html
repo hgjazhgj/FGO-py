@@ -116,6 +116,17 @@
                 }
             });
         }
+
+        function bench(param) {
+            apply();
+            $.ajax({
+                url: "{{ url_for("bench") }}",
+                type: "POST",
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        }
     </script>
 </head>
 
@@ -164,6 +175,7 @@
     <button onclick="stopLater()">预约终止</button>
     <button onclick="checkScreenshot()">检查截图</button>
     <button onclick="apply()">应用更改</button>
+    <button onclick="bench()">性能测试</button>
 </body>
 
 </html>
