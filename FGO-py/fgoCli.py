@@ -182,21 +182,13 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_bench(self,line):
         'Benchmark'
         assert fgoKernel.device.available
-        screenshotBench=[]
-        for _ in range(20):
-            begin=time.time()
-            fgoKernel.device.screenshot()
-            screenshotBench.append(time.time()-begin)
-        touchBench=[]
-        for _ in range(20):
-            begin=time.time()
-            fgoKernel.device.press('\xBB')
-            touchBench.append(time.time()-begin)
-        logger.warning(f'Benchmark: screenshot {(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/18:.2f}ms, touch {(sum(touchBench)-max(touchBench)-min(touchBench))*1000/18:.2f}ms')
+        arg=parser_bench.parse_args(line.split())
+        if not(arg.input or arg.output):arg.input=arg.output=True
+        fgoKernel.bench(max(3,arg.number),arg.input,arg.output)
 
 ArgError=type('ArgError',(Exception,),{})
 class ArgParser(argparse.ArgumentParser):
-    def exit(self, status=0, message=None):raise ArgError(message)
+    def exit(self,status=0,message=None):raise ArgError(message)
 
 parser_battle=ArgParser(prog='battle',description=Cmd.do_battle.__doc__)
 parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=float,default=0)
@@ -240,5 +232,10 @@ parser_169.add_argument('action',help='Action',type=str.lower,choices=['invoke',
 parser_press=ArgParser(prog='press',description=Cmd.do_press.__doc__)
 parser_press.add_argument('button',help='Button',type=str.upper)
 parser_press.add_argument('-c','--code',help='Use virtual key code',action='store_true')
+
+parser_bench=ArgParser(prog='bench',description=Cmd.do_bench.__doc__)
+parser_bench.add_argument('-n','--number',help='Number of runs (default: %(default)s)',type=int,default=20)
+parser_bench.add_argument('-i','--input',help='Bench touch, if neither -i nor -o specified, bench them both',action='store_true')
+parser_bench.add_argument('-o','--output',help='Bench screenshot, if neither -i nor -o specified, bench them both',action='store_true')
 
 def main():Cmd().cmdloop()

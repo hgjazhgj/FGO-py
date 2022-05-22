@@ -7,7 +7,7 @@ def shell(cmd,encoding='utf-8'):
 class Wsa:
     def __init__(self,serial='127.0.0.1:58526'):
         self.lock=threading.Lock()
-        self.name='wsa'
+        self.name=f'wsa_{serial}'
         if not serial:return
         try:
             shell(f'adb connect {serial}')

@@ -70,6 +70,21 @@ def synthesis():
         if Detect().isSynthesisFinished():break
         device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
         while not Detect().isSynthesisBegin():device.press('\xBB')
+def bench(times=20,touch=True,screenshot=True):
+    if not(touch or screenshot):touch=screenshot=True
+    screenshotBench=[]
+    for _ in range(times*screenshot):
+        begin=time.time()
+        Detect.screenshot()
+        screenshotBench.append(time.time()-begin)
+    touchBench=[]
+    for _ in range(times*touch):
+        begin=time.time()
+        device.press('\xBB')
+        touchBench.append(time.time()-begin)
+    result=(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None
+    logger.warning(f'Benchmark: {f"touch {result[0]:.2f}ms"if result[0]else""}{", "if all(result)else""}{f"screenshot {result[1]:.2f}ms"if result[1]else""}')
+    return result
 class Turn:
     skillInfo=[[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]]]
     houguInfo=[[1,7],[1,7],[1,7],[1,7],[1,7],[1,7]]

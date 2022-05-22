@@ -3848,6 +3848,7 @@
     <addaction name="MENU_CONTROL_169"/>
     <addaction name="MENU_CONTROL_NOTIFY"/>
     <addaction name="separator"/>
+    <addaction name="MENU_CONTROL_BENCH"/>
     <addaction name="MENU_CONTROL_EXEC"/>
    </widget>
    <widget class="QMenu" name="MENU_SETTINGS">
@@ -3909,6 +3910,11 @@
   <action name="MENU_SCRIPT_MAILFILTER">
    <property name="text">
     <string>领购粮</string>
+   </property>
+  </action>
+  <action name="MENU_CONTROL_BENCH">
+   <property name="text">
+    <string>Bench</string>
    </property>
   </action>
   <action name="MENU_CONTROL_EXEC">
@@ -4216,6 +4222,12 @@
    <slot>runMail()</slot>
   </connection>
   <connection>
+   <sender>MENU_CONTROL_BENCH</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>bench()</slot>
+  </connection>
+  <connection>
    <sender>MENU_CONTROL_EXEC</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
@@ -4277,35 +4289,36 @@
   </connection>
  </connections>
  <slots>
-  <slot>runBattle()</slot>
-  <slot>runMain()</slot>
-  <slot>resetTeam()</slot>
-  <slot>checkScreenshot()</slot>
-  <slot>getDevice()</slot>
-  <slot>pause(bool)</slot>
-  <slot>stop()</slot>
-  <slot>saveTeam()</slot>
-  <slot>loadTeam(QString)</slot>
-  <slot>explorerHere()</slot>
   <slot>about()</slot>
   <slot>applyAll()</slot>
-  <slot>runUserScript()</slot>
-  <slot>stayOnTop(bool)</slot>
-  <slot>runGacha()</slot>
+  <slot>bench()</slot>
+  <slot>checkScreenshot()</slot>
+  <slot>closeToTray(bool)</slot>
+  <slot>exec()</slot>
+  <slot>explorerHere()</slot>
+  <slot>getDevice()</slot>
+  <slot>invoke169()</slot>
+  <slot>license()</slot>
+  <slot>loadTeam(QString)</slot>
   <slot>mapKey(bool)</slot>
-  <slot>stopLater(bool)</slot>
+  <slot>notify()</slot>
+  <slot>pause(bool)</slot>
+  <slot>reloadTeamup()</slot>
+  <slot>resetTeam()</slot>
+  <slot>revoke169()</slot>
+  <slot>runBattle()</slot>
+  <slot>runGacha()</slot>
   <slot>runJackpot()</slot>
   <slot>runMail()</slot>
+  <slot>runMain()</slot>
   <slot>runSynthesis</slot>
-  <slot>exec()</slot>
+  <slot>runUserScript()</slot>
+  <slot>saveTeam()</slot>
+  <slot>stayOnTop(bool)</slot>
+  <slot>stop()</slot>
+  <slot>stopLater(bool)</slot>
   <slot>stopOnDefeated(bool)</slot>
   <slot>stopOnKizunaReisou(bool)</slot>
   <slot>stopOnSpecialDrop(bool)</slot>
-  <slot>license()</slot>
-  <slot>closeToTray(bool)</slot>
-  <slot>invoke169()</slot>
-  <slot>revoke169()</slot>
-  <slot>reloadTeamup()</slot>
-  <slot>notify()</slot>
  </slots>
 </ui>
