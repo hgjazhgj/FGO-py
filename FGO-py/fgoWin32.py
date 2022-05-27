@@ -1,9 +1,9 @@
-import sys,numpy
+import numpy,platform
 from fgoLogging import getLogger
 logger=getLogger('Win32')
 
 BLACK=numpy.zeros((1080,1920,3),numpy.uint8)
-if sys.platform=='win32':
+if platform.system()=='Windows':
     import ctypes,time,cv2,win32api,win32con,win32gui,win32ui
     from fgoConst import KEYMAP
 

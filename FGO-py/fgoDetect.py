@@ -6,6 +6,13 @@ from fgoLogging import getLogger,logMeta,logit
 logger=getLogger('Detect')
 
 IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x,numpy.max(x,axis=2)>>1))(cv2.imread(f'fgoImage/{i}'))for i in os.listdir('fgoImage')if i[-4:]=='.png'})
+def coroutine(func):
+    @wraps(func)
+    def primer(*args,**kwargs):
+        gen=func(*args,**kwargs)
+        next(gen)
+        return gen
+    return primer
 class Detect(metaclass=logMeta(logger)):
     # The accuracy of each API here is designed to be 100% at 1920x1080 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Detect.cache.save() or fuse.save().
     cache=None
@@ -21,20 +28,13 @@ class Detect(metaclass=logMeta(logger)):
                 return wrap(Detect(interval),*args,**kwargs)
             return wrap
         return wrapper
-    def startIter(iter):
-        @wraps(iter)
-        def wrapper(self,*args,**kwargs):
-            ans=iter(self,*args,**kwargs)
-            next(ans)
-            return ans
-        return wrapper
-    def __init__(self,forwardLagency=.1,backwardLagency=0,blockFuse=False):
-        schedule.sleep(forwardLagency)
+    def __init__(self,forwardLatency=.1,backwardLatency=0,blockFuse=False):
+        schedule.sleep(forwardLatency)
         self.im=self.screenshot()
         self.time=time.time()
         Detect.cache=self
         if not blockFuse:fuse.increase()
-        schedule.sleep(backwardLagency)
+        schedule.sleep(backwardLatency)
     def _crop(self,rect):return self.im[rect[1]:rect[3],rect[0]:rect[2]]
     # @logit(logger)
     def _loc(self,img,rect=(0,0,1920,1080)):return cv2.minMaxLoc(cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1]))
@@ -43,16 +43,16 @@ class Detect(metaclass=logMeta(logger)):
     def _find(self,img,rect=(0,0,1920,1080),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img[0].shape[1]>>1),rect[1]+loc[2][1]+(img[0].shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
     def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR[0],numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0 and(hierarchy[0][i][2]==-1 or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3 for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self._crop(rect),cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     def _count(self,img,rect=(0,0,1920,1080),threshold=.1):return cv2.connectedComponents((cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1])<threshold).astype(numpy.uint8))[0]-1
-    @startIter
-    def _iterMatch(self,rect,threshold=.05):
+    @coroutine
+    def _asyncImageChange(self,rect,threshold=.05):
         img=self._crop(rect)
         detect=yield None
         while True:
             tmp=detect._crop(rect)
             detect=yield threshold<cv2.matchTemplate(img,tmp,cv2.TM_SQDIFF_NORMED)[0][0]and fuse.reset(detect)
             img=tmp
-    @startIter
-    def _iterChange(self,init):
+    @coroutine
+    def _asyncValueChange(self,init):
         a=[init,(yield None)]
         p=0
         while True:
@@ -64,10 +64,10 @@ class Detect(metaclass=logMeta(logger)):
         cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.6,fy=.6))
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
-    def setupMailDone(self):Detect._iterMailDone=self._iterMatch((303,156,378,186))
+    def setupMailDone(self):Detect._watchMailDone=self._asyncImageChange((303,156,378,186))
     def setupServantDead(self,friend=None):
-        Detect._iterServantFace=[self._iterMatch((195+480*i,640,296+480*i,740))for i in range(3)]
-        Detect._iterServantFriend=[self._iterChange(i)for i in(self.isServantFriend()if friend is None else friend)]
+        Detect._watchServantPortrait=[self._asyncImageChange((195+480*i,640,296+480*i,740))for i in range(3)]
+        Detect._watchServantFriend=[self._asyncValueChange(i)for i in(self.isServantFriend()if friend is None else friend)]
     def isAddFriend(self):return self._compare(IMG.END,(243,863,745,982))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(906,897,1017,967))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1639,951,1865,1061))
@@ -79,13 +79,13 @@ class Detect(metaclass=logMeta(logger)):
     def isFriendListEnd(self):return self._isListEnd((1882,1064))
     def isGacha(self):return self._compare(IMG.GACHA,(973,960,1312,1052))
     def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(470+346*i,258,773+346*i,387),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self.im[1019:1026,217+478*i:235+478*i])>55 or numpy.mean(that.im[1019:1026,217+478*i:235+478*i])>55)for i in range(3)])(Detect(.15)if that is None else that)
-    def isMailDone(self):return self._iterMailDone.send(self)
+    def isMailDone(self):return self._watchMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1630,920,1919,1049))
     def isMailListEnd(self):return self._isListEnd((1406,1018))
     def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(1197,816,1318,876),blockFuse=True)
     def isNextJackpot(self):return self._compare(IMG.JACKPOT,(1245,347,1318,389))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(369,545,411,587),.1)
-    def isServantDead(self,friend=None):return[any((self._iterServantFace[i].send(self),self._iterServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
+    def isServantDead(self,friend=None):return[any((self._watchServantPortrait[i].send(self),self._watchServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
     def isServantFriend(self):return[self._compare(IMG.SUPPORT,(292+480*i,582,425+480*i,626))for i in range(3)]
     def isSkillCastFailed(self):return self._compare(IMG.SKILLERROR,(893,809,1026,878))
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(54+476*i+132*j,897,83+480*i+141*j,927),.1)for j in range(3)]for i in range(3)]

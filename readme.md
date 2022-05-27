@@ -134,6 +134,12 @@ Cli大概长这样(在docker和手机中运行时的截图):
 若目标窗口有管理员权限,则FGO-py也需要以管理员身份运行  
 需要Windows 10版本1703或更高  
 
+### 在alas上运行
+
+本章节目前纯属娱乐,具体参见fgoAlas.py  
+在你完成所有更改后,alas看起来像这样  
+![alas](doc/alas.png)  
+
 ## 连接到设备 Connect Your Device
 
 如果你使用数据线将手机连接到电脑,那么你的手机自然会出现在设备列表中  
@@ -273,6 +279,10 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
 
 # 版本记录 Version Logs
+
+## 2022/05/28 v8.7.3
+
+新增:在alas中运行的解决方案  
 
 ## 2022/05/22 v8.7.2
 
