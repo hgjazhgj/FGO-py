@@ -1,5 +1,6 @@
 **重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)**  
 > 花嫁1300石一宝,可怜可怜我吧  
+> 但是3发呼符浅上藤乃  
 
 > 本项目已经存在直接在运行fgo的手机上运行的解决方案,具体参见[直接在手机上运行](#直接在手机上运行)  
 > WSA supported! see: [Windows Subsystem for Android](#Windows-Subsystem-for-Android)  
@@ -195,26 +196,26 @@ Cli大概长这样(在docker和手机中运行时的截图):
 但是随着游戏时间增长,我不由得想要依照战局的变化来灵活地施放技能,这是因为我想要刷羁绊的从者逐渐满羁绊,而我的在刷满羁绊前都极少变更队员与程序配置故而需要一个编队打所有本的羁绊队正面临着战力下降/职阶不平衡/逆克制/脸接对面宝具/浪费充能与回复等各种问题,所以我建立了新的技能模型,同时为了~~偷懒~~代码复用,数据结构保持不变,仅仅对数据的解释方法做了调整  
 目前新的技能模型正在计划中,如下:
 > skillInfo=[[[a,b,c,d]...  
-> . a  
-> .     0-not-cast  
-> .     1-cast-immediately  
-> .     2-cast-on-hp-low  
-> .     3-cast-on-enemy-fully-charged  
-> .     4-cast-on-enemy-half-charged  
-> .     5-cast-on-hougu-to-be-casted  
-> .     6-cast-on-self-half-charged  
-> . b  
-> .     0-no-target  
-> .     1..3-target-member-pos  
-> .     4-self-target  
-> .     5..7-target-enemy-pos  
-> .     8-bypass-target(effect when a==2||a==3)  
-> . c  
-> .     (exclusive group #(0..3)) | (delay cast turn(0..1) << 2)  
-> . d priority  
+> .   a  
+> .   .    0-not-cast  
+> .   .    1-cast-immediately  
+> .   .    2-cast-on-hp-low  
+> .   .    3-cast-on-enemy-fully-charged  
+> .   .    4-cast-on-enemy-half-charged  
+> .   .    5-cast-on-hougu-to-be-casted  
+> .   .    6-cast-on-self-half-charged  
+> .   b  
+> .   .    0-no-target  
+> .   .    1..3-target-member-pos  
+> .   .    4-self-target  
+> .   .    5..7-target-enemy-pos  
+> .   .    8-bypass-target(effect when a==2||a==3)  
+> .   c  
+> .   .    (exclusive group #(0..3)) | (delay cast turn(0..1) << 2)  
+> .   d priority  
 > houguInfo=[[a,b]...  
-> . a 0-not-cast 1-single-target 2-multi-target 3-other  
-> . b priority  
+> .   a 0-not-cast 1-single-target 2-multi-target 3-other  
+> .   b priority  
 
 我觉得这个还差点什么东西,有任何想法请发discussion或加开发群  
 
@@ -277,8 +278,16 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [Device Connection](https://airtest.readthedocs.io/zh_CN/latest/wiki/device/device.html)  
 [Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
+[airtest.core.android.ADB.devices不返回ipv6远程连接的设备](https://github.com/AirtestProject/Airtest/issues/818)  
 
 # 版本记录 Version Logs
+
+## 2022/05/31 v8.7.4
+
+bugfix:win32截图dpi感知调用ctypes的字长对应  
+我不是很清楚这个DPI_AWARENESS_CONTEXT类型为什么要如此弯弯绕绕地声明,但毕竟是近几年的新代码,就姑且当作是有道理的好了  
+目前我对win32选择窗口的交互尚有些许不满意,不过凑合着用吧  
+优化:gui下执行出错时任务栏图标闪烁  
 
 ## 2022/05/28 v8.7.3
 

@@ -74,10 +74,12 @@ from module.FGOpy import fgoKernel
 from module.FGOpy.fgoAlasDevice import Device
 from module.FGOpy.fgoIniParser import IniParser
 
-teamup=IniParser("module/FGOpy/fgoTeamup.ini")
+teamup = IniParser("module/FGOpy/fgoTeamup.ini")
+
+
 class fgoAlas:
     def __init__(self, config):
-        self.config = AzurLaneConfig(config,task='FGOpy')
+        self.config = AzurLaneConfig(config, task='FGOpy')
         fgoKernel.device = Device(config=self.config)
 
     def run(self):
@@ -87,12 +89,13 @@ class fgoAlas:
         if teamName not in teamup:
             logger.critical("Team not found")
             return
-        fgoKernel.Main.teamIndex=eval(teamup[teamName]['teamIndex'])
-        fgoKernel.Turn.skillInfo=eval(teamup[teamName]['skillInfo'])
-        fgoKernel.Turn.houguInfo=eval(teamup[teamName]['houguInfo'])
-        fgoKernel.Turn.masterSkill=eval(teamup[teamName]['masterSkill'])
+        fgoKernel.Main.teamIndex = eval(teamup[teamName]['teamIndex'])
+        fgoKernel.Turn.skillInfo = eval(teamup[teamName]['skillInfo'])
+        fgoKernel.Turn.houguInfo = eval(teamup[teamName]['houguInfo'])
+        fgoKernel.Turn.masterSkill = eval(teamup[teamName]['masterSkill'])
         fgoKernel.Main()()
     #   logger.setLevel("INFO")
+
 
 def main():
     fgoAlas(config='FGOpy').run()

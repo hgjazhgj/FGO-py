@@ -8,7 +8,7 @@ if platform.system()=='Windows':
     from fgoConst import KEYMAP
 
     user32=ctypes.windll.user32
-    user32.SetProcessDpiAwarenessContext(-4) # -4:DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 win10 1703
+    user32.SetProcessDpiAwarenessContext(ctypes.c_void_p(-4)) # -4:DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 win10 1703
     class Window:
         def __init__(self,hWnd=0):
             self.hWnd=hWnd
