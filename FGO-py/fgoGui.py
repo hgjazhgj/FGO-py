@@ -120,6 +120,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOPLATER.setChecked(False)
         self.BTN_STOPLATER.setEnabled(False)
         self.MENU_SCRIPT.setEnabled(True)
+        if msg!='Done':QApplication.alert(self)
         self.TRAY.showMessage('FGO-py',*msg)
     def loadTeam(self,teamName):
         self.TXT_TEAM.setValue(int(self.teamup[teamName]['teamIndex']))
