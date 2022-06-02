@@ -30,10 +30,9 @@
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
-![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
-B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B币券[充电](https://space.bilibili.com/2632341)  
+![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)![Monero](doc/monero.png)  
 Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY  
-![Monero](doc/monero.png)  
+B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B币券[充电](https://space.bilibili.com/2632341)  
 觉得有帮助请为我star,谢谢  
 <table>
   <tr>
@@ -77,9 +76,14 @@ FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固�
 
 ## 运行 Run
 
-如果你是纯纯的小白,就老老实实地下载release双击运行,并且当作本部分所有其他的内容都不存在  
+**2022年6月起本项目永久不再发布二进制可执行文件,所有v8.7.3之后的你能直接双击运行的程序皆与本人无关,请谨慎甄别**  
 本项目在最初设计时就考虑到了在不同环境下运行的需求,完全前后端分离,后端一直也将继续可以在多系统下运行,基于Qt6的前端尚且存在一些局限性,而后来添加的文本交互式前端使得本项目真正地跨平台  
 首先也是最基础的,在阅读本条目前,请先验证你能**通过源码在安装有Python3.9的Windows操作系统中运行本项目并用来操作运行于屏幕分辨率为1920x1080或其简单整数比缩放的安卓设备上的命运-冠位指定官方简体中文版本**--这被视作FGO-py的使用门槛,我不会为此提供任何帮助--然后再根据后续内容向目标环境迁移  
+本项目根目录下有些许文件可为不同场景下的环境搭建提供帮助  
+AutoRelease -- 传统的在Windows电脑上运行只需run workflow即可构建exe  
+Dockerfile/docker-compose.yml -- 尽管只是配了个环境,但确实配好了环境  
+AidLux.sh -- 一键在AidLux上安装FGO-py  
+请注意,这些东西仅供参考,你多半需要自行作出一些修改才能正常运行,这被视为FGO-py的使用门槛  
 速览程序功能,运行`fgo.py`,无需填写任何配置,去冬木大桥刷一根凶骨吧!  
 大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 (基于Qt6的)Gui大概长这样(设计模式仅供参考):  
@@ -152,12 +156,12 @@ Cli大概长这样(在docker和手机中运行时的截图):
 1. `wsa` 这是给wsa做的特化,当连接到wsa时必须填写wsa而不能填写其他内容,这个指令不以「/」开头  
 2. `win32` 这是给Windows窗口做的特化,直接输入win32使用交互方式确定窗口,或后跟`_16进制窗口句柄值`以指定窗口,这个指令不以「/」开头  
 3. `/gw` 手机开热点打fgo电脑连热点,获取网关ip  
-4. `/bs4` 兼容Hyper-V的BlueStacks 4国际版,从注册表读取adb端口  
-5. `/bs5` 兼容Hyper-V的BlueStacks 5国际版,从注册表读取配置文件路径,在配置文件中查找adb端口  
+4. `/bs4` 兼容Hyper-V的BlueStacks 4国际版,从注册表读取adb端口,后跟`_数字`指定多开  
+5. `/bs5` 兼容Hyper-V的BlueStacks 5国际版,从注册表读取配置文件路径,在配置文件中查找adb端口,后跟`_数字`指定多开  
 
 你可以自己编写你需要的功能,如果你认为你的场景别人也会遇到,请发个issue或pr让我加进这个项目里  
 此外,你可以使用`|`连接两个设备名以分别指定点击拖拽等输入操作和截图等输出操作使用的接口,中间不得有空格  
-如`/bs5|win32`使用安卓调试进行输入而使用win32进行截图,或是`127.0.0.1:5555|127.0.0.1:5557`使用5556设备显示的画面但是点击在5554设备上(大雾  
+如`/bs5_2|win32`使用输入到蓝叠5的第二个多开而使用win32进行截图,或是`127.0.0.1:5555|127.0.0.1:5557`使用5556设备显示的画面但是点击在5554设备上(大雾  
 
 ## 助战/邮箱筛选 Friends/Mail Filter
 
@@ -197,7 +201,7 @@ Cli大概长这样(在docker和手机中运行时的截图):
 目前新的技能模型正在计划中,如下:
 > skillInfo=[[[a,b,c,d]...  
 > .   a  
-> .   .    0-not-cast  
+> .   .    0-no-cast  
 > .   .    1-cast-immediately  
 > .   .    2-cast-on-hp-low  
 > .   .    3-cast-on-enemy-fully-charged  
@@ -245,7 +249,7 @@ Cli大概长这样(在docker和手机中运行时的截图):
 
 ![img](doc/contact.png) 在占用我的时间之前,先耗费自己的时间  
 **2021年9月24日,同为本人开发的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
-加入QQ群需要提供你的Github用户名(必须严格等于登陆时输入的Username字段),且该帐号在30天内有活跃行为,如果你不希望Github帐号与QQ号有所关联,在加群问题回答中填入**有相当意义**的内容亦可.QQ号需要至少16级(有一个太阳,使用大约1年)  
+加入QQ群需要提供你的Github用户名(必须严格等于登陆时输入的Username字段),且该帐号在30天内有活跃行为,如果你不希望Github帐号与QQ号有所关联,在加群问题回答中填入任意**能证明你是开发者的**内容亦可.QQ号需要至少16级(有一个太阳,使用大约1年)  
 发现**最新commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
 qq 979449732(个人账号,加好友请说明来意.如果你有GitHub账户,请附上  
 email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
@@ -282,12 +286,19 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 
 # 版本记录 Version Logs
 
+## 2022/06/02 v8.7.5
+
+新增:/bs4和/bs5的多开连接支持  
+例如/bs5_2可连接到BlueStacks 5 Hyper-V的第二个多开  
+另:思索再三,我决定移除所有release  
+但是AutoRelease的workflow及相关组件保留,就像[MagiskOnWSA](https://github.com/LSPosed/MagiskOnWSA)一样,由需要的人自行打包,在更加稳健的同时既留了适当的门槛,又照顾了不熟悉python的用户  
+
 ## 2022/05/31 v8.7.4
 
 bugfix:win32截图dpi感知调用ctypes的字长对应  
 我不是很清楚这个DPI_AWARENESS_CONTEXT类型为什么要如此弯弯绕绕地声明,但毕竟是近几年的新代码,就姑且当作是有道理的好了  
 目前我对win32选择窗口的交互尚有些许不满意,不过凑合着用吧  
-优化:gui下执行出错时任务栏图标闪烁  
+优化:gui下执行完成时任务栏图标闪烁  
 
 ## 2022/05/28 v8.7.3
 
