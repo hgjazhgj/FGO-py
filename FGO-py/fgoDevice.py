@@ -23,12 +23,12 @@ def gw(*args):
 @regHelper
 def bs4(*args):
     import winreg
-    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config')as key:return'127.0.0.1:'+winreg.QueryValueEx(key,"BstAdbPort")[0]
+    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,rf'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android{f"_{args[0]}"if args else""}\Config')as key:return'127.0.0.1:'+winreg.QueryValueEx(key,"BstAdbPort")[0]
 @regHelper
 def bs5(*args):
     import os,re,winreg
     with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_nxt')as key:dir=winreg.QueryValueEx(key,'UserDefinedDir')[0]
-    with open(os.path.join(dir,'bluestacks.conf'))as f:return'127.0.0.1:'+re.search(r'bst\.instance\.Nougat64\.status\.adb_port="(\d*)"',f.read()).group(1)
+    with open(os.path.join(dir,'bluestacks.conf'))as f:return'127.0.0.1:'+re.search(rf'bst\.instance\.Nougat64{f"_{args[0]}"if args else""}\.status\.adb_port="(\d*)"',f.read()).group(1)
 
 class Device:
     def __init__(self,name=None):
