@@ -1,5 +1,6 @@
 name: Bug Report
 description: Create a report to help us improve
+labels: []
 body:
   - type: checkboxes
     id: checks
@@ -69,7 +70,7 @@ body:
     validations:
       required: false
   - type: textarea
-    id: others
+    id: setu
     attributes:
       label: 来点色图
       description: 来点色图
