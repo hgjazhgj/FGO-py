@@ -29,7 +29,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         fgoKernel.Device.enumDevices()
         self.teamup=IniParser('fgoTeamup.ini')
         self.teamup_load(argparse.Namespace(name='DEFAULT'))
-        with open('fgoConfig.json','r')as f:self.config=json.load(f)
+        with open('fgoConfig.json')as f:self.config=json.load(f)
         fgoKernel.schedule.stopOnDefeated(self.config['stopOnDefeated'])
         fgoKernel.schedule.stopOnKizunaReisou(self.config['stopOnKizunaReisou'])
     def emptyline(self):return
@@ -113,7 +113,10 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Loop for battle until AP empty'
         arg=parser_main.parse_args(line.split())
         self.work=fgoKernel.Main(arg.appleCount,['gold','silver','copper','quartz'].index(arg.appleKind),{'Battle':fgoKernel.Battle,'UserScript':fgoKernel.UserScript}[arg.battleClass])
-        time.sleep(arg.sleep)
+        timer=time.time()+arg.sleep
+        while(rest:=timer-time.time())>0:
+            print((lambda sec:f'{sec//3600:02}:{sec%3600//60:02}:{sec%60:02}')(round(rest)),end=' \r')
+            time.sleep(min(1,max(0,rest)))
         self.do_continue('')
     def complete_main(self,text,line,begidx,endidx):
         return self.completecommands({
@@ -238,4 +241,4 @@ parser_bench.add_argument('-n','--number',help='Number of runs (default: %(defau
 parser_bench.add_argument('-i','--input',help='Bench touch, if neither -i nor -o specified, bench them both',action='store_true')
 parser_bench.add_argument('-o','--output',help='Bench screenshot, if neither -i nor -o specified, bench them both',action='store_true')
 
-def main():Cmd().cmdloop()
+def main(args):Cmd().cmdloop()

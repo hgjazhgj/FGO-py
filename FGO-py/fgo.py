@@ -14,4 +14,4 @@ elif arg.entrypoint=='web':from fgoWebServer import main
 import fgoLogging
 fgoLogging.logging.getLogger('fgo').handlers[-1].setLevel(arg.loglevel)
 
-main()
+main([])

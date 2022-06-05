@@ -11,7 +11,7 @@ logger=fgoKernel.getLogger('Gui')
 
 class Config:
     def __init__(self,link=None):
-        with open('fgoConfig.json','r')as f:self.config=json.load(f)
+        with open('fgoConfig.json')as f:self.config=json.load(f)
         self.link=link if isinstance(link,dict)else{}
         for configName,(menuItem,scheduleFunc)in self.link.items():
             menuItem.setChecked(bool(self.config[configName]))
@@ -223,7 +223,7 @@ FGO全自动脚本
 ''')
     def license(self):os.system(f'start notepad {"LICENSE"if os.path.isfile("LICENSE")else"../LICENSE"}')
 
-def main():
+def main(args):
     app=QApplication(sys.argv)
     myWin=MyMainWindow()
     myWin.show()
