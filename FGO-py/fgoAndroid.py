@@ -29,7 +29,7 @@ class Android(Airtest):
     def enumDevices():return[i for i,_ in ADB().devices('device')]
     def adjustOffset(self):
         self.render=[round(i)for i in self.get_render_resolution(True)]
-        self.scale,self.border=(1080/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16 else(1920/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
+        self.scale,self.border=(720/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16 else(1280/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
         self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in KEYMAP.items()}
     def touch(self,pos):
         with self.lock:super().touch([round(pos[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
@@ -60,7 +60,7 @@ class Android(Airtest):
             time.sleep(.02)
     def press(self,key):
         with self.lock:super().touch(self.key[key])
-    def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1920,1080),interpolation=cv2.INTER_CUBIC)
+    def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1280,720),interpolation=cv2.INTER_CUBIC)
     def invoke169(self):
         x,y=(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size')))
         if x<y:
@@ -68,4 +68,4 @@ class Android(Airtest):
         else:
             if y*16<x*9:self.adb.raw_shell('wm size %dx%d'%(y*16//9,y))
         self.adjustOffset()
-    def revoke169(self):self.adb.raw_shell('wm size %dx%d'%(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size'))))
+    def revoke169(self):self.adb.raw_shell('wm size reset')
