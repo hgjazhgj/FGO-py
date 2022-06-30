@@ -1,5 +1,8 @@
 name: Gitee Mirror on Push
-on: push
+on:
+  push:
+    branches:
+      - 'master'
 jobs:
   main:
     name: Gitee Mirror on Push

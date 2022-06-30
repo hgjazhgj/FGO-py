@@ -14,6 +14,11 @@ def wrapTry(func):
         except BaseException as e:logger.exception(e)
         finally:self.prompt='FGO-py\033[32m@{}\033[36m({})\033[0m> '.format(fgoKernel.device.name,self.currentTeam)
     return wrapper
+def countdown(x):
+    timer=time.time()+x
+    while(rest:=timer-time.time())>0:
+        print((lambda sec:f'{sec//3600:02}:{sec%3600//60:02}:{sec%60:02}')(round(rest)),end=' \r')
+        time.sleep(min(1,max(0,rest)))
 
 class Cmd(cmd.Cmd,metaclass=lambda name,bases,attrs:type(name,bases,{i:wrapTry(j)if i.startswith('do_')else j for i,j in attrs.items()})):
     intro=f'''
@@ -107,26 +112,23 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Finish the current battle'
         arg=parser_battle.parse_args(line.split())
         self.work=fgoKernel.Battle()
-        time.sleep(arg.sleep)
+        countdown(arg.sleep)
         self.do_continue('')
     def do_main(self,line):
         'Loop for battle until AP empty'
         arg=parser_main.parse_args(line.split())
-        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','copper','quartz'].index(arg.appleKind),{'Battle':fgoKernel.Battle,'UserScript':fgoKernel.UserScript}[arg.battleClass])
-        timer=time.time()+arg.sleep
-        while(rest:=timer-time.time())>0:
-            print((lambda sec:f'{sec//3600:02}:{sec%3600//60:02}:{sec%60:02}')(round(rest)),end=' \r')
-            time.sleep(min(1,max(0,rest)))
+        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind),{'Battle':fgoKernel.Battle,'UserScript':fgoKernel.UserScript}[arg.battleClass])
+        countdown(arg.sleep)
         self.do_continue('')
     def complete_main(self,text,line,begidx,endidx):
         return self.completecommands({
-            r'\d+':['gold','silver','copper','quartz'],
-            r'\d+ (gold|silver|copper|quartz)':['battle','userScript']
+            r'\d+':['gold','silver','bronze','quartz'],
+            r'\d+ (gold|silver|bronze|quartz)':['battle','userScript']
         },text,line,begidx,endidx)
     def do_continue(self,line):
         'Continue last battle after abnormal break, use it as same as battle'
         arg=parser_battle.parse_args(line.split())
-        time.sleep(arg.sleep)
+        countdown(arg.sleep)
         assert fgoKernel.device.available
         try:self.work()
         except fgoKernel.ScriptStop as e:
@@ -148,7 +150,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Call a Additional feature'
         arg=parser_call.parse_args(line.split())
         assert fgoKernel.device.available
-        time.sleep(arg.sleep)
+        countdown(arg.sleep)
         self.work=getattr(fgoKernel,arg.func)
         self.do_continue('')
     def complete_call(self,text,line,begidx,endidx):
@@ -198,7 +200,7 @@ parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(def
 
 parser_main=ArgParser(prog='main',description=Cmd.do_main.__doc__)
 parser_main.add_argument('appleCount',help='Apple Count (default: %(default)s)',type=int,default=0,nargs='?')
-parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','copper','quartz'],default='gold',nargs='?')
+parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','quartz'],default='gold',nargs='?')
 parser_main.add_argument('battleClass',help='Battle Class (default: %(default)s)',choices=['Battle','UserScript'],default='Battle',nargs='?')
 parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=float,default=0)
 

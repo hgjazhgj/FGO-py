@@ -58,7 +58,7 @@ def mail():
     while True:
         while any((pos:=Detect.cache.findMail(i[1]))and(device.touch(pos),True)[-1]for i in mailImg.items()):
             while not Detect().isMailDone():pass
-        device.swipe((400,900,400,300))
+        device.swipe((400,600,400,200))
         if Detect().isMailListEnd():break
 def synthesis():
     while True:
@@ -94,6 +94,7 @@ class Turn:
         self.stage=0
         self.stageTurn=0
         self.servant=[0,1,2]
+        self.team=[None]*6
         self.orderChange=[0,1,2,3,4,5]
         self.masterSkillReady=[True,True,True]
     def __call__(self,turn):
@@ -183,7 +184,9 @@ class Main:
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
-                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,400))
+                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
+                    self.battleProc.turnProc.teamClass=Detect().getTeamServantClass()
+                    self.battleProc.turnProc.teamCard=Detect.cache.getTeamServantCard()
                     device.perform(' M',(800,10000))
                     break
                 elif Detect.cache.isBattleContinue():
@@ -223,7 +226,7 @@ class Main:
                     Turn.friendInfo=(lambda r:(lambda p:([[[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i.replace('-','')[-14:].upper()))
                     return i
                 if Detect.cache.isFriendListEnd():break
-                device.swipe((800,900,800,300))
+                device.swipe((400,600,400,200))
                 Detect(.4)
             if refresh:schedule.sleep(max(0,timer+10-time.time()))
             device.perform('\xBAK',(500,1000))

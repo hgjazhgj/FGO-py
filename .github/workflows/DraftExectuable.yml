@@ -1,0 +1,32 @@
+name: Draft Exectuable
+on:
+  workflow_dispatch:
+jobs:
+  main:
+    name: Draft Exectuable
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install Dependencies
+        run: |
+          pip install wheel
+          pip install pyinstaller
+          pip install -r requirements.txt
+      - name: Build
+        run: pyinstaller FGO-py/fgoBuild.spec
+      - name: Compress
+        run: |
+          cd dist
+          7z a ../FGO-py.7z -mx9
+        # 7z a ../FGO-py.zip
+        # tar -cvzf ../FGO-py.tar.gz *
+      - uses: actions/upload-artifact@v3
+        with:
+          name: FGO-py-executable
+          path: |
+            FGO-py.7z
+          # FGO-py.zip
+          # FGO-py.tar.gz

@@ -2,7 +2,7 @@ import numpy,platform
 from fgoLogging import getLogger
 logger=getLogger('Win32')
 
-BLACK=numpy.zeros((1080,1920,3),numpy.uint8)
+BLACK=numpy.zeros((720,1280,3),numpy.uint8)
 if platform.system()=='Windows':
     import ctypes,time,cv2,win32api,win32con,win32gui,win32ui
     from fgoConst import KEYMAP
@@ -49,14 +49,14 @@ if platform.system()=='Windows':
         def screenshot(self):
             self.width,self.height=win32gui.GetClientRect(self.hWnd)[2:]
             if self.width==0 or self.height==0:return BLACK
-            self.scale,self.border=(1080/self.height,(round(self.width-self.height*16/9)>>1,0))if self.width*9>self.height*16 else(1920/self.width,(0,round(self.height-self.width*9/16)>>1))
+            self.scale,self.border=(720/self.height,(round(self.width-self.height*16/9)>>1,0))if self.width*9>self.height*16 else(1280/self.width,(0,round(self.height-self.width*9/16)>>1))
             hBmp=win32ui.CreateBitmap()
             hBmp.CreateCompatibleBitmap(self.hMfcDc,self.width,self.height)
             self.hMemDc.SelectObject(hBmp)
             self.hMemDc.BitBlt((0,0),(self.width,self.height),self.hMfcDc,(0,0),win32con.SRCCOPY)
             result=numpy.frombuffer(hBmp.GetBitmapBits(True),dtype=numpy.uint8)
             win32gui.DeleteObject(hBmp.GetHandle())
-            return cv2.resize(result.reshape(self.height,self.width,4)[slice(self.border[1],-self.border[1])if self.border[1]else slice(None),slice(self.border[0],-self.border[0])if self.border[0]else slice(None),:3],(1920,1080),interpolation=cv2.INTER_CUBIC)
+            return cv2.resize(result.reshape(self.height,self.width,4)[slice(self.border[1],-self.border[1])if self.border[1]else slice(None),slice(self.border[0],-self.border[0])if self.border[0]else slice(None),:3],(1280,720),interpolation=cv2.INTER_CUBIC)
         def touch(self,pos):
             lParam=round(pos[1]/self.scale+self.border[1])<<16|round(pos[0]/self.scale+self.border[0])
             win32api.PostMessage(self.hWnd,win32con.WM_LBUTTONDOWN,0,lParam)

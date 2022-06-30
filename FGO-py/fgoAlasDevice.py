@@ -26,15 +26,14 @@ class Device(Screenshot, ControlPoint):
         self.touch(KEYMAP[key])
 
     def touch(self, pos):
-        super().click_point(pos[0]*1280//1920, pos[1]*720//1080)
+        super().click_point(*pos)
 
     def swipe(self, rect):
-        super().swipe((rect[0]*1280//1920, rect[1]*720//1080),
-                      (rect[2]*1280//1920, rect[3]*720//1080))
+        super().swipe((rect[0], rect[1]), (rect[2], rect[3]))
 
     def perform(self, pos, wait):
         [(self.press(i), schedule.sleep(j*.001))for i, j in zip(pos, wait)]
 
     def screenshot(self):
         super().screenshot()
-        return cv2.resize(self.image[..., ::-1], (1920, 1080), interpolation=cv2.INTER_CUBIC)
+        return self.image[..., ::-1]

@@ -2,4 +2,4 @@
 connect /bs5
 teamup load Kizuna
 main
-main -s 21600
+main -s 28800
