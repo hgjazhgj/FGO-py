@@ -96,7 +96,7 @@ class Turn:
         self.servant=[0,1,2]
         self.team=[None]*6
         self.orderChange=[0,1,2,3,4,5]
-        self.masterSkillReady=[True,True,True]
+        self.countDown=[[[0,0,0],[0,0,0],[0,0,0]],[0,0,0]]
     def __call__(self,turn):
         self.stage,self.stageTurn=[t:=Detect(.2).getStage(),1+self.stageTurn*(self.stage==t)]
         self.friend=Detect.cache.isServantFriend()
@@ -105,13 +105,14 @@ class Turn:
             self.stageTotal=Detect.cache.getStageTotal()
         else:self.servant=(lambda m,p:[m+p.index(i)+1 if i in p else self.servant[i]for i in range(3)])(max(self.servant),(lambda dead:[i for i in range(3)if self.servant[i]<6 and dead[i]])(Detect.cache.isServantDead(self.friend)))
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
-        Detect.cache.getHP(),Detect.cache.getNP(),Detect.cache.getEnemyNP()
-        if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Detect.cache.getEnemyHP())]+'\xBB',(800,500))
+        Detect.cache.getFieldServantHp(),Detect.cache.getFieldServantNp(),Detect.cache.getEnemyNp()
+        if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Detect.cache.getEnemyHp())]+'\xBB',(800,500))
+        self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
         self.dispatchSkill()
         device.perform(' ',(2100,))
         device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
-        while(s:=(lambda skill:[(self.getSkillInfo(i,j,3),0,(i,j))for i in range(3)if self.servant[i]<6 for j in range(3)if skill[i][j]and(t:=self.getSkillInfo(i,j,0))and min(t,self.stageTotal)<<8|self.getSkillInfo(i,j,1)<=self.stage<<8|self.stageTurn])(Detect.cache.isSkillReady())+[(self.masterSkill[i][-1],1,(i,))for i in range(3)if self.masterSkillReady[i]and self.stage==min(self.masterSkill[i][0],self.stageTotal)and self.stageTurn==self.masterSkill[i][1]]):
+        while(s:=(lambda skill:[(self.getSkillInfo(i,j,3),0,(i,j))for i in range(3)if self.servant[i]<6 for j in range(3)if skill[i][j]and(t:=self.getSkillInfo(i,j,0))and min(t,self.stageTotal)<<8|self.getSkillInfo(i,j,1)<=self.stage<<8|self.stageTurn])(Detect.cache.isSkillReady())+[(self.masterSkill[i][-1],1,(i,))for i in range(3)if self.countDown[1][i]==0 and min(self.masterSkill[i][0],self.stageTotal)<<8|self.masterSkill[i][1]<=self.stage<<8|self.stageTurn]):
             _,cast,arg=min(s,key=lambda x:x[0])
             [self.castServantSkill,self.castMasterSkill][cast](*arg)
             device.perform('\x08',(1800,))
@@ -123,10 +124,12 @@ class Turn:
     def getHouguInfo(self,pos,arg):return self.friendInfo[1][arg]if self.friend[pos]and self.friendInfo[1][arg]>=0 else self.houguInfo[self.orderChange[self.servant[pos]]][arg]
     def castServantSkill(self,pos,skill):
         device.press(('ASD','FGH','JKL')[pos][skill])
-        if Detect(.5).isSkillCastFailed():return device.press('J')
+        if Detect(.7).isSkillCastFailed():
+            self.countDown[pos][skill]=1
+            return device.press('J')
         if t:=Detect.cache.getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][self.getSkillInfo(pos,skill,2)],(300,))
     def castMasterSkill(self,skill):
-        self.masterSkillReady[skill]=False
+        self.countDown[1][skill]=15
         device.perform('Q'+'WER'[skill],(300,300))
         if self.masterSkill[skill][2]:
             if skill==2 and self.masterSkill[2][3]:
@@ -138,7 +141,7 @@ class Turn:
                 while not Detect().isTurnBegin():pass
                 self.friend=Detect(.5).isServantFriend()
                 Detect.cache.setupServantDead(self.friend)
-            elif t:=Detect(.5).getSkillTargetCount():device.perform(['333','244','234'][t-1][self.masterSkill[skill][2]-1],(300,))
+            elif t:=Detect(.5).getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][self.masterSkill[skill][2]],(300,))
 class Battle:
     def __init__(self,turnClass=Turn):
         self.turn=0
@@ -238,4 +241,4 @@ class Main:
 class UserScript:
     def __call__(self):return Battle(Xjbd)()
 class Xjbd(Turn):
-    pass
+    def dispatchSkill(self):...
