@@ -92,7 +92,7 @@ class Detect(metaclass=logMeta(logger)):
     def isServantFriend(self):return[self._compare(IMG.SUPPORT,(194+318*i,388,284+318*i,418))for i in range(3)]
     def isSkillCastFailed(self):return self._compare(IMG.SKILLERROR,(595,539,684,586))
     def isSkillReady(self):return[[not self._compare(IMG.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2)for j in range(3)]for i in range(3)]
-    def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(957,2,990,40))
+    def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(957,2,990,40),.1)
     def isSpecialDropSuspended(self):return self._compare(IMG.CLOSESHORT,(8,11,68,68))
     def isSynthesisBegin(self):return self._compare(IMG.CLOSELONG,(16,12,150,73))
     def isSynthesisFinished(self):return self._compare(IMG.DECIDEDISABLED,(1096,645,1207,702))
@@ -115,23 +115,14 @@ class Detect(metaclass=logMeta(logger)):
     def getFieldServant(self):...
     def getFieldServantHp(self):return[self._ocr((200+318*i,620,293+318*i,644))for i in range(3)]
     def getFieldServantNp(self):return[self._ocr((220+318*i,655,274+318*i,680))for i in range(3)]
-    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(numpy.max(cv2.dilate(cv2.threshold(cv2.cvtColor(self._crop((306,320,973,547)),cv2.COLOR_BGR2GRAY),57,1,cv2.THRESH_BINARY)[1],cv2.getStructuringElement(cv2.MORPH_RECT,(66,66))),axis=0))if self._compare(IMG.CROSS,(1075,131,1121,174))else 0
+    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).flatten())if self._compare(IMG.CROSS,(1075,131,1121,174))else 0
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(884,13,902,38),.5)+1
     @retryOnError()
     def getStageTotal(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(912,13,932,38),.5)+1
     def getTeamIndex(self):return self._loc(IMG.TEAMINDEX,(512,34,768,62))[2][0]//25
     def getTeamMaster(self):...
-    def getTeamServant(self):... # return[
-    #     None if cls is None else(lambda pyramid:min(
-    #         (numpy.min(cv2.matchTemplate(tachie,target,cv2.TM_SQDIFF_NORMED)),no)
-    #         for no,(_,_,_rank,_class,_card,_)in servantData.items()
-    #         if _rank==cls[1]and _class==cls[0]and _card==card
-    #         for tachie in servantImg[no][2]
-    #         for target in pyramid
-    #     )[1])((lambda img:[cv2.resize(img,(size,size))for size in range(20,65)])(self._crop((47+200*pos+15*(pos>2),224,220+200*pos+15*(pos>2),370))))
-    #     for pos,cls,card in tqdm.tqdm(list(zip(range(6),self.getTeamServantClass(),self.getTeamServantCard())),leave=False)
-    # ]
+    def getTeamServant(self):...
     def getTeamServantAtk(self):...
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(0==numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])for j in range(3)))for i in range(6)]
     def getTeamServantClass(self):return[(lambda x:None if x is None else divmod(x,3))(self._select([IMG.CLASSSABER0,IMG.CLASSSABER1,IMG.CLASSSABER2,IMG.CLASSARCHER0,IMG.CLASSARCHER1,IMG.CLASSARCHER2,IMG.CLASSLANCER0,IMG.CLASSLANCER1,IMG.CLASSLANCER2,IMG.CLASSRIDER0,IMG.CLASSRIDER1,IMG.CLASSRIDER2,IMG.CLASSCASTER0,IMG.CLASSCASTER1,IMG.CLASSCASTER2,IMG.CLASSASSASSIN0,IMG.CLASSASSASSIN1,IMG.CLASSASSASSIN2,IMG.CLASSBERSERKER0,IMG.CLASSBERSERKER1,IMG.CLASSBERSERKER2,IMG.CLASSSHIELDER0,IMG.CLASSSHIELDER1,IMG.CLASSSHIELDER2,IMG.CLASSRULER0,IMG.CLASSRULER1,IMG.CLASSRULER2,IMG.CLASSAVENGER0,IMG.CLASSAVENGER1,IMG.CLASSAVENGER2,IMG.CLASSALTEREGO0,IMG.CLASSALTEREGO1,IMG.CLASSALTEREGO2,IMG.CLASSMOONCANCER0,IMG.CLASSMOONCANCER1,IMG.CLASSMOONCANCER2,IMG.CLASSFOREIGNER0,IMG.CLASSFOREIGNER1,IMG.CLASSFOREIGNER2,IMG.CLASSPRETENDER0,IMG.CLASSPRETENDER1,IMG.CLASSPRETENDER2],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
