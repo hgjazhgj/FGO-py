@@ -50,7 +50,7 @@ def gacha():
         device.press('\x08')
 def jackpot():
     while fuse.value<50:
-        if Detect().isNextJackpot():device.perform('\xDCKJ',(600,2400,500))
+        if Detect().isNextLottery():device.perform('\xDCKJ',(600,2400,500))
         for _ in range(40):device.press('2')
 def mail():
     if not mailImg.flush():return
@@ -75,7 +75,7 @@ def bench(times=20,touch=True,screenshot=True):
     screenshotBench=[]
     for _ in range(times*screenshot):
         begin=time.time()
-        Detect.screenshot()
+        device.screenshot()
         screenshotBench.append(time.time()-begin)
     touchBench=[]
     for _ in range(times*touch):
@@ -241,4 +241,5 @@ class Main:
 class UserScript:
     def __call__(self):return Battle(Xjbd)()
 class Xjbd(Turn):
-    def dispatchSkill(self):...
+    def dispatchSkill(self):
+        ...

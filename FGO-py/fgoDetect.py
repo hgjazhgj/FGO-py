@@ -61,8 +61,8 @@ class Detect(metaclass=logMeta(logger)):
         while True:
             a[p]=yield a[0]!=a[1]
             p^=1
-    def _isListEnd(self,pos):return not self._compare(IMG.LISTBAR,(pos[0]-13,pos[1]-11,pos[0]+13,pos[1]+3),.25)
-    def save(self,name='Capture',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{"_%Y-%m-%d_%H.%M.%S"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect),[cv2.IMWRITE_PNG_COMPRESSION,9])and name
+    def _isListEnd(self,pos):return numpy.sum(self._crop((pos[0]-13,pos[1]-11,pos[0]+14,pos[1]+3))>127)not in range(100,200)
+    def save(self,name='Capture',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000}"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect),[cv2.IMWRITE_PNG_COMPRESSION,9])and name
     def show(self):
         cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.6,fy=.6))
         if cv2.waitKey()==ord('s'):self.save()
@@ -86,7 +86,7 @@ class Detect(metaclass=logMeta(logger)):
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
     def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(798,544,879,584),blockFuse=True)
-    def isNextJackpot(self):return self._compare(IMG.JACKPOT,(830,231,879,260))
+    def isNextLottery(self):return self._compare(IMG.JACKPOT,(830,231,879,260))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(246,363,274,392))
     def isServantDead(self,friend=None):return[any((self._watchServantPortrait[i].send(self),self._watchServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
     def isServantFriend(self):return[self._compare(IMG.SUPPORT,(194+318*i,388,284+318*i,418))for i in range(3)]

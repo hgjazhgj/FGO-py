@@ -206,7 +206,7 @@ Cli大概长这样(在docker和手机中运行时的截图):
 > .   .    2-cast-on-hp-low  
 > .   .    3-cast-on-enemy-fully-charged  
 > .   .    4-cast-on-enemy-half-charged  
-> .   .    5-cast-on-hougu-to-be-casted  
+> .   .    5-cast-on-self-fully-charged  
 > .   .    6-cast-on-self-half-charged  
 > .   b - target  
 > .   .    0-no-target  
@@ -268,6 +268,15 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [airtest.core.android.ADB.devices不返回ipv6远程连接的设备](https://github.com/AirtestProject/Airtest/issues/818)  
 
 # 版本记录 Version Logs
+
+## 2022/07/03 v9.0.2
+
+Fix:isListEnd  
+在亮色背景下保证识别效果  
+Opt:cli的进一步参数校验  
+cli中有比其他前端更加灵活的参数输入,有必要对其进行校验以防止误操作  
+argparser提供了choice来限定参数的取值范围,但是他会把所有可取值全部打印在help和报错中,这导致如果我想限制一个整数在0-1000之间,程序会打印0-1000中的所有数并以逗号分隔,此外也没法限制浮点数等类型,所以我自己写了一个,使其满足需求的同时有优美的输出  
+Fix:错别字  
 
 ## 2022/07/01 v9.0.1
 
