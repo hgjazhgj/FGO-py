@@ -1,8 +1,8 @@
 **重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)**  
 > `echo -e "connect /bs5 \n teamup load Kizuna \n main \n main -s 28800" | python fgo.py cli`
 
-> 本项目已经存在直接在运行fgo的手机上运行的解决方案,具体参见[直接在手机上运行](#直接在手机上运行)  
-> WSA supported! see: [Windows Subsystem for Android](#Windows-Subsystem-for-Android)  
+> 本项目已经存在直接在运行fgo的手机上运行的解决方案 [直接在手机上运行](#直接在手机上运行)  
+> WSA supported! [Windows Subsystem for Android](#Windows-Subsystem-for-Android)  
 > Run in Docker, see Dockerfile  
 
 > 人这东西还真是能力有限啊  
@@ -34,21 +34,27 @@ Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4Q
 B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B币券[充电](https://space.bilibili.com/2632341)  
 觉得有帮助请为我star,谢谢  
 <table>
-  <tr>
-    <td><img src="doc/star/1.png" width="82" height="82"/></td>
-    <td><img src="doc/star/2.png" width="82" height="82"/></td>
-    <td><img src="doc/star/3.png" width="82" height="82"/></td>
-  </tr>
-  <tr>
-    <td><img src="doc/star/4.png" width="82" height="82"/></td>
-    <td><a href="https://github.com/hgjazhgj/FGO-py/"><img src="https://img.shields.io/github/stars/hgjazhgj/FGO-py.svg?style=social"/></a></td>
-    <td><img src="doc/star/6.png" width="82" height="82"/></td>
-  </tr>
-  <tr>
-    <td><img src="doc/star/7.png" width="82" height="82"/></td>
-    <td><img src="doc/star/8.png" width="82" height="82"/></td>
-    <td><img src="doc/star/9.png" width="82" height="82"/></td>
-  </tr>
+<tr><td>
+  <table>
+    <tr>
+      <td><img src="doc/star/1.png" width="82" height="82"/></td>
+      <td><img src="doc/star/2.png" width="82" height="82"/></td>
+      <td><img src="doc/star/3.png" width="82" height="82"/></td>
+    </tr>
+    <tr>
+      <td><img src="doc/star/4.png" width="82" height="82"/></td>
+      <td><a href="https://github.com/hgjazhgj/FGO-py/stargazers"><img src="https://img.shields.io/github/stars/hgjazhgj/FGO-py.svg?style=social"/></a></td>
+      <td><img src="doc/star/6.png" width="82" height="82"/></td>
+    </tr>
+    <tr>
+      <td><img src="doc/star/7.png" width="82" height="82"/></td>
+      <td><img src="doc/star/8.png" width="82" height="82"/></td>
+      <td><img src="doc/star/9.png" width="82" height="82"/></td>
+    </tr>
+  </table>
+</td><td>
+   <a href="https://starchart.cc/hgjazhgj/FGO-py"><img src="https://starchart.cc/hgjazhgj/FGO-py.svg"/></a>
+</td></tr>
 </table>
 
 [版本记录](#版本记录-Version-Logs)  
@@ -62,16 +68,16 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 用户不得通过不正当的手段或其他不公平的手段使用本平台游戏、本平台服务或参与本平台活动。  
 用户不得干扰本平台正常地提供游戏和服务，包括但不限于：攻击、侵入本平台的网站服务器，或集中时间段内以超出正常用户登录需求的高频率登录或尝试登录服务器从而使网站服务器过载；破解、修改本平台提供的本平台游戏程序；攻击、侵入本平台游戏的服务器/游戏服务器端程序或使游戏服务器过载；制作、发布、传播、使用任何形式的妨碍游戏公平性的辅助工具或程序(包括但不限于“外挂”, “外挂”是指独立于游戏软件之外的，能够在游戏运行的同时影响游戏操作的所有程序，包括但不限于模拟用户操作、改变操作环境、修改数据等一切类型）。用户不得：利用程序的漏洞和错误(Bug)破坏游戏的正常进行或传播该漏洞或错误(Bug)；不合理地干扰或阻碍他人使用本平台所提供的游戏和服务；通过异常或者非法的方式使用本平台游戏(包括但不限于利用本平台游戏登录游戏私服)；使用异常的方法登录游戏（包括但不限于使用非本平台开发、授权或认可的第三方软件、系统登录游戏）、使用网络加速器等外挂软件或机器人程序等恶意破坏服务设施、扰乱正常服务秩序的行为；修改、翻译、注释、整理、汇编、演绎本平台游戏；利用本平台游戏或者线上游戏系统可能存在的技术缺陷或漏洞而以各种形式为自己及他人牟利（包括但不限于复制游戏虚拟物品等）或者从事其他不正当行为等。  
 **FGO-py不会对您的任何损失负责，包括但不限于奖励回收、账号异常、900石1宝、核弹爆炸、第三次世界大战等**  
-**由于使用本程序而导致的包括但不限于上述各项的损失本人概不负责,您下载并使用该程序即代表您已知晓使用程序可能带来的风险并愿意承担可能出现的后果**  
+**由于使用本程序而导致的包括但不限于上述各项的损失与本项目及其开发者无关,您下载并使用该程序即代表您已知晓使用程序可能带来的风险并愿意承担可能出现的后果**  
 ***
+本项目`FGO-py/fgoImage/servant/`下的图像来自于[茹西教王的理想鄉](https://kazemai.github.io/fgo-vz/),`FGO-py/fgoImage/`下各职阶图标与`FGO-py/fgoMetadata.py`中的部分数据来自于[Mooncell](https://fgo.wiki/),以上内容经过加工,不按原样提供,著作权非本人所有,不依照License开源  
 
 # 说明 Instruction
 
-FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境*作为自身的初心使命;从此羁绊点数和御主礼装经验不再被浪费,**玩家抽卡不用考虑强度只用考虑xp**;在大量90+阴间本的环境下,xjbd能带给玩家最阳间的体验,不管什么本直接上就行连作业都不用抄;尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!比如[FGA](https://github.com/Fate-Grand-Automata/FGA)**  
+FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固有思维,回归刚开服时克制队xjbd的环境*作为自身的初心使命;从此羁绊点数和御主礼装经验不再被浪费,**玩家抽卡不用考虑强度只用考虑xp**;在大量90+阴间本的环境下,xjbd能带给玩家最阳间的体验,**xjbd都一天100+池了就别惦记着亏羁绊3t辣!**不管什么本直接上就行连作业都不用抄;尽管本项目也可用于3t,但**如果你是为了3t而来,就另请高明吧!比如[FGA](https://github.com/Fate-Grand-Automata/FGA)**  
 这个程序能识别技能和宝具是否可以使用,指令卡颜色,克制关系,暴击率,无法行动及指令卡封印状态,敌我HP/NP等战斗中用得上或用不上的数据,**可以半路接管战斗**,会依据你的设置比较智能地帮你筛选助战,放技能,放宝具,吃苹果,依据特制的选卡算法选卡,一次合理设定后可以**无脑通过绝大部分非高难关卡,包括主线关卡**,实战7-12回合能够刷完无限池终本  
-除战斗功能外,还提供以下功能:抽友情池,抽无限池,领邮箱狗粮,礼装强化  
+除战斗外,还提供以下功能:抽友情池,抽无限池,领邮箱狗粮,礼装强化  
 照  着  做  应  该  不  难,尽管这看起来是一个1000行的*小项目*,但是你最好把它当成有10000行代码来看待  
-本项目的release均为智能构建,是Windows exe,部分边缘功能不可用,仅作试用,无法保证获得技术支持  
 
 ## 运行 Run
 
@@ -87,7 +93,7 @@ AidLux.sh -- 一键在AidLux上安装FGO-py
 大部分功能说明也在ui里,只有未在ui中记载的部分被记录在本文档后续的说明内容中  
 (基于Qt6的)Gui大概长这样(设计模式仅供参考):  
 ![gui](doc/gui.png)  
-如果不便于使用图形界面,`python fgo.py cli`提供文本交互,这里同样拥有本项目完整的功能和说明  
+如果不便于使用图形界面,`python fgo.py cli`提供文本交互,这里有本项目完整且更加强大而灵活的功能和说明  
 Cli大概长这样(在docker和手机中运行时的截图):  
 ![cli](doc/cli.png)  
 也可一次向stdin写入多行以非交互的方式运行,比如睡前运行一条`echo -e "connect /bs5 \n teamup load Kizuna \n main \n main -s 28800" | python fgo.py cli`来清空体力并在8小时后再次清空体力以保证安稳的睡眠,或是在长草期加入计划任务或crontab实现7*24全托管  
@@ -244,20 +250,6 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被倒在[垃圾场](doc/垃圾场.md)里  
 另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 
-# 有想到但是实际不一定会做的东西 TODO
-
-- 方法命名统一
-- getEnemyHPGauge
-- 配置管理
-- 深色主题
-- 御主技能多次使用
-- 指令卡具体分组
-- 新的选卡算法与技能模型
-- 搓丸子
-- 素材掉落计数
-- 聚合消息推送
-- ...
-
 # 参考 Refs
 
 当你遇到问题,这里的文档可能有帮助  
@@ -268,6 +260,19 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [airtest.core.android.ADB.devices不返回ipv6远程连接的设备](https://github.com/AirtestProject/Airtest/issues/818)  
 
 # 版本记录 Version Logs
+
+## 2022/07/15 v9.1.0
+
+Add:getFieldServant  
+获取当前场上从者的编号,同时有完全令人满意的性能表现与准确率,比getTeamServant是高到不知道哪里去了  
+以上二功能叠加便构成了完全免配置的FGO-py的最小实现  
+Fix:ocr  
+xjb乱修的,既然原本以1080p进行的识别能用,那就先resize回去然后跑原来的识别  
+原本的ocr就写得一塌糊涂了,现在又加一坨新屎...
+Upd:调整fgoMetadata数据格式  
+以上内容是新技能模型的基建,之后只需加上每个从者的技能信息与各种技能的施放就行  
+Upd:移除了保存截图的额外压缩参数  
+最高压缩一秒一张太顶了,还是换回默认的  
 
 ## 2022/07/03 v9.0.2
 

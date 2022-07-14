@@ -168,7 +168,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoKernel.Turn.masterSkill=[[getattr(self,f'TXT_MASTER_{i}_{j}').value()for j in range(4+(i==2))]for i in range(3)]
     def explorerHere(self):os.startfile('.')
     def runGacha(self):self.runFunc(fgoKernel.gacha)
-    def runLottery(self):self.runFunc(fgoKernel.jackpot)
+    def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
     def stopOnDefeated(self,x):self.config['stopOnDefeated']=x

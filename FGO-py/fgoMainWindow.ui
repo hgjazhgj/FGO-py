@@ -3951,7 +3951,7 @@
      <string>脚本</string>
     </property>
     <addaction name="MENU_SCRIPT_GACHA"/>
-    <addaction name="MENU_SCRIPT_JACKPOT"/>
+    <addaction name="MENU_SCRIPT_LOTTERY"/>
     <addaction name="MENU_SCRIPT_MAILFILTER"/>
     <addaction name="MENU_SCRIPT_SYNTHESIS"/>
    </widget>
@@ -4028,7 +4028,7 @@
     <string>加载按键映射</string>
    </property>
   </action>
-  <action name="MENU_SCRIPT_JACKPOT">
+  <action name="MENU_SCRIPT_LOTTERY">
    <property name="text">
     <string>抽奖池</string>
    </property>
@@ -4336,10 +4336,10 @@
    <slot>stopLater(bool)</slot>
   </connection>
   <connection>
-   <sender>MENU_SCRIPT_JACKPOT</sender>
+   <sender>MENU_SCRIPT_LOTTERY</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>runJackpot()</slot>
+   <slot>runLottery()</slot>
   </connection>
   <connection>
    <sender>MENU_SCRIPT_MAILFILTER</sender>
@@ -4434,7 +4434,7 @@
   <slot>revoke169()</slot>
   <slot>runBattle()</slot>
   <slot>runGacha()</slot>
-  <slot>runJackpot()</slot>
+  <slot>runLottery()</slot>
   <slot>runMail()</slot>
   <slot>runMain()</slot>
   <slot>runSynthesis</slot>

@@ -7,6 +7,8 @@ from fgoMetadata import servantData,servantImg
 logger=getLogger('Detect')
 
 IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage')if i[-4:]=='.png'})
+CLASS={100:[getattr(IMG,f'Class{i}{j}'.upper())for i in['Shielder','Saber','Archer','Lancer','Rider','Caster','Assassin','Berserker','Ruler','Avenger','Alterego','MoonCancer','Foreigner','Pretender']for j in range(3)]}
+CLASS[125]=[[cv2.resize(j,(0,0),fx=1.25,fy=1.25,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
 def coroutine(func):
     @wraps(func)
     def primer(*args,**kwargs):
@@ -44,7 +46,7 @@ class Detect(metaclass=logMeta(logger)):
     def _compare(self,img,rect=(0,0,1280,720),threshold=.05,blockFuse=False):return threshold>self._loc(img,rect)[0]and(blockFuse or fuse.reset(self))
     def _select(self,img,rect=(0,0,1280,720),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
     def _find(self,img,rect=(0,0,1280,720),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img[0].shape[1]>>1),rect[1]+loc[2][1]+(img[0].shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
-    def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//13)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR[0],numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0 and(hierarchy[0][i][2]==-1 or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3 for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 5<clip[2]<13<clip[3]<18)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.cvtColor(self._crop(rect),cv2.COLOR_BGR2GRAY),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
+    def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR[0],numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0 and(hierarchy[0][i][2]==-1 or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3 for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.resize(cv2.cvtColor(self._crop(rect),cv2.COLOR_BGR2GRAY),(0,0),fx=1.5,fy=1.5,interpolation=cv2.INTER_CUBIC),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     def _count(self,img,rect=(0,0,1280,720),threshold=.1):return cv2.connectedComponents((cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1])<threshold).astype(numpy.uint8))[0]-1
     @coroutine
     def _asyncImageChange(self,rect,threshold=.05):
@@ -62,7 +64,7 @@ class Detect(metaclass=logMeta(logger)):
             a[p]=yield a[0]!=a[1]
             p^=1
     def _isListEnd(self,pos):return numpy.sum(self._crop((pos[0]-13,pos[1]-11,pos[0]+14,pos[1]+3))>127)not in range(100,200)
-    def save(self,name='Capture',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000}"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect),[cv2.IMWRITE_PNG_COMPRESSION,9])and name
+    def save(self,name='Capture',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000:03}"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect))and name # ,[cv2.IMWRITE_PNG_COMPRESSION,9]
     def show(self):
         cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.6,fy=.6))
         if cv2.waitKey()==ord('s'):self.save()
@@ -86,7 +88,7 @@ class Detect(metaclass=logMeta(logger)):
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
     def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(798,544,879,584),blockFuse=True)
-    def isNextLottery(self):return self._compare(IMG.JACKPOT,(830,231,879,260))
+    def isNextLottery(self):return self._compare(IMG.LOTTERY,(830,231,879,260))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(246,363,274,392))
     def isServantDead(self,friend=None):return[any((self._watchServantPortrait[i].send(self),self._watchServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
     def isServantFriend(self):return[self._compare(IMG.SUPPORT,(194+318*i,388,284+318*i,418))for i in range(3)]
@@ -109,10 +111,12 @@ class Detect(metaclass=logMeta(logger)):
             universe-=group
         return result
     def getCardResist(self):return[{0:1.7,1:.6}.get(self._select((IMG.WEAK,IMG.RESIST),(175+257*i,353,205+257*i,420)),1.)for i in range(5)]
+    def getCardServant(self,choices):...
     def getCriticalRate(self):return[(lambda x:0.if x is None else(x+1)/10)(self._select((IMG.CRITICAL1,IMG.CRITICAL2,IMG.CRITICAL3,IMG.CRITICAL4,IMG.CRITICAL5,IMG.CRITICAL6,IMG.CRITICAL7,IMG.CRITICAL8,IMG.CRITICAL9,IMG.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
     def getEnemyHp(self):return[self._ocr((100+250*i,41,222+250*i,65))for i in range(3)]
     def getEnemyNp(self):return[(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0),count(IMG.CHARGE1),))(count(IMG.CHARGE2)))(lambda img:self._count(img,(160+250*i,67,250+250*i,88)))for i in range(3)]
-    def getFieldServant(self):...
+    def getFieldServant(self,pos):return(lambda img,cls:min((numpy.min(cv2.matchTemplate(img,i[...,:3],cv2.TM_SQDIFF_NORMED,mask=i[...,3])),no)for no,(_,portrait,_)in servantImg.items()if(servantData[no][0],servantData[no][1])==cls for i in portrait)[1])(self._crop((120+318*pos,421,207+318*pos,490)),self.getFieldServantClassRank(pos))
+    def getFieldServantClassRank(self,pos):return(lambda x:(0,0)if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
     def getFieldServantHp(self):return[self._ocr((200+318*i,620,293+318*i,644))for i in range(3)]
     def getFieldServantNp(self):return[self._ocr((220+318*i,655,274+318*i,680))for i in range(3)]
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).flatten())if self._compare(IMG.CROSS,(1075,131,1121,174))else 0
@@ -124,8 +128,8 @@ class Detect(metaclass=logMeta(logger)):
     def getTeamMaster(self):...
     def getTeamServant(self):...
     def getTeamServantAtk(self):...
-    def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(0==numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])for j in range(3)))for i in range(6)]
-    def getTeamServantClass(self):return[(lambda x:None if x is None else divmod(x,3))(self._select([IMG.CLASSSABER0,IMG.CLASSSABER1,IMG.CLASSSABER2,IMG.CLASSARCHER0,IMG.CLASSARCHER1,IMG.CLASSARCHER2,IMG.CLASSLANCER0,IMG.CLASSLANCER1,IMG.CLASSLANCER2,IMG.CLASSRIDER0,IMG.CLASSRIDER1,IMG.CLASSRIDER2,IMG.CLASSCASTER0,IMG.CLASSCASTER1,IMG.CLASSCASTER2,IMG.CLASSASSASSIN0,IMG.CLASSASSASSIN1,IMG.CLASSASSASSIN2,IMG.CLASSBERSERKER0,IMG.CLASSBERSERKER1,IMG.CLASSBERSERKER2,IMG.CLASSSHIELDER0,IMG.CLASSSHIELDER1,IMG.CLASSSHIELDER2,IMG.CLASSRULER0,IMG.CLASSRULER1,IMG.CLASSRULER2,IMG.CLASSAVENGER0,IMG.CLASSAVENGER1,IMG.CLASSAVENGER2,IMG.CLASSALTEREGO0,IMG.CLASSALTEREGO1,IMG.CLASSALTEREGO2,IMG.CLASSMOONCANCER0,IMG.CLASSMOONCANCER1,IMG.CLASSMOONCANCER2,IMG.CLASSFOREIGNER0,IMG.CLASSFOREIGNER1,IMG.CLASSFOREIGNER2,IMG.CLASSPRETENDER0,IMG.CLASSPRETENDER1,IMG.CLASSPRETENDER2],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
+    def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
+    def getTeamServantClassRank(self):return[(lambda x:(0,0)if x is None else divmod(x,3))(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
     def getTeamServantCost(self):...
     def getTeamServantHouguLv(self):...
     def getTeamServantSkillLv(self):...
