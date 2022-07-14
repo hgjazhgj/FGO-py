@@ -46,9 +46,9 @@ Thread(target=guardian,daemon=True,name='Guardian').start()
 
 def gacha():
     while fuse.value<30:
-        if Detect().isGacha():device.perform('MK',(200,2700))
+        if Detect().isGacha():device.perform('MK',(600,2700))
         device.press('\x08')
-def jackpot():
+def lottery():
     while fuse.value<50:
         if Detect().isNextLottery():device.perform('\xDCKJ',(600,2400,500))
         for _ in range(40):device.press('2')
@@ -103,9 +103,10 @@ class Turn:
         if turn==1:
             Detect.cache.setupServantDead(self.friend)
             self.stageTotal=Detect.cache.getStageTotal()
+            for i in range(3):Detect.cache.getFieldServant(i) #
         else:self.servant=(lambda m,p:[m+p.index(i)+1 if i in p else self.servant[i]for i in range(3)])(max(self.servant),(lambda dead:[i for i in range(3)if self.servant[i]<6 and dead[i]])(Detect.cache.isServantDead(self.friend)))
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
-        Detect.cache.getFieldServantHp(),Detect.cache.getFieldServantNp(),Detect.cache.getEnemyNp()
+        Detect.cache.getFieldServantHp(),Detect.cache.getFieldServantNp(),Detect.cache.getEnemyNp() #
         if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Detect.cache.getEnemyHp())]+'\xBB',(800,500))
         self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
         self.dispatchSkill()
@@ -188,8 +189,8 @@ class Main:
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
-                    self.battleProc.turnProc.teamClass=Detect().getTeamServantClass()
-                    self.battleProc.turnProc.teamCard=Detect.cache.getTeamServantCard()
+                    self.battleProc.turnProc.teamClass=Detect().getTeamServantClassRank() #
+                    self.battleProc.turnProc.teamCard=Detect.cache.getTeamServantCard() #
                     device.perform(' M',(800,10000))
                     break
                 elif Detect.cache.isBattleContinue():
@@ -211,7 +212,11 @@ class Main:
     def eatApple(self):
         if self.appleCount==self.appleTotal:return device.press('Z')
         self.appleCount+=1
-        device.perform('W4K8'[self.appleKind]+'L',(400,1200))
+        device.perform('W4K8'[self.appleKind]+'L',(600,1200))
+        # for i in set('W4K')-{'W4K8'[self.appleKind]}:
+        #     if not Detect().isApEmpty():break
+        #     device.perform(i+'L',(600,1200))
+        # else:raise ScriptStop('No Apples')
         return self.appleCount
     @logit(logger,logging.INFO)
     def chooseFriend(self):

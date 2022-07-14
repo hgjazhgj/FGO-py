@@ -1,3 +1,4 @@
+# 昔日本项目有一个AutoRelease的workflow,但是在本项目由pyinstaller打包向portable installer转型的过程中有很多人不会用还瞎整导致本人彻底删除了本项目所有历史提交中的AutoRelease,本文件是AutoRelease的弱化版,算是公布一下之前的答案
 name: Draft Exectuable
 on:
   workflow_dispatch:
