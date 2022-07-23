@@ -12,7 +12,7 @@ def wrapTry(func):
             if e.args[0]is not None:logger.error(e)
         except KeyboardInterrupt:logger.critical('KeyboardInterrupt')
         except BaseException as e:logger.exception(e)
-        finally:self.prompt='FGO-py\033[32m@{}\033[36m({})\033[0m> '.format(fgoKernel.device.name,self.currentTeam)
+        finally:self.prompt=f'FGO-py@{fgoKernel.device.name}> '
     return wrapper
 def countdown(x):
     timer=time.time()+x
@@ -28,7 +28,7 @@ Connect device first, then type main to empty your AP gauge.
 Type help or ? to list commands, help <command> to get more information.
 Some commands support <command> [<subcommand> ...] {{-h, --help}} for further information.
 '''
-    prompt='FGO-py\033[32m@Device\033[36m(Team)\033[0m> '
+    prompt='FGO-py@Device> '
     def __init__(self):
         super().__init__()
         fgoKernel.Device.enumDevices()

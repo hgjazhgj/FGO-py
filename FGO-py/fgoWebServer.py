@@ -30,9 +30,10 @@ def apply():
 
 @app.route('/api/run/<action>',methods=['POST'])
 def run(action):
+    print('run',action)
     if not fgoKernel.device.available:
         return 'Device not available'
-    getattr(fgoKernel,action)(**{i:int(j)for i,j in request.form})()
+    getattr(fgoKernel,action)(**{i:int(j)for i,j in request.form.items()})()
     return 'Done'
 
 @app.route('/api/bench',methods=['POST'])
