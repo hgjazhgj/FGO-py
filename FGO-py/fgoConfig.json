@@ -1,7 +1,9 @@
 {
+    "serial": "",
+    "teamIndex": 0,
     "stopOnDefeated": true,
     "stopOnKizunaReisou": true,
-    "stayOnTop": true,
+    "stayOnTop": false,
     "closeToTray": false,
     "notifyEnable": false,
     "notifyParam": {

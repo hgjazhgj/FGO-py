@@ -10,8 +10,8 @@ class Schedule:
     def reset(self):
         self.__stopMsg=''
         self.__pauseFlag=False
-        self.__stopLaterCount=-1
-    def stop(self,msg='Stopd'):self.__stopMsg=msg
+        self.__stopLaterCount=0
+    def stop(self,msg='Stopped'):self.__stopMsg=msg
     def checkStop(self):
         if self.__stopMsg:raise ScriptStop(self.__stopMsg)
     def pause(self):self.__pauseFlag=not self.__pauseFlag
@@ -19,7 +19,7 @@ class Schedule:
         while self.__pauseFlag:
             self.checkStop()
             time.sleep(.07)
-    def stopLater(self,count=-1):self.__stopLaterCount=count
+    def stopLater(self,count=0):self.__stopLaterCount=count
     def checkStopLater(self):
         self.__stopLaterCount-=1
         if not self.__stopLaterCount:raise ScriptStop('Stop Appointment Effected')
