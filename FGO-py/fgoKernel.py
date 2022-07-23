@@ -27,6 +27,7 @@ from fgoDetect import Detect
 from fgoDevice import Device
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
+from fgoMetadata import servantData
 from fgoSchedule import ScriptStop,schedule
 from fgoLogging import getLogger,logit
 logger=getLogger('Kernel')
@@ -86,63 +87,144 @@ def bench(times=20,touch=True,screenshot=True):
     logger.warning(f'Benchmark: {f"touch {result[0]:.2f}ms"if result[0]else""}{", "if all(result)else""}{f"screenshot {result[1]:.2f}ms"if result[1]else""}')
     return result
 class Turn:
-    skillInfo=[[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]]]
-    houguInfo=[[1,7],[1,7],[1,7],[1,7],[1,7],[1,7]]
-    masterSkill=[[0,0,0,7],[0,0,0,7],[0,0,0,0,7]]
     def __init__(self):
-        Turn.friendInfo=[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]]
         self.stage=0
         self.stageTurn=0
-        self.servant=[0,1,2]
-        self.team=[None]*6
-        self.orderChange=[0,1,2,3,4,5]
+        self.servant=[]
         self.countDown=[[[0,0,0],[0,0,0],[0,0,0]],[0,0,0]]
     def __call__(self,turn):
         self.stage,self.stageTurn=[t:=Detect(.2).getStage(),1+self.stageTurn*(self.stage==t)]
-        self.friend=Detect.cache.isServantFriend()
         if turn==1:
-            Detect.cache.setupServantDead(self.friend)
+            Detect.cache.setupServantDead()
             self.stageTotal=Detect.cache.getStageTotal()
-            for i in range(3):Detect.cache.getFieldServant(i) #
-        else:self.servant=(lambda m,p:[m+p.index(i)+1 if i in p else self.servant[i]for i in range(3)])(max(self.servant),(lambda dead:[i for i in range(3)if self.servant[i]<6 and dead[i]])(Detect.cache.isServantDead(self.friend)))
+            self.servant=[servantData[Detect.cache.getFieldServant(i)]for i in range(3)]
+        else:self.servant=[servantData.get(Detect.cache.getFieldServant(i),None)if Detect.cache.isServantDead(i)else self.servant[i]for i in range(3)]
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
-        Detect.cache.getFieldServantHp(),Detect.cache.getFieldServantNp(),Detect.cache.getEnemyNp() #
-        if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Detect.cache.getEnemyHp())]+'\xBB',(800,500))
-        self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
+        if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Detect.cache.getEnemyHp(i)for i in range(3))]+'\xBB',(800,500))
         self.dispatchSkill()
         device.perform(' ',(2100,))
         device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
-        while(s:=(lambda skill:[(self.getSkillInfo(i,j,3),0,(i,j))for i in range(3)if self.servant[i]<6 for j in range(3)if skill[i][j]and(t:=self.getSkillInfo(i,j,0))and min(t,self.stageTotal)<<8|self.getSkillInfo(i,j,1)<=self.stage<<8|self.stageTurn])(Detect.cache.isSkillReady())+[(self.masterSkill[i][-1],1,(i,))for i in range(3)if self.countDown[1][i]==0 and min(self.masterSkill[i][0],self.stageTotal)<<8|self.masterSkill[i][1]<=self.stage<<8|self.stageTurn]):
-            _,cast,arg=min(s,key=lambda x:x[0])
-            [self.castServantSkill,self.castMasterSkill][cast](*arg)
-            device.perform('\x08',(1800,))
-            while not Detect().isTurnBegin():pass
-            Detect(.5)
+        self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
+        while skill:=[(0,i,j)for i in range(3)for j in range(3)if 0==self.countDown[0][i][j]and self.servant[i][5][j][0]and Detect.cache.isSkillReady(i,j)]: # +[(1,i)for i in range(3)if self.countDown[1][i]==0]:
+            for i in skill:
+                if i[0]==0:
+                    if (p:=self.servant[i[1]][5][i[2]])[0]==1:
+                        self.castServantSkill(i[1],i[2],i[1])
+                        continue
+                    elif p[0]==2:
+                        np=[Detect.cache.getFieldServantNp(i)if self.servant[i]else 100 for i in range(3)]
+                        if p[0]==0:
+                            if any(i<100 for i in np):
+                                self.castServantSkill(i[1],i[2],0)
+                                continue
+                        elif p[1]==1:
+                            target=numpy.argmin(np)
+                            if np[target]<100:
+                                self.castServantSkill(i[1],i[2],target)
+                                continue
+                        elif p[1]==2:
+                            np[i[1]]=100
+                            if any(i<100 for i in np):
+                                self.castServantSkill(i[1],i[2],0)
+                                continue
+                        elif p[1]in{3,4}:
+                            if self.stageTurn>1:
+                                self.castServantSkill(i[1],i[2],0)
+                                continue
+                        elif p[1]==5:
+                            if np[i[1]]<100:
+                                self.castServantSkill(i[1],i[2],i[1])
+                                continue
+                        else:
+                            self.castServantSkill(i[1],i[2],0)
+                            continue
+                    elif p[0]==3:
+                        np=[Detect.cache.getFieldServantNp(i)if self.servant[i]else 0 for i in range(3)]
+                        if p[1]in{0,3,4}:
+                            if any(i>=100 for i in np):
+                                self.castServantSkill(i[1],i[2],0)
+                                continue
+                        elif p[1]==1:
+                            target=numpy.argmax(np)
+                            if np[target]>=100:
+                                self.castServantSkill(i[1],i[2],target)
+                                continue
+                        elif p[1]==2:
+                            np[i[1]]=0
+                            if any(i>=100 for i in np):
+                                self.castServantSkill(i[1],i[2],0)
+                                continue
+                        elif p[1]==5:
+                            if np[i[1]]>=100:
+                                self.castServantSkill(i[1],i[2],i[1])
+                                continue
+                        else:
+                            self.castServantSkill(i[1],i[2],0)
+                            continue
+                    elif p[0]in{4,5,6}:
+                        self.castServantSkill(i[1],i[2],0)
+                        continue
+                    elif p[0]==7:
+                        hp=[Detect.cache.getFieldServantHp(i)if self.servant[i]else 999999 for i in range(3)]
+                        if p[1]==0:
+                            if any(i<4000 for i in hp):
+                                self.castServantSkill(i[1],i[2],0)
+                                continue
+                        elif p[1]==1:
+                            target=numpy.argmin(hp)
+                            if hp[target]<4000:
+                                self.castServantSkill(i[1],i[2],target)
+                                continue
+                        elif p[1]==2:
+                            hp[i[1]]=999999
+                            if any(i<4000 for i in hp):
+                                self.castServantSkill(i[1],i[2],0)
+                                continue
+                        elif p[1]in{3,4}:
+                            self.castServantSkill(i[1],i[2],0)
+                            continue
+                        elif p[1]==5:
+                            if hp[i[1]]<4000:
+                                self.castServantSkill(i[1],i[2],i[1])
+                                continue
+                        else:
+                            self.castServantSkill(i[1],i[2],0)
+                            continue
+                    elif p[0]==8:
+                        if any(self.servant[i]and(lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(3)):
+                            self.castServantSkill(i[1],i[2],i[1])
+                            continue
+                    elif p[0]==9:
+                        if any(self.servant[i]and((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))or Detect.cache.getFieldServantHp(i)<1000)for i in range(3)):
+                            self.castServantSkill(i[1],i[2],i[1])
+                            continue
+                    self.countDown[0][i[1]][i[2]]=1
+                else:...
     @logit(logger,logging.INFO)
-    def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:self.getHouguInfo(x,1))]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5 else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup()))([self.servant[i]<6 and j and(t:=self.getHouguInfo(i,0))and self.stage>=min(t,self.stageTotal)for i,j in enumerate(Detect().isHouguReady())],Detect.cache.isCardSealed(),Detect.cache.getCardColor(),Detect.cache.getCardResist(),Detect.cache.getCriticalRate()))
-    def getSkillInfo(self,pos,skill,arg):return self.friendInfo[0][skill][arg]if self.friend[pos]and self.friendInfo[0][skill][arg]>=0 else self.skillInfo[self.orderChange[self.servant[pos]]][skill][arg]
-    def getHouguInfo(self,pos,arg):return self.friendInfo[1][arg]if self.friend[pos]and self.friendInfo[1][arg]>=0 else self.houguInfo[self.orderChange[self.servant[pos]]][arg]
-    def castServantSkill(self,pos,skill):
+    def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:
+            ['678'[i]for i in range(3)if hougu[i]]
+            +['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]
+            if any(hougu)else
+            (lambda group:
+                ['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(
+                    max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))
+                )])(Detect.cache.getCardGroup())
+            )(Detect().isHouguReady(),Detect.cache.isCardSealed(),Detect.cache.getCardColor(),Detect.cache.getCardResist(),Detect.cache.getCardCriticalRate()))
+    def castServantSkill(self,pos,skill,target):
         device.press(('ASD','FGH','JKL')[pos][skill])
         if Detect(.7).isSkillCastFailed():
             self.countDown[pos][skill]=1
             return device.press('J')
-        if t:=Detect.cache.getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][self.getSkillInfo(pos,skill,2)],(300,))
-    def castMasterSkill(self,skill):
+        if t:=Detect.cache.getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][f if(f:=self.servant[pos][5][skill][1])in{6,7,8}else target],(300,))
+        while not Detect().isTurnBegin():pass
+        Detect(.5)
+    def castMasterSkill(self,skill,target):
         self.countDown[1][skill]=15
         device.perform('Q'+'WER'[skill],(300,300))
-        if self.masterSkill[skill][2]:
-            if skill==2 and self.masterSkill[2][3]:
-                if self.masterSkill[2][2]-1 not in self.servant or self.masterSkill[2][3]-1 in self.servant:return device.perform('\xBB',(300,))
-                p=self.servant.index(self.masterSkill[2][2]-1)
-                device.perform(('TYUIOP'[p],'TYUIOP'[self.masterSkill[2][3]-max(self.servant)+1],'Z'),(300,300,2600))
-                self.orderChange[self.masterSkill[2][2]-1],self.orderChange[self.masterSkill[2][3]-1]=self.orderChange[self.masterSkill[2][3]-1],self.orderChange[self.masterSkill[2][2]-1]
-                device.perform('\x08',(2300,))
-                while not Detect().isTurnBegin():pass
-                self.friend=Detect(.5).isServantFriend()
-                Detect.cache.setupServantDead(self.friend)
-            elif t:=Detect(.5).getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][self.masterSkill[skill][2]],(300,))
+        if t:=Detect(.4).getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][target],(300,))
+        while not Detect().isTurnBegin():pass
+        Detect(.5)
 class Battle:
     def __init__(self,turnClass=Turn):
         self.turn=0
@@ -189,8 +271,6 @@ class Main:
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
-                    self.battleProc.turnProc.teamClass=Detect().getTeamServantClassRank() #
-                    self.battleProc.turnProc.teamCard=Detect.cache.getTeamServantCard() #
                     device.perform(' M',(800,10000))
                     break
                 elif Detect.cache.isBattleContinue():
@@ -243,8 +323,3 @@ class Main:
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
                     device.perform('\xBAK',(500,1000))
-class UserScript:
-    def __call__(self):return Battle(Xjbd)()
-class Xjbd(Turn):
-    def dispatchSkill(self):
-        ...

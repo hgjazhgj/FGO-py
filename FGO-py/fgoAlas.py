@@ -47,7 +47,7 @@
 # 524   AzurLaneUncensored:
 # 525     Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 # 526 + FGOpy:
-# 527 +   TeamName: DEFAULT
+# 527 +   TeamIndex: 0
 # 528   GameManager:
 # 529     AutoRestart: true
 
@@ -84,15 +84,9 @@ class fgoAlas:
 
     def run(self):
     #   logger.setLevel('DEBUG')
-        teamName = self.config.FGOpy_TeamName
-        logger.info(f'{teamName}')
-        if teamName not in teamup:
-            logger.critical("Team not found")
-            return
-        fgoKernel.Main.teamIndex = eval(teamup[teamName]['teamIndex'])
-        fgoKernel.Turn.skillInfo = eval(teamup[teamName]['skillInfo'])
-        fgoKernel.Turn.houguInfo = eval(teamup[teamName]['houguInfo'])
-        fgoKernel.Turn.masterSkill = eval(teamup[teamName]['masterSkill'])
+        teamIndex = self.config.FGOpy_TeamIndex
+        logger.info(f'{teamIndex=}')
+        fgoKernel.Main.teamIndex = teamIndex
         fgoKernel.Main()()
     #   logger.setLevel("INFO")
 

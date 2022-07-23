@@ -27,23 +27,23 @@ class Detect(metaclass=logMeta(logger)):
                 try:
                     if(ans:=func(self,*args,**kwargs))is not None:return ans
                 except err:pass
-                logger.warning(f'Retry {getattr(func,"__qualname__",getattr(type(func),"__qualname__","Unknown"))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
+                logger.warning(f'Retry {getattr(func,"__qualname__",func)}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
                 return wrap(Detect(interval),*args,**kwargs)
             return wrap
         return wrapper
-    def __init__(self,forwardLatency=.1,backwardLatency=0,blockFuse=False):
+    def __init__(self,forwardLatency=.1,backwardLatency=0):
         schedule.sleep(forwardLatency)
         self.im=self.screenshot()
         self.time=time.time()
         Detect.cache=self
-        if not blockFuse:fuse.increase()
+        fuse.increase()
         schedule.sleep(backwardLatency)
     def _crop(self,rect):
         # cv2.imwrite(time.strftime(f'fgoTemp/Crop_%Y-%m-%d_%H.%M.%S_{rect}.png',time.localtime(self.time)),self.im[rect[1]+2:rect[3]-2,rect[0]+2:rect[2]-2],[cv2.IMWRITE_PNG_COMPRESSION,9])
         return self.im[rect[1]:rect[3],rect[0]:rect[2]]
     # @logit(logger)
     def _loc(self,img,rect=(0,0,1280,720)):return cv2.minMaxLoc(cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1]))
-    def _compare(self,img,rect=(0,0,1280,720),threshold=.05,blockFuse=False):return threshold>self._loc(img,rect)[0]and(blockFuse or fuse.reset(self))
+    def _compare(self,img,rect=(0,0,1280,720),threshold=.05):return threshold>self._loc(img,rect)[0]and fuse.reset(self)
     def _select(self,img,rect=(0,0,1280,720),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
     def _find(self,img,rect=(0,0,1280,720),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img[0].shape[1]>>1),rect[1]+loc[2][1]+(img[0].shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
     def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR[0],numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0 and(hierarchy[0][i][2]==-1 or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3 for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.resize(cv2.cvtColor(self._crop(rect),cv2.COLOR_BGR2GRAY),(0,0),fx=1.5,fy=1.5,interpolation=cv2.INTER_CUBIC),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
@@ -72,7 +72,7 @@ class Detect(metaclass=logMeta(logger)):
     def setupMailDone(self):Detect._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
         Detect._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
-        Detect._watchServantFriend=[self._asyncValueChange(i)for i in(self.isServantFriend()if friend is None else friend)]
+        Detect._watchServantFriend=[self._asyncValueChange(self.isServantFriend(i if friend is None else friend[i]))for i in range(3)]
     def isAddFriend(self):return self._compare(IMG.END,(162,575,497,655))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(604,598,678,645))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1092,634,1244,708))
@@ -87,19 +87,21 @@ class Detect(metaclass=logMeta(logger)):
     def isMailDone(self):return self._watchMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
-    def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(798,544,879,584),blockFuse=True)
+    def isNetworkError(self):return self._loc(IMG.NETWORKERROR,(798,544,879,584))[0]<.05
     def isNextLottery(self):return self._compare(IMG.LOTTERY,(830,231,879,260))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(246,363,274,392))
-    def isServantDead(self,friend=None):return[any((self._watchServantPortrait[i].send(self),self._watchServantFriend[i].send(j)))for i,j in enumerate(self.isServantFriend()if friend is None else friend)]
-    def isServantFriend(self):return[self._compare(IMG.SUPPORT,(194+318*i,388,284+318*i,418))for i in range(3)]
+    def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
+    def isServantFriend(self,pos):return self._compare(IMG.SUPPORT,(194+318*pos,388,284+318*pos,418))
     def isSkillCastFailed(self):return self._compare(IMG.SKILLERROR,(595,539,684,586))
-    def isSkillReady(self):return[[not self._compare(IMG.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2)for j in range(3)]for i in range(3)]
+    def isSkillReady(self,i,j):return not self._compare(IMG.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2)
     def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(957,2,990,40),.1)
     def isSpecialDropSuspended(self):return self._compare(IMG.CLOSESHORT,(8,11,68,68))
     def isSynthesisBegin(self):return self._compare(IMG.CLOSELONG,(16,12,150,73))
     def isSynthesisFinished(self):return self._compare(IMG.DECIDEDISABLED,(1096,645,1207,702))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1064,621,1224,710))
-    def getCardColor(self):return[[.8,1.,1.1][self._select((IMG.QUICK,IMG.ARTS,IMG.BUSTER),(80+257*i,537,131+257*i,581))]for i in range(5)]
+    @retryOnError()
+    def getCardColor(self):return[self._select((IMG.ARTS,IMG.QUICK,IMG.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
+    def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((IMG.CRITICAL1,IMG.CRITICAL2,IMG.CRITICAL3,IMG.CRITICAL4,IMG.CRITICAL5,IMG.CRITICAL6,IMG.CRITICAL7,IMG.CRITICAL8,IMG.CRITICAL9,IMG.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
     def getCardGroup(self): # When your servant and the support one has the same command card portrait, getCardGroup will see them as in the same group, which is not true and hard to fix, because the support tag on a command card might be covered when there are many buff icons. This problem causes selectCard to not provide the best solve
         universe={0,1,2,3,4}
         result=[-1]*5
@@ -110,16 +112,15 @@ class Detect(metaclass=logMeta(logger)):
             index+=1
             universe-=group
         return result
-    def getCardResist(self):return[{0:1.7,1:.6}.get(self._select((IMG.WEAK,IMG.RESIST),(175+257*i,353,205+257*i,420)),1.)for i in range(5)]
+    def getCardResist(self):return[{0:1,1:2}.get(self._select((IMG.WEAK,IMG.RESIST),(175+257*i,353,205+257*i,420)),0)for i in range(5)]
     def getCardServant(self,choices):...
-    def getCriticalRate(self):return[(lambda x:0.if x is None else(x+1)/10)(self._select((IMG.CRITICAL1,IMG.CRITICAL2,IMG.CRITICAL3,IMG.CRITICAL4,IMG.CRITICAL5,IMG.CRITICAL6,IMG.CRITICAL7,IMG.CRITICAL8,IMG.CRITICAL9,IMG.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
-    def getEnemyHp(self):return[self._ocr((100+250*i,41,222+250*i,65))for i in range(3)]
-    def getEnemyNp(self):return[(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0),count(IMG.CHARGE1),))(count(IMG.CHARGE2)))(lambda img:self._count(img,(160+250*i,67,250+250*i,88)))for i in range(3)]
-    def getFieldServant(self,pos):return(lambda img,cls:min((numpy.min(cv2.matchTemplate(img,i[...,:3],cv2.TM_SQDIFF_NORMED,mask=i[...,3])),no)for no,(_,portrait,_)in servantImg.items()if(servantData[no][0],servantData[no][1])==cls for i in portrait)[1])(self._crop((120+318*pos,421,207+318*pos,490)),self.getFieldServantClassRank(pos))
-    def getFieldServantClassRank(self,pos):return(lambda x:(0,0)if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
-    def getFieldServantHp(self):return[self._ocr((200+318*i,620,293+318*i,644))for i in range(3)]
-    def getFieldServantNp(self):return[self._ocr((220+318*i,655,274+318*i,680))for i in range(3)]
-    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).flatten())if self._compare(IMG.CROSS,(1075,131,1121,174))else 0
+    def getEnemyHp(self,pos):return self._ocr((100+250*pos,41,222+250*pos,65))
+    def getEnemyNp(self,pos):return(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0),count(IMG.CHARGE1),))(count(IMG.CHARGE2)))(lambda img:self._count(img,(160+250*pos,67,250+250*pos,88)))
+    def getFieldServant(self,pos):return(lambda img,cls:min((numpy.min(cv2.matchTemplate(img,i[...,:3],cv2.TM_SQDIFF_NORMED,mask=i[...,3])),no)for no,(_,portrait,_)in servantImg.items()if(servantData[no][0],servantData[no][1])==cls for i in portrait)[1]if cls else 0)(self._crop((120+318*pos,421,207+318*pos,490)),self.getFieldServantClassRank(pos))
+    def getFieldServantClassRank(self,pos):return(lambda x:divmod(x,3)if x else None)(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
+    def getFieldServantHp(self,pos):return self._ocr((200+318*pos,620,293+318*pos,644))
+    def getFieldServantNp(self,pos):return self._ocr((220+318*pos,655,274+318*pos,680))
+    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(IMG.CROSS,(1075,131,1121,174))else 0
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(884,13,902,38),.5)+1
     @retryOnError()
