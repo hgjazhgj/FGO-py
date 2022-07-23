@@ -4,75 +4,73 @@
     <title>FGO-py - hgjazhgj</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <script>
-        function _dumpTeamup() {
-            return {
-                teamIndex: Number(teamIndex.value),
-            }
-        }
-
-        function connect() {
-            let serial = prompt("连接到设备").replaceAll(" ","");
-            if (serial == null) {
+function _dumpTeamup() {
+    return {
+        teamIndex: Number(teamIndex.value),
+    }
+}
+function connect() {
+    let serial = prompt("连接到设备").replaceAll(" ","");
+    if (serial == null) {
+        return;
+    }
+    $.ajax({
+        url: "{{ url_for("connect") }}",
+        type: "POST",
+        data: {
+            serial: serial,
+        },
+        success: function (data) {
+            if (data == null){
+                $("#device").html("None");
                 return;
             }
-            $.ajax({
-                url: "{{ url_for("connect") }}",
-                type: "POST",
-                data: {
-                    serial: serial,
-                },
-                success: function (data) {
-                    $("#device").html(data);
-                }
-            });
+            $("#device").html(data);
         }
-
-        function apply() {
-            $.ajax({
-                url: "{{ url_for("apply") }}",
-                type: "POST",
-                data: {
-                    data: JSON.stringify(_dumpTeamup())
-                }
-            });
+    });
+}
+function apply() {
+    $.ajax({
+        url: "{{ url_for("apply") }}",
+        type: "POST",
+        data: {
+            data: JSON.stringify(_dumpTeamup())
         }
-
-        function battle(param) {
-            apply();
-            $.ajax({
-                url: "{{ url_for("run", action="Battle") }}",
-                type: "POST"
-            });
+    });
+}
+function battle(param) {
+    apply();
+    $.ajax({
+        url: "{{ url_for("run", action="Battle") }}",
+        type: "POST"
+    });
+}
+function main(param) {
+    apply();
+    $.ajax({
+        url: "{{ url_for("run", action="Main") }}",
+        type: "POST",
+        data: {
+            appleTotal: appleTotal.value,
+            appleKind: appleKind.selectedIndex
         }
-        
-        function main(param) {
-            apply();
-            $.ajax({
-                url: "{{ url_for("run", action="Main") }}",
-                type: "POST",
-                data: {
-                    appleTotal: appleTotal.value,
-                    appleKind: appleKind.selectedIndex
-                }
-            });
+    });
+}
+function bench(param) {
+    $.ajax({
+        url: "{{ url_for("bench") }}",
+        type: "POST",
+        success: function (data) {
+            alert(data);
         }
-
-        function bench(param) {
-            apply();
-            $.ajax({
-                url: "{{ url_for("bench") }}",
-                type: "POST",
-                success: function (data) {
-                    alert(data);
-                }
-            });
-        }
+    });
+}
     </script>
 </head>
 
 <body>
     <h1>FGO-py</h1>
-    位置<input type="number" id="teamIndex" min="0" max="10"/><br/>
+    位置<input type="number" id="teamIndex" min="0" max="10" value="0"/><br/>
     苹果
     <select id="appleKind">
         <option>金</option>
