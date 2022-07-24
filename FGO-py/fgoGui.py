@@ -13,11 +13,11 @@ class Config:
     def __init__(self,link=None):
         with open('fgoConfig.json')as f:self.config=json.load(f)
         self.link=link if isinstance(link,dict)else{}
-        for configName,(menuItem,scheduleFunc)in self.link.items():
+        for configName,(uiObject,scheduleFunc)in self.link.items():
             value=self.config[configName]
-            getattr(menuItem,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
+            getattr(uiObject,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
             if callable(scheduleFunc):scheduleFunc(value)
-            getattr(menuItem,{bool:'triggered',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect(lambda x:self.__setitem__(configName,x))
+            getattr(uiObject,{bool:'triggered',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect(lambda x,configName=configName:self.__setitem__(configName,x))
     def __getitem__(self,key):return self.config[key]
     def __setitem__(self,key,value):
         self.config[key]=value

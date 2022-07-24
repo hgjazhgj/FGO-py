@@ -249,7 +249,7 @@ class Ui_fgoMainWindow(object):
         self.LBL_TEAM.setText(_translate("fgoMainWindow", "编队位置"))
         self.TXT_TEAM.setStatusTip(_translate("fgoMainWindow", "所选编队在队伍列表中的位置,从左到右1-10,0为无效"))
         self.LBL_CURRENTDEVICE.setText(_translate("fgoMainWindow", "当前设备"))
-        self.BTN_CONNECT.setStatusTip(_translate("fgoMainWindow", "更改安卓设备"))
+        self.BTN_CONNECT.setStatusTip(_translate("fgoMainWindow", "连接到设备"))
         self.BTN_CONNECT.setText(_translate("fgoMainWindow", "更改"))
         self.BTN_ONEBATTLE.setStatusTip(_translate("fgoMainWindow", "在进入战斗后尚未选卡的界面启动来完成这一战斗"))
         self.BTN_ONEBATTLE.setText(_translate("fgoMainWindow", "完成战斗"))

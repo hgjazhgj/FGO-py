@@ -59,7 +59,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_connect(self,line):
         'Connect to a device'
         arg=parser_connect.parse_args(line.split())
-        if arg.list:return print(f'last connect: {self.config["device"]}',*fgoKernel.Device.enumDevices(),sep='\n')
+        if arg.list:return print(f'last connect: {self.config["device"]if self.config["device"]else None}',*fgoKernel.Device.enumDevices(),sep='\n')
         self.config['device']=arg.name if arg.name else self.config['device']
         fgoKernel.device=fgoKernel.Device(self.config['device'])
     def complete_connect(self,text,line,begidx,endidx):

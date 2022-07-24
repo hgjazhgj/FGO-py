@@ -1,7 +1,7 @@
 **重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)**  
 > `echo -e "connect /bs5 \n main \n main -s 28800" | python fgo.py cli`
 
-> 完全免配置! 运行程序-连接设备-点击开始  
+> 完全免配置! 运行程序-连接设备-点击开始 ~~都什么年代,还在用传统fgo脚本~~  
 > 本项目已经存在直接在运行fgo的手机上运行的解决方案 [直接在手机上运行](#直接在手机上运行)  
 > WSA supported! [Windows Subsystem for Android](#Windows-Subsystem-for-Android)  
 > Run in Docker, see Dockerfile  
@@ -226,6 +226,15 @@ Add:新的宝具模型
 利用宝具的首卡染色或色卡三连,以及减少宝具伤害浪费  
 
 # 版本记录 Version Logs
+
+## 2022/07/25 v9.2.2
+
+Fix:正确绑定ui与配置项  
+闭包延迟绑定害人啊  
+这个bug会导致fgoConfig.json被破坏,请考虑重新下载它  
+Fix:同步选卡算法参数应对识别返回值的更改  
+Opt:cli下上一次连接设备显示优化  
+Fix:正确重试getCardColor  
 
 ## 2022/07/24 v9.2.1
 

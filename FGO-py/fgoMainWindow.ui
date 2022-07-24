@@ -136,7 +136,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>更改安卓设备</string>
+           <string>连接到设备</string>
           </property>
           <property name="text">
            <string>更改</string>

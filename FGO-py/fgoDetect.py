@@ -16,16 +16,24 @@ def coroutine(func):
         next(gen)
         return gen
     return primer
+def validateIterable(iterable,validator):
+    if hasattr(iterable,'__iter__'):return all(validateIterable(i,validator)for i in iterable)
+    return validator(iterable)
+def notNone(func):
+    @wraps(func)
+    def wrap(*args,**kwargs):
+        assert validateIterable(ans:=func(*args,**kwargs),lambda x:x is not None)
+        return ans
+    return wrap
 class Detect(metaclass=logMeta(logger)):
     # The accuracy of each API here is designed to be 100% at 1280x720 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Detect.cache.save() or fuse.save().
     cache=None
     screenshot=None
-    def retryOnError(interval=.1,err=TypeError):
+    def retryOnError(interval=.1,err=(TypeError,ValueError,IndexError,AssertionError)):
         def wrapper(func):
             @wraps(func)
             def wrap(self,*args,**kwargs):
-                try:
-                    if(ans:=func(self,*args,**kwargs))is not None:return ans
+                try:return func(self,*args,**kwargs)
                 except err:pass
                 logger.warning(f'Retry {getattr(func,"__qualname__",func)}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
                 return wrap(Detect(interval),*args,**kwargs)
@@ -100,7 +108,8 @@ class Detect(metaclass=logMeta(logger)):
     def isSynthesisFinished(self):return self._compare(IMG.DECIDEDISABLED,(1096,645,1207,702))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1064,621,1224,710))
     @retryOnError()
-    def getCardColor(self):return[self._select((IMG.ARTS,IMG.QUICK,IMG.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
+    # @notNone                   \|/     mmp写了半天装饰器不如一个加号
+    def getCardColor(self):return[+self._select((IMG.ARTS,IMG.QUICK,IMG.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
     def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((IMG.CRITICAL1,IMG.CRITICAL2,IMG.CRITICAL3,IMG.CRITICAL4,IMG.CRITICAL5,IMG.CRITICAL6,IMG.CRITICAL7,IMG.CRITICAL8,IMG.CRITICAL9,IMG.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
     def getCardGroup(self): # When your servant and the support one has the same command card portrait, getCardGroup will see them as in the same group, which is not true and hard to fix, because the support tag on a command card might be covered when there are many buff icons. This problem causes selectCard to not provide the best solve
         universe={0,1,2,3,4}
