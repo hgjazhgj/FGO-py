@@ -202,7 +202,7 @@ class Turn:
                     self.countDown[0][i[1]][i[2]]=1
                 else:...
     @logit(logger,logging.INFO)
-    def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:
+    def selectCard(self):return''.join((lambda color,sealed,hougu,resist,critical:
             ['678'[i]for i in range(3)if hougu[i]]
             +['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]
             if any(hougu)else
@@ -210,7 +210,7 @@ class Turn:
                 ['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(
                     max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))
                 )])(Detect.cache.getCardGroup())
-            )(Detect().isHouguReady(),Detect.cache.isCardSealed(),Detect.cache.getCardColor(),Detect.cache.getCardResist(),Detect.cache.getCardCriticalRate()))
+            )([[1,.8,1.1][i]for i in Detect().getCardColor()],Detect.cache.isCardSealed(),Detect.cache.isHouguReady(),[[1,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
     def castServantSkill(self,pos,skill,target):
         device.press(('ASD','FGH','JKL')[pos][skill])
         if Detect(.7).isSkillCastFailed():
