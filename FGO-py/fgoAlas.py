@@ -70,6 +70,7 @@
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger
+from module.FGOpy import fgoDevice
 from module.FGOpy import fgoKernel
 from module.FGOpy.fgoAlasDevice import Device
 from module.FGOpy.fgoIniParser import IniParser
@@ -80,7 +81,7 @@ teamup = IniParser("module/FGOpy/fgoTeamup.ini")
 class fgoAlas:
     def __init__(self, config):
         self.config = AzurLaneConfig(config, task='FGOpy')
-        fgoKernel.device = Device(config=self.config)
+        fgoDevice.device = Device(config=self.config)
 
     def run(self):
     #   logger.setLevel('DEBUG')
