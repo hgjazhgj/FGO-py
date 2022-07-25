@@ -7,8 +7,9 @@ from fgoLogging import getLogger
 logger=getLogger('Android')
 
 class Android(Airtest):
-    def __init__(self,serial=None,**kwargs):
+    def __init__(self,serial=None,package="com.bilibili.fatego",**kwargs):
         self.lock=threading.Lock()
+        self.package=package
         if serial is None or serial=='None':
             self.name=None
             return
@@ -28,7 +29,7 @@ class Android(Airtest):
     @staticmethod
     def enumDevices():return[i for i,_ in ADB().devices('device')]
     def adjustOffset(self):
-        self.render=[round(i)for i in self.get_render_resolution(True)]
+        self.render=[round(i)for i in self.get_render_resolution(True)] # ,self.package)]
         self.scale,self.border=(720/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16 else(1280/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
         self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in KEYMAP.items()}
     def touch(self,pos):

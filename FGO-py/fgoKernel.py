@@ -21,10 +21,10 @@ from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
 import logging,re,time,numpy
+import fgoDevice
 from itertools import permutations
 from threading import Thread
 from fgoDetect import Detect
-from fgoDevice import Device
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
 from fgoMetadata import servantData
@@ -34,54 +34,53 @@ logger=getLogger('Kernel')
 
 friendImg=ImageListener('fgoImage/friend/')
 mailImg=ImageListener('fgoImage/mail/')
-device=Device()
 def guardian():
     prev=None
     while True:
         if Detect.cache is not prev and Detect.cache.isNetworkError():
             logger.warning('Reconnecting')
-            device.press('K')
+            fgoDevice.device.press('K')
         prev=Detect.cache
         time.sleep(3)
 Thread(target=guardian,daemon=True,name='Guardian').start()
 
 def gacha():
     while fuse.value<30:
-        if Detect().isGacha():device.perform('MK',(600,2700))
-        device.press('\x08')
+        if Detect().isGacha():fgoDevice.device.perform('MK',(600,2700))
+        fgoDevice.device.press('\x08')
 def lottery():
     while fuse.value<50:
-        if Detect().isNextLottery():device.perform('\xDCKJ',(600,2400,500))
-        for _ in range(40):device.press('2')
+        if Detect().isNextLottery():fgoDevice.device.perform('\xDCKJ',(600,2400,500))
+        for _ in range(40):fgoDevice.device.press('2')
 def mail():
     if not mailImg.flush():return
     Detect().setupMailDone()
     while True:
-        while any((pos:=Detect.cache.findMail(i[1]))and(device.touch(pos),True)[-1]for i in mailImg.items()):
+        while any((pos:=Detect.cache.findMail(i[1]))and(fgoDevice.device.touch(pos),True)[-1]for i in mailImg.items()):
             while not Detect().isMailDone():pass
-        device.swipe((400,600,400,200))
+        fgoDevice.device.swipe((400,600,400,200))
         if Detect().isMailListEnd():break
 def synthesis():
     while True:
-        device.perform('8',(1000,))
+        fgoDevice.device.perform('8',(1000,))
         for i in range(4):
             for j in range(7):
-                device.touch((200+200*j,380+210*i))
+                fgoDevice.device.touch((200+200*j,380+210*i))
                 schedule.sleep(.1)
         if Detect().isSynthesisFinished():break
-        device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
-        while not Detect().isSynthesisBegin():device.press('\xBB')
+        fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
+        while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True
     screenshotBench=[]
     for _ in range(times*screenshot):
         begin=time.time()
-        device.screenshot()
+        fgoDevice.device.screenshot()
         screenshotBench.append(time.time()-begin)
     touchBench=[]
     for _ in range(times*touch):
         begin=time.time()
-        device.press('\xBB')
+        fgoDevice.device.press('\xBB')
         touchBench.append(time.time()-begin)
     result=(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None
     logger.warning(f'Benchmark: {f"touch {result[0]:.2f}ms"if result[0]else""}{", "if all(result)else""}{f"screenshot {result[1]:.2f}ms"if result[1]else""}')
@@ -100,10 +99,10 @@ class Turn:
             self.servant=[servantData.get(Detect.cache.getFieldServant(i),None)for i in range(3)]
         else:self.servant=[servantData.get(Detect.cache.getFieldServant(i),None)if Detect.cache.isServantDead(i)else self.servant[i]for i in range(3)]
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
-        if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Detect.cache.getEnemyHp(i)for i in range(3))]+'\xBB',(800,500))
+        if self.stageTurn==1:fgoDevice.device.perform('\x67\x68\x69'[numpy.argmax([Detect.cache.getEnemyHp(i)for i in range(3)])]+'\xBB',(800,500))
         self.dispatchSkill()
-        device.perform(' ',(2100,))
-        device.perform(self.selectCard(),(300,300,2300,1300,6000))
+        fgoDevice.device.perform(' ',(2100,))
+        fgoDevice.device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
         self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
         while skill:=[(0,i,j)for i in range(3)for j in range(3)if 0==self.countDown[0][i][j]and self.servant[i]and self.servant[i][5][j][0]and Detect.cache.isSkillReady(i,j)]: # +[(1,i)for i in range(3)if self.countDown[1][i]==0]:
@@ -212,17 +211,17 @@ class Turn:
                 )])(Detect.cache.getCardGroup())
             )([[1,.8,1.1][i]for i in Detect().getCardColor()],Detect.cache.isCardSealed(),Detect.cache.isHouguReady(),[[1,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
     def castServantSkill(self,pos,skill,target):
-        device.press(('ASD','FGH','JKL')[pos][skill])
+        fgoDevice.device.press(('ASD','FGH','JKL')[pos][skill])
         if Detect(.7).isSkillCastFailed():
             self.countDown[pos][skill]=1
-            return device.press('J')
-        if t:=Detect.cache.getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][f-5 if(f:=self.servant[pos][5][skill][1])in{6,7,8}else target],(300,))
+            return fgoDevice.device.press('J')
+        if t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][f-5 if(f:=self.servant[pos][5][skill][1])in{6,7,8}else target],(300,))
         while not Detect().isTurnBegin():pass
         Detect(.5)
     def castMasterSkill(self,skill,target):
         self.countDown[1][skill]=15
-        device.perform('Q'+'WER'[skill],(300,300))
-        if t:=Detect(.4).getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][target],(300,))
+        fgoDevice.device.perform('Q'+'WER'[skill],(300,300))
+        if t:=Detect(.4).getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][target],(300,))
         while not Detect().isTurnBegin():pass
         Detect(.5)
 class Battle:
@@ -239,7 +238,7 @@ class Battle:
                 schedule.checkKizunaReisou()
                 logger.warning('Kizuna Reisou')
                 Detect.cache.save('fgoLog/SpecialDrop')
-                device.press('\x67')
+                fgoDevice.device.press('\x67')
             elif not self.rainbowBox and Detect.cache.isSpecialDropRainbowBox():self.rainbowBox=True
             elif Detect.cache.isBattleFinished():
                 logger.info('Battle Finished')
@@ -252,7 +251,7 @@ class Battle:
                 logger.warning('Battle Defeated')
                 schedule.checkDefeated()
                 return 0
-            device.perform('\xBB\x08',(100,100))
+            fgoDevice.device.perform('\xBB\x08',(100,100))
 class Main:
     teamIndex=0
     def __init__(self,appleTotal=0,appleKind=0,battleClass=Battle):
@@ -266,36 +265,36 @@ class Main:
             self.battleProc=self.battleClass()
             while True:
                 if Detect(.3,.3).isMainInterface():
-                    device.press('8')
+                    fgoDevice.device.press('8')
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
-                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
-                    device.perform(' M',(800,10000))
+                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
+                    fgoDevice.device.perform(' M',(800,10000))
                     break
                 elif Detect.cache.isBattleContinue():
-                    device.press('L')
+                    fgoDevice.device.press('L')
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
                     schedule.sleep(6)
                     break
                 elif Detect.cache.isTurnBegin():break
-                elif Detect.cache.isAddFriend():device.perform('X',(300,))
-                elif Detect.cache.isSpecialDropSuspended():device.perform('\x67',(300,))
-                device.press('\xBB')
+                elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
+                elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x67',(300,))
+                fgoDevice.device.press('\xBB')
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
-            if self.battleProc():device.perform('      ',(200,200,200,200,200,200))
-            else:device.perform('CIK',(500,500,500))
+            if self.battleProc():fgoDevice.device.perform('      ',(200,200,200,200,200,200))
+            else:fgoDevice.device.perform('CIK',(500,500,500))
             schedule.checkStopLater()
     @logit(logger,logging.INFO)
     def eatApple(self):
-        if self.appleCount==self.appleTotal:return device.press('Z')
+        if self.appleCount==self.appleTotal:return fgoDevice.device.press('Z')
         self.appleCount+=1
-        device.perform('W4K8'[self.appleKind]+'L',(600,1200))
+        fgoDevice.device.perform('W4K8'[self.appleKind]+'L',(600,1200))
         # for i in set('W4K')-{'W4K8'[self.appleKind]}:
         #     if not Detect().isApEmpty():break
-        #     device.perform(i+'L',(600,1200))
+        #     fgoDevice.device.perform(i+'L',(600,1200))
         # else:raise ScriptStop('No Apples')
         return self.appleCount
     @logit(logger,logging.INFO)
@@ -304,22 +303,22 @@ class Main:
         while not Detect(0,.3).isChooseFriend():
             if Detect.cache.isNoFriend():
                 if refresh:schedule.sleep(10)
-                device.perform('\xBAK',(500,1000))
+                fgoDevice.device.perform('\xBAK',(500,1000))
                 refresh=True
-        if not friendImg.flush():return device.press('8')
+        if not friendImg.flush():return fgoDevice.device.press('8')
         while True:
             timer=time.time()
             while True:
-                for i in(i for i,j in friendImg.items()if(lambda pos:pos and(device.touch(pos),True)[-1])(Detect.cache.findFriend(j))):
+                for i in(i for i,j in friendImg.items()if(lambda pos:pos and(fgoDevice.device.touch(pos),True)[-1])(Detect.cache.findFriend(j))):
                     Turn.friendInfo=(lambda r:(lambda p:([[[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i.replace('-','')[-14:].upper()))
                     return i
                 if Detect.cache.isFriendListEnd():break
-                device.swipe((400,600,400,200))
+                fgoDevice.device.swipe((400,600,400,200))
                 Detect(.4)
             if refresh:schedule.sleep(max(0,timer+10-time.time()))
-            device.perform('\xBAK',(500,1000))
+            fgoDevice.device.perform('\xBAK',(500,1000))
             refresh=True
             while not Detect(.2).isChooseFriend():
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
-                    device.perform('\xBAK',(500,1000))
+                    fgoDevice.device.perform('\xBAK',(500,1000))

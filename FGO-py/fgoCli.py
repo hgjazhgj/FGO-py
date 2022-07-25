@@ -1,6 +1,6 @@
 import argparse,cmd,functools,json,os,platform,re,signal,time
+import fgoDevice
 import fgoKernel
-from fgoDevice import helpers
 from fgoIniParser import IniParser
 logger=fgoKernel.getLogger('Cli')
 
@@ -12,7 +12,7 @@ def wrapTry(func):
             if e.args[0]is not None:logger.error(e)
         except KeyboardInterrupt:logger.critical('KeyboardInterrupt')
         except BaseException as e:logger.exception(e)
-        finally:self.prompt=f'FGO-py@{fgoKernel.device.name}> '
+        finally:self.prompt=f'FGO-py@{fgoDevice.device.name}> '
     return wrapper
 def countdown(x):
     timer=time.time()+x
@@ -31,7 +31,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     prompt='FGO-py@Device> '
     def __init__(self):
         super().__init__()
-        fgoKernel.Device.enumDevices()
+        fgoDevice.Device.enumDevices()
         with open('fgoConfig.json')as f:self.config=json.load(f)
         fgoKernel.schedule.stopOnDefeated(self.config['stopOnDefeated'])
         fgoKernel.schedule.stopOnKizunaReisou(self.config['stopOnKizunaReisou'])
@@ -59,12 +59,12 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_connect(self,line):
         'Connect to a device'
         arg=parser_connect.parse_args(line.split())
-        if arg.list:return print(f'last connect: {self.config["device"]if self.config["device"]else None}',*fgoKernel.Device.enumDevices(),sep='\n')
+        if arg.list:return print(f'last connect: {self.config["device"]if self.config["device"]else None}',*fgoDevice.Device.enumDevices(),sep='\n')
         self.config['device']=arg.name if arg.name else self.config['device']
-        fgoKernel.device=fgoKernel.Device(self.config['device'])
+        fgoDevice.device=fgoDevice.Device(self.config['device'],self.config['package'])
     def complete_connect(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['wsa','win32']+[f'/{i}'for i in helpers]+fgoKernel.Device.enumDevices()
+            '':['wsa','win32']+[f'/{i}'for i in fgoDevice.helpers]+fgoDevice.Device.enumDevices()
         },text,line,begidx,endidx)
     def do_teamup(self,line):
         'Setup your teams'
@@ -93,7 +93,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_continue(self,line):
         'Continue last battle after abnormal break, use it as same as battle'
         arg=parser_battle.parse_args(line.split())
-        assert fgoKernel.device.available
+        assert fgoDevice.device.available
         countdown(arg.sleep)
         try:
             signal.signal(signal.SIGINT,lambda*_:fgoKernel.schedule.stop())
@@ -137,13 +137,13 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         },text,line,begidx,endidx)
     def do_screenshot(self,line):
         'Take a screenshot'
-        assert fgoKernel.device.available
+        assert fgoDevice.device.available
         fgoKernel.Detect(0).save()
     def do_169(self,line):
         'Adapt none 16:9 screen'
         arg=parser_169.parse_args(line.split())
-        assert fgoKernel.device.available
-        getattr(fgoKernel.device,f'{arg.action}169')()
+        assert fgoDevice.device.available
+        getattr(fgoDevice.device,f'{arg.action}169')()
     def complete_169(self,text,line,begidx,endidx):
         return self.completecommands({
             '':['invoke','revoke']
@@ -151,10 +151,10 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_press(self,line):
         'Map key press'
         arg=parser_press.parse_args(line.split())
-        fgoKernel.device.press(chr(eval(arg.button))if arg.code else arg.button)
+        fgoDevice.device.press(chr(eval(arg.button))if arg.code else arg.button)
     def do_bench(self,line):
         'Benchmark'
-        assert fgoKernel.device.available
+        assert fgoDevice.device.available
         arg=parser_bench.parse_args(line.split())
         if not(arg.input or arg.output):arg.input=arg.output=True
         fgoKernel.bench(max(3,arg.number),arg.input,arg.output)

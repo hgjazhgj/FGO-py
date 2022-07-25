@@ -1,5 +1,6 @@
 {
     "device": "",
+    "package": "com.bilibili.fatego",
     "teamIndex": 0,
     "stopOnDefeated": true,
     "stopOnKizunaReisou": true,

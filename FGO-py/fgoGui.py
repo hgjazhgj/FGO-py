@@ -3,6 +3,7 @@ from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QStyle,QSystemTrayIcon
+import fgoDevice
 import fgoKernel
 from fgoIniParser import IniParser
 from fgoMainWindow import Ui_fgoMainWindow
@@ -60,7 +61,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.connect()
     def keyPressEvent(self,key):
         if self.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifier.KeypadModifier:
-            try:fgoKernel.device.press(chr(key.nativeVirtualKey()))
+            try:fgoDevice.device.press(chr(key.nativeVirtualKey()))
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
@@ -78,7 +79,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.config.save()
         return True
     def isDeviceAvailable(self):
-        if not fgoKernel.device.available:
+        if not fgoDevice.device.available:
             self.LBL_DEVICE.clear()
             QMessageBox.critical(self,'FGO-py','未连接设备')
             return False
@@ -88,8 +89,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         def f():
             try:
                 self.signalFuncBegin.emit()
-                self.applyAll()
-                fgoKernel.schedule.reset()
                 func(*args,**kwargs)
             except fgoKernel.ScriptStop as e:
                 logger.critical(e)
@@ -101,6 +100,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             finally:
                 self.signalFuncEnd.emit(msg)
                 fgoKernel.fuse.reset()
+                fgoKernel.schedule.reset()
                 if self.config['notifyEnable']and not self.notifier(msg[0]):logger.critical('Notify post failed')
         self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
         self.worker.start()
@@ -127,14 +127,14 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         dialog=QInputDialog(self,Qt.WindowType.WindowStaysOnTopHint)
         dialog.setWindowTitle('FGO-py')
         dialog.setLabelText('在下拉列表中选择一个设备')
-        dialog.setComboBoxItems(fgoKernel.Device.enumDevices())
+        dialog.setComboBoxItems(fgoDevice.Device.enumDevices())
         dialog.setComboBoxEditable(True)
         dialog.setTextValue(self.config['device'])
         if not dialog.exec():return
         text=dialog.textValue().replace(' ','')
         self.config['device']=text
-        fgoKernel.device=fgoKernel.Device(text)
-        self.LBL_DEVICE.setText(fgoKernel.device.name)
+        fgoDevice.device=fgoDevice.Device(text,self.config['package'])
+        self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
     def runBattle(self):self.runFunc(fgoKernel.Battle())
     def runMain(self):self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),fgoKernel.Battle))
@@ -152,8 +152,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         if not self.isDeviceAvailable():return
         try:fgoKernel.Detect(0).show()
         except Exception as e:logger.exception(e)
-    def applyAll(self):
-        fgoKernel.Main.teamIndex=self.TXT_TEAM.value()
     def explorerHere(self):os.startfile('.')
     def runGacha(self):self.runFunc(fgoKernel.gacha)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
@@ -165,10 +163,10 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvailable())
     def invoke169(self):
         if not self.isDeviceAvailable():return
-        fgoKernel.device.invoke169()
+        fgoDevice.device.invoke169()
     def revoke169(self):
         if not self.isDeviceAvailable():return
-        fgoKernel.device.revoke169()
+        fgoDevice.device.revoke169()
     def bench(self):
         if not self.isDeviceAvailable():return
         QMessageBox.information(self,'FGO-py',(lambda bench:f'{f"点击 {bench[0]:.2f}ms"if bench[0]else""}{", "if all(bench)else""}{f"截图 {bench[1]:.2f}ms"if bench[1]else""}')(fgoKernel.bench()))

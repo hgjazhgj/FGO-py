@@ -31,25 +31,30 @@ def bs5(*args):
     with open(os.path.join(dir,'bluestacks.conf'),encoding='utf-8')as f:return'127.0.0.1:'+re.search(rf'bst\.instance\.Nougat64{f"_{args[0]}"if args else""}\.status\.adb_port="(\d*)"',f.read()).group(1)
 
 class Device:
-    def __init__(self,name=None):
+    def __init__(self,name=None,package='com.bilibili.fatego'):
         if not name:self.I=self.O=Android()
         elif'|'in name:
             self.I,self.O=[self.createDevice(i)for i in name.split('|')]
             self.name='|'.join((self.I.name,self.O.name))
         else:
-            self.I=self.O=self.createDevice(name)
+            self.I=self.O=self.createDevice(name,package)
             self.name=self.I.name
         self.press=self.I.press
         self.touch=self.I.touch
         self.swipe=self.I.swipe
         Detect.screenshot=self.screenshot=self.O.screenshot
     @staticmethod
-    def createDevice(name):
+    def createDevice(name,*args,**kwargs):
         if name.lower().startswith('wsa'):return Wsa(name.split('_')[1])if'_'in name else Wsa()
         if name.lower().startswith('win32'):return Window(int(name.split('_')[1],16)if'_'in name else Window.enumDevices()[0])
-        return Android(convert(name))
+        return Android(convert(name),*args,**kwargs)
     @property
     def available(self):return self.I.available and(self.I is self.O or self.O.available)
     def perform(self,pos,wait):[(self.press(i),schedule.sleep(j*.001))for i,j in zip(pos,wait)]
     enumDevices=Android.enumDevices
     def __getattr__(self,attr):return getattr(self.I,attr,getattr(self.O,attr))
+
+# def connect(name=None,*args,**kwargs):
+#     global device
+#     device=Device(name,*args,**kwargs)
+device=Device()
