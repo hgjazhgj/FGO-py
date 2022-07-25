@@ -1,4 +1,4 @@
-import argparse,cmd,functools,json,os,re,signal,time
+import argparse,cmd,functools,json,os,platform,re,signal,time
 import fgoKernel
 from fgoDevice import helpers
 from fgoIniParser import IniParser
@@ -97,7 +97,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         countdown(arg.sleep)
         try:
             signal.signal(signal.SIGINT,lambda*_:fgoKernel.schedule.stop())
-            signal.signal(signal.SIGBREAK,lambda*_:fgoKernel.schedule.pause())
+            if platform.system()=='Windows':signal.signal(signal.SIGBREAK,lambda*_:fgoKernel.schedule.pause())
             self.work()
         except fgoKernel.ScriptStop as e:
             logger.critical(e)
@@ -109,7 +109,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         else:msg='Done'
         finally:
             signal.signal(signal.SIGINT,signal.SIG_DFL)
-            signal.signal(signal.SIGBREAK,signal.SIG_DFL)
+            if platform.system()=='Windows':signal.signal(signal.SIGBREAK,signal.SIG_DFL)
             fgoKernel.fuse.reset()
             fgoKernel.schedule.reset()
         # todo: notify
@@ -181,7 +181,7 @@ parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(defau
 
 parser_connect=ArgParser(prog='connect',description=Cmd.do_connect.__doc__)
 parser_connect.add_argument('-l','--list',help='List all available devices',action='store_true')
-parser_connect.add_argument('name',help='Device name',default='',nargs='?')
+parser_connect.add_argument('name',help='Device name (default to the last connected one)',default='',nargs='?')
 
 parser_teamup=ArgParser(prog='teamup',description=Cmd.do_teamup.__doc__)
 parser_teamup_=parser_teamup.add_subparsers(title='subcommands',required=True,dest='subcommand_0')
