@@ -97,7 +97,7 @@ class Turn:
         if turn==1:
             Detect.cache.setupServantDead()
             self.stageTotal=Detect.cache.getStageTotal()
-            self.servant=[servantData[Detect.cache.getFieldServant(i)]for i in range(3)]
+            self.servant=[servantData.get(Detect.cache.getFieldServant(i),None)for i in range(3)]
         else:self.servant=[servantData.get(Detect.cache.getFieldServant(i),None)if Detect.cache.isServantDead(i)else self.servant[i]for i in range(3)]
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
         if self.stageTurn==1:device.perform('\x67\x68\x69'[numpy.argmax(Detect.cache.getEnemyHp(i)for i in range(3))]+'\xBB',(800,500))
@@ -106,7 +106,7 @@ class Turn:
         device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
         self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
-        while skill:=[(0,i,j)for i in range(3)for j in range(3)if 0==self.countDown[0][i][j]and self.servant[i][5][j][0]and Detect.cache.isSkillReady(i,j)]: # +[(1,i)for i in range(3)if self.countDown[1][i]==0]:
+        while skill:=[(0,i,j)for i in range(3)for j in range(3)if 0==self.countDown[0][i][j]and self.servant[i]and self.servant[i][5][j][0]and Detect.cache.isSkillReady(i,j)]: # +[(1,i)for i in range(3)if self.countDown[1][i]==0]:
             for i in skill:
                 if i[0]==0:
                     if (p:=self.servant[i[1]][5][i[2]])[0]==1:
@@ -216,7 +216,7 @@ class Turn:
         if Detect(.7).isSkillCastFailed():
             self.countDown[pos][skill]=1
             return device.press('J')
-        if t:=Detect.cache.getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][f if(f:=self.servant[pos][5][skill][1])in{6,7,8}else target],(300,))
+        if t:=Detect.cache.getSkillTargetCount():device.perform(['3333','2244','3234'][t-1][f-5 if(f:=self.servant[pos][5][skill][1])in{6,7,8}else target],(300,))
         while not Detect().isTurnBegin():pass
         Detect(.5)
     def castMasterSkill(self,skill,target):
