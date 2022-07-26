@@ -92,9 +92,9 @@ FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固�
 
 下载release - 运行`FGO-py.bat` - 连接设备 - 游戏中把你要刷的关卡放在第一个 - 点击「肝!」按钮  
 ***
-**2022年6月起本项目永久不再发布二进制可执行文件,请勿运行不是你自己打包的软件**  
+**2022年6月起本项目永久不再发布二进制可执行文件,请谨慎运行不是你自己打包的软件**  
 本项目在最初设计时就考虑到了在不同环境下运行的需求,完全前后端分离,后端一直也将继续可以在多系统下运行,基于Qt6的前端尚且存在一些局限性,而后来添加的文本交互式前端使得本项目真正地跨平台  
-首先也是最基础的,在阅读本条目前,请先验证你能**通过源码在安装有Python3.9的Windows操作系统中运行本项目并用来操作运行于屏幕分辨率为1920x1080或其简单整数比缩放的安卓设备上的命运-冠位指定官方简体中文版本**--这被视作FGO-py的使用门槛,我不会为此提供任何帮助--然后再根据后续内容向目标环境迁移  
+首先也是最基础的,在阅读本条目前,请先验证你能**通过源码在安装有Python3.9的Windows操作系统中运行本项目并用来操作运行于屏幕分辨率为1280*720或其简单整数比缩放的安卓设备上的命运-冠位指定官方简体中文版本**--这被视作FGO-py的使用门槛,我不会为此提供任何帮助--然后再根据后续内容向目标环境迁移  
 本项目根目录下有些许文件可为不同场景下的环境搭建提供帮助  
 AutoRelease -- 传统的在Windows电脑上运行只需run workflow即可构建exe  
 Dockerfile/docker-compose.yml -- 尽管只是配了个环境,但确实配好了环境  
@@ -211,16 +211,6 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 **2021年9月24日,同为本人开发的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
 加入QQ群需要提供你的Github用户名(必须严格等于登陆时输入的Username字段),且该帐号在30天内有活跃行为,如果你不希望Github帐号与QQ号有所关联,在加群问题回答中填入任意**能证明你是开发者的**内容亦可.QQ号需要至少16级(有一个太阳,使用大约1年)  
 发现**最新commit**的bug请按bug_report模板建立issue,其他你想到的东西请发到discussion  
-qq 979449732(个人账号,加好友请说明来意.如果你有GitHub账户,请附上  
-email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么写了  
-现在这个项目居然已经可以从各大搜索引擎上找到,这就导致有很多halloworld都不会的小白来找我,就算是点点鼠标都会遇到问题  
-我乐意回答一些*本文档中没有提及的*技术问题,但没有义务提供详细的教学.为使耳根清净的最好方法就是收费,故制定以下政策  
-**没有标明免费的东西都不是免费的**,凡是联系我的,先收10CNY我才会予以回复,算是付费咨询  
-这是无奈之举,卖的是本人的时间和精力,而用到知识和经验的解决具体问题另算  
-*什么?你想反馈项目本身的问题?那为什么不发issue?*  
-建议您仔细阅读本readme以及项目内的说明,并尝试使用除百度以外的搜索引擎来解决您的问题,以免给您带来不必要的损失  
-如果你没能有[提问的智慧 How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)([zh_CN](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md))而向我提问,那么你很可能被倒在[垃圾场](doc/垃圾场.md)里  
-另外,如果您非得来骚扰我,请至少开一个小号,以保护您自己的隐私信息  
 
 # 参考 Refs
 
@@ -230,6 +220,7 @@ email huguangjing0411@geektip.cc(相信您在小学就学过电子邮件怎么�
 [Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
 [airtest.core.android.ADB.devices不返回ipv6远程连接的设备](https://github.com/AirtestProject/Airtest/issues/818)  
+[Opt: specification for package name when get_render_resolution in an Android device](https://github.com/AirtestProject/Airtest/pull/1070)  
 
 ## 计划中的功能 Next Features
 
