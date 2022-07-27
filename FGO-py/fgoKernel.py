@@ -65,7 +65,7 @@ def synthesis():
         fgoDevice.device.perform('8',(1000,))
         for i in range(4):
             for j in range(7):
-                fgoDevice.device.touch((200+200*j,380+210*i))
+                fgoDevice.device.touch((133+133*j,253+140*i))
                 schedule.sleep(.1)
         if Detect().isSynthesisFinished():break
         fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
