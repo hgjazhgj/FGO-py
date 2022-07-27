@@ -59,6 +59,7 @@ B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B�
 
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
+项目官网:[https://fgo-py.hgjazhgj.top/](https://fgo-py.hgjazhgj.top/)  
 仅适用于命运-冠位指定安卓简体中文版本  
 
 # 警告 Warning
