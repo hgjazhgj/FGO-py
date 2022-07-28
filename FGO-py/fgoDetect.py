@@ -101,9 +101,10 @@ class Detect(metaclass=logMeta(logger)):
     def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
     def isServantFriend(self,pos):return self._compare(IMG.SUPPORT,(194+318*pos,388,284+318*pos,418))
     def isSkillCastFailed(self):return self._compare(IMG.SKILLERROR,(595,539,684,586))
+    def isSkillNone(self):return self._compare(IMG.CROSS,(1070,45,1105,79))
     def isSkillReady(self,i,j):return not self._compare(IMG.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2)
     def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(957,2,990,40),.1)
-    def isSpecialDropSuspended(self):return self._compare(IMG.CLOSESHORT,(8,11,68,68))
+    def isSpecialDropSuspended(self):return self._compare(IMG.CLOSE,(8,11,68,68))
     def isSynthesisBegin(self):return self._compare(IMG.SYNTHESIS,(16,12,150,73))
     def isSynthesisFinished(self):return self._compare(IMG.DECIDEDISABLED,(1096,645,1207,702))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1064,621,1224,710))
@@ -128,7 +129,7 @@ class Detect(metaclass=logMeta(logger)):
     def getFieldServantClassRank(self,pos):return(lambda x:divmod(x,3)if x else None)(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
     def getFieldServantHp(self,pos):return self._ocr((200+318*pos,620,293+318*pos,644))
     def getFieldServantNp(self,pos):return self._ocr((220+318*pos,655,274+318*pos,680))
-    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(IMG.CROSS,(1075,131,1121,174))else 0
+    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(IMG.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(884,13,902,38),.5)+1
     @retryOnError()

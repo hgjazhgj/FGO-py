@@ -195,7 +195,7 @@ class Turn:
                             self.castServantSkill(i[1],i[2],i[1])
                             continue
                     elif p[0]==9:
-                        if any(self.servant[i]and((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))or Detect.cache.getFieldServantHp(i)<1000)for i in range(3)):
+                        if any(self.servant[i]and((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))or Detect.cache.getFieldServantHp(i)<2500)for i in range(3)):
                             self.castServantSkill(i[1],i[2],i[1])
                             continue
                     self.countDown[0][i[1]][i[2]]=1
@@ -212,10 +212,16 @@ class Turn:
             )([[1,.8,1.1][i]for i in Detect().getCardColor()],Detect.cache.isCardSealed(),Detect.cache.isHouguReady(),[[1,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
     def castServantSkill(self,pos,skill,target):
         fgoDevice.device.press(('ASD','FGH','JKL')[pos][skill])
-        if Detect(.7).isSkillCastFailed():
-            self.countDown[pos][skill]=1
-            return fgoDevice.device.press('J')
-        if t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][f-5 if(f:=self.servant[pos][5][skill][1])in{6,7,8}else target],(300,))
+        if Detect(.7).isSkillNone():
+            logger.warning(f'Skill {pos} {skill} None')
+            self.countDown[0][pos][skill]=999
+            fgoDevice.device.press('\x08')
+        elif Detect.cache.isSkillCastFailed():
+            logger.warning(f'Skill {pos} {skill} Cast Failed')
+            self.countDown[0][pos][skill]=1
+            fgoDevice.device.press('J')
+        elif t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][f-5 if(f:=self.servant[pos][5][skill][1])in{6,7,8}else target],(300,))
+        fgoDevice.device.press('\x08')
         while not Detect().isTurnBegin():pass
         Detect(.5)
     def castMasterSkill(self,skill,target):
