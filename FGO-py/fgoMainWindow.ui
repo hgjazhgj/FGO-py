@@ -37,7 +37,7 @@
         <item>
          <widget class="QComboBox" name="CBX_APPLE">
           <property name="statusTip">
-           <string>要吃的苹果种类</string>
+           <string>要吃的苹果种类,在运行前设置</string>
           </property>
           <property name="currentIndex">
            <number>0</number>
@@ -76,7 +76,7 @@
            <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="statusTip">
-           <string>要吃的苹果数量</string>
+           <string>要吃的苹果数量,在运行前设置</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -101,7 +101,7 @@
          <enum>Qt::NoContextMenu</enum>
         </property>
         <property name="statusTip">
-         <string>所选编队在队伍列表中的位置,从左到右1-10,0为无效</string>
+         <string>所选编队在队伍编成界面的位置,从左到右1-10,0为无效</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -170,7 +170,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>在点击第一个关卡就能进入选择助战界面启动来清空体力</string>
+           <string>在关卡列表界面将要刷的关卡置于第一个来清空体力</string>
           </property>
           <property name="text">
            <string>肝!</string>
@@ -209,7 +209,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>终止战斗</string>
+           <string>立刻终止战斗</string>
           </property>
           <property name="text">
            <string>终止战斗</string>
@@ -242,7 +242,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>在完成若干场战斗后终止</string>
+           <string>在完成若干场战斗后终止战斗</string>
           </property>
           <property name="text">
            <string>预约终止</string>
@@ -336,11 +336,17 @@
    </property>
   </action>
   <action name="MENU_SCRIPT_GACHA">
+   <property name="statusTip">
+    <string>先抽一发友情十连,在结算界面运行本功能</string>
+   </property>
    <property name="text">
     <string>抽友情</string>
    </property>
   </action>
   <action name="MENU_SCRIPT_SYNTHESIS">
+   <property name="statusTip">
+    <string>在选择了强化对象未选择强化材料的界面运行本功能</string>
+   </property>
    <property name="text">
     <string>礼装强化</string>
    </property>

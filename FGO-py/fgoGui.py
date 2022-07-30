@@ -144,7 +144,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def stop(self):fgoKernel.schedule.stop('Stop Command Effected')
     def stopLater(self,x):
         if x:
-            num,ok=QInputDialog.getInt(self,'输入','剩余的战斗数量',1,1,1919810,1)
+            num,ok=QInputDialog.getInt(self,'FGO-py','剩余的战斗数量',1,1,1919810,1)
             if ok:fgoKernel.schedule.stopLater(num)
             else:self.BTN_STOPLATER.setChecked(False)
         else:fgoKernel.schedule.stopLater()
@@ -158,7 +158,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def runMail(self):self.runFunc(fgoKernel.mail)
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
     def stopOnSpecialDrop(self):
-        num,ok=QInputDialog.getInt(self,'输入','剩余的特殊掉落数量',1,0,1919810,1)
+        num,ok=QInputDialog.getInt(self,'FGO-py','剩余的特殊掉落数量',1,0,1919810,1)
         if ok:fgoKernel.schedule.stopOnSpecialDrop(num)
     def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvailable())
     def invoke169(self):
