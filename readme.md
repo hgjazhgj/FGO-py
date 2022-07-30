@@ -232,6 +232,13 @@ Add:御主技能识别与施放
 
 # 版本记录 Version Logs
 
+## 2022/07/30 v9.3.5
+
+Fix:从者阵亡时更新技能倒数  
+Fix:skillInfo  
+Opt:显示从者ID  
+为getCardServant做准备  
+
 ## 2022/07/29 v9.3.4
 
 Upd:刷新助战位置更改了  
