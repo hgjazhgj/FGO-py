@@ -35,6 +35,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         with open('fgoConfig.json')as f:self.config=json.load(f)
         fgoKernel.schedule.stopOnDefeated(self.config['stopOnDefeated'])
         fgoKernel.schedule.stopOnKizunaReisou(self.config['stopOnKizunaReisou'])
+        fgoKernel.Main.teamIndex=self.config['teamIndex']
     def emptyline(self):return
     def precmd(self,line):
         if line:logger.info(line)
