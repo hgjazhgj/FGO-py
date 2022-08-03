@@ -17,7 +17,7 @@
 ![svg](https://img.shields.io/badge/bgo-FGO安卓简中服玩家-225799.svg)
 ![svg](https://img.shields.io/badge/指挥官-碧蓝航线玩家-ff3b72.svg)
 ![svg](https://img.shields.io/badge/魂之缔造者-雀魂玩家-8b008b.svg)
-![svg](https://img.shields.io/badge/原来你也玩原神-原神玩家-1aa3ff.svg)
+![svg](https://img.shields.io/badge/我超OP-原神玩家-1aa3ff.svg)
 ![svg](https://img.shields.io/badge/云程序员-云程序员-ffffff.svg)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 ![svg](https://img.shields.io/badge/开位-一条开位咸鱼-ffd700.svg)
@@ -159,8 +159,8 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 
 ### 在alas上运行
 
-本章节目前纯属娱乐,具体参见fgoAlas.py  
-在你完成所有更改后,alas看起来像这样  
+在v9.2.0完全免配置之后,本功能开始正式地凸显出他的意义,毕竟如果一份脚本能管两个游戏,那将是极好的  
+fgoAlas.py头部的注释写明了需要进行的更改,在你完成所有更改后,alas看起来像这样(本截图不是最新的)  
 ![alas](doc/alas.png)  
 
 ## 连接到设备 Connect Your Device
@@ -231,6 +231,12 @@ Add:新的宝具模型
 Add:御主技能识别与施放  
 
 # 版本记录 Version Logs
+
+# 2022/08/04 v9.3.7
+
+Opt:Cli下main新增-a/--appoint参数,等效于Gui中「预约终止」按钮的效果  
+使得不需要先敲一大串`config stopLater <count>`就可以在完成战斗指定次数后停止  
+Opt:提高了回复与战续类技能的HP限度  
 
 # 2022/08/02 v9.3.6
 

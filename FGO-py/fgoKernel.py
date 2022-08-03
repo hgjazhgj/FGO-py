@@ -170,24 +170,24 @@ class Turn:
                     elif p[0]==7:
                         hp=[Detect.cache.getFieldServantHp(i)if self.servant[i][0]else 999999 for i in range(3)]
                         if p[1]==0:
-                            if any(i<4000 for i in hp):
+                            if any(i<6600 for i in hp):
                                 self.castServantSkill(i[1],i[2],0)
                                 continue
                         elif p[1]==1:
                             target=numpy.argmin(hp)
-                            if hp[target]<4000:
+                            if hp[target]<6600:
                                 self.castServantSkill(i[1],i[2],target)
                                 continue
                         elif p[1]==2:
                             hp[i[1]]=999999
-                            if any(i<4000 for i in hp):
+                            if any(i<6600 for i in hp):
                                 self.castServantSkill(i[1],i[2],0)
                                 continue
                         elif p[1]in{3,4}:
                             self.castServantSkill(i[1],i[2],0)
                             continue
                         elif p[1]==5:
-                            if hp[i[1]]<4000:
+                            if hp[i[1]]<6600:
                                 self.castServantSkill(i[1],i[2],i[1])
                                 continue
                         else:
@@ -198,7 +198,7 @@ class Turn:
                             self.castServantSkill(i[1],i[2],i[1])
                             continue
                     elif p[0]==9:
-                        if any(self.servant[i][0]and((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))or Detect.cache.getFieldServantHp(i)<2500)for i in range(3)):
+                        if any(self.servant[i][0]and((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))or Detect.cache.getFieldServantHp(i)<3300)for i in range(3)):
                             self.castServantSkill(i[1],i[2],i[1])
                             continue
                     self.countDown[0][i[1]][i[2]]=1
