@@ -84,6 +84,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_main(self,line):
         'Loop for battle until AP empty'
         arg=parser_main.parse_args(line.split())
+        fgoKernel.schedule.stopLater(arg.appoint)
         self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind),{'Battle':fgoKernel.Battle}[arg.battleClass])
         self.do_continue(f'-s {arg.sleep}')
     def complete_main(self,text,line,begidx,endidx):
@@ -163,8 +164,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
 ArgError=type('ArgError',(Exception,),{})
 def validator(type,func,desc='\b'):
     def f(x):
-        x=type(x)
-        if not func(x):raise ValueError
+        if not func(x:=type(x)):raise ValueError
         return x
     f.__name__=desc
     return f
@@ -179,6 +179,7 @@ parser_main.add_argument('appleCount',help='Apple Count (default: %(default)s)',
 parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','quartz'],default='gold',nargs='?')
 parser_main.add_argument('battleClass',help='Battle Class (default: %(default)s)',choices=['Battle'],default='Battle',nargs='?')
 parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(float,lambda x:x>=0,'nonnegative'),default=0)
+parser_main.add_argument('-a','--appoint',help='Battle count limit (default: %(default)s for no limit)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0)
 
 parser_connect=ArgParser(prog='connect',description=Cmd.do_connect.__doc__)
 parser_connect.add_argument('-l','--list',help='List all available devices',action='store_true')
