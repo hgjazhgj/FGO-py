@@ -1,16 +1,9 @@
-**重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)**  
-> `echo -e "connect /bs5 \n main \n main -s 28800" | python fgo.py cli`
+热烈庆祝本项目于2022年8月5日荣登GitHub中文趋势Python语言榜第三名!  
+![trending](doc/trending.png)
 
 > 完全免配置! 运行程序-连接设备-点击开始 ~~都什么年代,还在用传统fgo脚本~~  
 > 本项目已经存在直接在运行fgo的手机上运行的解决方案 [直接在手机上运行](#直接在手机上运行)  
-> WSA supported! [Windows Subsystem for Android](#Windows-Subsystem-for-Android)  
 > Run in Docker, see Dockerfile  
-
-> 人这东西还真是能力有限啊  
-> 我从短暂的人生当中学到的就是  
-> 人越是写代码,代码就越可能因意料之外的情况而出错  
-> 要成为超人的存在才行啊  
-> 所以啊,我不做人啦!JOJO!  
 
 # 「智能战斗不间断,不靠礼装不用拐」的Fate/Grand Order全智能程序
 
@@ -95,10 +88,10 @@ FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固�
 下载release - 运行`FGO-py.bat` - 连接设备 - 游戏中把你要刷的关卡放在第一个 - 点击「肝!」按钮  
 ***
 本项目在最初设计时就考虑到了在不同环境下运行的需求,完全前后端分离,目前前后端均已实现跨平台  
-首先也是最基础的,在阅读本条目前,请先验证你能**通过源码在安装有Python3.9的Windows操作系统中运行本项目并用来操作运行于屏幕分辨率为1280*720或其简单整数比缩放的安卓设备上的命运-冠位指定官方简体中文版本**--这被视作FGO-py的使用门槛,我不会为此提供任何帮助--然后再根据后续内容向目标环境迁移  
+首先也是最基础的,在阅读本条目前,请先验证你能**通过源码在安装有Python3.9的Windows操作系统中运行本项目并用来操作运行于屏幕分辨率为1280*720或其简单整数比缩放的Android设备上的命运-冠位指定官方简体中文版本**--这被视作FGO-py的使用门槛,我不会为此提供任何帮助--然后再根据后续内容向目标环境迁移  
 本项目根目录下有些许文件可为不同场景下的环境搭建提供帮助  
 AutoRelease -- 传统的在Windows电脑上运行只需run workflow即可构建exe  
-Dockerfile/docker-compose.yml -- 尽管只是配了个环境,但确实配好了环境  
+Dockerfile | docker-compose.yml -- 尽管只是配了个环境,但确实配好了环境  
 AidLux.sh -- 一键在AidLux上安装FGO-py  
 请注意,这些东西仅供参考,你多半需要自行作出一些修改才能正常运行,这被视为FGO-py的使用门槛  
 速览程序功能,运行`fgo.py`,无需填写任何配置,去冬木大桥刷一根凶骨吧!  
@@ -129,13 +122,14 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 
 ### 直接在手机上运行
 
-有一些软件能在安卓手机上提供Linux环境,比如[AidLux](http://www.aidlearning.net/)([GitHub](https://github.com/aidlearning/AidLearning-Framework)),类似于Android Subsystem for Linux(我愿称之为ASL)  
+有一些软件能在Android手机上提供Linux环境,比如[AidLux](http://www.aidlearning.net/)([GitHub](https://github.com/aidlearning/AidLearning-Framework)),类似于Android Subsystem for Linux(我愿称之为ASL)  
 相较于[Termux](https://termux.com/)等模拟终端,AidLux自带了编译好的opencv等基础库,避免了ARM处理器上的各种问题,故以此为基础搭建FGO-py环境,具体搭建方式于通常Linux无异,可参考`AidLux.sh`,此方案已在多机型上被验证为可行,我现在用得很舒服  
 当然Qt的UI多半是没有的,此时你只能使用文本交互方式运行本项目,这就体现出web ui的优越性了  
-此外,tensorflow/caffe/mxnet等其他数十种智能计算领域常用的软件均可在AidLux特有的软件源中直接安装,碧蓝航线的[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)/明日方舟的[ArknightsAutoHelper](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)等基于安卓调试的自动化脚本都可按类似的方式在装有AidLux的手机上运行--我断言,逐渐地,AidLux会在手游自动化方面被更加广泛地使用,是大势所趋,早用早享受  
+此外,tensorflow/caffe/mxnet等其他数十种智能计算领域常用的软件均可在AidLux特有的软件源中直接安装,碧蓝航线的[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)/明日方舟的[ArknightsAutoHelper](https://github.com/ninthDevilHAUNSTER/ArknightsAutoHelper)等基于Android调试的自动化脚本都可按类似的方式在装有AidLux的手机上运行--我断言,逐渐地,AidLux会在手游自动化方面被更加广泛地使用,是大势所趋,早用早享受  
 
 ### Windows Subsystem for Android
 
+本条目已经过时  
 这个功能非常未来可期,目前不能保证在你的设备上也能运行,不过能折腾出wsa上跑fgo的人应该也有能力解决或者定位遇到的问题  
 在连接到wsa时输入的设备序列号必须为wsa这三个英文字符,同时fgo必须已经正在运行  
 运行途中跑着fgo的wsa窗口不能被最小化,wsa窗口最小化就像手机上切到后台我也没办法  
@@ -150,9 +144,9 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 
 ### Windows 窗口
 
-经由win32api实现的截图和鼠标事件  
-在连接到Windows窗口时输入`win32_0x114514`以指定窗口句柄为0x114514的窗口,16进制前缀0x是可选的  
-在连接到Windows窗口时输入`win32`以使用交互方式指定窗口,这会枚举鼠标指针正下方的可见窗口及其所有子窗口,你需要在输入`win32`后按下回车前将鼠标移至fgo画面上方,随后按照窗口标题中的说明进行操作,确认展示的截图是不多不少的fgo画面而且可以响应鼠标事件  
+经由WindowsApi实现的截图和鼠标事件  
+在连接到Windows窗口时输入`win_0x114514`以指定窗口句柄为0x114514的窗口,16进制前缀0x是可选的  
+在连接到Windows窗口时输入`win`以使用交互方式指定窗口,这会枚举鼠标指针正下方的可见窗口及其所有子窗口,你需要在输入`win`后按下回车前将鼠标移至fgo画面上方,随后按照窗口标题中的说明进行操作,确认展示的截图是不多不少的fgo画面而且可以响应鼠标事件  
 窗口在战斗运行时不能被最小化或隐藏  
 若目标窗口有管理员权限,则FGO-py也需要以管理员身份运行  
 需要Windows 10版本1703或更高  
@@ -172,14 +166,14 @@ fgoAlas.py头部的注释写明了需要进行的更改,在你完成所有更改
 基于本人的实际使用场景,这里现在有以下命令  
 
 1. `wsa` 这是给wsa做的特化,当连接到wsa时必须填写wsa而不能填写其他内容,这个指令不以「/」开头  
-2. `win32` 这是给Windows窗口做的特化,直接输入win32使用交互方式确定窗口,或后跟`_16进制窗口句柄值`以指定窗口,这个指令不以「/」开头  
+2. `win` 这是给Windows窗口做的特化,直接输入win使用交互方式确定窗口,或后跟`_16进制窗口句柄值`以指定窗口,这个指令不以「/」开头  
 3. `/gw` 手机开热点打fgo电脑连热点,获取网关ip  
 4. `/bs4` 兼容Hyper-V的BlueStacks 4国际版,从注册表读取adb端口,后跟`_数字`指定多开  
 5. `/bs5` 兼容Hyper-V的BlueStacks 5国际版,从注册表读取配置文件路径,在配置文件中查找adb端口,后跟`_数字`指定多开  
 
 你可以自己编写你需要的功能,如果你认为你的场景别人也会遇到,请发个issue或pr让我加进这个项目里  
 此外,你可以使用`|`连接两个设备名以分别指定点击拖拽等输入操作和截图等输出操作使用的接口,中间不得有空格  
-如`/bs5_2|win32`使用输入到蓝叠5的第二个多开而使用win32进行截图,或是`127.0.0.1:5555|127.0.0.1:5557`使用5556设备显示的画面但是点击在5554设备上(大雾  
+如`/bs5_2|win`使用Android输入到蓝叠5的第二个多开而使用Windows截图,或是`127.0.0.1:5555|127.0.0.1:5557`使用5556设备显示的画面但是点击在5554设备上(大雾  
 
 ## 助战/邮箱筛选 Friends/Mail Filter
 
@@ -231,6 +225,12 @@ Add:新的宝具模型
 Add:御主技能识别与施放  
 
 # 版本记录 Version Logs
+
+# 2022/08/06 v9.3.8
+
+Opt:禁用Kingprotea 2技能  
+Upd:将win32更名为Windows或win  
+本项目使用的WindowsApi已经超出了传统意义上win32的范围  
 
 # 2022/08/04 v9.3.7
 
