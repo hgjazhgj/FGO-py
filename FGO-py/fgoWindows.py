@@ -1,6 +1,6 @@
 import numpy,platform
 from fgoLogging import getLogger
-logger=getLogger('Win32')
+logger=getLogger('Windows')
 
 BLACK=numpy.zeros((720,1280,3),numpy.uint8)
 if platform.system()=='Windows':
