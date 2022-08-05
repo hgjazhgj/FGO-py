@@ -1,16 +1,9 @@
-**重要! 发现图像识别不能正确工作请先考虑[issue #45](https://github.com/hgjazhgj/FGO-py/issues/45)**  
-> `echo -e "connect /bs5 \n main \n main -s 28800" | python fgo.py cli`
+热烈庆祝本项目于2022年8月5日荣登GitHub中文趋势Python语言榜第三名!  
+![trending](doc/trending.png)
 
 > 完全免配置! 运行程序-连接设备-点击开始 ~~都什么年代,还在用传统fgo脚本~~  
 > 本项目已经存在直接在运行fgo的手机上运行的解决方案 [直接在手机上运行](#直接在手机上运行)  
-> WSA supported! [Windows Subsystem for Android](#Windows-Subsystem-for-Android)  
 > Run in Docker, see Dockerfile  
-
-> 人这东西还真是能力有限啊  
-> 我从短暂的人生当中学到的就是  
-> 人越是写代码,代码就越可能因意料之外的情况而出错  
-> 要成为超人的存在才行啊  
-> 所以啊,我不做人啦!JOJO!  
 
 # 「智能战斗不间断,不靠礼装不用拐」的Fate/Grand Order全智能程序
 
@@ -98,7 +91,7 @@ FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固�
 首先也是最基础的,在阅读本条目前,请先验证你能**通过源码在安装有Python3.9的Windows操作系统中运行本项目并用来操作运行于屏幕分辨率为1280*720或其简单整数比缩放的安卓设备上的命运-冠位指定官方简体中文版本**--这被视作FGO-py的使用门槛,我不会为此提供任何帮助--然后再根据后续内容向目标环境迁移  
 本项目根目录下有些许文件可为不同场景下的环境搭建提供帮助  
 AutoRelease -- 传统的在Windows电脑上运行只需run workflow即可构建exe  
-Dockerfile/docker-compose.yml -- 尽管只是配了个环境,但确实配好了环境  
+Dockerfile | docker-compose.yml -- 尽管只是配了个环境,但确实配好了环境  
 AidLux.sh -- 一键在AidLux上安装FGO-py  
 请注意,这些东西仅供参考,你多半需要自行作出一些修改才能正常运行,这被视为FGO-py的使用门槛  
 速览程序功能,运行`fgo.py`,无需填写任何配置,去冬木大桥刷一根凶骨吧!  
@@ -136,6 +129,7 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 
 ### Windows Subsystem for Android
 
+本条目已经过时  
 这个功能非常未来可期,目前不能保证在你的设备上也能运行,不过能折腾出wsa上跑fgo的人应该也有能力解决或者定位遇到的问题  
 在连接到wsa时输入的设备序列号必须为wsa这三个英文字符,同时fgo必须已经正在运行  
 运行途中跑着fgo的wsa窗口不能被最小化,wsa窗口最小化就像手机上切到后台我也没办法  
