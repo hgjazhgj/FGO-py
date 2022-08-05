@@ -65,7 +65,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         fgoDevice.device=fgoDevice.Device(self.config['device'],self.config['package'])
     def complete_connect(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['wsa','win32']+[f'/{i}'for i in fgoDevice.helpers]+fgoDevice.Device.enumDevices()
+            '':['wsa','win']+[f'/{i}'for i in fgoDevice.helpers]+fgoDevice.Device.enumDevices()
         },text,line,begidx,endidx)
     def do_teamup(self,line):
         'Setup your teams'
