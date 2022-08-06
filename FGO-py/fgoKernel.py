@@ -101,7 +101,6 @@ class Turn:
                 self.servant[i]=(lambda x:(x,)+servantData.get(x,()))(Detect.cache.getFieldServant(i))
                 self.countDown[0][i]=[0,0,0]
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {[i[0]for i in self.servant]}')
-        if self.stageTurn==1:fgoDevice.device.perform('\x67\x68\x69'[numpy.argmax([Detect.cache.getEnemyHp(i)for i in range(3)])]+'\xBB',(800,500))
         self.dispatchSkill()
         self.enemy=[Detect.cache.getEnemyHp(i)for i in range(3)]
         fgoDevice.device.perform(' ',(2100,))
@@ -204,15 +203,21 @@ class Turn:
                     self.countDown[0][i[1]][i[2]]=1
                 else:...
     @logit(logger,logging.INFO)
-    def selectCard(self):return''.join((lambda color,sealed,hougu,resist,critical:
-            ['678'[i]for i in range(3)if hougu[i]]
-            +['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]
-            if any(hougu)else
+    def selectCard(self):
+        color,sealed,hougu,resist,critical=[[1,.8,1.1][i]for i in Detect().getCardColor()],Detect.cache.isCardSealed(),Detect.cache.isHouguReady(),[[1,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]
+        houguTargeted,houguArea,houguSupport=[[j for j in range(3)if hougu[j]and self.servant[j][0]and self.servant[j][5][0]==i]for i in range(3)]
+        houguArea=houguArea if self.stage==self.stageTotal or sum(i>0 for i in self.enemy)>1 and sum(self.enemy)>12000 else[]
+        houguTargeted=houguTargeted if self.stage==self.stageTotal or max(self.enemy)>23000+8000*len(houguArea)else[]
+        hougu=houguSupport+houguArea+houguTargeted
+        if self.stageTurn==1 or houguTargeted:fgoDevice.device.perform('\x67\x68\x69'[numpy.argmax(self.enemy)],(500,))
+        return''.join(
+            ['678'[i]for i in hougu]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]
+            if hougu else
             (lambda group:
                 ['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(
                     max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))
                 )])(Detect.cache.getCardGroup())
-            )([[1,.8,1.1][i]for i in Detect().getCardColor()],Detect.cache.isCardSealed(),Detect.cache.isHouguReady(),[[1,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
+        )
     def castServantSkill(self,pos,skill,target):
         fgoDevice.device.press(('ASD','FGH','JKL')[pos][skill])
         if Detect(.7).isSkillNone():
