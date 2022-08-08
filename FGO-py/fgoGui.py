@@ -1,11 +1,10 @@
 import json,os,sys,time
 from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
-from PyQt6.QtGui import QAction
+from PyQt6.QtGui import QAction,QIcon
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QStyle,QSystemTrayIcon
 import fgoDevice
 import fgoKernel
-from fgoIniParser import IniParser
 from fgoMainWindow import Ui_fgoMainWindow
 from fgoServerChann import ServerChann
 logger=fgoKernel.getLogger('Gui')
@@ -34,8 +33,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self.setWindowIcon(QIcon('fgoIco.ico'))
         self.TRAY=QSystemTrayIcon(self)
-        self.TRAY.setIcon(QApplication.style().standardIcon(QStyle.StandardPixmap.SP_MessageBoxInformation))
+        self.TRAY.setIcon(QIcon('fgoIco.ico'))
         self.TRAY.setToolTip('FGO-py')
         self.MENU_TRAY=QMenu(self)
         self.MENU_TRAY_QUIT=QAction('退出',self.MENU_TRAY)
@@ -177,7 +177,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         except BaseException as e:logger.exception(e)
     def about(self):QMessageBox.about(self,'FGO-py - About',f'''
 <h2>FGO-py</h2>
-FGO全自动脚本
+全自动免配置跨平台开箱即用的FGO助手
 <table border="0">
   <tr><td>当前版本</td><td>{fgoKernel.__version__}</td></tr>
   <tr><td>作者</td><td>hgjazhgj</td></tr>

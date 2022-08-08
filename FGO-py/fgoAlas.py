@@ -11,11 +11,9 @@
 # fgoDetect.py
 # fgoFuse.py
 # fgoImageListener.py
-# fgoIniParser.py
 # fgoKernel.py
 # fgoLogging.py
 # fgoSchedule.py
-# fgoTeamup.ini
 
 # 将 fgoLogging.py 的内容替换为
 # import logging
@@ -73,10 +71,6 @@ from module.logger import logger
 from module.FGOpy import fgoDevice
 from module.FGOpy import fgoKernel
 from module.FGOpy.fgoAlasDevice import Device
-from module.FGOpy.fgoIniParser import IniParser
-
-teamup = IniParser("module/FGOpy/fgoTeamup.ini")
-
 
 class fgoAlas:
     def __init__(self, config):

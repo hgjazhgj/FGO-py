@@ -3,7 +3,6 @@ from flask import Flask,redirect,render_template,request,url_for
 import fgoDevice
 import fgoKernel
 from fgoLogging import getLogger
-from fgoIniParser import IniParser
 logger=getLogger('fgo.Web')
 
 with open('fgoConfig.json')as f:
