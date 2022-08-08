@@ -1,7 +1,6 @@
 import argparse,cmd,functools,json,os,platform,re,signal,time
 import fgoDevice
 import fgoKernel
-from fgoIniParser import IniParser
 logger=fgoKernel.getLogger('Cli')
 
 def wrapTry(func):
