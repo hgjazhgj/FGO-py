@@ -157,6 +157,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
+    def expBall(self):
+        QMessageBox.information(self,'FGO-py','''
+搓丸子是一个基于FGO-py的独立项目<br/>
+<a href="https://github.com/hgjazhgj/FGO-ExpBall">FGO-ExpBall</a><br/>
+你看见了这个弹窗,说明你已经能够运行FGO-py了<br/>
+那么,无需任何其他配置,你可以直接运行FGO-ExpBall''')
     def stopOnSpecialDrop(self):
         num,ok=QInputDialog.getInt(self,'FGO-py','剩余的特殊掉落数量',1,0,1919810,1)
         if ok:fgoKernel.schedule.stopOnSpecialDrop(num)

@@ -280,6 +280,7 @@
     <addaction name="MENU_SCRIPT_LOTTERY"/>
     <addaction name="MENU_SCRIPT_MAILFILTER"/>
     <addaction name="MENU_SCRIPT_SYNTHESIS"/>
+    <addaction name="MENU_SCRIPT_EXPBALL"/>
    </widget>
    <widget class="QMenu" name="MENU_CONTROL">
     <property name="title">
@@ -349,6 +350,14 @@
    </property>
    <property name="text">
     <string>礼装强化</string>
+   </property>
+  </action>
+  <action name="MENU_SCRIPT_EXPBALL">
+   <property name="statusTip">
+    <string>把若干张低星礼装合并成一个</string>
+   </property>
+   <property name="text">
+    <string>搓丸子</string>
    </property>
   </action>
   <action name="MENU_CONTROL_MAPKEY">
@@ -511,6 +520,12 @@
    <slot>runSynthesis()</slot>
   </connection>
   <connection>
+   <sender>MENU_SCRIPT_EXPBALL</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>expBall()</slot>
+  </connection>
+  <connection>
    <sender>MENU_CONTROL_MAPKEY</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
@@ -589,6 +604,7 @@
   <slot>runMail()</slot>
   <slot>runMain()</slot>
   <slot>runSynthesis()</slot>
+  <slot>expBall()</slot>
   <slot>stop()</slot>
   <slot>stopLater(bool)</slot>
   <slot>stopOnSpecialDrop(bool)</slot>
