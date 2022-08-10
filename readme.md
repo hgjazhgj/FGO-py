@@ -1,7 +1,9 @@
-热烈庆祝本项目于2022年8月5日荣登GitHub中文趋势Python语言日榜与同期周榜第3名!同期中文趋势全语言周榜第23名  
+热烈庆祝本项目于2022年8月5日荣登GitHub中文趋势Python语言日榜与同期周榜第3名!  
+同期中文趋势全语言周榜第23名  
 ![trending](doc/trending.png)
 
 > 完全免配置! 运行程序-连接设备-点击开始 ~~都什么年代,还在用传统fgo脚本~~  
+> 搓丸子? 请用[FGO-ExpBall](https://github.com/hgjazhgj/FGO-ExpBall) 基于FGO-py的免配置全自动跨平台搓丸子  
 > 本项目已经存在直接在运行fgo的手机上运行的解决方案 [直接在手机上运行](#直接在手机上运行)  
 > Run in Docker, see Dockerfile  
 
@@ -184,6 +186,11 @@ fgoAlas.py头部的注释写明了需要进行的更改,在你完成所有更改
 如果fgoImage/friend目录下没有png文件,就选取好友列表中的第一个  
 图片中黑色(#000)部分被视作透明而无需透明度通道  
 你在fgoImage/friend目录下的所有更改会在下一次选取助战时智能应用  
+
+## 搓丸子 ExpBall
+
+请使用[FGO-ExpBall](https://github.com/hgjazhgj/FGO-ExpBall)  
+该项目由于需要由程序而非玩家对游戏内设置进行精细的设定,相关实现不符合FGO-py的风格,故做成了独立项目  
 
 ## 配置文件 Config Files
 

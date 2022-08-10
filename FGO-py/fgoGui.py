@@ -2,7 +2,7 @@ import json,os,sys,time
 from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
 from PyQt6.QtGui import QAction,QIcon
-from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QStyle,QSystemTrayIcon
+from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon
 import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
@@ -33,9 +33,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        self.setWindowIcon(QIcon('fgoIco.ico'))
+        self.setWindowIcon(QIcon('fgoIcon.ico'))
         self.TRAY=QSystemTrayIcon(self)
-        self.TRAY.setIcon(QIcon('fgoIco.ico'))
+        self.TRAY.setIcon(QIcon('fgoIcon.ico'))
         self.TRAY.setToolTip('FGO-py')
         self.MENU_TRAY=QMenu(self)
         self.MENU_TRAY_QUIT=QAction('退出',self.MENU_TRAY)
