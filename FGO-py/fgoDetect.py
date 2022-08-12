@@ -91,7 +91,7 @@ class Detect(metaclass=logMeta(logger)):
     def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isFriendListEnd(self):return self._isListEnd((1255,709))
     def isGacha(self):return self._compare(IMG.GACHA,(648,640,875,702))
-    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.4)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])(Detect(.15)if that is None else that)
+    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])(Detect(.15)if that is None else that)
     def isMailDone(self):return self._watchMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
