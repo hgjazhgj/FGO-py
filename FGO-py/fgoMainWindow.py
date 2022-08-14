@@ -5,14 +5,12 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-import platform
 
 class Ui_fgoMainWindow(object):
     def setupUi(self, fgoMainWindow):
         fgoMainWindow.setObjectName("fgoMainWindow")
         fgoMainWindow.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
-        if platform.system()=='Darwin':fgoMainWindow.setStyleSheet("QWidget{font-family:\"PingFang SC\";font-size:15px}")
-        else:fgoMainWindow.setStyleSheet("QWidget{font-family:\"Microsoft YaHei UI Light\";font-size:15px}")
+        fgoMainWindow.setStyleSheet("QWidget{font-family:\"Microsoft YaHei UI Light\";font-size:15px}")
         self.widget = QtWidgets.QWidget(fgoMainWindow)
         self.widget.setObjectName("widget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.widget)
