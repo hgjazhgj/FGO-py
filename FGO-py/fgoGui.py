@@ -1,4 +1,4 @@
-import json,os,sys,time
+import json,os,sys,time,platform
 from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
 from PyQt6.QtGui import QAction,QIcon
@@ -33,6 +33,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        if platform.system()=='Darwin':fgoMainWindow.setStyleSheet("QWidget{font-family:\"PingFang SC\";font-size:15px}")
         self.setWindowIcon(QIcon('fgoIcon.ico'))
         self.TRAY=QSystemTrayIcon(self)
         self.TRAY.setIcon(QIcon('fgoIcon.ico'))
