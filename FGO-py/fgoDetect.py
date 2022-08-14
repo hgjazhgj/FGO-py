@@ -72,7 +72,7 @@ class Detect(metaclass=logMeta(logger)):
             a[p]=yield a[0]!=a[1]
             p^=1
     def _isListEnd(self,pos):return(lambda x:.1<x[0]or pos[1]<x[2][1]+30)(self._loc(IMG.LISTBAR,(pos[0]-19,0,pos[0]+19,720)))
-    def save(self,name='Capture',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000:03}"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect))and name # ,
+    def save(self,name='Capture',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000:03}"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect))and name # ,[cv2.IMWRITE_PNG_COMPRESSION,9]
     def show(self):
         cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.6,fy=.6))
         if cv2.waitKey()==ord('s'):self.save()
