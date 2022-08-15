@@ -101,7 +101,7 @@ class Detect(metaclass=logMeta(logger)):
     def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
     def isServantFriend(self,pos):return self._compare(IMG.SUPPORT,(194+318*pos,388,284+318*pos,418))
     def isSkillCastFailed(self):return self._compare(IMG.SKILLERROR,(595,539,684,586))
-    def isSkillNone(self):return self._compare(IMG.CROSS,(1070,45,1105,79))
+    def isSkillNone(self):return self._compare(IMG.CROSS,(1070,45,1105,79))or self._compare(IMG.CROSS,(1093,164,1126,196))
     def isSkillReady(self,i,j):return not self._compare(IMG.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2)
     def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(957,2,990,40),.1)
     def isSpecialDropSuspended(self):return self._compare(IMG.CLOSE,(8,11,68,68))
