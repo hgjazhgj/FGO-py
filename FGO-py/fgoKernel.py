@@ -197,7 +197,7 @@ class Turn:
                             self.castServantSkill(i[1],i[2],i[1])
                             continue
                     elif p[0]==9:
-                        if any(self.servant[i][0]and((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))or Detect.cache.getFieldServantHp(i)<3300)for i in range(3)):
+                        if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(3))or Detect.cache.getFieldServantHp(i[1])<3300:
                             self.castServantSkill(i[1],i[2],i[1])
                             continue
                     self.countDown[0][i[1]][i[2]]=1
