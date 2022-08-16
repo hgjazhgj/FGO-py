@@ -1,4 +1,4 @@
-VERSION='v9.4.3'
+VERSION='v9.5.0'
 # F1-F10        选取编队
 # 12345         选卡,234指向技能的目标,银苹果
 # 678           宝具卡,选取剧情选项,8选取第一个关卡
@@ -24,4 +24,55 @@ KEYMAP={
 'Z':(640,629),'X':(173,621),'C':(330,320),'N':(165,694),'M':(800,667),
 ' ':(1231,687),
 '\x64':(47,147),'\x65':(285,147),'\x66':(527,147),'\x67':(47,46),'\x68':(285,46),'\x69':(527,46) # VK_NUMPAD4..9
+}
+I18N={
+'ProofOfHero':'英雄之证',
+'EvilBone':'凶骨',
+'DragonFang':'龙之牙',
+'VoidsDust':'虚影之尘',
+'FoolsChain':'愚者之锁',
+'DeadlyPoisonousNeedle':'万死的毒针',
+'MysticSpinalFluid':'魔术髓液',
+'StakeOfWailingNight':'宵泣之铁桩',
+'MysticGunpowder':'振荡火药',
+'SmallBellOfAbsolution':'赦免的小钟',
+'SeedOfYggdrassil':'世界树之种',
+'GhostLantern':'鬼魂提灯',
+'OctupletCrystals':'八连双晶',
+'SerpentJewel':'蛇之宝玉',
+'PhoenixFeather':'凤凰羽毛',
+'EternalGear':'无间齿轮',
+'ForbiddenPage':'禁断书页',
+'HomunculusBaby':'人工生命体幼体',
+'MeteorHorseshoe':'陨蹄铁',
+'GreatKnightMedal':'大骑士勋章',
+'ShellOfReminiscence':'追忆的贝壳',
+'RefinedMagatama':'枯淡勾玉',
+'EternalIce':'永远结冰',
+'GiantsRing':'巨人的戒指',
+'AuroraSteel':'极光之钢',
+'SoundlessBell':'闲古铃',
+'ArrowheadOfMalice':'祸罪之箭头',
+'CrownOfSilveryLight':'光银之冠',
+'DivineSpiritron':'神脉灵子',
+'BallOfRainbowThread':'虹之线球',
+'ScalesOfFantasy':'梦幻的鳞粉',
+'ClawOfChaos':'混沌之爪',
+'HeartOfTheForeignGod':'蛮神心脏',
+'DragonsReverseScale':'龙之逆鳞',
+'SpiritRoot':'精灵根',
+'WarhorsesYoungHorn':'战马的幼角',
+'TearstoneOfBlood':'血之泪石',
+'BlackBeastGrease':'黑兽脂',
+'LampOfEvilSealing':'封魔之灯',
+'ScarabOfWisdom':'智慧之圣甲虫像',
+'PrimordialLanugo':'起源的胎毛',
+'CursedBeastGallstone':'咒兽胆石',
+'MysteriousDivineWine':'奇奇神酒',
+'ReactorCoreOfDawn':'晓光炉心',
+'TsukumoMirror':'九十九镜',
+'EggOfTruth':'真理之卵',
+'FragmentOfATwinklingStar':'煌星碎片',
+'FruitOfEternity':'悠久果实',
+'FlamingOniLanternPlant':'鬼炎鬼灯'
 }

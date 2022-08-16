@@ -6,9 +6,10 @@ from fgoLogging import getLogger,logMeta,logit
 from fgoMetadata import servantData,servantImg
 logger=getLogger('Detect')
 
-IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage')if i[-4:]=='.png'})
-CLASS={100:[getattr(IMG,f'Class{i}{j}'.upper())for i in['Shielder','Saber','Archer','Lancer','Rider','Caster','Assassin','Berserker','Ruler','Avenger','Alterego','MoonCancer','Foreigner','Pretender']for j in range(3)]}
+IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage')if i.endswith('.png')})
+CLASS={100:[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in['Shielder','Saber','Archer','Lancer','Rider','Caster','Assassin','Berserker','Ruler','Avenger','Alterego','MoonCancer','Foreigner','Pretender']for j in range(3)]}
 CLASS[125]=[[cv2.resize(j,(0,0),fx=1.25,fy=1.25,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
+MATERIAL={i[:-4]:cv2.imread(f'fgoImage/material/{i}')for i in os.listdir('fgoImage/material')if i.endswith('.png')}
 def coroutine(func):
     @wraps(func)
     def primer(*args,**kwargs):
@@ -129,6 +130,7 @@ class Detect(metaclass=logMeta(logger)):
     def getFieldServantClassRank(self,pos):return(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
     def getFieldServantHp(self,pos):return self._ocr((200+318*pos,620,293+318*pos,644))
     def getFieldServantNp(self,pos):return self._ocr((220+318*pos,655,274+318*pos,680))
+    def getMaterial(self):return{i:j for i,j in((i,self._count((j,None),(155,92,1126,491),.02))for i,j in MATERIAL.items())if j}
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(IMG.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(884,13,902,38),.5)+1

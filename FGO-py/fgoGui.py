@@ -3,6 +3,7 @@ from threading import Thread
 from PyQt6.QtCore import Qt,pyqtSignal
 from PyQt6.QtGui import QAction,QIcon
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon
+from fgoConst import I18N
 import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
@@ -33,7 +34,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        if platform.system()=='Darwin':fgoMainWindow.setStyleSheet("QWidget{font-family:\"PingFang SC\";font-size:15px}")
+        if platform.system()=='Darwin':self.setStyleSheet("QWidget{font-family:\"PingFang SC\";font-size:15px}")
         self.setWindowIcon(QIcon('fgoIcon.ico'))
         self.TRAY=QSystemTrayIcon(self)
         self.TRAY.setIcon(QIcon('fgoIcon.ico'))
@@ -99,11 +100,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                 msg=(repr(e),QSystemTrayIcon.MessageIcon.Critical)
             else:msg=('Done',QSystemTrayIcon.MessageIcon.Information)
             finally:
+                self.result=getattr(func,'result',None)
                 self.signalFuncEnd.emit(msg)
                 fgoKernel.fuse.reset()
                 fgoKernel.schedule.reset()
                 if self.config['notifyEnable']and not self.notifier(msg[0]):logger.critical('Notify post failed')
-        self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",getattr(type(func),"__qualname__",repr(func)))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
+        self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
         self.worker.start()
     def funcBegin(self):
         self.BTN_ONEBATTLE.setEnabled(False)
@@ -114,6 +116,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOPLATER.setEnabled(True)
         self.MENU_SCRIPT.setEnabled(False)
         self.TXT_APPLE.setValue(0)
+        self.result=None
     def funcEnd(self,msg):
         self.BTN_ONEBATTLE.setEnabled(True)
         self.BTN_MAIN.setEnabled(True)
@@ -124,6 +127,17 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_SCRIPT.setEnabled(True)
         QApplication.alert(self)
         self.TRAY.showMessage('FGO-py',*msg)
+        if isinstance(self.result,dict)and(t:=self.result.get('type',None)):
+            if t=='Battle':...
+            elif t=='Main':
+                QMessageBox.information(self,'FGO-py',f'''
+<h2>Done</h2>
+在过去的<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>中完成了<font color="#006400">{self.result['battle']}</font>场战斗<br/>
+平均每场战斗<font color="#006400">{self.result['turnPerBattle']:.1f}</font>回合,用时<font color="#006400">{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:02.1f}</font><br/>
+获得了以下素材:<br/>
+{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{I18N.get(i,i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else'无'}
+''')
+        self.result=None
     def connect(self):
         dialog=QInputDialog(self,Qt.WindowType.WindowStaysOnTopHint)
         dialog.setWindowTitle('FGO-py')
