@@ -17,6 +17,7 @@
 # .  Grand Order/Anima Animusphere
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
+from re import T
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
@@ -244,6 +245,7 @@ class Battle:
         self.turnProc=turnClass()
         self.rainbowBox=False
     def __call__(self):
+        self.start=time.time()
         while True:
             if Detect(0,.3).isTurnBegin():
                 self.turn+=1
@@ -260,12 +262,20 @@ class Battle:
                     schedule.checkSpecialDrop()
                     logger.warning('Special Drop')
                     Detect.cache.save('fgoLog/SpecialDrop')
-                return self.turn
+                return True
             elif Detect.cache.isBattleDefeated():
                 logger.warning('Battle Defeated')
                 schedule.checkDefeated()
-                return 0
+                return False
             fgoDevice.device.perform('\xBB\x08',(100,100))
+    @property
+    def result(self):
+        return{
+            'type':'Battle',
+            'turn':self.turn,
+            'time':time.time()-self.start,
+            'material':Detect.cache.getMaterial(),
+        }
 class Main:
     teamIndex=0
     def __init__(self,appleTotal=0,appleKind=0,battleClass=Battle):
@@ -275,12 +285,20 @@ class Main:
         self.appleCount=0
         self.battleCount=0
     def __call__(self):
+        self.start=time.time()
+        self.material={}
+        self.battleTurn=0
+        self.battleTime=0
+        self.defeated=0
+        stop=False
         while True:
             self.battleProc=self.battleClass()
             while True:
                 if Detect(.3,.3).isMainInterface():
                     fgoDevice.device.press('8')
-                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():
+                        stop=True
+                        break
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
@@ -288,7 +306,9 @@ class Main:
                     break
                 elif Detect.cache.isBattleContinue():
                     fgoDevice.device.press('L')
-                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():
+                        stop=True
+                        break
                     self.chooseFriend()
                     schedule.sleep(6)
                     break
@@ -296,11 +316,30 @@ class Main:
                 elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
                 elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x67',(300,))
                 fgoDevice.device.press('\xBB')
+            if stop:break
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
-            if self.battleProc():fgoDevice.device.perform('      ',(200,200,200,200,200,200))
-            else:fgoDevice.device.perform('CIK',(500,500,500))
+            if self.battleProc():
+                battleResult=self.battleProc.result
+                self.battleTurn+=battleResult['turn']
+                self.battleTime+=battleResult['time']
+                self.material={i:self.material.get(i,0)+battleResult['material'].get(i,0)for i in self.material|battleResult['material']}
+                fgoDevice.device.perform('      ',(200,200,200,200,200,200))
+            else:
+                self.defeated+=1
+                fgoDevice.device.perform('CIK',(500,500,500))
             schedule.checkStopLater()
+    @property
+    def result(self):
+        return{
+            'type':'Main',
+            'time':time.time()-self.start,
+            'battle':self.battleCount,
+            'defeated':self.defeated,
+            'turnPerBattle':self.battleTurn/(self.battleCount-self.defeated)if self.battleCount-self.defeated else 0,
+            'timePerBattle':self.battleTime/(self.battleCount-self.defeated)if self.battleCount-self.defeated else 0,
+            'material':self.material
+        }
     @logit(logger,logging.INFO)
     def eatApple(self):
         if self.appleCount==self.appleTotal:return fgoDevice.device.press('Z')

@@ -1,7 +1,8 @@
 import argparse,cmd,functools,json,os,platform,re,signal,time
 import fgoDevice
 import fgoKernel
-logger=fgoKernel.getLogger('Cli')
+from fgoLogging import getLogger,color
+logger=getLogger('Cli')
 
 def wrapTry(func):
     @functools.wraps(func)
@@ -109,10 +110,17 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
             msg=repr(e)
         else:msg='Done'
         finally:
+            result=getattr(self.work,'result',None)
             signal.signal(signal.SIGINT,signal.SIG_DFL)
             if platform.system()=='Windows':signal.signal(signal.SIGBREAK,signal.SIG_DFL)
             fgoKernel.fuse.reset()
             fgoKernel.schedule.reset()
+        if isinstance(result,dict)and(t:=result.get('type',None)):
+            if t=='Battle':...
+            elif t=='Main':
+                logger.warning(f'{color(0xC5E0B4)}{result["battle"]}{color()} battle(s) finished in {color(0xC5E0B4)}{result["time"]//3600:.0f}:{result["time"]//60%60:02.0f}:{result["time"]%60:02.0f}{color()}')
+                logger.warning(f'{color(0xC5E0B4)}{result["turnPerBattle"]:.1f}{color()} turns, {color(0xC5E0B4)}{result["timePerBattle"]//60:.0f}:{result["timePerBattle"]%60:02.1f}{color()} per battle in average')
+                if result["material"]:logger.warning(f'{", ".join(f"{i}{color(0xFFD966)}x{j}{color()}"for i,j in result["material"].items())} earned')
         # todo: notify
         # if self.config['notifyEnable']:
         #     for i in self.config['notifyParam']:

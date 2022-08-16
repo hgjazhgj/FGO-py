@@ -66,7 +66,7 @@ GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgja
 **由于使用本程序而导致的包括但不限于上述各项的损失与本项目及其开发者无关,您下载并使用该程序即代表您已知晓使用程序可能带来的风险并愿意承担可能出现的后果**  
 ***
 
-本项目`FGO-py/fgoImage/servant/`下的图像来自于[茹西教王的理想鄉](https://kazemai.github.io/fgo-vz/),`FGO-py/fgoImage/`下各职阶图标与`FGO-py/fgoMetadata.py`中的部分数据来自于[Mooncell](https://fgo.wiki/),以上内容经过加工,不按原样提供,著作权非本人所有,不依照License开源  
+本项目`FGO-py/fgoImage/servant/`下的图像来自于[茹西教王的理想鄉](https://kazemai.github.io/fgo-vz/),`FGO-py/fgoImage/class`和`material`中的图标与`FGO-py/fgoMetadata.py`中的部分数据来自于[Mooncell](https://fgo.wiki/),以上内容经过加工,不按原样提供,著作权非本人所有,不依照License开源  
 
 # 说明 Instruction
 
@@ -235,8 +235,16 @@ fgoAlas.py头部的注释写明了需要进行的更改,在你完成所有更改
 
 Add:利用宝具的首卡染色或色卡三连  
 Add:御主技能识别与施放  
+Add:游戏启动与闪退重启  
+Add:计划作战  
 
 # 版本记录 Version Logs
+
+## 2022/08/17 v9.5.0
+
+Add:战斗结算  
+展示掉落物统计以及其他数据  
+掉落物统计得两秒一张,之后看看优化  
 
 ## 2022/08/16 v9.4.3
 
