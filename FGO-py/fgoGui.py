@@ -203,7 +203,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
   <tr><td>当前版本</td><td>{fgoKernel.__version__}</td></tr>
   <tr><td>作者</td><td><a href="https://github.com/hgjazhgj">hgjazhgj</a></td></tr>
   <tr><td>项目主页</td><td><a href="https://fgo-py.hgjazhgj.top/">https://fgo-py.hgjazhgj.top/</a></td></tr>
-  <tr><td>QQ群</td><td>932481680</td></tr>
+  <tr><td>QQ群</td><td>932481680(请按readme指引操作)</td></tr>
 </table>
 <!-- 都看到这里了真的不考虑资瓷一下吗... -->
 这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>收款码和Monero地址<br/>请给我打钱<br/>

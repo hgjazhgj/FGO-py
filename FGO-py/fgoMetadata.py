@@ -385,12 +385,17 @@ servantData={
 353:(13,0,7,1,(2,0),((4,1),(2,0),(1,5))),
 354:(1,0,6,1,(0,2),((4,5),(1,1),(2,5))),
 355:(7,0,6,0,(1,0),((5,0),(4,1),(1,5))),
-356:(9,0,3,2,(0,0),((8,5),(2,5),(6,5)))
+356:(9,0,3,2,(0,0),((8,5),(2,5),(6,5))),
+357:(8,0,2,0,(1,1),((4,1),(1,5),(2,1))),
+358:(5,0,6,2,(1,2),((4,0),(2,0),(7,0))),
+359:(6,0,3,0,(1,0),((4,5),(8,0),(2,1))),
+360:(6,0,3,0,(1,0),((4,5),(8,0),(2,1))),
+361:(6,0,3,0,(1,0),((4,5),(8,0),(2,1)))
 }
 import cv2,tqdm
-def readSplit(file,width):return(lambda img:[img[:,i*width:(i+1)*width]for i in range(img.shape[1]//width)])(cv2.imread(file,cv2.IMREAD_UNCHANGED))
+def readSplit(file,height):return(lambda img:[img[i*height:(i+1)*height]for i in range(img.shape[0]//height)])(cv2.imread(file,cv2.IMREAD_UNCHANGED))
 servantImg={i:(
     None,
-    readSplit(f'fgoImage/servant/{i}/portrait.png',81),
+    readSplit(f'fgoImage/servant/{i}/portrait.png',63),
     None
 )for i in tqdm.tqdm(servantData,leave=False)}
