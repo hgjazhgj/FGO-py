@@ -131,7 +131,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             if t=='Battle':...
             elif t=='Main':
                 QMessageBox.information(self,'FGO-py',f'''
-<h2>Done</h2>
+<h2>{msg[0].split(':',1)[0]}</h2>
 在过去的<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>中完成了<font color="#006400">{self.result['battle']}</font>场战斗<br/>
 平均每场战斗<font color="#006400">{self.result['turnPerBattle']:.1f}</font>回合,用时<font color="#006400">{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:02.1f}</font><br/>
 获得了以下素材:<br/>

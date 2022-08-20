@@ -64,10 +64,9 @@ def mail():
 def synthesis():
     while True:
         fgoDevice.device.perform('8',(1000,))
-        for i in range(4):
-            for j in range(7):
-                fgoDevice.device.touch((133+133*j,253+140*i))
-                schedule.sleep(.1)
+        for i,j in((i,j)for i in range(4)for j in range(7)):
+            fgoDevice.device.touch((133+133*j,253+142*i))
+            schedule.sleep(.1)
         if Detect().isSynthesisFinished():break
         fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
@@ -112,7 +111,7 @@ class Turn:
             for i in skill:
                 if i[0]==0:
                     if (p:=self.servant[i[1]][6][i[2]])[0]==1:
-                        self.castServantSkill(i[1],i[2],i[1])
+                        self.castServantSkill(i[1],i[2],i[1]+1)
                         continue
                     elif p[0]==2:
                         np=[Detect.cache.getFieldServantNp(i)if self.servant[i][0]else 100 for i in range(3)]
@@ -123,7 +122,7 @@ class Turn:
                         elif p[1]==1:
                             target=numpy.argmin(np)
                             if np[target]<100:
-                                self.castServantSkill(i[1],i[2],target)
+                                self.castServantSkill(i[1],i[2],target+1)
                                 continue
                         elif p[1]==2:
                             np[i[1]]=100
@@ -136,7 +135,7 @@ class Turn:
                                 continue
                         elif p[1]==5:
                             if np[i[1]]<100:
-                                self.castServantSkill(i[1],i[2],i[1])
+                                self.castServantSkill(i[1],i[2],i[1]+1)
                                 continue
                         else:
                             self.castServantSkill(i[1],i[2],0)
@@ -150,7 +149,7 @@ class Turn:
                         elif p[1]==1:
                             target=numpy.argmax(np)
                             if np[target]>=100:
-                                self.castServantSkill(i[1],i[2],target)
+                                self.castServantSkill(i[1],i[2],target+1)
                                 continue
                         elif p[1]==2:
                             np[i[1]]=0
@@ -159,7 +158,7 @@ class Turn:
                                 continue
                         elif p[1]==5:
                             if np[i[1]]>=100:
-                                self.castServantSkill(i[1],i[2],i[1])
+                                self.castServantSkill(i[1],i[2],i[1]+1)
                                 continue
                         else:
                             self.castServantSkill(i[1],i[2],0)
@@ -176,7 +175,7 @@ class Turn:
                         elif p[1]==1:
                             target=numpy.argmin(hp)
                             if hp[target]<6600:
-                                self.castServantSkill(i[1],i[2],target)
+                                self.castServantSkill(i[1],i[2],target+1)
                                 continue
                         elif p[1]==2:
                             hp[i[1]]=999999
@@ -188,18 +187,18 @@ class Turn:
                             continue
                         elif p[1]==5:
                             if hp[i[1]]<6600:
-                                self.castServantSkill(i[1],i[2],i[1])
+                                self.castServantSkill(i[1],i[2],i[1]+1)
                                 continue
                         else:
                             self.castServantSkill(i[1],i[2],0)
                             continue
                     elif p[0]==8:
                         if any(self.servant[i][0]and(lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(3)):
-                            self.castServantSkill(i[1],i[2],i[1])
+                            self.castServantSkill(i[1],i[2],i[1]+1)
                             continue
                     elif p[0]==9:
                         if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(3))or Detect.cache.getFieldServantHp(i[1])<3300:
-                            self.castServantSkill(i[1],i[2],i[1])
+                            self.castServantSkill(i[1],i[2],i[1]+1)
                             continue
                     self.countDown[0][i[1]][i[2]]=1
                 else:...

@@ -5,6 +5,7 @@ build/
 dist/
 help/
 temp/
+fgoTemp/
 *.pyc
 *.jpg
 *.7z
