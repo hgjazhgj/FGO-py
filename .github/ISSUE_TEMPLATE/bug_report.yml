@@ -9,11 +9,15 @@ body:
       options:
       - label: 我已经搜索了现有的 issues 和 discussions
         required: true
-      - label: 我已经阅读了readme中除版本记录以外的所有内容
+      - label: 我已经阅读了 readme 中除版本记录以外的所有内容
         required: true
       - label: 我在提问题之前至少花费了 5 分钟来思考和准备
         required: true
-      - label: 我正在使用最新版的 FGO-py
+      - label: 这个问题出现在最新版的 FGO-py 上
+        required: false
+      - label: 我遇到的问题至少出现了3次
+        required: false
+      - label: 我使用过旧版的 FGO-py 并且没有出现过这个问题
         required: false
   - type: textarea
     id: describe
@@ -29,8 +33,8 @@ body:
       description: 重现该行为的步骤
       value: |
         1. 前往 '...'
-        2. 点击 '....'
-        3. 滑动到 '....'
+        2. 点击 '...'
+        3. 滑动到 '...'
         4. 出现问题
     validations:
       required: false
@@ -48,6 +52,7 @@ body:
       description: |
         请复制并粘贴任何相关的日志输出。
         可以把文件拖入这个区域以添加日志文件。
+        日志文件在fgoLog目录下。
       render: Text
     validations:
       required: false
@@ -67,7 +72,7 @@ body:
     attributes:
       label: 还有别的吗？
       description: |
-        相关的配置？链接？参考资料？
+        运行环境？相关的配置？链接？参考资料？
         任何能让我们对你所遇到的问题有更多了解的东西。
     validations:
       required: false
