@@ -240,6 +240,11 @@ Add:计划作战
 
 # 版本记录 Version Logs
 
+## 2022/08/22 v9.6.2
+
+Fix:[issue #75](https://github.com/hgjazhgj/FGO-py/issues/75)  
+文件名大小写不一致导致的非Windows系统读取错误  
+
 ## 2022/08/22 v9.6.1
 
 Fix:Windows调试下仅点击时的成员缺失  
