@@ -7,7 +7,7 @@ from fgoMetadata import servantData,servantImg
 logger=getLogger('Detect')
 
 IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage')if i.endswith('.png')})
-CLASS={100:[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in['Shielder','Saber','Archer','Lancer','Rider','Caster','Assassin','Berserker','Ruler','Avenger','Alterego','MoonCancer','Foreigner','Pretender']for j in range(3)]}
+CLASS={100:[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in['shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender']for j in range(3)]}
 CLASS[125]=[[cv2.resize(j,(0,0),fx=1.25,fy=1.25,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
 MATERIAL=[(i[:-4],cv2.imread(f'fgoImage/material/{i}'))for i in os.listdir('fgoImage/material')if i.endswith('.png')]
 def coroutine(func):
