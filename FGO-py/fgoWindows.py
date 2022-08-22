@@ -19,7 +19,11 @@ if platform.system()=='Windows':
             self.hMemDc=self.hMfcDc.CreateCompatibleDC()
         @property
         def available(self):
-            return win32gui.IsWindow(self.hWnd)
+            if not win32gui.IsWindow(self.hWnd):return False
+            self.width,self.height=win32gui.GetClientRect(self.hWnd)[2:]
+            if self.width==0 or self.height==0:return False
+            self.scale,self.border=(720/self.height,(round(self.width-self.height*16/9)>>1,0))if self.width*9>self.height*16 else(1280/self.width,(0,round(self.height-self.width*9/16)>>1))
+            return True
         @staticmethod
         def enumDevices():
             wnds=[win32gui.WindowFromPoint(win32api.GetCursorPos())]
@@ -47,9 +51,7 @@ if platform.system()=='Windows':
         #     # elif self.dpiAwareness==1: # 1:DPI_AWARENESS_SYSTEM_AWARE current unable to handle this
         #     elif self.dpiAwareness==0:return[i*self.dpi//96 for i in pos] # 0:DPI_AWARENESS_UNAWARE
         def screenshot(self):
-            self.width,self.height=win32gui.GetClientRect(self.hWnd)[2:]
-            if self.width==0 or self.height==0:return BLACK
-            self.scale,self.border=(720/self.height,(round(self.width-self.height*16/9)>>1,0))if self.width*9>self.height*16 else(1280/self.width,(0,round(self.height-self.width*9/16)>>1))
+            if not self.available:return BLACK
             hBmp=win32ui.CreateBitmap()
             hBmp.CreateCompatibleBitmap(self.hMfcDc,self.width,self.height)
             self.hMemDc.SelectObject(hBmp)
