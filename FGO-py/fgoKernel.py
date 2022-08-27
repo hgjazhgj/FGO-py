@@ -245,6 +245,7 @@ class Battle:
         self.rainbowBox=False
     def __call__(self):
         self.start=time.time()
+        self.material={}
         while True:
             if Detect(0,.3).isTurnBegin():
                 self.turn+=1
@@ -257,6 +258,7 @@ class Battle:
             elif not self.rainbowBox and Detect.cache.isSpecialDropRainbowBox():self.rainbowBox=True
             elif Detect.cache.isBattleFinished():
                 logger.info('Battle Finished')
+                self.material=Detect(.4).getMaterial()
                 if self.rainbowBox:
                     schedule.checkSpecialDrop()
                     logger.warning('Special Drop')
@@ -273,7 +275,7 @@ class Battle:
             'type':'Battle',
             'turn':self.turn,
             'time':time.time()-self.start,
-            'material':Detect.cache.getMaterial(),
+            'material':self.material,
         }
 class Main:
     teamIndex=0
