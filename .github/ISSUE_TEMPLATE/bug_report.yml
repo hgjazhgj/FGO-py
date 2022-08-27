@@ -15,7 +15,7 @@ body:
         required: true
       - label: 这个问题出现在最新版的 FGO-py 上
         required: false
-      - label: 我遇到的问题至少出现了3次
+      - label: 这个问题出现了至少3次
         required: false
       - label: 我使用过旧版的 FGO-py 并且没有出现过这个问题
         required: false
