@@ -17,11 +17,10 @@
 # .  Grand Order/Anima Animusphere
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
-from re import T
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
-import logging,time,numpy
+import logging,numpy,re,time
 import fgoDevice
 from itertools import permutations
 from threading import Thread
@@ -85,6 +84,64 @@ def bench(times=20,touch=True,screenshot=True):
     result=(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None
     logger.warning(f'Benchmark: {f"touch {result[0]:.2f}ms"if result[0]else""}{", "if all(result)else""}{f"screenshot {result[1]:.2f}ms"if result[1]else""}')
     return result
+class ClassicTurn:
+    skillInfo=[[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]]]
+    houguInfo=[[1,7],[1,7],[1,7],[1,7],[1,7],[1,7]]
+    masterSkill=[[0,0,0,7],[0,0,0,7],[0,0,0,0,7]]
+    def __init__(self):
+        ClassicTurn.friendInfo=[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]]
+        self.stage=0
+        self.stageTurn=0
+        self.servant=[0,1,2]
+        self.orderChange=[0,1,2,3,4,5]
+        self.countDown=[[[0,0,0],[0,0,0],[0,0,0]],[0,0,0]]
+    def __call__(self,turn):
+        self.stage,self.stageTurn=[t:=Detect(.2).getStage(),1+self.stageTurn*(self.stage==t)]
+        self.friend=[Detect.cache.isServantFriend(i)for i in range(3)]
+        if turn==1:
+            Detect.cache.setupServantDead(self.friend)
+            self.stageTotal=Detect.cache.getStageTotal()
+        else:self.servant=(lambda m,p:[m+p.index(i)+1 if i in p else self.servant[i]for i in range(3)])(max(self.servant),(lambda dead:[i for i in range(3)if self.servant[i]<6 and dead[i]])([Detect.cache.isServantDead(i,self.friend[i])for i in range(3)]))
+        logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
+        self.dispatchSkill()
+        fgoDevice.device.perform(' ',(2100,))
+        fgoDevice.device.perform(self.selectCard(),(300,300,2300,1300,6000))
+    def dispatchSkill(self):
+        self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
+        while(s:=[(self.getSkillInfo(i,j,3),0,(i,j))for i in range(3)if self.servant[i]<6 for j in range(3)if (t:=self.getSkillInfo(i,j,0))and min(t,self.stageTotal)<<8|self.getSkillInfo(i,j,1)<=self.stage<<8|self.stageTurn and Detect.cache.isSkillReady(i,j)]+[(self.masterSkill[i][-1],1,(i,))for i in range(3)if self.countDown[1][i]==0 and min(self.masterSkill[i][0],self.stageTotal)<<8|self.masterSkill[i][1]<=self.stage<<8|self.stageTurn]):
+            _,cast,arg=min(s,key=lambda x:x[0])
+            [self.castServantSkill,self.castMasterSkill][cast](*arg)
+            fgoDevice.device.perform('\x08',(1800,))
+            while not Detect().isTurnBegin():pass
+            Detect(.5)
+    @logit(logger,logging.INFO)
+    def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:(['\x67\x68\x69'[numpy.argmax([Detect.cache.getEnemyHp(i)for i in range(3)])]]if any(hougu)or self.stageTurn==1 else[])+(['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:self.getHouguInfo(x,1))]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5 else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup())))([self.servant[i]<6 and j and(t:=self.getHouguInfo(i,0))and self.stage>=min(t,self.stageTotal)for i,j in enumerate(Detect().isHouguReady())],Detect.cache.isCardSealed(),[[.8,1.,1.1][i]for i in Detect.cache.getCardColor()],[[1.,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
+    def getSkillInfo(self,pos,skill,arg):return self.friendInfo[0][skill][arg]if self.friend[pos]and self.friendInfo[0][skill][arg]>=0 else self.skillInfo[self.orderChange[self.servant[pos]]][skill][arg]
+    def getHouguInfo(self,pos,arg):return self.friendInfo[1][arg]if self.friend[pos]and self.friendInfo[1][arg]>=0 else self.houguInfo[self.orderChange[self.servant[pos]]][arg]
+    def castServantSkill(self,pos,skill):
+        fgoDevice.device.press(('ASD','FGH','JKL')[pos][skill])
+        if Detect(.7).isSkillNone():
+            logger.warning(f'Skill {pos} {skill} Disabled')
+            self.countDown[0][pos][skill]=999
+            fgoDevice.device.press('\x08')
+        elif Detect(.7).isSkillCastFailed():
+            self.countDown[pos][skill]=1
+            fgoDevice.device.press('J')
+        elif t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][self.getSkillInfo(pos,skill,2)],(300,))
+    def castMasterSkill(self,skill):
+        self.countDown[1][skill]=15
+        fgoDevice.device.perform('Q'+'WER'[skill],(300,300))
+        if self.masterSkill[skill][2]:
+            if skill==2 and self.masterSkill[2][3]:
+                if self.masterSkill[2][2]-1 not in self.servant or self.masterSkill[2][3]-1 in self.servant:return fgoDevice.device.perform('\xBB',(300,))
+                p=self.servant.index(self.masterSkill[2][2]-1)
+                fgoDevice.device.perform(('TYUIOP'[p],'TYUIOP'[self.masterSkill[2][3]-max(self.servant)+1],'Z'),(300,300,2600))
+                self.orderChange[self.masterSkill[2][2]-1],self.orderChange[self.masterSkill[2][3]-1]=self.orderChange[self.masterSkill[2][3]-1],self.orderChange[self.masterSkill[2][2]-1]
+                fgoDevice.device.perform('\x08',(2300,))
+                while not Detect().isTurnBegin():pass
+                self.friend=[Detect(.5).isServantFriend(0),Detect.cache.isServantFriend(1),Detect.cache.isServantFriend(2)]
+                Detect.cache.setupServantDead(self.friend)
+            elif t:=Detect(.5).getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][self.masterSkill[skill][2]],(300,))
 class Turn:
     def __init__(self):
         self.stage=0
@@ -363,7 +420,14 @@ class Main:
         while True:
             timer=time.time()
             while True:
-                for i in(i for i,j in friendImg.items()if(lambda pos:pos and(fgoDevice.device.touch(pos),True)[-1])(Detect.cache.findFriend(j))):return i
+                for i in(i for i,j in friendImg.items()if(lambda pos:pos and(fgoDevice.device.touch(pos),True)[-1])(Detect.cache.findFriend(j))):
+                    ClassicTurn.friendInfo=(lambda r:(lambda p:
+                        [
+                            [[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],
+                            [-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]
+                        ]
+                    )(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i.replace('-','')[-14:].upper()))
+                    return i
                 if Detect.cache.isFriendListEnd():break
                 fgoDevice.device.swipe((400,600,400,200))
                 Detect(.4)

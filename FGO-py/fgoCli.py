@@ -2,6 +2,7 @@ import argparse,cmd,functools,json,os,platform,re,signal,time
 import fgoDevice
 import fgoKernel
 from fgoLogging import getLogger,color
+from fgoTeamupParser import IniParser
 logger=getLogger('Cli')
 
 def wrapTry(func):
@@ -12,7 +13,7 @@ def wrapTry(func):
             if e.args[0]is not None:logger.error(e)
         except KeyboardInterrupt:logger.critical('KeyboardInterrupt')
         except BaseException as e:logger.exception(e)
-        finally:self.prompt=f'FGO-py@{fgoDevice.device.name}> '
+        finally:self.prompt=f'FGO-py\033[32m@{fgoDevice.device.name}\033[36m({fgoKernel.Main.teamIndex})\033[0m> '
     return wrapper
 def countdown(x):
     timer=time.time()+x
@@ -28,10 +29,12 @@ Connect device first, then type main to empty your AP gauge.
 Type help or ? to list commands, help <command> to get more information.
 Some commands support <command> [<subcommand> ...] {{-h, --help}} for further information.
 '''
-    prompt='FGO-py@Device> '
+    prompt='FGO-py\033[32m@Device\033[36m(Team)\033[0m> '
     def __init__(self):
         super().__init__()
         fgoDevice.Device.enumDevices()
+        self.teamup=IniParser('fgoTeamup.ini')
+        self.teamup_load(argparse.Namespace(name='DEFAULT'))
         with open('fgoConfig.json')as f:self.config=json.load(f)
         fgoKernel.schedule.stopOnDefeated(self.config['stopOnDefeated'])
         fgoKernel.schedule.stopOnKizunaReisou(self.config['stopOnKizunaReisou'])
@@ -42,8 +45,37 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         return line
     def completenames(self,text,*ignored):return[f'{i} 'for i in super().completenames(text,*ignored)]
     def completecommands(self,table,text,line,begidx,endidx):return sum([[f'{k} 'for k in j if k.startswith(text)]for i,j in table.items()if re.match(f'{i}$',' '.join(line.split()[1:None if begidx==endidx else -1]))],[])
-    def teamup_show(self,arg):print(f'team index: {fgoKernel.Main.teamIndex}')
+    def teamup_load(self,arg):
+        self.currentTeam=arg.name
+        fgoKernel.ClassicTurn.skillInfo=eval(self.teamup[arg.name]['skillInfo'])
+        fgoKernel.ClassicTurn.houguInfo=eval(self.teamup[arg.name]['houguInfo'])
+        fgoKernel.ClassicTurn.masterSkill=eval(self.teamup[arg.name]['masterSkill'])
+        if arg.name!='DEFAULT':self.teamup_show(0)
+    def teamup_save(self,arg):
+        if self.currentTeam=='DEFAULT':return
+        self.teamup[self.currentTeam]={
+            'teamIndex':fgoKernel.Main.teamIndex,
+            'skillInfo':str(fgoKernel.ClassicTurn.skillInfo).replace(' ',''),
+            'houguInfo':str(fgoKernel.ClassicTurn.houguInfo).replace(' ',''),
+            'masterSkill':str(fgoKernel.ClassicTurn.masterSkill).replace(' ','')}
+        with open('fgoTeamup.ini','w')as f:self.teamup.write(f)
+    def teamup_clear(self,arg):
+        store=self.currentTeam
+        self.teamup_load(argparse.Namespace(name='DEFAULT'))
+        self.currentTeam=store
+    def teamup_reload(self,arg):self.teamup=IniParser('teamup.ini')
+    def teamup_list(self,arg):print('\n'.join(self.teamup.sections()))
+    def teamup_show(self,arg):print('\n'.join([f'team name: {self.currentTeam}',f'team index: {fgoKernel.Main.teamIndex}','servant skill & hougu:','\n'.join(['  '.join([str(i+1),'-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.skillInfo[i][j]])for j in range(3)]+[''.join([str(x)for x in fgoKernel.ClassicTurn.houguInfo[i]])])])for i in range(6)]),'master skill:','   '+'-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)])]))
     def teamup_set(self,arg):getattr(self,f'teamup_set_{arg.subcommand_1}')(arg)
+    def teamup_set_servant(self,arg):
+        if self.currentTeam=='DEFAULT':return
+        pos=arg.pos-1
+        fgoKernel.ClassicTurn.skillInfo[pos],fgoKernel.ClassicTurn.houguInfo[pos]=(lambda r:(lambda p:([[[fgoKernel.ClassicTurn.skillInfo[pos][i][j]if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[fgoKernel.ClassicTurn.houguInfo[pos][i]if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[fgoKernel.ClassicTurn.skillInfo[pos],fgoKernel.ClassicTurn.houguInfo[pos]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',arg.value.replace('-','')))
+        print('Change skill & hougu info of servant',arg.pos,'to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.skillInfo[pos][i]])for i in range(3)]+[''.join([str(x)for x in fgoKernel.ClassicTurn.houguInfo[pos]])]))
+    def teamup_set_master(self,arg):
+        if self.currentTeam=='DEFAULT':return
+        fgoKernel.ClassicTurn.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j])for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoKernel.ClassicTurn.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
+        print('Change master skill info to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)]))
     def teamup_set_index(self,arg):
         self.config['teamIndex']=fgoKernel.Main.teamIndex=arg.value
         print('Change team index to',arg.value)
@@ -73,8 +105,9 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         getattr(self,f'teamup_{arg.subcommand_0}')(arg)
     def complete_teamup(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['show','set'],
-            'set':['index']
+            '':['load','save','clear','reload','list','show','set'],
+            'load':self.teamup.sections(),
+            'set':['servant','master','index']
         },text,line,begidx,endidx)
     def do_battle(self,line):
         'Finish the current battle'
@@ -85,13 +118,18 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Loop for battle until AP empty'
         arg=parser_main.parse_args(line.split())
         fgoKernel.schedule.stopLater(arg.appoint)
-        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind),{'Battle':fgoKernel.Battle}[arg.battleClass])
+        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind))
         self.do_continue(f'-s {arg.sleep}')
     def complete_main(self,text,line,begidx,endidx):
         return self.completecommands({
-            r'\d+':['gold','silver','bronze','quartz'],
-            r'\d+ (gold|silver|bronze|quartz)':['Battle']
+            r'\d+':['gold','silver','bronze','quartz']
         },text,line,begidx,endidx)
+    def do_old(self,line):
+        'Use old battle'
+        arg=parser_main.parse_args(line.split())
+        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn))
+        self.do_continue(f'-s {arg.sleep}')
+    def complete_old(self,text,line,begidx,endidx):return self.complete_main(text,line,begidx,endidx)
     def do_continue(self,line):
         'Continue last battle after abnormal break, use it as same as battle'
         arg=parser_battle.parse_args(line.split())
@@ -184,7 +222,6 @@ parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(def
 parser_main=ArgParser(prog='main',description=Cmd.do_main.__doc__)
 parser_main.add_argument('appleCount',help='Apple Count (default: %(default)s)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0,nargs='?')
 parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','quartz'],default='gold',nargs='?')
-parser_main.add_argument('battleClass',help='Battle Class (default: %(default)s)',choices=['Battle'],default='Battle',nargs='?')
 parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(float,lambda x:x>=0,'nonnegative'),default=0)
 parser_main.add_argument('-a','--appoint',help='Battle count limit (default: %(default)s for no limit)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0)
 
@@ -194,9 +231,20 @@ parser_connect.add_argument('name',help='Device name (default to the last connec
 
 parser_teamup=ArgParser(prog='teamup',description=Cmd.do_teamup.__doc__)
 parser_teamup_=parser_teamup.add_subparsers(title='subcommands',required=True,dest='subcommand_0')
+parser_teamup_load=parser_teamup_.add_parser('load',help='Load a team to current')
+parser_teamup_load.add_argument('name',help='Teamup Name (default: %(default)s)',default='DEFAULT',nargs='?')
+parser_teamup_save=parser_teamup_.add_parser('save',help='Save all teams')
+parser_teamup_clear=parser_teamup_.add_parser('clear',help='Clear current team')
+parser_teamup_reload=parser_teamup_.add_parser('reload',help='Reload fgoTeamup.ini')
+parser_teamup_list=parser_teamup_.add_parser('list',help='List all Teams')
 parser_teamup_show=parser_teamup_.add_parser('show',help='Show current team info')
 parser_teamup_set=parser_teamup_.add_parser('set',help='Setup a filed in current team')
 parser_teamup_set_=parser_teamup_set.add_subparsers(title='subcommands',required=True,dest='subcommand_1')
+parser_teamup_set_servant=parser_teamup_set_.add_parser('servant',help='Setup servant skill & hougu info')
+parser_teamup_set_servant.add_argument('pos',help='Servant # (1-6)',type=int,choices=range(1,7))
+parser_teamup_set_servant.add_argument('value',help='Info value (e.g. 1007-xxxx-1007-2x, add hyphens(-) anywhere as they will be removed, x for no change)',type=str.upper)
+parser_teamup_set_master=parser_teamup_set_.add_parser('master',help='Setup master skill info')
+parser_teamup_set_master.add_argument('value',help='Info value (e.g. 1107-xxxx-21347, add hyphens(-) anywhere as they will be removed, x for no change)',type=str.upper)
 parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team index')
 parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
 

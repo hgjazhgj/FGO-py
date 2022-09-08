@@ -1,13 +1,15 @@
-import json,time
+import base64,cv2,json,time
 from flask import Flask,redirect,render_template,request,url_for
 import fgoDevice
 import fgoKernel
 from fgoLogging import getLogger
-logger=getLogger('fgo.Web')
+from fgoTeamupParser import IniParser
+logger=getLogger('Web')
 
+teamup=IniParser('fgoTeamup.ini')
 with open('fgoConfig.json')as f:
     config=json.load(f)
-app=Flask(__name__,static_folder='fgoWebUI', template_folder='fgoWebUI')
+app=Flask(__name__,static_folder='fgoWebUI',template_folder='fgoWebUI')
 
 @app.route('/')
 def root():
@@ -15,26 +17,71 @@ def root():
 
 @app.route('/index')
 def index():
-    return render_template('index.html',device=fgoDevice.device.name)
+    return render_template('index.html',teamups=teamup.sections(),config=config,device=fgoDevice.device.name)
 
 @app.route('/api/connect',methods=['POST'])
 def connect():
-    fgoDevice.device=fgoDevice.Device(request.form['serial'],self.config['package'])
+    fgoDevice.device=fgoDevice.Device(request.form['serial'],config['package'])
     return fgoDevice.device.name
+
+@app.route('/api/teamup/load',methods=['POST'])
+def teamupLoad():
+    return {i:eval(j)for i,j in teamup[request.form['teamName']].items()}
+
+@app.route('/api/teamup/save',methods=['POST'])
+def teamupSave():
+    teamup[request.form['teamName']]=json.loads(request.form['data'])
+    with open('fgoTeamup.ini','w')as f:
+        teamup.write(f)
+    return ''
 
 @app.route('/api/apply',methods=['POST'])
 def apply():
     data=json.loads(request.form['data'])
     fgoKernel.Main.teamIndex=data['teamIndex']
+    fgoKernel.ClassicTurn.skillInfo=data['skillInfo']
+    fgoKernel.ClassicTurn.houguInfo=data['houguInfo']
+    fgoKernel.ClassicTurn.masterSkill=data['masterSkill']
     return ''
 
-@app.route('/api/run/<action>',methods=['POST'])
-def run(action):
-    print('run',action)
+@app.route('/api/run/main',methods=['POST'])
+def runMain():
     if not fgoDevice.device.available:
         return 'Device not available'
-    getattr(fgoKernel,action)(**{i:int(j)for i,j in request.form.items()})()
+    fgoKernel.Main(**{i:int(j)for i,j in request.form.items()})()
     return 'Done'
+
+@app.route('/api/run/battle',methods=['POST'])
+def runBattle():
+    if not fgoDevice.device.available:
+        return 'Device not available'
+    fgoKernel.Battle()()
+    return 'Done'
+
+@app.route('/api/run/old',methods=['POST'])
+def runOld():
+    if not fgoDevice.device.available:
+        return 'Device not available'
+    fgoKernel.Main(**{i:int(j)for i,j in request.form.items()},battleClass=lambda:fgoKernel.Battle(fgoKernel.ClassicTurn))()
+    return 'Done'
+
+@app.route('/api/pause',methods=['POST'])
+def pause():
+    fgoKernel.schedule.pause()
+
+@app.route('/api/stop',methods=['POST'])
+def stop():
+    fgoKernel.schedule.stop()
+
+@app.route('/api/stopLater',methods=['POST'])
+def stopLater():
+    fgoKernel.schedule.stopLater(int(request.form['value']))
+
+@app.route('/api/screenshot',methods=['POST'])
+def screenshot():
+    if not fgoDevice.device.available:
+        return 'Device not available'
+    return base64.b64encode(cv2.imencode('.png',fgoKernel.Detect().im)[1].tobytes())
 
 @app.route('/api/bench',methods=['POST'])
 def bench():
