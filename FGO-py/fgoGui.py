@@ -109,7 +109,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
         self.worker.start()
     def funcBegin(self):
-        self.BTN_ONEBATTLE.setEnabled(False)
+        self.BTN_OLD.setEnabled(False)
         self.BTN_MAIN.setEnabled(False)
         self.BTN_PAUSE.setEnabled(True)
         self.BTN_PAUSE.setChecked(False)
@@ -119,7 +119,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.TXT_APPLE.setValue(0)
         self.result=None
     def funcEnd(self,msg):
-        self.BTN_ONEBATTLE.setEnabled(True)
+        self.BTN_OLD.setEnabled(True)
         self.BTN_MAIN.setEnabled(True)
         self.BTN_PAUSE.setEnabled(False)
         self.BTN_STOP.setEnabled(False)

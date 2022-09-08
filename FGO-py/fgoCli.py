@@ -19,7 +19,8 @@ def countdown(x):
     timer=time.time()+x
     while(rest:=timer-time.time())>0:
         print((lambda sec:f'{sec//3600:02}:{sec%3600//60:02}:{sec%60:02}')(round(rest)),end=' \r')
-        time.sleep(min(1,max(0,rest)))
+        time.sleep(min(1,rest))
+    print('        ',end=' \r')
 
 class Cmd(cmd.Cmd,metaclass=lambda name,bases,attrs:type(name,bases,{i:wrapTry(j)if i.startswith('do_')else j for i,j in attrs.items()})):
     intro=f'''
@@ -127,6 +128,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_old(self,line):
         'Use old battle'
         arg=parser_main.parse_args(line.split())
+        fgoKernel.schedule.stopLater(arg.appoint)
         self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn))
         self.do_continue(f'-s {arg.sleep}')
     def complete_old(self,text,line,begidx,endidx):return self.complete_main(text,line,begidx,endidx)
@@ -222,7 +224,7 @@ parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(def
 parser_main=ArgParser(prog='main',description=Cmd.do_main.__doc__)
 parser_main.add_argument('appleCount',help='Apple Count (default: %(default)s)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0,nargs='?')
 parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','quartz'],default='gold',nargs='?')
-parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(float,lambda x:x>=0,'nonnegative'),default=0)
+parser_main.add_argument('-s','--sleep',help='Sleep several seconds before run (default: %(default)s)',type=validator(float,lambda x:x>=0,'nonnegative'),default=0)
 parser_main.add_argument('-a','--appoint',help='Battle count limit (default: %(default)s for no limit)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0)
 
 parser_connect=ArgParser(prog='connect',description=Cmd.do_connect.__doc__)
@@ -234,11 +236,11 @@ parser_teamup_=parser_teamup.add_subparsers(title='subcommands',required=True,de
 parser_teamup_load=parser_teamup_.add_parser('load',help='Load a team to current')
 parser_teamup_load.add_argument('name',help='Teamup Name (default: %(default)s)',default='DEFAULT',nargs='?')
 parser_teamup_save=parser_teamup_.add_parser('save',help='Save all teams')
-parser_teamup_clear=parser_teamup_.add_parser('clear',help='Clear current team')
+parser_teamup_clear=parser_teamup_.add_parser('clear',help='Reset current team to DEFAULT')
 parser_teamup_reload=parser_teamup_.add_parser('reload',help='Reload fgoTeamup.ini')
-parser_teamup_list=parser_teamup_.add_parser('list',help='List all Teams')
+parser_teamup_list=parser_teamup_.add_parser('list',help='List all teams')
 parser_teamup_show=parser_teamup_.add_parser('show',help='Show current team info')
-parser_teamup_set=parser_teamup_.add_parser('set',help='Setup a filed in current team')
+parser_teamup_set=parser_teamup_.add_parser('set',help='Setup a field of current team')
 parser_teamup_set_=parser_teamup_set.add_subparsers(title='subcommands',required=True,dest='subcommand_1')
 parser_teamup_set_servant=parser_teamup_set_.add_parser('servant',help='Setup servant skill & hougu info')
 parser_teamup_set_servant.add_argument('pos',help='Servant # (1-6)',type=int,choices=range(1,7))

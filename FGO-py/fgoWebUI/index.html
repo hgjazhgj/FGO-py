@@ -154,7 +154,7 @@ function screenshot(){
         type: "POST",
         success: function (data) {
             win=window.open();
-            win.document.write("<img src='data:image/png;base64," + data + "'/>");
+            win.document.write("<img src='data:image/png;base64," + data + "' />");
             win.document.title = "screenshot";
             win.document.close();
         }
@@ -174,7 +174,7 @@ function bench() {
 
 <body onload="teamupReset()">
     <h1>FGO-py</h1>
-    位置<input type="number" id="teamIndex" min="0" max="10" value="0"/><br/>
+    位置<input type="number" id="teamIndex" min="0" max="10" value="0" /><br />
     苹果
     <select id="appleKind">
         <option>金</option>
@@ -182,8 +182,8 @@ function bench() {
         <option>铜</option>
         <option>彩</option>
     </select>
-    <input type="number" id="appleTotal" min="0" max="114514" value="0"/><br/>
-    当前设备 <a id="device">{{ device }}</a> <button onclick="connect()">更改</button><br/>
+    <input type="number" id="appleTotal" min="0" max="114514" value="0" /><br />
+    当前设备 <a id="device">{{ device }}</a> <button onclick="connect()">更改</button><br />
     <button onclick="battle()">完成战斗</button>
     <button onclick="main()">肝</button>
     <button onclick="old()">旧版战斗</button>
@@ -192,7 +192,7 @@ function bench() {
     <button onclick="stopLater()">预约终止</button>
     <button onclick="screenshot()">检查截图</button>
     <button onclick="bench()">性能测试</button>
-    <br/>
+    <br />
     旧版编队信息
     <select id="teamName" onchange="teamupLoad(this.value)">
         {% for teamName in teamups %}
@@ -201,25 +201,25 @@ function bench() {
     </select>
     <button onclick="teamupSave()">保存</button>
     <button onclick="teamupReset()">重置</button>
-    <br/>
-    从者技能宝具<br/>
+    <br />
+    从者技能宝具<br />
     {% for i in range(6) %}
         {{ i+1 }}
         {% for j in range(3) %}
             {% for k in range(4) %}
-                <input type="number" id="skill_{{ i }}_{{ j }}_{{ k }}" min="0" max="{{ 15 if k==3 else 9 }}"/>
+                <input type="number" id="skill_{{ i }}_{{ j }}_{{ k }}" min="0" max="{{ 15 if k==3 else 9 }}" />
             {% endfor %}|
         {% endfor %}
         {% for j in range(2) %}
-            <input type="number" id="hougu_{{ i }}_{{ j }}" min="0" max="{{ 15 if j==1 else 9 }}"/>
-        {% endfor %}<br/>
+            <input type="number" id="hougu_{{ i }}_{{ j }}" min="0" max="{{ 15 if j==1 else 9 }}" />
+        {% endfor %}<br />
     {% endfor %}
     御主技能
     {% for i in range(3) %}
         {% for j in range(4) %}
-            <input type="number" id="master_{{ i }}_{{ j }}" min="0" max="{{ 15 if j==3 else 9 }}"/>
+            <input type="number" id="master_{{ i }}_{{ j }}" min="0" max="{{ 15 if j==3 else 9 }}" />
         {% endfor %}{% if i!=2 %}|{% endif %}
-    {% endfor %}<br/>
+    {% endfor %}<br />
 </body>
 
 </html>
