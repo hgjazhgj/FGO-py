@@ -7,6 +7,7 @@ from fgoConst import I18N
 import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
+from fgoGuiTeamup import Teamup
 from fgoServerChann import ServerChann
 logger=fgoKernel.getLogger('Gui')
 
@@ -133,7 +134,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                 QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
 在过去的<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>中完成了<font color="#006400">{self.result['battle']}</font>场战斗<br/>
-平均每场战斗<font color="#006400">{self.result['turnPerBattle']:.1f}</font>回合,用时<font color="#006400">{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:02.1f}</font><br/>
+平均每场战斗<font color="#006400">{self.result['turnPerBattle']:.1f}</font>回合,用时<font color="#006400">{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
 获得了以下素材:<br/>
 {'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{I18N.get(i,i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else'无'}
 ''')
@@ -151,7 +152,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoDevice.device=fgoDevice.Device(text,self.config['package'])
         self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
-    def runBattle(self):self.runFunc(fgoKernel.Battle())
+    def runOld(self):
+        if not Teamup(self).exec():return
+        self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)))
     def runMain(self):self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),fgoKernel.Battle))
     def pause(self,x):
         if not x and not self.isDeviceAvailable():return self.BTN_PAUSE.setChecked(True)

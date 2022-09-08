@@ -81,7 +81,7 @@ class Detect(metaclass=logMeta(logger)):
     def setupMailDone(self):Detect._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
         Detect._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
-        Detect._watchServantFriend=[self._asyncValueChange(self.isServantFriend(i if friend is None else friend[i]))for i in range(3)]
+        Detect._watchServantFriend=[self._asyncValueChange(self.isServantFriend(i)if friend is None else friend[i])for i in range(3)]
     def isAddFriend(self):return self._compare(IMG.END,(162,575,497,655))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(604,598,678,645))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1092,634,1244,708))
