@@ -125,8 +125,8 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         return self.completecommands({
             r'\d+':['gold','silver','bronze','quartz']
         },text,line,begidx,endidx)
-    def do_old(self,line):
-        'Use old battle'
+    def do_classic(self,line):
+        'Use classic battle'
         arg=parser_main.parse_args(line.split())
         fgoKernel.schedule.stopLater(arg.appoint)
         self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn))

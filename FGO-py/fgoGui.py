@@ -109,7 +109,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
         self.worker.start()
     def funcBegin(self):
-        self.BTN_OLD.setEnabled(False)
+        self.BTN_CLASSIC.setEnabled(False)
         self.BTN_MAIN.setEnabled(False)
         self.BTN_PAUSE.setEnabled(True)
         self.BTN_PAUSE.setChecked(False)
@@ -119,7 +119,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.TXT_APPLE.setValue(0)
         self.result=None
     def funcEnd(self,msg):
-        self.BTN_OLD.setEnabled(True)
+        self.BTN_CLASSIC.setEnabled(True)
         self.BTN_MAIN.setEnabled(True)
         self.BTN_PAUSE.setEnabled(False)
         self.BTN_STOP.setEnabled(False)
@@ -152,7 +152,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoDevice.device=fgoDevice.Device(text,self.config['package'])
         self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
-    def runOld(self):
+    def runClassic(self):
         if not Teamup(self).exec():return
         self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)))
     def runMain(self):self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),fgoKernel.Battle))

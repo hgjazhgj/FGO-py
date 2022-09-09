@@ -152,15 +152,15 @@
       <item>
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_BATTLE">
         <item>
-         <widget class="QPushButton" name="BTN_OLD">
+         <widget class="QPushButton" name="BTN_CLASSIC">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>旧版战斗</string>
+           <string>经典战斗</string>
           </property>
           <property name="text">
-           <string>旧版战斗</string>
+           <string>经典战斗</string>
           </property>
          </widget>
         </item>
@@ -450,7 +450,7 @@
   <tabstop>TXT_TEAM</tabstop>
   <tabstop>CBX_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>
-  <tabstop>BTN_OLD</tabstop>
+  <tabstop>BTN_CLASSIC</tabstop>
   <tabstop>BTN_MAIN</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
@@ -460,10 +460,10 @@
  <resources/>
  <connections>
   <connection>
-   <sender>BTN_OLD</sender>
+   <sender>BTN_CLASSIC</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>runOld()</slot>
+   <slot>runClassic()</slot>
   </connection>
   <connection>
    <sender>BTN_MAIN</sender>
@@ -598,7 +598,7 @@
   <slot>mapKey(bool)</slot>
   <slot>pause(bool)</slot>
   <slot>revoke169()</slot>
-  <slot>runOld()</slot>
+  <slot>runClassic()</slot>
   <slot>runGacha()</slot>
   <slot>runLottery()</slot>
   <slot>runMail()</slot>
