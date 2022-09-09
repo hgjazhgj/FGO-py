@@ -58,8 +58,8 @@ def runBattle():
     fgoKernel.Battle()()
     return 'Done'
 
-@app.route('/api/run/old',methods=['POST'])
-def runOld():
+@app.route('/api/run/classic',methods=['POST'])
+def runClassic():
     if not fgoDevice.device.available:
         return 'Device not available'
     fgoKernel.Main(**{i:int(j)for i,j in request.form.items()},battleClass=lambda:fgoKernel.Battle(fgoKernel.ClassicTurn))()
