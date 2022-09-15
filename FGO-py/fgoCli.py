@@ -55,7 +55,6 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def teamup_save(self,arg):
         if self.currentTeam=='DEFAULT':return
         self.teamup[self.currentTeam]={
-            'teamIndex':fgoKernel.Main.teamIndex,
             'skillInfo':str(fgoKernel.ClassicTurn.skillInfo).replace(' ',''),
             'houguInfo':str(fgoKernel.ClassicTurn.houguInfo).replace(' ',''),
             'masterSkill':str(fgoKernel.ClassicTurn.masterSkill).replace(' ','')}

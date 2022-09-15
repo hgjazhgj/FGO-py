@@ -255,6 +255,12 @@ Add:计划作战
 
 # 版本记录 Version Logs
 
+## 2022/09/12 v9.7.3
+
+Fix:处理下的配置保存  
+Fix:merge [pr #85](https://github.com/hgjazhgj/FGO-py/pull/85)  
+我之前写的Windows鼠标事件居然漏了两个参数并且几次review都没发现...  
+
 ## 2022/09/10 v9.7.2
 
 Upd:旧版战斗更名为经典战斗  
