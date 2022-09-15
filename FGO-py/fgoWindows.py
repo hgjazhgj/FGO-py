@@ -61,7 +61,7 @@ if platform.system()=='Windows':
             return cv2.resize(result.reshape(self.height,self.width,4)[slice(self.border[1],-self.border[1])if self.border[1]else slice(None),slice(self.border[0],-self.border[0])if self.border[0]else slice(None),:3],(1280,720),interpolation=cv2.INTER_CUBIC)
         def touch(self,pos):
             lParam=round(pos[1]/self.scale+self.border[1])<<16|round(pos[0]/self.scale+self.border[0])
-            win32api.PostMessage(self.hWnd,win32con.WM_LBUTTONDOWN,0,lParam)
+            win32api.PostMessage(self.hWnd,win32con.WM_LBUTTONDOWN,win32con.MK_LBUTTON,lParam)
             win32api.PostMessage(self.hWnd,win32con.WM_LBUTTONUP,0,lParam)
         def swipe(self,rect):
             p1,p2=[numpy.array([rect[i<<1|j]/self.scale+self.border[j]for j in range(2)])for i in range(2)]
@@ -70,7 +70,7 @@ if platform.system()=='Windows':
             vd/=.2*self.scale*lvd
             vx=numpy.array([0.,0.])
             def makeLParam(p):return int(p[1])<<16|int(p[0])
-            win32api.PostMessage(self.hWnd,win32con.WM_LBUTTONDOWN,0,makeLParam(p1))
+            win32api.PostMessage(self.hWnd,win32con.WM_LBUTTONDOWN,win32con.MK_LBUTTON,makeLParam(p1))
             time.sleep(.01)
             for _ in range(2):
                 win32api.PostMessage(self.hWnd,win32con.WM_MOUSEMOVE,win32con.MK_LBUTTON,makeLParam(p1+vx))
