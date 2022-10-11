@@ -11,28 +11,10 @@ from fgoGuiTeamup import Teamup
 from fgoServerChann import ServerChann
 logger=fgoKernel.getLogger('Gui')
 
-class Config:
-    def __init__(self,link=None):
-        with open('fgoConfig.json')as f:self.config=json.load(f)
-        self.link=link if isinstance(link,dict)else{}
-        for configName,(uiObject,scheduleFunc)in self.link.items():
-            value=self.config[configName]
-            getattr(uiObject,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
-            if callable(scheduleFunc):scheduleFunc(value)
-            getattr(uiObject,{bool:'triggered',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect(lambda x,configName=configName:self.__setitem__(configName,x))
-    def __getitem__(self,key):return self.config[key]
-    def __setitem__(self,key,value):
-        self.config[key]=value
-        if key in self.link:
-            # getattr(self.link[key][0],{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
-            if callable(self.link[key][1]):self.link[key][1](value)
-    def save(self):
-        with open('fgoConfig.json','w')as f:json.dump(self.config,f,indent=4)
-
 class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     signalFuncBegin=pyqtSignal()
     signalFuncEnd=pyqtSignal(object)
-    def __init__(self,parent=None):
+    def __init__(self,config,parent=None):
         super().__init__(parent)
         self.setupUi(self)
         if platform.system()=='Darwin':self.setStyleSheet("QWidget{font-family:\"PingFang SC\";font-size:15px}")
@@ -53,14 +35,20 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
         self.worker=Thread()
-        self.config=Config({
-            'teamIndex':(self.TXT_TEAM,lambda x:setattr(fgoKernel.Main,'teamIndex',x)),
-            'stopOnDefeated':(self.MENU_SETTINGS_DEFEATED,fgoKernel.schedule.stopOnDefeated),
-            'stopOnKizunaReisou':(self.MENU_SETTINGS_KIZUNAREISOU,fgoKernel.schedule.stopOnKizunaReisou),
-            'closeToTray':(self.MENU_CONTROL_TRAY,None),
-            'stayOnTop':(self.MENU_CONTROL_STAYONTOP,lambda x:(self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x),self.show())),
-            'notifyEnable':(self.MENU_CONTROL_NOTIFY,None)})
-        self.notifier=ServerChann(**self.config['notifyParam'])
+        self.config=config
+        for key,ui,callback in[
+            ('teamIndex',self.TXT_TEAM,lambda x:setattr(fgoKernel.Main,'teamIndex',x)),
+            ('stopOnDefeated',self.MENU_SETTINGS_DEFEATED,fgoKernel.schedule.stopOnDefeated),
+            ('stopOnKizunaReisou',self.MENU_SETTINGS_KIZUNAREISOU,fgoKernel.schedule.stopOnKizunaReisou),
+            ('closeToTray',self.MENU_CONTROL_TRAY,None),
+            ('stayOnTop',self.MENU_CONTROL_STAYONTOP,lambda x:(self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x),self.show())),
+            ('notifyEnable',self.MENU_CONTROL_NOTIFY,None)
+        ]:
+            value=self.config[key]
+            getattr(ui,{bool:'triggered',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect(lambda x,key=key:self.config.__setitem__(key,x))
+            if callable(callback):self.config.callback(key,callback)
+            getattr(ui,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
+        self.notifier=[ServerChann(**i)for i in self.config.notifyParam]
         self.connect()
     def keyPressEvent(self,key):
         if self.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifier.KeypadModifier:
@@ -68,7 +56,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             except KeyError:pass
             except Exception as e:logger.critical(e)
     def closeEvent(self,event):
-        if self.config['closeToTray']:
+        if self.config.closeToTray:
             self.hide()
             return event.ignore()
         if self.askQuit():return event.accept()
@@ -105,7 +93,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                 self.signalFuncEnd.emit(msg)
                 fgoKernel.fuse.reset()
                 fgoKernel.schedule.reset()
-                if self.config['notifyEnable']and not self.notifier(msg[0]):logger.critical('Notify post failed')
+                if self.config.notifyEnable and not all(success:=[i(msg[0])for i in self.notifier]):logger.critical(f'Notify post failed {success.count(False)} of {len(success)}')
         self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
         self.worker.start()
     def funcBegin(self):
@@ -145,11 +133,11 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         dialog.setLabelText('在下拉列表中选择一个设备')
         dialog.setComboBoxItems(fgoDevice.Device.enumDevices())
         dialog.setComboBoxEditable(True)
-        dialog.setTextValue(self.config['device'])
+        dialog.setTextValue(self.config.device)
         if not dialog.exec():return
         text=dialog.textValue().replace(' ','')
-        self.config['device']=text
-        fgoDevice.device=fgoDevice.Device(text,self.config['package'])
+        self.config.device=text
+        fgoDevice.device=fgoDevice.Device(text,self.config.package)
         self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
     def runClassic(self):
@@ -220,8 +208,8 @@ B站大会员每月<a href="https://account.bilibili.com/account/big/myPackage">
 ''')
     def license(self):os.system(f'start notepad {"LICENSE"if os.path.isfile("LICENSE")else"../LICENSE"}')
 
-def main(args):
+def main(config):
     app=QApplication(sys.argv)
-    myWin=MyMainWindow()
+    myWin=MyMainWindow(config)
     myWin.show()
     sys.exit(app.exec())

@@ -80,6 +80,8 @@ body:
     id: setu
     attributes:
       label: 来点色图
-      description: 来点色图
+      description: |
+        来点色图
+        如果你不提供色图而你的issue中又有其他不符合标准的地方，那么你的issue可能会被直接删除
     validations:
       required: true

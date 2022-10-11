@@ -1,4 +1,16 @@
-VERSION='v9.7.3'
+VERSION='v9.8.0'
+CONFIG={
+'runOnce':'',
+'device':'',
+'package':'com.bilibili.fatego',
+'teamIndex':0,
+'stopOnDefeated':True,
+'stopOnKizunaReisou':True,
+'stayOnTop':False,
+'closeToTray':False,
+'notifyEnable':False,
+'notifyParam':[]
+}
 # F1-F10        选取编队
 # 12345         选卡,234指向技能的目标,银苹果
 # 678           宝具卡,选取剧情选项,8选取第一个关卡

@@ -8,6 +8,8 @@ logger=getLogger('Detect')
 
 IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage')if i.endswith('.png')})
 CLASS={100:[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in['shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender']for j in range(3)]}
+CLASS[ 74]=[[cv2.resize(j,(0,0),fx= .74,fy= .74,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
+CLASS[ 93]=[[cv2.resize(j,(0,0),fx= .93,fy= .93,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
 CLASS[125]=[[cv2.resize(j,(0,0),fx=1.25,fy=1.25,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
 MATERIAL=[(i[:-4],cv2.imread(f'fgoImage/material/{i}'))for i in os.listdir('fgoImage/material')if i.endswith('.png')]
 def coroutine(func):
@@ -78,6 +80,10 @@ class Detect(metaclass=logMeta(logger)):
         cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.6,fy=.6))
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
+    def setupEnemyGird(self):
+        if any(self._select(CLASS[74],(110+200*i,1,173+200*i,48))is not None for i in range(3)):Detect._enemyGird=...
+        elif ...:Detect._enemyGird=...
+        else:Detect._enemyGird=...
     def setupMailDone(self):Detect._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
         Detect._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]

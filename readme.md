@@ -244,7 +244,6 @@ v9.1及更早版本提供的需要配置的战斗,不建议在以下之外的场
 [Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
 [关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
 [airtest.core.android.ADB.devices不返回ipv6远程连接的设备](https://github.com/AirtestProject/Airtest/issues/818)  
-[Opt: specification for package name when get_render_resolution in an Android device](https://github.com/AirtestProject/Airtest/pull/1070)  
 
 ## 计划中的功能 Next Features
 
@@ -252,12 +251,21 @@ Add:利用宝具的首卡染色或色卡三连
 Add:御主技能识别与施放  
 Add:游戏启动与闪退重启  
 Add:计划作战  
+Add:每面六个敌人  
+以及第一行一个大Boss第二行可能带两个跟班的情况  
+Add:onepush  
 
 # 版本记录 Version Logs
 
-## 2022/09/12 v9.7.3
+## 2022/10/11 v9.8.0
+Add:配置管理  
+支持onepush需要新增配置项,为避免merge conflict,别处定义config meta然后读配置文件向其合并  
+但是怎么感觉写了个妖怪出来  
+Upd:[Airtest pr#1070](https://github.com/AirtestProject/Airtest/pull/1070)下游同步  
 
-Fix:处理下的配置保存  
+## 2022/09/15 v9.7.3
+
+Fix:cli下的配置保存  
 Fix:merge [pr #85](https://github.com/hgjazhgj/FGO-py/pull/85)  
 我之前写的Windows鼠标事件居然漏了两个参数并且几次review都没发现...  
 

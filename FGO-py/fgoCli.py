@@ -31,15 +31,15 @@ Type help or ? to list commands, help <command> to get more information.
 Some commands support <command> [<subcommand> ...] {{-h, --help}} for further information.
 '''
     prompt='FGO-py\033[32m@Device\033[36m(Team)\033[0m> '
-    def __init__(self):
+    def __init__(self,config):
         super().__init__()
         fgoDevice.Device.enumDevices()
         self.teamup=IniParser('fgoTeamup.ini')
         self.teamup_load(argparse.Namespace(name='DEFAULT'))
-        with open('fgoConfig.json')as f:self.config=json.load(f)
-        fgoKernel.schedule.stopOnDefeated(self.config['stopOnDefeated'])
-        fgoKernel.schedule.stopOnKizunaReisou(self.config['stopOnKizunaReisou'])
-        fgoKernel.Main.teamIndex=self.config['teamIndex']
+        self.config=config
+        fgoKernel.schedule.stopOnDefeated(self.config.stopOnDefeated)
+        fgoKernel.schedule.stopOnKizunaReisou(self.config.stopOnKizunaReisou)
+        fgoKernel.Main.teamIndex=self.config.teamIndex
     def emptyline(self):return
     def precmd(self,line):
         if line:logger.info(line)
@@ -77,13 +77,13 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         fgoKernel.ClassicTurn.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j])for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoKernel.ClassicTurn.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
         print('Change master skill info to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)]))
     def teamup_set_index(self,arg):
-        self.config['teamIndex']=fgoKernel.Main.teamIndex=arg.value
+        self.config.teamIndex=fgoKernel.Main.teamIndex=arg.value
         print('Change team index to',arg.value)
     def do_exec(self,line):exec(line)
     def do_shell(self,line):os.system(line)
     def do_exit(self,line):
         'Exit FGO-py'
-        with open('fgoConfig.json','w')as f:json.dump(self.config,f,indent=4)
+        self.config.save()
         return True
     def do_EOF(self,line):return self.do_exit(line)
     def do_version(self,line):
@@ -92,9 +92,9 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_connect(self,line):
         'Connect to a device'
         arg=parser_connect.parse_args(line.split())
-        if arg.list:return print(f'last connect: {self.config["device"]if self.config["device"]else None}',*fgoDevice.Device.enumDevices(),sep='\n')
-        self.config['device']=arg.name if arg.name else self.config['device']
-        fgoDevice.device=fgoDevice.Device(self.config['device'],self.config['package'])
+        if arg.list:return print(f'last connect: {self.config.device if self.config.device else None}',*fgoDevice.Device.enumDevices(),sep='\n')
+        self.config.device=arg.name if arg.name else self.config.device
+        fgoDevice.device=fgoDevice.Device(self.config.device,self.config.package)
     def complete_connect(self,text,line,begidx,endidx):
         return self.completecommands({
             '':['wsa','win']+[f'/{i}'for i in fgoDevice.helpers]+fgoDevice.Device.enumDevices()
@@ -161,9 +161,9 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
                 logger.warning(f'{color(0xC5E0B4)}{result["turnPerBattle"]:.1f}{color()} turns, {color(0xC5E0B4)}{result["timePerBattle"]//60:.0f}:{result["timePerBattle"]%60:02.1f}{color()} per battle in average')
                 if result["material"]:logger.warning(f'{", ".join(f"{i}{color(0xFFD966)}x{j}{color()}"for i,j in result["material"].items())} earned')
         # todo: notify
-        # if self.config['notifyEnable']:
-        #     for i in self.config['notifyParam']:
-        #         if not notify(**i,title='FGO-py',content=msg):logger.warning(f'Notify {self.config["notifyParam"]["provider"]} failed')
+        # if self.config.notifyEnable:
+        #     for i in self.config.notifyParam:
+        #         if not notify(**i,title='FGO-py',content=msg):logger.warning(f'Notify {i} failed')
     def do_call(self,line):
         'Call a Additional feature'
         arg=parser_call.parse_args(line.split())
@@ -265,4 +265,4 @@ parser_bench.add_argument('-n','--number',help='Number of runs (default: %(defau
 parser_bench.add_argument('-i','--input',help='Bench touch, if neither -i nor -o specified, bench them both',action='store_true')
 parser_bench.add_argument('-o','--output',help='Bench screenshot, if neither -i nor -o specified, bench them both',action='store_true')
 
-def main(args):Cmd().cmdloop()
+def main(config):Cmd(config).cmdloop()
