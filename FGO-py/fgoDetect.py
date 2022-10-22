@@ -7,10 +7,9 @@ from fgoMetadata import servantData,servantImg
 logger=getLogger('Detect')
 
 IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage')if i.endswith('.png')})
+for i in range(3):setattr(IMG,f'CHARGE{i}_SMALL',[cv2.resize(i,(0,0),fx=.77,fy=.77,interpolation=cv2.INTER_CUBIC)for i in getattr(IMG,f'CHARGE{i}')])
 CLASS={100:[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in['shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender']for j in range(3)]}
-CLASS[ 74]=[[cv2.resize(j,(0,0),fx= .74,fy= .74,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
-CLASS[ 93]=[[cv2.resize(j,(0,0),fx= .93,fy= .93,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
-CLASS[125]=[[cv2.resize(j,(0,0),fx=1.25,fy=1.25,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
+for scale in [75,93,125]:CLASS[scale]=[[cv2.resize(j,(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
 MATERIAL=[(i[:-4],cv2.imread(f'fgoImage/material/{i}'))for i in os.listdir('fgoImage/material')if i.endswith('.png')]
 def coroutine(func):
     @wraps(func)
@@ -32,6 +31,7 @@ class Detect(metaclass=logMeta(logger)):
     # The accuracy of each API here is designed to be 100% at 1280x720 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Detect.cache.save() or fuse.save().
     cache=None
     screenshot=None
+    enemyGird=0
     def retryOnError(interval=.1,err=(TypeError,ValueError,IndexError,AssertionError)):
         def wrapper(func):
             @wraps(func)
@@ -42,13 +42,13 @@ class Detect(metaclass=logMeta(logger)):
                 return wrap(Detect(interval),*args,**kwargs)
             return wrap
         return wrapper
-    def __init__(self,forwardLatency=.1,backwardLatency=0):
-        schedule.sleep(forwardLatency)
+    def __init__(self,anteLatency=.1,postLatency=0):
+        schedule.sleep(anteLatency)
         self.im=self.screenshot()
         self.time=time.time()
         Detect.cache=self
         fuse.increase()
-        schedule.sleep(backwardLatency)
+        schedule.sleep(postLatency)
     def _crop(self,rect):
         # cv2.imwrite(time.strftime(f'fgoTemp/Crop_%Y-%m-%d_%H.%M.%S_{rect}.png',time.localtime(self.time)),self.im[rect[1]+2:rect[3]-2,rect[0]+2:rect[2]-2],[cv2.IMWRITE_PNG_COMPRESSION,9])
         return self.im[rect[1]:rect[3],rect[0]:rect[2]]
@@ -57,7 +57,7 @@ class Detect(metaclass=logMeta(logger)):
     def _compare(self,img,rect=(0,0,1280,720),threshold=.05):return threshold>self._loc(img,rect)[0]and fuse.reset(self)
     def _select(self,img,rect=(0,0,1280,720),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
     def _find(self,img,rect=(0,0,1280,720),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img[0].shape[1]>>1),rect[1]+loc[2][1]+(img[0].shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
-    def _ocr(self,rect):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR[0],numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0 and(hierarchy[0][i][2]==-1 or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3 for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.resize(cv2.cvtColor(self._crop(rect),cv2.COLOR_BGR2GRAY),(0,0),fx=1.5,fy=1.5,interpolation=cv2.INTER_CUBIC),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
+    def _ocr(self,rect,scale=1.):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR[0],numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0 and(hierarchy[0][i][2]==-1 or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3 for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.resize(cv2.cvtColor(self._crop(rect),cv2.COLOR_BGR2GRAY),(0,0),fx=1.5/scale,fy=1.5/scale,interpolation=cv2.INTER_CUBIC),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     def _count(self,img,rect=(0,0,1280,720),threshold=.1):return cv2.connectedComponents((cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1])<threshold).astype(numpy.uint8))[0]-1
     @coroutine
     def _asyncImageChange(self,rect,threshold=.05):
@@ -81,9 +81,8 @@ class Detect(metaclass=logMeta(logger)):
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
     def setupEnemyGird(self):
-        if any(self._select(CLASS[74],(110+200*i,1,173+200*i,48))is not None for i in range(3)):Detect._enemyGird=...
-        elif ...:Detect._enemyGird=...
-        else:Detect._enemyGird=...
+        Detect.enemyGird=2 if any(self._select(CLASS[75],(110+200*i,1,173+200*i,48))is not None for i in range(3))else 1 if False else 0
+        return Detect.enemyGird
     def setupMailDone(self):Detect._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
         Detect._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
@@ -130,8 +129,12 @@ class Detect(metaclass=logMeta(logger)):
         return result
     def getCardResist(self):return[{0:1,1:2}.get(self._select((IMG.WEAK,IMG.RESIST),(175+257*i,353,205+257*i,420)),0)for i in range(5)]
     def getCardServant(self,choices):...
-    def getEnemyHp(self,pos):return self._ocr((100+250*pos,41,222+250*pos,65))
-    def getEnemyNp(self,pos):return(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0),count(IMG.CHARGE1),))(count(IMG.CHARGE2)))(lambda img:self._count(img,(160+250*pos,67,250+250*pos,88)))
+    def getEnemyHp(self,pos):
+        if self.enemyGird==0:return 0 if pos>2 else self._ocr((100+250*pos,41,222+250*pos,65))
+        if self.enemyGird==2:return self._ocr((190+pos%3*200-pos//3*100,28+pos//3*99,287+pos%3*200-pos//3*100,53+pos//3*99),scale=.77)
+    def getEnemyNp(self,pos):
+        if self.enemyGird==0:return(0,0)if pos>2 else(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0),count(IMG.CHARGE1),))(count(IMG.CHARGE2)))(lambda img:self._count(img,(160+250*pos,67,250+250*pos,88)))
+        if self.enemyGird==2:return(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0_SMALL),count(IMG.CHARGE1_SMALL),))(count(IMG.CHARGE2_SMALL)))(lambda img:self._count(img,(231+pos%3*200-pos//3*100,49+pos//3*99,311+pos%3*200-pos//3*100,72+pos//3*99)))
     def getFieldServant(self,pos):return(lambda img,cls:min((numpy.min(cv2.matchTemplate(img,i[...,:3],cv2.TM_SQDIFF_NORMED,mask=i[...,3])),no)for no,(_,portrait,_)in servantImg.items()if servantData[no][0]==cls[0]for i in portrait)[1]if cls else 0)(self._crop((120+318*pos,421,207+318*pos,490)),self.getFieldServantClassRank(pos))
     def getFieldServantClassRank(self,pos):return(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
     def getFieldServantHp(self,pos):return self._ocr((200+318*pos,620,293+318*pos,644))
