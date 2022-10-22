@@ -18,7 +18,10 @@ fgoLogging.logging.getLogger('fgo').handlers[-1].setLevel(arg.loglevel)
 from fgoConfig import Config
 config=Config(arg.config)
 if config.runOnce!=VERSION:
-    import fgoRunOnce
+    from fgoRunOnce import runOnce
+    runOnce(config.runOnce)
     config.runOnce=VERSION
+    config.save()
+    exit()
 
 main(config)

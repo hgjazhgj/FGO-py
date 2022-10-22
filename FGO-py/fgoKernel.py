@@ -119,7 +119,7 @@ class ClassicTurn:
             while not Detect().isTurnBegin():pass
             Detect(.5)
     @logit(logger,logging.INFO)
-    def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:(fgoDevice.device.perform('\x67\x68\x69'[numpy.argmax([Detect.cache.getEnemyHp(i)for i in range(3)])],(500,))if any(hougu)or self.stageTurn==1 else 0,['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:self.getHouguInfo(x,1))]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5 else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup()))[1])([self.servant[i]<6 and j and(t:=self.getHouguInfo(i,0))and self.stage>=min(t,self.stageTotal)for i,j in enumerate(Detect().isHouguReady())],Detect.cache.isCardSealed(),[[.8,1.,1.1][i]for i in Detect.cache.getCardColor()],[[1.,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
+    def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:(fgoDevice.device.perform('\x67\x68\x69\x64\x65\x66'[numpy.argmax([Detect.cache.getEnemyHp(i)for i in range(6)])],(500,))if any(hougu)or self.stageTurn==1 else 0,['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:self.getHouguInfo(x,1))]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5 else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup()))[1])([self.servant[i]<6 and j and(t:=self.getHouguInfo(i,0))and self.stage>=min(t,self.stageTotal)for i,j in enumerate(Detect().isHouguReady())],Detect.cache.isCardSealed(),[[.8,1.,1.1][i]for i in Detect.cache.getCardColor()],[[1.,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
     def getSkillInfo(self,pos,skill,arg):return self.friendInfo[0][skill][arg]if self.friend[pos]and self.friendInfo[0][skill][arg]>=0 else self.skillInfo[self.orderChange[self.servant[pos]]][skill][arg]
     def getHouguInfo(self,pos,arg):return self.friendInfo[1][arg]if self.friend[pos]and self.friendInfo[1][arg]>=0 else self.houguInfo[self.orderChange[self.servant[pos]]][arg]
     def castServantSkill(self,pos,skill):
@@ -162,8 +162,9 @@ class Turn:
                 self.servant[i]=(lambda x:(x,)+servantData.get(x,()))(Detect.cache.getFieldServant(i))
                 self.countDown[0][i]=[0,0,0]
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {[i[0]for i in self.servant]}')
+        if self.stageTurn==1:Detect.cache.setupEnemyGird()
         self.dispatchSkill()
-        self.enemy=[Detect.cache.getEnemyHp(i)for i in range(3)]
+        self.enemy=[Detect.cache.getEnemyHp(i)for i in range(6)]
         fgoDevice.device.perform(' ',(2100,))
         fgoDevice.device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
@@ -254,11 +255,11 @@ class Turn:
                             self.castServantSkill(i[1],i[2],0)
                             continue
                     elif p[0]==8:
-                        if any(self.servant[i][0]and(lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(3)):
+                        if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(6)):
                             self.castServantSkill(i[1],i[2],i[1]+1)
                             continue
                     elif p[0]==9:
-                        if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(3))or Detect.cache.getFieldServantHp(i[1])<3300:
+                        if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(6))or Detect.cache.getFieldServantHp(i[1])<3300:
                             self.castServantSkill(i[1],i[2],i[1]+1)
                             continue
                     self.countDown[0][i[1]][i[2]]=1
@@ -270,7 +271,7 @@ class Turn:
         houguArea=houguArea if self.stage==self.stageTotal or sum(i>0 for i in self.enemy)>1 and sum(self.enemy)>12000 else[]
         houguTargeted=houguTargeted if self.stage==self.stageTotal or max(self.enemy)>23000+8000*len(houguArea)else[]
         hougu=houguSupport+houguArea+houguTargeted
-        if self.stageTurn==1 or houguTargeted:fgoDevice.device.perform('\x67\x68\x69'[numpy.argmax(self.enemy)],(500,))
+        if self.stageTurn==1 or houguTargeted:fgoDevice.device.perform('\x67\x68\x69\x64\x65\x66'[numpy.argmax(self.enemy)],(500,))
         return''.join(
             ['678'[i]for i in hougu]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]
             if hougu else
@@ -352,15 +353,12 @@ class Main:
         self.battleTurn=0
         self.battleTime=0
         self.defeated=0
-        stop=False
         while True:
             self.battleProc=self.battleClass()
             while True:
                 if Detect(.3,.3).isMainInterface():
                     fgoDevice.device.press('8')
-                    if Detect(.7,.3).isApEmpty()and not self.eatApple():
-                        stop=True
-                        break
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
@@ -368,9 +366,7 @@ class Main:
                     break
                 elif Detect.cache.isBattleContinue():
                     fgoDevice.device.press('L')
-                    if Detect(.7,.3).isApEmpty()and not self.eatApple():
-                        stop=True
-                        break
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
                     schedule.sleep(6)
                     break
@@ -378,7 +374,6 @@ class Main:
                 elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
                 elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x67',(300,))
                 fgoDevice.device.press('\xBB')
-            if stop:break
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
             if self.battleProc():
@@ -386,7 +381,7 @@ class Main:
                 self.battleTurn+=battleResult['turn']
                 self.battleTime+=battleResult['time']
                 self.material={i:self.material.get(i,0)+battleResult['material'].get(i,0)for i in self.material|battleResult['material']}
-                fgoDevice.device.perform('      ',(200,200,200,200,200,200))
+                fgoDevice.device.perform(' '*12,(200,)*12)
             else:
                 self.defeated+=1
                 fgoDevice.device.perform('CIK',(500,500,500))

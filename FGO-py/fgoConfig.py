@@ -60,7 +60,9 @@ class ConfigItem(dict):
         except KeyError:return False
         return True
     def __repr__(self):return f'ConfigItem({", ".join(f"{k}={v!r}"for k,v in self.items())})'
-    def callback(self,key,callable):super().__getattribute__('_callback')[key]=callable
+    def callback(self,key,callable):
+        if'.'in key:return self[key[:key.rfind('.')]].callback(key[key.rfind('.')+1:],callable)
+        super().__getattribute__('_callback')[key]=callable
     def update(self,other):
         for k,v in self.items():
             if k not in other:continue

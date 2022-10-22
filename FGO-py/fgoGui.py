@@ -46,7 +46,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         ]:
             value=self.config[key]
             getattr(ui,{bool:'triggered',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect(lambda x,key=key:self.config.__setitem__(key,x))
-            if callable(callback):self.config.callback(key,callback)
+            if callable(callback):
+                callback(self.config[key])
+                self.config.callback(key,callback)
             getattr(ui,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
         self.notifier=[ServerChann(**i)for i in self.config.notifyParam]
         self.connect()
@@ -206,7 +208,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
 </tr></table>
 B站大会员每月<a href="https://account.bilibili.com/account/big/myPackage">领</a>5B币券<a href="https://space.bilibili.com/2632341">充电</a>
 ''')
-    def license(self):os.system(f'start notepad {"LICENSE"if os.path.isfile("LICENSE")else"../LICENSE"}')
+    def license(self):os.system(f'start notepad ../LICENSE')
 
 def main(config):
     app=QApplication(sys.argv)

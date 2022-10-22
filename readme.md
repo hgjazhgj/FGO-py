@@ -89,6 +89,7 @@ FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固�
 
 下载release - 运行`FGO-py.bat` - 连接设备 - 游戏中把你要刷的关卡放在第一个 - 点击「肝!」按钮  
 需要关闭「技能使用确认」  
+渠道服用户需要在初次运行后自行更改config.json中`package`为自己的包名  
 
 ***
 本项目在最初设计时就考虑到了在不同环境下运行的需求,完全前后端分离,目前前后端均已实现跨平台  
@@ -251,17 +252,27 @@ Add:利用宝具的首卡染色或色卡三连
 Add:御主技能识别与施放  
 Add:游戏启动与闪退重启  
 Add:计划作战  
-Add:每面六个敌人  
-以及第一行一个大Boss第二行可能带两个跟班的情况  
 Add:onepush  
 
 # 版本记录 Version Logs
+
+## 2022/10/15 v9.8.1
+
+Add:每面六个敌人  
+~~以及第一行一个大Boss第二行可能带两个跟班的情况~~  
+不然宝具放不出生存压力有点大  
+Opt:RunOnce  
+Fix:config初始生效  
+Opt:[discussion #86](https://github.com/hgjazhgj/FGO-py/discussions/86)  
+点6下对于3个弹窗来说确实有点吃紧了,加一点  
 
 ## 2022/10/11 v9.8.0
 Add:配置管理  
 支持onepush需要新增配置项,为避免merge conflict,别处定义config meta然后读配置文件向其合并  
 但是怎么感觉写了个妖怪出来  
 Upd:[Airtest pr#1070](https://github.com/AirtestProject/Airtest/pull/1070)下游同步  
+解决在部分手机上运行时获取分辨率不正确的问题  
+非b服用户需要自行更改config.json中`package`为自己的包名  
 
 ## 2022/09/15 v9.7.3
 
