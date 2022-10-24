@@ -13,15 +13,17 @@ elif arg.entrypoint=='cli':from fgoCli import main
 elif arg.entrypoint=='web':from fgoWebServer import main
 
 import fgoLogging
-fgoLogging.logging.getLogger('fgo').handlers[-1].setLevel(arg.loglevel)
+fgoLogging.logger.handlers[-1].setLevel(arg.loglevel)
 
 from fgoConfig import Config
 config=Config(arg.config)
-if config.runOnce!=VERSION:
+if config.runOnce and config.runOnce!=VERSION:
     from fgoRunOnce import runOnce
-    runOnce(config.runOnce)
+    restart=runOnce(config.runOnce)
     config.runOnce=VERSION
     config.save()
-    exit()
+    if restart:exit()
 
-main(config)
+try:main(config)
+except Exception as e:fgoLogging.logger.exception(e)
+finally:config.save()

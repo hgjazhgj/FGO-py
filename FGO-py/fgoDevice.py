@@ -1,8 +1,6 @@
 from fgoAndroid import Android
 from fgoDetect import Detect
 from fgoSchedule import schedule
-from fgoWindows import Window
-from fgoWsa import Wsa
 from fgoLogging import getLogger
 logger=getLogger('Device')
 
@@ -45,8 +43,12 @@ class Device:
         Detect.screenshot=self.screenshot=self.O.screenshot
     @staticmethod
     def createDevice(name,*args,**kwargs):
-        if name.lower().startswith('wsa'):return Wsa(name.split('_')[1])if'_'in name else Wsa()
-        if name.lower().startswith('win'):return Window(int(name.split('_')[1],16)if'_'in name else Window.enumDevices()[0])
+        if name.lower().startswith('wsa'):
+            from fgoWsa import Wsa
+            return Wsa(name.split('_')[1])if'_'in name else Wsa()
+        if name.lower().startswith('win'):
+            from fgoWindows import Window
+            return Window(int(name.split('_')[1],16)if'_'in name else Window.enumDevices()[0])
         return Android(convert(name),*args,**kwargs)
     @property
     def available(self):return self.I.available and(self.I is self.O or self.O.available)

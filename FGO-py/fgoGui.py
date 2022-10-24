@@ -69,7 +69,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             fgoKernel.schedule.stop('Quit')
             self.worker.join()
         self.TRAY.hide()
-        self.config.save()
         return True
     def isDeviceAvailable(self):
         if not fgoDevice.device.available:
