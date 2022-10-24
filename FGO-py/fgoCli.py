@@ -83,7 +83,6 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_shell(self,line):os.system(line)
     def do_exit(self,line):
         'Exit FGO-py'
-        self.config.save()
         return True
     def do_EOF(self,line):return self.do_exit(line)
     def do_version(self,line):

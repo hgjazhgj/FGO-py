@@ -1,24 +1,26 @@
 from fgoLogging import getLogger
 logger=getLogger('RunOnce')
 
-def less(x,y):
-    logger.info(f'Upgrading to {x}')
-    return x.removeprefix('v').split('.')<y.removeprefix('v').split('.')
-
 RUNONCE=[]
 def regRunOnce(func):
-    RUNONCE.append((func.__name__,func))
+    RUNONCE.append(([int(i)for i in func.__name__.removeprefix('v').split('_')],func))
     return func
 
 def runOnce(src):
+    restart=False
+    src=[int(i)for i in src.removeprefix('v').split('.')]
     for dst,func in RUNONCE:
-        if less(src,dst):
+        if src<dst:
+            logger.info(f'Upgrading to v{".".join(dst)}')
             func()
-    logger.debug('Please restart FGO-py manually to complete the upgrade.')
-    logger.info('Please restart FGO-py manually to complete the upgrade.')
-    logger.warning('Please restart FGO-py manually to complete the upgrade.')
-    logger.critical('Please restart FGO-py manually to complete the upgrade.')
-    logger.error('Please restart FGO-py manually to complete the upgrade.')
+            restart=True
+    if restart:
+        logger.debug('Please restart FGO-py manually to complete the upgrade.')
+        logger.info('Please restart FGO-py manually to complete the upgrade.')
+        logger.warning('Please restart FGO-py manually to complete the upgrade.')
+        logger.critical('Please restart FGO-py manually to complete the upgrade.')
+        logger.error('Please restart FGO-py manually to complete the upgrade.')
+    return restart
 
 @regRunOnce
 def v9_8_0():

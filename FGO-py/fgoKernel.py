@@ -107,6 +107,7 @@ class ClassicTurn:
                 self.servant[i]=max(self.servant)+1
                 self.countDown[0][i]=[0,0,0]
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
+        if self.stageTurn==1:Detect.cache.setupEnemyGird()
         self.dispatchSkill()
         fgoDevice.device.perform(' ',(2100,))
         fgoDevice.device.perform(self.selectCard(),(300,300,2300,1300,6000))
@@ -381,7 +382,7 @@ class Main:
                 self.battleTurn+=battleResult['turn']
                 self.battleTime+=battleResult['time']
                 self.material={i:self.material.get(i,0)+battleResult['material'].get(i,0)for i in self.material|battleResult['material']}
-                fgoDevice.device.perform(' '*12,(200,)*12)
+                fgoDevice.device.perform(' '*10,(400,)*10)
             else:
                 self.defeated+=1
                 fgoDevice.device.perform('CIK',(500,500,500))

@@ -79,6 +79,8 @@ FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固�
 - 不管什么本直接上就行连作业都不用抄
 - 可以一键清完所有强化本
 - 剧情关锁人?游戏内组好队就行程序内还是只点击完成战斗
+- 不像有些3T脚本需要用户删掉练度不足的好友
+- 把你喜欢的从者编入队伍中
 - 拥有一队15羁绊的伊莉雅小黑美游真的超酷的好吗
 
 **如果你是为了3t而来,就另请高明吧!比如[FGA](https://github.com/Fate-Grand-Automata/FGA)**  
@@ -255,6 +257,14 @@ Add:计划作战
 Add:onepush  
 
 # 版本记录 Version Logs
+
+## 2022/10/24 v9.8.2
+
+Opt:进一步优化[discussion #86](https://github.com/hgjazhgj/FGO-py/discussions/86)  
+Add:经典战斗的一面6敌人支持  
+Opt:runOnce  
+刚装好的就不runOnce  
+Opt:Device lazy import  
 
 ## 2022/10/15 v9.8.1
 
