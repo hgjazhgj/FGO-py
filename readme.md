@@ -258,6 +258,10 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2022/10/25 v9.8.3
+
+Fix:runOnce  
+
 ## 2022/10/24 v9.8.2
 
 Opt:进一步优化[discussion #86](https://github.com/hgjazhgj/FGO-py/discussions/86)  

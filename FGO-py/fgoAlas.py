@@ -1,7 +1,7 @@
 # fgoAlas* 系列文件是为在 AzurLaneAutoScript 中运行提供的组件
 # 显然本项目不符合 alas 的代码标准,所以仅在此处提供这一解决方案
 
-# mkdir module/FGOpy
+# mkdir AzurLaneAutoScript/module/FGOpy
 
 # 复制以下文件和目录到前述目录
 # fgoImage
@@ -34,7 +34,7 @@
 # 大约要修改 8 处
 
 # 在 module/config/argument/task.yaml 末尾添加一些内容,加完后看起来是这样
-# 249  AzurLaneUncensored:
+# 249   AzurLaneUncensored:
 # 250     - AzurLaneUncensored
 # 251 + FGOpy:
 # 252 +   - FGOpy
