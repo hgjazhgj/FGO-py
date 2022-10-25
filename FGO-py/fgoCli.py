@@ -142,7 +142,6 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         except fgoKernel.ScriptStop as e:
             logger.critical(e)
             msg=str(e)
-        except KeyboardInterrupt:raise
         except BaseException as e:
             logger.exception(e)
             msg=repr(e)

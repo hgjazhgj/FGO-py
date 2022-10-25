@@ -17,12 +17,14 @@ fgoLogging.logger.handlers[-1].setLevel(arg.loglevel)
 
 from fgoConfig import Config
 config=Config(arg.config)
-if config.runOnce and config.runOnce!=VERSION:
+if not config.runOnce:config.runOnce=VERSION
+elif config.runOnce!=VERSION:
     from fgoRunOnce import runOnce
-    restart=runOnce(config.runOnce)
+    if runOnce(config.runOnce):
+        config.runOnce=VERSION
+        config.save()
+        exit()
     config.runOnce=VERSION
-    config.save()
-    if restart:exit()
 
 try:main(config)
 except Exception as e:fgoLogging.logger.exception(e)
