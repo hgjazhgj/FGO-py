@@ -1,4 +1,4 @@
-VERSION='v9.8.3'
+VERSION='v10.0.0'
 CONFIG={
 'runOnce':'',
 'device':'',
