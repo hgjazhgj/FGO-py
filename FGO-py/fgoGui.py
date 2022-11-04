@@ -76,12 +76,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             QMessageBox.critical(self,'FGO-py','未连接设备')
             return False
         return True
-    def runFunc(self,func,*args,**kwargs):
+    def runFunc(self,func):
         if not self.isDeviceAvailable():return
         def f():
             try:
                 self.signalFuncBegin.emit()
-                func(*args,**kwargs)
+                func()
             except fgoKernel.ScriptStop as e:
                 logger.critical(e)
                 msg=(str(e),QSystemTrayIcon.MessageIcon.Warning)

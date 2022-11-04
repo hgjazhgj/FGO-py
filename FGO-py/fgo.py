@@ -20,11 +20,15 @@ config=Config(arg.config)
 if not config.runOnce:config.runOnce=VERSION
 elif config.runOnce!=VERSION:
     from fgoRunOnce import runOnce
-    if runOnce(config.runOnce):
+    if runOnce(config):
         config.runOnce=VERSION
         config.save()
         exit()
     config.runOnce=VERSION
+
+if not config.farming:
+    from fgoKernel import farming
+    farming.stop=True
 
 try:main(config)
 except Exception as e:fgoLogging.logger.exception(e)

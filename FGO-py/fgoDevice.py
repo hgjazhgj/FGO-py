@@ -1,5 +1,5 @@
 from fgoAndroid import Android
-from fgoDetect import Detect
+from fgoDetect import XDetect
 from fgoSchedule import schedule
 from fgoLogging import getLogger
 logger=getLogger('Device')
@@ -40,7 +40,7 @@ class Device:
         self.press=self.I.press
         self.touch=self.I.touch
         self.swipe=self.I.swipe
-        Detect.screenshot=self.screenshot=self.O.screenshot
+        XDetect.screenshot=self.screenshot=self.O.screenshot
     @staticmethod
     def createDevice(name,*args,**kwargs):
         if name.lower().startswith('wsa'):

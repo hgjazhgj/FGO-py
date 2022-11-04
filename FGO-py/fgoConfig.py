@@ -14,7 +14,7 @@ class ConfigItemList(list):
     def __iadd__(self,other):
         self.extend(other)
         return self
-    def __repr__(self):return f'ConfigItemList({", ".join(repr(i)for i in self)})'
+    def __repr__(self):return f'{type(self).__name__}({", ".join(repr(i)for i in self)})'
     def append(self,obj):super().append(ConfigItem(obj))
     def copy(self):return ConfigItemList(self)
     def extend(self,iterable):super().extend(ConfigItemList(iterable))
@@ -59,7 +59,7 @@ class ConfigItem(dict):
         try:self[key]
         except KeyError:return False
         return True
-    def __repr__(self):return f'ConfigItem({", ".join(f"{k}={v!r}"for k,v in self.items())})'
+    def __repr__(self):return f'{type(self).__name__}({", ".join(f"{k}={v!r}"for k,v in self.items())})'
     def callback(self,key,callable):
         if'.'in key:return self[key[:key.rfind('.')]].callback(key[key.rfind('.')+1:],callable)
         super().__getattribute__('_callback')[key]=callable
