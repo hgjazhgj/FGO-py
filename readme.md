@@ -258,10 +258,22 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2022/11/05 v10.1.0
+
+Add:邪马台国7*24自动收菜  
+注意cli中的battle命令没上锁,使用`main -a 1`代替  
+Fix:[tgsong/jp:14046e2](https://github.com/tgsong/FGO-py/commit/14046e281a555d2a0f631c541d7a6437cbbbb15e)  
+Fix:返回按钮  
+在掉礼装的时候返回按钮较短无法被一面六个敌人的键位按到  
+Opt:runOnce  
+满足runOnce设置config的需求  
+其实我不希望这样整个config传来传去,能拆开的参数尽早拆开,但是想要主动更改配置又好像必须这样  
+
 ## 2022/10/25 v10.0.0
 
 操,review的时候突然发现这是一个不兼容更新,所以直接切大版本号了  
 Fix:runOnce  
+刚装好的虽然不runOnce但是要把VERSION写进config里  
 
 ## 2022/10/24 v9.8.2
 

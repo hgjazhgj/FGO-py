@@ -20,11 +20,11 @@
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
-import logging,numpy,re,time
+import logging,numpy,re,time,threading
 import fgoDevice
 from itertools import permutations
-from threading import Thread
-from fgoDetect import Detect
+from functools import wraps
+from fgoDetect import Detect,XDetect
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
 from fgoMetadata import servantData
@@ -34,24 +34,69 @@ logger=getLogger('Kernel')
 
 friendImg=ImageListener('fgoImage/friend/')
 mailImg=ImageListener('fgoImage/mail/')
+lock=threading.Lock()
+def withLock(lock):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args,**kwargs):
+            with lock:
+                return func(*args,**kwargs)
+        return wrapper
+    return decorator
 def guardian():
+    logger=logging.getLogger('Guardian')
     prev=None
     while True:
-        if Detect.cache is not prev and Detect.cache.isNetworkError():
+        if XDetect.cache is not prev and XDetect.cache.isNetworkError():
             logger.warning('Reconnecting')
             fgoDevice.device.press('K')
-        prev=Detect.cache
+        prev=XDetect.cache
         time.sleep(3)
-Thread(target=guardian,daemon=True,name='Guardian').start()
-
+threading.Thread(target=guardian,daemon=True,name='Guardian').start()
+class Farming:
+    def __init__(self):
+        self.logger=getLogger('Farming')
+        self.stop=False
+    def __call__(self):
+        while not self.stop:
+            if not fgoDevice.device.available:
+                time.sleep(3)
+                continue
+            self.run()
+            time.sleep(120)
+    @withLock(lock)
+    def run(self):
+        if not XDetect().isMainInterface():return self.logger.warning('Not in main interface, retry later')
+        if not XDetect.cache.isInCampaign():
+            fgoDevice.device.press('\x1B')
+            time.sleep(2)
+            if not XDetect().isInCampaign():return self.logger.critical('Not in campaign, exit')
+        while True:
+            fgoDevice.device.pinch()
+            time.sleep(1.5)
+            if(t:=XDetect().findFarm())is None:break
+            self.logger.info(f'Farming finished')
+            fgoDevice.device.touch(t)
+            time.sleep(1)
+            fgoDevice.device.press('8')
+            time.sleep(3)
+            while not XDetect().isMainInterface():
+                fgoDevice.device.press('\xBB')
+                time.sleep(.5)
+        # if(t:=XDetect().findLastExec())is not None:fgoDevice.device.touch((t[0]-98,t[1]-49))
+farming=Farming()
+threading.Thread(target=farming,daemon=True,name='Farming').start()
+@withLock(lock)
 def gacha():
     while fuse.value<30:
         if Detect().isGacha():fgoDevice.device.perform('MK',(600,2700))
         fgoDevice.device.press('\x08')
+@withLock(lock)
 def lottery():
     while fuse.value<50:
         if Detect().isNextLottery():fgoDevice.device.perform('\xDCKJ',(600,2400,500))
         for _ in range(40):fgoDevice.device.press('2')
+@withLock(lock)
 def mail():
     if not mailImg.flush():return
     Detect().setupMailDone()
@@ -60,6 +105,7 @@ def mail():
             while not Detect().isMailDone():pass
         fgoDevice.device.swipe((400,600,400,200))
         if Detect().isMailListEnd():break
+@withLock(lock)
 def synthesis():
     while True:
         fgoDevice.device.perform('8',(1000,))
@@ -69,6 +115,7 @@ def synthesis():
         if Detect().isSynthesisFinished():break
         fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
+@withLock(lock)
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True
     screenshotBench=[]
@@ -178,11 +225,12 @@ class Turn:
                         continue
                     elif p[0]==2:
                         np=[Detect.cache.getFieldServantNp(i)if self.servant[i][0]else 100 for i in range(3)]
-                        if p[0]==0:
+                        if p[1]==0:
                             if any(i<100 for i in np):
                                 self.castServantSkill(i[1],i[2],0)
                                 continue
                         elif p[1]==1:
+                            np[i[1]]=100
                             target=numpy.argmin(np)
                             if np[target]<100:
                                 self.castServantSkill(i[1],i[2],target+1)
@@ -317,7 +365,7 @@ class Battle:
                 schedule.checkKizunaReisou()
                 logger.warning('Kizuna Reisou')
                 Detect.cache.save('fgoLog/SpecialDrop')
-                fgoDevice.device.press('\x67')
+                fgoDevice.device.press('\x1B')
             elif not self.rainbowBox and Detect.cache.isSpecialDropRainbowBox():self.rainbowBox=True
             elif Detect.cache.isBattleFinished():
                 logger.info('Battle Finished')
@@ -348,6 +396,7 @@ class Main:
         self.battleClass=battleClass
         self.appleCount=0
         self.battleCount=0
+    @withLock(lock)
     def __call__(self):
         self.start=time.time()
         self.material={}
@@ -373,7 +422,7 @@ class Main:
                     break
                 elif Detect.cache.isTurnBegin():break
                 elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
-                elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x67',(300,))
+                elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
                 fgoDevice.device.press('\xBB')
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')

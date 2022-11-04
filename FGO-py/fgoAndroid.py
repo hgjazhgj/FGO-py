@@ -61,6 +61,8 @@ class Android(Airtest):
             time.sleep(.02)
     def press(self,key):
         with self.lock:super().touch(self.key[key])
+    def pinch(self):
+        with self.lock:super().pinch(percent=.2)
     def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1280,720),interpolation=cv2.INTER_CUBIC)
     def invoke169(self):
         x,y=(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size')))

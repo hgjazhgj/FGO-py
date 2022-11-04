@@ -27,36 +27,33 @@ def notNone(func):
         assert validateIterable(ans:=func(*args,**kwargs),lambda x:x is not None)
         return ans
     return wrap
-class Detect(metaclass=logMeta(logger)):
+class XDetect(metaclass=logMeta(logger)):
     # The accuracy of each API here is designed to be 100% at 1280x720 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Detect.cache.save() or fuse.save().
     cache=None
     screenshot=None
     enemyGird=0
-    def retryOnError(interval=.1,err=(TypeError,ValueError,IndexError,AssertionError)):
+    def retryOnError(err=(TypeError,ValueError,IndexError,AssertionError)):
         def wrapper(func):
             @wraps(func)
             def wrap(self,*args,**kwargs):
                 try:return func(self,*args,**kwargs)
                 except err:pass
                 logger.warning(f'Retry {getattr(func,"__qualname__",func)}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
-                return wrap(Detect(interval),*args,**kwargs)
+                return wrap(type(self)(),*args,**kwargs)
             return wrap
         return wrapper
-    def __init__(self,anteLatency=.1,postLatency=0):
-        schedule.sleep(anteLatency)
+    def __init__(self):
         self.im=self.screenshot()
         self.time=time.time()
-        Detect.cache=self
-        fuse.increase()
-        schedule.sleep(postLatency)
+        XDetect.cache=self
     def _crop(self,rect):
         # cv2.imwrite(time.strftime(f'fgoTemp/Crop_%Y-%m-%d_%H.%M.%S_{rect}.png',time.localtime(self.time)),self.im[rect[1]+2:rect[3]-2,rect[0]+2:rect[2]-2],[cv2.IMWRITE_PNG_COMPRESSION,9])
         return self.im[rect[1]:rect[3],rect[0]:rect[2]]
     # @logit(logger)
     def _loc(self,img,rect=(0,0,1280,720)):return cv2.minMaxLoc(cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1]))
-    def _compare(self,img,rect=(0,0,1280,720),threshold=.05):return threshold>self._loc(img,rect)[0]and fuse.reset(self)
+    def _compare(self,img,rect=(0,0,1280,720),threshold=.05):return threshold>self._loc(img,rect)[0]
     def _select(self,img,rect=(0,0,1280,720),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
-    def _find(self,img,rect=(0,0,1280,720),threshold=.05):return(lambda loc:((rect[0]+loc[2][0]+(img[0].shape[1]>>1),rect[1]+loc[2][1]+(img[0].shape[0]>>1)),fuse.reset(self))[0]if loc[0]<threshold else None)(self._loc(img,rect))
+    def _find(self,img,rect=(0,0,1280,720),threshold=.05):return(lambda loc:(rect[0]+loc[2][0]+(img[0].shape[1]>>1),rect[1]+loc[2][1]+(img[0].shape[0]>>1))if loc[0]<threshold else None)(self._loc(img,rect))
     def _ocr(self,rect,scale=1.):return reduce(lambda x,y:x*10+y[1],(lambda contours,hierarchy:sorted(((pos,loc[2][0]//20)for pos,loc in((clip[0],cv2.minMaxLoc(cv2.matchTemplate(IMG.OCR[0],numpy.array([[[255*(cv2.pointPolygonTest(contours[i],(clip[0]+x,clip[1]+y),False)>=0 and(hierarchy[0][i][2]==-1 or cv2.pointPolygonTest(contours[hierarchy[0][i][2]],(clip[0]+x,clip[1]+y),False)<0))]*3 for x in range(clip[2])]for y in range(clip[3])],dtype=numpy.uint8),cv2.TM_SQDIFF_NORMED)))for i,clip in((i,cv2.boundingRect(contours[i]))for i in range(len(contours))if hierarchy[0][i][3]==-1)if 8<clip[2]<20<clip[3]<27)if loc[0]<.3),key=lambda x:x[0]))(*cv2.findContours(cv2.threshold(cv2.resize(cv2.cvtColor(self._crop(rect),cv2.COLOR_BGR2GRAY),(0,0),fx=1.5/scale,fy=1.5/scale,interpolation=cv2.INTER_CUBIC),150,255,cv2.THRESH_BINARY)[1],cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)),0)
     def _count(self,img,rect=(0,0,1280,720),threshold=.1):return cv2.connectedComponents((cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1])<threshold).astype(numpy.uint8))[0]-1
     @coroutine
@@ -65,7 +62,7 @@ class Detect(metaclass=logMeta(logger)):
         detect=yield None
         while True:
             tmp=detect._crop(rect)
-            detect=yield threshold<cv2.matchTemplate(img,tmp,cv2.TM_SQDIFF_NORMED)[0][0]and fuse.reset(detect)
+            detect=yield threshold<cv2.matchTemplate(img,tmp,cv2.TM_SQDIFF_NORMED)[0][0]
             img=tmp
     @coroutine
     def _asyncValueChange(self,init):
@@ -81,12 +78,12 @@ class Detect(metaclass=logMeta(logger)):
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
     def setupEnemyGird(self):
-        Detect.enemyGird=2 if any(self._select(CLASS[75],(110+200*i,1,173+200*i,48))is not None for i in range(3))else 1 if False else 0
-        return Detect.enemyGird
-    def setupMailDone(self):Detect._watchMailDone=self._asyncImageChange((202,104,252,124))
+        XDetect.enemyGird=2 if any(self._select(CLASS[75],(110+200*i,1,173+200*i,48))is not None for i in range(3))else 1 if False else 0
+        return XDetect.enemyGird
+    def setupMailDone(self):XDetect._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
-        Detect._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
-        Detect._watchServantFriend=[self._asyncValueChange(self.isServantFriend(i)if friend is None else friend[i])for i in range(3)]
+        XDetect._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
+        XDetect._watchServantFriend=[self._asyncValueChange(self.isServantFriend(i)if friend is None else friend[i])for i in range(3)]
     def isAddFriend(self):return self._compare(IMG.END,(162,575,497,655))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(604,598,678,645))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1092,634,1244,708))
@@ -97,11 +94,12 @@ class Detect(metaclass=logMeta(logger)):
     def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isFriendListEnd(self):return self._isListEnd((1255,709))
     def isGacha(self):return self._compare(IMG.GACHA,(648,640,875,702))
-    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])(Detect(.15)if that is None else that)
+    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),XDetect())[1]if that is None else that)
+    def isInCampaign(self):return self._compare(IMG.CAMPAIGN,(1122,107,1216,138),threshold=.2)
     def isMailDone(self):return self._watchMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
-    def isNetworkError(self):return self._loc(IMG.NETWORKERROR,(798,544,879,584))[0]<.05
+    def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(798,544,879,584))
     def isNextLottery(self):return self._compare(IMG.LOTTERY,(830,231,879,260))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(246,363,274,392))
     def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
@@ -130,7 +128,7 @@ class Detect(metaclass=logMeta(logger)):
     def getCardResist(self):return[{0:1,1:2}.get(self._select((IMG.WEAK,IMG.RESIST),(175+257*i,353,205+257*i,420)),0)for i in range(5)]
     def getCardServant(self,choices):...
     def getEnemyHp(self,pos):
-        if self.enemyGird==0:return 0 if pos>2 else self._ocr((100+250*pos,41,222+250*pos,65))
+        if self.enemyGird==0:return 0 if pos>2 else self._ocr((100+250*pos,40,222+250*pos,65))
         if self.enemyGird==2:return self._ocr((190+pos%3*200-pos//3*100,28+pos//3*99,287+pos%3*200-pos//3*100,53+pos//3*99),scale=.77)
     def getEnemyNp(self,pos):
         if self.enemyGird==0:return(0,0)if pos>2 else(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(IMG.CHARGE0),count(IMG.CHARGE1),))(count(IMG.CHARGE2)))(lambda img:self._count(img,(160+250*pos,67,250+250*pos,88)))
@@ -155,7 +153,26 @@ class Detect(metaclass=logMeta(logger)):
     def getTeamServantCost(self):...
     def getTeamServantHouguLv(self):...
     def getTeamServantSkillLv(self):...
+    def findFarm(self):return self._find(IMG.FARM)
     def findFriend(self,img):return self._find(img,(13,166,1233,720))
+    def findLastExec(self):return self._find(IMG.LASTEXEC,(200,160,1280,560))
     def findMail(self,img):return self._find(img,(73,166,920,720),threshold=.016)
     def getEnemyHpGauge(self):raise NotImplementedError
     def getTeamServantRank(self):raise NotImplementedError
+class Detect(XDetect):
+    def __init__(self,anteLatency=.1,postLatency=0):
+        schedule.sleep(anteLatency)
+        super().__init__()
+        fuse.increase()
+        schedule.sleep(postLatency)
+    def _compare(self,*args,**kwargs):return super()._compare(*args,**kwargs)and fuse.reset(self)
+    def _find(self,*args,**kwargs):
+        if(t:=super()._find(*args,**kwargs))is not None:fuse.reset(self)
+        return t
+    @coroutine
+    def _asyncImageChange(self,*args,**kwargs):
+        inner=super()._asyncImageChange(*args,**kwargs)
+        p=yield None
+        while True:
+            if t:=inner.send(p):fuse.reset(self)
+            p=yield t
