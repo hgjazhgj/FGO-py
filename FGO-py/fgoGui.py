@@ -95,7 +95,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
                 fgoKernel.fuse.reset()
                 fgoKernel.schedule.reset()
                 if self.config.notifyEnable and not all(success:=[i(msg[0])for i in self.notifier]):logger.critical(f'Notify post failed {success.count(False)} of {len(success)}')
-        self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
+        self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}')
         self.worker.start()
     def funcBegin(self):
         self.BTN_CLASSIC.setEnabled(False)
