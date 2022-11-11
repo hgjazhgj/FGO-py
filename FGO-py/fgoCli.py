@@ -1,12 +1,13 @@
-import argparse,cmd,functools,json,os,platform,re,signal,time
+import argparse,cmd,json,os,platform,re,signal,time
 import fgoDevice
 import fgoKernel
+from functools import wraps
 from fgoLogging import getLogger,color
 from fgoTeamupParser import IniParser
 logger=getLogger('Cli')
 
 def wrapTry(func):
-    @functools.wraps(func)
+    @wraps(func)
     def wrapper(self,*args,**kwargs):
         try:return func(self,*args,**kwargs)
         except ArgError as e:
@@ -134,6 +135,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Continue last battle after abnormal break, use it as same as battle'
         arg=parser_battle.parse_args(line.split())
         assert fgoDevice.device.available
+        assert not fgoKernel.lock.locked()
         countdown(arg.sleep)
         try:
             signal.signal(signal.SIGINT,lambda*_:fgoKernel.schedule.stop())
@@ -183,8 +185,9 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         },text,line,begidx,endidx)
     def do_screenshot(self,line):
         'Take a screenshot'
+        arg=parser_screenshot.parse_args(line.split())
         assert fgoDevice.device.available
-        fgoKernel.Detect(0).save()
+        fgoKernel.Detect(0).save(arg.file,appendTime=arg.notime)
     def do_169(self,line):
         'Adapt none 16:9 screen'
         arg=parser_169.parse_args(line.split())
@@ -200,10 +203,16 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         fgoDevice.device.press(chr(eval(arg.button))if arg.code else arg.button)
     def do_bench(self,line):
         'Benchmark'
-        assert fgoDevice.device.available
         arg=parser_bench.parse_args(line.split())
+        assert fgoDevice.device.available
         if not(arg.input or arg.output):arg.input=arg.output=True
         fgoKernel.bench(max(3,arg.number),arg.input,arg.output)
+    def do_lock(self,line):
+        'Lock FGO-py to temporary disable all functions without exiting or disconnecting'
+        arg=parser_lock.parse_args(line.split())
+        assert arg.unlock or not fgoKernel.lock.locked()
+        if arg.unlock:fgoKernel.lock.release()
+        else:fgoKernel.lock.acquire()
 
 ArgError=type('ArgError',(Exception,),{})
 def validator(type,func,desc='\b'):
@@ -262,5 +271,12 @@ parser_bench=ArgParser(prog='bench',description=Cmd.do_bench.__doc__)
 parser_bench.add_argument('-n','--number',help='Number of runs (default: %(default)s)',type=validator(int,lambda x:x>=3,'not-less-than-3 int'),default=20)
 parser_bench.add_argument('-i','--input',help='Bench touch, if neither -i nor -o specified, bench them both',action='store_true')
 parser_bench.add_argument('-o','--output',help='Bench screenshot, if neither -i nor -o specified, bench them both',action='store_true')
+
+parser_lock=ArgParser(prog='lock',description=Cmd.do_lock.__doc__)
+parser_lock.add_argument('-u','--unlock',help='Unlock (lock if not specified)',action='store_true')
+
+parser_screenshot=ArgParser(prog='screenshot',description=Cmd.do_screenshot.__doc__)
+parser_screenshot.add_argument('file',help='Filename/path prefix (default: %(default)s)',default='Screenshot',nargs='?')
+parser_screenshot.add_argument('-t','--notime',help='Do not append Time after filename',action='store_false')
 
 def main(config):Cmd(config).cmdloop()
