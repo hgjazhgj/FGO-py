@@ -39,8 +39,7 @@ def withLock(lock):
     def decorator(func):
         @wraps(func)
         def wrapper(*args,**kwargs):
-            with lock:
-                return func(*args,**kwargs)
+            with lock:return func(*args,**kwargs)
         return wrapper
     return decorator
 def guardian():
@@ -75,7 +74,7 @@ class Farming:
             fgoDevice.device.pinch()
             time.sleep(1.5)
             if(t:=XDetect().findFarm())is None:break
-            self.logger.info(f'Farming finished')
+            self.logger.info(f'Farming {t} finished')
             fgoDevice.device.touch(t)
             time.sleep(1)
             fgoDevice.device.press('8')
@@ -319,16 +318,8 @@ class Turn:
         houguTargeted,houguArea,houguSupport=[[j for j in range(3)if hougu[j]and self.servant[j][0]and self.servant[j][5][0]==i]for i in range(3)]
         houguArea=houguArea if self.stage==self.stageTotal or sum(i>0 for i in self.enemy)>1 and sum(self.enemy)>12000 else[]
         houguTargeted=houguTargeted if self.stage==self.stageTotal or max(self.enemy)>23000+8000*len(houguArea)else[]
-        hougu=houguSupport+houguArea+houguTargeted
         if self.stageTurn==1 or houguTargeted:fgoDevice.device.perform('\x67\x68\x69\x64\x65\x66'[numpy.argmax(self.enemy)],(500,))
-        return''.join(
-            ['678'[i]for i in hougu]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]
-            if hougu else
-            (lambda group:
-                ['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(
-                    max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))
-                )])(Detect.cache.getCardGroup())
-        )
+        return''.join((lambda hougu:['678'[i]for i in hougu]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if hougu else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup()))(houguSupport+houguArea+houguTargeted))
     def castServantSkill(self,pos,skill,target):
         fgoDevice.device.press(('ASD','FGH','JKL')[pos][skill])
         if Detect(.7).isSkillNone():

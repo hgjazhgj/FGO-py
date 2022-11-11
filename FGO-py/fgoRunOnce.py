@@ -12,7 +12,7 @@ def runOnce(config):
     for dst,func in RUNONCE:
         if src<dst:
             logger.info(f'Upgrading to v{".".join(str(i)for i in dst)}')
-            func(config)
+            if func(config):break
             restart=True
     if restart:
         logger.debug('Please restart FGO-py manually to complete the upgrade.')
