@@ -259,6 +259,10 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2022/11/17 v10.1.3
+
+Del:邪马台国活动收菜  
+
 ## 2022/11/07 v10.1.2
 
 Add:cli下lock指令  
@@ -309,6 +313,7 @@ Opt:[discussion #86](https://github.com/hgjazhgj/FGO-py/discussions/86)
 点6下对于3个弹窗来说确实有点吃紧了,加一点  
 
 ## 2022/10/11 v9.8.0
+
 Add:配置管理  
 支持onepush需要新增配置项,为避免merge conflict,别处定义config meta然后读配置文件向其合并  
 但是怎么感觉写了个妖怪出来  

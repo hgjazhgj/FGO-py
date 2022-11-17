@@ -27,9 +27,6 @@ def v9_8_0(config):
     import os
     os.system('pip install --upgrade airtest')
 @regRunOnce
-def v10_1_0(config):
-    print('可提供邪马台国7*24自动收菜,会在空闲时主动运行,是否启用?(Y/n)')
-    choose=input().lower()
-    if not choose or choose=='y':
-        config.farming=True
-    print('你可以稍后在fgoConfig.json中farming字段对此设置进行更改。')
+def v10_1_3(config):
+    config.farming=False
+    print('邪马台国7*24自动收菜功能已被禁用。')

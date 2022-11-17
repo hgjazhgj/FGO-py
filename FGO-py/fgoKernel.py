@@ -58,31 +58,12 @@ class Farming:
         self.stop=False
     def __call__(self):
         while not self.stop:
-            if not fgoDevice.device.available:
-                time.sleep(3)
-                continue
-            self.run()
             time.sleep(120)
+            if not fgoDevice.device.available:continue
+            self.run()
     @withLock(lock)
     def run(self):
-        if not XDetect().isMainInterface():return self.logger.warning('Not in main interface, retry later')
-        if not XDetect.cache.isInCampaign():
-            fgoDevice.device.press('\x1B')
-            time.sleep(2)
-            if not XDetect().isInCampaign():return self.logger.critical('Not in campaign, exit')
-        while True:
-            fgoDevice.device.pinch()
-            time.sleep(1.5)
-            if(t:=XDetect().findFarm())is None:break
-            self.logger.info(f'Farming {t} finished')
-            fgoDevice.device.touch(t)
-            time.sleep(1)
-            fgoDevice.device.press('8')
-            time.sleep(3)
-            while not XDetect().isMainInterface():
-                fgoDevice.device.press('\xBB')
-                time.sleep(.5)
-        # if(t:=XDetect().findLastExec())is not None:fgoDevice.device.touch((t[0]-98,t[1]-49))
+        ...
 farming=Farming()
 threading.Thread(target=farming,daemon=True,name='Farming').start()
 @withLock(lock)
