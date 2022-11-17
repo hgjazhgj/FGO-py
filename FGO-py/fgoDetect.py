@@ -95,7 +95,6 @@ class XDetect(metaclass=logMeta(logger)):
     def isFriendListEnd(self):return self._isListEnd((1255,709))
     def isGacha(self):return self._compare(IMG.GACHA,(648,640,875,702))
     def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),XDetect())[1]if that is None else that)
-    def isInCampaign(self):return self._compare(IMG.CAMPAIGN,(1122,107,1216,138),threshold=.2)
     def isMailDone(self):return self._watchMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
@@ -153,12 +152,13 @@ class XDetect(metaclass=logMeta(logger)):
     def getTeamServantCost(self):...
     def getTeamServantHouguLv(self):...
     def getTeamServantSkillLv(self):...
-    def findFarm(self):return self._find(IMG.FARM)
     def findFriend(self,img):return self._find(img,(13,166,1233,720))
     def findLastExec(self):return self._find(IMG.LASTEXEC,(200,160,1280,560))
     def findMail(self,img):return self._find(img,(73,166,920,720),threshold=.016)
+    def isInCampaign(self):raise NotImplementedError
     def getEnemyHpGauge(self):raise NotImplementedError
     def getTeamServantRank(self):raise NotImplementedError
+    def findFarm(self):raise NotImplementedError
 class Detect(XDetect,metaclass=logMeta(logger)):
     def __init__(self,anteLatency=.1,postLatency=0):
         schedule.sleep(anteLatency)
