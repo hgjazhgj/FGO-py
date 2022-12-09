@@ -66,6 +66,14 @@ class Farming:
         ...
 farming=Farming()
 threading.Thread(target=farming,daemon=True,name='Farming').start()
+def setup():
+    raise NotImplementedError
+    if not fgoDevice.device.isInGame():
+        fgoDevice.device.launch()
+        while not Detect(1).isGameLaunch():pass
+        while not Detect(1).isGameAnnounce():fgoDevice.device.press('\xBB')
+        fgoDevice.device.press('\x08')
+    elif False:...
 @withLock(lock)
 def gacha():
     while fuse.value<30:
@@ -73,8 +81,9 @@ def gacha():
         fgoDevice.device.press('\x08')
 @withLock(lock)
 def lottery():
-    while fuse.value<50:
-        if Detect().isNextLottery():fgoDevice.device.perform('\xDCKJ',(600,2400,500))
+    Detect().setupLottery()
+    count=0
+    while(count:=0 if Detect().isLotteryContinue()else count+1)<3:
         for _ in range(40):fgoDevice.device.press('2')
 @withLock(lock)
 def mail():
