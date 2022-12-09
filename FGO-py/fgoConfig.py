@@ -33,7 +33,7 @@ class ConfigItem(dict):
         if(t1:=type(origin:=super().__getitem__(key)))is(t2:=type(value))or any(issubclass(t1,i)and issubclass(t2,i)for i in(list,dict)):
             super().__setitem__(key,ConfigItem(value))
             super().__getattribute__('_callback').get(key,lambda x:None)(value)
-        else:logger.error(f'[{key}] Type Mismatch: ({t1}){origin} -> ({t2})value')
+        else:logger.error(f'[{key}] Type Mismatch: ({t1.__name__}){origin} -> ({t2.__name__}){value}')
     def __getitem__(self,key):
         result=self
         for k in key.split('.'):result=dict.__getitem__(result,k)if isinstance(result,dict)else result[int(k)]

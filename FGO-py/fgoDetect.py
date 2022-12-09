@@ -80,6 +80,7 @@ class XDetect(metaclass=logMeta(logger)):
     def setupEnemyGird(self):
         XDetect.enemyGird=2 if any(self._select(CLASS[75],(110+200*i,1,173+200*i,48))is not None for i in range(3))else 1 if False else 0
         return XDetect.enemyGird
+    def setupLottery(self):XDetect._watchLottery=self._asyncImageChange((960,4,1010,32))
     def setupMailDone(self):XDetect._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
         XDetect._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
@@ -94,12 +95,16 @@ class XDetect(metaclass=logMeta(logger)):
     def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isFriendListEnd(self):return self._isListEnd((1255,709))
     def isGacha(self):return self._compare(IMG.GACHA,(648,640,875,702))
+    def isGameAnnounce(self):...
+    def isGameLaunch(self):...
     def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),XDetect())[1]if that is None else that)
+    def isLotteryContinue(self):
+        self.save('fgoTemp/lottery',(960,4,1010,32))
+        return self._watchLottery.send(self)
     def isMailDone(self):return self._watchMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
     def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(798,544,879,584))
-    def isNextLottery(self):return self._compare(IMG.LOTTERY,(830,231,879,260))
     def isNoFriend(self):return self._compare(IMG.NOFRIEND,(246,363,274,392))
     def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
     def isServantFriend(self,pos):return self._compare(IMG.SUPPORT,(194+318*pos,388,284+318*pos,418))
