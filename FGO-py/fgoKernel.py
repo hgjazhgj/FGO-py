@@ -83,7 +83,7 @@ def gacha():
 def lottery():
     Detect().setupLottery()
     count=0
-    while(count:=0 if Detect().isLotteryContinue()else count+1)<3:
+    while(count:=0 if Detect().isLotteryContinue()else count+1)<5:
         for _ in range(40):fgoDevice.device.press('2')
 @withLock(lock)
 def mail():
