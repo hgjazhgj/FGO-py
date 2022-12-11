@@ -259,6 +259,10 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2022/12/12 v10.2.1
+
+Opt:增加了计数  
+
 ## 2022/12/10 v10.2.0
 
 Upd:lottery  
