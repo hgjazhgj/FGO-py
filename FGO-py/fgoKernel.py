@@ -87,7 +87,7 @@ def lottery():
         for _ in range(40):fgoDevice.device.press('2')
 @withLock(lock)
 def mail():
-    if not mailImg.flush():return
+    assert mailImg.flush()
     Detect().setupMailDone()
     while True:
         while any((pos:=Detect.cache.findMail(i[1]))and(fgoDevice.device.touch(pos),True)[-1]for i in mailImg.items()):
