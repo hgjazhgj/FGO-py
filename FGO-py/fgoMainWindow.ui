@@ -280,6 +280,7 @@
     <addaction name="MENU_SCRIPT_LOTTERY"/>
     <addaction name="MENU_SCRIPT_MAILFILTER"/>
     <addaction name="MENU_SCRIPT_SYNTHESIS"/>
+    <addaction name="MENU_SCRIPT_GACHAHISTORY"/>
     <addaction name="MENU_SCRIPT_EXPBALL"/>
    </widget>
    <widget class="QMenu" name="MENU_CONTROL">
@@ -350,6 +351,14 @@
    </property>
    <property name="statusTip">
     <string>在选择了强化对象未选择强化材料的界面运行本功能</string>
+   </property>
+  </action>
+  <action name="MENU_SCRIPT_GACHAHISTORY">
+   <property name="text">
+    <string>召唤记录</string>
+   </property>
+   <property name="statusTip">
+    <string>统计导出召唤记录,在抽卡记录页面运行</string>
    </property>
   </action>
   <action name="MENU_SCRIPT_EXPBALL">
@@ -520,6 +529,12 @@
    <slot>runSynthesis()</slot>
   </connection>
   <connection>
+   <sender>MENU_SCRIPT_GACHAHISTORY</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>runGachaHistory()</slot>
+  </connection>
+  <connection>
    <sender>MENU_SCRIPT_EXPBALL</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
@@ -604,6 +619,7 @@
   <slot>runMail()</slot>
   <slot>runMain()</slot>
   <slot>runSynthesis()</slot>
+  <slot>runGachaHistory()</slot>
   <slot>expBall()</slot>
   <slot>stop()</slot>
   <slot>stopLater(bool)</slot>

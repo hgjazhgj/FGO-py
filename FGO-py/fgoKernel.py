@@ -105,6 +105,19 @@ def synthesis():
         fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
 @withLock(lock)
+def gachaHistory():
+    Detect().setupGachaHistory()
+    while not Detect.cache.isGachaHistoryListEnd():
+        fgoDevice.device.swipe((930,500,930,200))
+        Detect().getGachaHistory()
+    fgoDevice.device.swipe((930,500,930,200))
+    Detect().getGachaHistory()
+    gachaHistory.result={
+        'type':'GachaHistory',
+        'value':(t:=Detect.getGachaHistoryCount()),
+        'file':Detect.__new__(Detect).inject(XDetect._gachaHistory).save(f'GachaHistory({t})',(0,0,*XDetect._gachaHistory.shape[::-1]))
+    }
+@withLock(lock)
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True
     screenshotBench=[]

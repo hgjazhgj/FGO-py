@@ -72,6 +72,10 @@ class XDetect(metaclass=logMeta(logger)):
             a[p]=yield a[0]!=a[1]
             p^=1
     def _isListEnd(self,pos):return(lambda x:.1<x[0]or pos[1]<x[2][1]+30)(self._loc(IMG.LISTBAR,(pos[0]-19,0,pos[0]+19,720)))
+    def inject(self,img):
+        self.im=img
+        self.time=time.time()
+        return self
     def save(self,name='Screenshot',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000:03}"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect),[cv2.IMWRITE_PNG_COMPRESSION,9])and name
     def show(self):
         cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.6,fy=.6))
@@ -80,6 +84,7 @@ class XDetect(metaclass=logMeta(logger)):
     def setupEnemyGird(self):
         XDetect.enemyGird=2 if any(self._select(CLASS[75],(110+200*i,1,173+200*i,48))is not None for i in range(3))else 1 if False else 0
         return XDetect.enemyGird
+    def setupGachaHistory(self):XDetect._gachaHistory=cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1]
     def setupLottery(self):XDetect._watchLottery=self._asyncImageChange((960,4,1010,32))
     def setupMailDone(self):XDetect._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
@@ -95,12 +100,9 @@ class XDetect(metaclass=logMeta(logger)):
     def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
     def isFriendListEnd(self):return self._isListEnd((1255,709))
     def isGacha(self):return self._compare(IMG.GACHA,(648,640,875,702))
-    def isGameAnnounce(self):...
-    def isGameLaunch(self):...
-    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),XDetect())[1]if that is None else that)
-    def isLotteryContinue(self):
-        self.save('fgoTemp/lottery',(960,4,1010,32))
-        return self._watchLottery.send(self)
+    def isGachaHistoryListEnd(self):return self._isListEnd((1142,552))
+    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),type(self)())[1]if that is None else that)
+    def isLotteryContinue(self):return self._watchLottery.send(self)
     def isMailDone(self):return self._watchMailDone.send(self)
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
@@ -130,7 +132,6 @@ class XDetect(metaclass=logMeta(logger)):
             universe-=group
         return result
     def getCardResist(self):return[{0:1,1:2}.get(self._select((IMG.WEAK,IMG.RESIST),(175+257*i,353,205+257*i,420)),0)for i in range(5)]
-    def getCardServant(self,choices):...
     def getEnemyHp(self,pos):
         if self.enemyGird==0:return 0 if pos>2 else self._ocr((100+250*pos,40,222+250*pos,65))
         if self.enemyGird==2:return self._ocr((190+pos%3*200-pos//3*100,28+pos//3*99,287+pos%3*200-pos//3*100,53+pos//3*99),scale=.77)
@@ -141,6 +142,9 @@ class XDetect(metaclass=logMeta(logger)):
     def getFieldServantClassRank(self,pos):return(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
     def getFieldServantHp(self,pos):return self._ocr((200+318*pos,620,293+318*pos,644))
     def getFieldServantNp(self,pos):return self._ocr((220+318*pos,655,274+318*pos,680))
+    def getGachaHistory(self):XDetect._gachaHistory=numpy.vstack((XDetect._gachaHistory,(lambda img:img[cv2.minMaxLoc(cv2.matchTemplate(img,XDetect._gachaHistory[-80:],cv2.TM_SQDIFF_NORMED))[2][1]+80:])(cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1])))
+    @classmethod
+    def getGachaHistoryCount(cls):return cls.__new__(cls).inject(XDetect._gachaHistory)._count((IMG.GACHAHISTORY[0][...,0],IMG.GACHAHISTORY[1]),(28,0,60,XDetect._gachaHistory.shape[0]),.7)
     def getMaterial(self):return(lambda x:{MATERIAL[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in MATERIAL),(168+i%7*137,104+i//7*142,258+i%7*137,196+i//7*142),.02)for i in range(1,21)])
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(IMG.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
@@ -149,20 +153,23 @@ class XDetect(metaclass=logMeta(logger)):
     def getStageTotal(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(912,13,932,38),.5)+1
     def getTeamIndex(self):return self._loc(IMG.TEAMINDEX,(512,34,768,62))[2][0]//25
     # getTeam* series except getTeamIndex APIs are not used now
-    def getTeamMaster(self):...
-    def getTeamServant(self):...
-    def getTeamServantAtk(self):...
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
     def getTeamServantClassRank(self):return[(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
-    def getTeamServantCost(self):...
-    def getTeamServantHouguLv(self):...
-    def getTeamServantSkillLv(self):...
     def findFriend(self,img):return self._find(img,(13,166,1233,720))
     def findLastExec(self):return self._find(IMG.LASTEXEC,(200,160,1280,560))
     def findMail(self,img):return self._find(img,(73,166,920,720),threshold=.016)
+    def isGameAnnounce(self):raise NotImplementedError
+    def isGameLaunch(self):raise NotImplementedError
     def isInCampaign(self):raise NotImplementedError
+    def getCardServant(self,choices):raise NotImplementedError
     def getEnemyHpGauge(self):raise NotImplementedError
+    def getTeamMaster(self):raise NotImplementedError
+    def getTeamServant(self):raise NotImplementedError
+    def getTeamServantAtk(self):raise NotImplementedError
+    def getTeamServantCost(self):raise NotImplementedError
+    def getTeamServantHouguLv(self):raise NotImplementedError
     def getTeamServantRank(self):raise NotImplementedError
+    def getTeamServantSkillLv(self):raise NotImplementedError
     def findFarm(self):raise NotImplementedError
 class Detect(XDetect,metaclass=logMeta(logger)):
     def __init__(self,anteLatency=.1,postLatency=0):

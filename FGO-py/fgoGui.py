@@ -118,7 +118,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         QApplication.alert(self)
         self.TRAY.showMessage('FGO-py',*msg)
         if isinstance(self.result,dict)and(t:=self.result.get('type',None)):
-            if t=='Battle':...
+            if t=='Battle':QMessageBox.information(self,'FGO-py',f'''
+<h2>{msg[0].split(':',1)[0]}</h2>
+<font color="#006400">{self.result['turn']:.1f}</font>回合完成战斗,用时<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font><br/>
+获得了以下素材:<br/>
+{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{I18N.get(i,i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else'无'}
+''')
             elif t=='Main':
                 QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
@@ -126,6 +131,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
 平均每场战斗<font color="#006400">{self.result['turnPerBattle']:.1f}</font>回合,用时<font color="#006400">{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
 获得了以下素材:<br/>
 {'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{I18N.get(i,i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else'无'}
+''')
+            elif t=='GachaHistory':
+                QMessageBox.information(self,'FGO-py',f'''
+<h2>{msg[0].split(':',1)[0]}</h2>
+共<font color="#006400">{self.result['value']}</font>条抽卡记录,图片保存至</br>
+<font color="#7030A0">{self.result['file']}</font>
 ''')
         self.result=None
     def connect(self):
@@ -164,6 +175,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
+    def runGachaHistory(self):self.runFunc(fgoKernel.gachaHistory)
     def expBall(self):
         QMessageBox.information(self,'FGO-py','''
 搓丸子是一个基于FGO-py的独立项目<br/>
