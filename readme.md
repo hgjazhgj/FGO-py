@@ -152,6 +152,7 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 
 ### Windows 窗口
 
+本条目将被弃用  
 经由WindowsApi实现的截图和鼠标事件,适用于Windows平台直接运行的fgo游戏,其中包含安卓模拟器  
 
 0. 需要Windows 10版本1703或更高
@@ -265,6 +266,7 @@ Add:抽卡记录统计导出
 获取当前抽数以知晓保底还有多远  
 将完整抽卡记录合并为一张图片方便后续分析与查错  
 如果发现统计的抽数不正确,请在issue中附上生成的GachaHistory图片  
+Fix:[pr #93](https://github.com/hgjazhgj/FGO-py/pull/93)  
 
 ## 2022/12/17 v10.2.2
 
