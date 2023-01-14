@@ -397,6 +397,8 @@ servantData={
 365:(6,0,2,2,(1,1),((4,5),(5,5),(2,5))),
 366:(4,0,6,1,(0,2),((4,5),(1,5),(1,5))),
 367:(9,0,2,2,(1,2),((3,5),(2,0),(4,5))),
+368:(3,0,2,1,(1,1),((5,1),(2,5),(9,5))),
+369:(10,0,3,1,(1,0),((8,5),(1,5),(2,5))),
 }
 import cv2,tqdm
 def readSplit(file,height):return(lambda img:[img[i*height:(i+1)*height]for i in range(img.shape[0]//height)])(cv2.imread(file,cv2.IMREAD_UNCHANGED))

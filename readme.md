@@ -26,6 +26,7 @@
 **Buy me a Saint Quartz**  
 ![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)![Monero](doc/monero.png)  
 Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY  
+非人民币捐赠,请查看[# 如何联系开发者 Contact Developer](#如何联系开发者-contact-developer)章节与我联系  
 B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B币券[充电](https://space.bilibili.com/2632341)  
 觉得有帮助请为我star,谢谢  
 <table>
@@ -236,6 +237,10 @@ v9.1及更早版本提供的需要配置的战斗,不建议在以下之外的场
 # 如何联系开发者 Contact Developer
 
 ![img](doc/contact.png) 在占用我的时间之前,先耗费自己的时间  
+现在这个项目已经可以从各大搜索引擎上找到,这就导致有很多halloworld都不会的小白来找我,就算是点点鼠标都会遇到问题  
+没有标明免费的东西都不是免费的,我乐意回答一些本文档中没有提及的技术问题,但没有义务提供详细的教学  
+如果你遇到问题且愿意支付一定的咨询费用,或者只是想要捐赠,请添加我的[LINE](https://line.me/ti/p/otflICcLQl)  
+这是无奈之举,卖的是本人的时间和精力,而用到知识和经验的解决具体问题另算  
 **2021年9月24日,同为本人开发的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
 加入QQ群需要提供你的Github用户名(必须严格等于登陆时输入的Username字段),且该帐号在30天内有活跃行为,如果你不希望Github帐号与QQ号有所关联,在加群问题回答中填入任意**能证明你是开发者的**内容亦可.QQ号需要至少16级(有一个太阳,使用大约1年)  
 为切实验证Github用户名真实性防止冒名顶替,对于想要加群的用户请先Star本项目并**立刻**发送加群申请,如果你已经Star,请先取消Star然后再点一次,如果你确实不想Star本项目,可以在入群后取消Star  
