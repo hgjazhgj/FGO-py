@@ -112,11 +112,7 @@ def gachaHistory():
         Detect().getGachaHistory()
     fgoDevice.device.swipe((930,500,930,200))
     Detect().getGachaHistory()
-    gachaHistory.result={
-        'type':'GachaHistory',
-        'value':(t:=Detect.getGachaHistoryCount()),
-        'file':Detect.__new__(Detect).inject(XDetect._gachaHistory).save(f'GachaHistory({t})',(0,0,*XDetect._gachaHistory.shape[::-1]))
-    }
+    gachaHistory.result={'type':'GachaHistory'}|dict(zip(('value','file'),Detect.saveGachaHistory()))
 @withLock(lock)
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True

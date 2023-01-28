@@ -6,6 +6,7 @@ from fgoLogging import getLogger,color
 from fgoTeamupParser import IniParser
 logger=getLogger('Cli')
 
+prompt='FGO-py@{Device}({Team})> 'if os.getenv('NO_COLOR')else'FGO-py\033[32m@{Device}\033[36m({Team})\033[0m> '
 def wrapTry(func):
     @wraps(func)
     def wrapper(self,*args,**kwargs):
@@ -14,7 +15,7 @@ def wrapTry(func):
             if e.args[0]is not None:logger.error(e)
         except KeyboardInterrupt:logger.critical('KeyboardInterrupt')
         except BaseException as e:logger.exception(e)
-        finally:self.prompt=f'FGO-py\033[32m@{fgoDevice.device.name}\033[36m({fgoKernel.Main.teamIndex})\033[0m> '
+        finally:self.prompt=prompt.format(Device=fgoDevice.device.name,Team=fgoKernel.Main.teamIndex)
     return wrapper
 def countdown(x):
     timer=time.time()+x
@@ -31,7 +32,7 @@ Connect device first, then type main to empty your AP gauge.
 Type help or ? to list commands, help <command> to get more information.
 Some commands support <command> [<subcommand> ...] {{-h, --help}} for further information.
 '''
-    prompt='FGO-py\033[32m@Device\033[36m(Team)\033[0m> '
+    prompt=prompt.format(Device='Device',Team='Team')
     def __init__(self,config):
         super().__init__()
         fgoDevice.Device.enumDevices()

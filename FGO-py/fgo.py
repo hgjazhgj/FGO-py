@@ -1,4 +1,4 @@
-import argparse
+import argparse,os
 from fgoConst import VERSION
 
 parser=argparse.ArgumentParser(description=f'FGO-py {VERSION}')
@@ -6,7 +6,10 @@ parser.add_argument('entrypoint',help='Program entry point (default: %(default)s
 parser.add_argument('-v','--version',help='Show FGO-py version',action='version',version=VERSION)
 parser.add_argument('-l','--loglevel',help='Change the console log level (default: %(default)s)',type=str.upper,choices=['DEBUG','INFO','WARNING','CRITICAL','ERROR'],default='INFO')
 parser.add_argument('-c','--config',help='Config file path (default: %(default)s)',type=str,default='fgoConfig.json')
+parser.add_argument('--no-color',help='Disable colored console output',action='store_true')
 arg=parser.parse_args()
+
+if arg.no_color:os.environ['NO_COLOR']='1'
 
 if arg.entrypoint=='gui':from fgoGui import main
 elif arg.entrypoint=='cli':from fgoCli import main
