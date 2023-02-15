@@ -5,7 +5,7 @@ from fgoConst import VERSION
 if platform.system()=='Windows':(lambda k:k.SetConsoleMode(k.GetStdHandle(-11),7))(__import__('ctypes').windll.kernel32) # -11:STD_OUTPUT_HANDLE, 7:ENABLE_VIRTUAL_TERMINAL_PROCESSING
 monoFormatter=logging.Formatter('[%(asctime)s][%(levelname)s]<%(name)s> %(message)s')
 if os.getenv('NO_COLOR'):
-    def color(c=None,f='38'):return''
+    def color(*_,**__):return''
     coloredFormatter=monoFormatter
 else:
     def color(c=None,f='38'):return'\033[0m'if c is None else f'\033[{f};2;{c>>16&0xFF};{c>>8&0xFF};{c&0xFF}m'

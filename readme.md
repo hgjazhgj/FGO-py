@@ -266,6 +266,12 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2023/02/16 v10.4.1
+
+Opt:cli下-s sleep允许输入\[\[hh:\]mm:\]ss时间格式  
+就是解析了一个冒分60进制数,因此可以有多段,每段亦可大于60  
+Opt:dockerfile  
+
 ## 2023/01/29 v10.4.0
 
 Add:NO_COLOR  
