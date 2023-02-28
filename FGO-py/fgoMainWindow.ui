@@ -274,7 +274,7 @@
    </widget>
    <widget class="QMenu" name="MENU_SCRIPT">
     <property name="title">
-     <string>脚本</string>
+     <string>程序</string>
     </property>
     <addaction name="MENU_SCRIPT_GACHA"/>
     <addaction name="MENU_SCRIPT_LOTTERY"/>
@@ -402,7 +402,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>战败撤退时终止脚本运行</string>
+    <string>战败撤退时终止战斗</string>
    </property>
   </action>
   <action name="MENU_SETTINGS_KIZUNAREISOU">
@@ -410,12 +410,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>获得羁绊礼装时终止脚本运行</string>
+    <string>获得羁绊礼装时终止战斗</string>
    </property>
   </action>
   <action name="MENU_SETTINGS_SPECIALDROP">
    <property name="text">
-    <string>若干特殊掉落后终止脚本运行</string>
+    <string>若干特殊掉落后终止战斗</string>
    </property>
   </action>
   <action name="MENU_ABOUT_LICENSE">

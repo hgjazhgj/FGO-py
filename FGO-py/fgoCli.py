@@ -61,6 +61,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
             'houguInfo':str(fgoKernel.ClassicTurn.houguInfo).replace(' ',''),
             'masterSkill':str(fgoKernel.ClassicTurn.masterSkill).replace(' ','')}
         with open('fgoTeamup.ini','w')as f:self.teamup.write(f)
+        self.config.save()
     def teamup_clear(self,arg):
         store=self.currentTeam
         self.teamup_load(argparse.Namespace(name='DEFAULT'))
@@ -137,7 +138,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         arg=parser_battle.parse_args(line.split())
         assert fgoDevice.device.available
         assert not fgoKernel.lock.locked()
-        countdown(reduce(lambda x,y:x*60+int(y),arg.sleep.split(':'),0))
+        countdown(reduce(lambda x,y:x*60+int(y),arg.sleep.replace('.',':').split(':'),0))
         try:
             signal.signal(signal.SIGINT,lambda*_:fgoKernel.schedule.stop())
             if platform.system()=='Windows':signal.signal(signal.SIGBREAK,lambda*_:fgoKernel.schedule.pause())
@@ -226,12 +227,12 @@ class ArgParser(argparse.ArgumentParser):
     def exit(self,status=0,message=None):raise ArgError(message)
 
 parser_battle=ArgParser(prog='battle',description=Cmd.do_battle.__doc__)
-parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+(:\d+)*$',x),'timedelta'),default='0')
+parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 
 parser_main=ArgParser(prog='main',description=Cmd.do_main.__doc__)
 parser_main.add_argument('appleCount',help='Apple Count (default: %(default)s)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0,nargs='?')
 parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','quartz'],default='gold',nargs='?')
-parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+(:\d+)*$',x),'timedelta'),default='0')
+parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 parser_main.add_argument('-a','--appoint',help='Battle count limit (default: %(default)s for no limit)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0)
 
 parser_connect=ArgParser(prog='connect',description=Cmd.do_connect.__doc__)
@@ -259,7 +260,7 @@ parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,c
 
 parser_call=ArgParser(prog='call',description=Cmd.do_call.__doc__)
 parser_call.add_argument('func',help='Additional feature name',choices=['gacha','lottery','mail','synthesis','gachaHistory'])
-parser_call.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+(:\d+)*$',x),'timedelta'),default='0')
+parser_call.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)
 parser_169.add_argument('action',help='Action',type=str.lower,choices=['invoke','revoke'])
