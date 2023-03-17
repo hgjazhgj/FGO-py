@@ -263,6 +263,11 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2023/03/17 v10.4.3
+
+Fix(?):nofriend  
+似乎是背景纹理修改了  
+
 ## 2023/03/01 v10.4.2
 
 Opt:允许.作为sleep时间分隔符  

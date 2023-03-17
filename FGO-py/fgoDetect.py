@@ -107,7 +107,7 @@ class XDetect(metaclass=logMeta(logger)):
     def isMainInterface(self):return self._compare(IMG.MENU,(1086,613,1280,700))
     def isMailListEnd(self):return self._isListEnd((937,679))
     def isNetworkError(self):return self._compare(IMG.NETWORKERROR,(798,544,879,584))
-    def isNoFriend(self):return self._compare(IMG.NOFRIEND,(246,363,274,392))
+    def isNoFriend(self):return self._compare(IMG.NOFRIEND,(245,362,274,392),.15)
     def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
     def isServantFriend(self,pos):return self._compare(IMG.SUPPORT,(194+318*pos,388,284+318*pos,418))
     def isSkillCastFailed(self):return self._compare(IMG.SKILLERROR,(595,539,684,586))
