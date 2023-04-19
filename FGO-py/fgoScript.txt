@@ -1,5 +1,0 @@
-! rem cat fgoScript.txt | fgo.py cli
-connect /bs5
-teamup load Kizuna
-main
-main -s 28800
