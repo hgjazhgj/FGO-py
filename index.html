@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>FGO-py</title>
+  <meta name="description" content="全自动免配置跨平台开箱即用的Fate/Grand Order助手">
+  <meta name="keyword" content="FGO-py FGO脚本 FGO Fate/Grand Fate/GrandOrder 脚本 自动化">
+  <script>
+let annotates=["按下按钮, 清空体力","xjbd的最佳实践","都什么年代, 还在用传统脚本","小UI, 大功能","免配置的全自动战斗","把你心爱的从者编入队伍","不浪费每一点牵绊","Mac/Android/Linux跨平台","Gui/Cli/Web多前端","助手, 肝; 你, 睡觉","2019年11月10日开源","持续更新, 高可用性保证"];
+let annotate_index=0;
+setInterval(()=>{
+  annotate_index=(annotate_index+1)%annotates.length;
+  document.getElementById("annotate").innerHTML=annotates[annotate_index];
+},3000);
+  </script>
+  <style>
+body{
+  background-color: #353535;
+  text-align: center;
+}
+h1,p,a{
+  color: #fff;
+}
+h1{
+  letter-spacing: .15em;
+  font-size: 3em;
+  margin-bottom: 0;
+}
+.center{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+.line{
+  width: 100%;
+  height: 20px;
+  background-color: #ccc;
+  transform: translate(-50%, -50%);
+  z-index: -2;
+}
+.mainui{
+  background-color: #353535;
+  width: 286.8px;
+  height: 269.4px;
+  transform: translate(-50%, -50%);
+  padding: 1.8em;
+  outline: 3px solid #fff;
+  z-index: -1;
+}
+@keyframes shine{
+  0% {opacity: 0;}
+  50% {opacity: 1;}
+  100% {opacity: 0;}
+}
+.gan{
+  width: 85.2px;
+  height: 29.4px;
+  transform: translate(-156.3%, 233.9%);
+  animation: shine 1.7s infinite;
+}
+@keyframes textshine{
+  0% {color: #353535;}
+  30% {color: #fff;}
+  70% {color: #fff;}
+  100% {color: #353535;}
+}
+.annotate{
+  background-color: #353535;
+  font-size: 1.5em;
+  padding: .5em;
+  transform: translate(-50%, 200%);
+  animation: textshine 3s infinite;
+}
+.button{
+  position: fixed;
+  top: 81%;
+  left: 50%;
+  border: 2px solid #fff;
+  color: #fff;
+  width: 8em;
+  height: 1.3em;
+  padding-top: .3em;
+  padding-bottom: .3em;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+.button:hover{
+  background-color: #fff;
+  color: #000;
+}
+.left{
+  transform: translate(-125%, 0);
+}
+.right{
+  transform: translate(25%, 0);
+}
+.extra{
+  top: 72%;
+  left: 12%;
+  width: 6.4em;
+  height: 1.8em;
+  line-height: .9em;
+}
+.bottom{
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 85%;
+  transform: translate(-50%, 0);
+}
+  </style>
+</head>
+<body>
+  <h1>FGO-py</h1>
+  <p>全自动免配置跨平台开箱即用的Fate/Grand Order助手</p>
+  <div class="center line"></div>
+  <img class="center mainui" src="static/mainui.png"/>
+  <img class="center gan" src="static/gan.png" onclick="alert('本页面仅作演示, 这只是一张图片')"/>
+  <p class="center annotate" id="annotate">按下按钮, 清空体力</p>
+  <div class="button extra" onclick="location.href='https://github.com/hgjazhgj/FGO-ExpBall'">FGO-ExpBall<br/>搓丸子</div>
+  <div class="button left" onclick="location.href='https://hgjazhgj.lanzouv.com/FGO-py'">Windows下载</div>
+  <div class="button right" onclick="location.href='https://github.com/hgjazhgj/FGO-py'">GitHub仓库</div>
+  <p class="bottom">本项目依照 <a href="https://996.icu/">Anti-996 License</a> 开源, 使用即表示您知悉并同意其中的相关内容<br/>友情链接 <a href="https://www.yeshen.com/?utm_source=fgo">夜神模拟器</a></p>
+</body>
+</html>
