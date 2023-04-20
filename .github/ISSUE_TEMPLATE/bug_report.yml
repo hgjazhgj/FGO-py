@@ -50,9 +50,9 @@ body:
     attributes:
       label: 相关 Logs
       description: |
-        请复制并粘贴任何相关的日志输出。
-        可以把文件拖入这个区域以添加日志文件。
-        日志文件在fgoLog目录下。
+        请复制并粘贴任何相关的日志输出
+        可以把文件拖入这个区域以添加日志文件
+        日志文件在fgoLog目录下
       render: Text
     validations:
       required: false
@@ -61,10 +61,10 @@ body:
     attributes:
       label: 截图
       description: |
-        如果有，添加屏幕截图以帮助解释你的问题。
-        可以复制图片后在此区域内粘贴以添加图片。
-        对于游戏画面，需要提交由本项目创建的截图，如使用「检查截图」按钮。
-        如有必要，使用色块遮盖个人信息。
+        如果有，添加屏幕截图以帮助解释你的问题
+        可以复制图片后在此区域内粘贴以添加图片
+        对于游戏画面，需要提交由本项目创建的截图，如使用「检查截图」按钮
+        如有必要，使用色块遮盖个人信息
     validations:
       required: false
   - type: textarea
@@ -73,7 +73,7 @@ body:
       label: 还有别的吗？
       description: |
         运行环境？相关的配置？链接？参考资料？
-        任何能让我们对你所遇到的问题有更多了解的东西。
+        任何能让我们对你所遇到的问题有更多了解的东西
     validations:
       required: false
   - type: textarea

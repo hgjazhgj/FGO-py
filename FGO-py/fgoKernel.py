@@ -105,6 +105,9 @@ def synthesis():
         fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
 @withLock(lock)
+def dailyFpSummon():
+    logger.warning('NotImplemented')
+@withLock(lock)
 def gachaHistory():
     Detect().setupGachaHistory()
     while not Detect.cache.isGachaHistoryListEnd():

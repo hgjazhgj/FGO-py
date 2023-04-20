@@ -111,6 +111,9 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
             'load':self.teamup.sections(),
             'set':['servant','master','index']
         },text,line,begidx,endidx)
+    def do_goto(self,line):
+        '[NotImplemented] Go to a specific dungeon'
+        logger.warning('NotImplemented')
     def do_battle(self,line):
         'Finish the current battle'
         arg=parser_battle.parse_args(line.split())
@@ -215,6 +218,9 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         assert arg.unlock or not fgoKernel.lock.locked()
         if arg.unlock:fgoKernel.lock.release()
         else:fgoKernel.lock.acquire()
+    def do_ping(self,line):
+        'pong to log'
+        logger.critical('pong')
 
 ArgError=type('ArgError',(Exception,),{})
 def validator(type,func,desc='\b'):
@@ -259,7 +265,7 @@ parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team i
 parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
 
 parser_call=ArgParser(prog='call',description=Cmd.do_call.__doc__)
-parser_call.add_argument('func',help='Additional feature name',choices=['gacha','lottery','mail','synthesis','gachaHistory'])
+parser_call.add_argument('func',help='Additional feature name',choices=['gacha','lottery','mail','synthesis','dailyFpSummon','gachaHistory'])
 parser_call.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)
