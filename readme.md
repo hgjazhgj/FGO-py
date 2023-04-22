@@ -21,7 +21,8 @@
 **Buy me a Saint Quartz**  
 ![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)![Monero](doc/monero.png)  
 Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY  
-非人民币捐赠,请查看[# 如何联系开发者 Contact Developer](#如何联系开发者-contact-developer)章节与我联系  
+[GitHub Sponsor](https://github.com/sponsors/hgjazhgj/)  
+[Patron](https://patreon.com/hgjazhgj)  
 B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B币券[充电](https://space.bilibili.com/2632341)  
 觉得有帮助请为我star,谢谢  
 <table>
