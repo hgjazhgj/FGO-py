@@ -265,6 +265,12 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2023/04/28 v11.0.1
+
+Fix:synthesis for servant  
+从者强化的决定按钮要偏上一点  
+就说明这个页面根本就不是复用的  
+
 ## 2023/04/21 v11.0.0
 
 Add:ping  

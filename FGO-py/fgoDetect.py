@@ -116,7 +116,7 @@ class XDetect(metaclass=logMeta(logger)):
     def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(957,2,990,40),.1)
     def isSpecialDropSuspended(self):return self._compare(IMG.CLOSE,(8,11,68,68))
     def isSynthesisBegin(self):return self._compare(IMG.SYNTHESIS,(16,12,150,73))
-    def isSynthesisFinished(self):return self._compare(IMG.DECIDEDISABLED,(1096,645,1207,702))
+    def isSynthesisFinished(self):return self._compare(IMG.DECIDEDISABLED,(1096,635,1212,702))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1064,621,1224,710))
     @retryOnError()
     def getCardColor(self):return[+self._select((IMG.ARTS,IMG.QUICK,IMG.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
