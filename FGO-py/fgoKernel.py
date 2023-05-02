@@ -34,8 +34,8 @@ logger=getLogger('Kernel')
 
 friendImg=ImageListener('fgoImage/friend/')
 mailImg=ImageListener('fgoImage/mail/')
-lock=threading.Lock()
-def withLock(lock):
+mutex=threading.Lock()
+def serialize(lock):
     def decorator(func):
         @wraps(func)
         def wrapper(*args,**kwargs):
@@ -61,7 +61,7 @@ class Farming:
             time.sleep(120)
             if not fgoDevice.device.available:continue
             self.run()
-    @withLock(lock)
+    @serialize(mutex)
     def run(self):
         ...
 farming=Farming()
@@ -74,18 +74,18 @@ def setup():
         while not Detect(1).isGameAnnounce():fgoDevice.device.press('\xBB')
         fgoDevice.device.press('\x08')
     elif False:...
-@withLock(lock)
-def gacha():
+@serialize(mutex)
+def summon():
     while fuse.value<30:
         if Detect().isGacha():fgoDevice.device.perform('MK',(600,2700))
         fgoDevice.device.press('\x08')
-@withLock(lock)
+@serialize(mutex)
 def lottery():
     Detect().setupLottery()
     count=0
     while(count:=0 if Detect().isLotteryContinue()else count+1)<5:
         for _ in range(40):fgoDevice.device.press('2')
-@withLock(lock)
+@serialize(mutex)
 def mail():
     assert mailImg.flush()
     Detect().setupMailDone()
@@ -94,7 +94,7 @@ def mail():
             while not Detect().isMailDone():pass
         fgoDevice.device.swipe((400,600,400,200))
         if Detect().isMailListEnd():break
-@withLock(lock)
+@serialize(mutex)
 def synthesis():
     while True:
         fgoDevice.device.perform('8',(1000,))
@@ -104,10 +104,10 @@ def synthesis():
         if Detect().isSynthesisFinished():break
         fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
-@withLock(lock)
+@serialize(mutex)
 def dailyFpSummon():
     logger.warning('NotImplemented')
-@withLock(lock)
+@serialize(mutex)
 def gachaHistory():
     Detect().setupGachaHistory()
     while not Detect.cache.isGachaHistoryListEnd():
@@ -116,7 +116,7 @@ def gachaHistory():
     fgoDevice.device.swipe((930,500,930,200))
     Detect().getGachaHistory()
     gachaHistory.result={'type':'GachaHistory'}|dict(zip(('value','file'),Detect.saveGachaHistory()))
-@withLock(lock)
+@serialize(mutex)
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True
     screenshotBench=[]
@@ -367,6 +367,7 @@ class Battle:
                     schedule.checkSpecialDrop()
                     logger.warning('Special Drop')
                     Detect.cache.save('fgoLog/SpecialDrop')
+                else:Detect.cache.save('fgoTemp/DropItem')
                 return True
             elif Detect.cache.isBattleDefeated():
                 logger.warning('Battle Defeated')
@@ -389,7 +390,7 @@ class Main:
         self.battleClass=battleClass
         self.appleCount=0
         self.battleCount=0
-    @withLock(lock)
+    @serialize(mutex)
     def __call__(self):
         self.start=time.time()
         self.material={}

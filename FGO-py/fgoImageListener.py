@@ -8,7 +8,7 @@ if platform.system()=='Windows':
         def __init__(self,dir):
             self.hDir=win32file.CreateFile(dir,win32con.GENERIC_READ,win32con.FILE_SHARE_READ|win32con.FILE_SHARE_WRITE|win32con.FILE_SHARE_DELETE,None,win32con.OPEN_EXISTING,win32con.FILE_FLAG_BACKUP_SEMANTICS,None)
             self.msg=[]
-            self.lock=threading.Lock()
+            self.mutex=threading.Lock()
             self.ren=''
             def f():
                 while True:self.add(win32file.ReadDirectoryChangesW(self.hDir,0x1000,False,win32con.FILE_NOTIFY_CHANGE_FILE_NAME|win32con.FILE_NOTIFY_CHANGE_LAST_WRITE,None,None))
@@ -60,9 +60,9 @@ if platform.system()=='Windows':
                             if self.ren==file:return
                         break
                 self.msg+=[[4,self.ren],[5,file]]
-            with self.lock:[{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda _:logger.warning(f'Unknown Operate {i}'))(i[1])for i in x] # 1:FILE_ACTION_ADDED 2:FILE_ACTION_REMOVED 3:FILE_ACTION_MODIFIED 4:FILE_ACTION_RENAMED_OLD_NAME 5:FILE_ACTION_RENAMED_NEW_NAME
+            with self.mutex:[{1:onCreated,2:onDeleted,3:onUpdated,4:onRenamedFrom,5:onRenamedTo}.get(i[0],lambda _:logger.warning(f'Unknown Operate {i}'))(i[1])for i in x] # 1:FILE_ACTION_ADDED 2:FILE_ACTION_REMOVED 3:FILE_ACTION_MODIFIED 4:FILE_ACTION_RENAMED_OLD_NAME 5:FILE_ACTION_RENAMED_NEW_NAME
         def get(self):
-            with self.lock:ans,self.msg=self.msg,[]
+            with self.mutex:ans,self.msg=self.msg,[]
             return ans
 else:
     class DirListener:

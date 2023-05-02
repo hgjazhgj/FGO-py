@@ -140,7 +140,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Continue last battle after abnormal break, use it as same as battle'
         arg=parser_battle.parse_args(line.split())
         assert fgoDevice.device.available
-        assert not fgoKernel.lock.locked()
+        assert not fgoKernel.mutex.locked()
         countdown(reduce(lambda x,y:x*60+int(y),arg.sleep.replace('.',':').split(':'),0))
         try:
             signal.signal(signal.SIGINT,lambda*_:fgoKernel.schedule.stop())
@@ -176,7 +176,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.do_continue(f'-s {arg.sleep}')
     def complete_call(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['gacha','lottery','mail','synthesis','gachaHistory']
+            '':['summon','lottery','mail','synthesis','dailyFpSummon','gachaHistory']
         },text,line,begidx,endidx)
     def do_config(self,line):
         'Edit config item if exists and forward to schedule'
@@ -215,9 +215,9 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_lock(self,line):
         'Lock FGO-py to temporary disable all functions without exiting or disconnecting'
         arg=parser_lock.parse_args(line.split())
-        assert arg.unlock or not fgoKernel.lock.locked()
-        if arg.unlock:fgoKernel.lock.release()
-        else:fgoKernel.lock.acquire()
+        assert arg.unlock or not fgoKernel.mutex.locked()
+        if arg.unlock:fgoKernel.mutex.release()
+        else:fgoKernel.mutex.acquire()
     def do_ping(self,line):
         'pong to log'
         logger.critical('pong')
@@ -265,7 +265,7 @@ parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team i
 parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
 
 parser_call=ArgParser(prog='call',description=Cmd.do_call.__doc__)
-parser_call.add_argument('func',help='Additional feature name',choices=['gacha','lottery','mail','synthesis','dailyFpSummon','gachaHistory'])
+parser_call.add_argument('func',help='Additional feature name',choices=['summon','lottery','mail','synthesis','dailyFpSummon','gachaHistory'])
 parser_call.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)

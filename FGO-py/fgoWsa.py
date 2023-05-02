@@ -6,7 +6,8 @@ def shell(cmd,encoding='utf-8'):
 
 class Wsa:
     def __init__(self,serial='127.0.0.1:58526'):
-        self.lock=threading.Lock()
+        raise DeprecationWarning
+        self.mutex=threading.Lock()
         self.name=f'wsa_{serial}'
         if not serial:return
         try:
@@ -19,10 +20,10 @@ class Wsa:
     @staticmethod
     def enumDevices():return['wsa']
     def touch(self,pos):
-        with self.lock:shell(f'adb -s {self.name} shell input -d {self.displayId} tap {pos[0]*self.width//1280} {pos[1]*self.height//720}')
+        with self.mutex:shell(f'adb -s {self.name} shell input -d {self.displayId} tap {pos[0]*self.width//1280} {pos[1]*self.height//720}')
     def swipe(self,rect):
-        with self.lock:shell(f'adb -s {self.name} shell input -d {self.displayId} swipe {rect[0]*self.width//1280} {rect[1]*self.height//720} {rect[2]*self.width//1280} {rect[3]*self.height//720}')
+        with self.mutex:shell(f'adb -s {self.name} shell input -d {self.displayId} swipe {rect[0]*self.width//1280} {rect[1]*self.height//720} {rect[2]*self.width//1280} {rect[3]*self.height//720}')
     def press(self,key):
-        with self.lock:shell(f'adb -s {self.name} shell input -d {self.displayId} tap {" ".join(map(str,self.key[key]))}')
+        with self.mutex:shell(f'adb -s {self.name} shell input -d {self.displayId} tap {" ".join(map(str,self.key[key]))}')
     def screenshot(self):
-        with self.lock:return cv2.resize(cv2.imdecode(numpy.frombuffer(shell(f'adb -s {self.name} shell screencap -d {self.displayId} -p',encoding=None),numpy.uint8),cv2.IMREAD_COLOR),(1280,720),interpolation=cv2.INTER_CUBIC)
+        with self.mutex:return cv2.resize(cv2.imdecode(numpy.frombuffer(shell(f'adb -s {self.name} shell screencap -d {self.displayId} -p',encoding=None),numpy.uint8),cv2.IMREAD_COLOR),(1280,720),interpolation=cv2.INTER_CUBIC)

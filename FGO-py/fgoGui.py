@@ -171,7 +171,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         try:fgoKernel.Detect(0).show()
         except Exception as e:logger.exception(e)
     def explorerHere(self):os.startfile('.')
-    def runGacha(self):self.runFunc(fgoKernel.gacha)
+    def runGacha(self):self.runFunc(fgoKernel.summon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)

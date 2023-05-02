@@ -8,7 +8,7 @@ logger=getLogger('Android')
 
 class Android(Airtest):
     def __init__(self,serial=None,package="com.bilibili.fatego",**kwargs):
-        self.lock=threading.Lock()
+        self.mutex=threading.Lock()
         self.package=package
         if serial is None or serial=='None':
             self.name=None
@@ -33,9 +33,9 @@ class Android(Airtest):
         self.scale,self.border=(720/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16 else(1280/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
         self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in KEYMAP.items()}
     def touch(self,pos):
-        with self.lock:super().touch([round(pos[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
+        with self.mutex:super().touch([round(pos[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
     # def swipe(self,rect):
-    #     with self.lock:super().swipe(*[[rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]for i in range(2)])
+    #     with self.mutex:super().swipe(*[[rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]for i in range(2)])
     def swipe(self,rect): # If this doesn't work, use the above one instead
         p1,p2=[numpy.array(self._touch_point_by_orientation([rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
         vd=p2-p1
@@ -43,7 +43,7 @@ class Android(Airtest):
         vd/=.2*self.scale*lvd
         vx=numpy.array([0.,0.])
         def send(method,pos):self.touch_proxy.handle(' '.join((method,'0',*[str(i)for i in self.touch_proxy.transform_xy(*pos)],'50\nc\n')))
-        with self.lock:
+        with self.mutex:
             send('d',p1)
             time.sleep(.01)
             for _ in range(2):
@@ -60,9 +60,9 @@ class Android(Airtest):
             self.touch_proxy.handle('u 0\nc\n')
             time.sleep(.02)
     def press(self,key):
-        with self.lock:super().touch(self.key[key])
+        with self.mutex:super().touch(self.key[key])
     def pinch(self):
-        with self.lock:super().pinch(percent=.2)
+        with self.mutex:super().pinch(percent=.2)
     def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1280,720),interpolation=cv2.INTER_CUBIC)
     def invoke169(self):
         x,y=(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size')))
