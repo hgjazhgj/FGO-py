@@ -86,6 +86,11 @@ def lottery():
     while(count:=0 if Detect().isLotteryContinue()else count+1)<5:
         for _ in range(40):fgoDevice.device.press('2')
 @serialize(mutex)
+def mining():
+    while fuse.value<50:
+        if Detect().isMining():fgoDevice.device.perform('K',(300,))
+        fgoDevice.device.perform('9Z',(300,300))
+@serialize(mutex)
 def mail():
     assert mailImg.flush()
     Detect().setupMailDone()

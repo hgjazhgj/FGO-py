@@ -278,6 +278,7 @@
     </property>
     <addaction name="MENU_SCRIPT_GACHA"/>
     <addaction name="MENU_SCRIPT_LOTTERY"/>
+    <addaction name="MENU_SCRIPT_MINING"/>
     <addaction name="MENU_SCRIPT_MAILFILTER"/>
     <addaction name="MENU_SCRIPT_SYNTHESIS"/>
     <addaction name="MENU_SCRIPT_GACHAHISTORY"/>
@@ -380,6 +381,11 @@
   <action name="MENU_SCRIPT_LOTTERY">
    <property name="text">
     <string>抽奖池</string>
+   </property>
+  </action>
+  <action name="MENU_SCRIPT_MINING">
+   <property name="text">
+    <string>一键挖掘</string>
    </property>
   </action>
   <action name="MENU_SCRIPT_MAILFILTER">
@@ -559,6 +565,12 @@
    <slot>runLottery()</slot>
   </connection>
   <connection>
+   <sender>MENU_SCRIPT_MINING</sender>
+   <signal>triggered()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>runMining()</slot>
+  </connection>
+  <connection>
    <sender>MENU_SCRIPT_MAILFILTER</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
@@ -616,6 +628,7 @@
   <slot>runClassic()</slot>
   <slot>runGacha()</slot>
   <slot>runLottery()</slot>
+  <slot>runMining()</slot>
   <slot>runMail()</slot>
   <slot>runMain()</slot>
   <slot>runSynthesis()</slot>

@@ -173,6 +173,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def explorerHere(self):os.startfile('.')
     def runGacha(self):self.runFunc(fgoKernel.summon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
+    def runMining(self):self.runFunc(fgoKernel.mining)
     def runMail(self):self.runFunc(fgoKernel.mail)
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
     def runGachaHistory(self):self.runFunc(fgoKernel.gachaHistory)
