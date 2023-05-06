@@ -84,12 +84,12 @@ class XDetect(metaclass=logMeta(logger)):
     def setupEnemyGird(self):
         XDetect.enemyGird=2 if any(self._select(CLASS[75],(110+200*i,1,173+200*i,48))is not None for i in range(3))else 1 if False else 0
         return XDetect.enemyGird
-    def setupGachaHistory(self):XDetect._gachaHistory=cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1]
     def setupLottery(self):XDetect._watchLottery=self._asyncImageChange((960,4,1010,32))
     def setupMailDone(self):XDetect._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
         XDetect._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
         XDetect._watchServantFriend=[self._asyncValueChange(self.isServantFriend(i)if friend is None else friend[i])for i in range(3)]
+    def setupSummonHistory(self):XDetect._summonHistory=cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1]
     def isAddFriend(self):return self._compare(IMG.END,(162,575,497,655))
     def isApEmpty(self):return self._compare(IMG.APEMPTY,(604,598,678,645))
     def isBattleBegin(self):return self._compare(IMG.BATTLEBEGIN,(1092,634,1244,708))
@@ -98,9 +98,9 @@ class XDetect(metaclass=logMeta(logger)):
     def isBattleFinished(self):return self._compare(IMG.DROPITEM,(110,30,264,76))
     def isChooseFriend(self):return self._compare(IMG.CHOOSEFRIEND,(832,180,925,434))
     def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(IMG.CHARASEALED,IMG.CARDSEALED))for i in range(5)]
+    def isFpContinue(self):return self._compare(IMG.FPCONTINUE,(648,640,875,702))
+    def isFpSummon(self):return self._compare(IMG.FPSUMMON,(643,20,698,67))
     def isFriendListEnd(self):return self._isListEnd((1255,709))
-    def isGacha(self):return self._compare(IMG.GACHA,(648,640,875,702))
-    def isGachaHistoryListEnd(self):return self._isListEnd((1142,552))
     def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(IMG.HOUGUSEALED,IMG.CHARASEALED,IMG.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),type(self)())[1]if that is None else that)
     def isLotteryContinue(self):return self._watchLottery.send(self)
     def isMailDone(self):return self._watchMailDone.send(self)
@@ -116,6 +116,7 @@ class XDetect(metaclass=logMeta(logger)):
     def isSkillReady(self,i,j):return not self._compare(IMG.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2)
     def isSpecialDropRainbowBox(self):return self._compare(IMG.RAINBOW,(957,2,990,40),.1)
     def isSpecialDropSuspended(self):return self._compare(IMG.CLOSE,(8,11,68,68))
+    def isSummonHistoryListEnd(self):return self._isListEnd((1142,552))
     def isSynthesisBegin(self):return self._compare(IMG.SYNTHESIS,(16,12,150,73))
     def isSynthesisFinished(self):return self._compare(IMG.DECIDEDISABLED,(1096,635,1212,702))
     def isTurnBegin(self):return self._compare(IMG.ATTACK,(1064,621,1224,710))
@@ -143,15 +144,15 @@ class XDetect(metaclass=logMeta(logger)):
     def getFieldServantClassRank(self,pos):return(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
     def getFieldServantHp(self,pos):return self._ocr((200+318*pos,620,293+318*pos,644))
     def getFieldServantNp(self,pos):return self._ocr((220+318*pos,655,274+318*pos,680))
-    def getGachaHistory(self):XDetect._gachaHistory=numpy.vstack((XDetect._gachaHistory,(lambda img:img[cv2.minMaxLoc(cv2.matchTemplate(img,XDetect._gachaHistory[-80:],cv2.TM_SQDIFF_NORMED))[2][1]+80:])(cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1])))
-    @classmethod
-    def getGachaHistoryCount(cls):return cls.__new__(cls).inject(XDetect._gachaHistory)._count((IMG.GACHAHISTORY[0][...,0],IMG.GACHAHISTORY[1]),(28,0,60,XDetect._gachaHistory.shape[0]),.7)
     def getMaterial(self):return(lambda x:{MATERIAL[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in MATERIAL),(168+i%7*137,104+i//7*142,258+i%7*137,196+i//7*142),.02)for i in range(1,21)])
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(IMG.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
     def getStage(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(884,13,902,38),.5)+1
     @retryOnError()
     def getStageTotal(self):return self._select((IMG.STAGE1,IMG.STAGE2,IMG.STAGE3),(912,13,932,38),.5)+1
+    def getSummonHistory(self):XDetect._summonHistory=numpy.vstack((XDetect._summonHistory,(lambda img:img[cv2.minMaxLoc(cv2.matchTemplate(img,XDetect._summonHistory[-80:],cv2.TM_SQDIFF_NORMED))[2][1]+80:])(cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1])))
+    @classmethod
+    def getSummonHistoryCount(cls):return cls.__new__(cls).inject(XDetect._summonHistory)._count((IMG.SUMMONHISTORY[0][...,0],IMG.SUMMONHISTORY[1]),(28,0,60,XDetect._summonHistory.shape[0]),.7)
     def getTeamIndex(self):return self._loc(IMG.TEAMINDEX,(512,34,768,62))[2][0]//25
     # getTeam* series except getTeamIndex APIs are not used now
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
@@ -160,7 +161,7 @@ class XDetect(metaclass=logMeta(logger)):
     def findLastExec(self):return self._find(IMG.LASTEXEC,(200,160,1280,560))
     def findMail(self,img):return self._find(img,(73,166,920,720),threshold=.016)
     @classmethod
-    def saveGachaHistory(cls):return(lambda c:(lambda img:(c,cls.__new__(cls).inject(img).save(f'GachaHistory({c})',(0,0,*img.shape[::-1]))))(numpy.vstack((cv2.putText(numpy.zeros((36,XDetect._gachaHistory.shape[1]),numpy.uint8),f'GachaHistory({c}) generated by FGO-py',(8,26),cv2.FONT_HERSHEY_DUPLEX,0.85,255,2,cv2.LINE_4),XDetect._gachaHistory[:numpy.flatnonzero(numpy.max(XDetect._gachaHistory,axis=1))[-1]+2]))))(cls.getGachaHistoryCount())
+    def saveSummonHistory(cls):return(lambda c:(lambda img:(c,cls.__new__(cls).inject(img).save(f'SummonHistory({c})',(0,0,*img.shape[::-1]))))(numpy.vstack((cv2.putText(numpy.zeros((36,XDetect._summonHistory.shape[1]),numpy.uint8),f'SummonHistory({c}) generated by FGO-py',(8,26),cv2.FONT_HERSHEY_DUPLEX,0.85,255,2,cv2.LINE_4),XDetect._summonHistory[:numpy.flatnonzero(numpy.max(XDetect._summonHistory,axis=1))[-1]+2]))))(cls.getSummonHistoryCount())
     def isGameAnnounce(self):raise NotImplementedError
     def isGameLaunch(self):raise NotImplementedError
     def isInCampaign(self):raise NotImplementedError

@@ -75,9 +75,9 @@ def setup():
         fgoDevice.device.press('\x08')
     elif False:...
 @serialize(mutex)
-def summon():
+def fpSummon():
     while fuse.value<30:
-        if Detect().isGacha():fgoDevice.device.perform('MK',(600,2700))
+        if Detect().isFpContinue():fgoDevice.device.perform('MK',(600,2700))
         fgoDevice.device.press('\x08')
 @serialize(mutex)
 def lottery():
@@ -87,7 +87,7 @@ def lottery():
         for _ in range(40):fgoDevice.device.press('2')
 @serialize(mutex)
 def mining():
-    while fuse.value<50:
+    while fuse.value<30:
         if Detect().isMining():fgoDevice.device.perform('K',(300,))
         fgoDevice.device.perform('9Z',(300,300))
 @serialize(mutex)
@@ -111,16 +111,21 @@ def synthesis():
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
 @serialize(mutex)
 def dailyFpSummon():
-    logger.warning('NotImplemented')
+    fgoDevice.device.perform(' Z',(500,2000))
+    while not Detect(.5).isMainInterface():pass
+    while not Detect(1.5).isFpSummon():fgoDevice.device.press('\xBC')
+    fgoDevice.device.perform('JJ',(800,3000))
+    while not Detect(.5).isFpContinue():fgoDevice.device.press(' ')
+    fgoDevice.device.perform('\x67\x67',(1200,5000))
 @serialize(mutex)
-def gachaHistory():
-    Detect().setupGachaHistory()
-    while not Detect.cache.isGachaHistoryListEnd():
+def summonHistory():
+    Detect().setupSummonHistory()
+    while not Detect.cache.isSummonHistoryListEnd():
         fgoDevice.device.swipe((930,500,930,200))
-        Detect().getGachaHistory()
+        Detect().getSummonHistory()
     fgoDevice.device.swipe((930,500,930,200))
-    Detect().getGachaHistory()
-    gachaHistory.result={'type':'GachaHistory'}|dict(zip(('value','file'),Detect.saveGachaHistory()))
+    Detect().getSummonHistory()
+    summonHistory.result={'type':'SummonHistory'}|dict(zip(('value','file'),Detect.saveSummonHistory()))
 @serialize(mutex)
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True

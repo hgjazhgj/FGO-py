@@ -45,7 +45,11 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def emptyline(self):return
     def precmd(self,line):
         if line:logger.info(line)
+        self.time=time.time()
         return line
+    def postcmd(self,stop,line):
+        if not stop and line:logger.info(f'Done in {time.time()-self.time:.3f}s')
+        return stop
     def completenames(self,text,*ignored):return[f'{i} 'for i in super().completenames(text,*ignored)]
     def completecommands(self,table,text,line,begidx,endidx):return sum([[f'{k} 'for k in j if k.startswith(text)]for i,j in table.items()if re.match(f'{i}$',' '.join(line.split()[1:None if begidx==endidx else -1]))],[])
     def teamup_load(self,arg):
@@ -176,7 +180,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.do_continue(f'-s {arg.sleep}')
     def complete_call(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['summon','lottery','mining','mail','synthesis','dailyFpSummon','gachaHistory']
+            '':['fpSummon','lottery','mining','mail','synthesis','dailyFpSummon','summonHistory']
         },text,line,begidx,endidx)
     def do_config(self,line):
         'Edit config item if exists and forward to schedule'
@@ -265,7 +269,7 @@ parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team i
 parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
 
 parser_call=ArgParser(prog='call',description=Cmd.do_call.__doc__)
-parser_call.add_argument('func',help='Additional feature name',choices=['summon','lottery','mining','mail','synthesis','dailyFpSummon','gachaHistory'])
+parser_call.add_argument('func',help='Additional feature name',choices=['fpSummon','lottery','mining','mail','synthesis','dailyFpSummon','summonHistory'])
 parser_call.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)

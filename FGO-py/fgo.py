@@ -1,4 +1,4 @@
-import argparse,os
+import argparse,os,sys
 from fgoConst import VERSION
 
 parser=argparse.ArgumentParser(description=f'FGO-py {VERSION}')
@@ -9,6 +9,7 @@ parser.add_argument('-c','--config',help='Config file path (default: %(default)s
 parser.add_argument('--no-color',help='Disable colored console output',action='store_true')
 arg=parser.parse_args()
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 if arg.no_color:os.environ['NO_COLOR']='1'
 
 if arg.entrypoint=='gui':from fgoGui import main
@@ -26,7 +27,7 @@ elif config.runOnce!=VERSION:
     if runOnce(config):
         config.runOnce=VERSION
         config.save()
-        exit()
+        sys.exit()
     config.runOnce=VERSION
 
 if not config.farming:

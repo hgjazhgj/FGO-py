@@ -139,12 +139,12 @@ class Ui_fgoMainWindow(object):
         self.MENU_CONTROL_STAYONTOP = QtGui.QAction(parent=fgoMainWindow)
         self.MENU_CONTROL_STAYONTOP.setCheckable(True)
         self.MENU_CONTROL_STAYONTOP.setObjectName("MENU_CONTROL_STAYONTOP")
-        self.MENU_SCRIPT_GACHA = QtGui.QAction(parent=fgoMainWindow)
-        self.MENU_SCRIPT_GACHA.setObjectName("MENU_SCRIPT_GACHA")
+        self.MENU_SCRIPT_FPSUMMON = QtGui.QAction(parent=fgoMainWindow)
+        self.MENU_SCRIPT_FPSUMMON.setObjectName("MENU_SCRIPT_FPSUMMON")
         self.MENU_SCRIPT_SYNTHESIS = QtGui.QAction(parent=fgoMainWindow)
         self.MENU_SCRIPT_SYNTHESIS.setObjectName("MENU_SCRIPT_SYNTHESIS")
-        self.MENU_SCRIPT_GACHAHISTORY = QtGui.QAction(parent=fgoMainWindow)
-        self.MENU_SCRIPT_GACHAHISTORY.setObjectName("MENU_SCRIPT_GACHAHISTORY")
+        self.MENU_SCRIPT_SUMMONHISTORY = QtGui.QAction(parent=fgoMainWindow)
+        self.MENU_SCRIPT_SUMMONHISTORY.setObjectName("MENU_SCRIPT_SUMMONHISTORY")
         self.MENU_SCRIPT_EXPBALL = QtGui.QAction(parent=fgoMainWindow)
         self.MENU_SCRIPT_EXPBALL.setObjectName("MENU_SCRIPT_EXPBALL")
         self.MENU_CONTROL_MAPKEY = QtGui.QAction(parent=fgoMainWindow)
@@ -185,12 +185,12 @@ class Ui_fgoMainWindow(object):
         self.MENU_ABOUT.addAction(self.MENU_ABOUT_ABOUT)
         self.MENU_ABOUT.addAction(self.MENU_ABOUT_LICENSE)
         self.MENU_FILE.addAction(self.MENU_FILE_EXPLORER)
-        self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_GACHA)
+        self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_FPSUMMON)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_LOTTERY)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_MINING)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_MAILFILTER)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_SYNTHESIS)
-        self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_GACHAHISTORY)
+        self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_SUMMONHISTORY)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_EXPBALL)
         self.MENU_CONTROL_169.addAction(self.MENU_CONTROL_169_INVOKE)
         self.MENU_CONTROL_169.addAction(self.MENU_CONTROL_169_REVOKE)
@@ -222,9 +222,9 @@ class Ui_fgoMainWindow(object):
         self.BTN_CONNECT.clicked.connect(fgoMainWindow.connect) # type: ignore
         self.MENU_FILE_EXPLORER.triggered.connect(fgoMainWindow.explorerHere) # type: ignore
         self.MENU_ABOUT_ABOUT.triggered.connect(fgoMainWindow.about) # type: ignore
-        self.MENU_SCRIPT_GACHA.triggered.connect(fgoMainWindow.runGacha) # type: ignore
+        self.MENU_SCRIPT_FPSUMMON.triggered.connect(fgoMainWindow.runFpSummon) # type: ignore
         self.MENU_SCRIPT_SYNTHESIS.triggered.connect(fgoMainWindow.runSynthesis) # type: ignore
-        self.MENU_SCRIPT_GACHAHISTORY.triggered.connect(fgoMainWindow.runGachaHistory) # type: ignore
+        self.MENU_SCRIPT_SUMMONHISTORY.triggered.connect(fgoMainWindow.runSummonHistory) # type: ignore
         self.MENU_SCRIPT_EXPBALL.triggered.connect(fgoMainWindow.expBall) # type: ignore
         self.MENU_CONTROL_MAPKEY.triggered['bool'].connect(fgoMainWindow.mapKey) # type: ignore
         self.BTN_STOPLATER.clicked['bool'].connect(fgoMainWindow.stopLater) # type: ignore
@@ -283,12 +283,12 @@ class Ui_fgoMainWindow(object):
         self.MENU_ABOUT_ABOUT.setText(_translate("fgoMainWindow", "关于"))
         self.MENU_FILE_EXPLORER.setText(_translate("fgoMainWindow", "资源管理器"))
         self.MENU_CONTROL_STAYONTOP.setText(_translate("fgoMainWindow", "窗口置顶"))
-        self.MENU_SCRIPT_GACHA.setText(_translate("fgoMainWindow", "抽友情"))
-        self.MENU_SCRIPT_GACHA.setStatusTip(_translate("fgoMainWindow", "先抽一发友情十连,在结算界面运行本功能"))
+        self.MENU_SCRIPT_FPSUMMON.setText(_translate("fgoMainWindow", "抽友情"))
+        self.MENU_SCRIPT_FPSUMMON.setStatusTip(_translate("fgoMainWindow", "先抽一发友情十连,在结算界面运行本功能"))
         self.MENU_SCRIPT_SYNTHESIS.setText(_translate("fgoMainWindow", "礼装强化"))
         self.MENU_SCRIPT_SYNTHESIS.setStatusTip(_translate("fgoMainWindow", "在选择了强化对象未选择强化材料的界面运行本功能"))
-        self.MENU_SCRIPT_GACHAHISTORY.setText(_translate("fgoMainWindow", "召唤记录"))
-        self.MENU_SCRIPT_GACHAHISTORY.setStatusTip(_translate("fgoMainWindow", "统计导出召唤记录,在抽卡记录页面运行"))
+        self.MENU_SCRIPT_SUMMONHISTORY.setText(_translate("fgoMainWindow", "召唤记录"))
+        self.MENU_SCRIPT_SUMMONHISTORY.setStatusTip(_translate("fgoMainWindow", "统计导出召唤记录,在抽卡记录页面运行"))
         self.MENU_SCRIPT_EXPBALL.setText(_translate("fgoMainWindow", "搓丸子"))
         self.MENU_SCRIPT_EXPBALL.setStatusTip(_translate("fgoMainWindow", "把若干张低星礼装合并成一个"))
         self.MENU_CONTROL_MAPKEY.setText(_translate("fgoMainWindow", "加载按键映射"))

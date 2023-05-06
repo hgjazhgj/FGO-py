@@ -276,12 +276,12 @@
     <property name="title">
      <string>程序</string>
     </property>
-    <addaction name="MENU_SCRIPT_GACHA"/>
+    <addaction name="MENU_SCRIPT_FPSUMMON"/>
     <addaction name="MENU_SCRIPT_LOTTERY"/>
     <addaction name="MENU_SCRIPT_MINING"/>
     <addaction name="MENU_SCRIPT_MAILFILTER"/>
     <addaction name="MENU_SCRIPT_SYNTHESIS"/>
-    <addaction name="MENU_SCRIPT_GACHAHISTORY"/>
+    <addaction name="MENU_SCRIPT_SUMMONHISTORY"/>
     <addaction name="MENU_SCRIPT_EXPBALL"/>
    </widget>
    <widget class="QMenu" name="MENU_CONTROL">
@@ -338,7 +338,7 @@
     <string>窗口置顶</string>
    </property>
   </action>
-  <action name="MENU_SCRIPT_GACHA">
+  <action name="MENU_SCRIPT_FPSUMMON">
    <property name="text">
     <string>抽友情</string>
    </property>
@@ -354,7 +354,7 @@
     <string>在选择了强化对象未选择强化材料的界面运行本功能</string>
    </property>
   </action>
-  <action name="MENU_SCRIPT_GACHAHISTORY">
+  <action name="MENU_SCRIPT_SUMMONHISTORY">
    <property name="text">
     <string>召唤记录</string>
    </property>
@@ -523,10 +523,10 @@
    <slot>about()</slot>
   </connection>
   <connection>
-   <sender>MENU_SCRIPT_GACHA</sender>
+   <sender>MENU_SCRIPT_FPSUMMON</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>runGacha()</slot>
+   <slot>runFpSummon()</slot>
   </connection>
   <connection>
    <sender>MENU_SCRIPT_SYNTHESIS</sender>
@@ -535,10 +535,10 @@
    <slot>runSynthesis()</slot>
   </connection>
   <connection>
-   <sender>MENU_SCRIPT_GACHAHISTORY</sender>
+   <sender>MENU_SCRIPT_SUMMONHISTORY</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>runGachaHistory()</slot>
+   <slot>runSummonHistory()</slot>
   </connection>
   <connection>
    <sender>MENU_SCRIPT_EXPBALL</sender>
@@ -626,13 +626,13 @@
   <slot>pause(bool)</slot>
   <slot>revoke169()</slot>
   <slot>runClassic()</slot>
-  <slot>runGacha()</slot>
+  <slot>runFpSummon()</slot>
   <slot>runLottery()</slot>
   <slot>runMining()</slot>
   <slot>runMail()</slot>
   <slot>runMain()</slot>
   <slot>runSynthesis()</slot>
-  <slot>runGachaHistory()</slot>
+  <slot>runSummonHistory()</slot>
   <slot>expBall()</slot>
   <slot>stop()</slot>
   <slot>stopLater(bool)</slot>

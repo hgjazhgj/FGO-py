@@ -257,13 +257,24 @@ v9.1及更早版本提供的需要配置的战斗,不建议在以下之外的场
 
 ## 计划中的功能 Next Features
 
+Add:铜苹果  
 Add:利用宝具的首卡染色或色卡三连  
 Add:御主技能识别与施放  
 Add:游戏启动与闪退重启  
-Add:计划作战  
 Add:onepush  
 
 # 版本记录 Version Logs
+
+## 2023/05/06 v11.2.0
+
+Add:dailyFpSummon  
+这是alas特供功能,会在AlasFpyBridge中每天调用一次  
+你也可以在cli中手动调用,但是这没有任何意义  
+FGO-ExpBall反哺了  
+Add:cli下postcmd  
+我只是需要一个方式来告知运行结束  
+Opt:cd \_\_file\_\_  
+可以用一条命令启动FGO-py而不用在shell中  
 
 ## 2023/05/04 v11.1.0
 
@@ -324,7 +335,7 @@ Opt:抽卡统计图片美化
 Add:抽卡记录统计导出  
 获取当前抽数以知晓保底还有多远  
 将完整抽卡记录合并为一张图片方便后续分析与查错  
-如果发现统计的抽数不正确,请在issue中附上生成的GachaHistory图片  
+如果发现统计的抽数不正确,请在issue中附上生成的SummonHistory图片  
 Fix:[pr #93](https://github.com/hgjazhgj/FGO-py/pull/93)  
 
 ## 2022/12/17 v10.2.2

@@ -132,7 +132,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
 获得了以下素材:<br/>
 {'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{I18N.get(i,i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else'无'}
 ''')
-            elif t=='GachaHistory':
+            elif t=='SummonHistory':
                 QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
 共<font color="#006400">{self.result['value']}</font>条抽卡记录,图片保存至</br>
@@ -171,12 +171,12 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         try:fgoKernel.Detect(0).show()
         except Exception as e:logger.exception(e)
     def explorerHere(self):os.startfile('.')
-    def runGacha(self):self.runFunc(fgoKernel.summon)
+    def runFpSummon(self):self.runFunc(fgoKernel.fpSummon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMining(self):self.runFunc(fgoKernel.mining)
     def runMail(self):self.runFunc(fgoKernel.mail)
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
-    def runGachaHistory(self):self.runFunc(fgoKernel.gachaHistory)
+    def runSummonHistory(self):self.runFunc(fgoKernel.summonHistory)
     def expBall(self):
         QMessageBox.information(self,'FGO-py','''
 搓丸子是一个基于FGO-py的独立项目<br/>
