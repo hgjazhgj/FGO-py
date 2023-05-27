@@ -85,11 +85,11 @@ def lottery():
     count=0
     while(count:=0 if Detect().isLotteryContinue()else count+1)<5:
         for _ in range(40):fgoDevice.device.press('2')
-@serialize(mutex)
-def mining():
-    while fuse.value<30:
-        if Detect().isMining():fgoDevice.device.perform('K',(300,))
-        fgoDevice.device.perform('9Z',(300,300))
+# @serialize(mutex)
+# def mining():
+#     while fuse.value<30:
+#         if Detect().isMining():fgoDevice.device.perform('K',(300,))
+#         fgoDevice.device.perform('9Z',(300,300))
 @serialize(mutex)
 def mail():
     assert mailImg.flush()
@@ -111,6 +111,7 @@ def synthesis():
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
 @serialize(mutex)
 def dailyFpSummon():
+    while not Detect(.5).isMainInterface():pass
     fgoDevice.device.perform(' Z',(500,2000))
     while not Detect(.5).isMainInterface():pass
     while not Detect(1.5).isFpSummon():fgoDevice.device.press('\xBC')
@@ -374,8 +375,8 @@ class Battle:
                 logger.info('Battle Finished')
                 self.material=Detect(.4).getMaterial()
                 if self.rainbowBox:
-                    schedule.checkSpecialDrop()
                     logger.warning('Special Drop')
+                    schedule.checkSpecialDrop()
                     Detect.cache.save('fgoLog/SpecialDrop')
                 else:Detect.cache.save('fgoTemp/DropItem')
                 return True
@@ -455,7 +456,8 @@ class Main:
     def eatApple(self):
         if self.appleCount==self.appleTotal:return fgoDevice.device.press('Z')
         self.appleCount+=1
-        fgoDevice.device.perform('W4K8'[self.appleKind]+'L',(600,1200))
+        if self.appleKind==3:fgoDevice.device.perform('V',(600,))
+        fgoDevice.device.perform('W4K48'[self.appleKind]+'L',(600,1200))
         # for i in set('W4K')-{'W4K8'[self.appleKind]}:
         #     if not Detect().isApEmpty():break
         #     fgoDevice.device.perform(i+'L',(600,1200))

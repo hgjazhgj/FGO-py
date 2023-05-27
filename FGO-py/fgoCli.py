@@ -127,17 +127,17 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Loop for battle until AP empty'
         arg=parser_main.parse_args(line.split())
         fgoKernel.schedule.stopLater(arg.appoint)
-        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind))
+        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','copper','quartz'].index(arg.appleKind))
         self.do_continue(f'-s {arg.sleep}')
     def complete_main(self,text,line,begidx,endidx):
         return self.completecommands({
-            r'\d+':['gold','silver','bronze','quartz']
+            r'\d+':['gold','silver','bronze','copper','quartz']
         },text,line,begidx,endidx)
     def do_classic(self,line):
         'Use classic battle'
         arg=parser_main.parse_args(line.split())
         fgoKernel.schedule.stopLater(arg.appoint)
-        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','quartz'].index(arg.appleKind),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn))
+        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','copper','quartz'].index(arg.appleKind),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn))
         self.do_continue(f'-s {arg.sleep}')
     def complete_old(self,text,line,begidx,endidx):return self.complete_main(text,line,begidx,endidx)
     def do_continue(self,line):
@@ -180,7 +180,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.do_continue(f'-s {arg.sleep}')
     def complete_call(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['fpSummon','lottery','mining','mail','synthesis','dailyFpSummon','summonHistory']
+            '':['fpSummon','lottery','mail','synthesis','dailyFpSummon','summonHistory']
         },text,line,begidx,endidx)
     def do_config(self,line):
         'Edit config item if exists and forward to schedule'
@@ -241,7 +241,7 @@ parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(def
 
 parser_main=ArgParser(prog='main',description=Cmd.do_main.__doc__)
 parser_main.add_argument('appleCount',help='Apple Count (default: %(default)s)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0,nargs='?')
-parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','quartz'],default='gold',nargs='?')
+parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','copper','quartz'],default='gold',nargs='?')
 parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 parser_main.add_argument('-a','--appoint',help='Battle count limit (default: %(default)s for no limit)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0)
 
@@ -269,7 +269,7 @@ parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team i
 parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
 
 parser_call=ArgParser(prog='call',description=Cmd.do_call.__doc__)
-parser_call.add_argument('func',help='Additional feature name',choices=['fpSummon','lottery','mining','mail','synthesis','dailyFpSummon','summonHistory'])
+parser_call.add_argument('func',help='Additional feature name',choices=['fpSummon','lottery','mail','synthesis','dailyFpSummon','summonHistory'])
 parser_call.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)

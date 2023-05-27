@@ -173,7 +173,6 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def explorerHere(self):os.startfile('.')
     def runFpSummon(self):self.runFunc(fgoKernel.fpSummon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
-    def runMining(self):self.runFunc(fgoKernel.mining)
     def runMail(self):self.runFunc(fgoKernel.mail)
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
     def runSummonHistory(self):self.runFunc(fgoKernel.summonHistory)

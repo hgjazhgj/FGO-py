@@ -163,17 +163,15 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 4. 如果不能成功响应,则按其他任意键切换到下一个子窗口.如果所有窗口都不能成功响应,检查目标窗口是否拥有管理员权限.如果是,则FGO-py也需要以管理员身份运行;如果否,考虑使用分离的输入方式
 5. 窗口在战斗运行时不能被最小化或隐藏
 
-### 在alas上运行
+### 在AzurLaneAutoScript上运行
 
-FGO-py现已加入[Alas](https://github.com/LmeSzinc/AzurLaneAutoScript/)豪华午餐!  
+FGO-py现已加入[Alas](https://github.com/LmeSzinc/AzurLaneAutoScript/)豪华午餐!开发者本人正在通过Alas进行FGO-py的日常使用!  
 ![alas](doc/alas.png)  
 请在Alas中按以下方式使用  
 
 1. 添加新配置,「从现有的配置中复制」选择template-fpy  
 2. 按照[连接到设备](#连接到设备-connect-to-your-device)章节中的内容填写「FGO-py > FGO-py设置 > 运行环境 > 模拟器 Serial」  
-3. 按照自身部署环境填写命令行  
-   如果你使用的FGO-py是从release下载的Portable Installer,请在FGO-py.bat的最后一行的末尾追加`cli --no-color`  
-   然后命令行处填写FGO-py.bat的绝对路径  
+3. 按照自身部署环境填写启动路径,详见[deploy/AzurlaneAutoScript/readme.md](deploy/AzurlaneAutoScript/readme.md)  
 4. 运行「工具 > 性能测试」检验上述配置是否正确  
 5. 启用「出击 > 清空体力」和「每日 > 抽友情」任务,更改相关设置  
 6. 运行调度器  
@@ -271,6 +269,14 @@ Add:游戏启动与闪退重启
 Add:onepush  
 
 # 版本记录 Version Logs
+
+## 2023/05/28 v11.2.2
+
+Fix:DailyFpSummon等待主界面再运行  
+Add:铜苹果  
+毕竟Alas的前端里头写了铜苹果,就在这里加上  
+Del:mining  
+我赌他不会复刻  
 
 ## 2023/05/27 v11.2.1
 

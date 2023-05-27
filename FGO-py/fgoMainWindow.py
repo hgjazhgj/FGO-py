@@ -31,6 +31,7 @@ class Ui_fgoMainWindow(object):
         self.CBX_APPLE.addItem("")
         self.CBX_APPLE.addItem("")
         self.CBX_APPLE.addItem("")
+        self.CBX_APPLE.addItem("")
         self.LAYOUT_INFO_APPLE.addWidget(self.CBX_APPLE)
         self.TXT_APPLE = QtWidgets.QSpinBox(parent=self.widget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -152,8 +153,6 @@ class Ui_fgoMainWindow(object):
         self.MENU_CONTROL_MAPKEY.setObjectName("MENU_CONTROL_MAPKEY")
         self.MENU_SCRIPT_LOTTERY = QtGui.QAction(parent=fgoMainWindow)
         self.MENU_SCRIPT_LOTTERY.setObjectName("MENU_SCRIPT_LOTTERY")
-        self.MENU_SCRIPT_MINING = QtGui.QAction(parent=fgoMainWindow)
-        self.MENU_SCRIPT_MINING.setObjectName("MENU_SCRIPT_MINING")
         self.MENU_SCRIPT_MAILFILTER = QtGui.QAction(parent=fgoMainWindow)
         self.MENU_SCRIPT_MAILFILTER.setObjectName("MENU_SCRIPT_MAILFILTER")
         self.MENU_CONTROL_BENCH = QtGui.QAction(parent=fgoMainWindow)
@@ -187,7 +186,6 @@ class Ui_fgoMainWindow(object):
         self.MENU_FILE.addAction(self.MENU_FILE_EXPLORER)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_FPSUMMON)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_LOTTERY)
-        self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_MINING)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_MAILFILTER)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_SYNTHESIS)
         self.MENU_SCRIPT.addAction(self.MENU_SCRIPT_SUMMONHISTORY)
@@ -229,7 +227,6 @@ class Ui_fgoMainWindow(object):
         self.MENU_CONTROL_MAPKEY.triggered['bool'].connect(fgoMainWindow.mapKey) # type: ignore
         self.BTN_STOPLATER.clicked['bool'].connect(fgoMainWindow.stopLater) # type: ignore
         self.MENU_SCRIPT_LOTTERY.triggered.connect(fgoMainWindow.runLottery) # type: ignore
-        self.MENU_SCRIPT_MINING.triggered.connect(fgoMainWindow.runMining) # type: ignore
         self.MENU_SCRIPT_MAILFILTER.triggered.connect(fgoMainWindow.runMail) # type: ignore
         self.MENU_CONTROL_BENCH.triggered.connect(fgoMainWindow.bench) # type: ignore
         self.MENU_CONTROL_EXEC.triggered.connect(fgoMainWindow.exec) # type: ignore
@@ -254,8 +251,9 @@ class Ui_fgoMainWindow(object):
         self.CBX_APPLE.setStatusTip(_translate("fgoMainWindow", "要吃的苹果种类,在运行前设置"))
         self.CBX_APPLE.setItemText(0, _translate("fgoMainWindow", "金"))
         self.CBX_APPLE.setItemText(1, _translate("fgoMainWindow", "银"))
-        self.CBX_APPLE.setItemText(2, _translate("fgoMainWindow", "铜"))
-        self.CBX_APPLE.setItemText(3, _translate("fgoMainWindow", "彩"))
+        self.CBX_APPLE.setItemText(2, _translate("fgoMainWindow", "青"))
+        self.CBX_APPLE.setItemText(3, _translate("fgoMainWindow", "铜"))
+        self.CBX_APPLE.setItemText(4, _translate("fgoMainWindow", "彩"))
         self.TXT_APPLE.setStatusTip(_translate("fgoMainWindow", "要吃的苹果数量,在运行前设置"))
         self.LBL_TEAM.setText(_translate("fgoMainWindow", "编队位置"))
         self.TXT_TEAM.setStatusTip(_translate("fgoMainWindow", "所选编队在队伍编成界面的位置,从左到右1-10,0为无效"))
@@ -285,7 +283,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_CONTROL_STAYONTOP.setText(_translate("fgoMainWindow", "窗口置顶"))
         self.MENU_SCRIPT_FPSUMMON.setText(_translate("fgoMainWindow", "抽友情"))
         self.MENU_SCRIPT_FPSUMMON.setStatusTip(_translate("fgoMainWindow", "先抽一发友情十连,在结算界面运行本功能"))
-        self.MENU_SCRIPT_SYNTHESIS.setText(_translate("fgoMainWindow", "礼装强化"))
+        self.MENU_SCRIPT_SYNTHESIS.setText(_translate("fgoMainWindow", "强化"))
         self.MENU_SCRIPT_SYNTHESIS.setStatusTip(_translate("fgoMainWindow", "在选择了强化对象未选择强化材料的界面运行本功能"))
         self.MENU_SCRIPT_SUMMONHISTORY.setText(_translate("fgoMainWindow", "召唤记录"))
         self.MENU_SCRIPT_SUMMONHISTORY.setStatusTip(_translate("fgoMainWindow", "统计导出召唤记录,在抽卡记录页面运行"))
@@ -293,8 +291,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_SCRIPT_EXPBALL.setStatusTip(_translate("fgoMainWindow", "把若干张低星礼装合并成一个"))
         self.MENU_CONTROL_MAPKEY.setText(_translate("fgoMainWindow", "加载按键映射"))
         self.MENU_SCRIPT_LOTTERY.setText(_translate("fgoMainWindow", "抽奖池"))
-        self.MENU_SCRIPT_MINING.setText(_translate("fgoMainWindow", "一键挖掘"))
-        self.MENU_SCRIPT_MAILFILTER.setText(_translate("fgoMainWindow", "领狗粮"))
+        self.MENU_SCRIPT_MAILFILTER.setText(_translate("fgoMainWindow", "清理邮箱"))
         self.MENU_CONTROL_BENCH.setText(_translate("fgoMainWindow", "Bench"))
         self.MENU_CONTROL_EXEC.setText(_translate("fgoMainWindow", "Execute"))
         self.MENU_SETTINGS_DEFEATED.setText(_translate("fgoMainWindow", "战败撤退时终止战斗"))

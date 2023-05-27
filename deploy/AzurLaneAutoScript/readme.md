@@ -3,7 +3,7 @@
 > 在[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)中使用FGO-py!  
 
 此处定义了Alas会以何种方式启动与停止FGO-py  
-`launch`是启动命令,Windows下具有`.bat`扩展名,linux下具有`.sh`扩展名与可执行权限  
+`launch`是启动命令,Windows下具有`.bat`扩展名,Linux下具有`.sh`扩展名与可执行权限  
 `halt`是停止命令,接收一个参数:FGO-py自身提供的pid,这意味着无论套了多少层壳,halt总会接收到FGO-py最终的pid,即使FGO-py实际在另一台计算机上  
 `halt`是可选的,如无`halt`则使用默认的os.kill FGO-py进程  
 
