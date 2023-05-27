@@ -78,14 +78,14 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         if self.currentTeam=='DEFAULT':return
         pos=arg.pos-1
         fgoKernel.ClassicTurn.skillInfo[pos],fgoKernel.ClassicTurn.houguInfo[pos]=(lambda r:(lambda p:([[[fgoKernel.ClassicTurn.skillInfo[pos][i][j]if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[fgoKernel.ClassicTurn.houguInfo[pos][i]if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[fgoKernel.ClassicTurn.skillInfo[pos],fgoKernel.ClassicTurn.houguInfo[pos]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',arg.value.replace('-','')))
-        print('Change skill & hougu info of servant',arg.pos,'to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.skillInfo[pos][i]])for i in range(3)]+[''.join([str(x)for x in fgoKernel.ClassicTurn.houguInfo[pos]])]))
+        print('Set skill & hougu info of servant',arg.pos,'to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.skillInfo[pos][i]])for i in range(3)]+[''.join([str(x)for x in fgoKernel.ClassicTurn.houguInfo[pos]])]))
     def teamup_set_master(self,arg):
         if self.currentTeam=='DEFAULT':return
         fgoKernel.ClassicTurn.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j],16)for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoKernel.ClassicTurn.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
-        print('Change master skill info to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)]))
+        print('Set master skill info to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)]))
     def teamup_set_index(self,arg):
         self.config.teamIndex=fgoKernel.Main.teamIndex=arg.value
-        print('Change team index to',arg.value)
+        print('Set team index to',arg.value)
     def do_exec(self,line):exec(line)
     def do_shell(self,line):os.system(line)
     def do_exit(self,line):

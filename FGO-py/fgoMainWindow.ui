@@ -348,7 +348,7 @@
   </action>
   <action name="MENU_SCRIPT_SYNTHESIS">
    <property name="text">
-    <string>礼装强化</string>
+    <string>强化</string>
    </property>
    <property name="statusTip">
     <string>在选择了强化对象未选择强化材料的界面运行本功能</string>
@@ -390,7 +390,7 @@
   </action>
   <action name="MENU_SCRIPT_MAILFILTER">
    <property name="text">
-    <string>领狗粮</string>
+    <string>清理邮箱</string>
    </property>
   </action>
   <action name="MENU_CONTROL_BENCH">

@@ -1,4 +1,4 @@
-VERSION='v11.2.0'
+VERSION='v11.2.1'
 CONFIG={
 'runOnce':'',
 'device':'',
