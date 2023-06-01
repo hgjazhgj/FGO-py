@@ -272,7 +272,7 @@ Add:onepush
 ## 2023/06/01 v11.3.0
 
 Opt:优先使用PATH中的adb  
-Del:重新编译了material  
+Del:重新编译了material与classicon  
 
 ## 2023/05/28 v11.2.2
 
