@@ -52,6 +52,10 @@ I18N={
 'StakeOfWailingNight':'宵泣之铁桩',
 'MysticGunpowder':'振荡火药',
 'SmallBellOfAbsolution':'赦免的小钟',
+'TwilightCeremonialBlade':'黄昏的仪式剑',
+'UnforgettableAshes':'不忘之灰',
+'ObsidianEdge':'黑曜锐刃',
+
 'SeedOfYggdrassil':'世界树之种',
 'GhostLantern':'鬼魂提灯',
 'OctupletCrystals':'八连双晶',
@@ -73,6 +77,8 @@ I18N={
 'DivineSpiritron':'神脉灵子',
 'BallOfRainbowThread':'虹之线球',
 'ScalesOfFantasy':'梦幻的鳞粉',
+'Sunscale':'太阳皮',
+
 'ClawOfChaos':'混沌之爪',
 'HeartOfTheForeignGod':'蛮神心脏',
 'DragonsReverseScale':'龙之逆鳞',
