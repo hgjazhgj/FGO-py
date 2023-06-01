@@ -12,7 +12,5 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && pip install airtest flask tqdm \
  && pip uninstall -y opencv-contrib-python \
  && pip install opencv-contrib-python-headless \
- && rm -r ~/.cache/pip \
- && rm /usr/local/lib/python3.9/site-packages/airtest/core/android/static/adb/linux/adb \
- && ln -s /usr/bin/adb /usr/local/lib/python3.9/site-packages/airtest/core/android/static/adb/linux/adb
+ && rm -r ~/.cache/pip
 CMD ["python", "fgo.py", "cli"]
