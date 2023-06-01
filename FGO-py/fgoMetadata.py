@@ -405,5 +405,5 @@ def readSplit(file,height):return(lambda img:[img[i*height:(i+1)*height]for i in
 servantImg={i:(
     None,
     readSplit(f'fgoImage/servant/{i}/portrait.png',63),
-    None
+    None,
 )for i in tqdm.tqdm(servantData,leave=False)}

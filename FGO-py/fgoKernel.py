@@ -450,7 +450,7 @@ class Main:
             'defeated':self.defeated,
             'turnPerBattle':self.battleTurn/(self.battleCount-self.defeated)if self.battleCount-self.defeated else 0,
             'timePerBattle':self.battleTime/(self.battleCount-self.defeated)if self.battleCount-self.defeated else 0,
-            'material':self.material
+            'material':self.material,
         }
     @logit(logger,logging.INFO)
     def eatApple(self):
@@ -476,12 +476,10 @@ class Main:
             timer=time.time()
             while True:
                 for i in(i for i,j in friendImg.items()if(lambda pos:pos and(fgoDevice.device.touch(pos),True)[-1])(Detect.cache.findFriend(j))):
-                    ClassicTurn.friendInfo=(lambda r:(lambda p:
-                        [
-                            [[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],
-                            [-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]
-                        ]
-                    )(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i.replace('-','')[-14:].upper()))
+                    ClassicTurn.friendInfo=(lambda r:(lambda p:[
+                        [[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],
+                        [-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)],
+                    ])(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i.replace('-','')[-14:].upper()))
                     return i
                 if Detect.cache.isFriendListEnd():break
                 fgoDevice.device.swipe((400,600,400,200))

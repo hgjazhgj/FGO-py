@@ -1,4 +1,4 @@
-VERSION='v11.2.2'
+VERSION='v11.3.0'
 CONFIG={
 'runOnce':'',
 'device':'',
@@ -10,7 +10,7 @@ CONFIG={
 'stayOnTop':False,
 'closeToTray':False,
 'notifyEnable':False,
-'notifyParam':[]
+'notifyParam':[],
 }
 # F1-F10        选取编队
 # 12345         选卡,234指向技能的目标,铜银苹果
@@ -39,7 +39,7 @@ KEYMAP={
 'A':(73,573),'S':(163,573),'D':(257,573),'F':(388,573),'G':(483,573),'H':(574,573),'J':(704,573),'K':(801,573),'L':(891,573),'\xBA':(927,131), # ; VK_OEM_1
 'Z':(640,629),'X':(173,621),'C':(330,320),'V':(1014,500),'N':(165,694),'M':(800,667),'\xBC':(45,360),'\xBE':(1235,360), # , VK_OEM_COMMA . VK_OEM_PERIOD
 '\x1B':(40,40),' ':(1231,687), # VK_ESCAPE
-'\x64':(45,142),'\x65':(295,142),'\x66':(545,142),'\x67':(142,40),'\x68':(342,40),'\x69':(542,40) # VK_NUMPAD4..9
+'\x64':(45,142),'\x65':(295,142),'\x66':(545,142),'\x67':(142,40),'\x68':(342,40),'\x69':(542,40), # VK_NUMPAD4..9
 }
 I18N={
 'ProofOfHero':'英雄之证',
@@ -90,5 +90,5 @@ I18N={
 'EggOfTruth':'真理之卵',
 'FragmentOfATwinklingStar':'煌星碎片',
 'FruitOfEternity':'悠久果实',
-'FlamingOniLanternPlant':'鬼炎鬼灯'
+'FlamingOniLanternPlant':'鬼炎鬼灯',
 }

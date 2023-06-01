@@ -1,10 +1,14 @@
-import re,threading,time,cv2,numpy
+import re,shutil,threading,time,cv2,numpy
 from airtest.core.android.adb import ADB
 from airtest.core.android.android import Android as Airtest
 from airtest.core.android.constant import CAP_METHOD
 from fgoConst import KEYMAP
 from fgoLogging import getLogger
 logger=getLogger('Android')
+
+if adb:=shutil.which('adb'):
+    logger.warning(f'Using Adb in PATH: {adb}')
+    ADB.builtin_adb_path=staticmethod(lambda:adb)
 
 class Android(Airtest):
     def __init__(self,serial=None,package="com.bilibili.fatego",**kwargs):

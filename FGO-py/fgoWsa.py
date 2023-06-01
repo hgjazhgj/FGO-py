@@ -2,7 +2,7 @@ import cv2,numpy,re,subprocess,threading
 from fgoConst import KEYMAP
 
 def shell(cmd,encoding='utf-8'):
-    return (lambda b:b.decode(encoding)if encoding else b.replace(b'\r\n',b'\n'))(subprocess.Popen(cmd,stdout=subprocess.PIPE).communicate()[0])
+    return (lambda b:b.decode(encoding)if encoding else b.replace(b'\r\n',b'\n'))(subprocess.run(cmd,stdout=subprocess.PIPE).stdout)
 
 class Wsa:
     def __init__(self,serial='127.0.0.1:58526'):

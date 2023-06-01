@@ -270,6 +270,10 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2023/06/01 v11.3.0
+
+Opt:优先使用PATH\中的adb  
+
 ## 2023/05/28 v11.2.2
 
 Fix:DailyFpSummon等待主界面再运行  

@@ -103,7 +103,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         fgoDevice.device=fgoDevice.Device(self.config.device,self.config.package)
     def complete_connect(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['wsa','win']+[f'/{i}'for i in fgoDevice.helpers]+fgoDevice.Device.enumDevices()
+            '':['wsa','win']+[f'/{i}'for i in fgoDevice.helpers]+fgoDevice.Device.enumDevices(),
         },text,line,begidx,endidx)
     def do_teamup(self,line):
         'Setup your teams'
@@ -113,7 +113,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         return self.completecommands({
             '':['load','save','clear','reload','list','show','set'],
             'load':self.teamup.sections(),
-            'set':['servant','master','index']
+            'set':['servant','master','index'],
         },text,line,begidx,endidx)
     def do_goto(self,line):
         '[NotImplemented] Go to a specific dungeon'
@@ -131,7 +131,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.do_continue(f'-s {arg.sleep}')
     def complete_main(self,text,line,begidx,endidx):
         return self.completecommands({
-            r'\d+':['gold','silver','bronze','copper','quartz']
+            r'\d+':['gold','silver','bronze','copper','quartz'],
         },text,line,begidx,endidx)
     def do_classic(self,line):
         'Use classic battle'
@@ -180,7 +180,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.do_continue(f'-s {arg.sleep}')
     def complete_call(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['fpSummon','lottery','mail','synthesis','dailyFpSummon','summonHistory']
+            '':['fpSummon','lottery','mail','synthesis','dailyFpSummon','summonHistory'],
         },text,line,begidx,endidx)
     def do_config(self,line):
         'Edit config item if exists and forward to schedule'
@@ -190,7 +190,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         if key in self.config:self.config[key]=value
     def complete_config(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['notifyEnable','stopLater','stopOnDefeated','stopOnKizunaReisou','stopOnSpecialDrop']
+            '':['notifyEnable','stopLater','stopOnDefeated','stopOnKizunaReisou','stopOnSpecialDrop'],
         },text,line,begidx,endidx)
     def do_screenshot(self,line):
         'Take a screenshot'
@@ -204,7 +204,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         getattr(fgoDevice.device,f'{arg.action}169')()
     def complete_169(self,text,line,begidx,endidx):
         return self.completecommands({
-            '':['invoke','revoke']
+            '':['invoke','revoke'],
         },text,line,begidx,endidx)
     def do_press(self,line):
         'Map key press'

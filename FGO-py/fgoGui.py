@@ -42,7 +42,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
             ('stopOnKizunaReisou',self.MENU_SETTINGS_KIZUNAREISOU,fgoKernel.schedule.stopOnKizunaReisou),
             ('closeToTray',self.MENU_CONTROL_TRAY,None),
             ('stayOnTop',self.MENU_CONTROL_STAYONTOP,lambda x:(self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x),self.show())),
-            ('notifyEnable',self.MENU_CONTROL_NOTIFY,None)
+            ('notifyEnable',self.MENU_CONTROL_NOTIFY,None),
         ]:
             value=self.config[key]
             getattr(ui,{bool:'triggered',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect(lambda x,key=key:self.config.__setitem__(key,x))

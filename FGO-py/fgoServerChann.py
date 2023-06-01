@@ -5,6 +5,6 @@ class ServerChann:
     def __call__(self,msg):
         try:return post(f'https://sctapi.ftqq.com/{self.scKey}.send',data={
             'title':'FGO-py',
-            'desp':msg
+            'desp':msg,
         }).ok
         except:return False
