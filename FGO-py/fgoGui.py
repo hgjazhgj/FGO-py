@@ -1,9 +1,8 @@
 import json,os,sys,time,platform
 from threading import Thread
-from PyQt6.QtCore import Qt,pyqtSignal
+from PyQt6.QtCore import Qt,QCoreApplication,QLocale,QTranslator,pyqtSignal
 from PyQt6.QtGui import QAction,QIcon
 from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon
-from fgoConst import I18N
 import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
@@ -11,7 +10,7 @@ from fgoGuiTeamup import Teamup
 from fgoServerChann import ServerChann
 logger=fgoKernel.getLogger('Gui')
 
-class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
+class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
     signalFuncBegin=pyqtSignal()
     signalFuncEnd=pyqtSignal(object)
     def __init__(self,config,parent=None):
@@ -23,9 +22,9 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.TRAY.setIcon(QIcon('fgoIcon.ico'))
         self.TRAY.setToolTip('FGO-py')
         self.MENU_TRAY=QMenu(self)
-        self.MENU_TRAY_QUIT=QAction('退出',self.MENU_TRAY)
+        self.MENU_TRAY_QUIT=QAction(self.tr('退出'),self.MENU_TRAY)
         self.MENU_TRAY.addAction(self.MENU_TRAY_QUIT)
-        self.MENU_TRAY_FORCEQUIT=QAction('强制退出',self.MENU_TRAY)
+        self.MENU_TRAY_FORCEQUIT=QAction(self.tr('强制退出'),self.MENU_TRAY)
         self.MENU_TRAY.addAction(self.MENU_TRAY_FORCEQUIT)
         self.TRAY.setContextMenu(self.MENU_TRAY)
         self.TRAY.show()
@@ -65,7 +64,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         event.ignore()
     def askQuit(self):
         if self.worker.is_alive():
-            if QMessageBox.warning(self,'FGO-py','战斗正在进行,确认关闭?',QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No,QMessageBox.StandardButton.No)!=QMessageBox.StandardButton.Yes:return False
+            if QMessageBox.warning(self,'FGO-py',self.tr('战斗正在进行,确认关闭?'),QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No,QMessageBox.StandardButton.No)!=QMessageBox.StandardButton.Yes:return False
             fgoKernel.schedule.stop('Quit')
             self.worker.join()
         self.TRAY.hide()
@@ -73,7 +72,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def isDeviceAvailable(self):
         if not fgoDevice.device.available:
             self.LBL_DEVICE.clear()
-            QMessageBox.critical(self,'FGO-py','未连接设备')
+            QMessageBox.critical(self,'FGO-py',self.tr('未连接设备'))
             return False
         return True
     def runFunc(self,func):
@@ -120,29 +119,29 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         if isinstance(self.result,dict)and(t:=self.result.get('type',None)):
             if t=='Battle':QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-<font color="#006400">{self.result['turn']:.1f}</font>回合完成战斗,用时<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font><br/>
-获得了以下素材:<br/>
-{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{I18N.get(i,i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else'无'}
+<font color="#006400">{self.result['turn']:.1f}</font>{self.tr('回合完成战斗')},{self.tr('用时')}<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font><br/>
+{self.tr('获得了以下素材')}:<br/>
+{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QCoreApplication.translate("material",i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
 ''')
             elif t=='Main':
                 QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-在过去的<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>中完成了<font color="#006400">{self.result['battle']}</font>场战斗<br/>
-平均每场战斗<font color="#006400">{self.result['turnPerBattle']:.1f}</font>回合,用时<font color="#006400">{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
-获得了以下素材:<br/>
-{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{I18N.get(i,i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else'无'}
+{self.tr('在过去的')}<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>{self.tr('中完成了')}<font color="#006400">{self.result['battle']}</font>{self.tr('场战斗')}<br/>
+{self.tr('平均每场战斗')}<font color="#006400">{self.result['turnPerBattle']:.1f}</font>{self.tr('回合')},{self.tr('用时')}<font color="#006400">{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
+{self.tr('获得了以下素材')}:<br/>
+{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QCoreApplication.translate("material",i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
 ''')
             elif t=='SummonHistory':
                 QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-共<font color="#006400">{self.result['value']}</font>条抽卡记录,图片保存至</br>
+{self.tr('获取到')}<font color="#006400">{self.result['value']}</font>{self.tr('条抽卡记录')},{self.tr('图片保存至')}</br>
 <font color="#7030A0">{self.result['file']}</font>
 ''')
         self.result=None
     def connect(self):
         dialog=QInputDialog(self,Qt.WindowType.WindowStaysOnTopHint)
         dialog.setWindowTitle('FGO-py')
-        dialog.setLabelText('在下拉列表中选择一个设备')
+        dialog.setLabelText(self.tr('选择或填写一个设备'))
         dialog.setComboBoxItems(fgoDevice.Device.enumDevices())
         dialog.setComboBoxEditable(True)
         dialog.setTextValue(self.config.device)
@@ -162,7 +161,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def stop(self):fgoKernel.schedule.stop('Stop Command Effected')
     def stopLater(self,x):
         if x:
-            num,ok=QInputDialog.getInt(self,'FGO-py','剩余的战斗数量',1,1,1919810,1)
+            num,ok=QInputDialog.getInt(self,'FGO-py',self.tr('剩余的战斗数量'),1,1,1919810,1)
             if ok:fgoKernel.schedule.stopLater(num)
             else:self.BTN_STOPLATER.setChecked(False)
         else:fgoKernel.schedule.stopLater()
@@ -177,13 +176,13 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
     def runSynthesis(self):self.runFunc(fgoKernel.synthesis)
     def runSummonHistory(self):self.runFunc(fgoKernel.summonHistory)
     def expBall(self):
-        QMessageBox.information(self,'FGO-py','''
-搓丸子是一个基于FGO-py的独立项目<br/>
+        QMessageBox.information(self,'FGO-py',f'''
+{self.tr('搓丸子是一个基于FGO-py的独立项目')}<br/>
 <a href="https://github.com/hgjazhgj/FGO-ExpBall">FGO-ExpBall</a><br/>
-你看见了这个弹窗,说明你已经能够运行FGO-py了<br/>
-那么,无需任何其他配置,你可以直接运行FGO-ExpBall''')
+{self.tr('你看见了这个弹窗,说明你已经能够运行FGO-py了')}<br/>
+{self.tr('那么,无需任何其他配置,你可以直接运行FGO-ExpBall')}''')
     def stopOnSpecialDrop(self):
-        num,ok=QInputDialog.getInt(self,'FGO-py','剩余的特殊掉落数量',1,0,1919810,1)
+        num,ok=QInputDialog.getInt(self,'FGO-py',self.tr('剩余的特殊掉落数量'),1,0,1919810,1)
         if ok:fgoKernel.schedule.stopOnSpecialDrop(num)
     def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvailable())
     def invoke169(self):
@@ -194,7 +193,7 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoDevice.device.revoke169()
     def bench(self):
         if not self.isDeviceAvailable():return
-        QMessageBox.information(self,'FGO-py',(lambda bench:f'{f"点击 {bench[0]:.2f}ms"if bench[0]else""}{", "if all(bench)else""}{f"截图 {bench[1]:.2f}ms"if bench[1]else""}')(fgoKernel.bench()))
+        QMessageBox.information(self,'FGO-py',(lambda bench:f'''{f"{self.tr('点击')} {bench[0]:.2f}ms"if bench[0]else""}{", "if all(bench)else""}{f"{self.tr('截图')} {bench[1]:.2f}ms"if bench[1]else""}''')(fgoKernel.bench()))
     def exec(self):
         s=QApplication.clipboard().text()
         if QMessageBox.information(self,'FGO-py',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
@@ -202,15 +201,15 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
         except BaseException as e:logger.exception(e)
     def about(self):QMessageBox.about(self,'FGO-py - About',f'''
 <h2>FGO-py</h2>
-全自动免配置跨平台开箱即用的FGO助手
+{self.tr('全自动免配置跨平台开箱即用的FGO助手')}
 <table border="0">
-  <tr><td>当前版本</td><td>{fgoKernel.__version__}</td></tr>
-  <tr><td>作者</td><td><a href="https://github.com/hgjazhgj">hgjazhgj</a></td></tr>
-  <tr><td>项目主页</td><td><a href="https://fgo-py.hgjazhgj.top/">https://fgo-py.hgjazhgj.top/</a></td></tr>
-  <tr><td>QQ群</td><td>932481680(请按readme指引操作)</td></tr>
+  <tr><td>{self.tr('当前版本')}</td><td>{fgoKernel.__version__}</td></tr>
+  <tr><td>{self.tr('作者')}</td><td><a href="https://github.com/hgjazhgj">hgjazhgj</a></td></tr>
+  <tr><td>{self.tr('项目主页')}</td><td><a href="https://fgo-py.hgjazhgj.top/">https://fgo-py.hgjazhgj.top/</a></td></tr>
+  <tr><td>{self.tr('QQ群')}</td><td>932481680({self.tr('请按readme指引操作')})</td></tr>
 </table>
 <!-- 都看到这里了真的不考虑资瓷一下吗... -->
-这是我的<font color="#00A0E8">支付宝</font>/<font color="#22AB38">微信</font>收款码和Monero地址<br/>请给我打钱<br/>
+{self.tr('这是我的')}<font color="#00A0E8">{self.tr('支付宝')}</font>/<font color="#22AB38">{self.tr('微信')}</font>{self.tr('收款码和Monero地址')}<br/>{self.tr('请给我打钱')}<br/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/ZtBFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9/R3wATtkAA=="/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9Wl3wAdBsAA=="/>
 <table border="0"><tr>
@@ -219,12 +218,16 @@ class MyMainWindow(QMainWindow,Ui_fgoMainWindow):
 </tr></table>
 <a href="https://github.com/sponsors/hgjazhgj/">GitHub Sponsor</a><br/>
 <a href="https://patreon.com/hgjazhgj">Patreon</a><br/>
-B站大会员每月<a href="https://account.bilibili.com/account/big/myPackage">领</a>5B币券<a href="https://space.bilibili.com/2632341">充电</a>
+<a href="https://paypal.me/hgjazhgjpp">Paypal</a><br/>
+{self.tr('B站大会员每月')}<a href="https://account.bilibili.com/account/big/myPackage">{self.tr('领')}</a>{self.tr('5B币券')}<a href="https://space.bilibili.com/2632341">{self.tr('充电')}</a>
 ''')
     def license(self):os.system(f'start notepad ../LICENSE')
 
 def main(config):
     app=QApplication(sys.argv)
-    myWin=MyMainWindow(config)
+    translator=QTranslator()
+    translator.load(QLocale(),'fgoI18n','.')
+    app.installTranslator(translator)
+    myWin=FgoMainWindow(config)
     myWin.show()
     sys.exit(app.exec())
