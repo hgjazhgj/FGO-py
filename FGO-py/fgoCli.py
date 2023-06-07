@@ -100,7 +100,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         arg=parser_connect.parse_args(line.split())
         if arg.list:return print(f'last connect: {self.config.device if self.config.device else None}',*fgoDevice.Device.enumDevices(),sep='\n')
         self.config.device=arg.name if arg.name else self.config.device
-        fgoDevice.device=fgoDevice.Device(self.config.device,self.config.package)
+        fgoDevice.device=fgoDevice.Device(self.config.device)
     def complete_connect(self,text,line,begidx,endidx):
         return self.completecommands({
             '':['wsa','win']+[f'/{i}'for i in fgoDevice.helpers]+fgoDevice.Device.enumDevices(),

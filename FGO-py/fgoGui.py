@@ -148,7 +148,7 @@ class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
         if not dialog.exec():return
         text=dialog.textValue().replace(' ','')
         self.config.device=text
-        fgoDevice.device=fgoDevice.Device(text,self.config.package)
+        fgoDevice.device=fgoDevice.Device(text)
         self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
     def runClassic(self):

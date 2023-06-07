@@ -259,6 +259,12 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2023/06/08 v18.0.1
+
+Del:config.package  
+按Z-order依次查找到第一个较短边>540px的activity作为游戏界面  
+Del:old alas connector  
+
 ## 2023/06/08 v18.0.0
 
 18 meaning I18N  

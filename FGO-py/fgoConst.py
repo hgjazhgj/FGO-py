@@ -1,8 +1,7 @@
-VERSION='v18.0.0'
+VERSION='v18.0.1'
 CONFIG={
 'runOnce':'',
 'device':'',
-'package':'com.bilibili.fatego',
 'teamIndex':0,
 'farming':False,
 'stopOnDefeated':True,

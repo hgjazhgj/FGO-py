@@ -29,13 +29,13 @@ def bs5(*args):
     with open(os.path.join(dir,'bluestacks.conf'),encoding='utf-8')as f:return'127.0.0.1:'+re.search(rf'bst\.instance\.Nougat64{f"_{args[0]}"if args else""}\.status\.adb_port="(\d*)"',f.read()).group(1)
 
 class Device:
-    def __init__(self,name=None,package='com.bilibili.fatego'):
+    def __init__(self,name=None):
         if not name:self.I=self.O=Android()
         elif'|'in name:
             self.I,self.O=[self.createDevice(i)for i in name.split('|')]
             self.name='|'.join((self.I.name,self.O.name))
         else:
-            self.I=self.O=self.createDevice(name,package)
+            self.I=self.O=self.createDevice(name)
             self.name=self.I.name
         self.press=self.I.press
         self.touch=self.I.touch

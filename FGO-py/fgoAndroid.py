@@ -11,14 +11,15 @@ if adb:=shutil.which('adb'):
     ADB.builtin_adb_path=staticmethod(lambda:adb)
 
 class Android(Airtest):
-    def __init__(self,serial=None,package="com.bilibili.fatego",**kwargs):
+    def __init__(self,serial=None,**kwargs):
         self.mutex=threading.Lock()
-        self.package=package
         if serial is None or serial=='None':
             self.name=None
             return
         try:
             super().__init__(serial,**{'cap_method':CAP_METHOD.JAVACAP}|kwargs)
+            self.package=next(i for i in re.findall(r'ACTIVITY ([A-Za-z0-9_.]+)/',self.adb.shell('dumpsys activity top'))[::-1]if(lambda x:x[2]-x[0]>959 and x[3]-x[1]>539)(self.get_render_resolution(True,i)))
+            self.adjustOffset()
             self.rotation_watcher.reg_callback(lambda _:self.adjustOffset())
         except Exception as e:
             logger.exception(e)
@@ -34,6 +35,7 @@ class Android(Airtest):
     def enumDevices():return[i for i,_ in ADB().devices('device')]
     def adjustOffset(self):
         self.render=[round(i)for i in self.get_render_resolution(True,self.package)]
+        print(self.render)
         self.scale,self.border=(720/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16 else(1280/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
         self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in KEYMAP.items()}
     def touch(self,pos):

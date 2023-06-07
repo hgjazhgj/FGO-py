@@ -19,7 +19,7 @@ def index():
 
 @app.route('/api/connect',methods=['POST'])
 def connect():
-    fgoDevice.device=fgoDevice.Device(request.form['serial'],config['package'])
+    fgoDevice.device=fgoDevice.Device(request.form['serial'])
     return fgoDevice.device.name
 
 @app.route('/api/teamup/load',methods=['POST'])
