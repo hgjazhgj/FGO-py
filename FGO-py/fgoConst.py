@@ -1,4 +1,4 @@
-VERSION='v18.0.1'
+VERSION='v18.1.0'
 CONFIG={
 'runOnce':'',
 'device':'',
@@ -39,4 +39,11 @@ KEYMAP={
 'Z':(640,629),'X':(173,621),'C':(330,320),'V':(1014,500),'N':(165,694),'M':(800,667),'\xBC':(45,360),'\xBE':(1235,360), # , VK_OEM_COMMA . VK_OEM_PERIOD
 '\x1B':(40,40),' ':(1231,687), # VK_ESCAPE
 '\x64':(45,142),'\x65':(295,142),'\x66':(545,142),'\x67':(142,40),'\x68':(342,40),'\x69':(542,40), # VK_NUMPAD4..9
+}
+PACKAGE_TO_REGION={
+'com.bilibili.fatego':'CN',
+'com.aniplex.fategrandorder':'JP',
+'com.aniplex.fategrandorder.en':'NA',
+'com.aniplex.fategrandorder.tw':'TW',
+'com.aniplex.fategrandorder.kr':'KR',
 }

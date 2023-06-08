@@ -378,7 +378,6 @@ class Battle:
                     logger.warning('Special Drop')
                     schedule.checkSpecialDrop()
                     Detect.cache.save('fgoLog/SpecialDrop')
-                else:Detect.cache.save('fgoTemp/DropItem')
                 return True
             elif Detect.cache.isBattleDefeated():
                 logger.warning('Battle Defeated')

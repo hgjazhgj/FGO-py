@@ -1,3 +1,5 @@
+> 已添加日服支持  
+
 热烈庆祝本项目于2022年8月5日荣登GitHub中文趋势Python语言日榜与同期周榜第3名!  
 同期中文趋势全语言周榜第23名  
 ![trending](doc/trending.png)
@@ -52,7 +54,7 @@ B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B�
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 项目官网:[https://fgo-py.hgjazhgj.top/](https://fgo-py.hgjazhgj.top/)  
-仅适用于命运-冠位指定安卓简体中文版本  
+适用于命运-冠位指定安卓简体中文以及日本语版本  
 
 # 警告 Warning
 
@@ -174,15 +176,12 @@ FGO-py现已加入[Alas](https://github.com/LmeSzinc/AzurLaneAutoScript/)豪华�
 **这里需要用到的包未在requirements.txt中列出,此功能发生的问题无法获得技术支持**  
 基于本人的实际使用场景,这里现在有以下命令  
 
-1. **\[Deprecated\]** `wsa` 这是给wsa做的特化,当连接到wsa时必须填写wsa而不能填写其他内容,这个指令不以「/」开头  
-2. `win` 这是给Windows窗口做的特化,直接输入win使用交互方式确定窗口,或后跟`_16进制窗口句柄值`以指定窗口,这个指令不以「/」开头  
-3. `/gw` 手机开热点打fgo电脑连热点,获取网关ip  
-4. `/bs4` 兼容Hyper-V的BlueStacks 4国际版,从注册表读取adb端口,后跟`_数字`指定多开  
-5. `/bs5` 兼容Hyper-V的BlueStacks 5国际版,从注册表读取配置文件路径,在配置文件中查找adb端口,后跟`_数字`指定多开  
+1. `/gw` 手机开热点打fgo电脑连热点,获取网关ip  
+2. `/bs4` 兼容Hyper-V的BlueStacks 4国际版,从注册表读取adb端口,后跟`_数字`指定多开  
+3. `/bs5` 兼容Hyper-V的BlueStacks 5国际版,从注册表读取配置文件路径,在配置文件中查找adb端口,后跟`_数字`指定多开  
 
 你可以自己编写你需要的功能,如果你认为你的场景别人也会遇到,请发个issue或pr让我加进这个项目里  
 此外,你可以使用`|`连接两个设备名以分别指定点击拖拽等输入操作和截图等输出操作使用的接口,中间不得有空格  
-如`/bs5_2|win`使用Android输入到蓝叠5的第二个多开而使用Windows截图,或是`127.0.0.1:5555|127.0.0.1:5557`使用5556设备显示的画面但是点击在5554设备上(大雾  
 
 ## 助战/邮箱筛选 Friends/Mail Filter
 
@@ -252,17 +251,27 @@ v9.1及更早版本提供的需要配置的战斗,不建议在以下之外的场
 
 ## 计划中的功能 Next Features
 
-Add:利用宝具的首卡染色或色卡三连  
+Upd:日服的宝具封印/行动不能/指令卡封印  
+Fix:OCR  
+Fix(?):isChooseFriend存在系统助战时  
+Opt:利用宝具的首卡染色或色卡三连  
 Add:御主技能识别与施放  
 Add:游戏启动与闪退重启  
 Add:onepush  
 
 # 版本记录 Version Logs
 
+## 2023/06/08 v18.1.0
+
+Add:日服适配  
+我觉得当前的写法不优雅,有待重构  
+Del:非Android设备接口  
+非常抱歉我没能在当前的框架下添加无感知的基于图像识别的游戏语言版本检测,所以只能根据包名判断  
+
 ## 2023/06/08 v18.0.1
 
 Del:config.package  
-按Z-order依次查找到第一个较短边>540px的activity作为游戏界面  
+按Z-order依次查找到第一个尺寸足够的activity作为游戏界面  
 Del:old alas connector  
 
 ## 2023/06/08 v18.0.0

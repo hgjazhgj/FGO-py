@@ -83,7 +83,7 @@ class ConfigItem(dict):
         return[(k[:-1],v)for k,v in flatten(self).items()]
 
 class Config(ConfigItem):
-    def __new__(cls,file):return super().__new__(cls,CONFIG)
+    def __new__(cls,*args,**kwargs):return super().__new__(cls,CONFIG)
     def __init__(self,file='fgoConfig.json'):
         super().__init__(CONFIG)
         self.__dict__['file']=file
