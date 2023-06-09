@@ -507,7 +507,7 @@
    <sender>BTN_CONNECT</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
-   <slot>connect()</slot>
+   <slot>connectDevice()</slot>
   </connection>
   <connection>
    <sender>MENU_FILE_EXPLORER</sender>
@@ -612,7 +612,7 @@
   <slot>screenshot()</slot>
   <slot>exec()</slot>
   <slot>explorerHere()</slot>
-  <slot>connect()</slot>
+  <slot>connectDevice()</slot>
   <slot>invoke169()</slot>
   <slot>license()</slot>
   <slot>mapKey(bool)</slot>

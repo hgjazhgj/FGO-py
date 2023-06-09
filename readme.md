@@ -261,6 +261,18 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2023/06/09 v18.2.0
+
+Add:深色模式  
+现在Qt6.5终于有了对深色模式的较为完善的支持,可算给我等到这一天了  
+其实一直都能做,但是我不接受在外观上花费超过一行代码,比如写一堆调色板  
+扬了第三方的PyQt6,换成官方的PySide6  
+官方说的是  
+
+> And like all good properties, it comes with a change notification signal QStyleHints::colorSchemeChanged that allows applications to respond to changes in the system color scheme.  
+
+但是试一下热更改系统主题就能发现似乎这个信号并没有传进每一个子部件里  
+
 ## 2023/06/08 v18.1.0
 
 Add:日服适配  

@@ -1,8 +1,8 @@
 import json,os,sys,time,platform
 from threading import Thread
-from PyQt6.QtCore import Qt,QCoreApplication,QLocale,QTranslator,pyqtSignal
-from PyQt6.QtGui import QAction,QIcon
-from PyQt6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon
+from PySide6.QtCore import Qt,QCoreApplication,QLocale,QTranslator,Signal,Slot
+from PySide6.QtGui import QAction,QIcon
+from PySide6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon
 import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
@@ -11,8 +11,8 @@ from fgoServerChann import ServerChann
 logger=fgoKernel.getLogger('Gui')
 
 class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
-    signalFuncBegin=pyqtSignal()
-    signalFuncEnd=pyqtSignal(object)
+    signalFuncBegin=Signal()
+    signalFuncEnd=Signal(object)
     def __init__(self,config,parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -50,7 +50,7 @@ class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
                 self.config.callback(key,callback)
             getattr(ui,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
         self.notifier=[ServerChann(**i)for i in self.config.notifyParam]
-        self.connect()
+        self.connectDevice()
     def keyPressEvent(self,key):
         if self.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifier.KeypadModifier:
             try:fgoDevice.device.press(chr(key.nativeVirtualKey()))
@@ -96,6 +96,7 @@ class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
                 if self.config.notifyEnable and not all(success:=[i(msg[0])for i in self.notifier]):logger.critical(f'Notify post failed {success.count(False)} of {len(success)}')
         self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}')
         self.worker.start()
+    @Slot()
     def funcBegin(self):
         self.BTN_CLASSIC.setEnabled(False)
         self.BTN_MAIN.setEnabled(False)
@@ -106,6 +107,7 @@ class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_SCRIPT.setEnabled(False)
         self.TXT_APPLE.setValue(0)
         self.result=None
+    @Slot(object)
     def funcEnd(self,msg):
         self.BTN_CLASSIC.setEnabled(True)
         self.BTN_MAIN.setEnabled(True)
@@ -138,7 +140,7 @@ class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
 <font color="#7030A0">{self.result['file']}</font>
 ''')
         self.result=None
-    def connect(self):
+    def connectDevice(self):
         dialog=QInputDialog(self,Qt.WindowType.WindowStaysOnTopHint)
         dialog.setWindowTitle('FGO-py')
         dialog.setLabelText(self.tr('选择或填写一个设备'))
@@ -225,6 +227,7 @@ class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
 
 def main(config):
     app=QApplication(sys.argv)
+    app.setStyle('Fusion')
     translator=QTranslator()
     translator.load(QLocale(),'fgoI18n','.')
     app.installTranslator(translator)

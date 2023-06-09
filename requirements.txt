@@ -1,4 +1,4 @@
 airtest
-PyQt6
+PySide6
 Flask
 tqdm

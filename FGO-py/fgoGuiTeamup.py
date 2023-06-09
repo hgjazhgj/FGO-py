@@ -1,5 +1,5 @@
 import platform
-from PyQt6.QtWidgets import QDialog
+from PySide6.QtWidgets import QDialog
 import fgoKernel
 from fgoTeamupParser import IniParser
 from fgoTeamupDialog import Ui_Teamup
