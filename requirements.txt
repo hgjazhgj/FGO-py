@@ -1,4 +1,4 @@
 airtest
 PySide6
 Flask
-tqdm
+paddleocr

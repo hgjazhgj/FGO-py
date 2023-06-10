@@ -27,9 +27,9 @@ from functools import wraps
 from fgoDetect import Detect,XDetect
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
+from fgoLogging import getLogger,logit
 from fgoMetadata import servantData
 from fgoSchedule import ScriptStop,schedule
-from fgoLogging import getLogger,logit
 logger=getLogger('Kernel')
 
 friendImg=ImageListener('fgoImage/friend/')

@@ -14,7 +14,12 @@ else:
 logging.root.addHandler((lambda handler:(handler.setFormatter(monoFormatter),handler.setLevel(logging.DEBUG),handler)[-1])(logging.FileHandler(time.strftime('fgoLog/Log_%Y-%m-%d_%H.%M.%S.txt'))))
 logger=logging.getLogger('fgo')
 (logger.setLevel(logging.DEBUG),logger.addHandler((lambda handler:(handler.setFormatter(coloredFormatter),handler.setLevel(logging.INFO),handler)[-1])(logging.StreamHandler())))
-(lambda handler:(handler.setLevel(logging.INFO),handler.setFormatter(logger.handlers[-1].formatter)))((lambda logger:(logger.setLevel(logging.DEBUG),logger)[-1])(logging.getLogger('airtest')).handlers[0])
+def hijack(name):(lambda handler:(handler.setLevel(logging.INFO),handler.setFormatter(coloredFormatter)))((lambda logger:(logger.setLevel(logging.DEBUG),logger)[-1])(logging.getLogger(name)).handlers[0])
+import airtest.core.android
+hijack('airtest')
+import paddleocr
+hijack('ppocr')
+logging.getLogger('ppocr').propagate=True
 def getLogger(name):return logging.getLogger('fgo.'+name)
 def logit(logger,level=logging.DEBUG):return lambda func:wraps(func)(lambda*args,**kwargs:(lambda x:(logger.log(level,' '.join((func.__name__,str(x)[:100].split('\n',1)[0]))),x)[-1]if x is not None else x)(func(*args,**kwargs)))
 def logMeta(logger):return lambda name,bases,attrs:type(name,bases,{i:logit(logger)(j)if i[0]!='_'and isfunction(j)else j for i,j in attrs.items()})

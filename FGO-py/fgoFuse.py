@@ -1,5 +1,5 @@
-from fgoSchedule import ScriptStop
 from fgoLogging import getLogger
+from fgoSchedule import ScriptStop
 logger=getLogger('Fuse')
 
 class Fuse:

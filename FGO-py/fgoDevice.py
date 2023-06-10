@@ -1,7 +1,7 @@
 from fgoAndroid import Android
 from fgoDetect import setup
-from fgoSchedule import schedule
 from fgoLogging import getLogger
+from fgoSchedule import schedule
 logger=getLogger('Device')
 
 helpers={}

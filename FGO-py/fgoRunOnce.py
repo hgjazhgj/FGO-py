@@ -21,7 +21,8 @@ def runOnce(config):
     return True
 
 @regRunOnce
-def v18_2_0(config):
-    import os
-    logger.error('Please re-install FGO-py due to SIGNIFICANT changes in requirements.')
-    os._exit(1)
+def v18_3_0(config):
+    from paddleocr import PaddleOCR
+    PaddleOCR(lang='en')
+    PaddleOCR(lang='ch')
+    PaddleOCR(lang='japan')
