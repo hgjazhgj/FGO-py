@@ -1,4 +1,5 @@
 airtest
 PySide6
 Flask
+paddlepaddle
 paddleocr
