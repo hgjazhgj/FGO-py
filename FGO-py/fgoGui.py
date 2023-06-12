@@ -98,8 +98,9 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.worker.start()
     @Slot()
     def funcBegin(self):
-        self.BTN_CLASSIC.setEnabled(False)
         self.BTN_MAIN.setEnabled(False)
+        self.BTN_BATTLE.setEnabled(False)
+        self.BTN_CLASSIC.setEnabled(False)
         self.BTN_PAUSE.setEnabled(True)
         self.BTN_PAUSE.setChecked(False)
         self.BTN_STOP.setEnabled(True)
@@ -109,8 +110,9 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.result=None
     @Slot(object)
     def funcEnd(self,msg):
-        self.BTN_CLASSIC.setEnabled(True)
         self.BTN_MAIN.setEnabled(True)
+        self.BTN_BATTLE.setEnabled(True)
+        self.BTN_CLASSIC.setEnabled(True)
         self.BTN_PAUSE.setEnabled(False)
         self.BTN_STOP.setEnabled(False)
         self.BTN_STOPLATER.setChecked(False)

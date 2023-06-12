@@ -102,7 +102,7 @@ FGO-py一经立项,就把*打破当前游戏版本下想尽办法3t速刷的固�
 首先也是最基础的,在阅读本条目前,请先验证你能**通过源码在安装有Python3.9的Windows操作系统中运行本项目并用来操作运行于屏幕分辨率为1280*720或其简单整数比缩放的Android设备上的命运-冠位指定官方简体中文版本**--这被视作FGO-py的使用门槛--然后再根据后续内容向目标环境迁移  
 本项目`deploy`目录下有些许子目录可为不同场景下的环境搭建提供帮助  
 Docker -- 尽管只是配了个环境,但确实配好了环境  
-AidLux -- 一键在AidLux上安装FGO-py  
+\[outdated\] AidLux -- 一键在AidLux上安装FGO-py  
 AzurLaneAutoScript -- 让Alas帮你玩FGO  
 请注意,这些东西仅供参考,你可能需要自行作出一些修改才能正常运行,这被视为FGO-py的使用门槛  
 速览程序功能,运行`fgo.py`,无需填写任何配置,去冬木大桥刷一根凶骨吧!  
@@ -114,12 +114,12 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 ![cli](doc/cli.png)  
 也可一次向stdin写入多行以非交互的方式运行,比如睡前运行一条`echo -e "connect /bs5 \n main \n main -s 8:00:00" | python fgo.py cli`来清空体力并在8小时后再次清空体力以保证安稳的睡眠,或是在长草期加入计划任务或crontab实现7*24全托管  
 
-### 非FGO简体中文服
+### 非FGO简体中文服 Non zh_CN server
 
 日服已于2023年6月8日添加,但是对于行动不能与宝具封印的判断要等我在日服遇到这样的情况了再说...  
 其他语言版本暂时没有适配计划,需要自行修改图片模板和fgoDetect.Detect类  
 
-### 非16:9屏幕
+### 非16:9屏幕 Non 16:9 display
 
 尝试使用ui中的「控制-全面屏适配-调整为16:9」功能,以及cli中的`169`命令  
 由于长宽比小于16:9的屏幕的游戏画面上下方仍为蓝边可以如同全面屏适配前一般使用,所以只有长宽比大于16:9的屏幕才需要此操作  
@@ -128,11 +128,11 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 ![16-9](doc/16-9.png)  
 这个功能就是执行了一条adb shell,单论这个shell的话是很快的,fgo的全面屏适配又跟屎一样不如没有,并且你完全可以在关闭fgo后立刻改回来不影响其他应用,你也可以在手机本地执行命令将其改回,所以我暂时不打算写全面屏适配  
 
-### 非Windows电脑
+### 非Windows电脑 Non Windows PC
 
 现已可直接使用,但是目录监控功能被屏蔽,如果你更改了助战模板等文件,需要重新运行程序  
 
-### 直接在手机上运行
+### 直接在手机上运行 Run with Android
 
 此部分已过时,适用于v18.2.0或更早的版本  
 有一些软件能在Android手机上提供Linux环境,比如[AidLux](http://www.aidlearning.net/)([GitHub](https://github.com/aidlearning/AidLearning-Framework)),类似于Android Subsystem for Linux(我愿称之为ASL)  
@@ -145,7 +145,7 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 直接`docker-compose up`  
 如果你要使用cli,参阅Dockerfile头部的注释  
 
-### 在AzurLaneAutoScript上运行
+### 在AzurLaneAutoScript中运行 Run with AzurLaneAutoScript
 
 FGO-py现已加入[Alas](https://github.com/LmeSzinc/AzurLaneAutoScript/)豪华午餐!开发者本人正在通过Alas进行FGO-py的日常使用!  
 ![alas](doc/alas.png)  
@@ -155,7 +155,7 @@ FGO-py现已加入[Alas](https://github.com/LmeSzinc/AzurLaneAutoScript/)豪华�
 2. 按照[连接到设备](#连接到设备-connect-to-your-device)章节中的内容填写「FGO-py > FGO-py设置 > 运行环境 > 模拟器 Serial」  
 3. 按照自身部署环境填写启动路径,详见[deploy/AzurLaneAutoScript/readme.md](deploy/AzurLaneAutoScript/readme.md)  
 4. 运行「工具 > 性能测试」检验上述配置是否正确  
-5. 启用「出击 > 清空体力」和「每日 > 抽友情」任务,更改相关设置  
+5. 启用「出击 > 清空体力」和「每日 > 抽友情」等任务,更改相关设置  
 6. 运行调度器  
 
 ## 连接到设备 Connect to Your Device
@@ -249,6 +249,12 @@ Add:每周任务
 Add:onepush  
 
 # 版本记录 Version Logs
+
+## 2023/06/13 v18.3.3
+
+Del:deploy预置的launch和halt  
+防止未来的merge confilct,反正这两个文件终归是要你自己写的  
+Fix:「完成战斗」按钮的互斥交互  
 
 ## 2023/06/12 v18.3.2
 
