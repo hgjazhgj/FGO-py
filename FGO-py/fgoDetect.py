@@ -26,12 +26,14 @@ def coroutine(func):
 def validateIterable(iterable,validator):
     if hasattr(iterable,'__iter__'):return all(validateIterable(i,validator)for i in iterable)
     return validator(iterable)
-def notNone(func):
-    @wraps(func)
-    def wrap(*args,**kwargs):
-        assert validateIterable(ans:=func(*args,**kwargs),lambda x:x is not None)
-        return ans
-    return wrap
+def validateFunc(validator):
+    def wrapper(func):
+        @wraps(func)
+        def wrap(*args,**kwargs):
+            assert validateIterable(ans:=func(*args,**kwargs),validator)
+            return ans
+        return wrap
+    return wrapper
 class XDetectBase(metaclass=logMeta(logger)):
     # The accuracy of each API here is designed to be 100% at 1280x720 resolution, if you find any mismatches, please submit an issue, with a screenshot saved via Detect.cache.save() or fuse.save().
     screenshot=None
@@ -59,8 +61,8 @@ class XDetectBase(metaclass=logMeta(logger)):
     def _compare(self,img,rect=(0,0,1280,720),threshold=.05):return threshold>self._loc(img,rect)[0]
     def _select(self,img,rect=(0,0,1280,720),threshold=.2):return(lambda x:numpy.argmin(x)if threshold>min(x)else None)([self._loc(i,rect)[0]for i in img])
     def _find(self,img,rect=(0,0,1280,720),threshold=.05):return(lambda loc:(rect[0]+loc[2][0]+(img[0].shape[1]>>1),rect[1]+loc[2][1]+(img[0].shape[0]>>1))if loc[0]<threshold else None)(self._loc(img,rect))
-    def _ocrInt(self,rect):return int('0'+''.join(i for i in OCR.EN.ocr(self._crop(rect))if i.isdigit()))
-    def _ocrText(self,rect):return self.ocr.ocr(self._crop(rect))
+    def _ocrInt(self,rect):return OCR.EN.ocrInt(self._crop(rect))
+    def _ocrText(self,rect):...
     def _count(self,img,rect=(0,0,1280,720),threshold=.1):return cv2.connectedComponents((cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1])<threshold).astype(numpy.uint8))[0]-1
     @coroutine
     def _asyncImageChange(self,rect,threshold=.05):
@@ -152,9 +154,11 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getMaterial(self):return(lambda x:{MATERIAL[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in MATERIAL),(176+i%7*137,110+i//7*142,253+i%7*137,187+i//7*142),.02)for i in range(1,21)])
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(self.tmpl.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
-    def getStage(self):return self._select((self.tmpl.STAGE1,self.tmpl.STAGE2,self.tmpl.STAGE3),(884,14,902,37),.5)+1
+    @validateFunc(lambda x:x!=0)
+    def getStage(self):return self._ocrInt((884,14,902,37))
     @retryOnError()
-    def getStageTotal(self):return self._select((self.tmpl.STAGE1,self.tmpl.STAGE2,self.tmpl.STAGE3),(912,13,932,38),.5)+1
+    @validateFunc(lambda x:x!=0)
+    def getStageTotal(self):return self._ocrInt((912,13,932,38))
     def getSummonHistory(self):XDetectBase._summonHistory=numpy.vstack((XDetectBase._summonHistory,(lambda img:img[cv2.minMaxLoc(cv2.matchTemplate(img,XDetectBase._summonHistory[-80:],cv2.TM_SQDIFF_NORMED))[2][1]+80:])(cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1])))
     @classmethod
     def getSummonHistoryCount(cls):return cls.__new__(cls).inject(XDetectBase._summonHistory)._count((cls.tmpl.SUMMONHISTORY[0][...,0],cls.tmpl.SUMMONHISTORY[1]),(28,0,60,XDetectBase._summonHistory.shape[0]),.7)

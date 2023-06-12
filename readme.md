@@ -250,6 +250,11 @@ Add:onepush
 
 # 版本记录 Version Logs
 
+## 2023/06/12 v18.3.2
+
+Opt:getSatge*  
+基于OCR的实现  
+
 ## 2023/06/12 v18.3.1
 
 Opt:Gui布局更改  
