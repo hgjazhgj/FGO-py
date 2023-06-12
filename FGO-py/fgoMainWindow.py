@@ -158,21 +158,26 @@ class Ui_fgoMainWindow(object):
 
         self.verticalLayout.addLayout(self.LAYOUT_INFO)
 
+        self.BTN_MAIN = QPushButton(self.widget)
+        self.BTN_MAIN.setObjectName(u"BTN_MAIN")
+        self.BTN_MAIN.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.verticalLayout.addWidget(self.BTN_MAIN)
+
         self.LAYOUT_FUNC = QHBoxLayout()
         self.LAYOUT_FUNC.setObjectName(u"LAYOUT_FUNC")
         self.LAYOUT_FUNC_BATTLE = QVBoxLayout()
         self.LAYOUT_FUNC_BATTLE.setObjectName(u"LAYOUT_FUNC_BATTLE")
+        self.BTN_BATTLE = QPushButton(self.widget)
+        self.BTN_BATTLE.setObjectName(u"BTN_BATTLE")
+
+        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_BATTLE)
+
         self.BTN_CLASSIC = QPushButton(self.widget)
         self.BTN_CLASSIC.setObjectName(u"BTN_CLASSIC")
         self.BTN_CLASSIC.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_CLASSIC)
-
-        self.BTN_MAIN = QPushButton(self.widget)
-        self.BTN_MAIN.setObjectName(u"BTN_MAIN")
-        self.BTN_MAIN.setCursor(QCursor(Qt.PointingHandCursor))
-
-        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_MAIN)
 
 
         self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_BATTLE)
@@ -240,9 +245,11 @@ class Ui_fgoMainWindow(object):
         fgoMainWindow.setStatusBar(self.STATUS)
         QWidget.setTabOrder(self.TXT_TEAM, self.CBX_APPLE)
         QWidget.setTabOrder(self.CBX_APPLE, self.TXT_APPLE)
-        QWidget.setTabOrder(self.TXT_APPLE, self.BTN_CLASSIC)
-        QWidget.setTabOrder(self.BTN_CLASSIC, self.BTN_MAIN)
-        QWidget.setTabOrder(self.BTN_MAIN, self.BTN_PAUSE)
+        QWidget.setTabOrder(self.TXT_APPLE, self.BTN_CONNECT)
+        QWidget.setTabOrder(self.BTN_CONNECT, self.BTN_MAIN)
+        QWidget.setTabOrder(self.BTN_MAIN, self.BTN_BATTLE)
+        QWidget.setTabOrder(self.BTN_BATTLE, self.BTN_CLASSIC)
+        QWidget.setTabOrder(self.BTN_CLASSIC, self.BTN_PAUSE)
         QWidget.setTabOrder(self.BTN_PAUSE, self.BTN_STOP)
         QWidget.setTabOrder(self.BTN_STOP, self.BTN_SCREENSHOT)
         QWidget.setTabOrder(self.BTN_SCREENSHOT, self.BTN_STOPLATER)
@@ -299,6 +306,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_ABOUT_LICENSE.triggered.connect(fgoMainWindow.license)
         self.MENU_CONTROL_169_INVOKE.triggered.connect(fgoMainWindow.invoke169)
         self.MENU_CONTROL_169_REVOKE.triggered.connect(fgoMainWindow.revoke169)
+        self.BTN_BATTLE.clicked.connect(fgoMainWindow.runBattle)
 
         self.CBX_APPLE.setCurrentIndex(0)
 
@@ -306,7 +314,7 @@ class Ui_fgoMainWindow(object):
 
     def retranslateUi(self, fgoMainWindow):
         fgoMainWindow.setWindowTitle(QCoreApplication.translate("fgoMainWindow", u"FGO-py - hgjazhgj", None))
-        self.MENU_ABOUT_ABOUT.setText(QCoreApplication.translate("fgoMainWindow", u"\u5173\u4e8e", None))
+        self.MENU_ABOUT_ABOUT.setText(QCoreApplication.translate("fgoMainWindow", u"\u5173\u4e8eFGO-py", None))
         self.MENU_FILE_EXPLORER.setText(QCoreApplication.translate("fgoMainWindow", u"\u8d44\u6e90\u7ba1\u7406\u5668", None))
         self.MENU_CONTROL_STAYONTOP.setText(QCoreApplication.translate("fgoMainWindow", u"\u7a97\u53e3\u7f6e\u9876", None))
         self.MENU_SCRIPT_FPSUMMON.setText(QCoreApplication.translate("fgoMainWindow", u"\u62bd\u53cb\u60c5", None))
@@ -362,13 +370,17 @@ class Ui_fgoMainWindow(object):
 #endif // QT_CONFIG(statustip)
         self.BTN_CONNECT.setText(QCoreApplication.translate("fgoMainWindow", u"\u66f4\u6539", None))
 #if QT_CONFIG(statustip)
-        self.BTN_CLASSIC.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u7ecf\u5178\u6218\u6597", None))
-#endif // QT_CONFIG(statustip)
-        self.BTN_CLASSIC.setText(QCoreApplication.translate("fgoMainWindow", u"\u7ecf\u5178\u6218\u6597", None))
-#if QT_CONFIG(statustip)
         self.BTN_MAIN.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u5728\u5173\u5361\u5217\u8868\u754c\u9762\u5c06\u8981\u5237\u7684\u5173\u5361\u7f6e\u4e8e\u7b2c\u4e00\u4e2a\u6765\u6e05\u7a7a\u4f53\u529b", None))
 #endif // QT_CONFIG(statustip)
         self.BTN_MAIN.setText(QCoreApplication.translate("fgoMainWindow", u"\u809d!", None))
+#if QT_CONFIG(statustip)
+        self.BTN_BATTLE.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u5b8c\u6210\u5f53\u524d\u6218\u6597", None))
+#endif // QT_CONFIG(statustip)
+        self.BTN_BATTLE.setText(QCoreApplication.translate("fgoMainWindow", u"\u5b8c\u6210\u6218\u6597", None))
+#if QT_CONFIG(statustip)
+        self.BTN_CLASSIC.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u57fa\u4e8e\u7ecf\u5178\u6218\u6597\u7684\u6e05\u7a7a\u4f53\u529b", None))
+#endif // QT_CONFIG(statustip)
+        self.BTN_CLASSIC.setText(QCoreApplication.translate("fgoMainWindow", u"\u9648\u5e74\u8001\u809d", None))
 #if QT_CONFIG(statustip)
         self.BTN_PAUSE.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u6682\u505c/\u7ee7\u7eed\u6218\u6597", None))
 #endif // QT_CONFIG(statustip)

@@ -11,7 +11,7 @@ WORKDIR /FGO-py
 #&& ln -s /usr/bin/adb /usr/local/lib/python3.9/site-packages/airtest/core/android/static/adb/linux/adb \
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && echo 'Asia/Shanghai' > /etc/timezone \
- && pip install airtest flask paddleocr \
+ && pip install airtest flask paddlepaddle paddleocr \
  && pip uninstall -y opencv-contrib-python \
  && pip install opencv-contrib-python-headless \
  && rm -r ~/.cache/pip

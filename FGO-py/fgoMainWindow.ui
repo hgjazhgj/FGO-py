@@ -153,32 +153,42 @@
      </layout>
     </item>
     <item>
+     <widget class="QPushButton" name="BTN_MAIN">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="statusTip">
+       <string>在关卡列表界面将要刷的关卡置于第一个来清空体力</string>
+      </property>
+      <property name="text">
+       <string>肝!</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="LAYOUT_FUNC">
       <item>
        <layout class="QVBoxLayout" name="LAYOUT_FUNC_BATTLE">
+        <item>
+         <widget class="QPushButton" name="BTN_BATTLE">
+          <property name="statusTip">
+           <string>完成当前战斗</string>
+          </property>
+          <property name="text">
+           <string>完成战斗</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QPushButton" name="BTN_CLASSIC">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>经典战斗</string>
+           <string>基于经典战斗的清空体力</string>
           </property>
           <property name="text">
-           <string>经典战斗</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_MAIN">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="statusTip">
-           <string>在关卡列表界面将要刷的关卡置于第一个来清空体力</string>
-          </property>
-          <property name="text">
-           <string>肝!</string>
+           <string>陈年老肝</string>
           </property>
          </widget>
         </item>
@@ -326,7 +336,7 @@
   <widget class="QStatusBar" name="STATUS"/>
   <action name="MENU_ABOUT_ABOUT">
    <property name="text">
-    <string>关于</string>
+    <string>关于FGO-py</string>
    </property>
   </action>
   <action name="MENU_FILE_EXPLORER">
@@ -464,8 +474,10 @@
   <tabstop>TXT_TEAM</tabstop>
   <tabstop>CBX_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>
-  <tabstop>BTN_CLASSIC</tabstop>
+  <tabstop>BTN_CONNECT</tabstop>
   <tabstop>BTN_MAIN</tabstop>
+  <tabstop>BTN_BATTLE</tabstop>
+  <tabstop>BTN_CLASSIC</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
   <tabstop>BTN_SCREENSHOT</tabstop>
@@ -605,27 +617,34 @@
    <receiver>fgoMainWindow</receiver>
    <slot>revoke169()</slot>
   </connection>
+  <connection>
+   <sender>BTN_BATTLE</sender>
+   <signal>clicked()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>runBattle()</slot>
+  </connection>
  </connections>
  <slots>
   <slot>about()</slot>
   <slot>bench()</slot>
-  <slot>screenshot()</slot>
-  <slot>exec()</slot>
-  <slot>explorerHere()</slot>
   <slot>connectDevice()</slot>
+  <slot>exec()</slot>
+  <slot>expBall()</slot>
+  <slot>explorerHere()</slot>
   <slot>invoke169()</slot>
   <slot>license()</slot>
   <slot>mapKey(bool)</slot>
   <slot>pause(bool)</slot>
   <slot>revoke169()</slot>
+  <slot>runBattle()</slot>
   <slot>runClassic()</slot>
   <slot>runFpSummon()</slot>
   <slot>runLottery()</slot>
   <slot>runMail()</slot>
   <slot>runMain()</slot>
-  <slot>runSynthesis()</slot>
   <slot>runSummonHistory()</slot>
-  <slot>expBall()</slot>
+  <slot>runSynthesis()</slot>
+  <slot>screenshot()</slot>
   <slot>stop()</slot>
   <slot>stopLater(bool)</slot>
   <slot>stopOnSpecialDrop(bool)</slot>

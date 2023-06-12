@@ -10,7 +10,7 @@ from fgoGuiTeamup import Teamup
 from fgoServerChann import ServerChann
 logger=fgoKernel.getLogger('Gui')
 
-class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
+class MainWindow(QMainWindow,Ui_fgoMainWindow):
     signalFuncBegin=Signal()
     signalFuncEnd=Signal(object)
     def __init__(self,config,parent=None):
@@ -153,10 +153,11 @@ class FgoMainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoDevice.device=fgoDevice.Device(text)
         self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
+    def runMain(self):self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex()))
+    def runBattle(self):self.runFunc(fgoKernel.Battle())
     def runClassic(self):
         if not Teamup(self).exec():return
         self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)))
-    def runMain(self):self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),fgoKernel.Battle))
     def pause(self,x):
         if not x and not self.isDeviceAvailable():return self.BTN_PAUSE.setChecked(True)
         fgoKernel.schedule.pause()
@@ -231,6 +232,6 @@ def main(config):
     translator=QTranslator()
     translator.load(QLocale(),'fgoI18n','.')
     app.installTranslator(translator)
-    myWin=FgoMainWindow(config)
+    myWin=MainWindow(config)
     myWin.show()
     sys.exit(app.exec())

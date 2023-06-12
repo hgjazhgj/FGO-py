@@ -2,7 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>FgoMainWindow</name>
+    <name>MainWindow</name>
     <message>
         <location filename="fgoGui.py" line="25"/>
         <source>退出</source>
@@ -24,180 +24,180 @@
         <translation>No device connected</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="122"/>
+        <location filename="fgoGui.py" line="124"/>
         <source>回合完成战斗</source>
         <translation>turn(s) to finish the battle</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="130"/>
-        <location filename="fgoGui.py" line="122"/>
+        <location filename="fgoGui.py" line="132"/>
+        <location filename="fgoGui.py" line="124"/>
         <source>用时</source>
         <translation>time</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="131"/>
-        <location filename="fgoGui.py" line="123"/>
+        <location filename="fgoGui.py" line="133"/>
+        <location filename="fgoGui.py" line="125"/>
         <source>获得了以下素材</source>
         <translation>The following materials were obtained</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="132"/>
-        <location filename="fgoGui.py" line="124"/>
+        <location filename="fgoGui.py" line="134"/>
+        <location filename="fgoGui.py" line="126"/>
         <source>无</source>
         <translation>None</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="129"/>
+        <location filename="fgoGui.py" line="131"/>
         <source>在过去的</source>
         <translation>In the past</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="129"/>
+        <location filename="fgoGui.py" line="131"/>
         <source>中完成了</source>
         <translation>completed</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="129"/>
+        <location filename="fgoGui.py" line="131"/>
         <source>场战斗</source>
         <translation>battle(s)</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="130"/>
+        <location filename="fgoGui.py" line="132"/>
         <source>平均每场战斗</source>
         <translation>In average</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="130"/>
+        <location filename="fgoGui.py" line="132"/>
         <source>回合</source>
         <translation>turn(s) per battle</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="137"/>
+        <location filename="fgoGui.py" line="139"/>
         <source>获取到</source>
         <translation>Get</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="137"/>
+        <location filename="fgoGui.py" line="139"/>
         <source>条抽卡记录</source>
         <translation>record(s)</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="137"/>
+        <location filename="fgoGui.py" line="139"/>
         <source>图片保存至</source>
         <translation>Image save to</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="144"/>
+        <location filename="fgoGui.py" line="146"/>
         <source>选择或填写一个设备</source>
         <translation>Select or enter a device</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="164"/>
+        <location filename="fgoGui.py" line="167"/>
         <source>剩余的战斗数量</source>
         <translation>Number of battles remaining</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="180"/>
+        <location filename="fgoGui.py" line="183"/>
         <source>搓丸子是一个基于FGO-py的独立项目</source>
         <translation>FGO-ExpBall is an independent project based on FGO-py</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="182"/>
+        <location filename="fgoGui.py" line="185"/>
         <source>你看见了这个弹窗,说明你已经能够运行FGO-py了</source>
         <translation>You see this pop-up window, which means you are able to run FGO-py</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="183"/>
+        <location filename="fgoGui.py" line="186"/>
         <source>那么,无需任何其他配置,你可以直接运行FGO-ExpBall</source>
         <translation>Then, without any other configuration, you can directly run FGO-ExpBall</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="185"/>
+        <location filename="fgoGui.py" line="188"/>
         <source>剩余的特殊掉落数量</source>
         <translation>Number of remaining special drops</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="196"/>
+        <location filename="fgoGui.py" line="199"/>
         <source>点击</source>
         <translation>Click</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="196"/>
+        <location filename="fgoGui.py" line="199"/>
         <source>截图</source>
         <translation>Screenshot</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="204"/>
+        <location filename="fgoGui.py" line="207"/>
         <source>全自动免配置跨平台开箱即用的FGO助手</source>
         <translation>Fully automated and configuration-free cross-platform out-of-the-box FGO assistant</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="206"/>
+        <location filename="fgoGui.py" line="209"/>
         <source>当前版本</source>
         <translation>Current version</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="207"/>
+        <location filename="fgoGui.py" line="210"/>
         <source>作者</source>
         <translation>Author</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="208"/>
+        <location filename="fgoGui.py" line="211"/>
         <source>项目主页</source>
         <translation>Homepage</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="209"/>
+        <location filename="fgoGui.py" line="212"/>
         <source>QQ群</source>
         <translation>QQ group</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="209"/>
+        <location filename="fgoGui.py" line="212"/>
         <source>请按readme指引操作</source>
         <translation>Please follow the readme guidelines</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="212"/>
+        <location filename="fgoGui.py" line="215"/>
         <source>这是我的</source>
         <translation>These are my</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="212"/>
+        <location filename="fgoGui.py" line="215"/>
         <source>支付宝</source>
         <translation>AliPay</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="212"/>
+        <location filename="fgoGui.py" line="215"/>
         <source>微信</source>
         <translation>WeChat</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="212"/>
+        <location filename="fgoGui.py" line="215"/>
         <source>收款码和Monero地址</source>
         <translation>QR code and Monero address</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="212"/>
+        <location filename="fgoGui.py" line="215"/>
         <source>请给我打钱</source>
         <translation>Buy me a Saint Quartz</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="221"/>
+        <location filename="fgoGui.py" line="225"/>
         <source>B站大会员每月</source>
         <translation>Bilibili bigVIP</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="221"/>
+        <location filename="fgoGui.py" line="225"/>
         <source>领</source>
         <translation>get</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="221"/>
+        <location filename="fgoGui.py" line="225"/>
         <source>5B币券</source>
         <translation>5 CNY monthly</translation>
     </message>
     <message>
-        <location filename="fgoGui.py" line="221"/>
+        <location filename="fgoGui.py" line="225"/>
         <source>充电</source>
         <translation>charge</translation>
     </message>
@@ -478,19 +478,33 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <location filename="fgoMainWindow.ui" line="0"/>
-        <source>经典战斗</source>
-        <translation>Classic battle</translation>
-    </message>
-    <message>
-        <location filename="fgoMainWindow.ui" line="0"/>
         <source>在关卡列表界面将要刷的关卡置于第一个来清空体力</source>
-        <translation>Place the level you need at the first to empty AP gauge</translation>
+        <translation>Place the level you need at the first to clear AP gauge</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
         <source>肝!</source>
         <translation>Start!</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>完成当前战斗</source>
+        <translation>Complete current battle</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>完成战斗</source>
+        <translation>Battle</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>基于经典战斗的清空体力</source>
+        <translation>Clear your AP gauge based on classic battles</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>陈年老肝</source>
+        <translation>Classic</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
@@ -534,7 +548,6 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <location filename="fgoMainWindow.ui" line="0"/>
         <source>关于</source>
         <translation>About</translation>
     </message>
@@ -562,6 +575,11 @@
         <location filename="fgoMainWindow.ui" line="0"/>
         <source>设置</source>
         <translation>Settings</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>关于FGO-py</source>
+        <translation>About FGO-py</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
