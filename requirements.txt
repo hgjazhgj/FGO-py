@@ -1,5 +1,5 @@
 airtest
 PySide6
+tqdm
 Flask
-paddlepaddle
-paddleocr
+pponnxcr

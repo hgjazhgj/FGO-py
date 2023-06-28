@@ -104,7 +104,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isBattleContinue(self):return self._compare(self.tmpl.BATTLECONTINUE,(704,530,976,601))
     def isBattleDefeated(self):return self._compare(self.tmpl.DEFEATED,(603,100,690,176))
     def isBattleFinished(self):return self._compare(self.tmpl.DROPITEM,(110,30,264,76))
-    def isChooseFriend(self):return self._compare(self.tmpl.CHOOSEFRIEND,(1189,186,1210,235))
+    def isChooseFriend(self):return self._compare(self.tmpl.CHOOSEFRIEND,(1189,190,1210,243))
     def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(self.tmpl.CHARASEALED,self.tmpl.CARDSEALED))for i in range(5)]
     def isFpContinue(self):return self._compare(self.tmpl.FPCONTINUE,(646,639,883,707))
     def isFpSummon(self):return self._compare(self.tmpl.FPSUMMON,(643,20,812,67))
@@ -126,7 +126,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isSummonHistoryListEnd(self):return self._isListEnd((1142,552))
     def isSynthesisBegin(self):return self._compare(self.tmpl.SYNTHESIS,(16,12,112,73))
     def isSynthesisFinished(self):return self._compare(self.tmpl.DECIDEDISABLED,(1035,625,1275,711))
-    def isTurnBegin(self):return self._compare(self.tmpl.ATTACK,(1064,621,1224,710))
+    def isTurnBegin(self):return self._compare(self.tmpl.ATTACK,(1155,635,1210,682))
     @retryOnError()
     def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
     def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((self.tmpl.CRITICAL1,self.tmpl.CRITICAL2,self.tmpl.CRITICAL3,self.tmpl.CRITICAL4,self.tmpl.CRITICAL5,self.tmpl.CRITICAL6,self.tmpl.CRITICAL7,self.tmpl.CRITICAL8,self.tmpl.CRITICAL9,self.tmpl.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]

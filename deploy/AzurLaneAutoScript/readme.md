@@ -2,9 +2,7 @@
 
 > 在[AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript)中使用FGO-py!  
 
-此处定义了Alas会以何种方式启动与停止FGO-py  
-你需要在Alas的配置文件中指定这个这个deploy/Alas目录的位置  
-你可以把这个子目录拷贝至其他位置方便分布式部署  
+此处用于定义Alas会以何种方式启动与停止FGO-py,你需要根据你自己的环境创建这些文件  
 **这些命令在Windows下具有`PATHEXT`中的任一扩展名,在Linux下具有可执行权限**  
 
 `launch`是启动命令,必须  
@@ -27,4 +25,5 @@ ssh hgjazhgj@raspberrypi -o StrictHostKeyChecking=no "sudo docker run -v ~/hgjaz
 ssh hgjazhgj@raspberrypi -o StrictHostKeyChecking=no "sudo docker stop fgo-py"
 ```
 
-此外,如果你像我一样在不同的机器上部署Alas和FGO-py,那么你需要将这个deploy/Alas目录拷贝到Alas可访问的位置  
+此外,你可以把这个子目录拷贝至其他位置方便分布式部署  
+如果你像我一样在不同的机器上部署Alas和FGO-py,那么你需要将这个deploy/Alas目录拷贝到Alas可访问的位置  
