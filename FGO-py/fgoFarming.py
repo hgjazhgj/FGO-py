@@ -18,6 +18,7 @@ priority={
 }
 
 def farming():
+    if Detect.region!='CN':return 0
     if not Detect().isMainInterface():
         logger.critical('Not in main interface, farming aborted')
         return 0
@@ -33,8 +34,8 @@ def farming():
         for res in ocr:
             text=res.ocr_text
             if '归还' in text or '还需' in text:
-                text=text.replace('：',':')
                 logger.info(f'Running: {text}')
+                text=text.replace('：',':').replace('::',':')
                 m=re.search(r'(\d?\d):(\d\d):(\d\d)',text)
                 if m is None:
                     logger.warning(f'OCR failed: {text}')
