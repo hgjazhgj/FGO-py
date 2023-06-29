@@ -20,9 +20,3 @@ def runOnce(config):
     logger.error('Please restart FGO-py manually to complete the upgrade.')
     return True
 
-@regRunOnce
-def v18_3_0(config):
-    from paddleocr import PaddleOCR
-    PaddleOCR(lang='en')
-    PaddleOCR(lang='ch')
-    PaddleOCR(lang='japan')
