@@ -20,3 +20,7 @@ def runOnce(config):
     logger.error('Please restart FGO-py manually to complete the upgrade.')
     return True
 
+@regRunOnce
+def v18_5_0(config):
+    config.farming=True
+    logger.warning('Event farming enabled!')

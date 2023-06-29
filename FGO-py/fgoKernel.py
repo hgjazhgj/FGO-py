@@ -57,13 +57,14 @@ class Farming:
         self.logger=getLogger('Farming')
         self.stop=False
     def __call__(self):
+        time.sleep(100)
         while not self.stop:
-            time.sleep(120)
             if not fgoDevice.device.available:continue
-            self.run()
+            time.sleep(self.run()+30)
     @serialize(mutex)
     def run(self):
-        ...
+        from fgoFarming import farming
+        return farming()
 farming=Farming()
 threading.Thread(target=farming,daemon=True,name='Farming').start()
 def setup():

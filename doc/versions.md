@@ -1,5 +1,9 @@
 # 版本记录 Version Log
 
+## 2023/06/30 v18.5.0
+
+Add:南溟弓张八犬传活动收菜  
+
 ## 2023/06/28 v18.4.0
 
 Add:[pponnxcr](https://github.com/hgjazhgj/pponnxcr)  
