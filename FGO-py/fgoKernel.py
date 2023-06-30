@@ -64,7 +64,11 @@ class Farming:
     @serialize(mutex)
     def run(self):
         from fgoFarming import farming
-        return farming()
+        try:
+            return farming()
+        except Exception as e:
+            logger.exception(e)
+            return 0
 farming=Farming()
 threading.Thread(target=farming,daemon=True,name='Farming').start()
 def setup():
