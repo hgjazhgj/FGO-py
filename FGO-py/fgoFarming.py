@@ -12,9 +12,21 @@ from fgoLogging import getLogger,logit
 logger=getLogger("Farming")
 
 priority={
-    '野原':2,
-    '森林':1,
-    '山岳':9,
+    '野原':587,# 锁链
+    '森林':456,# 箭头
+    '山岳':1,# 狗粮
+    '城邑':606,# 勾玉
+    '洞':60,# 洞窟 铁钉
+    '雪原':143,# 结冰
+    '丛林':280,# 树种
+    '沙漠':321,# 甲虫
+    '赌场':999,# QP
+    '火山':437,# 指环
+    '海底':420,# 灵子
+    '歌舞伎町':597,# 髓液
+    '阎魔亭':501,# 神酒
+    '邪马台':257,# 火灯
+    '姬路城':301,# 龙鳞
 }
 
 def farming():
@@ -33,34 +45,39 @@ def farming():
     commissions=set()
     remain=21600 # 6 hours
     length=0
-    while not Detect(.5)._isListEnd((1261,608)):
-        img=Detect.cache._crop((717,239,1111,600))
+    while True:
+        img=Detect(.5)._crop((717,239,1111,600))
         ocr=OCR.ZH.detect_and_ocr(img)
         for res in ocr:
             text=res.ocr_text
             if '归还' in text or '还需' in text:
                 logger.info(f'Running: {text}')
-                text=text.replace('：',':').replace('::',':')
-                m=re.search(r'(\d?\d):(\d\d):(\d\d)',text)
+                text=text.replace('：','').replace(':','')
+                m=re.search(r'(\d?\d)(\d\d)(\d\d)',text)
                 if m is None:
                     logger.warning(f'OCR failed: {text}')
                     continue
                 remain=min(remain,reduce(lambda x,y:x*60+y,(int(i)for i in m.groups())))
                 continue
             if '远征' in text:
-                commissions.add(text[3:-1])
+                text=text[3:-1]
+                if text.startswith('洞'):
+                    text='洞'
+                commissions.add(text)
                 continue
-        fgoDevice.device.swipe((800,600,800,300))
+        if Detect.cache._isListEnd((1261,608)):
+            break
+        fgoDevice.device.swipe((625,400,625,100))
         length+=1
     commissions=sorted(commissions,key=lambda x:priority.get(x,999))
     logger.info(f'Commission: {commissions}')
     while commissions:
         commission=commissions.pop(0)
         for _ in range(length+2):
-            fgoDevice.device.swipe((800,300,800,600))
+            fgoDevice.device.swipe((625,300,625,600))
             schedule.sleep(.5)
-        while not Detect(.5)._isListEnd((1261,608)):
-            img=Detect.cache._crop((717,239,1111,600))
+        while True:
+            img=Detect(.5)._crop((717,239,1111,600))
             ocr=OCR.ZH.detect_and_ocr(img)
             for res in ocr:
                 text=res.ocr_text
@@ -68,7 +85,9 @@ def farming():
                 if commission in text:
                     break
             else:
-                fgoDevice.device.swipe((800,600,800,300))
+                fgoDevice.device.swipe((625,400,625,100))
+                if Detect.cache._isListEnd((1261,608)):
+                    break
                 continue
             break
         fgoDevice.device.touch(numpy.mean(box,axis=0).astype(int)+numpy.array([717,239],dtype=int))
@@ -100,7 +119,7 @@ def farming():
             schedule.sleep(.5)
     fgoDevice.device.perform('\x67',(2000,))
     while not Detect(.2).isMainInterface():pass
-    logger.info(f'Remain: {divmod(remain,60)}')
+    logger.info(f'Remain: ({remain//3600}, {remain%3600//60}, {remain%60})')
     return remain
 
 if __name__=='__main__':
