@@ -34,7 +34,7 @@ def farming():
     assert Detect().isMainInterface()
     fgoDevice.device.perform('\x08',(1000,))
     while not Detect(.2).isMainInterface():pass
-    fgoDevice.device.perform('\xBA',(1000,))
+    fgoDevice.device.perform('\xBA',(2000,))
 
     fgoDevice.device.touch((1190,200))
     schedule.sleep(.5)
