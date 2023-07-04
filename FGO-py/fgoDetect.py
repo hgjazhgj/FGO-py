@@ -219,5 +219,5 @@ class Detect(XDetect):provider={'CN':DetectCN,'JP':DetectJP}
 def setup(device):
     XDetectBase.screenshot=device.screenshot
     if not hasattr(device,'package'):return
-    logger.warning(f'Package: {device.package}, Region: {PACKAGE_TO_REGION[device.package]}')
-    XDetect.region=PACKAGE_TO_REGION[device.package]
+    XDetect.region=PACKAGE_TO_REGION.get(device.package,'CN')
+    logger.warning(f'Package: {device.package}, Region: {XDetect.region}')

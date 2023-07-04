@@ -1,9 +1,6 @@
 name: Gitee Mirror on Push
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'master'
 jobs:
   main:
     name: Gitee Mirror on Push
