@@ -34,11 +34,11 @@ def farming():
     assert Detect().isMainInterface()
     fgoDevice.device.perform('\x08',(1000,))
     while not Detect(.2).isMainInterface():pass
-    fgoDevice.device.perform('\xBA',(2000,))
+    fgoDevice.device.perform('\xBA',(3000,))
 
     fgoDevice.device.touch((1190,200))
     schedule.sleep(.5)
-    for _ in range(10):
+    for _ in range(15):
         fgoDevice.device.touch((548,638))
         schedule.sleep(.5)
 
@@ -114,7 +114,7 @@ def farming():
         schedule.sleep(.3)
         fgoDevice.device.touch((840,616))
         schedule.sleep(.5)
-        for _ in range(5):
+        for _ in range(10):
             fgoDevice.device.touch((548,638))
             schedule.sleep(.5)
     fgoDevice.device.perform('\x67',(2000,))
