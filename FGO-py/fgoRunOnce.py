@@ -21,6 +21,6 @@ def runOnce(config):
     return True
 
 @regRunOnce
-def v18_5_0(config):
-    config.farming=True
-    logger.warning('Event farming enabled!')
+def v18_6_0(config):
+    config.farming=False
+    logger.warning('Event farming disabled!')
