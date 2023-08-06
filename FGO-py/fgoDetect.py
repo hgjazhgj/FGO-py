@@ -12,6 +12,7 @@ IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'f
 for i in range(3):setattr(IMG,f'CHARGE{i}_SMALL',[cv2.resize(i,(0,0),fx=.77,fy=.77,interpolation=cv2.INTER_CUBIC)for i in getattr(IMG,f'CHARGE{i}')])
 IMG_CN=type('IMG_CN',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/cn/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/cn')if i.endswith('.png')})
 IMG_JP=type('IMG_JP',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/jp/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/jp')if i.endswith('.png')})
+IMG_NA=type('IMG_NA',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/na/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/na')if i.endswith('.png')})
 CLASS={100:[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in['shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender','beast']for j in range(3)]}
 for scale in [75,93,125]:CLASS[scale]=[[cv2.resize(j,(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
 MATERIAL=[(i[:-4],cv2.imread(f'fgoImage/material/{i}'))for i in os.listdir('fgoImage/material')if i.endswith('.png')]
@@ -109,7 +110,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isFpContinue(self):return self._compare(self.tmpl.FPCONTINUE,(646,639,883,707))
     def isFpSummon(self):return self._compare(self.tmpl.FPSUMMON,(643,20,812,67))
     def isFriendListEnd(self):return self._isListEnd((1255,709))
-    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172,515+231*i,258),.52)for j in(self.tmpl.HOUGUSEALED,self.tmpl.CHARASEALED,self.tmpl.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),type(self)())[1]if that is None else that)
+    def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,172 if XDetect.region != 'NA' else 194,515+231*i,258),.52)for j in(self.tmpl.HOUGUSEALED,self.tmpl.CHARASEALED,self.tmpl.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),type(self)())[1]if that is None else that)
     def isLotteryContinue(self):return self._watchLottery.send(self)
     def isMailDone(self):return self._watchMailDone.send(self)
     def isMainInterface(self):return self._compare(self.tmpl.MENU,(1104,613,1267,676))
@@ -188,6 +189,9 @@ class XDetectCN(XDetectBase,metaclass=logMeta(logger)):
 class XDetectJP(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_JP
     ocr=OCR.JA
+class XDetectNA(XDetectBase,metaclass=logMeta(logger)):
+    tmpl=IMG_NA
+    ocr=OCR.EN
 class DetectBase(XDetectBase,metaclass=logMeta(logger)):
     def __init__(self,anteLatency=.1,postLatency=0):
         schedule.sleep(anteLatency)
@@ -207,15 +211,16 @@ class DetectBase(XDetectBase,metaclass=logMeta(logger)):
             p=yield t
 class DetectCN(DetectBase,XDetectCN,metaclass=logMeta(logger)):pass # mro: DetectCN->DetectBase->XDetectCN->XDetectBase->object
 class DetectJP(DetectBase,XDetectJP,metaclass=logMeta(logger)):pass
+class DetectNA(DetectBase,XDetectNA,metaclass=logMeta(logger)):pass
 class XDetect:
-    provider={'CN':XDetectCN,'JP':XDetectJP}
+    provider={'CN':XDetectCN,'JP':XDetectJP,'NA':XDetectNA}
     region=''
     cache=None
     def __new__(cls,*args,**kwargs):
         if cls.region:cls.cache=cls.provider[cls.region](*args,**kwargs)
         else:cls.cache=XDetectBase(*args,**kwargs)
         return cls.cache
-class Detect(XDetect):provider={'CN':DetectCN,'JP':DetectJP}
+class Detect(XDetect):provider={'CN':DetectCN,'JP':DetectJP, 'NA':DetectNA}
 def setup(device):
     XDetectBase.screenshot=device.screenshot
     if not hasattr(device,'package'):return
