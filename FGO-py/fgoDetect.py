@@ -192,7 +192,8 @@ class XDetectJP(XDetectBase,metaclass=logMeta(logger)):
 class XDetectNA(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_NA
     ocr=OCR.EN
-    def isHouguReady(self, that=None): return (lambda that: [not any(that._compare(j, (313 + 231 * i,194, 515 + 231 * i, 258), .52) for j in (self.tmpl.HOUGUSEALED, self.tmpl.CHARASEALED, self.tmpl.CARDSEALED)) and (numpy.mean(self._crop((144 + 319 * i, 679, 156 + 319 * i, 684))) > 55 or numpy.mean(that._crop((144 + 319 * i, 679, 156 + 319 * i, 684))) > 55) for i in range(3)])((time.sleep(.15), type(self)())[1] if that is None else that)
+    def isHouguReady(self, that=None): return (lambda that: [not any(that._compare(j,(313+231*i,194,515+231*i,270),.52) for j in (self.tmpl.HOUGUSEALED, self.tmpl.CHARASEALED, self.tmpl.CARDSEALED)) and (numpy.mean(self._crop((144 + 319 * i, 679, 156 + 319 * i, 684))) > 55 or numpy.mean(that._crop((144 + 319 * i, 679, 156 + 319 * i, 684))) > 55) for i in range(3)])((time.sleep(.15), type(self)())[1] if that is None else that)
+    def isSkillReady(self, i, j): return not self._compare(self.tmpl.STILL, (41 + 318 * i + 88 * j, 607, 74 + 318 * i + 88 * j, 614), .6)
 class DetectBase(XDetectBase,metaclass=logMeta(logger)):
     def __init__(self,anteLatency=.1,postLatency=0):
         schedule.sleep(anteLatency)
