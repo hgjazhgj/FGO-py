@@ -1,5 +1,10 @@
 # 版本记录 Version Log
 
+## 2023/08/03 v18.7.0
+
+Add:NA server support
+Fix:SummonHistory  
+
 ## 2023/07/26 v18.6.0
 
 Del:南溟弓张八犬传活动收菜  
@@ -81,7 +86,7 @@ Del:old alas connector
 
 18 meaning I18N  
 Add:I18N  
-版本12将会添加多语言支持  
+版本18将会添加多语言支持  
 Gui界面语言现已支持英语与日语  
 游戏语言将会支持日语  
 

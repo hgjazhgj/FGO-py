@@ -17,6 +17,6 @@ Fuse*.png
 Capture*.png
 SpecialDrop*.png
 Screenshot*.png
-SummonHistory*.png
+SummonHistory(*.png
 Log*.txt
 fgoConfig.json

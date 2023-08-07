@@ -131,7 +131,7 @@ def summonHistory():
         Detect().getSummonHistory()
     fgoDevice.device.swipe((930,500,930,200))
     Detect().getSummonHistory()
-    summonHistory.result={'type':'SummonHistory'}|dict(zip(('value','file'),Detect.saveSummonHistory()))
+    summonHistory.result={'type':'SummonHistory'}|dict(zip(('value','file'),Detect.cache.saveSummonHistory()))
 @serialize(mutex)
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True

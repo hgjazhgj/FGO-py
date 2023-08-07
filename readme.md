@@ -1,5 +1,6 @@
 > 已添加南溟弓张八犬传活动远征收菜  
 > 已添加日服支持  
+> 已添加美服支持([#111](https://github.com/hgjazhgj/FGO-py/pull/111))
 
 热烈庆祝本项目于2022年8月5日荣登GitHub中文趋势Python语言日榜与同期周榜第3名!  
 同期中文趋势全语言周榜第23名  
@@ -56,7 +57,7 @@ B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B�
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 项目官网:[https://fgo-py.hgjazhgj.top/](https://fgo-py.hgjazhgj.top/)  
-适用于命运-冠位指定安卓简体中文以及日本语版本  
+适用于命运-冠位指定安卓简体中文/日本语/英语版本  
 
 # 警告 Warning
 
@@ -123,6 +124,7 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 ### 非16:9屏幕 Non 16:9 display
 
 尝试使用ui中的「控制-全面屏适配-调整为16:9」功能,以及cli中的`169`命令  
+启动游戏 - 连接到设备 - 关闭游戏 - 调整分辨率 - 启动游戏 - 重新连接到设备  
 由于长宽比小于16:9的屏幕的游戏画面上下方仍为蓝边可以如同全面屏适配前一般使用,所以只有长宽比大于16:9的屏幕才需要此操作  
 在fgo中热更改分辨率会有奇怪的布局bug,所以你需要在运行游戏后登录完成前执行这些命令  
 在我的手机(OnePlus 8 Pro和RedMi 8A)上大概是这么个效果,**其它手机具体表现如何我也不清楚**:  
@@ -135,7 +137,6 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 
 ### 直接在手机上运行 Run with Android
 
-此部分已过时,适用于v18.2.0或更早的版本  
 有一些软件能在Android手机上提供Linux环境,比如[AidLux](http://www.aidlearning.net/)([GitHub](https://github.com/aidlearning/AidLearning-Framework)),类似于Android Subsystem for Linux(我愿称之为ASL)  
 相较于[Termux](https://termux.com/)等模拟终端,AidLux自带了编译好的opencv等基础库,避免了ARM处理器上的各种问题,故以此为基础搭建FGO-py环境,具体搭建方式于通常Linux无异,可参考`AidLux.sh`,此方案已在多机型上被验证为可行,我现在用得很舒服  
 当然Qt的UI多半是没有的,此时你只能使用文本交互方式运行本项目,这就体现出web ui的优越性了  
@@ -246,10 +247,8 @@ v9.1及更早版本提供的需要配置的战斗,不建议在以下之外的场
 
 # 计划中的功能 Next Features
 
-Upd:日服的宝具封印/行动不能/指令卡封印  
-Fix(?):isChooseFriend存在系统助战时  
+Upd:外服的宝具封印/行动不能/指令卡封印  
 Opt:利用宝具的首卡染色或色卡三连  
-~~Add:御主技能识别与施放~~  
 Add:游戏启动与闪退重启  
 Add:每周任务  
 Add:onepush  

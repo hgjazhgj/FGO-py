@@ -26,7 +26,7 @@ def countdown(x):
 
 class Cmd(cmd.Cmd,metaclass=lambda name,bases,attrs:type(name,bases,{i:wrapTry(j)if i.startswith('do_')else j for i,j in attrs.items()})):
     intro=f'''
-FGO-py {fgoKernel.__version__}, Copyright (c) 2019-2022 hgjazhgj
+FGO-py {fgoKernel.__version__}, Copyright (c) 2019-2023 hgjazhgj
 
 Connect device first, then type main to empty your AP gauge.
 Type help or ? to list commands, help <command> to get more information.
