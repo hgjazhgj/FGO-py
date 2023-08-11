@@ -1,5 +1,9 @@
 # 版本记录 Version Log
 
+## 2023/08/11 v18.7.1
+
+Fix:[issue #113](https://github.com/hgjazhgj/FGO-py/issues/113)  
+
 ## 2023/08/03 v18.7.0
 
 Add:NA server support

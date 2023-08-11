@@ -44,7 +44,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
             ('notifyEnable',self.MENU_CONTROL_NOTIFY,None),
         ]:
             value=self.config[key]
-            getattr(ui,{bool:'triggered',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect(lambda x,key=key:(self.config.__setitem__(key,x),callback(x)if callable(callback) else None))
+            getattr(ui,{bool:'toggled',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect((lambda x,key=key,callback=callback:(self.config.__setitem__(key,x),callback(x)))if callback else(lambda x,key=key:self.config.__setitem__(key,x)))
             getattr(ui,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
         self.notifier=[ServerChann(**i)for i in self.config.notifyParam]
         self.connectDevice()
