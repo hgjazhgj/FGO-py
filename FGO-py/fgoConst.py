@@ -44,5 +44,6 @@ PACKAGE_TO_REGION={
 'com.aniplex.fategrandorder':'JP',
 'com.aniplex.fategrandorder.en':'NA',
 'com.aniplex.fategrandorder.tw':'TW',
+'com.xiaomeng.fategrandorder':'TW', 
 'com.aniplex.fategrandorder.kr':'KR',
 }
