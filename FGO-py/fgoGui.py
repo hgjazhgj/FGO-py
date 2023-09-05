@@ -178,6 +178,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         try:fgoKernel.Detect(0).show()
         except Exception as e:logger.exception(e)
     def explorerHere(self):os.startfile('.') if platform.system()=="Windows" else os.system("xdg-open .") if platform.system() == "Linux" else os.system("open .")
+    def explorerHere(self):os.startfile('.') if platform.system()=="Windows" else os.system("xdg-open .") if platform.system() == "Linux" else os.system("open .")
     def runFpSummon(self):self.runFunc(fgoKernel.fpSummon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)
