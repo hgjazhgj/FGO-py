@@ -427,8 +427,9 @@ class BattleStory(Battle):
                 schedule.checkDefeated()
                 return False
             #add some conditions appeared when running story mode
+            elif Detect.cache.isSupportPage():return True
             elif Detect.cache.isSkipExist():fgoDevice.device.perform('\x08K',(1000,3000))
-            self.click.clickCloseButton()
+            self.click.clickClose()
             self.click.clickNext()
             self.click.clickNextStep()
             fgoDevice.device.perform('\xBB\x08',(100,100))
@@ -575,9 +576,10 @@ class MainStory(Main):
                 elif Detect.cache.isSupportPage():self.chooseFriend()
                 # elif Detect.cache.isBattleDefeated():fgoDevice.device.perform('CIK',(500,500,500))
                 self.click.clickNext()
-                self.click.clickStartButton()
+                self.click.clickStart()
                 self.click.clickNextStep()
-                self.click.clickCloseButton()
+                self.click.clickClose()
+                self.click.clickCross()
                 fgoDevice.device.press('\xBB')
                 # fgoDevice.device.press('\x08')
             self.battleCount+=1
@@ -601,10 +603,10 @@ class MainStory(Main):
         refreshCount=0
         while not Detect(0,.3).isChooseFriend():
             self.click = Click()
-            # if True in [self.click.clickCloseButton(),self.click.clickNext(),self.click.clickStartButton(),self.click.clickNextStep()]:
+            # if True in [self.click.clickClose(),self.click.clickNext(),self.click.clickStart(),self.click.clickNextStep()]:
             #     continue
-            if self.click.clickCloseButton():continue
-            if self.click.clickStartButton():continue
+            if self.click.clickClose():continue
+            if self.click.clickStart():continue
             elif self.click.clickNext():continue
             elif self.click.clickNextStep():continue
             elif Detect.cache.isBattleBegin():return
@@ -654,9 +656,10 @@ class Click:
             return True
         else:
             return False
-    def clickNext(self):return self.clickTemplate(Detect.cache.isNextExist,self.clickPosNext,message='Next exist, touch it to continue story...')
-    def clickNextStep(self):return self.clickTemplate(Detect.cache.isNextStep,self.clickPosCenter)
-    def clickCloseButton(self):return self.clickTemplate(Detect.cache.isCloseButton,self.clickPosCenter)
-    def clickStartButton(self):return self.clickTemplate(Detect.cache.isStartButton,self.clickPosCenter)
+    def clickNext(self):return self.clickTemplate(Detect.cache.getNextLoc,self.clickPosNext,message='Next exist, touch it to continue story...')
+    def clickNextStep(self):return self.clickTemplate(Detect.cache.getNextStepLoc,self.clickPosCenter)
+    def clickClose(self):return self.clickTemplate(Detect.cache.getCloseLoc,self.clickPosCenter)
+    def clickStart(self):return self.clickTemplate(Detect.cache.getStartLoc,self.clickPosCenter)
     def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+50))
     def clickPosCenter(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]/2))
+    def clickCross(self):return self.clickTemplate(Detect.cache.getCrossLoc,self.clickPosCenter)
