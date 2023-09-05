@@ -144,6 +144,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getNextStepLoc(self): return (self._loc(self.tmpl.ADDFRIEND)[2],self.tmpl.ADDFRIEND[1].shape) if self._compare(self.tmpl.ADDFRIEND,(940,590,1280,720)) else False
     def getStartLoc(self):return (self._loc(self.tmpl.STARTBUTTON)[2],self.tmpl.STARTBUTTON[1].shape) if self._compare(self.tmpl.STARTBUTTON) else False
     def getCrossLoc(self):return (self._loc(self.tmpl.CROSS)[2],self.tmpl.CROSS[1].shape) if self._compare(self.tmpl.CROSS,threshold=0.1) else False
+    def getStartQuest(self):return (self._loc(self.tmpl.STARTQUEST)[2],self.tmpl.STARTQUEST[1].shape) if self._compare(self.tmpl.STARTQUEST,threshold=0.1) else False
     @retryOnError()
     def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
     def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((self.tmpl.CRITICAL1,self.tmpl.CRITICAL2,self.tmpl.CRITICAL3,self.tmpl.CRITICAL4,self.tmpl.CRITICAL5,self.tmpl.CRITICAL6,self.tmpl.CRITICAL7,self.tmpl.CRITICAL8,self.tmpl.CRITICAL9,self.tmpl.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
