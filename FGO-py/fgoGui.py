@@ -98,6 +98,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_MAIN.setEnabled(False)
         self.BTN_BATTLE.setEnabled(False)
         self.BTN_CLASSIC.setEnabled(False)
+        self.BTN_STORY.setEnabled(False)
         self.BTN_PAUSE.setEnabled(True)
         self.BTN_PAUSE.setChecked(False)
         self.BTN_STOP.setEnabled(True)
@@ -110,6 +111,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_MAIN.setEnabled(True)
         self.BTN_BATTLE.setEnabled(True)
         self.BTN_CLASSIC.setEnabled(True)
+        self.BTN_STORY.setEnabled(True)
         self.BTN_PAUSE.setEnabled(False)
         self.BTN_STOP.setEnabled(False)
         self.BTN_STOPLATER.setChecked(False)
@@ -157,6 +159,10 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
     def runClassic(self):
         if not Teamup(self).exec():return
         self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)))
+    def runStory(self):
+        if not Teamup(self).exec():return
+        self.runFunc(fgoKernel.MainStory(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),lambda:fgoKernel.BattleStory(fgoKernel.Turn)))
+
     def pause(self,x):
         if not x and not self.isDeviceAvailable():return self.BTN_PAUSE.setChecked(True)
         fgoKernel.schedule.pause()
@@ -171,7 +177,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         if not self.isDeviceAvailable():return
         try:fgoKernel.Detect(0).show()
         except Exception as e:logger.exception(e)
-    def explorerHere(self):os.startfile('.')
+    def explorerHere(self):os.startfile('.') if platform.system()=="Windows" else os.system("xdg-open .") if platform.system() == "Linux" else os.system("open .")
     def runFpSummon(self):self.runFunc(fgoKernel.fpSummon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)

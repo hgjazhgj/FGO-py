@@ -508,6 +508,16 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
+        <source>推图用的模式</source>
+        <translation>mode for running main storyline</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>推图模式</source>
+        <translation>StoryMode</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
         <source>暂停/继续战斗</source>
         <translation>Pause/resume</translation>
     </message>

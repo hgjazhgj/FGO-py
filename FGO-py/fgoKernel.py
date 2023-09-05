@@ -397,6 +397,41 @@ class Battle:
             'time':time.time()-self.start,
             'material':self.material,
         }
+class BattleStory(Battle):
+    def __init__(self, turnClass=Turn):
+        super().__init__(turnClass)
+    def __call__(self):
+        self.start=time.time()
+        self.material={}
+        while True:
+            self.click = Click()
+            if Detect(0,.3).isTurnBegin():
+                self.turn+=1
+                self.turnProc(self.turn)
+            elif Detect.cache.isSpecialDropSuspended():
+                schedule.checkKizunaReisou()
+                logger.warning('Kizuna Reisou')
+                Detect.cache.save('fgoLog/SpecialDrop')
+                fgoDevice.device.press('\x1B')
+            elif not self.rainbowBox and Detect.cache.isSpecialDropRainbowBox():self.rainbowBox=True
+            elif Detect.cache.isBattleFinished():
+                logger.info('Battle Finished')
+                self.material=Detect(.4).getMaterial()
+                if self.rainbowBox:
+                    logger.warning('Special Drop')
+                    schedule.checkSpecialDrop()
+                    Detect.cache.save('fgoLog/SpecialDrop')
+                return True
+            elif Detect.cache.isBattleDefeated():
+                logger.warning('Battle Defeated')
+                schedule.checkDefeated()
+                return False
+            #add some conditions appeared when running story mode
+            elif Detect.cache.isSkipExist():fgoDevice.device.perform('\x08K',(1000,3000))
+            self.click.clickCloseButton()
+            self.click.clickNext()
+            self.click.clickNextStep()
+            fgoDevice.device.perform('\xBB\x08',(100,100))
 class Main:
     teamIndex=0
     def __init__(self,appleTotal=0,appleKind=0,battleClass=Battle):
@@ -495,3 +530,120 @@ class Main:
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
+
+class MainStory(Main):
+    def __init__(self, appleTotal=0, appleKind=0, battleClass=Battle):
+        super().__init__(appleTotal, appleKind, battleClass)
+    @serialize(mutex)
+    def __call__(self):
+        self.start=time.time()
+        self.material={}
+        self.battleTurn=0
+        self.battleTime=0
+        self.defeated=0
+        while True:
+            # if Detect(.3,.3).isSkipExist():
+            #     fgoDevice.device.perform('\x08K',(1000,3000))
+            #     logger.info(f'Skip exist, press skip.')
+            self.battleProc=self.battleClass()
+            self.click = Click()
+            # self.clicknextcount = 0
+            while True:
+                if Detect(.3,.3).isMainInterface():
+                    # fgoDevice.device.press('8')
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
+                    # while n:=self.chooseNext():continue # choose next until next not appear
+                    self.chooseFriend()
+                    t = time.time()
+                    while not Detect(0,.3).isBattleBegin() and time.time()-t<5:timeout=time.time()-t<5
+                    if timeout:continue
+                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
+                    fgoDevice.device.perform(' M ',(2000,2000,3000))
+                    break
+                elif Detect.cache.isBattleContinue():
+                    fgoDevice.device.press('L')
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
+                    self.click.clickNext()
+                    self.chooseFriend()
+                    schedule.sleep(6)
+                    break
+                elif Detect.cache.isTurnBegin():break
+                elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
+                elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
+                elif Detect.cache.isSkipExist():fgoDevice.device.perform('\x08K',(300,300))
+                elif Detect.cache.isBattleBegin(): fgoDevice.device.perform(' ',(300,))
+                elif Detect.cache.isSupportPage():self.chooseFriend()
+                # elif Detect.cache.isBattleDefeated():fgoDevice.device.perform('CIK',(500,500,500))
+                self.click.clickNext()
+                self.click.clickNextStep()
+                self.click.clickCloseButton()
+                # fgoDevice.device.press('\xBB')
+                fgoDevice.device.press('\x08')
+            self.battleCount+=1
+            logger.info(f'Battle {self.battleCount}')
+            if state:=self.battleProc():
+                battleResult=self.battleProc.result
+                self.battleTurn+=battleResult['turn']
+                self.battleTime+=battleResult['time']
+                self.material={i:self.material.get(i,0)+battleResult['material'].get(i,0)for i in self.material|battleResult['material']}
+                fgoDevice.device.perform(' '*10,(400,)*10)
+            elif state==None:
+                logger.warning(f"next appear in battle progress, reset battle and battle result maybe affected...")
+                self.battleCount-=1
+            else:
+                self.defeated+=1
+                fgoDevice.device.perform('CIK',(500,500,500))
+            schedule.checkStopLater()
+    @logit(logger,logging.INFO)
+    def chooseFriend(self):
+        refresh=False
+        while not Detect(0,.3).isChooseFriend():
+            self.click = Click()
+            if self.click.clickCloseButton():continue
+            elif self.click.clickNext():continue
+            elif self.click.clickNextStep():continue
+            elif Detect.cache.isBattleBegin():return
+            if not Detect.cache.isSupportPage():return
+            if Detect.cache.isNoFriend():
+                if refresh:schedule.sleep(10)
+                fgoDevice.device.perform('\xBAK',(500,1000))
+                refresh=True
+        if not friendImg.flush():return fgoDevice.device.press('8')
+        while True:
+            timer=time.time()
+            while True:
+                for i in(i for i,j in friendImg.items()if(lambda pos:pos and(fgoDevice.device.touch(pos),True)[-1])(Detect.cache.findFriend(j))):
+                    ClassicTurn.friendInfo=(lambda r:(lambda p:[
+                        [[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],
+                        [-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)],
+                    ])(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i.replace('-','')[-14:].upper()))
+                    return i
+                if Detect.cache.isFriendListEnd():break
+                fgoDevice.device.swipe((400,600,400,200))
+                Detect(.4)
+            if refresh:schedule.sleep(max(0,timer+10-time.time()))
+            fgoDevice.device.perform('\xBAK',(500,1000))
+            refresh=True
+            while not Detect(.2).isChooseFriend():
+                if Detect.cache.isNoFriend():
+                    schedule.sleep(10)
+                    fgoDevice.device.perform('\xBAK',(500,1000))
+
+class Click:
+    def __init__(self):
+        Detect(.1)
+    def clickTemplate(self,detectMethod,clickPosMethod,message="",interval=0.3):
+        if p:=detectMethod():
+            pos,shape = p
+            pos = clickPosMethod(pos,shape)
+            fgoDevice.device.touch(pos)
+            if message != "":logger.info(message)
+            schedule.sleep(interval)
+            return True
+        else:
+            return False
+    def clickNext(self):return self.clickTemplate(Detect.cache.getNextLoc,self.clickPosNext,message=f'Next exist, touch it to continue story...{Detect.cache.getNextLoc()}')
+    def clickNextStep(self):return self.clickTemplate(Detect.cache.getNextStepLoc,self.clickPosCenter)
+    def clickCloseButton(self):return self.clickTemplate(Detect.cache.getCloseLoc,self.clickPosCenter)
+    def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+50))
+    def clickPosCenter(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]/2))

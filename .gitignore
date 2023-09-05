@@ -20,3 +20,5 @@ Screenshot*.png
 SummonHistory(*.png
 Log*.txt
 fgoConfig.json
+# hide my debug and tweaking files to prevent contaminate the project files
+tweaks/

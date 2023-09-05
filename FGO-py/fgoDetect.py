@@ -129,8 +129,18 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isSynthesisBegin(self):return self._compare(self.tmpl.SYNTHESIS,(16,12,112,73))
     def isSynthesisFinished(self):return self._compare(self.tmpl.DECIDEDISABLED,(1035,625,1275,711))
     def isTurnBegin(self):return self._compare(self.tmpl.ATTACK,(1155,635,1210,682))
+    # addditional cond func
+    def isSkipExist(self): return self._compare(self.tmpl.SKIP,(1120,0,1280,75))
+    def getNextLoc(self): return (self._loc(self.tmpl.NEXT)[2],self.tmpl.NEXT[1].shape) if self._compare(self.tmpl.NEXT) and self.isMainInterface() else False
+    def getCloseLoc(self):return (self._loc(self.tmpl.CLOSEBUTTON)[2],self.tmpl.CLOSEBUTTON[1].shape) if self._compare(self.tmpl.CLOSEBUTTON) else False
+    def isFormation(self):return self._compare(self.tmpl.FORMATION,(1065,60,1270,85))
+    def isSupportPage(self): return self._compare(self.tmpl.TRAITLIST,(50,90,600,170))
+    def getNextStepLoc(self): return (self._loc(self.tmpl.ADDFRIEND)[2],self.tmpl.ADDFRIEND[1].shape) if self._compare(self.tmpl.ADDFRIEND,(940,590,1280,720)) else False
     @retryOnError()
-    def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
+    # def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
+    def getCardColor(self,retryCount=0,retryLimit=5):
+        p = [+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
+        return self.getCardColor(self,retryCount+1,retryLimit) if all(p) else p
     def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((self.tmpl.CRITICAL1,self.tmpl.CRITICAL2,self.tmpl.CRITICAL3,self.tmpl.CRITICAL4,self.tmpl.CRITICAL5,self.tmpl.CRITICAL6,self.tmpl.CRITICAL7,self.tmpl.CRITICAL8,self.tmpl.CRITICAL9,self.tmpl.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
     def getCardGroup(self): # When your servant and the support one has the same command card portrait, getCardGroup will see them as in the same group, which is not true and hard to fix, because the support tag on a command card might be covered when there are many buff icons. This problem causes selectCard to not provide the best solve
         universe={0,1,2,3,4}
@@ -157,10 +167,12 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(self.tmpl.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
     @validateFunc(lambda x:x!=0)
-    def getStage(self):return self._ocrInt((884,14,902,37))
+    # def getStage(self):return self._ocrInt((884,14,902,37))
+    def getStage(self,retrycount=0,retrylimit=5):return self._ocrInt((884,14,902,37)) if self._ocrInt((884,14,902,37))!=0 else self.getStage(retrycount+1,retrylimit) if retrycount < retrylimit else 1
     @retryOnError()
     @validateFunc(lambda x:x!=0)
-    def getStageTotal(self):return self._ocrInt((912,13,932,38))
+    # def getStageTotal(self):return self._ocrInt((912,13,932,38))
+    def getStageTotal(self,retrycount=0,retrylimit=5):return self._ocrInt((912,13,932,38)) if self._ocrInt((912,13,932,38))!=0 else self.getStageTotal(retrycount+1,retrylimit) if retrycount < retrylimit else 1
     def getSummonHistory(self):XDetectBase._summonHistory=numpy.vstack((XDetectBase._summonHistory,(lambda img:img[cv2.minMaxLoc(cv2.matchTemplate(img,XDetectBase._summonHistory[-80:],cv2.TM_SQDIFF_NORMED))[2][1]+80:])(cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1])))
     @classmethod
     def getSummonHistoryCount(cls):return cls.__new__(cls).inject(XDetectBase._summonHistory)._count((cls.tmpl.SUMMONHISTORY[0][...,0],cls.tmpl.SUMMONHISTORY[1]),(28,0,60,XDetectBase._summonHistory.shape[0]),.7)

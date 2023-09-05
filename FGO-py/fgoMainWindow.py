@@ -177,7 +177,12 @@ class Ui_fgoMainWindow(object):
         self.BTN_CLASSIC.setObjectName(u"BTN_CLASSIC")
         self.BTN_CLASSIC.setCursor(QCursor(Qt.PointingHandCursor))
 
+        self.BTN_STORY = QPushButton(self.widget)
+        self.BTN_STORY.setObjectName(u"BTN_STORY")
+        self.BTN_STORY.setCursor(QCursor(Qt.PointingHandCursor))
+
         self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_CLASSIC)
+        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_STORY)
 
 
         self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_BATTLE)
@@ -249,7 +254,9 @@ class Ui_fgoMainWindow(object):
         QWidget.setTabOrder(self.BTN_CONNECT, self.BTN_MAIN)
         QWidget.setTabOrder(self.BTN_MAIN, self.BTN_BATTLE)
         QWidget.setTabOrder(self.BTN_BATTLE, self.BTN_CLASSIC)
-        QWidget.setTabOrder(self.BTN_CLASSIC, self.BTN_PAUSE)
+        # QWidget.setTabOrder(self.BTN_CLASSIC, self.BTN_PAUSE)
+        QWidget.setTabOrder(self.BTN_CLASSIC, self.BTN_STORY)
+        QWidget.setTabOrder(self.BTN_STORY, self.BTN_PAUSE)
         QWidget.setTabOrder(self.BTN_PAUSE, self.BTN_STOP)
         QWidget.setTabOrder(self.BTN_STOP, self.BTN_SCREENSHOT)
         QWidget.setTabOrder(self.BTN_SCREENSHOT, self.BTN_STOPLATER)
@@ -285,6 +292,7 @@ class Ui_fgoMainWindow(object):
 
         self.retranslateUi(fgoMainWindow)
         self.BTN_CLASSIC.clicked.connect(fgoMainWindow.runClassic)
+        self.BTN_STORY.clicked.connect(fgoMainWindow.runStory)
         self.BTN_MAIN.clicked.connect(fgoMainWindow.runMain)
         self.BTN_SCREENSHOT.clicked.connect(fgoMainWindow.screenshot)
         self.BTN_PAUSE.clicked["bool"].connect(fgoMainWindow.pause)
@@ -381,6 +389,10 @@ class Ui_fgoMainWindow(object):
         self.BTN_CLASSIC.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u57fa\u4e8e\u7ecf\u5178\u6218\u6597\u7684\u6e05\u7a7a\u4f53\u529b", None))
 #endif // QT_CONFIG(statustip)
         self.BTN_CLASSIC.setText(QCoreApplication.translate("fgoMainWindow", u"\u9648\u5e74\u8001\u809d", None))
+#if QT_CONFIG(statustip)
+        self.BTN_STORY.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u63a8\u56fe\u7528\u7684\u6a21\u5f0f", None))
+#endif // QT_CONFIG(statustip)
+        self.BTN_STORY.setText(QCoreApplication.translate("fgoMainWindow", u"\u63a8\u56fe\u6a21\u5f0f", None))
 #if QT_CONFIG(statustip)
         self.BTN_PAUSE.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u6682\u505c/\u7ee7\u7eed\u6218\u6597", None))
 #endif // QT_CONFIG(statustip)

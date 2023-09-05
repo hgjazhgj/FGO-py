@@ -192,6 +192,19 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="BTN_STORY">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="statusTip">
+           <string>推图用的模式</string>
+          </property>
+          <property name="text">
+           <string>推图模式</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
@@ -478,6 +491,7 @@
   <tabstop>BTN_MAIN</tabstop>
   <tabstop>BTN_BATTLE</tabstop>
   <tabstop>BTN_CLASSIC</tabstop>
+  <tabstop>BTN_STORY</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
   <tabstop>BTN_SCREENSHOT</tabstop>
@@ -490,6 +504,12 @@
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runClassic()</slot>
+  </connection>
+  <connection>
+   <sender>BTN_STORY</sender>
+   <signal>clicked()</signal>
+   <receiver>fgoMainWindow</receiver>
+   <slot>runStory()</slot>
   </connection>
   <connection>
    <sender>BTN_MAIN</sender>
@@ -638,6 +658,7 @@
   <slot>revoke169()</slot>
   <slot>runBattle()</slot>
   <slot>runClassic()</slot>
+  <slot>runStory()</slot>
   <slot>runFpSummon()</slot>
   <slot>runLottery()</slot>
   <slot>runMail()</slot>
