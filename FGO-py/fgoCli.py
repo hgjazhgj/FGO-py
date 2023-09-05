@@ -99,7 +99,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Connect to a device'
         arg=parser_connect.parse_args(line.split())
         if arg.list:return print(f'last connect: {self.config.device if self.config.device else None}',*fgoDevice.Device.enumDevices(),sep='\n')
-        if self.config.device is None and fgoDevice.Device.enumDevices() !=[]: self.config.device=fgoDevice.Device.enumDevices()[0]
+        elif self.config.device is None and fgoDevice.Device.enumDevices() !=[]: self.config.device=fgoDevice.Device.enumDevices()[0]
         self.config.device=arg.name if arg.name else self.config.device
         countdown(reduce(lambda x,y:x*60+int(y),arg.sleep.replace('.',':').split(':'),0))
         fgoDevice.device=fgoDevice.Device(self.config.device)
