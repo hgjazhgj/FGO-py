@@ -600,25 +600,20 @@ class MainStory(Main):
     @logit(logger,logging.INFO)
     def chooseFriend(self):
         refresh=False
-        refreshCount=0
         while not Detect(0,.3).isChooseFriend():
             self.click = Click()
-            # if True in [self.click.clickClose(),self.click.clickNext(),self.click.clickStart(),self.click.clickNextStep()]:
-            #     continue
             if self.click.clickClose():continue
             if self.click.clickStart():continue
             elif self.click.clickNext():continue
             elif self.click.clickNextStep():continue
             elif Detect.cache.isBattleBegin():return
-            elif self.click.clickCount > 15:return
             if not Detect.cache.isSupportPage():return
             if Detect.cache.isNoFriend():
                 if refresh:schedule.sleep(10)
                 fgoDevice.device.perform('\xBAK',(500,1000))
                 refresh=True
-                refreshCount+=1
         if not friendImg.flush():return fgoDevice.device.press('8')
-        while refreshCount < 3:
+        while True:
             timer=time.time()
             while True:
                 for i in(i for i,j in friendImg.items()if(lambda pos:pos and(fgoDevice.device.touch(pos),True)[-1])(Detect.cache.findFriend(j))):
@@ -633,18 +628,14 @@ class MainStory(Main):
             if refresh:schedule.sleep(max(0,timer+10-time.time()))
             fgoDevice.device.perform('\xBAK',(500,1000))
             refresh=True
-            refreshCount+=1
             while not Detect(.2).isChooseFriend():
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
-        else:
-            return fgoDevice.device.press('8')
 
 class Click:
     def __init__(self):
         Detect(.1)
-        self.clickCount=0
     def clickTemplate(self,detectMethod,clickPosMethod,message="",interval=0.3):
         if p:=detectMethod():
             pos,shape = p
@@ -652,7 +643,6 @@ class Click:
             fgoDevice.device.touch(pos)
             if message != "":logger.info(message)
             schedule.sleep(interval)
-            self.clickCount+=1
             return True
         else:
             return False
