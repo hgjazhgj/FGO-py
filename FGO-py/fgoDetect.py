@@ -142,12 +142,10 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isFormation(self):return self._compare(self.tmpl.FORMATION,(1065,60,1270,85))
     def isSupportPage(self): return self._compare(self.tmpl.TRAITLIST,(50,90,600,170))
     def getNextStepLoc(self): return (self._loc(self.tmpl.ADDFRIEND)[2],self.tmpl.ADDFRIEND[1].shape) if self._compare(self.tmpl.ADDFRIEND,(940,590,1280,720)) else False
-    def isStartButton(self):return (self._loc(self.tmpl.STARTBUTTON)[2],self.tmpl.STARTBUTTON[1].shape) if self._compare(self.tmpl.STARTBUTTON) else False
+    def getStartLoc(self):return (self._loc(self.tmpl.STARTBUTTON)[2],self.tmpl.STARTBUTTON[1].shape) if self._compare(self.tmpl.STARTBUTTON) else False
+    def getCrossLoc(self):return (self._loc(self.tmpl.CROSS)[2],self.tmpl.CROSS[1].shape) if self._compare(self.tmpl.CROSS,threshold=0.1) else False
     @retryOnError()
-    # def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
-    def getCardColor(self,retryCount=0,retryLimit=5):
-        p = [+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
-        return self.getCardColor(self,retryCount+1,retryLimit) if all(p) else p
+    def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
     def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((self.tmpl.CRITICAL1,self.tmpl.CRITICAL2,self.tmpl.CRITICAL3,self.tmpl.CRITICAL4,self.tmpl.CRITICAL5,self.tmpl.CRITICAL6,self.tmpl.CRITICAL7,self.tmpl.CRITICAL8,self.tmpl.CRITICAL9,self.tmpl.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
     def getCardGroup(self): # When your servant and the support one has the same command card portrait, getCardGroup will see them as in the same group, which is not true and hard to fix, because the support tag on a command card might be covered when there are many buff icons. This problem causes selectCard to not provide the best solve
         universe={0,1,2,3,4}
