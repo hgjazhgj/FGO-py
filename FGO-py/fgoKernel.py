@@ -575,11 +575,10 @@ class MainStory(Main):
                 elif Detect.cache.isSupportPage():self.chooseFriend()
                 # elif Detect.cache.isBattleDefeated():fgoDevice.device.perform('CIK',(500,500,500))
                 self.click.clickNext()
-                self.click.clickStartButton()
                 self.click.clickNextStep()
                 self.click.clickCloseButton()
-                fgoDevice.device.press('\xBB')
-                # fgoDevice.device.press('\x08')
+                # fgoDevice.device.press('\xBB')
+                fgoDevice.device.press('\x08')
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
             if state:=self.battleProc():
@@ -598,25 +597,19 @@ class MainStory(Main):
     @logit(logger,logging.INFO)
     def chooseFriend(self):
         refresh=False
-        refreshCount=0
         while not Detect(0,.3).isChooseFriend():
             self.click = Click()
-            # if True in [self.click.clickCloseButton(),self.click.clickNext(),self.click.clickStartButton(),self.click.clickNextStep()]:
-            #     continue
             if self.click.clickCloseButton():continue
-            if self.click.clickStartButton():continue
             elif self.click.clickNext():continue
             elif self.click.clickNextStep():continue
             elif Detect.cache.isBattleBegin():return
-            elif self.click.clickCount > 15:return
             if not Detect.cache.isSupportPage():return
             if Detect.cache.isNoFriend():
                 if refresh:schedule.sleep(10)
                 fgoDevice.device.perform('\xBAK',(500,1000))
                 refresh=True
-                refreshCount+=1
         if not friendImg.flush():return fgoDevice.device.press('8')
-        while refreshCount < 3:
+        while True:
             timer=time.time()
             while True:
                 for i in(i for i,j in friendImg.items()if(lambda pos:pos and(fgoDevice.device.touch(pos),True)[-1])(Detect.cache.findFriend(j))):
@@ -631,18 +624,14 @@ class MainStory(Main):
             if refresh:schedule.sleep(max(0,timer+10-time.time()))
             fgoDevice.device.perform('\xBAK',(500,1000))
             refresh=True
-            refreshCount+=1
             while not Detect(.2).isChooseFriend():
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
-        else:
-            return fgoDevice.device.press('8')
 
 class Click:
     def __init__(self):
         Detect(.1)
-        self.clickCount=0
     def clickTemplate(self,detectMethod,clickPosMethod,message="",interval=0.3):
         if p:=detectMethod():
             pos,shape = p
@@ -650,13 +639,11 @@ class Click:
             fgoDevice.device.touch(pos)
             if message != "":logger.info(message)
             schedule.sleep(interval)
-            self.clickCount+=1
             return True
         else:
             return False
-    def clickNext(self):return self.clickTemplate(Detect.cache.isNextExist,self.clickPosNext,message='Next exist, touch it to continue story...')
+    def clickNext(self):return self.clickTemplate(Detect.cache.isNextExist,self.clickPosNext,message=f'Next exist, touch it to continue story...{Detect.cache.isNextExist()}')
     def clickNextStep(self):return self.clickTemplate(Detect.cache.isNextStep,self.clickPosCenter)
     def clickCloseButton(self):return self.clickTemplate(Detect.cache.isCloseButton,self.clickPosCenter)
-    def clickStartButton(self):return self.clickTemplate(Detect.cache.isStartButton,self.clickPosCenter)
     def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+50))
     def clickPosCenter(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]/2))
