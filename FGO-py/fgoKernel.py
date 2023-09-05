@@ -653,3 +653,4 @@ class Click:
     def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+50))
     def clickPosCenter(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]/2))
     def clickCross(self):return self.clickTemplate(Detect.cache.getCrossLoc,self.clickPosCenter)
+    
