@@ -17,6 +17,7 @@
 # .  Grand Order/Anima Animusphere
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
+from typing import Any
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
@@ -429,9 +430,11 @@ class BattleStory(Battle):
             #add some conditions appeared when running story mode
             elif Detect.cache.isSupportPage():return True
             elif Detect.cache.isSkipExist():fgoDevice.device.perform('\x08K',(1000,3000))
-            self.click.clickClose()
-            self.click.clickNext()
-            self.click.clickNextStep()
+            # self.click.clickClose()
+            # self.click.clickNext()
+            # self.click.clickNextStep()
+            # self.click.clickDialogBox()
+            self.click()
             fgoDevice.device.perform('\xBB\x08',(100,100))
 class Main:
     teamIndex=0
@@ -564,7 +567,8 @@ class MainStory(Main):
                 elif Detect.cache.isBattleContinue():
                     fgoDevice.device.press('L')
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
-                    self.click.clickNext()
+                    # self.click.clickNext()
+                    self.click()
                     self.chooseFriend()
                     schedule.sleep(6)
                     break
@@ -575,11 +579,14 @@ class MainStory(Main):
                 elif Detect.cache.isBattleBegin(): fgoDevice.device.perform(' ',(300,))
                 elif Detect.cache.isSupportPage():self.chooseFriend()
                 # elif Detect.cache.isBattleDefeated():fgoDevice.device.perform('CIK',(500,500,500))
-                self.click.clickNext()
-                self.click.clickStart()
-                self.click.clickNextStep()
-                self.click.clickClose()
-                self.click.clickCross()
+                # self.click.clickNext()
+                # self.click.clickStart()
+                # self.click.clickNextStep()
+                # self.click.clickClose()
+                # self.click.clickCross()
+                # self.click.clickStartQuest()
+                # self.click.clickDialogBox()
+                self.click()
                 fgoDevice.device.press('\xBB')
                 # fgoDevice.device.press('\x08')
             self.battleCount+=1
@@ -602,11 +609,14 @@ class MainStory(Main):
         refresh=False
         while not Detect(0,.3).isChooseFriend():
             self.click = Click()
-            if self.click.clickClose():continue
-            if self.click.clickStart():continue
-            elif self.click.clickNext():continue
-            elif self.click.clickNextStep():continue
-            elif Detect.cache.isBattleBegin():return
+            # if self.click.clickClose():continue
+            # elif self.click.clickStart():continue
+            # elif self.click.clickStartQuest():continue
+            # elif self.click.clickDialogBox():continue
+            # elif self.click.clickNext():continue
+            # elif self.click.clickNextStep():continue
+            self.click()
+            if Detect.cache.isBattleBegin():return
             if not Detect.cache.isSupportPage():return
             if Detect.cache.isNoFriend():
                 if refresh:schedule.sleep(10)
@@ -636,6 +646,14 @@ class MainStory(Main):
 class Click:
     def __init__(self):
         Detect(.1)
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        self.clickNext()
+        self.clickNextStep()
+        self.clickStart()
+        self.clickCross()
+        self.clickStartQuest()
+        self.clickDialogBox()
+        self.clickClose()
     def clickTemplate(self,detectMethod,clickPosMethod,message="",interval=0.3):
         if p:=detectMethod():
             pos,shape = p
@@ -650,7 +668,8 @@ class Click:
     def clickNextStep(self):return self.clickTemplate(Detect.cache.getNextStepLoc,self.clickPosCenter)
     def clickClose(self):return self.clickTemplate(Detect.cache.getCloseLoc,self.clickPosCenter)
     def clickStart(self):return self.clickTemplate(Detect.cache.getStartLoc,self.clickPosCenter)
-    def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+50))
+    def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+100))
     def clickPosCenter(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]/2))
     def clickCross(self):return self.clickTemplate(Detect.cache.getCrossLoc,self.clickPosCenter)
-    
+    def clickStartQuest(self):return self.clickTemplate(Detect.cache.getStartQuestLoc,self.clickPosCenter)
+    def clickDialogBox(self):return self.clickTemplate(Detect.cache.getDialogLoc,self.clickPosCenter)
