@@ -578,7 +578,7 @@ class MainStory(Main):
                 elif Detect.cache.isSkipExist():fgoDevice.device.perform('\x08K',(300,300))
                 elif Detect.cache.isBattleBegin(): fgoDevice.device.perform(' ',(300,))
                 elif Detect.cache.isSupportPage():self.chooseFriend()
-                # elif Detect.cache.isBattleDefeated():fgoDevice.device.perform('CIK',(500,500,500))
+                elif Detect.cache.isBattleDefeated():fgoDevice.device.perform('CIK',(500,500,500))
                 # self.click.clickNext()
                 # self.click.clickStart()
                 # self.click.clickNextStep()
