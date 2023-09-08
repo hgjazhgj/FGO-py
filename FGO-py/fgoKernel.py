@@ -638,10 +638,12 @@ class MainStory(Main):
             if refresh:schedule.sleep(max(0,timer+10-time.time()))
             fgoDevice.device.perform('\xBAK',(500,1000))
             refresh=True
-            while not Detect(.2).isChooseFriend():
+            refresh_count = 0
+            while not Detect(.2).isChooseFriend() and refresh_count < 3:
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
+                    refresh_count+=1
 
 class Click:
     def __init__(self):
