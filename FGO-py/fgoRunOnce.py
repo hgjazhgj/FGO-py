@@ -24,3 +24,9 @@ def runOnce(config):
 def v18_6_0(config):
     config.farming=False
     logger.warning('Event farming disabled!')
+
+@regRunOnce
+def v18_8_0(config):
+    import os
+    os.system('pip install --upgrade pponnxcr')
+    return True

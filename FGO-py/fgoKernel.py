@@ -180,7 +180,7 @@ class ClassicTurn:
         while(s:=[(self.getSkillInfo(i,j,3),0,(i,j))for i in range(3)if self.servant[i]<6 for j in range(3)if self.countDown[0][i][j]==0 and(t:=self.getSkillInfo(i,j,0))and min(t,self.stageTotal)<<8|self.getSkillInfo(i,j,1)<=self.stage<<8|self.stageTurn and Detect.cache.isSkillReady(i,j)]+[(self.masterSkill[i][-1],1,(i,))for i in range(3)if self.countDown[1][i]==0 and self.masterSkill[i][0]and min(self.masterSkill[i][0],self.stageTotal)<<8|self.masterSkill[i][1]<=self.stage<<8|self.stageTurn]):
             _,cast,arg=min(s,key=lambda x:x[0])
             [self.castServantSkill,self.castMasterSkill][cast](*arg)
-            fgoDevice.device.perform('\x08',(1800,))
+            fgoDevice.device.perform('\x08',(700,))
             while not Detect().isTurnBegin():pass
             Detect(.5)
     @logit(logger,logging.INFO)
@@ -192,7 +192,6 @@ class ClassicTurn:
         if Detect(.7).isSkillNone():
             logger.warning(f'Skill {pos} {skill} Disabled')
             self.countDown[0][pos][skill]=999
-            fgoDevice.device.press('\x08')
         elif Detect(.7).isSkillCastFailed():
             self.countDown[pos][skill]=1
             fgoDevice.device.press('J')
@@ -228,8 +227,8 @@ class Turn:
                 self.countDown[0][i]=[0,0,0]
         logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {[i[0]for i in self.servant]}')
         if self.stageTurn==1:Detect.cache.setupEnemyGird()
-        self.dispatchSkill()
         self.enemy=[Detect.cache.getEnemyHp(i)for i in range(6)]
+        self.dispatchSkill()
         fgoDevice.device.perform(' ',(2100,))
         fgoDevice.device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
@@ -332,11 +331,32 @@ class Turn:
                 else:...
     @logit(logger,logging.INFO)
     def selectCard(self):
-        color,sealed,hougu,resist,critical=[[1,.8,1.1][i]for i in Detect().getCardColor()],Detect.cache.isCardSealed(),Detect.cache.isHouguReady(),[[1,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]
+        color,sealed,hougu,resist,critical,group=[[1,.8,1.1][i]for i in Detect().getCardColor()+[i[5][1]for i in self.servant]],Detect.cache.isCardSealed(),Detect.cache.isHouguReady(),[[1,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()],(lambda x:Detect.cache.getCardServant(x)+x)([i[0]for i in self.servant])
         houguTargeted,houguArea,houguSupport=[[j for j in range(3)if hougu[j]and self.servant[j][0]and self.servant[j][5][0]==i]for i in range(3)]
         houguArea=houguArea if self.stage==self.stageTotal or sum(i>0 for i in self.enemy)>1 and sum(self.enemy)>12000 else[]
         houguTargeted=houguTargeted if self.stage==self.stageTotal or max(self.enemy)>23000+8000*len(houguArea)else[]
-        if self.stageTurn==1 or houguTargeted:fgoDevice.device.perform('\x67\x68\x69\x64\x65\x66'[numpy.argmax(self.enemy)],(500,))
+        hougu=[i+4 for i in houguSupport+houguArea+houguTargeted]
+        if self.stageTurn==1 or houguTargeted or self.enemy[self.target]==0:
+            self.target=numpy.argmax(self.enemy)
+            fgoDevice.device.perform('\x67\x68\x69\x64\x65\x66'[self.target],(500,))
+
+        # self.enemy=[max(0,i-18000*len(houguArea))for i in self.enemy]
+        # if sum(self.enemy)>0 and self.enemy[self.target]==0:self.target=next(i for i in range(5,-1,-1)if self.enemy[i])
+        # for i in houguTargeted:
+            
+
+        def evaluate(card):
+            target=self.target
+            enemy=self.enemy
+            braveChain=len(set(group[i]for i in card))==1
+            colorChain={(0,):0,(1):1,(2,):2,(0,1,2):3}.get(tuple(set(color[i]for i in card)),-1)
+            firstBonus=7 if colorChain==3 else 1<<color[0]
+            result=0
+            
+
+        # card=max(permutations(range(5),3-len(hougu)),key=lambda x:evaluate(hougu+x))
+        # return''.join(['12345678'[i]for i in hougu+card+list({0,1,2,3,4}-set(card))])
+
         return''.join((lambda hougu:['678'[i]for i in hougu]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if hougu else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup()))(houguSupport+houguArea+houguTargeted))
     def castServantSkill(self,pos,skill,target):
         fgoDevice.device.press(('ASD','FGH','JKL')[pos][skill])
@@ -348,8 +368,8 @@ class Turn:
             logger.warning(f'Skill {pos} {skill} Cast Failed')
             self.countDown[0][pos][skill]=1
             fgoDevice.device.press('J')
-        elif t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][f-5 if(f:=self.servant[pos][6][skill][1])in{6,7,8}else target],(300,))
-        fgoDevice.device.press('\x08')
+        elif t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][f-5 if(f:=self.servant[pos][6][skill][1])in{6,7,8}else target]+'\x08',(300,700))
+        else:fgoDevice.device.perform('\x08',(700,))
         while not Detect().isTurnBegin():pass
         Detect(.5)
     def castMasterSkill(self,skill,target):
@@ -421,7 +441,7 @@ class Main:
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
-                    fgoDevice.device.perform(' M ',(2000,2000,13000))
+                    fgoDevice.device.perform(' M ',(2000,2000,10000))
                     break
                 elif Detect.cache.isBattleContinue():
                     fgoDevice.device.press('L')

@@ -1,6 +1,7 @@
 > 已添加南溟弓张八犬传活动远征收菜  
 > 已添加日服支持  
 > 已添加美服支持([#111](https://github.com/hgjazhgj/FGO-py/pull/111))
+> 已添加台服支持([#114](https://github.com/hgjazhgj/FGO-py/pull/114))
 
 热烈庆祝本项目于2022年8月5日荣登GitHub中文趋势Python语言日榜与同期周榜第3名!  
 同期中文趋势全语言周榜第23名  
@@ -19,7 +20,7 @@
 ![svg](https://img.shields.io/badge/病弱-病弱厨-ecbacb.svg)
 ![svg](https://img.shields.io/badge/mikon-玉藻俱乐部成员-804313.svg)
 ![svg](https://img.shields.io/badge/萝莉控-小学生真是太棒了-b0e0e6.svg)
-![svg](https://img.shields.io/badge/n2-日语N2或同等水平-00ff00.svg)
+![svg](https://img.shields.io/badge/n1-通过了JLPT_N1测试-00ff00.svg)
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
@@ -57,7 +58,7 @@ B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B�
 [版本记录](#版本记录-Version-Logs)  
 GitHub项目地址:[https://github.com/hgjazhgj/FGO-py/](https://github.com/hgjazhgj/FGO-py/)  
 项目官网:[https://fgo-py.hgjazhgj.top/](https://fgo-py.hgjazhgj.top/)  
-适用于命运-冠位指定安卓简体中文/日本语/英语版本  
+适用于命运-冠位指定安卓简体中文/日本语/英语/繁体中文版本  
 
 # 警告 Warning
 
@@ -124,7 +125,7 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 ### 非16:9屏幕 Non 16:9 display
 
 尝试使用ui中的「控制-全面屏适配-调整为16:9」功能,以及cli中的`169`命令  
-启动游戏 - 连接到设备 - 关闭游戏 - 调整分辨率 - 启动游戏 - 重新连接到设备  
+连接到设备 - 调整分辨率 - 启动游戏 - 重新连接到设备  
 由于长宽比小于16:9的屏幕的游戏画面上下方仍为蓝边可以如同全面屏适配前一般使用,所以只有长宽比大于16:9的屏幕才需要此操作  
 在fgo中热更改分辨率会有奇怪的布局bug,所以你需要在运行游戏后登录完成前执行这些命令  
 在我的手机(OnePlus 8 Pro和RedMi 8A)上大概是这么个效果,**其它手机具体表现如何我也不清楚**:  
@@ -155,7 +156,7 @@ FGO-py现已加入[Alas](https://github.com/LmeSzinc/AzurLaneAutoScript/)豪华�
 
 1. 添加新配置,「从现有的配置中复制」选择template-fpy  
 2. 按照[连接到设备](#连接到设备-connect-to-your-device)章节中的内容填写「FGO-py > FGO-py设置 > 运行环境 > 模拟器 Serial」  
-3. 按照自身部署环境填写启动路径,详见[deploy/AzurLaneAutoScript/readme.md](deploy/AzurLaneAutoScript/readme.md)  
+3. 按照自身部署环境填写「启动路径」,请阅读[deploy/AzurLaneAutoScript/readme.md](deploy/AzurLaneAutoScript/readme.md)  
 4. 运行「工具 > 性能测试」检验上述配置是否正确  
 5. 启用「出击 > 清空体力」和「每日 > 抽友情」等任务,更改相关设置  
 6. 运行调度器  
