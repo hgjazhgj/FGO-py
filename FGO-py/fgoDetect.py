@@ -142,7 +142,7 @@ class XDetectBase(metaclass=logMeta(logger)):
             index+=1
             universe-=group
         return result
-    def getCardResist(self):return[{0:1,1:2}.get(self._select((self.tmpl.WEAK,self.tmpl.RESIST),(180+257*i,354,226+257*i,417)),0)for i in range(5)]
+    def getCardResist(self):return[{0:1,1:2}.get(self._select((self.tmpl.WEAK,self.tmpl.RESIST),(180+257*i,318,226+257*i,417)if i<5 else(-695+232*i,54,-649+232*i,117)),0)for i in range(8)]
     def getCardServant(self,hint):return(lambda target:[(lambda img:min((numpy.min(cv2.matchTemplate(img,i[0],cv2.TM_SQDIFF_NORMED,mask=i[1])),no)for no,card in target for i in card)[1])(self._crop((76+257*i,431,184+257*i,498)))for i in range(5)])([(i,servantImg[i][0])for i in hint])
     def getEnemyHp(self,pos):
         if self.enemyGird==0:return 0 if pos>2 else self._ocrInt((100+250*pos,40,222+250*pos,65))
