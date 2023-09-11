@@ -621,6 +621,9 @@ class MainStory(Main):
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
                     refresh_count+=1
+                elif self.click.clickClose():
+                    return fgoDevice.device.press('8')
+            return fgoDevice.device.press('8')
 
 class Click:
     def __init__(self):
