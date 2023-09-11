@@ -430,10 +430,6 @@ class BattleStory(Battle):
             #add some conditions appeared when running story mode
             elif Detect.cache.isSupportPage():return True
             elif Detect.cache.isSkipExist():fgoDevice.device.perform('\x08K',(1000,3000))
-            # self.click.clickClose()
-            # self.click.clickNext()
-            # self.click.clickNextStep()
-            # self.click.clickDialogBox()
             self.click()
             fgoDevice.device.perform('\xBB\x08',(100,100))
 class Main:
@@ -546,18 +542,13 @@ class MainStory(Main):
         self.battleTime=0
         self.defeated=0
         while True:
-            # if Detect(.3,.3).isSkipExist():
-            #     fgoDevice.device.perform('\x08K',(1000,3000))
-            #     logger.info(f'Skip exist, press skip.')
             self.battleProc=self.battleClass()
             self.click = Click()
-            # self.clicknextcount = 0
             while True:
                 self.click()
                 if Detect(.3,.3).isMainInterface():
                     # fgoDevice.device.press('8')
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
-                    # while n:=self.chooseNext():continue # choose next until next not appear
                     self.chooseFriend()
                     t = time.time()
                     while not Detect(0,.3).isBattleBegin() and time.time()-t<5:timeout=time.time()-t<5
@@ -568,8 +559,6 @@ class MainStory(Main):
                 elif Detect.cache.isBattleContinue():
                     fgoDevice.device.press('L')
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
-                    # self.click.clickNext()
-                    # self.click()
                     self.chooseFriend()
                     schedule.sleep(6)
                     break
@@ -580,13 +569,6 @@ class MainStory(Main):
                 elif Detect.cache.isBattleBegin(): fgoDevice.device.perform(' ',(300,))
                 elif Detect.cache.isSupportPage():self.chooseFriend()
                 elif Detect.cache.isBattleDefeated():fgoDevice.device.perform('CIK',(500,500,500))
-                # self.click.clickNext()
-                # self.click.clickStart()
-                # self.click.clickNextStep()
-                # self.click.clickClose()
-                # self.click.clickCross()
-                # self.click.clickStartQuest()
-                # self.click.clickDialogBox()
                 self.click()
                 fgoDevice.device.press('\xBB')
                 # fgoDevice.device.press('\x08')
@@ -610,12 +592,6 @@ class MainStory(Main):
         refresh=False
         while not Detect(0,.3).isChooseFriend():
             self.click = Click()
-            # if self.click.clickClose():continue
-            # elif self.click.clickStart():continue
-            # elif self.click.clickStartQuest():continue
-            # elif self.click.clickDialogBox():continue
-            # elif self.click.clickNext():continue
-            # elif self.click.clickNextStep():continue
             self.click()
             if Detect.cache.isBattleBegin():return
             if not Detect.cache.isSupportPage():return
