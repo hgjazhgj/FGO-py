@@ -133,7 +133,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isTurnBegin(self):return self._compare(self.tmpl.ATTACK,(1155,635,1210,682))
     # addditional cond func
     def isSkipExist(self): return self._compare(self.tmpl.SKIP,(1120,0,1280,75))
-    def getNextLoc(self): return (self._loc(self.tmpl.NEXT)[2],self.tmpl.NEXT[1].shape) if self._compare(self.tmpl.NEXT) and self.isMainInterface() else False
+    def getNextLoc(self): return (self._loc(self.tmpl.NEXT)[2],self.tmpl.NEXT[1].shape) if self._compare(self.tmpl.NEXT,threshold=0.03) and self.isMainInterface() else False
     def getCloseLoc(self):return (self._loc(self.tmpl.CLOSEBUTTON)[2],self.tmpl.CLOSEBUTTON[1].shape) if self._compare(self.tmpl.CLOSEBUTTON) else False
     def isFormation(self):return self._compare(self.tmpl.FORMATION,(1065,60,1270,85))
     def isSupportPage(self): return self._compare(self.tmpl.TRAITLIST,(50,90,600,170))
