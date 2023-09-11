@@ -643,12 +643,12 @@ class Click:
             return True
         else:
             return False
-    def clickNext(self):return self.clickTemplate(Detect(.1).getNextLoc,self.clickPosNext,message='Next exist, touch it to continue story...')
-    def clickNextStep(self):return self.clickTemplate(Detect(.1).getNextStepLoc,self.clickPosCenter)
-    def clickClose(self):return self.clickTemplate(Detect(.1).getCloseLoc,self.clickPosCenter)
-    def clickStart(self):return self.clickTemplate(Detect(.1).getStartLoc,self.clickPosCenter)
+    def clickNext(self):return self.clickTemplate(Detect.cache.getNextLoc,self.clickPosNext,message='Next exist, touch it to continue story...')
+    def clickNextStep(self):return self.clickTemplate(Detect.cache.getNextStepLoc,self.clickPosCenter)
+    def clickClose(self):return self.clickTemplate(Detect.cache.getCloseLoc,self.clickPosCenter)
+    def clickStart(self):return self.clickTemplate(Detect.cache.getStartLoc,self.clickPosCenter)
     def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+100))
     def clickPosCenter(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]/2))
-    def clickCross(self):return self.clickTemplate(Detect(.1).getCrossLoc,self.clickPosCenter)
-    def clickStartQuest(self):return self.clickTemplate(Detect(.1).getStartQuestLoc,self.clickPosCenter)
-    def clickDialogBox(self):return self.clickTemplate(Detect(.1).getDialogLoc,self.clickPosCenter)
+    def clickCross(self):return self.clickTemplate(Detect.cache.getCrossLoc,self.clickPosCenter)
+    def clickStartQuest(self):return self.clickTemplate(Detect.cache.getStartQuestLoc,self.clickPosCenter)
+    def clickDialogBox(self):return self.clickTemplate(Detect.cache.getDialogLoc,self.clickPosCenter)
