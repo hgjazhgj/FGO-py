@@ -650,7 +650,7 @@ class Click:
     def clickNextStep(self):return self.clickTemplate(Detect.cache.getNextStepLoc,self.clickPosCenter)
     def clickClose(self):return self.clickTemplate(Detect.cache.getCloseLoc,self.clickPosCenter)
     def clickStart(self):return self.clickTemplate(Detect.cache.getStartLoc,self.clickPosCenter)
-    def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+100))
+    def clickPosNext(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]+75))
     def clickPosCenter(self,pos:tuple,shape:tuple):return (pos[0]+round(shape[1]/2), pos[1]+round(shape[0]/2))
     def clickCross(self):return self.clickTemplate(Detect.cache.getCrossLoc,self.clickPosCenter)
     def clickStartQuest(self):return self.clickTemplate(Detect.cache.getStartQuestLoc,self.clickPosCenter)
