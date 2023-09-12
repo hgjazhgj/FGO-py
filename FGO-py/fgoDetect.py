@@ -123,7 +123,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isSkillCastFailed(self):return self._compare(self.tmpl.SKILLERROR,(504,528,776,597))
     def isSkillNone(self):return self._compare(self.tmpl.CROSS,(1070,45,1105,79))or self._compare(self.tmpl.CROSS,(1093,164,1126,196))
     def isSkillReady(self,i,j):return not self._compare(self.tmpl.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2)
-    # def isSkillReady(self,i,j):return self._ocrInt((35+318*i+88*j,598-55,55+318*i+88*j+55,618))==0 if not self._compare(self.tmpl.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2) else False
+    # def isSkillReady(self,i,j):return self._ocrInt((35+318*i+88*j+40,598-55+40,55+318*i+88*j+55,618))==0 if self._compare(self.tmpl.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2) else True
     def isSpecialDropRainbowBox(self):return self._compare(self.tmpl.RAINBOW,(957,2,990,40),.1)
     def isSpecialDropSuspended(self):return self._compare(self.tmpl.CLOSE,(6,14,28,68))
     def isSummonHistoryListEnd(self):return self._isListEnd((1142,552))
