@@ -123,26 +123,20 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isSkillCastFailed(self):return self._compare(self.tmpl.SKILLERROR,(504,528,776,597))
     def isSkillNone(self):return self._compare(self.tmpl.CROSS,(1070,45,1105,79))or self._compare(self.tmpl.CROSS,(1093,164,1126,196))
     def isSkillReady(self,i,j):return not self._compare(self.tmpl.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2)
-    # def isSkillReady(self,i,j):return self._ocrInt((35+318*i+88*j+40,598-55+40,55+318*i+88*j+55,618))==0 if self._compare(self.tmpl.STILL,(35+318*i+88*j,598,55+318*i+88*j,618),.2) else True
     def isSpecialDropRainbowBox(self):return self._compare(self.tmpl.RAINBOW,(957,2,990,40),.1)
     def isSpecialDropSuspended(self):return self._compare(self.tmpl.CLOSE,(6,14,28,68))
     def isSummonHistoryListEnd(self):return self._isListEnd((1142,552))
     def isSynthesisBegin(self):return self._compare(self.tmpl.SYNTHESIS,(16,12,112,73))
     def isSynthesisFinished(self):return self._compare(self.tmpl.DECIDEDISABLED,(1035,625,1275,711))
     def isTurnBegin(self):return self._compare(self.tmpl.ATTACK,(1155,635,1210,682))
-    # addditional cond func
-    def isSkipExist(self): return self._compare(self.tmpl.SKIP,(1120,0,1280,75))
-    def getNextLoc(self): return (self._loc(self.tmpl.NEXT)[2],self.tmpl.NEXT[1].shape) if self._compare(self.tmpl.NEXT,threshold=0.03) and self.isMainInterface() else False
-    def getCloseLoc(self):return (self._loc(self.tmpl.CLOSEBUTTON)[2],self.tmpl.CLOSEBUTTON[1].shape) if self._compare(self.tmpl.CLOSEBUTTON) else False
-    def isFormation(self):return self._compare(self.tmpl.FORMATION,(1065,60,1270,85))
-    def isSupportPage(self): return self._compare(self.tmpl.TRAITLIST,(50,90,600,170))
-    def getNextStepLoc(self): return (self._loc(self.tmpl.ADDFRIEND)[2],self.tmpl.ADDFRIEND[1].shape) if self._compare(self.tmpl.ADDFRIEND,(940,590,1280,720)) else False
-    def getStartLoc(self):return (self._loc(self.tmpl.STARTBUTTON)[2],self.tmpl.STARTBUTTON[1].shape) if self._compare(self.tmpl.STARTBUTTON) else False
-    def getCrossLoc(self):return (self._loc(self.tmpl.CROSS)[2],self.tmpl.CROSS[1].shape) if self._compare(self.tmpl.CROSS,threshold=0.1) else False
-    def getStartQuestLoc(self):
-        try:return (self._loc(self.tmpl.STARTQUEST)[2],self.tmpl.STARTQUEST[1].shape) if self._compare(self.tmpl.STARTQUEST,threshold=0.1) else False
-        except AttributeError:raise NotImplementedError
-    def getDialogLoc(self):return (self._loc(self.tmpl.DIALOGBOX)[2],self.tmpl.DIALOGBOX[1].shape) if self._compare(self.tmpl.DIALOGBOX,threshold=0.1) else False
+    def isStorySkip(self):return self._compare(self.tmpl.SKIP,(1120,0,1280,75))
+    def getNextLoc(self):return p if(p:=self._find(self.tmpl.NEXT,threshold=0.03))and self.isMainInterface()else False
+    def getCloseLoc(self):return p if(p:=self._find(self.tmpl.CLOSEBUTTON))else False
+    def getNextStepLoc(self): return p if(p:=self._find(self.tmpl.ADDFRIEND,(940,590,1280,720)))else False
+    def getStartLoc(self):return p if(p:=self._find(self.tmpl.STARTBUTTON))else False
+    def getCrossLoc(self):return p if(p:=self._find(self.tmpl.CROSS,threshold=0.1))else False
+    def getStartQuestLoc(self):return p if(p:=self._find(self.tmpl.STARTQUEST,threshold=0.1))else False
+    def getDialogLoc(self):return p if(p:=self._find(self.tmpl.DIALOGBOX,threshold=0.1))else False
     @retryOnError()
     def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
     def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((self.tmpl.CRITICAL1,self.tmpl.CRITICAL2,self.tmpl.CRITICAL3,self.tmpl.CRITICAL4,self.tmpl.CRITICAL5,self.tmpl.CRITICAL6,self.tmpl.CRITICAL7,self.tmpl.CRITICAL8,self.tmpl.CRITICAL9,self.tmpl.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]

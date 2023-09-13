@@ -565,7 +565,7 @@ class MainStory(Main):
             while True:
                 if Detect(.3,.3).isMainInterface():
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
-                    while not Detect(.3,.3).isChooseFriend():fgoDevice.device.touch((p[0],p[1]+75))if(p:=Detect.cache.getNextLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getCloseLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getCrossLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getStartQuestLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getStartLoc())else fgoDevice.device.perform('\x08K',(300,300))if Detect.cache.isSkipExist()else fgoDevice.device.touch(p)if(p:=Detect.cache.getDialogLoc())else None
+                    while not Detect(.3,.3).isChooseFriend():fgoDevice.device.touch((p[0],p[1]+75))if(p:=Detect.cache.getNextLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getCloseLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getCrossLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getStartQuestLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getStartLoc())else fgoDevice.device.perform('\x08K',(300,300))if Detect.cache.isStorySkip()else fgoDevice.device.touch(p)if(p:=Detect.cache.getDialogLoc())else None
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
@@ -580,7 +580,7 @@ class MainStory(Main):
                 elif Detect.cache.isTurnBegin():break
                 elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
                 elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
-                elif Detect.cache.isSkipExist():fgoDevice.device.perform('\x08K',(300,300))
+                elif Detect.cache.isStorySkip():fgoDevice.device.perform('\x08K',(300,300))
                 fgoDevice.device.press('\xBB')
                 fgoDevice.device.touch(p)if(p:=Detect.cache.getCrossLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getCloseLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getDialogLoc())else None
             self.battleCount+=1
