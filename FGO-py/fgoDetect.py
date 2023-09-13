@@ -17,7 +17,7 @@ IMG_TW=type('IMG_TW',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.
 CLASS={100:[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in['shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender','beast']for j in range(3)]}
 for scale in [75,93,125]:CLASS[scale]=[[cv2.resize(j,(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
 MATERIAL=[(i[:-4],cv2.imread(f'fgoImage/material/{i}'))for i in os.listdir('fgoImage/material')if i.endswith('.png')]
-OCR=type('OCR',(),{i:Ocr(i)for i in tqdm.tqdm(['EN','ZH','JA'],leave=False)})
+OCR=type('OCR',(),{i:Ocr(i)for i in tqdm.tqdm(['EN','ZHS','JA','ZHT'],leave=False)})
 def coroutine(func):
     @wraps(func)
     def primer(*args,**kwargs):
@@ -146,7 +146,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     @retryOnError()
     def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
     def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((self.tmpl.CRITICAL1,self.tmpl.CRITICAL2,self.tmpl.CRITICAL3,self.tmpl.CRITICAL4,self.tmpl.CRITICAL5,self.tmpl.CRITICAL6,self.tmpl.CRITICAL7,self.tmpl.CRITICAL8,self.tmpl.CRITICAL9,self.tmpl.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
-    def getCardGroup(self): # When your servant and the support one has the same command card portrait, getCardGroup will see them as in the same group, which is not true and hard to fix, because the support tag on a command card might be covered when there are many buff icons. This problem causes selectCard to not provide the best solve
+    def getCardGroup(self):
         universe={0,1,2,3,4}
         result=[-1]*5
         index=0
@@ -156,14 +156,15 @@ class XDetectBase(metaclass=logMeta(logger)):
             index+=1
             universe-=group
         return result
-    def getCardResist(self):return[{0:1,1:2}.get(self._select((self.tmpl.WEAK,self.tmpl.RESIST),(180+257*i,354,226+257*i,417)),0)for i in range(5)]
+    def getCardResist(self):return[{0:1,1:2}.get(self._select((self.tmpl.WEAK,self.tmpl.RESIST),(180+257*i,318,226+257*i,417)if i<5 else(-695+232*i,54,-649+232*i,117)),0)for i in range(8)]
+    def getCardServant(self,hint):return(lambda target:[(lambda img:min((numpy.min(cv2.matchTemplate(img,i[0],cv2.TM_SQDIFF_NORMED,mask=i[1])),no)for no,card in target for i in card)[1])(self._crop((76+257*i,431,184+257*i,498)))for i in range(5)])([(i,servantImg[i][0])for i in hint])
     def getEnemyHp(self,pos):
         if self.enemyGird==0:return 0 if pos>2 else self._ocrInt((100+250*pos,40,222+250*pos,65))
         if self.enemyGird==2:return self._ocrInt((190+pos%3*200-pos//3*100,28+pos//3*99,287+pos%3*200-pos//3*100,53+pos//3*99))
     def getEnemyNp(self,pos):
         if self.enemyGird==0:return(0,0)if pos>2 else(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(self.tmpl.CHARGE0),count(self.tmpl.CHARGE1),))(count(self.tmpl.CHARGE2)))(lambda img:self._count(img,(160+250*pos,67,250+250*pos,88)))
         if self.enemyGird==2:return(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(self.tmpl.CHARGE0_SMALL),count(self.tmpl.CHARGE1_SMALL),))(count(self.tmpl.CHARGE2_SMALL)))(lambda img:self._count(img,(231+pos%3*200-pos//3*100,49+pos//3*99,311+pos%3*200-pos//3*100,72+pos//3*99)))
-    def getFieldServant(self,pos):return(lambda img,cls:min((numpy.min(cv2.matchTemplate(img,i[...,:3],cv2.TM_SQDIFF_NORMED,mask=i[...,3])),no)for no,(_,portrait,_)in servantImg.items()if servantData[no][0]==cls[0]for i in portrait)[1]if cls else 0)(self._crop((120+318*pos,421,207+318*pos,490)),self.getFieldServantClassRank(pos))
+    def getFieldServant(self,pos):return(lambda img,cls:min((numpy.min(cv2.matchTemplate(img,i[0],cv2.TM_SQDIFF_NORMED,mask=i[1])),no)for no,(_,portrait,_)in servantImg.items()if servantData[no][0]==cls[0]for i in portrait)[1]if cls else 0)(self._crop((120+318*pos,421,207+318*pos,490)),self.getFieldServantClassRank(pos))
     def getFieldServantClassRank(self,pos):return(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
     def getFieldServantHp(self,pos):return self._ocrInt((200+318*pos,620,293+318*pos,644))
     def getFieldServantNp(self,pos):return self._ocrInt((220+318*pos,655,274+318*pos,680))
@@ -191,7 +192,6 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isGameAnnounce(self):raise NotImplementedError
     def isGameLaunch(self):raise NotImplementedError
     def isInCampaign(self):raise NotImplementedError
-    def getCardServant(self,choices):raise NotImplementedError
     def getEnemyHpGauge(self):raise NotImplementedError
     def getTeamMaster(self):raise NotImplementedError
     def getTeamServant(self):raise NotImplementedError
@@ -202,7 +202,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getTeamServantSkillLv(self):raise NotImplementedError
 class XDetectCN(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_CN
-    ocr=OCR.ZH
+    ocr=OCR.ZHS
 class XDetectJP(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_JP
     ocr=OCR.JA
@@ -213,7 +213,7 @@ class XDetectNA(XDetectBase,metaclass=logMeta(logger)):
     def isSkillReady(self,i,j):return not self._compare(self.tmpl.STILL,(41+318*i+88*j,607,74+318*i+88*j,614),.6)
 class XDetectTW(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_TW
-    ocr=OCR.ZH
+    ocr=OCR.ZHT
     def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,194,515+231*i,270),.52)for j in(self.tmpl.HOUGUSEALED,self.tmpl.CHARASEALED,self.tmpl.CARDSEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),type(self)())[1]if that is None else that)
 class DetectBase(XDetectBase,metaclass=logMeta(logger)):
     def __init__(self,anteLatency=.1,postLatency=0):

@@ -23,22 +23,22 @@ talentResisting=[ # 三才者,天地人,「才」译作talent
 [1.0,1.0,1.0,1.1,1.0],
 ]
 servantData={
-# class       rank     card   talent (houguType  houguColor) ((skillType    skillTarget) ...)
-#  0 Shielder 0 gold   1 3Q   0 sky   0 targeted 0 Arts        0 disable    0 ownAll         
-#  1 Saber    1 silver 2 2Q2B 1 land  1 area     1 Quick       1 immediate  1 ownOne         
-#  2 Archer   2 bronze 3 2Q2A 2 human 2 support  2 Buster      2 charge     2 ownExceptSelf  
-#  3 Lancer            4 3B   3 star                           3 hougu      3 enemyAll       
-#  4 Rider             6 2A2B 4 beast                          4 color      4 enemyOne       
-#  5 Caster            7 3A                                    5 atk        5 self           
-#  6 Assassin                                                  6 critical   6 force-1        
-#  7 Berserker      The following servants are not included    7 recovery   7 force-2        
-#  8 Ruler            83 Solomon                               8 dodge      8 force-3        
-#  9 Avenger         149 Tiamat                                9 stamina                     
-# 10 Alterego        151 Goetia                                                              
-# 11 MoonCancer      152 Solomon                                                             
-# 12 Foreigner       168 BeastIII/R                                                          
-# 13 Pretender       240 BeastIII/L                                                          
-# 14 Beast           333 BeastIV                                                             
+#  0 class       1 rank     2 card   3 talent 4(houguType  houguColor) 5((skillType    skillTarget) ...)
+#     0 Shielder   0 gold     1 3Q     0 sky    0 targeted 0 Arts         0 disable    0 ownAll         
+#     1 Saber      1 silver   2 2Q2B   1 land   1 area     1 Quick        1 immediate  1 ownOne         
+#     2 Archer     2 bronze   3 2Q2A   2 human  2 support  2 Buster       2 charge     2 ownExceptSelf  
+#     3 Lancer                4 3B     3 star                             3 hougu      3 enemyAll       
+#     4 Rider                 6 2A2B   4 beast                            4 color      4 enemyOne       
+#     5 Caster                7 3A                                        5 atk        5 self           
+#     6 Assassin                                                          6 critical   6 force-1        
+#     7 Berserker     The following servants are not included             7 recovery   7 force-2        
+#     8 Ruler           83 Solomon                                        8 dodge      8 force-3        
+#     9 Avenger        149 Tiamat                                         9 stamina                     
+#    10 Alterego       151 Goetia                                                                       
+#    11 MoonCancer     152 Solomon                                                                      
+#    12 Foreigner      168 BeastIII/R                                                                   
+#    13 Pretender      240 BeastIII/L                                                                   
+#    14 Beast          333 BeastIV                                                                      
 1:(0,0,6,1,(2,0),((1,0),(2,1),(1,5))),
 2:(1,0,6,1,(1,2),((5,0),(3,5),(2,5))),
 3:(1,0,6,2,(1,2),((4,5),(2,5),(5,0))),
@@ -412,11 +412,23 @@ servantData={
 378:(6,0,7,2,(0,0),((4,5),(9,5),(2,5))),
 379:(1,0,3,1,(0,1),((5,5),(4,5),(8,5))),
 380:(6,0,3,1,(1,1),((2,5),(2,5),(6,5))),
+381:(3,0,2,0,(0,2),((2,5),(4,5),(5,5))),
+382:(7,0,6,1,(1,0),((5,1),(4,5),(1,1))),
+383:(2,0,3,0,(1,0),((2,5),(8,5),(3,5))),
+384:(1,0,1,1,(0,1),((4,5),(2,5),(8,5))),
+385:(5,0,6,1,(1,2),((1,5),(5,5),(2,0))),
+386:(7,0,6,3,(0,0),((2,5),(2,1),(1,5))),
+387:(4,0,3,0,(1,1),((3,0),(4,5),(2,1))),
+388:(9,0,1,2,(0,1),((5,5),(9,1),(2,0))),
+389:(12,0,7,1,(1,0),((1,5),(5,5),(4,5))),
+390:(8,0,6,1,(1,0),((4,5),(1,5),(2,5))),
+391:(2,0,3,1,(1,0),((1,5),(2,5),(3,5))),
+392:(13,0,6,1,(1,2),((1,0),(1,5),(2,0))),
 }
 import cv2,tqdm
-def readSplit(file,height):return(lambda img:[img[i*height:(i+1)*height]for i in range(img.shape[0]//height)])(cv2.imread(file,cv2.IMREAD_UNCHANGED))
+def readSplit(file,height):return(lambda img:[(lambda x:(x[...,:3],x[...,3]))(img[i*height:(i+1)*height])for i in range(img.shape[0]//height)])(cv2.imread(file,cv2.IMREAD_UNCHANGED))
 servantImg={i:(
-    None,
+    readSplit(f'fgoImage/servant/{i}/card.png',47),
     readSplit(f'fgoImage/servant/{i}/portrait.png',63),
-    None,
+    None,# readSplit(f'fgoImage/servant/{i}/tachie.png',),
 )for i in tqdm.tqdm(servantData,leave=False)}
