@@ -638,12 +638,10 @@ class MainStory(Main):
             if refresh:schedule.sleep(max(0,timer+10-time.time()))
             fgoDevice.device.perform('\xBAK',(500,1000))
             refresh=True
-            refresh_count = 0
-            while not Detect(.2).isChooseFriend() and refresh_count < 3:
+            while not Detect(.2).isChooseFriend():
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
-                    refresh_count+=1
                 elif self.click.clickClose():
                     return fgoDevice.device.press('8')
             return fgoDevice.device.press('8')
