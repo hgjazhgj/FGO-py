@@ -570,7 +570,6 @@ class MainStory(Main):
                     while not Detect(0,.3).isBattleBegin():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
                     fgoDevice.device.perform(' M ',(2000,2000,3000))
-                    # break
                 elif Detect.cache.isBattleContinue():
                     fgoDevice.device.press('L')
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
