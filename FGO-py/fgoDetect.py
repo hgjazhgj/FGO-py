@@ -166,12 +166,10 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(self.tmpl.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
     @validateFunc(lambda x:x!=0)
-    # def getStage(self):return self._ocrInt((884,14,902,37))
-    def getStage(self,retrycount=0,retrylimit=5):return self._ocrInt((884,14,902,37)) if self._ocrInt((884,14,902,37))!=0 else self.getStage(retrycount+1,retrylimit) if retrycount < retrylimit else 1
+    def getStage(self):return self._ocrInt((884,14,902,37))
     @retryOnError()
     @validateFunc(lambda x:x!=0)
-    # def getStageTotal(self):return self._ocrInt((912,13,932,38))
-    def getStageTotal(self,retrycount=0,retrylimit=5):return self._ocrInt((912,13,932,38)) if self._ocrInt((912,13,932,38))!=0 else self.getStageTotal(retrycount+1,retrylimit) if retrycount < retrylimit else 1
+    def getStageTotal(self):return self._ocrInt((912,13,932,38))
     def getSummonHistory(self):XDetectBase._summonHistory=numpy.vstack((XDetectBase._summonHistory,(lambda img:img[cv2.minMaxLoc(cv2.matchTemplate(img,XDetectBase._summonHistory[-80:],cv2.TM_SQDIFF_NORMED))[2][1]+80:])(cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1])))
     @classmethod
     def getSummonHistoryCount(cls):return cls.__new__(cls).inject(XDetectBase._summonHistory)._count((cls.tmpl.SUMMONHISTORY[0][...,0],cls.tmpl.SUMMONHISTORY[1]),(28,0,60,XDetectBase._summonHistory.shape[0]),.7)
