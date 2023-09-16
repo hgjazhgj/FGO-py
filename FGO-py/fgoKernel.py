@@ -596,22 +596,3 @@ class MainStory(Main):
                 self.defeated+=1
                 fgoDevice.device.perform('CIK',(500,500,500))
             schedule.checkStopLater()
-
-class Click:
-    def __init__(self):
-        Detect(.1)
-    def __call__(self, *args: Any, **kwargs: Any) -> Any:
-        self.clickNext()
-        self.clickNextStep()
-        self.clickStart()
-        self.clickCross()
-        self.clickStartQuest()
-        self.clickDialogBox()
-        self.clickClose()
-    def clickNext(self):return(p:=Detect.cache.getNextLoc())and fgoDevice.device.touch((p[0],p[1]+75))
-    def clickNextStep(self):return(p:=Detect.cache.getNextStepLoc())and fgoDevice.device.touch(p)
-    def clickClose(self):return(p:=Detect.cache.getCloseLoc())and fgoDevice.device.touch(p)
-    def clickStart(self):return(p:=Detect.cache.getStartLoc())and fgoDevice.device.touch(p)
-    def clickCross(self):return(p:=Detect.cache.getCrossLoc())and fgoDevice.device.touch(p)
-    def clickStartQuest(self):return(p:=Detect.cache.getStartQuestLoc())and fgoDevice.device.touch(p)
-    def clickDialogBox(self):return(p:=Detect.cache.getDialogLoc())and fgoDevice.device.touch(p)
