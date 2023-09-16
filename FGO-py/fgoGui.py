@@ -160,7 +160,6 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         if not Teamup(self).exec():return
         self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)))
     def runStory(self):self.runFunc(fgoKernel.MainStory(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.Turn)))
-
     def pause(self,x):
         if not x and not self.isDeviceAvailable():return self.BTN_PAUSE.setChecked(True)
         fgoKernel.schedule.pause()
@@ -175,7 +174,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         if not self.isDeviceAvailable():return
         try:fgoKernel.Detect(0).show()
         except Exception as e:logger.exception(e)
-    def explorerHere(self):os.startfile('.') if platform.system()=="Windows" else os.system("xdg-open .") if platform.system() == "Linux" else os.system("open .")
+    def explorerHere(self):os.startfile('.')if platform.system()=="Windows"else os.system("xdg-open .")if platform.system()=="Linux"else os.system("open .")
     def runFpSummon(self):self.runFunc(fgoKernel.fpSummon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)
