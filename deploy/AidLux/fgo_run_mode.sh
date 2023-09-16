@@ -16,7 +16,7 @@ fi
 $adb connect $DEVICE
 # 启动fgo
 $adb -s "$DEVICE" shell am start -n $FGO_PACKAGE_NAME/$FGO_ACTIVITY_NAME
-# 下列指令为连接运行设备进行萤幕比例调整然后运行推主线模式，如有需求自行替换
+# 下列指令为连接运行设备进行萤幕比例调整然后运行剧情推进模式，如有需求自行替换
 echo -e "connect $DEVICE \n 169 invoke \n $MODE" | $fgo_python $FGO cli
 # 运行中断或结束后还原
 echo -e "connect $DEVICE \n 169 revoke" | $fgo_python $FGO cli
