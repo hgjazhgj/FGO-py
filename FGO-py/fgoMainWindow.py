@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'fgoMainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.1
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -177,12 +177,7 @@ class Ui_fgoMainWindow(object):
         self.BTN_CLASSIC.setObjectName(u"BTN_CLASSIC")
         self.BTN_CLASSIC.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.BTN_STORY = QPushButton(self.widget)
-        self.BTN_STORY.setObjectName(u"BTN_STORY")
-        self.BTN_STORY.setCursor(QCursor(Qt.PointingHandCursor))
-
         self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_CLASSIC)
-        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_STORY)
 
 
         self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_BATTLE)
@@ -229,6 +224,12 @@ class Ui_fgoMainWindow(object):
 
         self.verticalLayout.addLayout(self.LAYOUT_FUNC)
 
+        self.BTN_STORY = QPushButton(self.widget)
+        self.BTN_STORY.setObjectName(u"BTN_STORY")
+        self.BTN_STORY.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.verticalLayout.addWidget(self.BTN_STORY)
+
         fgoMainWindow.setCentralWidget(self.widget)
         self.MENU = QMenuBar(fgoMainWindow)
         self.MENU.setObjectName(u"MENU")
@@ -254,7 +255,6 @@ class Ui_fgoMainWindow(object):
         QWidget.setTabOrder(self.BTN_CONNECT, self.BTN_MAIN)
         QWidget.setTabOrder(self.BTN_MAIN, self.BTN_BATTLE)
         QWidget.setTabOrder(self.BTN_BATTLE, self.BTN_CLASSIC)
-        # QWidget.setTabOrder(self.BTN_CLASSIC, self.BTN_PAUSE)
         QWidget.setTabOrder(self.BTN_CLASSIC, self.BTN_STORY)
         QWidget.setTabOrder(self.BTN_STORY, self.BTN_PAUSE)
         QWidget.setTabOrder(self.BTN_PAUSE, self.BTN_STOP)
@@ -390,10 +390,6 @@ class Ui_fgoMainWindow(object):
 #endif // QT_CONFIG(statustip)
         self.BTN_CLASSIC.setText(QCoreApplication.translate("fgoMainWindow", u"\u9648\u5e74\u8001\u809d", None))
 #if QT_CONFIG(statustip)
-        self.BTN_STORY.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u63a8\u56fe\u7528\u7684\u6a21\u5f0f", None))
-#endif // QT_CONFIG(statustip)
-        self.BTN_STORY.setText(QCoreApplication.translate("fgoMainWindow", u"\u63a8\u56fe\u6a21\u5f0f", None))
-#if QT_CONFIG(statustip)
         self.BTN_PAUSE.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u6682\u505c/\u7ee7\u7eed\u6218\u6597", None))
 #endif // QT_CONFIG(statustip)
         self.BTN_PAUSE.setText(QCoreApplication.translate("fgoMainWindow", u"\u6302\u8d77\u6218\u6597", None))
@@ -409,6 +405,10 @@ class Ui_fgoMainWindow(object):
         self.BTN_STOPLATER.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u5728\u5b8c\u6210\u82e5\u5e72\u573a\u6218\u6597\u540e\u7ec8\u6b62\u6218\u6597", None))
 #endif // QT_CONFIG(statustip)
         self.BTN_STOPLATER.setText(QCoreApplication.translate("fgoMainWindow", u"\u9884\u7ea6\u7ec8\u6b62", None))
+#if QT_CONFIG(statustip)
+        self.BTN_STORY.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u5728\u754c\u9762\u6709next\u7684\u60c5\u51b5\u4e0b\u8fd0\u884c\u6765\u63a8\u8fdb\u5267\u60c5", None))
+#endif // QT_CONFIG(statustip)
+        self.BTN_STORY.setText(QCoreApplication.translate("fgoMainWindow", u"\u5267\u60c5\u63a8\u8fdb\u6a21\u5f0f", None))
         self.MENU_ABOUT.setTitle(QCoreApplication.translate("fgoMainWindow", u"\u5173\u4e8e", None))
         self.MENU_FILE.setTitle(QCoreApplication.translate("fgoMainWindow", u"\u6587\u4ef6", None))
         self.MENU_SCRIPT.setTitle(QCoreApplication.translate("fgoMainWindow", u"\u7a0b\u5e8f", None))
