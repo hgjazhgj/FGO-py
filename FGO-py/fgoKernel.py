@@ -420,36 +420,6 @@ class Battle:
             'time':time.time()-self.start,
             'material':self.material,
         }
-class BattleStory(Battle):
-    def __init__(self, turnClass=Turn):
-        super().__init__(turnClass)
-    def __call__(self):
-        self.start=time.time()
-        self.material={}
-        while True:
-            if Detect(0,.3).isTurnBegin():
-                self.turn+=1
-                self.turnProc(self.turn)
-            elif Detect.cache.isSpecialDropSuspended():
-                schedule.checkKizunaReisou()
-                logger.warning('Kizuna Reisou')
-                Detect.cache.save('fgoLog/SpecialDrop')
-                fgoDevice.device.press('\x1B')
-            elif not self.rainbowBox and Detect.cache.isSpecialDropRainbowBox():self.rainbowBox=True
-            elif Detect.cache.isBattleFinished():
-                logger.info('Battle Finished')
-                self.material=Detect(.4).getMaterial()
-                if self.rainbowBox:
-                    logger.warning('Special Drop')
-                    schedule.checkSpecialDrop()
-                    Detect.cache.save('fgoLog/SpecialDrop')
-                return True
-            elif Detect.cache.isBattleDefeated():
-                logger.warning('Battle Defeated')
-                schedule.checkDefeated()
-                return False
-            #TODO:add touch backbutton
-            fgoDevice.device.perform('\xBB\x08',(100,100))
 class Main:
     teamIndex=0
     def __init__(self,appleTotal=0,appleKind=0,battleClass=Battle):
