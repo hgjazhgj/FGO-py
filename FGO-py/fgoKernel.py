@@ -520,8 +520,6 @@ class Main:
                     fgoDevice.device.perform('\xBAK',(500,1000))
 
 class MainStory(Main):
-    def __init__(self, appleTotal=0, appleKind=0, battleClass=Battle):
-        super().__init__(appleTotal, appleKind, battleClass)
     @serialize(mutex)
     def __call__(self):
         self.start=time.time()
