@@ -192,19 +192,6 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="BTN_STORY">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="statusTip">
-           <string>在界面有next的情况下运行来推进剧情</string>
-          </property>
-          <property name="text">
-           <string>剧情推进模式</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>
@@ -283,6 +270,19 @@
        </layout>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QPushButton" name="BTN_STORY">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="statusTip">
+       <string>在界面有next的情况下运行来推进剧情</string>
+      </property>
+      <property name="text">
+       <string>剧情推进模式</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
