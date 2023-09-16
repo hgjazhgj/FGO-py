@@ -1,4 +1,3 @@
-#/bin/sh
 export fgo_python=/usr/local/python-3.9.10/bin/python3.9
 export adb=/usr/local/adb/bin/adb
 # 在aidlux下fgo.py的文件位置
@@ -8,7 +7,7 @@ export DEVICE=localhost:5555
 export FGO_PACKAGE_NAME="com.aniplex.fategrandorder.en"
 # ACTIVITY_NAME应该是通用的，我个人测试台服跟美服都是jp.delightworks.Fgo.player.AndroidPlugin
 export FGO_ACTIVITY_NAME="jp.delightworks.Fgo.player.AndroidPlugin"
-# 第一个输入为模式，使用上为 /path/to/this_file battle
+# 第一个输入为模式，默认模式为battle，使用方式为 /path/to/this_file battle
 if [ -z "$1" ]; then
     export MODE=battle
 else
