@@ -129,7 +129,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isSynthesisBegin(self):return self._compare(self.tmpl.SYNTHESIS,(16,12,112,73))
     def isSynthesisFinished(self):return self._compare(self.tmpl.DECIDEDISABLED,(1035,625,1275,711))
     def isTurnBegin(self):return self._compare(self.tmpl.ATTACK,(1155,635,1210,682))
-    def isStorySkip(self):return self._compare(self.tmpl.SKIP,(1120,0,1280,75))
+    def isStorySkip(self):return self._compare(self.tmpl.SKIP,(1118,0,1282,79))
     def getNextLoc(self):return p if(p:=self._find(self.tmpl.NEXT,threshold=0.03))and self.isMainInterface()else False
     def getCloseLoc(self):return p if(p:=self._find(self.tmpl.CLOSEBUTTON))else False
     def getNextStepLoc(self): return p if(p:=self._find(self.tmpl.ADDFRIEND,(940,590,1280,720)))else False
