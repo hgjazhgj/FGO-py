@@ -508,12 +508,12 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <source>推图用的模式</source>
-        <translation>mode for running main storyline</translation>
+        <source>在界面有next的情况下运行来推进剧情</source>
+        <translation>run it when next exists to clear storyline</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <source>推图模式</source>
+        <source>剧情推进模式</source>
         <translation>StoryMode</translation>
     </message>
     <message>

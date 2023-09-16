@@ -198,10 +198,10 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>推图用的模式</string>
+           <string>在界面有next的情况下运行来推进剧情</string>
           </property>
           <property name="text">
-           <string>推图模式</string>
+           <string>剧情推进模式</string>
           </property>
          </widget>
         </item>
