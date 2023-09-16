@@ -548,6 +548,16 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
+        <source>インターフェイスに次があるときに実行してプロットを進めます</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>剧情推进模式</source>
+        <translation>剧情推进模式</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
         <source>关于</source>
         <translation>About</translation>
     </message>
