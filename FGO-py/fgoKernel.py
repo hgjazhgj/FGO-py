@@ -17,7 +17,6 @@
 # .  Grand Order/Anima Animusphere
 # .     冠位指定/人理保障天球
 'Full-automatic FGO Script'
-from typing import Any
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
