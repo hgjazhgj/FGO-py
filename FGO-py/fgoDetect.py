@@ -131,7 +131,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isTurnBegin(self):return self._compare(self.tmpl.ATTACK,(1155,635,1210,682))
     def isStorySkip(self):return self._compare(self.tmpl.SKIP,(1118,0,1282,79))
     def getNextLoc(self):return p if(p:=self._find(self.tmpl.NEXT,threshold=0.03))and self.isMainInterface()else False
-    def getCloseLoc(self):return p if(p:=self._find(self.tmpl.CLOSEBUTTON))else False
+    def getCloseLoc(self):return p if(p:=self._find(self.tmpl.CLOSEBUTTON,threshold=0.01))else False
     def getNextStepLoc(self): return p if(p:=self._find(self.tmpl.ADDFRIEND,(940,590,1280,720)))else False
     def getStartLoc(self):return p if(p:=self._find(self.tmpl.STARTBUTTON))else False
     def getCrossLoc(self):return p if(p:=self._find(self.tmpl.CROSS,threshold=0.1))else False
