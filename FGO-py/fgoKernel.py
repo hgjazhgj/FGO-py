@@ -551,7 +551,7 @@ class MainStory(Main):
                 elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
                 elif Detect.cache.isStorySkip():fgoDevice.device.perform('\x08K',(300,300))
                 fgoDevice.device.press('\xBB')
-                fgoDevice.device.touch(p)if(p:=Detect.cache.getCrossLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getCloseLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getDialogLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getNextStepLoc())else None
+                fgoDevice.device.touch(p)if(p:=Detect.cache.getCrossLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getCloseLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getDialogLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getNextStepLoc())else fgoDevice.device.perform(' M ',(2000,2000,3000))if Detect.cache.isBattleBegin()else None
             self.battleCount+=1
             logger.info(f'Battle {self.battleCount}')
             if self.battleProc():
