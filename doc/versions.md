@@ -1,5 +1,10 @@
 # 版本记录 Version Log
 
+## 2023/09/22 v18.8.3
+
+Fix:防鞭尸在地方仅剩一人时不生效  
+Opt:目标集中视同无敌闪避  
+
 ## 2023/09/16 v18.8.2
 
 Fix:getSkillTargetCount  
