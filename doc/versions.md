@@ -1,14 +1,22 @@
 # 版本记录 Version Log
 
-## next
+## 2023/09/16 v18.8.2
 
+Fix:getSkillTargetCount  
+有时场地粒子特效会有更高的亮度  
+
+## 2023/09/10 v18.8.1
+
+Fix:不满三人  
+Fix:getCardResist与指令纹章  
 Opt:选卡  
 加入了mighty chain,考虑了包含宝具卡的连携以及非从者特异性的避免鞭尸  
-就为了判定包含宝具卡的brave chain,整了个getCardServant,但是在助战与编队中从者存在重复时仍然可能不能区分
+就为了判定包含宝具卡的brave chain,整了个getCardServant,但是在助战与编队中从者存在重复时仍然可能不能区分  
 
 ## 2023/08/24 v18.8.0
 
-Add:台服支持  
+Notice:pponnxcr更新了  
+Add:台服支持(pr#114)  
 
 ## 2023/08/11 v18.7.1
 
