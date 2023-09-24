@@ -118,6 +118,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isMailListEnd(self):return self._isListEnd((937,679))
     def isNetworkError(self):return self._compare(self.tmpl.NETWORKERROR,(703,529,974,597))
     def isNoFriend(self):return self._compare(self.tmpl.NOFRIEND,(245,362,274,392),.15)
+    def isStoryInterface(self):return self._compare(self.tmpl.TERMINAL,(0,0,185,90))
     def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
     def isServantFriend(self,pos):return self._compare(self.tmpl.SUPPORT,(187+318*pos,394,225+318*pos,412))
     def isSkillCastFailed(self):return self._compare(self.tmpl.SKILLERROR,(504,528,776,597))
