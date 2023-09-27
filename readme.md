@@ -1,5 +1,4 @@
-> 已添加南溟弓张八犬传活动远征收菜  
-> 已添加日服支持  
+> 已添加日服支持
 > 已添加美服支持([#111](https://github.com/hgjazhgj/FGO-py/pull/111))
 > 已添加台服支持([#114](https://github.com/hgjazhgj/FGO-py/pull/114))
 
@@ -24,8 +23,7 @@
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
-![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)![Monero](doc/monero.png)  
-Scan this code to send Monero to 42CnrV9TuzE1jiS2ucGwtzN8gF6o4y9SkHsX1eZEvtiDf4QcL1NXvfZPhDu7LYStWrbsQM9UUGWnqXghManMBdqjEW5oaDY  
+![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
 [GitHub Sponsor](https://github.com/sponsors/hgjazhgj/)  
 [Patron](https://patreon.com/hgjazhgj)  
 [PayPal](https://paypal.me/hgjazhgjpp)  
