@@ -116,7 +116,7 @@ def synthesis():
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
 @serialize(mutex)
 def dailyFpSummon():
-    while not Detect(.5).isMainInterface():pass
+    while not Detect(0,1).isMainInterface():pass
     fgoDevice.device.perform(' Z',(500,2000))
     while not Detect(.5).isMainInterface():pass
     while not Detect(1.5).isFpSummon():fgoDevice.device.press('\xBC')
@@ -344,10 +344,7 @@ class Turn:
         for _ in houguTargeted:
             self.enemy[self.target]=max(0,self.enemy[self.target]-48000)
             if any(self.enemy)and self.enemy[self.target]==0:self.target=next(i for i in range(5,-1,-1)if self.enemy[i])
-        def evaluate(card):return \
-            (lambda chainError:
-            (lambda colorChain:
-            (lambda firstBonus:
+        def evaluate(card):return(lambda chainError:(lambda colorChain:(lambda firstBonus:
                 sum(
                     ((.3*bool(firstBonus&4)+.1*bool(firstBonus&1)+[1.,1.2,1.4][i]*[1,.8,1.1][color[j]])*(1+min(1,critical[j]+.2*bool(firstBonus&2)))+bool(colorChain==2))*resist[j]*(not sealed[j])
                     for i,j in enumerate(card)if j<5
@@ -356,9 +353,7 @@ class Turn:
                 +(1.8 if colorChain==-1 else 3)*(not chainError and len({group[i]for i in card})==1)*resist[card[0]]
                 +2.3*(colorChain==0)*len({group[i]for i in card if i<5 and np[group[i]]})
                 +3*(colorChain==1)
-            )(7 if colorChain==3 else 1<<color[0])
-            )(-1 if chainError else{(0,):0,(1):1,(2,):2,(0,1,2):3}.get(tuple(set(color[i]for i in card)),-1))
-            )(any(sealed[i]for i in card if i<5))
+            )(7 if colorChain==3 else 1<<color[0]))(-1 if chainError else{(0,):0,(1):1,(2,):2,(0,1,2):3}.get(tuple(set(color[i]for i in card)),-1)))(any(sealed[i]for i in card if i<5))
         card=list(max(permutations(range(5),3-len(hougu)),key=lambda x:evaluate(hougu+list(x))))
         return''.join(['12345678'[i]for i in hougu+card+list({0,1,2,3,4}-set(card))])
     def castServantSkill(self,pos,skill,target):
@@ -403,7 +398,7 @@ class Battle:
                 logger.info('Battle Finished')
                 self.material=Detect(.4).getMaterial()
                 if self.rainbowBox:
-                    logger.warning('Special Drop')
+                    logger.warning('Special Drop >_<')
                     schedule.checkSpecialDrop()
                     Detect.cache.save('fgoLog/SpecialDrop')
                 return True
