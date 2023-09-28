@@ -125,8 +125,8 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.work=fgoKernel.Battle()
         self.do_continue(f'-s {arg.sleep}')
     def do_story(self,line):
-        '[Implementing] Run for Story Mode until AP empty or defeated'
-        arg = parser_story.parse_args(line.split())
+        'Run for Story Mode until AP empty or defeated'
+        arg=parser_story.parse_args(line.split())
         self.work=fgoKernel.MainStory(arg.appleCount,['gold','silver','bronze','copper','quartz'].index(arg.appleKind),lambda:fgoKernel.Battle(fgoKernel.Turn))
         self.do_continue(f'-s {arg.sleep}')
     def do_main(self,line):
@@ -245,7 +245,7 @@ class ArgParser(argparse.ArgumentParser):
 parser_battle=ArgParser(prog='battle',description=Cmd.do_battle.__doc__)
 parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 
-parser_story = ArgParser(prog='story',description=Cmd.do_story.__doc__)
+parser_story=ArgParser(prog='story',description=Cmd.do_story.__doc__)
 parser_story.add_argument('appleCount',help='Apple Count (default: %(default)s)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0,nargs='?')
 parser_story.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','copper','quartz'],default='gold',nargs='?')
 parser_story.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')

@@ -533,7 +533,18 @@ class MainStory(Main):
                 if Detect(.3,.3).isMainInterface():
                     s=time.time()
                     while not Detect(.3,.3).isChooseFriend():
-                        fgoDevice.device.touch((p[0],p[1]+75))if(p:=Detect.cache.getNextLoc())else fgoDevice.device.perform('\x1B',(300,))if Detect.cache.isStoryInterface()and time.time()-s>60 else fgoDevice.device.touch(p)if(p:=Detect.cache.getCloseLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getCrossLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getStartQuestLoc())else fgoDevice.device.touch(p)if(p:=Detect.cache.getStartLoc())else fgoDevice.device.perform('\x08K',(1000,300))if Detect.cache.isStorySkip()else fgoDevice.device.touch(p)if(p:=Detect.cache.getDialogLoc())else(p:="BattleBegin")if Detect.cache.isBattleBegin()else fgoDevice.device.perform('\xBB\x08',(100,100))if Detect.cache.isSpecialDropRainbowBox()else fgoDevice.device.perform('\x1B',(300,))if Detect.cache.isSpecialDropSuspended()else(p:="TurnBegin")if Detect.cache.isTurnBegin()else None
+                        if p:=Detect.cache.getNextLoc():fgoDevice.device.touch((p[0],p[1]+75))
+                        elif Detect.cache.isStoryInterface()and time.time()-s>60:fgoDevice.device.perform('\x1B',(300,))
+                        elif p:=Detect.cache.findClose():fgoDevice.device.touch(p)
+                        elif p:=Detect.cache.findCross():fgoDevice.device.touch(p)
+                        elif p:=Detect.cache.findStartQuest():fgoDevice.device.touch(p)
+                        elif p:=Detect.cache.findStart():fgoDevice.device.touch(p)
+                        elif Detect.cache.isStorySkip():fgoDevice.device.perform('\x08K',(1000,300))
+                        elif p:=Detect.cache.findDialog():fgoDevice.device.touch(p)
+                        elif Detect.cache.isBattleBegin():(p:="BattleBegin")
+                        elif Detect.cache.isSpecialDropRainbowBox():fgoDevice.device.perform('\xBB\x08',(100,100))
+                        elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
+                        elif Detect.cache.isTurnBegin():(p:="TurnBegin")
                         if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                         if p=="BattleBegin"or p=="TurnBegin":break
                         elif not Detect.cache.isMainInterface():fgoDevice.device.press('\xBB')

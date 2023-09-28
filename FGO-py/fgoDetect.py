@@ -146,9 +146,9 @@ class XDetectBase(metaclass=logMeta(logger)):
         return result
     def getCardResist(self):return[{0:1,1:2}.get(self._select((self.tmpl.WEAK,self.tmpl.RESIST),(180+257*i,318,226+257*i,417)if i<5 else(-695+232*i,54,-649+232*i,117)),0)for i in range(8)]
     def getCardServant(self,hint):return(lambda target:[(lambda img:min((numpy.min(cv2.matchTemplate(img,i[0],cv2.TM_SQDIFF_NORMED,mask=i[1])),no)for no,card in target for i in card)[1])(self._crop((76+257*i,431,184+257*i,498)))for i in range(5)])([(i,servantImg[i][0])for i in hint])
-    def getCloseLoc(self):return p if(p:=self._find(self.tmpl.CLOSEBUTTON,threshold=0.01))else False
-    def getCrossLoc(self):return p if(p:=self._find(self.tmpl.CROSS,threshold=0.1))else False
-    def getDialogLoc(self):return p if(p:=self._find(self.tmpl.DIALOGBOX,threshold=0.1))else False
+    def findClose(self):return self._find(self.tmpl.CLOSEBUTTON,threshold=0.01)
+    def findCross(self):return self._find(self.tmpl.CROSS,threshold=0.1)
+    def findDialog(self):return self._find(self.tmpl.DIALOGBOX,threshold=0.1)
     def getEnemyHp(self,pos):
         if self.enemyGird==0:return 0 if pos>2 else self._ocrInt((100+250*pos,40,222+250*pos,65))
         if self.enemyGird==2:return self._ocrInt((190+pos%3*200-pos//3*100,28+pos//3*99,287+pos%3*200-pos//3*100,53+pos//3*99))
@@ -160,11 +160,11 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getFieldServantHp(self,pos):return self._ocrInt((200+318*pos,620,293+318*pos,644))
     def getFieldServantNp(self,pos):return self._ocrInt((220+318*pos,655,274+318*pos,680))
     def getMaterial(self):return(lambda x:{MATERIAL[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in MATERIAL),(176+i%7*137,110+i//7*142,253+i%7*137,187+i//7*142),.02)for i in range(1,21)])
-    def getNextLoc(self):return p if(p:=self._find(self.tmpl.NEXT,threshold=0.03))and self.isMainInterface()else False
-    def getNextStepLoc(self): return p if(p:=self._find(self.tmpl.ADDFRIEND,(940,590,1280,720)))else False
+    def findNext(self):return self._find(self.tmpl.NEXT,threshold=0.03)
+    # def getNextStepLoc(self): return p if(p:=self._find(self.tmpl.ADDFRIEND,(940,590,1280,720)))else False
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(self.tmpl.CROSS,(1083,139,1113,166))else 0
-    def getStartLoc(self):return p if(p:=self._find(self.tmpl.STARTBUTTON,threshold=0.01))else False
-    def getStartQuestLoc(self):return p if(p:=self._find(self.tmpl.STARTQUEST,threshold=0.01))else False
+    def findStart(self):return p if(p:=self._find(self.tmpl.STARTBUTTON,threshold=0.01))else False
+    def findStartQuest(self):return p if(p:=self._find(self.tmpl.STARTQUEST,threshold=0.01))else False
     @retryOnError()
     @validateFunc(lambda x:x!=0)
     def getStage(self):return self._ocrInt((884,14,902,37))
