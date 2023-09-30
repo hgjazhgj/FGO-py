@@ -67,7 +67,7 @@ def runClassic():
 def runStory():
     if not fgoDevice.device.available:
         return 'Device not available'
-    fgoKernel.MainStory(**{i:int(j)for i,j in request.form.items()},battleClass=lambda:fgoKernel.Battle(fgoKernel.Turn))()
+    fgoKernel.Story(**{i:int(j)for i,j in request.form.items()},battleClass=lambda:fgoKernel.Battle(fgoKernel.Turn))()
     return 'Done'
 
 @app.route('/api/pause',methods=['POST'])

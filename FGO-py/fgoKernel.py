@@ -519,7 +519,7 @@ class Main:
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
 
-class MainStory(Main):
+class Story(Main):
     @serialize(mutex)
     def __call__(self):
         self.start=time.time()
