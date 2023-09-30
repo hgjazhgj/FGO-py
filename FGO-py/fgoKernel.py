@@ -546,7 +546,9 @@ class MainStory(Main):
                         elif p:=Detect.cache.findStart():fgoDevice.device.touch(p)
                         elif Detect.cache.isStorySkip():fgoDevice.device.perform('\x08K',(1000,300))
                         elif p:=Detect.cache.findDialog():fgoDevice.device.touch(p)
-                        elif Detect.cache.isChooseFriend():break
+                        elif Detect.cache.isChooseFriend():
+                            schedule.sleep(3)
+                            break
                         elif Detect.cache.isSpecialDropRainbowBox():fgoDevice.device.perform('\xBB\x08',(100,100))
                         elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
                         elif Detect.cache.isTurnBegin():break
