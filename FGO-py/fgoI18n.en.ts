@@ -548,7 +548,7 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <source>在界面有next的情况下运行来推进剧情</source>
+        <source>在剧情界面有next的情况下运行</source>
         <translation>run it when next exists to clear storyline</translation>
     </message>
     <message>

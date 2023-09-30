@@ -277,7 +277,7 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="statusTip">
-       <string>在界面有next的情况下运行来推进剧情</string>
+       <string>在剧情界面有next的情况下运行</string>
       </property>
       <property name="text">
        <string>剧情推进模式</string>

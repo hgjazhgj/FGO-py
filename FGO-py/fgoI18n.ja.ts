@@ -548,13 +548,13 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <source>インターフェイスに次があるときに実行してプロットを進めます</source>
-        <translation></translation>
+        <source>在剧情界面有next的情况下运行</source>
+        <translation>BTN_STORY.statusTip</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
         <source>剧情推进模式</source>
-        <translation>剧情推进模式</translation>
+        <translation>BTN_STORY.txt</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
