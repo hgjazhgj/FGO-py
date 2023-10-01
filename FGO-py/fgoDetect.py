@@ -157,7 +157,6 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getFieldServantHp(self,pos):return self._ocrInt((200+318*pos,620,293+318*pos,644))
     def getFieldServantNp(self,pos):return self._ocrInt((220+318*pos,655,274+318*pos,680))
     def getMaterial(self):return(lambda x:{MATERIAL[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in MATERIAL),(176+i%7*137,110+i//7*142,253+i%7*137,187+i//7*142),.02)for i in range(1,21)])
-    # def getNextStepLoc(self): return p if(p:=self._find(self.tmpl.ADDFRIEND,(940,590,1280,720)))else False
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),57,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(self.tmpl.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
     @validateFunc(lambda x:x!=0)
