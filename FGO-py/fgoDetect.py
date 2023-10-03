@@ -171,7 +171,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     # getTeam* series except getTeamIndex APIs are not used now
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
     def getTeamServantClassRank(self):return[(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
-    def findClose(self):return self._find(self.tmpl.INFOCLOSE,(295,525,780,640))
+    def findClose(self):return self._find(self.tmpl.STORYCLOSE,(295,525,780,640))
     def findCross(self):return self._find(self.tmpl.CROSS,(1200,0,1280,75),threshold=0.1)
     def findDialog(self):return self._find(self.tmpl.DIALOGBAR,(145,155,1140,270),threshold=0.1)
     def findFriend(self,img):return self._find(img,(13,166,1233,720))
