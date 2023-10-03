@@ -127,6 +127,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_story(self,line):
         'Run for Story Mode until AP empty or defeated'
         arg=parser_story.parse_args(line.split())
+        fgoKernel.schedule.stopLater(arg.appoint)
         self.work=fgoKernel.Story(arg.appleCount,['gold','silver','bronze','copper','quartz'].index(arg.appleKind),lambda:fgoKernel.Battle(fgoKernel.Turn))
         self.do_continue(f'-s {arg.sleep}')
     def do_main(self,line):
