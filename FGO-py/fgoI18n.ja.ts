@@ -548,13 +548,8 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <source>在剧情界面有next的情况下运行</source>
-        <translation>BTN_STORY.statusTip</translation>
-    </message>
-    <message>
-        <location filename="fgoMainWindow.ui" line="0"/>
         <source>剧情推进模式</source>
-        <translation>BTN_STORY.txt</translation>
+        <translation>BTN_STORY</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>

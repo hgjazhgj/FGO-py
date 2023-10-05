@@ -444,7 +444,7 @@
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
         <source>彩</source>
-        <translation>Bronze</translation>
+        <translation>Quartz</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
@@ -545,11 +545,6 @@
         <location filename="fgoMainWindow.ui" line="0"/>
         <source>预约终止</source>
         <translation>Appoint</translation>
-    </message>
-    <message>
-        <location filename="fgoMainWindow.ui" line="0"/>
-        <source>在剧情界面有next的情况下运行</source>
-        <translation>run it when next exist</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
