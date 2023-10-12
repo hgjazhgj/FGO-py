@@ -543,6 +543,7 @@ class Story(Main):
                         elif Detect.cache.isSpecialDropRainbowBox():fgoDevice.device.perform('\xBB\x08',(100,100))
                         elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
                         elif Detect.cache.isTurnBegin():break
+                        elif Detect.cache.isBattleBegin():break
                         elif not Detect.cache.isMainInterface():fgoDevice.device.press('\xBB')
                     if Detect.cache.isChooseFriend():self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():
