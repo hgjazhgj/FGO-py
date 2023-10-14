@@ -548,8 +548,13 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <source>剧情推进模式</source>
-        <translation>BTN_STORY</translation>
+        <source>剧情推进</source>
+        <translation>BTN_STORY.text</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>连续通关带有next标记的剧情关卡</source>
+        <translation>BTN_STORY.statusTip</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>

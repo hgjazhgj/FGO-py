@@ -548,8 +548,13 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <source>剧情推进模式</source>
-        <translation>StoryMode</translation>
+        <source>剧情推进</source>
+        <translation>Story</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>连续通关带有next标记的剧情关卡</source>
+        <translation>clear story stages pointed by next</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
