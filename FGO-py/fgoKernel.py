@@ -527,13 +527,14 @@ class Story(Main):
             while True:
                 if Detect(.3,.3).isMainInterface():
                     s=time.time()
-                    while not Detect(.3,.3).isChooseFriend():
+                    while not Detect(0,.3).isChooseFriend():
                         if p:=Detect.cache.findStoryNext():
                             fgoDevice.device.touch((p[0],p[1]+75))
                             schedule.sleep(1)
                         elif Detect.cache.isStoryMap()and time.time()-s>60:
                             fgoDevice.device.perform('\x1B',(10000,))
                             fgoDevice.device.press('8')
+                            s=time.time()
                         elif Detect.cache.isApEmpty()and not self.eatApple():return
                         elif Detect.cache.isStoryCross():fgoDevice.device.perform('\x08',(300,))
                         elif Detect.cache.isStoryQuest()or Detect.cache.isStoryStart():fgoDevice.device.perform('K',(300,))
@@ -545,7 +546,7 @@ class Story(Main):
                         elif Detect.cache.isTurnBegin():break
                         elif Detect.cache.isBattleBegin():break
                         elif not Detect.cache.isMainInterface():fgoDevice.device.press('\xBB')
-                    if Detect.cache.isChooseFriend():self.chooseFriend()
+                    else:self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():
                         if(p:=Detect.cache.findStoryClose()):fgoDevice.device.touch(p)
                         elif Detect.cache.isStoryCross():fgoDevice.device.perform('\x08',(300,))

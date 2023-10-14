@@ -277,10 +277,10 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="statusTip">
-       <string>剧情推进模式</string>
+       <string>连续通关带有next标记的剧情关卡</string>
       </property>
       <property name="text">
-       <string>剧情推进模式</string>
+       <string>剧情推进</string>
       </property>
      </widget>
     </item>
