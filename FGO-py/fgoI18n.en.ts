@@ -553,8 +553,8 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
-        <source>连续通关带有next标记的剧情关卡</source>
-        <translation>clear story stages pointed by next</translation>
+        <source>在地图界面连续通关带有NEXT标记的关卡</source>
+        <translation>Continuously clear the Quest marked with NEXT on the map interface</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>

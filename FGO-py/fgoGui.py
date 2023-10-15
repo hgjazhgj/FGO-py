@@ -174,7 +174,13 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         if not self.isDeviceAvailable():return
         try:fgoKernel.Detect(0).show()
         except Exception as e:logger.exception(e)
-    def explorerHere(self):os.startfile('.')if platform.system()=="Windows"else os.system("xdg-open .")if platform.system()=="Linux"else os.system("open .")
+    def explorerHere(self):
+        {
+            'Windows':lambda:os.startfile('.'),
+            'Linux':lambda:os.system("xdg-open ."),
+            'Darwin':lambda:os.system("open ."),
+            '':lambda:os.system('open .')
+        }.get(platform.system())()
     def runFpSummon(self):self.runFunc(fgoKernel.fpSummon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)

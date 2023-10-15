@@ -406,7 +406,7 @@ class Ui_fgoMainWindow(object):
 #endif // QT_CONFIG(statustip)
         self.BTN_STOPLATER.setText(QCoreApplication.translate("fgoMainWindow", u"\u9884\u7ea6\u7ec8\u6b62", None))
 #if QT_CONFIG(statustip)
-        self.BTN_STORY.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u8fde\u7eed\u901a\u5173\u5e26\u6709next\u6807\u8bb0\u7684\u5267\u60c5\u5173\u5361", None))
+        self.BTN_STORY.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u5728\u5730\u56fe\u754c\u9762\u8fde\u7eed\u901a\u5173\u5e26\u6709NEXT\u6807\u8bb0\u7684\u5173\u5361", None))
 #endif // QT_CONFIG(statustip)
         self.BTN_STORY.setText(QCoreApplication.translate("fgoMainWindow", u"\u5267\u60c5\u63a8\u8fdb", None))
         self.MENU_ABOUT.setTitle(QCoreApplication.translate("fgoMainWindow", u"\u5173\u4e8e", None))
