@@ -166,34 +166,47 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="LAYOUT_FUNC">
+     <layout class="QHBoxLayout" name="LAYOUT_BATTLE">
       <item>
-       <layout class="QVBoxLayout" name="LAYOUT_FUNC_BATTLE">
-        <item>
-         <widget class="QPushButton" name="BTN_BATTLE">
-          <property name="statusTip">
-           <string>完成当前战斗</string>
-          </property>
-          <property name="text">
-           <string>完成战斗</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="BTN_CLASSIC">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="statusTip">
-           <string>基于经典战斗的清空体力</string>
-          </property>
-          <property name="text">
-           <string>陈年老肝</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QPushButton" name="BTN_CLASSIC">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="statusTip">
+         <string>基于经典战斗的清空体力</string>
+        </property>
+        <property name="text">
+         <string>陈年老肝</string>
+        </property>
+       </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="BTN_BATTLE">
+        <property name="statusTip">
+         <string>完成当前战斗</string>
+        </property>
+        <property name="text">
+         <string>完成战斗</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="BTN_STORY">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="statusTip">
+         <string>在地图界面连续通关带有NEXT标记的关卡</string>
+        </property>
+        <property name="text">
+         <string>剧情推进</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="LAYOUT_FUNC">
       <item>
        <layout class="QVBoxLayout" name="LAYOUT_FUMC_MAIN">
         <item>
@@ -270,19 +283,6 @@
        </layout>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QPushButton" name="BTN_STORY">
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="statusTip">
-       <string>在地图界面连续通关带有NEXT标记的关卡</string>
-      </property>
-      <property name="text">
-       <string>剧情推进</string>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
@@ -491,7 +491,6 @@
   <tabstop>BTN_MAIN</tabstop>
   <tabstop>BTN_BATTLE</tabstop>
   <tabstop>BTN_CLASSIC</tabstop>
-  <tabstop>BTN_STORY</tabstop>
   <tabstop>BTN_PAUSE</tabstop>
   <tabstop>BTN_STOP</tabstop>
   <tabstop>BTN_SCREENSHOT</tabstop>
@@ -576,73 +575,73 @@
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>expBall()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_CONTROL_MAPKEY</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>mapKey(bool)</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>BTN_STOPLATER</sender>
    <signal>clicked(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stopLater(bool)</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_SCRIPT_LOTTERY</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runLottery()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_SCRIPT_MAILFILTER</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runMail()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_CONTROL_BENCH</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>bench()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_CONTROL_EXEC</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>exec()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_SETTINGS_SPECIALDROP</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stopOnSpecialDrop()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_ABOUT_LICENSE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>license()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_CONTROL_169_INVOKE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>invoke169()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>MENU_CONTROL_169_REVOKE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>revoke169()</slot>
-  </connection>
+     </connection>
   <connection>
    <sender>BTN_BATTLE</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runBattle()</slot>
-  </connection>
+     </connection>
  </connections>
  <slots>
   <slot>about()</slot>
@@ -658,11 +657,11 @@
   <slot>revoke169()</slot>
   <slot>runBattle()</slot>
   <slot>runClassic()</slot>
-  <slot>runStory()</slot>
   <slot>runFpSummon()</slot>
   <slot>runLottery()</slot>
   <slot>runMail()</slot>
   <slot>runMain()</slot>
+  <slot>runStory()</slot>
   <slot>runSummonHistory()</slot>
   <slot>runSynthesis()</slot>
   <slot>screenshot()</slot>

@@ -178,9 +178,8 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         {
             'Windows':lambda:os.startfile('.'),
             'Linux':lambda:os.system("xdg-open ."),
-            'Darwin':lambda:os.system("open ."),
-            '':lambda:os.system('open .')
-        }.get(platform.system())()
+            'Darwin':lambda:os.system("open .")
+        }.get(platform.system(),lambda:os.system('open .'))()
     def runFpSummon(self):self.runFunc(fgoKernel.fpSummon)
     def runLottery(self):self.runFunc(fgoKernel.lottery)
     def runMail(self):self.runFunc(fgoKernel.mail)
