@@ -209,7 +209,7 @@
     <item>
      <layout class="QHBoxLayout" name="LAYOUT_FUNC">
       <item>
-       <layout class="QVBoxLayout" name="LAYOUT_FUMC_MAIN">
+       <layout class="QVBoxLayout" name="LAYOUT_FUNC_CONTROL_LEFT">
         <item>
          <widget class="QPushButton" name="BTN_PAUSE">
           <property name="enabled">
@@ -248,7 +248,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="LAYOUT_FUNC_CONTROL">
+       <layout class="QVBoxLayout" name="LAYOUT_FUNC_CONTROL_RIGHT">
         <item>
          <widget class="QPushButton" name="BTN_SCREENSHOT">
           <property name="cursor">

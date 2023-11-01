@@ -188,33 +188,33 @@ class Ui_fgoMainWindow(object):
 
         self.LAYOUT_FUNC = QHBoxLayout()
         self.LAYOUT_FUNC.setObjectName(u"LAYOUT_FUNC")
-        self.LAYOUT_FUMC_MAIN = QVBoxLayout()
-        self.LAYOUT_FUMC_MAIN.setObjectName(u"LAYOUT_FUMC_MAIN")
+        self.LAYOUT_FUNC_CONTROL_LEFT = QVBoxLayout()
+        self.LAYOUT_FUNC_CONTROL_LEFT.setObjectName(u"LAYOUT_FUNC_CONTROL_LEFT")
         self.BTN_PAUSE = QPushButton(self.widget)
         self.BTN_PAUSE.setObjectName(u"BTN_PAUSE")
         self.BTN_PAUSE.setEnabled(False)
         self.BTN_PAUSE.setCursor(QCursor(Qt.PointingHandCursor))
         self.BTN_PAUSE.setCheckable(True)
 
-        self.LAYOUT_FUMC_MAIN.addWidget(self.BTN_PAUSE)
+        self.LAYOUT_FUNC_CONTROL_LEFT.addWidget(self.BTN_PAUSE)
 
         self.BTN_STOP = QPushButton(self.widget)
         self.BTN_STOP.setObjectName(u"BTN_STOP")
         self.BTN_STOP.setEnabled(False)
         self.BTN_STOP.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.LAYOUT_FUMC_MAIN.addWidget(self.BTN_STOP)
+        self.LAYOUT_FUNC_CONTROL_LEFT.addWidget(self.BTN_STOP)
 
 
-        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUMC_MAIN)
+        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_CONTROL_LEFT)
 
-        self.LAYOUT_FUNC_CONTROL = QVBoxLayout()
-        self.LAYOUT_FUNC_CONTROL.setObjectName(u"LAYOUT_FUNC_CONTROL")
+        self.LAYOUT_FUNC_CONTROL_RIGHT = QVBoxLayout()
+        self.LAYOUT_FUNC_CONTROL_RIGHT.setObjectName(u"LAYOUT_FUNC_CONTROL_RIGHT")
         self.BTN_SCREENSHOT = QPushButton(self.widget)
         self.BTN_SCREENSHOT.setObjectName(u"BTN_SCREENSHOT")
         self.BTN_SCREENSHOT.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.LAYOUT_FUNC_CONTROL.addWidget(self.BTN_SCREENSHOT)
+        self.LAYOUT_FUNC_CONTROL_RIGHT.addWidget(self.BTN_SCREENSHOT)
 
         self.BTN_STOPLATER = QPushButton(self.widget)
         self.BTN_STOPLATER.setObjectName(u"BTN_STOPLATER")
@@ -222,10 +222,10 @@ class Ui_fgoMainWindow(object):
         self.BTN_STOPLATER.setCursor(QCursor(Qt.PointingHandCursor))
         self.BTN_STOPLATER.setCheckable(True)
 
-        self.LAYOUT_FUNC_CONTROL.addWidget(self.BTN_STOPLATER)
+        self.LAYOUT_FUNC_CONTROL_RIGHT.addWidget(self.BTN_STOPLATER)
 
 
-        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_CONTROL)
+        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_CONTROL_RIGHT)
 
 
         self.verticalLayout.addLayout(self.LAYOUT_FUNC)
