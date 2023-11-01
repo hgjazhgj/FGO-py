@@ -3,7 +3,7 @@
  <author>hgjazhgj</author>
  <class>fgoMainWindow</class>
  <widget class="QMainWindow" name="fgoMainWindow">
-    <property name="focusPolicy">
+  <property name="focusPolicy">
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
@@ -294,7 +294,7 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="MENU">
-      <widget class="QMenu" name="MENU_ABOUT">
+   <widget class="QMenu" name="MENU_ABOUT">
     <property name="title">
      <string>关于</string>
     </property>
