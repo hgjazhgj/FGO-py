@@ -174,6 +174,7 @@ class Ui_fgoMainWindow(object):
 
         self.BTN_BATTLE = QPushButton(self.widget)
         self.BTN_BATTLE.setObjectName(u"BTN_BATTLE")
+        self.BTN_BATTLE.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.LAYOUT_BATTLE.addWidget(self.BTN_BATTLE)
 
