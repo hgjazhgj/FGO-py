@@ -158,37 +158,39 @@ class Ui_fgoMainWindow(object):
 
         self.verticalLayout.addLayout(self.LAYOUT_INFO)
 
+        self.LAYOUT_FUNC = QVBoxLayout()
+        self.LAYOUT_FUNC.setObjectName(u"LAYOUT_FUNC")
         self.BTN_MAIN = QPushButton(self.widget)
         self.BTN_MAIN.setObjectName(u"BTN_MAIN")
         self.BTN_MAIN.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.verticalLayout.addWidget(self.BTN_MAIN)
+        self.LAYOUT_FUNC.addWidget(self.BTN_MAIN)
 
-        self.LAYOUT_BATTLE = QHBoxLayout()
-        self.LAYOUT_BATTLE.setObjectName(u"LAYOUT_BATTLE")
+        self.LAYOUT_FUNC_BATTLE = QHBoxLayout()
+        self.LAYOUT_FUNC_BATTLE.setObjectName(u"LAYOUT_FUNC_BATTLE")
         self.BTN_CLASSIC = QPushButton(self.widget)
         self.BTN_CLASSIC.setObjectName(u"BTN_CLASSIC")
         self.BTN_CLASSIC.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.LAYOUT_BATTLE.addWidget(self.BTN_CLASSIC)
+        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_CLASSIC)
 
         self.BTN_BATTLE = QPushButton(self.widget)
         self.BTN_BATTLE.setObjectName(u"BTN_BATTLE")
         self.BTN_BATTLE.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.LAYOUT_BATTLE.addWidget(self.BTN_BATTLE)
+        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_BATTLE)
 
         self.BTN_STORY = QPushButton(self.widget)
         self.BTN_STORY.setObjectName(u"BTN_STORY")
         self.BTN_STORY.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.LAYOUT_BATTLE.addWidget(self.BTN_STORY)
+        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_STORY)
 
 
-        self.verticalLayout.addLayout(self.LAYOUT_BATTLE)
+        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_BATTLE)
 
-        self.LAYOUT_FUNC = QHBoxLayout()
-        self.LAYOUT_FUNC.setObjectName(u"LAYOUT_FUNC")
+        self.LAYOUT_FUNC_CONTROL = QHBoxLayout()
+        self.LAYOUT_FUNC_CONTROL.setObjectName(u"LAYOUT_FUNC_CONTROL")
         self.LAYOUT_FUNC_CONTROL_LEFT = QVBoxLayout()
         self.LAYOUT_FUNC_CONTROL_LEFT.setObjectName(u"LAYOUT_FUNC_CONTROL_LEFT")
         self.BTN_PAUSE = QPushButton(self.widget)
@@ -207,7 +209,7 @@ class Ui_fgoMainWindow(object):
         self.LAYOUT_FUNC_CONTROL_LEFT.addWidget(self.BTN_STOP)
 
 
-        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_CONTROL_LEFT)
+        self.LAYOUT_FUNC_CONTROL.addLayout(self.LAYOUT_FUNC_CONTROL_LEFT)
 
         self.LAYOUT_FUNC_CONTROL_RIGHT = QVBoxLayout()
         self.LAYOUT_FUNC_CONTROL_RIGHT.setObjectName(u"LAYOUT_FUNC_CONTROL_RIGHT")
@@ -226,7 +228,10 @@ class Ui_fgoMainWindow(object):
         self.LAYOUT_FUNC_CONTROL_RIGHT.addWidget(self.BTN_STOPLATER)
 
 
-        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_CONTROL_RIGHT)
+        self.LAYOUT_FUNC_CONTROL.addLayout(self.LAYOUT_FUNC_CONTROL_RIGHT)
+
+
+        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_CONTROL)
 
 
         self.verticalLayout.addLayout(self.LAYOUT_FUNC)

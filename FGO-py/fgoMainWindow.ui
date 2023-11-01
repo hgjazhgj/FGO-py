@@ -3,7 +3,7 @@
  <author>hgjazhgj</author>
  <class>fgoMainWindow</class>
  <widget class="QMainWindow" name="fgoMainWindow">
-  <property name="focusPolicy">
+    <property name="focusPolicy">
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
@@ -153,135 +153,139 @@
      </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="BTN_MAIN">
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="statusTip">
-       <string>在关卡列表界面将要刷的关卡置于第一个来清空体力</string>
-      </property>
-      <property name="text">
-       <string>肝!</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="LAYOUT_BATTLE">
+     <layout class="QVBoxLayout" name="LAYOUT_FUNC">
       <item>
-       <widget class="QPushButton" name="BTN_CLASSIC">
+       <widget class="QPushButton" name="BTN_MAIN">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="statusTip">
-         <string>基于经典战斗的清空体力</string>
+         <string>在关卡列表界面将要刷的关卡置于第一个来清空体力</string>
         </property>
         <property name="text">
-         <string>陈年老肝</string>
+         <string>肝!</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="BTN_BATTLE">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="statusTip">
-         <string>完成当前战斗</string>
-        </property>
-        <property name="text">
-         <string>完成战斗</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="BTN_STORY">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="statusTip">
-         <string>在地图界面连续通关带有NEXT标记的关卡</string>
-        </property>
-        <property name="text">
-         <string>剧情推进</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="LAYOUT_FUNC">
-      <item>
-       <layout class="QVBoxLayout" name="LAYOUT_FUNC_CONTROL_LEFT">
+       <layout class="QHBoxLayout" name="LAYOUT_FUNC_BATTLE">
         <item>
-         <widget class="QPushButton" name="BTN_PAUSE">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
+         <widget class="QPushButton" name="BTN_CLASSIC">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>暂停/继续战斗</string>
+           <string>基于经典战斗的清空体力</string>
           </property>
           <property name="text">
-           <string>挂起战斗</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
+           <string>陈年老肝</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="BTN_STOP">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
+         <widget class="QPushButton" name="BTN_BATTLE">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>立刻终止战斗</string>
+           <string>完成当前战斗</string>
           </property>
           <property name="text">
-           <string>终止战斗</string>
+           <string>完成战斗</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="BTN_STORY">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="statusTip">
+           <string>在地图界面连续通关带有NEXT标记的关卡</string>
+          </property>
+          <property name="text">
+           <string>剧情推进</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="LAYOUT_FUNC_CONTROL_RIGHT">
+       <layout class="QHBoxLayout" name="LAYOUT_FUNC_CONTROL">
         <item>
-         <widget class="QPushButton" name="BTN_SCREENSHOT">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="statusTip">
-           <string>检查截图确定连接建立</string>
-          </property>
-          <property name="text">
-           <string>检查截图</string>
-          </property>
-         </widget>
+         <layout class="QVBoxLayout" name="LAYOUT_FUNC_CONTROL_LEFT">
+          <item>
+           <widget class="QPushButton" name="BTN_PAUSE">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="statusTip">
+             <string>暂停/继续战斗</string>
+            </property>
+            <property name="text">
+             <string>挂起战斗</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="BTN_STOP">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="statusTip">
+             <string>立刻终止战斗</string>
+            </property>
+            <property name="text">
+             <string>终止战斗</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QPushButton" name="BTN_STOPLATER">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="statusTip">
-           <string>在完成若干场战斗后终止战斗</string>
-          </property>
-          <property name="text">
-           <string>预约终止</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-         </widget>
+         <layout class="QVBoxLayout" name="LAYOUT_FUNC_CONTROL_RIGHT">
+          <item>
+           <widget class="QPushButton" name="BTN_SCREENSHOT">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="statusTip">
+             <string>检查截图确定连接建立</string>
+            </property>
+            <property name="text">
+             <string>检查截图</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="BTN_STOPLATER">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="statusTip">
+             <string>在完成若干场战斗后终止战斗</string>
+            </property>
+            <property name="text">
+             <string>预约终止</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
@@ -290,7 +294,7 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="MENU">
-   <widget class="QMenu" name="MENU_ABOUT">
+      <widget class="QMenu" name="MENU_ABOUT">
     <property name="title">
      <string>关于</string>
     </property>
