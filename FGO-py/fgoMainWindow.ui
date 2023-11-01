@@ -183,6 +183,7 @@
       <item>
        <widget class="QPushButton" name="BTN_BATTLE">
         <property name="statusTip">
+         <cursorShape>PointingHandCursor</cursorShape>
          <string>完成当前战斗</string>
         </property>
         <property name="text">
@@ -575,73 +576,73 @@
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>expBall()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_CONTROL_MAPKEY</sender>
    <signal>triggered(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>mapKey(bool)</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>BTN_STOPLATER</sender>
    <signal>clicked(bool)</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stopLater(bool)</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_SCRIPT_LOTTERY</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runLottery()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_SCRIPT_MAILFILTER</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runMail()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_CONTROL_BENCH</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>bench()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_CONTROL_EXEC</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>exec()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_SETTINGS_SPECIALDROP</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>stopOnSpecialDrop()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_ABOUT_LICENSE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>license()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_CONTROL_169_INVOKE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>invoke169()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>MENU_CONTROL_169_REVOKE</sender>
    <signal>triggered()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>revoke169()</slot>
-     </connection>
+  </connection>
   <connection>
    <sender>BTN_BATTLE</sender>
    <signal>clicked()</signal>
    <receiver>fgoMainWindow</receiver>
    <slot>runBattle()</slot>
-     </connection>
+  </connection>
  </connections>
  <slots>
   <slot>about()</slot>

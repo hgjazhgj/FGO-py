@@ -174,8 +174,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         if not self.isDeviceAvailable():return
         try:fgoKernel.Detect(0).show()
         except Exception as e:logger.exception(e)
-    def explorerHere(self):
-        {
+    def explorerHere(self):{
             'Windows':lambda:os.startfile('.'),
             'Linux':lambda:os.system("xdg-open ."),
             'Darwin':lambda:os.system("open .")
