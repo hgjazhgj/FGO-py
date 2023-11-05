@@ -531,10 +531,6 @@ class Story(Main):
                         if p:=Detect.cache.findStoryNext():
                             fgoDevice.device.touch((p[0],p[1]+75))
                             schedule.sleep(1)
-                        elif Detect.cache.isStoryMap()and time.time()-s>60:
-                            fgoDevice.device.perform('\x1B',(10000,))
-                            fgoDevice.device.press('8')
-                            s=time.time()
                         elif Detect.cache.isApEmpty()and not self.eatApple():return
                         elif Detect.cache.isStoryCross():fgoDevice.device.perform('\x08',(300,))
                         elif Detect.cache.isStoryQuest()or Detect.cache.isStoryStart():fgoDevice.device.perform('K',(300,))
