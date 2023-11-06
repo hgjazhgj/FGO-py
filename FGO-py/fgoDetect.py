@@ -16,7 +16,7 @@ IMG_NA=type('IMG_NA',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.
 IMG_TW=type('IMG_TW',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/tw/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/tw')if i.endswith('.png')})
 CLASS={100:[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in['shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender','beast']for j in range(3)]}
 for scale in [75,93,125]:CLASS[scale]=[[cv2.resize(j,(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC)for j in i]for i in CLASS[100]]
-NEXT = [(cv2.resize(IMG.NEXT[0],(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC),cv2.resize(IMG.NEXT[1],(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC))for scale in numpy.linspace(20,100,20)[::-1]]
+NEXT = [(cv2.resize(IMG.NEXT[0],(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC),cv2.resize(IMG.NEXT[1],(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC))for scale in numpy.linspace(20,100,40)[::-1]]
 MATERIAL=[(i[:-4],cv2.imread(f'fgoImage/material/{i}'))for i in os.listdir('fgoImage/material')if i.endswith('.png')]
 OCR=type('OCR',(),{i:Ocr(i)for i in tqdm.tqdm(['EN','ZHS','JA','ZHT'],leave=False)})
 def coroutine(func):
@@ -132,6 +132,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isStoryQuest(self):return self._compare(self.tmpl.STORYQUEST,(706,531,972,595))
     def isStorySkip(self):return self._compare(self.tmpl.SKIP,(1123,10,1270,70))
     def isStoryStart(self):return self._compare(self.tmpl.STORYSTART,(707,531,981,595))
+    def isStoryStage(self):return self._compare(self.tmpl.STAGEBAR,(235,466,253,503))
     def isSummonHistoryListEnd(self):return self._isListEnd((1142,552))
     def isSynthesisBegin(self):return self._compare(self.tmpl.SYNTHESIS,(16,12,112,73))
     def isSynthesisFinished(self):return self._compare(self.tmpl.DECIDEDISABLED,(1035,625,1275,711))
