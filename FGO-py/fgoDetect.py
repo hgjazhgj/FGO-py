@@ -132,7 +132,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isStoryQuest(self):return self._compare(self.tmpl.STORYQUEST,(706,531,972,595))
     def isStorySkip(self):return self._compare(self.tmpl.SKIP,(1123,10,1270,70))
     def isStoryStart(self):return self._compare(self.tmpl.STORYSTART,(707,531,981,595))
-    def isStoryStage(self):return self._compare(self.tmpl.STAGEBAR,(235,466,253,503))
+    def isStoryStage(self):return self._compare(self.tmpl.STAGEBAR,(147,464,593,505))
     def isSummonHistoryListEnd(self):return self._isListEnd((1142,552))
     def isSynthesisBegin(self):return self._compare(self.tmpl.SYNTHESIS,(16,12,112,73))
     def isSynthesisFinished(self):return self._compare(self.tmpl.DECIDEDISABLED,(1035,625,1275,711))
