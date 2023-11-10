@@ -94,7 +94,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def setupEnemyGird(self):
         XDetectBase.enemyGird=2 if any(self._select(CLASS[75],(110+200*i,1,173+200*i,48))is not None for i in range(3))else 1 if False else 0
         return XDetectBase.enemyGird
-    def setupLottery(self):XDetectBase._watchLottery=self._asyncImageChange((960,4,1010,32))
+    def setupLottery(self):XDetectBase._watchLottery=self._asyncImageChange((983,4,1037,34))
     def setupMailDone(self):XDetectBase._watchMailDone=self._asyncImageChange((202,104,252,124))
     def setupServantDead(self,friend=None):
         XDetectBase._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
