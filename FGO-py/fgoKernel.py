@@ -20,7 +20,7 @@
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
-import logging,numpy,re,time,threading
+import logging,numpy,random,re,time,threading
 import fgoDevice
 from itertools import permutations
 from functools import wraps
@@ -89,7 +89,7 @@ def lottery():
     Detect().setupLottery()
     count=0
     while(count:=0 if Detect().isLotteryContinue()else count+1)<5:
-        for _ in range(40):fgoDevice.device.press('2')
+        for _ in range(random.randint(10,100)):fgoDevice.device.press('2')
 # @serialize(mutex)
 # def mining():
 #     while fuse.value<30:

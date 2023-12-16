@@ -1,5 +1,11 @@
 # 版本记录 Version Log
 
+## 2023/12/16 v18.6.6
+
+Fix:isLotteryContinue  
+在部分情况下,判定周期等于或接近两次抽取的间隔  
+Opt:change servant 266 skill 3 to 2,5  
+
 ## 2023/11/11 v18.8.5
 
 Upd:isLotteryContinue  
