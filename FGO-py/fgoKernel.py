@@ -513,3 +513,52 @@ class Main:
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
+
+class Story(Main):
+    @serialize(mutex)
+    def __call__(self):
+        self.start=time.time()
+        self.material={}
+        self.battleTurn=0
+        self.battleTime=0
+        self.defeated=0
+        while True:
+            self.battleProc=self.battleClass()
+            while True:
+                if Detect(.3,.3).isStoryMap()or Detect.cache.isStoryStage():
+                    if p:=Detect(.3,.3).findStoryNext():fgoDevice.device.touch((p[0],p[1]+75))
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
+                elif Detect.cache.isChooseFriend():
+                    self.chooseFriend()
+                    schedule.sleep(3)
+                elif Detect.cache.isBattleBegin():
+                    fgoDevice.device.perform(' M ',(2000,2000,3000))
+                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
+                elif Detect.cache.isStoryStart():fgoDevice.device.perform('K',(300,))
+                elif Detect.cache.isStorySkip():fgoDevice.device.perform('\x08K',(1000,300))
+                elif Detect.cache.isStoryQuest():fgoDevice.device.perform('K',(300,))
+                elif Detect.cache.isStoryCross():fgoDevice.device.perform('\x08',(300,))
+                elif Detect.cache.isStoryDialog():fgoDevice.device.perform('7',(300,))
+                elif Detect.cache.isBattleContinue():
+                    fgoDevice.device.press('L')
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
+                    self.chooseFriend()
+                    schedule.sleep(6)
+                    break
+                elif Detect.cache.isTurnBegin():break
+                elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
+                elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
+                elif p:=Detect.cache.findStoryClose():fgoDevice.device.touch(p)
+                elif not Detect.cache.isMainInterface():fgoDevice.device.press('\xBB')
+            self.battleCount+=1
+            logger.info(f'Battle {self.battleCount}')
+            if self.battleProc():
+                battleResult=self.battleProc.result
+                self.battleTurn+=battleResult['turn']
+                self.battleTime+=battleResult['time']
+                self.material={i:self.material.get(i,0)+battleResult['material'].get(i,0)for i in self.material|battleResult['material']}
+                fgoDevice.device.perform(' '*10,(400,)*10)
+            else:
+                self.defeated+=1
+                fgoDevice.device.perform('CIK',(500,500,500))
+            schedule.checkStopLater()

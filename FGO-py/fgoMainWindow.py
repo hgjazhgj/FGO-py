@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'fgoMainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.1
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -158,57 +158,66 @@ class Ui_fgoMainWindow(object):
 
         self.verticalLayout.addLayout(self.LAYOUT_INFO)
 
+        self.LAYOUT_FUNC = QVBoxLayout()
+        self.LAYOUT_FUNC.setObjectName(u"LAYOUT_FUNC")
         self.BTN_MAIN = QPushButton(self.widget)
         self.BTN_MAIN.setObjectName(u"BTN_MAIN")
         self.BTN_MAIN.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.verticalLayout.addWidget(self.BTN_MAIN)
+        self.LAYOUT_FUNC.addWidget(self.BTN_MAIN)
 
-        self.LAYOUT_FUNC = QHBoxLayout()
-        self.LAYOUT_FUNC.setObjectName(u"LAYOUT_FUNC")
-        self.LAYOUT_FUNC_BATTLE = QVBoxLayout()
+        self.LAYOUT_FUNC_BATTLE = QHBoxLayout()
         self.LAYOUT_FUNC_BATTLE.setObjectName(u"LAYOUT_FUNC_BATTLE")
-        self.BTN_BATTLE = QPushButton(self.widget)
-        self.BTN_BATTLE.setObjectName(u"BTN_BATTLE")
-
-        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_BATTLE)
-
         self.BTN_CLASSIC = QPushButton(self.widget)
         self.BTN_CLASSIC.setObjectName(u"BTN_CLASSIC")
         self.BTN_CLASSIC.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_CLASSIC)
 
+        self.BTN_BATTLE = QPushButton(self.widget)
+        self.BTN_BATTLE.setObjectName(u"BTN_BATTLE")
+        self.BTN_BATTLE.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_BATTLE)
+
+        self.BTN_STORY = QPushButton(self.widget)
+        self.BTN_STORY.setObjectName(u"BTN_STORY")
+        self.BTN_STORY.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.LAYOUT_FUNC_BATTLE.addWidget(self.BTN_STORY)
+
 
         self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_BATTLE)
 
-        self.LAYOUT_FUMC_MAIN = QVBoxLayout()
-        self.LAYOUT_FUMC_MAIN.setObjectName(u"LAYOUT_FUMC_MAIN")
+        self.LAYOUT_FUNC_CONTROL = QHBoxLayout()
+        self.LAYOUT_FUNC_CONTROL.setObjectName(u"LAYOUT_FUNC_CONTROL")
+        self.LAYOUT_FUNC_CONTROL_LEFT = QVBoxLayout()
+        self.LAYOUT_FUNC_CONTROL_LEFT.setObjectName(u"LAYOUT_FUNC_CONTROL_LEFT")
         self.BTN_PAUSE = QPushButton(self.widget)
         self.BTN_PAUSE.setObjectName(u"BTN_PAUSE")
         self.BTN_PAUSE.setEnabled(False)
         self.BTN_PAUSE.setCursor(QCursor(Qt.PointingHandCursor))
         self.BTN_PAUSE.setCheckable(True)
 
-        self.LAYOUT_FUMC_MAIN.addWidget(self.BTN_PAUSE)
+        self.LAYOUT_FUNC_CONTROL_LEFT.addWidget(self.BTN_PAUSE)
 
         self.BTN_STOP = QPushButton(self.widget)
         self.BTN_STOP.setObjectName(u"BTN_STOP")
         self.BTN_STOP.setEnabled(False)
         self.BTN_STOP.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.LAYOUT_FUMC_MAIN.addWidget(self.BTN_STOP)
+        self.LAYOUT_FUNC_CONTROL_LEFT.addWidget(self.BTN_STOP)
 
 
-        self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUMC_MAIN)
+        self.LAYOUT_FUNC_CONTROL.addLayout(self.LAYOUT_FUNC_CONTROL_LEFT)
 
-        self.LAYOUT_FUNC_CONTROL = QVBoxLayout()
-        self.LAYOUT_FUNC_CONTROL.setObjectName(u"LAYOUT_FUNC_CONTROL")
+        self.LAYOUT_FUNC_CONTROL_RIGHT = QVBoxLayout()
+        self.LAYOUT_FUNC_CONTROL_RIGHT.setObjectName(u"LAYOUT_FUNC_CONTROL_RIGHT")
         self.BTN_SCREENSHOT = QPushButton(self.widget)
         self.BTN_SCREENSHOT.setObjectName(u"BTN_SCREENSHOT")
         self.BTN_SCREENSHOT.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.LAYOUT_FUNC_CONTROL.addWidget(self.BTN_SCREENSHOT)
+        self.LAYOUT_FUNC_CONTROL_RIGHT.addWidget(self.BTN_SCREENSHOT)
 
         self.BTN_STOPLATER = QPushButton(self.widget)
         self.BTN_STOPLATER.setObjectName(u"BTN_STOPLATER")
@@ -216,7 +225,10 @@ class Ui_fgoMainWindow(object):
         self.BTN_STOPLATER.setCursor(QCursor(Qt.PointingHandCursor))
         self.BTN_STOPLATER.setCheckable(True)
 
-        self.LAYOUT_FUNC_CONTROL.addWidget(self.BTN_STOPLATER)
+        self.LAYOUT_FUNC_CONTROL_RIGHT.addWidget(self.BTN_STOPLATER)
+
+
+        self.LAYOUT_FUNC_CONTROL.addLayout(self.LAYOUT_FUNC_CONTROL_RIGHT)
 
 
         self.LAYOUT_FUNC.addLayout(self.LAYOUT_FUNC_CONTROL)
@@ -285,6 +297,7 @@ class Ui_fgoMainWindow(object):
 
         self.retranslateUi(fgoMainWindow)
         self.BTN_CLASSIC.clicked.connect(fgoMainWindow.runClassic)
+        self.BTN_STORY.clicked.connect(fgoMainWindow.runStory)
         self.BTN_MAIN.clicked.connect(fgoMainWindow.runMain)
         self.BTN_SCREENSHOT.clicked.connect(fgoMainWindow.screenshot)
         self.BTN_PAUSE.clicked["bool"].connect(fgoMainWindow.pause)
@@ -374,13 +387,17 @@ class Ui_fgoMainWindow(object):
 #endif // QT_CONFIG(statustip)
         self.BTN_MAIN.setText(QCoreApplication.translate("fgoMainWindow", u"\u809d!", None))
 #if QT_CONFIG(statustip)
+        self.BTN_CLASSIC.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u57fa\u4e8e\u7ecf\u5178\u6218\u6597\u7684\u6e05\u7a7a\u4f53\u529b", None))
+#endif // QT_CONFIG(statustip)
+        self.BTN_CLASSIC.setText(QCoreApplication.translate("fgoMainWindow", u"\u9648\u5e74\u8001\u809d", None))
+#if QT_CONFIG(statustip)
         self.BTN_BATTLE.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u5b8c\u6210\u5f53\u524d\u6218\u6597", None))
 #endif // QT_CONFIG(statustip)
         self.BTN_BATTLE.setText(QCoreApplication.translate("fgoMainWindow", u"\u5b8c\u6210\u6218\u6597", None))
 #if QT_CONFIG(statustip)
-        self.BTN_CLASSIC.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u57fa\u4e8e\u7ecf\u5178\u6218\u6597\u7684\u6e05\u7a7a\u4f53\u529b", None))
+        self.BTN_STORY.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u5728\u5730\u56fe\u754c\u9762\u8fde\u7eed\u901a\u5173\u5e26\u6709NEXT\u6807\u8bb0\u7684\u5173\u5361", None))
 #endif // QT_CONFIG(statustip)
-        self.BTN_CLASSIC.setText(QCoreApplication.translate("fgoMainWindow", u"\u9648\u5e74\u8001\u809d", None))
+        self.BTN_STORY.setText(QCoreApplication.translate("fgoMainWindow", u"\u5267\u60c5\u63a8\u8fdb", None))
 #if QT_CONFIG(statustip)
         self.BTN_PAUSE.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u6682\u505c/\u7ee7\u7eed\u6218\u6597", None))
 #endif // QT_CONFIG(statustip)

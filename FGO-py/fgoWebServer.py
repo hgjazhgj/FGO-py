@@ -63,6 +63,13 @@ def runClassic():
     fgoKernel.Main(**{i:int(j)for i,j in request.form.items()},battleClass=lambda:fgoKernel.Battle(fgoKernel.ClassicTurn))()
     return 'Done'
 
+@app.route('/api/run/story',methods=['POST'])
+def runStory():
+    if not fgoDevice.device.available:
+        return 'Device not available'
+    fgoKernel.Story(**{i:int(j)for i,j in request.form.items()},battleClass=lambda:fgoKernel.Battle(fgoKernel.Turn))()
+    return 'Done'
+
 @app.route('/api/pause',methods=['POST'])
 def pause():
     fgoKernel.schedule.pause()

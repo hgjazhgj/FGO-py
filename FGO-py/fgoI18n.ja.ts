@@ -548,6 +548,16 @@
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
+        <source>剧情推进</source>
+        <translation>ストーリーを進める</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>在地图界面连续通关带有NEXT标记的关卡</source>
+        <translation>マップ画面でNEXTとマークされたクエストを連続クリア</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
         <source>关于</source>
         <translation>About</translation>
     </message>

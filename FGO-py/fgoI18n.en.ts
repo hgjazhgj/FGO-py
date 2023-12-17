@@ -444,7 +444,7 @@
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
         <source>彩</source>
-        <translation>Bronze</translation>
+        <translation>Quartz</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
@@ -545,6 +545,16 @@
         <location filename="fgoMainWindow.ui" line="0"/>
         <source>预约终止</source>
         <translation>Appoint</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>剧情推进</source>
+        <translation>Story</translation>
+    </message>
+    <message>
+        <location filename="fgoMainWindow.ui" line="0"/>
+        <source>在地图界面连续通关带有NEXT标记的关卡</source>
+        <translation>Continuously clear the Quest marked with NEXT on the map interface</translation>
     </message>
     <message>
         <location filename="fgoMainWindow.ui" line="0"/>
