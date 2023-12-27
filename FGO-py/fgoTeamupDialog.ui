@@ -12,7 +12,7 @@
    <item>
     <layout class="QHBoxLayout" name="LAYOUT_TEAM">
      <item>
-      <widget class="QComboBox" name="CBX_TEAM">
+      <widget class="QComboBox" name="CBB_TEAM">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -3669,7 +3669,7 @@
    <slot>reject()</slot>
   </connection>
   <connection>
-   <sender>CBX_TEAM</sender>
+   <sender>CBB_TEAM</sender>
    <signal>textActivated(QString)</signal>
    <receiver>Teamup</receiver>
    <slot>load(QString)</slot>

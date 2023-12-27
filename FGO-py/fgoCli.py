@@ -117,8 +117,8 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
             'set':['servant','master','index'],
         },text,line,begidx,endidx)
     def do_goto(self,line):
-        '[NotImplemented] Go to a specific dungeon'
-        logger.warning('NotImplemented')
+        'Goto a specific quest'
+        fgoKernel.goto(tuple(int(i)for i in line.split('-')))
     def do_battle(self,line):
         'Finish the current battle'
         arg=parser_battle.parse_args(line.split())
@@ -128,7 +128,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Loop for battle until AP empty'
         arg=parser_main.parse_args(line.split())
         fgoKernel.schedule.stopLater(arg.appoint)
-        self.work=fgoKernel.Main(arg.appleCount,['gold','silver','bronze','copper','quartz'].index(arg.appleKind))
+        self.work=fgoKernel.Operation(arg.quest,arg.appleCount,['gold','silver','bronze','copper','quartz'].index(arg.appleKind))
         self.do_continue(f'-s {arg.sleep}')
     def complete_main(self,text,line,begidx,endidx):
         return self.completecommands({
@@ -197,6 +197,9 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         'Take a screenshot'
         arg=parser_screenshot.parse_args(line.split())
         assert fgoDevice.device.available
+        if arg.show:
+            fgoKernel.Detect(0).show()
+            return
         fgoKernel.Detect(0).save(arg.file,appendTime=arg.notime)
     def do_169(self,line):
         'Adapt none 16:9 screen'
@@ -236,6 +239,14 @@ def validator(type,func,desc='\b'):
     return f
 class ArgParser(argparse.ArgumentParser):
     def exit(self,status=0,message=None):raise ArgError(message)
+class ArgStruct:
+    def __init__(self,*args):
+        def infIter(iterable):
+            while True:yield from iterable
+        self.it=infIter(args)
+        self.repr=f'{type(self).__name__}{args}'
+    def __call__(self,x):return next(self.it)(x)
+    def __repr__(self):return self.repr
 
 parser_battle=ArgParser(prog='battle',description=Cmd.do_battle.__doc__)
 parser_battle.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
@@ -245,6 +256,7 @@ parser_main.add_argument('appleCount',help='Apple Count (default: %(default)s)',
 parser_main.add_argument('appleKind',help='Apple Kind (default: %(default)s)',type=str.lower,choices=['gold','silver','bronze','copper','quartz'],default='gold',nargs='?')
 parser_main.add_argument('-s','--sleep',help='Sleep before run (default: %(default)s)',type=validator(str,lambda x:re.match(r'\d+([:.]\d+)*$',x),'timedelta'),default='0')
 parser_main.add_argument('-a','--appoint',help='Battle count limit (default: %(default)s for no limit)',type=validator(int,lambda x:x>=0,'nonnegative int'),default=0)
+parser_main.add_argument('-q','--quest',help='Goto different quests for different times',action='append',type=ArgStruct(lambda x:tuple(int(i)for i in x.split('-')),validator(int,lambda x:x>=0,'nonnegative int')),default=[],nargs=2)
 
 parser_connect=ArgParser(prog='connect',description=Cmd.do_connect.__doc__)
 parser_connect.add_argument('-l','--list',help='List all available devices',action='store_true')
@@ -290,7 +302,8 @@ parser_lock=ArgParser(prog='lock',description=Cmd.do_lock.__doc__)
 parser_lock.add_argument('-u','--unlock',help='Unlock (lock if not specified)',action='store_true')
 
 parser_screenshot=ArgParser(prog='screenshot',description=Cmd.do_screenshot.__doc__)
-parser_screenshot.add_argument('file',help='Filename/path prefix (default: %(default)s)',default='Screenshot',nargs='?')
+parser_screenshot.add_argument('-s','--show',help='Show screenshot without saving, you can save the screenshot via',action='store_true')
+parser_screenshot.add_argument('-o','--file',help='Filename/path prefix (default: %(default)s)',default='Screenshot')
 parser_screenshot.add_argument('-t','--notime',help='Do not append Time after filename',action='store_false')
 
 def main(config):Cmd(config).cmdloop()

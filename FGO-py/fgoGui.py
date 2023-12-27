@@ -1,6 +1,6 @@
 import json,os,sys,time,platform
 from threading import Thread
-from PySide6.QtCore import Qt,QCoreApplication,QLocale,QTranslator,Signal,Slot
+from PySide6.QtCore import Qt,QCoreApplication,QLocale,QTranslator,QTimer,Signal,Slot
 from PySide6.QtGui import QAction,QIcon
 from PySide6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon
 import fgoDevice
@@ -8,6 +8,7 @@ import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
 from fgoGuiTeamup import Teamup
 from fgoServerChann import ServerChann
+from fgoMetadata import questData
 logger=fgoKernel.getLogger('Gui')
 
 class MainWindow(QMainWindow,Ui_fgoMainWindow):
@@ -33,6 +34,9 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_TRAY_FORCEQUIT.triggered.connect(QApplication.quit)
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
+        self.operation=[]
+        self.chapter=sorted({i[:2]for i in questData})
+        self.CBB_CHAPTER.addItems(QCoreApplication.translate('quest','-'.join(str(j)for j in i))for i in self.chapter)
         self.worker=Thread()
         self.config=config
         for key,ui,callback in[
@@ -46,6 +50,8 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
             value=self.config[key]
             getattr(ui,{bool:'toggled',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect((lambda x,key=key,callback=callback:(self.config.__setitem__(key,x),callback(x)))if callback else(lambda x,key=key:self.config.__setitem__(key,x)))
             getattr(ui,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
+        self.timer=QTimer(self)
+        self.timer.timeout.connect(self.questShow)
         self.notifier=[ServerChann(**i)for i in self.config.notifyParam]
         self.connectDevice()
     def keyPressEvent(self,key):
@@ -105,6 +111,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_SCRIPT.setEnabled(False)
         self.TXT_APPLE.setValue(0)
         self.result=None
+        self.timer.start(100)
     @Slot(object)
     def funcEnd(self,msg):
         self.BTN_MAIN.setEnabled(True)
@@ -139,6 +146,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
 <font color="#7030A0">{self.result['file']}</font>
 ''')
         self.result=None
+        self.timer.stop()
     def connectDevice(self):
         dialog=QInputDialog(self,Qt.WindowType.WindowStaysOnTopHint)
         dialog.setWindowTitle('FGO-py')
@@ -152,11 +160,13 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoDevice.device=fgoDevice.Device(text)
         self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
-    def runMain(self):self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex()))
+    def runMain(self):
+        self.operation=fgoKernel.Operation(self.operation,self.TXT_APPLE.value(),self.CBB_APPLE.currentIndex())
+        self.runFunc(self.operation)
     def runBattle(self):self.runFunc(fgoKernel.Battle())
     def runClassic(self):
         if not Teamup(self).exec():return
-        self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBX_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)))
+        self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBB_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)))
     def pause(self,x):
         if not x and not self.isDeviceAvailable():return self.BTN_PAUSE.setChecked(True)
         fgoKernel.schedule.pause()
@@ -201,6 +211,38 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         if QMessageBox.information(self,'FGO-py',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
         try:exec(s)
         except BaseException as e:logger.exception(e)
+    @Slot()
+    def questShow(self):
+        cur=self.LST_QUEST.currentRow()
+        self.LST_QUEST.clear()
+        self.LST_QUEST.addItems(f'{i:2}.{k:5}× {QCoreApplication.translate("quest","-".join(str(m)for m in j[:2]))}=={QCoreApplication.translate("quest","-".join(str(m)for m in j))}'for i,(j,k)in enumerate(self.operation))
+        self.LST_QUEST.setCurrentRow(cur)
+    def questQuery(self,index):
+        self.quest=[i for i in questData if i[:2]==self.chapter[index]]
+        self.CBB_QUEST.clear()
+        self.CBB_QUEST.addItems(QCoreApplication.translate('quest','-'.join(str(j)for j in i))for i in self.quest)
+    def questAdd(self):
+        self.operation.append((self.quest[self.CBB_QUEST.currentIndex()],self.TXT_TIMES.value()))
+        self.questShow()
+    def questRemove(self):
+        del self.operation[self.LST_QUEST.currentRow()]
+        self.questShow()
+    def questClear(self):
+        self.operation.clear()
+        self.questShow()
+    def questUp(self):
+        if(cur:=self.LST_QUEST.currentRow())<=0:return
+        self.operation[cur],self.operation[cur-1]=self.operation[cur-1],self.operation[cur]
+        self.LST_QUEST.setCurrentRow(cur-1)
+        self.questShow()
+    def questDown(self):
+        if(cur:=self.LST_QUEST.currentRow())>=len(self.operation)-1:return
+        self.operation[cur],self.operation[cur+1]=self.operation[cur+1],self.operation[cur]
+        self.LST_QUEST.setCurrentRow(cur+1)
+        self.questShow()
+    def questLoad(self):
+        QMessageBox.critical(self,'FGO-py','将在未来的更新中实装')
+        logger.critical('NotImplemented')
     def about(self):QMessageBox.about(self,'FGO-py - About',f'''
 <h2>FGO-py</h2>
 {self.tr('全自动免配置跨平台开箱即用的FGO助手')}

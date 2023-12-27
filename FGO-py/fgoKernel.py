@@ -20,7 +20,7 @@
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
-import logging,numpy,random,re,time,threading
+import cv2,logging,numpy,random,re,time,threading
 import fgoDevice
 from itertools import permutations
 from functools import wraps
@@ -28,7 +28,7 @@ from fgoDetect import Detect,XDetect
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
 from fgoLogging import getLogger,logit
-from fgoMetadata import servantData
+from fgoMetadata import servantData,questData,mapPoly
 from fgoSchedule import ScriptStop,schedule
 logger=getLogger('Kernel')
 
@@ -102,7 +102,7 @@ def mail():
     while True:
         while any((pos:=Detect.cache.findMail(i[1]))and(fgoDevice.device.touch(pos),True)[-1]for i in mailImg.items()):
             while not Detect().isMailDone():pass
-        fgoDevice.device.swipe((400,600,400,200))
+        fgoDevice.device.swipe((400,600),(400,200))
         if Detect().isMailListEnd():break
 @serialize(mutex)
 def synthesis():
@@ -127,9 +127,9 @@ def dailyFpSummon():
 def summonHistory():
     Detect().setupSummonHistory()
     while not Detect.cache.isSummonHistoryListEnd():
-        fgoDevice.device.swipe((930,500,930,200))
+        fgoDevice.device.swipe((930,500),(930,200))
         Detect().getSummonHistory()
-    fgoDevice.device.swipe((930,500,930,200))
+    fgoDevice.device.swipe((930,500),(930,200))
     Detect().getSummonHistory()
     summonHistory.result={'type':'SummonHistory'}|dict(zip(('value','file'),Detect.cache.saveSummonHistory()))
 @serialize(mutex)
@@ -148,6 +148,39 @@ def bench(times=20,touch=True,screenshot=True):
     result=(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None
     logger.warning(f'Benchmark: {f"touch {result[0]:.2f}ms"if result[0]else""}{", "if all(result)else""}{f"screenshot {result[1]:.2f}ms"if result[1]else""}')
     return result
+@serialize(mutex)
+def goto(quest):
+    while not Detect(0,1).isMainInterface():pass
+    fgoDevice.device.press(' ')
+    if Detect(.6).isTerminal():fgoDevice.device.perform(' ',(600,))
+    else:
+        fgoDevice.device.perform('S',(1500,))
+        while not Detect(.4).isMainInterface():pass
+    if quest[0]!=3:
+        while not Detect(.4).isQuestListBegin():fgoDevice.device.swipe((1000,200),(1000,600))
+        while not((p:=Detect(.4).findChapter(quest[:1]))and(fgoDevice.device.touch(p),True)[1]):fgoDevice.device.swipe((1000,600),(1000,200))
+        schedule.sleep(.6)
+    while not Detect(.4).isQuestListBegin():fgoDevice.device.swipe((1000,200),(1000,600))
+    while not((p:=Detect(.4).findChapter(quest[:2]))and(fgoDevice.device.touch(p),True)[1]):fgoDevice.device.swipe((1000,600),(1000,200))
+    while not Detect(.4,.4).isMainInterface():pass
+    if quest[0]:
+        fgoDevice.device.press('\xBF')
+        while True:
+            v=questData[quest]-Detect(1).findMapCamera(quest[:2])
+            if cv2.pointPolygonTest(mapPoly,p:=(640,360)+v,False)>0:break
+            if v[0]>1180 or v[1]>620:v*=min(1180/v[0],620/v[1])
+            print(v)
+            fgoDevice.device.swipe((640,360)+v/2,(640,360)-v/2)
+        fgoDevice.device.perform('  ',(300,300))
+        fgoDevice.device.touch(p)
+    for _ in range(4):
+        if Detect(.4).isQuestListBegin():break
+        fgoDevice.device.swipe((1000,200),(1000,600))
+    while not Detect(.4).isQuestFree(quest[0]):fgoDevice.device.swipe((1000,385),(1000,300))
+@serialize(mutex)
+def solveWeeklyMission():
+    while not Detect(0,1).isMainInterface():pass
+    raise NotImplementedError
 class ClassicTurn:
     skillInfo=[[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]]]
     houguInfo=[[1,7],[1,7],[1,7],[1,7],[1,7],[1,7]]
@@ -233,7 +266,7 @@ class Turn:
         fgoDevice.device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
         self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
-        while skill:=[(0,i,j)for i in range(3)for j in range(3)if 0==self.countDown[0][i][j]and self.servant[i][0]and self.servant[i][6][j][0]and Detect.cache.isSkillReady(i,j)]: # +[(1,i)for i in range(3)if self.countDown[1][i]==0]:
+        while skill:=[(0,i,j)for i in range(3)for j in range(3)if not self.countDown[0][i][j]and self.servant[i][0]and self.servant[i][6][j][0]and Detect.cache.isSkillReady(i,j)]: # +[(1,i)for i in range(3)if self.countDown[1][i]==0]:
             for i in skill:
                 if i[0]==0:
                     if (p:=self.servant[i[1]][6][i[2]])[0]==1:
@@ -424,7 +457,7 @@ class Main:
         self.appleCount=0
         self.battleCount=0
     @serialize(mutex)
-    def __call__(self):
+    def __call__(self,questIndex=0,battleTotal=0):
         self.start=time.time()
         self.material={}
         self.battleTurn=0
@@ -434,7 +467,7 @@ class Main:
             self.battleProc=self.battleClass()
             while True:
                 if Detect(.3,.3).isMainInterface():
-                    fgoDevice.device.press('8')
+                    fgoDevice.device.press('84L'[questIndex])
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleBegin():pass
@@ -442,7 +475,10 @@ class Main:
                     fgoDevice.device.perform(' M ',(2000,2000,10000))
                     break
                 elif Detect.cache.isBattleContinue():
-                    fgoDevice.device.press('L')
+                    if battleTotal and self.battleCount==battleTotal:
+                        fgoDevice.device.press('F')
+                        return
+                    fgoDevice.device.press('K')
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
                     schedule.sleep(6)
@@ -480,10 +516,6 @@ class Main:
         self.appleCount+=1
         if self.appleKind==3:fgoDevice.device.perform('V',(600,))
         fgoDevice.device.perform('W4K48'[self.appleKind]+'L',(600,1200))
-        # for i in set('W4K')-{'W4K8'[self.appleKind]}:
-        #     if not Detect().isApEmpty():break
-        #     fgoDevice.device.perform(i+'L',(600,1200))
-        # else:raise ScriptStop('No Apples')
         return self.appleCount
     @logit(logger,logging.INFO)
     def chooseFriend(self):
@@ -504,7 +536,7 @@ class Main:
                     ])(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i.replace('-','')[-14:].upper()))
                     return i
                 if Detect.cache.isFriendListEnd():break
-                fgoDevice.device.swipe((400,600,400,200))
+                fgoDevice.device.swipe((400,600),(400,200))
                 Detect(.4)
             if refresh:schedule.sleep(max(0,timer+10-time.time()))
             fgoDevice.device.perform('\xBAK',(500,1000))
@@ -513,3 +545,14 @@ class Main:
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
                     fgoDevice.device.perform('\xBAK',(500,1000))
+class Operation(list,Main):
+    def __init__(self,data=(),*args,**kwargs):
+        list.__init__(self,data)
+        Main.__init__(self,*args,**kwargs)
+    def __call__(self):
+        if not self:return super().__call__()
+        while self:
+            quest,times=self[0]
+            del self[0]
+            goto(quest)
+            super().__call__(quest[-1],times)

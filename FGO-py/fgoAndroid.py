@@ -39,10 +39,8 @@ class Android(Airtest):
         self.key={c:[round(p[i]/self.scale+self.border[i]+self.render[i])for i in range(2)]for c,p in KEYMAP.items()}
     def touch(self,pos):
         with self.mutex:super().touch([round(pos[i]/self.scale+self.border[i]+self.render[i])for i in range(2)])
-    # def swipe(self,rect):
-    #     with self.mutex:super().swipe(*[[rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]for i in range(2)])
-    def swipe(self,rect): # If this doesn't work, use the above one instead
-        p1,p2=[numpy.array(self._touch_point_by_orientation([rect[i<<1|j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in range(2)]
+    def swipe(self,begin,end):
+        p1,p2=[numpy.array(self._touch_point_by_orientation([i[j]/self.scale+self.border[j]+self.render[j]for j in range(2)]))for i in(begin,end)]
         vd=p2-p1
         lvd=numpy.linalg.norm(vd)
         vd/=.2*self.scale*lvd
