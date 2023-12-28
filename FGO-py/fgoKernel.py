@@ -145,9 +145,12 @@ def bench(times=20,touch=True,screenshot=True):
         begin=time.time()
         fgoDevice.device.press('\xBB')
         touchBench.append(time.time()-begin)
-    result=(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None
-    logger.warning(f'Benchmark: {f"touch {result[0]:.2f}ms"if result[0]else""}{", "if all(result)else""}{f"screenshot {result[1]:.2f}ms"if result[1]else""}')
-    return result
+    bench.result={
+        'type':'Bench',
+        'touch':(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,
+        'screenshot':(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None,
+    }
+    logger.warning(f'Benchmark: {", ".join(f"{i} {bench.result[i]:.2f}ms"for i in("touch","screenshot"))}')
 @serialize(mutex)
 def goto(quest):
     while not Detect(0,1).isMainInterface():pass
@@ -169,7 +172,6 @@ def goto(quest):
             v=questData[quest]-Detect(1).findMapCamera(quest[:2])
             if cv2.pointPolygonTest(mapPoly,p:=(640,360)+v,False)>0:break
             if v[0]>1180 or v[1]>620:v*=min(1180/v[0],620/v[1])
-            print(v)
             fgoDevice.device.swipe((640,360)+v/2,(640,360)-v/2)
         fgoDevice.device.perform('  ',(300,300))
         fgoDevice.device.touch(p)
@@ -454,15 +456,9 @@ class Main:
         self.appleTotal=appleTotal
         self.appleKind=appleKind
         self.battleClass=battleClass
-        self.appleCount=0
-        self.battleCount=0
     @serialize(mutex)
     def __call__(self,questIndex=0,battleTotal=0):
-        self.start=time.time()
-        self.material={}
-        self.battleTurn=0
-        self.battleTime=0
-        self.defeated=0
+        self.prepare()
         while True:
             self.battleProc=self.battleClass()
             while True:
@@ -499,9 +495,15 @@ class Main:
                 self.defeated+=1
                 fgoDevice.device.perform('CIK',(500,500,500))
             schedule.checkStopLater()
+    def prepare(self):
+        self.start=time.time()
+        self.material={}
+        self.battleCount=0
+        self.battleTurn=0
+        self.battleTime=0
+        self.defeated=0
     @property
-    def result(self):
-        return{
+    def result(self):return{
             'type':'Main',
             'time':time.time()-self.start,
             'battle':self.battleCount,
@@ -512,11 +514,11 @@ class Main:
         }
     @logit(logger,logging.INFO)
     def eatApple(self):
-        if self.appleCount==self.appleTotal:return fgoDevice.device.press('Z')
-        self.appleCount+=1
+        if not self.appleTotal:return fgoDevice.device.press('Z')
+        self.appleTotal-=1
         if self.appleKind==3:fgoDevice.device.perform('V',(600,))
         fgoDevice.device.perform('W4K48'[self.appleKind]+'L',(600,1200))
-        return self.appleCount
+        return self.appleTotal
     @logit(logger,logging.INFO)
     def chooseFriend(self):
         refresh=False
@@ -550,9 +552,11 @@ class Operation(list,Main):
         list.__init__(self,data)
         Main.__init__(self,*args,**kwargs)
     def __call__(self):
-        if not self:return super().__call__()
+        super().prepare()
+        if not self:super().__call__()
         while self:
             quest,times=self[0]
             del self[0]
             goto(quest)
-            super().__call__(quest[-1],times)
+            super().__call__(quest[-1],self.battleCount+times)
+    def prepare(self):pass

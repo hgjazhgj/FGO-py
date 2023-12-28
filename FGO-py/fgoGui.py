@@ -1,8 +1,8 @@
-import json,os,sys,time,platform
+import os,sys,platform
 from threading import Thread
-from PySide6.QtCore import Qt,QCoreApplication,QLocale,QTranslator,QTimer,Signal,Slot
+from PySide6.QtCore import Qt,QLocale,QTranslator,QTimer,Signal,Slot
 from PySide6.QtGui import QAction,QIcon
-from PySide6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon
+from PySide6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon,QSpinBox,QComboBox
 import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
@@ -16,6 +16,10 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
     signalFuncEnd=Signal(object)
     def __init__(self,config,parent=None):
         super().__init__(parent)
+        self.color={
+            Qt.ColorScheme.Light:lambda x:f'color="#{hex(x)[2:]}"',
+            Qt.ColorScheme.Dark:lambda x:f'color="#{hex(x^0xFFFFFF)[2:]}"',
+        }.get(QApplication.styleHints().colorScheme(),lambda _:'')
         self.setupUi(self)
         if platform.system()=='Darwin':self.setStyleSheet("QWidget{font-family:\"PingFang SC\";font-size:15px}")
         self.setWindowIcon(QIcon('fgoIcon.ico'))
@@ -34,24 +38,26 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_TRAY_FORCEQUIT.triggered.connect(QApplication.quit)
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
-        self.operation=[]
+        self.operation=fgoKernel.Operation()
         self.chapter=sorted({i[:2]for i in questData})
-        self.CBB_CHAPTER.addItems(QCoreApplication.translate('quest','-'.join(str(j)for j in i))for i in self.chapter)
+        self.CBB_CHAPTER.addItems(QApplication.translate('quest','-'.join(str(j)for j in i))for i in self.chapter)
         self.worker=Thread()
         self.config=config
-        for key,ui,callback in[
+        for key,ui,callback in(
             ('teamIndex',self.TXT_TEAM,lambda x:setattr(fgoKernel.Main,'teamIndex',x)),
             ('stopOnDefeated',self.MENU_SETTINGS_DEFEATED,fgoKernel.schedule.stopOnDefeated),
             ('stopOnKizunaReisou',self.MENU_SETTINGS_KIZUNAREISOU,fgoKernel.schedule.stopOnKizunaReisou),
             ('closeToTray',self.MENU_CONTROL_TRAY,None),
             ('stayOnTop',self.MENU_CONTROL_STAYONTOP,lambda x:(self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint,x),self.show())),
             ('notifyEnable',self.MENU_CONTROL_NOTIFY,None),
-        ]:
-            value=self.config[key]
-            getattr(ui,{bool:'toggled',int:'valueChanged',str:'textChanged'}[type(value)])[type(value)].connect((lambda x,key=key,callback=callback:(self.config.__setitem__(key,x),callback(x)))if callback else(lambda x,key=key:self.config.__setitem__(key,x)))
-            getattr(ui,{bool:'setChecked',int:'setValue',str:'setText'}[type(value)])(value)
+            (0,self.CBB_APPLE,lambda x:setattr(self.operation,'appleKind',x)),
+            (0,self.TXT_APPLE,lambda x:setattr(self.operation,'appleTotal',x)),
+        ):
+            value=self.config.get(key,key)
+            getattr(ui,{QAction:'toggled',QSpinBox:'valueChanged',QComboBox:'currentIndexChanged'}[type(ui)])[type(value)].connect(lambda x,task=((lambda x,key=key:self.config.__setitem__(key,x),)if key else())+((lambda x,callback=callback:callback(x),)if callable(callback)else()):[i(x)for i in task])
+            getattr(ui,{QAction:'setChecked',QSpinBox:'setValue',QComboBox:'setCurrentIndex'}[type(ui)])(value)
         self.timer=QTimer(self)
-        self.timer.timeout.connect(self.questShow)
+        self.timer.timeout.connect(self.flush)
         self.notifier=[ServerChann(**i)for i in self.config.notifyParam]
         self.connectDevice()
     def keyPressEvent(self,key):
@@ -83,6 +89,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         def f():
             try:
                 self.signalFuncBegin.emit()
+                self.result=None
                 func()
             except fgoKernel.ScriptStop as e:
                 logger.critical(e)
@@ -100,6 +107,13 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}')
         self.worker.start()
     @Slot()
+    def flush(self):
+        self.TXT_APPLE.setValue(self.operation.appleTotal)
+        cur=self.LST_QUEST.currentRow()
+        self.LST_QUEST.clear()
+        self.LST_QUEST.addItems(f'{i:2}.{k:5}× {QApplication.translate("quest","-".join(str(m)for m in j[:2]))}=={QApplication.translate("quest","-".join(str(m)for m in j))}'for i,(j,k)in enumerate(self.operation))
+        self.LST_QUEST.setCurrentRow(cur)
+    @Slot()
     def funcBegin(self):
         self.BTN_MAIN.setEnabled(False)
         self.BTN_BATTLE.setEnabled(False)
@@ -110,8 +124,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOPLATER.setEnabled(True)
         self.MENU_SCRIPT.setEnabled(False)
         self.TXT_APPLE.setValue(0)
-        self.result=None
-        self.timer.start(100)
+        self.timer.start(500)
     @Slot(object)
     def funcEnd(self,msg):
         self.BTN_MAIN.setEnabled(True)
@@ -127,23 +140,25 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         if isinstance(self.result,dict)and(t:=self.result.get('type',None)):
             if t=='Battle':QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-<font color="#006400">{self.result['turn']:.1f}</font>{self.tr('回合完成战斗')},{self.tr('用时')}<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font><br/>
+<font {self.color(0x006400)}>{self.result['turn']}</font>{self.tr('回合完成战斗')},{self.tr('用时')}<font {self.color(0x006400)}>{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font><br/>
 {self.tr('获得了以下素材')}:<br/>
-{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QCoreApplication.translate("material",i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
+{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QApplication.translate("material",i)}<font {self.color(0x7030A0)}>x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
 ''')
-            elif t=='Main':
-                QMessageBox.information(self,'FGO-py',f'''
+            elif t=='Main':QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-{self.tr('在过去的')}<font color="#006400">{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>{self.tr('中完成了')}<font color="#006400">{self.result['battle']}</font>{self.tr('场战斗')}<br/>
-{self.tr('平均每场战斗')}<font color="#006400">{self.result['turnPerBattle']:.1f}</font>{self.tr('回合')},{self.tr('用时')}<font color="#006400">{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
+{self.tr('在过去的')}<font {self.color(0x006400)}>{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>{self.tr('中完成了')}<font {self.color(0x006400)}>{self.result['battle']}</font>{self.tr('场战斗')}<br/>
+{self.tr('平均每场战斗')}<font {self.color(0x006400)}>{self.result['turnPerBattle']:.1f}</font>{self.tr('回合')},{self.tr('用时')}<font {self.color(0x006400)}>{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
 {self.tr('获得了以下素材')}:<br/>
-{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QCoreApplication.translate("material",i)}<font color="#7030A0">x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
+{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QApplication.translate("material",i)}<font {self.color(0x7030A0)}>x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
 ''')
-            elif t=='SummonHistory':
-                QMessageBox.information(self,'FGO-py',f'''
+            elif t=='SummonHistory':QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-{self.tr('获取到')}<font color="#006400">{self.result['value']}</font>{self.tr('条抽卡记录')},{self.tr('图片保存至')}</br>
-<font color="#7030A0">{self.result['file']}</font>
+{self.tr('获取到')}<font {self.color(0x006400)}>{self.result['value']}</font>{self.tr('条抽卡记录')},{self.tr('图片保存至')}</br>
+<font {self.color(0x7030A0)}>{self.result['file']}</font>
+''')
+            elif t=='Bench':QMessageBox.information(self,'FGO-py',f'''
+<h2>{msg[0].split(':',1)[0]}</h2>
+{', '.join(f'{self.tr(i)} {self.result[j]:.2f}ms'for i,j in(('点击','touch'),('截图','screenshot')))}
 ''')
         self.result=None
         self.timer.stop()
@@ -160,9 +175,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoDevice.device=fgoDevice.Device(text)
         self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
-    def runMain(self):
-        self.operation=fgoKernel.Operation(self.operation,self.TXT_APPLE.value(),self.CBB_APPLE.currentIndex())
-        self.runFunc(self.operation)
+    def runMain(self):self.runFunc(self.operation)
     def runBattle(self):self.runFunc(fgoKernel.Battle())
     def runClassic(self):
         if not Teamup(self).exec():return
@@ -205,41 +218,36 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoDevice.device.revoke169()
     def bench(self):
         if not self.isDeviceAvailable():return
-        QMessageBox.information(self,'FGO-py',(lambda bench:f'''{f"{self.tr('点击')} {bench[0]:.2f}ms"if bench[0]else""}{", "if all(bench)else""}{f"{self.tr('截图')} {bench[1]:.2f}ms"if bench[1]else""}''')(fgoKernel.bench()))
+        self.runFunc(fgoKernel.bench)
     def exec(self):
         s=QApplication.clipboard().text()
         if QMessageBox.information(self,'FGO-py',s,QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Cancel)!=QMessageBox.StandardButton.Ok:return
         try:exec(s)
         except BaseException as e:logger.exception(e)
-    @Slot()
-    def questShow(self):
-        cur=self.LST_QUEST.currentRow()
-        self.LST_QUEST.clear()
-        self.LST_QUEST.addItems(f'{i:2}.{k:5}× {QCoreApplication.translate("quest","-".join(str(m)for m in j[:2]))}=={QCoreApplication.translate("quest","-".join(str(m)for m in j))}'for i,(j,k)in enumerate(self.operation))
-        self.LST_QUEST.setCurrentRow(cur)
     def questQuery(self,index):
         self.quest=[i for i in questData if i[:2]==self.chapter[index]]
         self.CBB_QUEST.clear()
-        self.CBB_QUEST.addItems(QCoreApplication.translate('quest','-'.join(str(j)for j in i))for i in self.quest)
+        self.CBB_QUEST.addItems(QApplication.translate('quest','-'.join(str(j)for j in i))for i in self.quest)
     def questAdd(self):
         self.operation.append((self.quest[self.CBB_QUEST.currentIndex()],self.TXT_TIMES.value()))
-        self.questShow()
+        self.flush()
     def questRemove(self):
-        del self.operation[self.LST_QUEST.currentRow()]
-        self.questShow()
+        if(cur:=self.LST_QUEST.currentRow())>=len(self.operation):return
+        del self.operation[cur]
+        self.flush()
     def questClear(self):
         self.operation.clear()
-        self.questShow()
+        self.flush()
     def questUp(self):
-        if(cur:=self.LST_QUEST.currentRow())<=0:return
+        if(cur:=self.LST_QUEST.currentRow())<=0 or cur>=len(self.operation):return
         self.operation[cur],self.operation[cur-1]=self.operation[cur-1],self.operation[cur]
         self.LST_QUEST.setCurrentRow(cur-1)
-        self.questShow()
+        self.flush()
     def questDown(self):
         if(cur:=self.LST_QUEST.currentRow())>=len(self.operation)-1:return
         self.operation[cur],self.operation[cur+1]=self.operation[cur+1],self.operation[cur]
         self.LST_QUEST.setCurrentRow(cur+1)
-        self.questShow()
+        self.flush()
     def questLoad(self):
         QMessageBox.critical(self,'FGO-py','将在未来的更新中实装')
         logger.critical('NotImplemented')
@@ -253,7 +261,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
   <tr><td>{self.tr('QQ群')}</td><td>932481680({self.tr('请按readme指引操作')})</td></tr>
 </table>
 <!-- 都看到这里了真的不考虑资瓷一下吗... -->
-{self.tr('这是我的')}<font color="#00A0E8">{self.tr('支付宝')}</font>/<font color="#22AB38">{self.tr('微信')}</font>{self.tr('收款码和Monero地址')}<br/>{self.tr('请给我打钱')}<br/>
+{self.tr('这是我的')}<font {self.color(0x00A0E8)}>{self.tr('支付宝')}</font>/<font {self.color(0x22AB38)}>{self.tr('微信')}</font>{self.tr('收款码和Monero地址')}<br/>{self.tr('请给我打钱')}<br/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/ZtBFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9/R3wATtkAA=="/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9Wl3wAdBsAA=="/>
 <table border="0"><tr>

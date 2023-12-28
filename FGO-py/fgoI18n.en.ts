@@ -428,6 +428,11 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
+      <source>加入队列后生效,0为不限制次数</source>
+      <translation>Effective when added to the queue, 0 for unlimited</translation>
+    </message>
+    <message>
+      <location filename="fgoMainWindow.ui" line="0" />
       <source>新增</source>
       <translation>Add</translation>
     </message>
@@ -488,8 +493,8 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>所选编队在队伍编成界面的位置,从左到右1-10,0为无效</source>
-      <translation>The position of the selected team in the team formation interface, left to right 1-10, 0 to disable</translation>
+      <source>所选编队在队伍编成界面的位置,从左到右1-10,0为不切换编队</source>
+      <translation>The position of the selected team in the team formation interface, left to right 1-10, 0 for no team switching</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -498,8 +503,8 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>要吃的苹果种类,在运行前设置</source>
-      <translation>Kind of apple, set before start</translation>
+      <source>要吃的苹果种类</source>
+      <translation>Kind of apple</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -528,8 +533,8 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>要吃的苹果数量,在运行前设置</source>
-      <translation>Number of apples, set before start</translation>
+      <source>要吃的苹果数量</source>
+      <translation>Number of apples</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -548,8 +553,8 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>在关卡列表界面将要刷的关卡置于第一个来清空体力</source>
-      <translation>Place the level you need at the first to clear AP gauge</translation>
+      <source>在关卡列表界面将要刷的关卡置于第一个来清空体力,或是依次执行关卡队列中的关卡</source>
+      <translation>Place the level you need at the first to clear AP gauge, or execute the quests in the quest queue</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -615,6 +620,11 @@
       <location filename="fgoMainWindow.ui" line="0" />
       <source>预约终止</source>
       <translation>Appoint</translation>
+    </message>
+    <message>
+      <location filename="fgoMainWindow.ui" line="0" />
+      <source>关卡队列</source>
+      <translation>クエストキュー</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />

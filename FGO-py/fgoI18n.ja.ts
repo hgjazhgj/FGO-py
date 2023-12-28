@@ -428,6 +428,11 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
+      <source>加入关卡队列后生效,0为不限制次数</source>
+      <translation>クエストキューに追加された時点で有効、0なら回数無制限</translation>
+    </message>
+    <message>
+      <location filename="fgoMainWindow.ui" line="0" />
       <source>新增</source>
       <translation>追加</translation>
     </message>
@@ -488,8 +493,8 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>所选编队在队伍编成界面的位置,从左到右1-10,0为无效</source>
-      <translation>チーム編成インターフェイスで選択したチームの位置、左から1～10、0は無効にする</translation>
+      <source>所选编队在队伍编成界面的位置,从左到右1-10,0为不切换编队</source>
+      <translation>チーム編成インターフェイスで選択したチームの位置、左から1～10、0なら切り替えなし</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -498,8 +503,8 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>要吃的苹果种类,在运行前设置</source>
-      <translation>林檎の種類、スタート前でセット</translation>
+      <source>要吃的苹果种类</source>
+      <translation>林檎の種類</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -528,8 +533,8 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>要吃的苹果数量,在运行前设置</source>
-      <translation>林檎の数、スタート前でセット</translation>
+      <source>要吃的苹果数量</source>
+      <translation>林檎の数</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -548,8 +553,8 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>在关卡列表界面将要刷的关卡置于第一个来清空体力</source>
-      <translation>APゲージを空にするために、指定のレベルを最初の位置に置く</translation>
+      <source>在关卡列表界面将要刷的关卡置于第一个来清空体力,或是依次执行关卡队列中的关卡</source>
+      <translation>APゲージを空にするために、指定のクエストを最初の位置に置く、または、クエストキュー内のクエストを順次実行する</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -615,6 +620,11 @@
       <location filename="fgoMainWindow.ui" line="0" />
       <source>预约终止</source>
       <translation>予約停止</translation>
+    </message>
+    <message>
+      <location filename="fgoMainWindow.ui" line="0" />
+      <source>关卡队列</source>
+      <translation>クエストキュー</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />

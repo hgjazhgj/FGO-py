@@ -55,6 +55,9 @@
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
+            <property name="statusTip">
+             <string>加入关卡队列后生效,0为不限制次数</string>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -161,7 +164,7 @@
              <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="statusTip">
-             <string>所选编队在队伍编成界面的位置,从左到右1-10,0为无效</string>
+             <string>所选编队在队伍编成界面的位置,从左到右1-10,0为不切换编队</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -189,7 +192,7 @@
             <item>
              <widget class="QComboBox" name="CBB_APPLE">
               <property name="statusTip">
-               <string>要吃的苹果种类,在运行前设置</string>
+               <string>要吃的苹果种类</string>
               </property>
               <property name="currentIndex">
                <number>0</number>
@@ -233,7 +236,7 @@
                <enum>Qt::NoContextMenu</enum>
               </property>
               <property name="statusTip">
-               <string>要吃的苹果数量,在运行前设置</string>
+               <string>要吃的苹果数量</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -287,7 +290,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="statusTip">
-           <string>在关卡列表界面将要刷的关卡置于第一个来清空体力</string>
+           <string>在关卡列表界面将要刷的关卡置于第一个来清空体力,或是依次执行关卡队列中的关卡</string>
           </property>
           <property name="text">
            <string>肝!</string>
@@ -390,7 +393,11 @@
      </layout>
     </item>
     <item>
-     <widget class="QListWidget" name="LST_QUEST"/>
+     <widget class="QListWidget" name="LST_QUEST">
+      <property name="statusTip">
+       <string>关卡队列</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

@@ -1,13 +1,20 @@
 # 版本记录 Version Log
 
-## 2023/12/31 v19.0.0
+## 2023/12/28 v19.0.1
+
+Opt:苹果数量实时显示与修改  
+Fix:战斗结果展示  
+先前除战斗数量外只展示了最后一个任务的数据  
+Opt:深色主题下结算数据着色  
+
+## 2023/12/27 v19.0.0
 
 Rem:requirements有变更  
 Fix:issue [#109](https://github.com/hgjazhgj/FGO-py/issues/109)  
 使用蓝叠5hyperv的用户需要重新设置设备连接  
 Add:关卡切换与计划作战  
 
-## 2023/12/16 v18.6.6
+## 2023/12/16 v18.8.6
 
 Fix:isLotteryContinue  
 在部分情况下,判定周期等于或接近两次抽取的间隔  

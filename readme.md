@@ -10,7 +10,6 @@
 
 ![svg](https://img.shields.io/badge/bgo-FGO安卓简中服玩家-225799.svg)
 ![svg](https://img.shields.io/badge/指挥官-碧蓝航线玩家-ff3b72.svg)
-![svg](https://img.shields.io/badge/魂之缔造者-雀魂玩家-8b008b.svg)
 ![svg](https://img.shields.io/badge/我超OP-原神玩家-1aa3ff.svg)
 ![svg](https://img.shields.io/badge/云程序员-云程序员-ffffff.svg)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
@@ -115,11 +114,6 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 ![cli](doc/cli.png)  
 也可一次向stdin写入多行以非交互的方式运行,比如睡前运行一条`echo -e "connect /bs5 \n main \n main -s 8:00:00" | python fgo.py cli`来清空体力并在8小时后再次清空体力以保证安稳的睡眠,或是在长草期加入计划任务或crontab实现7*24全托管  
 
-### 非FGO简体中文服 Non zh_CN server
-
-日服已于2023年6月8日添加支持,但是对于行动不能与宝具封印的判断要等我在日服遇到这样的情况了再说...  
-其他语言版本暂时没有适配计划,需要自行修改图片模板和fgoDetect.Detect类  
-
 ### 非16:9屏幕 Non 16:9 display
 
 尝试使用ui中的「控制-全面屏适配-调整为16:9」功能,以及cli中的`169`命令  
@@ -173,6 +167,17 @@ FGO-py现已加入[Alas](https://github.com/LmeSzinc/AzurLaneAutoScript/)豪华�
 
 你可以自己编写你需要的功能,如果你认为你的场景别人也会遇到,请发个issue或pr让我加进这个项目里  
 此外,你可以使用`|`连接两个设备名以分别指定点击拖拽等输入操作和截图等输出操作使用的接口,中间不得有空格  
+
+## 计划作战/每周任务 Operation/Weekly Mission
+
+计划作战能依次前往关卡队列中不同关卡进行不同数量的战斗  
+关卡队列为空则对当前游戏中关卡列表的第一个清空体力  
+数量为0代表不限制数量直到体力清空,但是这不会中断运行,因为剩余的零星体力可能足够其他关卡使用  
+队列操作除追加以外都是线程不安全的,所以尽量不要在每次战斗结束时修改苹果数量与关卡队列 
+自动每周任务能从游戏的每周任务界面读取任务目标并将达成此目标且消耗体力最少的关卡组合加入关卡队列  
+自动任务仅能求解击败特定数量的敌人的任务,不能完成编入从者/获得道具/场地属性/友情点召唤的任务  
+在2024年日服的历次每周任务中,出现过2次编入从者任务,没有出现过场地属性任务,其他任务均可在正常游戏时完成  
+自动每周任务目前仅限简体中文  
 
 ## 助战/邮箱筛选 Friends/Mail Filter
 
