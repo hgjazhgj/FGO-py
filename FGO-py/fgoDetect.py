@@ -1,4 +1,4 @@
-import os,time,cv2,numpy,tqdm
+import os,time,cv2,numpy,re,tqdm
 from functools import reduce,wraps
 from matplotlib import pyplot
 from fgoConst import PACKAGE_TO_REGION
@@ -60,6 +60,8 @@ class XDetectBase(metaclass=logMeta(logger)):
     def _ocrInt(self,rect):return OCR.EN.ocrInt(self._crop(rect))
     def _ocrText(self,rect):raise NotImplementedError
     def _count(self,img,rect=(0,0,1280,720),threshold=.1):return cv2.connectedComponents((cv2.matchTemplate(self._crop(rect),img[0],cv2.TM_SQDIFF_NORMED,mask=img[1])<threshold).astype(numpy.uint8))[0]-1
+    @staticmethod
+    def _stack(origin,increment,critic):return numpy.vstack((origin,increment[cv2.minMaxLoc(cv2.matchTemplate(increment,origin[-critic:],cv2.TM_SQDIFF_NORMED))[2][1]+critic:]))
     @coroutine
     def _asyncImageChange(self,rect,threshold=.05):
         img=self._crop(rect)
@@ -97,7 +99,7 @@ class XDetectBase(metaclass=logMeta(logger)):
         XDetectBase._watchServantPortrait=[self._asyncImageChange((130+318*i,426,197+318*i,494))for i in range(3)]
         XDetectBase._watchServantFriend=[self._asyncValueChange(self.isServantFriend(i)if friend is None else friend[i])for i in range(3)]
     def setupSummonHistory(self):XDetectBase._summonHistory=cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1]
-    def setupWeeklyMission(self):raise NotImplementedError
+    def setupWeeklyMission(self):XDetectBase._weeklyMission=self._crop((603,250,1092,710))
     def isAddFriend(self):return self._compare(self.tmpl.ADDFRIEND,(161,574,499,656))
     def isApEmpty(self):return self._compare(self.tmpl.APEMPTY,(522,582,758,652))
     def isBattleBegin(self):return self._compare(self.tmpl.BATTLEBEGIN,(1070,632,1270,710))
@@ -130,6 +132,8 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isSynthesisFinished(self):return self._compare(self.tmpl.DECIDEDISABLED,(1035,625,1275,711))
     def isTerminal(self):return numpy.mean(self._crop((111,571,162,610)))<100
     def isTurnBegin(self):return self._compare(self.tmpl.ATTACK,(1155,635,1210,682))
+    def isWeeklyMission(self):return numpy.min(cv2.matchTemplate(servantImg[1][1][3][0],cv2.resize(self._crop((296,117,421,210)),(0,0),fx=.555,fy=.555,interpolation=cv2.INTER_CUBIC),cv2.TM_SQDIFF_NORMED))<.1
+    def isWeeklyMissionListEnd(self):return self._isListEnd((1261,614))
     @retryOnError()
     def getCardColor(self):return[+self._select((self.tmpl.ARTS,self.tmpl.QUICK,self.tmpl.BUSTER),(80+257*i,537,131+257*i,581))for i in range(5)]
     def getCardCriticalRate(self):return[(lambda x:0 if x is None else x+1)(self._select((self.tmpl.CRITICAL1,self.tmpl.CRITICAL2,self.tmpl.CRITICAL3,self.tmpl.CRITICAL4,self.tmpl.CRITICAL5,self.tmpl.CRITICAL6,self.tmpl.CRITICAL7,self.tmpl.CRITICAL8,self.tmpl.CRITICAL9,self.tmpl.CRITICAL0),(76+257*i,350,113+257*i,405),.06))for i in range(5)]
@@ -163,20 +167,18 @@ class XDetectBase(metaclass=logMeta(logger)):
     @retryOnError()
     @validate(lambda x:x!=0)
     def getStageTotal(self):return self._ocrInt((912,13,932,38))
-    def getSummonHistory(self):XDetectBase._summonHistory=numpy.vstack((XDetectBase._summonHistory,(lambda img:img[cv2.minMaxLoc(cv2.matchTemplate(img,XDetectBase._summonHistory[-80:],cv2.TM_SQDIFF_NORMED))[2][1]+80:])(cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1])))
+    def getSummonHistory(self):XDetectBase._summonHistory=self._stack(XDetectBase._summonHistory,cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1],80)
     @classmethod
     def getSummonHistoryCount(cls):return cls.__new__(cls).inject(XDetectBase._summonHistory)._count((cls.tmpl.SUMMONHISTORY[0][...,0],cls.tmpl.SUMMONHISTORY[1]),(28,0,60,XDetectBase._summonHistory.shape[0]),.7)
     def getTeamIndex(self):return self._loc(self.tmpl.TEAMINDEX,(512,34,768,62))[2][0]//25
     # getTeam* series except getTeamIndex APIs are not used now
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
     def getTeamServantClassRank(self):return[(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
-    def getWeeklyMission(self):raise NotImplementedError
+    def getWeeklyMission(self):XDetectBase._weeklyMission=self._stack(XDetectBase._weeklyMission,self._crop((603,250,1092,710)),157)
     def findChapter(self,chapter):return self._find((chapterImg[chapter],None),(640,90,1230,600))
     def findFriend(self,img):return self._find(img,(13,166,1233,720))
     def findMail(self,img):return self._find(img,(73,166,920,720),threshold=.016)
     def findMapCamera(self,chapter):return numpy.array(cv2.minMaxLoc(cv2.matchTemplate(mapImg[chapter],cv2.resize(self._crop((200,200,1080,520)),(0,0),fx=.3,fy=.3,interpolation=cv2.INTER_CUBIC),cv2.TM_SQDIFF_NORMED))[2])/.3+(440,160)
-    @classmethod
-    def parseWeeklyMission(cls):raise NotImplementedError
     @classmethod
     def saveSummonHistory(cls):return(lambda c:(lambda img:(c,cls.__new__(cls).inject(img).save(f'SummonHistory({c})',(0,0,*img.shape[::-1]))))(numpy.vstack((cv2.putText(numpy.zeros((36,XDetectBase._summonHistory.shape[1]),numpy.uint8),f'SummonHistory({c}) generated by FGO-py',(8,26),cv2.FONT_HERSHEY_DUPLEX,0.85,255,2,cv2.LINE_4),XDetectBase._summonHistory[:numpy.flatnonzero(numpy.max(XDetectBase._summonHistory,axis=1))[-1]+2]))))(cls.getSummonHistoryCount())
     def isGameAnnounce(self):raise NotImplementedError
@@ -194,7 +196,15 @@ class XDetectCN(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_CN
     ocr=OCR.ZHS
     @classmethod
-    def weeklyMissionParser(cls,missionText):raise NotImplementedError
+    def saveWeeklyMission(cls):
+        result=[]
+        mission=''
+        for i in(i for i in cls.ocr.ocrArea(cls._weeklyMission)if'完成'not in i and'进行'not in i and'获得'not in i and'举办'not in i):
+            if mission and i[0].isdigit():
+                if'『'in mission and(count:=(lambda x:int(x[1])-int(x[0]))(i.split('/')if'/'in i else(lambda x:(i[:x],i[x+1:]))((len(i)-1)>>1))):result.append((re.findall('『(.*?)』',mission),'从者'not in mission,count))
+                mission=''
+            else:mission+=i
+        return result
 class XDetectJP(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_JP
     ocr=OCR.JA

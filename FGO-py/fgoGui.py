@@ -90,7 +90,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
             try:
                 self.signalFuncBegin.emit()
                 self.result=None
-                func()
+                self.result=func()
             except fgoKernel.ScriptStop as e:
                 logger.critical(e)
                 msg=(str(e),QSystemTrayIcon.MessageIcon.Warning)
@@ -99,7 +99,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
                 msg=(repr(e),QSystemTrayIcon.MessageIcon.Critical)
             else:msg=('Done',QSystemTrayIcon.MessageIcon.Information)
             finally:
-                self.result=getattr(func,'result',None)
+                self.result=getattr(func,'result',self.result)
                 self.signalFuncEnd.emit(msg)
                 fgoKernel.fuse.reset()
                 fgoKernel.schedule.reset()
@@ -122,8 +122,8 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_PAUSE.setChecked(False)
         self.BTN_STOP.setEnabled(True)
         self.BTN_STOPLATER.setEnabled(True)
+        self.BTN_QUESTLOAD.setEnabled(False)
         self.MENU_SCRIPT.setEnabled(False)
-        self.TXT_APPLE.setValue(0)
         self.timer.start(500)
     @Slot(object)
     def funcEnd(self,msg):
@@ -134,6 +134,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOP.setEnabled(False)
         self.BTN_STOPLATER.setChecked(False)
         self.BTN_STOPLATER.setEnabled(False)
+        self.BTN_QUESTLOAD.setEnabled(True)
         self.MENU_SCRIPT.setEnabled(True)
         QApplication.alert(self)
         self.TRAY.showMessage('FGO-py',*msg)
@@ -160,8 +161,8 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
 <h2>{msg[0].split(':',1)[0]}</h2>
 {', '.join(f'{self.tr(i)} {self.result[j]:.2f}ms'for i,j in(('点击','touch'),('截图','screenshot')))}
 ''')
-        self.result=None
         self.timer.stop()
+        self.flush()
     def connectDevice(self):
         dialog=QInputDialog(self,Qt.WindowType.WindowStaysOnTopHint)
         dialog.setWindowTitle('FGO-py')
@@ -248,9 +249,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.operation[cur],self.operation[cur+1]=self.operation[cur+1],self.operation[cur]
         self.LST_QUEST.setCurrentRow(cur+1)
         self.flush()
-    def questLoad(self):
-        QMessageBox.critical(self,'FGO-py','将在未来的更新中实装')
-        logger.critical('NotImplemented')
+    def questLoad(self):self.runFunc(lambda:self.operation.extend(fgoKernel.weeklyMission()))
     def about(self):QMessageBox.about(self,'FGO-py - About',f'''
 <h2>FGO-py</h2>
 {self.tr('全自动免配置跨平台开箱即用的FGO助手')}

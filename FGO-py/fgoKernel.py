@@ -20,7 +20,7 @@
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
-import cv2,logging,numpy,random,re,time,threading
+import cv2,logging,numpy,pulp,random,re,time,threading
 import fgoDevice
 from itertools import permutations
 from functools import wraps
@@ -28,7 +28,7 @@ from fgoDetect import Detect,XDetect
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
 from fgoLogging import getLogger,logit
-from fgoMetadata import servantData,questData,mapPoly
+from fgoMetadata import servantData,missionMat,missionTag,questData,mapPoly
 from fgoSchedule import ScriptStop,schedule
 logger=getLogger('Kernel')
 
@@ -128,10 +128,8 @@ def summonHistory():
     Detect().setupSummonHistory()
     while not Detect.cache.isSummonHistoryListEnd():
         fgoDevice.device.swipe((930,500),(930,200))
-        Detect().getSummonHistory()
-    fgoDevice.device.swipe((930,500),(930,200))
-    Detect().getSummonHistory()
-    summonHistory.result={'type':'SummonHistory'}|dict(zip(('value','file'),Detect.cache.saveSummonHistory()))
+        Detect(.4).getSummonHistory()
+    return{'type':'SummonHistory'}|dict(zip(('value','file'),Detect.cache.saveSummonHistory()))
 @serialize(mutex)
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True
@@ -145,12 +143,11 @@ def bench(times=20,touch=True,screenshot=True):
         begin=time.time()
         fgoDevice.device.press('\xBB')
         touchBench.append(time.time()-begin)
-    bench.result={
+    return{
         'type':'Bench',
         'touch':(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,
         'screenshot':(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None,
     }
-    logger.warning(f'Benchmark: {", ".join(f"{i} {bench.result[i]:.2f}ms"for i in("touch","screenshot"))}')
 @serialize(mutex)
 def goto(quest):
     while not Detect(0,1).isMainInterface():pass
@@ -180,9 +177,23 @@ def goto(quest):
         fgoDevice.device.swipe((1000,200),(1000,600))
     while not Detect(.4).isQuestFree(quest[0]):fgoDevice.device.swipe((1000,385),(1000,300))
 @serialize(mutex)
-def solveWeeklyMission():
+def weeklyMission():
     while not Detect(0,1).isMainInterface():pass
-    raise NotImplementedError
+    fgoDevice.device.perform('B',(800,))
+    while not Detect(.4).isWeeklyMission():pass
+    fgoDevice.device.perform('2N',(100,1000))
+    Detect().setupWeeklyMission()
+    while not Detect.cache.isWeeklyMissionListEnd():
+        fgoDevice.device.swipe((1000,600),(1000,300))
+        Detect(.4).getWeeklyMission()
+    x=[pulp.LpVariable('_'.join(str(j)for j in i),lowBound=0,cat=pulp.LpInteger)for i in questData]
+    prob=pulp.LpProblem('WeeklyMission',sense=pulp.LpMinimize)
+    prob+=pulp.lpDot(missionMat[0],x)
+    for target,minion,count in Detect.cache.saveWeeklyMission():prob+=pulp.lpDot(sum(missionMat[j]for i in target for j,k in enumerate(missionTag)if i in k and(minion or'从者'in k)),x)>=count
+    prob.solve()
+    logger.info(f'AP: {pulp.value(prob.objective):.0f}')
+    fgoDevice.device.press('\x67')
+    return[(tuple(int(i)for i in v.name.split('_')),int(v.varValue))for v in prob.variables()if v.varValue]
 class ClassicTurn:
     skillInfo=[[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]]]
     houguInfo=[[1,7],[1,7],[1,7],[1,7],[1,7],[1,7]]

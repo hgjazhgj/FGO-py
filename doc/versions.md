@@ -1,5 +1,10 @@
 # 版本记录 Version Log
 
+## 2024/01/01 v19.1.0
+
+Add:自动每周任务  
+详见readme正文  
+
 ## 2023/12/28 v19.0.1
 
 Opt:苹果数量实时显示与修改  
@@ -10,9 +15,9 @@ Opt:深色主题下结算数据着色
 ## 2023/12/27 v19.0.0
 
 Rem:requirements有变更  
+Add:关卡切换与计划作战  
 Fix:issue [#109](https://github.com/hgjazhgj/FGO-py/issues/109)  
 使用蓝叠5hyperv的用户需要重新设置设备连接  
-Add:关卡切换与计划作战  
 
 ## 2023/12/16 v18.8.6
 
