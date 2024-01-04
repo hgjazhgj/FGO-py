@@ -1,6 +1,6 @@
 import os,sys,platform
 from threading import Thread
-from PySide6.QtCore import Qt,QLocale,QTranslator,QTimer,Signal,Slot
+from PySide6.QtCore import Qt,QLocale,QTranslator,QTimer,Signal
 from PySide6.QtGui import QAction,QIcon
 from PySide6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon,QSpinBox,QComboBox
 import fgoDevice
@@ -106,14 +106,12 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
                 if self.config.notifyEnable and not all(success:=[i(msg[0])for i in self.notifier]):logger.critical(f'Notify post failed {success.count(False)} of {len(success)}')
         self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}')
         self.worker.start()
-    @Slot()
     def flush(self):
         self.TXT_APPLE.setValue(self.operation.appleTotal)
         cur=self.LST_QUEST.currentRow()
         self.LST_QUEST.clear()
         self.LST_QUEST.addItems(f'{i:2}.{k:5}× {QApplication.translate("quest","-".join(str(m)for m in j[:2]))}=={QApplication.translate("quest","-".join(str(m)for m in j))}'for i,(j,k)in enumerate(self.operation))
         self.LST_QUEST.setCurrentRow(cur)
-    @Slot()
     def funcBegin(self):
         self.BTN_MAIN.setEnabled(False)
         self.BTN_BATTLE.setEnabled(False)
@@ -125,7 +123,6 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_QUESTLOAD.setEnabled(False)
         self.MENU_SCRIPT.setEnabled(False)
         self.timer.start(500)
-    @Slot(object)
     def funcEnd(self,msg):
         self.BTN_MAIN.setEnabled(True)
         self.BTN_BATTLE.setEnabled(True)

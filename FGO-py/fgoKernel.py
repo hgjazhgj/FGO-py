@@ -165,11 +165,7 @@ def goto(quest):
     while not Detect(.4,.4).isMainInterface():pass
     if quest[0]:
         fgoDevice.device.press('\xBF')
-        while True:
-            v=questData[quest]-Detect(1).findMapCamera(quest[:2])
-            if cv2.pointPolygonTest(mapPoly,p:=(640,360)+v,False)>0:break
-            if v[0]>1180 or v[1]>620:v*=min(1180/v[0],620/v[1])
-            fgoDevice.device.swipe((640,360)+v/2,(640,360)-v/2)
+        while cv2.pointPolygonTest(mapPoly,p:=(640,360)+(v:=questData[quest]-Detect(1).findMapCamera(quest[:2])),False)<=0:(lambda v:fgoDevice.device.swipe((640,360)+v,(640,360)-v))(v*min(590/abs(v[0]),310/abs(v[1]),.5))
         fgoDevice.device.perform('  ',(300,300))
         fgoDevice.device.touch(p)
     for _ in range(4):
