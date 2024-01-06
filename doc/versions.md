@@ -1,9 +1,13 @@
 # 版本记录 Version Log
 
+## 2024/01/06 v19.1.2
+
+Upd:新的Portable Installer  
+Upd:python3.11  
+
 ## 2024/01/04 v19.1.1
 
 Fix:前往关卡的划动  
-Upd:python3.11  
 
 ## 2024/01/01 v19.1.0
 
