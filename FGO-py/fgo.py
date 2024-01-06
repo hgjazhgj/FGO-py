@@ -12,9 +12,10 @@ arg=parser.parse_args()
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 if arg.no_color:os.environ['NO_COLOR']='1'
 
-if arg.entrypoint=='gui':from fgoGui import main
-elif arg.entrypoint=='cli':from fgoCli import main
-elif arg.entrypoint=='web':from fgoWebServer import main
+match arg.entrypoint:
+    case'gui':from fgoGui import main
+    case'cli':from fgoCli import main
+    case'web':from fgoWebServer import main
 
 import fgoLogging
 fgoLogging.logger.handlers[-1].setLevel(arg.loglevel)
