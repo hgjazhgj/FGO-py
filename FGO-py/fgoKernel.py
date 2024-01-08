@@ -171,7 +171,8 @@ def goto(quest):
     for _ in range(4):
         if Detect(.4).isQuestListBegin():break
         fgoDevice.device.swipe((1000,200),(1000,600))
-    while not Detect(.4).isQuestFree(quest[0]):fgoDevice.device.swipe((1000,385),(1000,300))
+    while not Detect(.4).isQuestFreeContains(quest[0]):fgoDevice.device.swipe((1000,600),(1000,200))
+    while not Detect(.4).isQuestFreeFirst(quest[0]):fgoDevice.device.swipe((1000,395),(1000,300))
 @serialize(mutex)
 def weeklyMission():
     while not Detect(0,1).isMainInterface():pass
