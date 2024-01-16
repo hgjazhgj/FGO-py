@@ -186,9 +186,9 @@ def weeklyMission():
     x=[pulp.LpVariable('_'.join(str(j)for j in i),lowBound=0,cat=pulp.LpInteger)for i in questData]
     prob=pulp.LpProblem('WeeklyMission',sense=pulp.LpMinimize)
     prob+=pulp.lpDot(missionMat[0],x)
-    for target,minion,count in Detect.cache.saveWeeklyMission():prob+=pulp.lpDot(sum(missionMat[j]for i in target for j,k in enumerate(missionTag)if i in k and(minion or'从者'in k)),x)>=count
-    prob.solve()
-    logger.info(f'AP: {pulp.value(prob.objective):.0f}')
+    for target,minion,count in Detect.cache.saveWeeklyMission():prob+=pulp.lpDot(sum(j for i in target for j,k in zip(missionMat,missionTag)if i in k and(minion or'从者'in k)),x)>=count
+    prob.solve(pulp.PULP_CBC_CMD(msg=False))
+    logger.info(f'AP: {prob.objective.value():.0f}')
     fgoDevice.device.press('\x67')
     return[(tuple(int(i)for i in v.name.split('_')),int(v.varValue))for v in prob.variables()if v.varValue]
 class ClassicTurn:
