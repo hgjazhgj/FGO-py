@@ -62,7 +62,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         arg=parser_bench.parse_args(line.split())
         assert fgoDevice.device.available
         if not(arg.input or arg.output):arg.input=arg.output=True
-        logger.warning(f'Benchmark: {", ".join(f"{i} {fgoKernel.bench(max(3,arg.number),arg.input,arg.output)[i]:.2f}ms"for i in("touch","screenshot"))}')
+        logger.warning(f'Benchmark: {(lambda x:", ".join(f"{i} {x[i]:.2f}ms"for i,j in(("touch",arg.input),("screenshot",arg.output))if j))(fgoKernel.bench(max(3,arg.number),arg.input,arg.output))}')
     def do_call(self,line):
         'Call a Additional feature'
         arg=parser_call.parse_args(line.split())
@@ -106,10 +106,10 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         assert fgoDevice.device.available
         assert not fgoKernel.mutex.locked()
         countdown(reduce(lambda x,y:x*60+int(y),arg.sleep.replace('.',':').split(':'),0))
-        try:
-            signal.signal(signal.SIGINT,lambda*_:fgoKernel.schedule.stop())
-            if platform.system()=='Windows':signal.signal(signal.SIGBREAK,lambda*_:fgoKernel.schedule.pause())
-            self.work()
+        result=None
+        signal.signal(signal.SIGINT,lambda*_:fgoKernel.schedule.stop())
+        if platform.system()=='Windows':signal.signal(signal.SIGBREAK,lambda*_:fgoKernel.schedule.pause())
+        try:result=self.work()
         except fgoKernel.ScriptStop as e:
             logger.critical(e)
             msg=str(e)
@@ -118,17 +118,20 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
             msg=repr(e)
         else:msg='Done'
         finally:
-            result=getattr(self.work,'result',None)
+            result=getattr(self.work,'result',result)
             signal.signal(signal.SIGINT,signal.SIG_DFL)
             if platform.system()=='Windows':signal.signal(signal.SIGBREAK,signal.SIG_DFL)
             fgoKernel.fuse.reset()
             fgoKernel.schedule.reset()
-        if isinstance(result,dict)and(t:=result.get('type',None)):
-            if t=='Battle':...
-            elif t=='Main':
-                logger.warning(f'{color(0xC5E0B4)}{result["battle"]}{color()} battle(s) finished in {color(0xC5E0B4)}{result["time"]//3600:.0f}:{result["time"]//60%60:02.0f}:{result["time"]%60:02.0f}{color()}')
-                logger.warning(f'{color(0xC5E0B4)}{result["turnPerBattle"]:.1f}{color()} turns, {color(0xC5E0B4)}{result["timePerBattle"]//60:.0f}:{result["timePerBattle"]%60:02.1f}{color()} per battle in average')
+        match result:
+            case{'type':'Battle'}:
+                logger.warning(f'Battle finished in {color(0xC5E0B4)}{result["time"]//3600:.0f}:{result["time"]//60%60:02.0f}:{result["time"]%60:02.0f}{color()}')
                 if result["material"]:logger.warning(f'{", ".join(f"{i}{color(0xFFD966)}x{j}{color()}"for i,j in result["material"].items())} earned')
+            case{'type':'Main'}:
+                logger.warning(f'{color(0xFFD966)}{result["battle"]}{color()} battle(s) finished in {color(0xC5E0B4)}{result["time"]//3600:.0f}:{result["time"]//60%60:02.0f}:{result["time"]%60:02.0f}{color()}')
+                logger.warning(f'{color(0xC5E0B4)}{result["turnPerBattle"]:.1f}{color()} turns, {color(0xC5E0B4)}{result["timePerBattle"]//60:.0f}:{result["timePerBattle"]%60:02.1f}{color()} per battle in average')
+                if result["material"]:logger.warning(f'{", ".join(f"{color(0x69BCEA)}{i}{color(0xFFD966)}x{j}{color()}"for i,j in result["material"].items())} earned')
+            case{'type':'SummonHistory'}:logger.warning(f'Got {color(0xFFD966)}{result["value"]}{color()} record(s), image save to {color(0x69BCEA)}{result["file"]}{color()}')
         # todo: notify
         # if self.config.notifyEnable:
         #     for i in self.config.notifyParam:
@@ -222,10 +225,8 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         print(fgoKernel.__version__)
     def do_week(self,line):
         'Solve weekly mission'
-        arg=parser_week.parse_args(line.split())
-        data=fgoKernel.weeklyMission()
-        if arg.print:print('\n'.join(f'{id:2}. {"-".join(quest):8}{times:2}'for id,(quest,times)in enumerate(data)))
-        logger.warning(''.join(f'-q {"-".join(quest)} {times} 'for quest,times in data))
+        self.work=fgoKernel.Operation(fgoKernel.weeklyMission())
+        for id,(quest,times)in enumerate(self.work):logger.warning(f'{id:2}. {"-".join(quest):8}{times:2}')
     def do_169(self,line):
         'Adapt none 16:9 screen'
         arg=parser_169.parse_args(line.split())
@@ -308,9 +309,6 @@ parser_teamup_set_master=parser_teamup_set_.add_parser('master',help='Setup mast
 parser_teamup_set_master.add_argument('value',help='Info value (e.g. 1107-xxxx-21347, add hyphens(-) anywhere as they will be removed, x for no change)',type=str.upper)
 parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team index')
 parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
-
-parser_week=ArgParser(prog='week',description=Cmd.do_week.__doc__)
-parser_week.add_argument('-p','--print',help='Pretty print',action='store_true')
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)
 parser_169.add_argument('action',help='Action',type=str.lower,choices=['invoke','revoke'])

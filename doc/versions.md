@@ -1,5 +1,13 @@
 # 版本记录 Version Log
 
+## 2024/02/09 v19.1.6
+
+Fix:吃一个苹果  
+19.0.1
+Fix:cli bench  
+Fix:getFieldServantNp  
+有时百分号截进去了末尾多一个9  
+
 ## 2024/01/17 v19.1.5
 
 Fix:Saber->剑士  

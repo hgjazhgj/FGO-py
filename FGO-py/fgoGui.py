@@ -88,8 +88,8 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         if not self.isDeviceAvailable():return
         def f():
             try:
-                self.signalFuncBegin.emit()
                 self.result=None
+                self.signalFuncBegin.emit()
                 self.result=func()
             except fgoKernel.ScriptStop as e:
                 logger.critical(e)
@@ -135,26 +135,26 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.MENU_SCRIPT.setEnabled(True)
         QApplication.alert(self)
         self.TRAY.showMessage('FGO-py',*msg)
-        if isinstance(self.result,dict)and(t:=self.result.get('type',None)):
-            if t=='Battle':QMessageBox.information(self,'FGO-py',f'''
+        match self.result:
+            case{'type':'Battle'}:QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
 <font {self.color(0x006400)}>{self.result['turn']}</font>{self.tr('回合完成战斗')},{self.tr('用时')}<font {self.color(0x006400)}>{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font><br/>
 {self.tr('获得了以下素材')}:<br/>
 {'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QApplication.translate("material",i)}<font {self.color(0x7030A0)}>x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
 ''')
-            elif t=='Main':QMessageBox.information(self,'FGO-py',f'''
+            case{'type':'Main'}:QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
 {self.tr('在过去的')}<font {self.color(0x006400)}>{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>{self.tr('中完成了')}<font {self.color(0x006400)}>{self.result['battle']}</font>{self.tr('场战斗')}<br/>
 {self.tr('平均每场战斗')}<font {self.color(0x006400)}>{self.result['turnPerBattle']:.1f}</font>{self.tr('回合')},{self.tr('用时')}<font {self.color(0x006400)}>{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
 {self.tr('获得了以下素材')}:<br/>
 {'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QApplication.translate("material",i)}<font {self.color(0x7030A0)}>x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
 ''')
-            elif t=='SummonHistory':QMessageBox.information(self,'FGO-py',f'''
+            case{'type':'SummonHistory'}:QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
 {self.tr('获取到')}<font {self.color(0x006400)}>{self.result['value']}</font>{self.tr('条抽卡记录')},{self.tr('图片保存至')}</br>
 <font {self.color(0x7030A0)}>{self.result['file']}</font>
 ''')
-            elif t=='Bench':QMessageBox.information(self,'FGO-py',f'''
+            case{'type':'Bench'}:QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
 {', '.join(f'{self.tr(i)} {self.result[j]:.2f}ms'for i,j in(('点击','touch'),('截图','screenshot')))}
 ''')

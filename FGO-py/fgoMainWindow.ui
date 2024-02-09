@@ -604,6 +604,9 @@
   <tabstop>TXT_TIMES</tabstop>
   <tabstop>BTN_QUESTADD</tabstop>
   <tabstop>BTN_QUESTREMOVE</tabstop>
+  <tabstop>BTN_QUESTUP</tabstop>
+  <tabstop>BTN_QUESTDOWN</tabstop>
+  <tabstop>BTN_QUESTCLEAR</tabstop>
   <tabstop>TXT_TEAM</tabstop>
   <tabstop>CBB_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>

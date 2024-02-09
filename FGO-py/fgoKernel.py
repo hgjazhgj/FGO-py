@@ -279,97 +279,101 @@ class Turn:
         while skill:=[(0,i,j)for i in range(3)for j in range(3)if not self.countDown[0][i][j]and self.servant[i][0]and self.servant[i][6][j][0]and Detect.cache.isSkillReady(i,j)]: # +[(1,i)for i in range(3)if self.countDown[1][i]==0]:
             for i in skill:
                 if i[0]==0:
-                    if (p:=self.servant[i[1]][6][i[2]])[0]==1:
-                        self.castServantSkill(i[1],i[2],i[1]+1)
-                        continue
-                    elif p[0]==2:
-                        np=[Detect.cache.getFieldServantNp(i)if self.servant[i][0]else 100 for i in range(3)]
-                        if p[1]==0:
-                            if any(i<100 for i in np):
-                                self.castServantSkill(i[1],i[2],0)
-                                continue
-                        elif p[1]==1:
-                            np[i[1]]=100
-                            target=numpy.argmin(np)
-                            if np[target]<100:
-                                self.castServantSkill(i[1],i[2],target+1)
-                                continue
-                        elif p[1]==2:
-                            np[i[1]]=100
-                            if any(i<100 for i in np):
-                                self.castServantSkill(i[1],i[2],0)
-                                continue
-                        elif p[1]in{3,4}:
-                            if self.stageTurn>1:
-                                self.castServantSkill(i[1],i[2],0)
-                                continue
-                        elif p[1]==5:
-                            if np[i[1]]<100:
-                                self.castServantSkill(i[1],i[2],i[1]+1)
-                                continue
-                        else:
-                            self.castServantSkill(i[1],i[2],0)
-                            continue
-                    elif p[0]==3:
-                        np=[Detect.cache.getFieldServantNp(i)if self.servant[i][0]else 0 for i in range(3)]
-                        if p[1]in{0,3,4}:
-                            if any(i>=100 for i in np):
-                                self.castServantSkill(i[1],i[2],0)
-                                continue
-                        elif p[1]==1:
-                            target=numpy.argmax(np)
-                            if np[target]>=100:
-                                self.castServantSkill(i[1],i[2],target+1)
-                                continue
-                        elif p[1]==2:
-                            np[i[1]]=0
-                            if any(i>=100 for i in np):
-                                self.castServantSkill(i[1],i[2],0)
-                                continue
-                        elif p[1]==5:
-                            if np[i[1]]>=100:
-                                self.castServantSkill(i[1],i[2],i[1]+1)
-                                continue
-                        else:
-                            self.castServantSkill(i[1],i[2],0)
-                            continue
-                    elif p[0]in{4,5,6}:
-                        self.castServantSkill(i[1],i[2],0)
-                        continue
-                    elif p[0]==7:
-                        hp=[Detect.cache.getFieldServantHp(i)if self.servant[i][0]else 999999 for i in range(3)]
-                        if p[1]==0:
-                            if any(i<6600 for i in hp):
-                                self.castServantSkill(i[1],i[2],0)
-                                continue
-                        elif p[1]==1:
-                            target=numpy.argmin(hp)
-                            if hp[target]<6600:
-                                self.castServantSkill(i[1],i[2],target+1)
-                                continue
-                        elif p[1]==2:
-                            hp[i[1]]=999999
-                            if any(i<6600 for i in hp):
-                                self.castServantSkill(i[1],i[2],0)
-                                continue
-                        elif p[1]in{3,4}:
-                            self.castServantSkill(i[1],i[2],0)
-                            continue
-                        elif p[1]==5:
-                            if hp[i[1]]<6600:
-                                self.castServantSkill(i[1],i[2],i[1]+1)
-                                continue
-                        else:
-                            self.castServantSkill(i[1],i[2],0)
-                            continue
-                    elif p[0]==8:
-                        if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(6)):
+                    match self.servant[i[1]][6][i[2]]:
+                        case 1,_:
                             self.castServantSkill(i[1],i[2],i[1]+1)
                             continue
-                    elif p[0]==9:
-                        if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(6))or Detect.cache.getFieldServantHp(i[1])<3300:
-                            self.castServantSkill(i[1],i[2],i[1]+1)
+                        case 2,p:
+                            np=[Detect.cache.getFieldServantNp(i)if self.servant[i][0]else 100 for i in range(3)]
+                            match p:
+                                case 0:
+                                    if any(i<100 for i in np):
+                                        self.castServantSkill(i[1],i[2],0)
+                                        continue
+                                case 1:
+                                    np[i[1]]=100
+                                    target=numpy.argmin(np)
+                                    if np[target]<100:
+                                        self.castServantSkill(i[1],i[2],target+1)
+                                        continue
+                                case 2:
+                                    np[i[1]]=100
+                                    if any(i<100 for i in np):
+                                        self.castServantSkill(i[1],i[2],0)
+                                        continue
+                                case 3|4:
+                                    if self.stageTurn>1:
+                                        self.castServantSkill(i[1],i[2],0)
+                                        continue
+                                case 5:
+                                    if np[i[1]]<100:
+                                        self.castServantSkill(i[1],i[2],i[1]+1)
+                                        continue
+                                case _:
+                                    self.castServantSkill(i[1],i[2],0)
+                                    continue
+                        case 3,p:
+                            np=[Detect.cache.getFieldServantNp(i)if self.servant[i][0]else 0 for i in range(3)]
+                            match p:
+                                case 0|3|4:
+                                    if any(i>=100 for i in np):
+                                        self.castServantSkill(i[1],i[2],0)
+                                        continue
+                                case 1:
+                                    target=numpy.argmax(np)
+                                    if np[target]>=100:
+                                        self.castServantSkill(i[1],i[2],target+1)
+                                        continue
+                                case 2:
+                                    np[i[1]]=0
+                                    if any(i>=100 for i in np):
+                                        self.castServantSkill(i[1],i[2],0)
+                                        continue
+                                case 5:
+                                    if np[i[1]]>=100:
+                                        self.castServantSkill(i[1],i[2],i[1]+1)
+                                        continue
+                                case _:
+                                    self.castServantSkill(i[1],i[2],0)
+                                    continue
+                        case 4|5|6,_:
+                            self.castServantSkill(i[1],i[2],0)
                             continue
+                        case 7,p:
+                            hp=[Detect.cache.getFieldServantHp(i)if self.servant[i][0]else 999999 for i in range(3)]
+                            match p:
+                                case 0:
+                                    if any(i<6600 for i in hp):
+                                        self.castServantSkill(i[1],i[2],0)
+                                        continue
+                                case 1:
+                                    target=numpy.argmin(hp)
+                                    if hp[target]<6600:
+                                        self.castServantSkill(i[1],i[2],target+1)
+                                        continue
+                                case 2:
+                                    hp[i[1]]=999999
+                                    if any(i<6600 for i in hp):
+                                        self.castServantSkill(i[1],i[2],0)
+                                        continue
+                                case 3|4:
+                                    self.castServantSkill(i[1],i[2],0)
+                                    continue
+                                case 5:
+                                    if hp[i[1]]<6600:
+                                        self.castServantSkill(i[1],i[2],i[1]+1)
+                                        continue
+                                case _:
+                                    self.castServantSkill(i[1],i[2],0)
+                                    continue
+                        case 8,_:
+                            if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(6)):
+                                self.castServantSkill(i[1],i[2],i[1]+1)
+                                continue
+                        case 9,_:
+                            if any((lambda x:x[1]and x[0]==x[1])(Detect.cache.getEnemyNp(i))for i in range(6))or Detect.cache.getFieldServantHp(i[1])<3300:
+                                self.castServantSkill(i[1],i[2],i[1]+1)
+                                continue
                     self.countDown[0][i[1]][i[2]]=1
                 else:...
     @logit(logger,logging.INFO)
@@ -523,10 +527,10 @@ class Main:
     @logit(logger,logging.INFO)
     def eatApple(self):
         if not self.appleTotal:return fgoDevice.device.press('Z')
-        self.appleTotal-=1
         if self.appleKind==3:fgoDevice.device.perform('V',(600,))
         fgoDevice.device.perform('W4K48'[self.appleKind]+'L',(600,1200))
-        return self.appleTotal
+        self.appleTotal-=1
+        return self.appleTotal+1
     @logit(logger,logging.INFO)
     def chooseFriend(self):
         refresh=False
