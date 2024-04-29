@@ -186,7 +186,7 @@ def weeklyMission():
     x=[pulp.LpVariable('_'.join(str(j)for j in i),lowBound=0,cat=pulp.LpInteger)for i in questData]
     prob=pulp.LpProblem('WeeklyMission',sense=pulp.LpMinimize)
     prob+=pulp.lpDot(missionMat[0],x)
-    for target,minion,count in Detect.cache.saveWeeklyMission():prob+=pulp.lpDot(sum(j for i in target for j,k in zip(missionMat,missionTag)if i in k and(minion or'从者'in k)),x)>=count
+    for count in(count for target,minion,count in Detect.cache.saveWeeklyMission()if(logger.info(f'Add [{"|".join(target)}],{minion},{count}')or True if(coefficient:=sum((j for i in target for j,k in zip(missionMat,missionTag)if i in k and(minion or'从者'in k)),numpy.zeros(missionMat.shape[1]))).any()else logger.error(f'Invalid Target [{"|".join(target)}],{minion},{count}'))):prob+=pulp.lpDot(coefficient,x)>=count
     prob.solve(pulp.PULP_CBC_CMD(msg=False))
     logger.info(f'AP: {prob.objective.value():.0f}')
     fgoDevice.device.press('\x67')
@@ -291,7 +291,6 @@ class Turn:
                                         self.castServantSkill(i[1],i[2],0)
                                         continue
                                 case 1:
-                                    np[i[1]]=100
                                     target=numpy.argmin(np)
                                     if np[target]<100:
                                         self.castServantSkill(i[1],i[2],target+1)

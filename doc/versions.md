@@ -1,5 +1,14 @@
 # 版本记录 Version Log
 
+## 2024/04/30 v19.1.7
+
+Opt:每周任务的识别与日志  
+基于经验与臆想的校正  
+Fix:issue [#126](https://github.com/hgjazhgj/FGO-py/issues/126)  
+就算关卡列表中仅有唯一关卡,这个列表也是可以上下划动的  
+Del:过时的助战模板  
+Fix:isNoFriend  
+
 ## 2024/02/09 v19.1.6
 
 Fix:吃一个苹果  
@@ -129,12 +138,12 @@ Opt:config
 ## 2023/06/13 v18.3.3
 
 Del:deploy预置的launch和halt  
-防止未来的merge confilct,反正这两个文件终归是要你自己写的  
+防止未来的merge conflict,反正这两个文件终归是要你自己写的  
 Fix:「完成战斗」按钮的互斥交互  
 
 ## 2023/06/12 v18.3.2
 
-Opt:getSatge*  
+Opt:getStage*  
 基于OCR的实现  
 
 ## 2023/06/12 v18.3.1

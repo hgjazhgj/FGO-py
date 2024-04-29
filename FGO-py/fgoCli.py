@@ -237,7 +237,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
             '':['invoke','revoke'],
         },text,line,begidx,endidx)
 
-ArgError=type('ArgError',(Exception,),{})
+class ArgError(Exception):pass
 def validator(type,func,desc='\b'):
     def f(x):
         if not func(x:=type(x)):raise ValueError

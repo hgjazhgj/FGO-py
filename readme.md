@@ -3,10 +3,6 @@
 > 已添加台服支持([#114](https://github.com/hgjazhgj/FGO-py/pull/114))  
 > [自动完成每周任务](#计划作战每周任务-OperationWeekly-Mission)  
 
-热烈庆祝本项目于2022年8月5日荣登GitHub中文趋势Python语言日榜与同期周榜第3名!  
-同期中文趋势全语言周榜第23名  
-![trending](doc/trending.png)
-
 # 「智能战斗不间断,不靠礼装不用拐」的Fate/Grand Order全智能程序
 
 ![svg](https://img.shields.io/badge/bgo-FGO安卓简中服玩家-225799.svg)
@@ -23,7 +19,6 @@
 ![svg](https://img.shields.io/badge/咕咕咕-一天不咕浑身难受-cccccc.svg)
 ![svg](https://img.shields.io/badge/网络乞丐-求求你了给个star☆吧-ff9900.svg)  
 **Buy me a Saint Quartz**  
-![Alipay](doc/alipay.png)![Wechat](doc/wechat.png)  
 [GitHub Sponsor](https://github.com/sponsors/hgjazhgj/)  
 [Patron](https://patreon.com/hgjazhgj)  
 [PayPal](https://paypal.me/hgjazhgjpp)  
@@ -232,7 +227,7 @@ v9.1及更早版本提供的需要配置的战斗,不建议在以下之外的场
 如果你遇到问题且愿意支付一定的咨询费用,或者只是想要捐赠,又或是想要撤回先前的捐赠,请添加我的[LINE](https://line.me/ti/p/otflICcLQl)  
 这是无奈之举,卖的是本人的时间和精力,而用到知识和经验的解决具体问题另算  
 **2021年9月24日,同为本人开发的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
-加入QQ群需要提供你的Github用户名,你回答的内容必须严格等于登陆GitHub时输入的Username字段,且该帐号注册不少于6个月,QQ号需要至少16级(有一个太阳,使用大约1年),同时为切实验证Github用户名真实性防止冒名顶替,对于想要加群的用户请先Star本项目并**立刻**发送加群申请,如果你已经Star,请先取消Star然后在数秒后重新Star  
+加入QQ群需要提供你的Github用户名,你回答的内容必须严格等于登陆GitHub时输入的Username字段,且该帐号注册不少于6个月且在6个月内有活跃行为,QQ号需要至少16级(有一个太阳,使用大约1年),同时为切实验证Github用户名真实性防止冒名顶替,对于想要加群的用户请先Star本项目并**立刻**发送加群申请,如果你已经Star,请先取消Star然后在数秒后重新Star  
 发现**最新commit**的bug请按Bug Report模板建立issue,发现战斗行为不合理请按Servant Info模板建立issue,其他你想到的东西请发到discussion  
 
 # 开源许可 LICENSE

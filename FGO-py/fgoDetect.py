@@ -26,11 +26,11 @@ def coroutine(func):
         next(gen)
         return gen
     return primer
-def validate(validator):
+def validate(validator=lambda x:x):
     def wrapper(func):
         @wraps(func)
         def wrap(*args,**kwargs):
-            assert(lambda f:(lambda x:x(x))(lambda x:(f(lambda*args,**kwargs:x(x)(*args,**kwargs)))))(lambda f:(lambda x:all(f(i,validator)for i in x)if hasattr(x,'__iter__')else validator(x)))(ans:=func(*args,**kwargs))
+            assert validator(ans:=func(*args,**kwargs))
             return ans
         return wrap
     return wrapper
@@ -107,7 +107,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isBattleContinue(self):return self._compare(self.tmpl.BATTLECONTINUE,(704,530,976,601))
     def isBattleDefeated(self):return self._compare(self.tmpl.DEFEATED,(603,100,690,176))
     def isBattleFinished(self):return self._compare(self.tmpl.DROPITEM,(110,30,264,76))
-    def isChooseFriend(self):return self._compare(self.tmpl.CHOOSEFRIEND,(1189,190,1210,243)) or self._compare(self.tmpl.CHOOSEFRIENDEX,(1189,190,1210,243))
+    def isChooseFriend(self):return any(self._compare(i,(1189,190,1210,243))for i in(self.tmpl.CHOOSEFRIEND,self.tmpl.CHOOSEFRIENDEX))
     def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(self.tmpl.CHARASEALED,self.tmpl.CARDSEALED))for i in range(5)]
     def isFpContinue(self):return self._compare(self.tmpl.FPCONTINUE,(646,639,883,707))
     def isFpSummon(self):return self._compare(self.tmpl.FPSUMMON,(643,20,812,67))
@@ -118,9 +118,9 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isMainInterface(self):return self._compare(self.tmpl.MENU,(1104,613,1267,676))
     def isMailListEnd(self):return self._isListEnd((937,679))
     def isNetworkError(self):return self._compare(self.tmpl.NETWORKERROR,(703,529,974,597))
-    def isNoFriend(self):return self._compare(self.tmpl.NOFRIEND,(245,362,274,392),.15)
-    def isQuestFreeContains(self,chapter):return self._compare((questImg[chapter],None),(1024,137,1092,575))
-    def isQuestFreeFirst(self,chapter):return self._compare((questImg[chapter],None),(1024,137,1092,290))
+    def isNoFriend(self):return self._compare(self.tmpl.NOFRIEND,(245,362,274,392))
+    def isQuestFreeContains(self,chapter):return self._compare((questImg[chapter],None),(1024,125,1092,575))
+    def isQuestFreeFirst(self,chapter):return self._compare((questImg[chapter],None),(1024,125,1092,290))
     def isQuestListBegin(self):return self._isListBegin((1258,95))
     def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
     def isServantFriend(self,pos):return self._compare(self.tmpl.SUPPORT,(187+318*pos,394,225+318*pos,412))
@@ -164,10 +164,10 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getMaterial(self):return(lambda x:{materialImg[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in materialImg),(176+i%7*137,110+i//7*142,253+i%7*137,187+i//7*142),.02)for i in range(1,21)])
     def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),67,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(self.tmpl.CROSS,(1083,139,1113,166))else 0
     @retryOnError()
-    @validate(lambda x:x!=0)
+    @validate()
     def getStage(self):return self._ocrInt((884,14,902,37))
     @retryOnError()
-    @validate(lambda x:x!=0)
+    @validate()
     def getStageTotal(self):return self._ocrInt((912,13,932,38))
     def getSummonHistory(self):XDetectBase._summonHistory=self._stack(XDetectBase._summonHistory,cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1],80)
     @classmethod
@@ -178,8 +178,8 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getTeamServantClassRank(self):return[(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
     def getWeeklyMission(self):XDetectBase._weeklyMission=self._stack(XDetectBase._weeklyMission,self._crop((603,250,1092,710)),157)
     def findChapter(self,chapter):return self._find((chapterImg[chapter],None),(640,90,1230,600))
-    def findFriend(self,img):return self._find(img,(13,166,1233,720))
-    def findMail(self,img):return self._find(img,(73,166,920,720),threshold=.016)
+    def findFriend(self,img):return self._find(img,(13,166,1233,720),.04)
+    def findMail(self,img):return self._find(img,(73,166,920,720),.016)
     def findMapCamera(self,chapter):return numpy.array(cv2.minMaxLoc(cv2.matchTemplate(mapImg[chapter],cv2.resize(self._crop((200,200,1080,520)),(0,0),fx=.3,fy=.3,interpolation=cv2.INTER_CUBIC),cv2.TM_SQDIFF_NORMED))[2])/.3+(440,160)
     @classmethod
     def saveSummonHistory(cls):return(lambda c:(lambda img:(c,cls.__new__(cls).inject(img).save(f'SummonHistory({c})',(0,0,*img.shape[::-1]))))(numpy.vstack((cv2.putText(numpy.zeros((36,XDetectBase._summonHistory.shape[1]),numpy.uint8),f'SummonHistory({c}) generated by FGO-py',(8,26),cv2.FONT_HERSHEY_DUPLEX,0.85,255,2,cv2.LINE_4),XDetectBase._summonHistory[:numpy.flatnonzero(numpy.max(XDetectBase._summonHistory,axis=1))[-1]+2]))))(cls.getSummonHistoryCount())
@@ -203,7 +203,7 @@ class XDetectCN(XDetectBase,metaclass=logMeta(logger)):
         mission=''
         for i in(i for i in cls.ocr.ocrArea(cls._weeklyMission)if'完成'not in i and'进行'not in i and'获得'not in i and'举办'not in i):
             if mission and i[0].isdigit():
-                if'『'in mission and(count:=(lambda x:int(x[1])-int(x[0]))(i.split('/')if'/'in i else(lambda x:(i[:x],i[x+1:]))((len(i)-1)>>1))):result.append((re.findall('『(.*?)』',mission),'从者'not in mission,count))
+                if'『'in mission and(count:=(lambda x:int(x[1])-int(x[0]))(i.split('/')if'/'in i else(i[:len(i)>>1],i[len(i)+1>>1:]))):result.append((re.findall('『(.*?)』',mission),'从者'not in mission,count))
                 mission=''
             else:mission+=i
         return result
