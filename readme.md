@@ -39,12 +39,12 @@ B站大会员每月[领](https://account.bilibili.com/account/big/myPackage)5B�
     </tr>
     <tr>
       <td><img src="doc/star/7.png" width="82" height="82"/></td>
-      <td><img src="doc/star/8.png" width="82" height="82"/></td>
+      <td><img src="doc/star/8.png" width="82" height="82"/></td> 
       <td><img src="doc/star/9.png" width="82" height="82"/></td>
     </tr>
   </table>
 </td><td>
-   <a href="https://starchart.cc/hgjazhgj/FGO-py"><img src="https://starchart.cc/hgjazhgj/FGO-py.svg"/></a>
+   <a href="https://starchart.cc/hgjazhgj/FGO-py"><img src="https://starchart.cc/hgjazhgj/FGO-py.svg?variant=adaptive"/></a>
 </td></tr>
 </table>
 
@@ -133,8 +133,8 @@ Cli大概长这样(在docker和手机中运行时的截图,本截图不是最新
 
 ### Docker
 
-直接`docker-compose up`  
-如果你要使用cli,参阅Dockerfile头部的注释  
+参阅Dockerfile头部的注释  
+docker-compose是一个使用webui的范例,但是本人前端下手,将长期处于不建议使用的状态  
 
 ### 在AzurLaneAutoScript中运行 Run with AzurLaneAutoScript
 
@@ -222,9 +222,10 @@ v9.1及更早版本提供的需要配置的战斗,不建议在以下之外的场
 # 如何联系开发者 Contact Developer
 
 ![img](doc/contact.png) 在占用我的时间之前,先耗费自己的时间  
+此处内容以dev分支为准  
 现在这个项目已经可以从各大搜索引擎上找到,这就导致有很多halloworld都不会的小白来找我,就算是点点鼠标都会遇到问题  
 没有标明免费的东西都不是免费的,我乐意回答一些本文档中没有提及的技术问题,但没有义务提供详细的教学  
-如果你遇到问题且愿意支付一定的咨询费用,或者只是想要捐赠,又或是想要撤回先前的捐赠,请添加我的[LINE](https://line.me/ti/p/otflICcLQl)  
+如果你遇到问题且愿意支付一定的咨询费用,或者只是想要捐赠,又或是想要撤回先前的捐赠,请通过电子邮件联系  
 这是无奈之举,卖的是本人的时间和精力,而用到知识和经验的解决具体问题另算  
 **2021年9月24日,同为本人开发的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
 加入QQ群需要提供你的Github用户名,你回答的内容必须严格等于登陆GitHub时输入的Username字段,且该帐号注册不少于6个月且在6个月内有活跃行为,QQ号需要至少16级(有一个太阳,使用大约1年),同时为切实验证Github用户名真实性防止冒名顶替,对于想要加群的用户请先Star本项目并**立刻**发送加群申请,如果你已经Star,请先取消Star然后在数秒后重新Star  

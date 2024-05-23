@@ -1,6 +1,5 @@
 import os,time,cv2,numpy,re,tqdm
 from functools import reduce,wraps
-from matplotlib import pyplot
 from fgoConst import PACKAGE_TO_REGION
 from fgoFuse import fuse
 from fgoLogging import getLogger,logMeta,logit
@@ -8,7 +7,6 @@ from fgoMetadata import servantData,servantImg,classImg,materialImg,chapterImg,m
 from fgoOcr import Ocr
 from fgoSchedule import schedule
 logger=getLogger('Detect')
-pyplot.ion()
 
 IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage')if i.endswith('.png')})
 for i in range(3):setattr(IMG,f'CHARGE{i}_SMALL',[cv2.resize(i,(0,0),fx=.77,fy=.77,interpolation=cv2.INTER_CUBIC)for i in getattr(IMG,f'CHARGE{i}')])
@@ -86,11 +84,9 @@ class XDetectBase(metaclass=logMeta(logger)):
         return self
     def save(self,name='Screenshot',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000:03}"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect),[cv2.IMWRITE_PNG_COMPRESSION,9])and name
     def show(self):
-        backend=pyplot.get_current_fig_manager()
-        backend.set_window_title(time.strftime(f'Screenshot_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000:03}',time.localtime(self.time)))
-        backend.toolbar.save_figure=lambda:(backend.window.close(),self.save())
-        pyplot.imshow(self.im[...,::-1])
-        pyplot.show()
+        cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.6,fy=.6))
+        if cv2.waitKey()==ord('s'):self.save()
+        cv2.destroyAllWindows()
     def setupEnemyGird(self):
         XDetectBase.enemyGird=2 if any(self._select(CLASS[75],(110+200*i,1,173+200*i,48))is not None for i in range(3))else 1 if False else 0
         return XDetectBase.enemyGird

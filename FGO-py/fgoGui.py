@@ -1,8 +1,9 @@
-import os,sys,platform
+import os,sys,time,platform
 from threading import Thread
 from PySide6.QtCore import Qt,QLocale,QTranslator,QTimer,Signal
 from PySide6.QtGui import QAction,QIcon
 from PySide6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon,QSpinBox,QComboBox
+from matplotlib import pyplot
 import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
@@ -10,6 +11,7 @@ from fgoGuiTeamup import Teamup
 from fgoServerChann import ServerChann
 from fgoMetadata import questData
 logger=fgoKernel.getLogger('Gui')
+pyplot.ion()
 
 class MainWindow(QMainWindow,Ui_fgoMainWindow):
     signalFuncBegin=Signal()
@@ -17,8 +19,8 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
     def __init__(self,config,parent=None):
         super().__init__(parent)
         self.color={
-            Qt.ColorScheme.Light:lambda x:f'color="#{hex(x)[2:]}"',
-            Qt.ColorScheme.Dark:lambda x:f'color="#{hex(x^0xFFFFFF)[2:]}"',
+            Qt.ColorScheme.Light:lambda x:f'<font color="#{hex(x)[2:]}">',
+            Qt.ColorScheme.Dark:lambda x:f'<font color="#{hex(x^0xFFFFFF)[2:]}">',
         }.get(QApplication.styleHints().colorScheme(),lambda _:'')
         self.setupUi(self)
         if platform.system()=='Darwin':self.setStyleSheet("QWidget{font-family:\"PingFang SC\";font-size:15px}")
@@ -133,32 +135,32 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.BTN_STOPLATER.setEnabled(False)
         self.BTN_QUESTLOAD.setEnabled(True)
         self.MENU_SCRIPT.setEnabled(True)
+        self.timer.stop()
         QApplication.alert(self)
         self.TRAY.showMessage('FGO-py',*msg)
         match self.result:
             case{'type':'Battle'}:QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-<font {self.color(0x006400)}>{self.result['turn']}</font>{self.tr('回合完成战斗')},{self.tr('用时')}<font {self.color(0x006400)}>{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font><br/>
+{self.color(0x006400)}{self.result['turn']}</font>{self.tr('回合完成战斗')},{self.tr('用时')}{self.color(0x006400)}{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font><br/>
 {self.tr('获得了以下素材')}:<br/>
-{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QApplication.translate("material",i)}<font {self.color(0x7030A0)}>x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
+{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QApplication.translate("material",i)}{self.color(0x7030A0)}x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
 ''')
             case{'type':'Main'}:QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-{self.tr('在过去的')}<font {self.color(0x006400)}>{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>{self.tr('中完成了')}<font {self.color(0x006400)}>{self.result['battle']}</font>{self.tr('场战斗')}<br/>
-{self.tr('平均每场战斗')}<font {self.color(0x006400)}>{self.result['turnPerBattle']:.1f}</font>{self.tr('回合')},{self.tr('用时')}<font {self.color(0x006400)}>{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
+{self.tr('在过去的')}{self.color(0x006400)}{self.result['time']//3600:.0f}:{self.result['time']//60%60:02.0f}:{self.result['time']%60:02.0f}</font>{self.tr('中完成了')}{self.color(0x006400)}{self.result['battle']}</font>{self.tr('场战斗')}<br/>
+{self.tr('平均每场战斗')}{self.color(0x006400)}{self.result['turnPerBattle']:.1f}</font>{self.tr('回合')},{self.tr('用时')}{self.color(0x006400)}{self.result['timePerBattle']//60:.0f}:{self.result['timePerBattle']%60:04.1f}</font><br/>
 {self.tr('获得了以下素材')}:<br/>
-{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QApplication.translate("material",i)}<font {self.color(0x7030A0)}>x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
+{'<br/>'.join(f'<img src="fgoImage/material/{i}.png" height="18" width="18">{QApplication.translate("material",i)}{self.color(0x7030A0)}x{j}</font>'for i,j in self.result['material'].items())if self.result['material']else self.tr('无')}
 ''')
             case{'type':'SummonHistory'}:QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
-{self.tr('获取到')}<font {self.color(0x006400)}>{self.result['value']}</font>{self.tr('条抽卡记录')},{self.tr('图片保存至')}</br>
-<font {self.color(0x7030A0)}>{self.result['file']}</font>
+{self.tr('获取到')}{self.color(0x006400)}{self.result['value']}</font>{self.tr('条抽卡记录')},{self.tr('图片保存至')}</br>
+{self.color(0x7030A0)}{self.result['file']}</font>
 ''')
             case{'type':'Bench'}:QMessageBox.information(self,'FGO-py',f'''
 <h2>{msg[0].split(':',1)[0]}</h2>
 {', '.join(f'{self.tr(i)} {self.result[j]:.2f}ms'for i,j in(('点击','touch'),('截图','screenshot')))}
 ''')
-        self.timer.stop()
         self.flush()
     def connectDevice(self):
         dialog=QInputDialog(self,Qt.WindowType.WindowStaysOnTopHint)
@@ -173,11 +175,14 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         fgoDevice.device=fgoDevice.Device(text)
         self.LBL_DEVICE.setText(fgoDevice.device.name)
         self.MENU_CONTROL_MAPKEY.setChecked(False)
-    def runMain(self):self.runFunc(self.operation)
+    def runMain(self):
+        self.operation.battleClass=fgoKernel.Battle
+        self.runFunc(self.operation)
     def runBattle(self):self.runFunc(fgoKernel.Battle())
     def runClassic(self):
         if not Teamup(self).exec():return
-        self.runFunc(fgoKernel.Main(self.TXT_APPLE.value(),self.CBB_APPLE.currentIndex(),lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)))
+        self.operation.battleClass=lambda:fgoKernel.Battle(fgoKernel.ClassicTurn)
+        self.runFunc(self.operation)
     def pause(self,x):
         if not x and not self.isDeviceAvailable():return self.BTN_PAUSE.setChecked(True)
         fgoKernel.schedule.pause()
@@ -190,7 +195,13 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         else:fgoKernel.schedule.stopLater()
     def screenshot(self):
         if not self.isDeviceAvailable():return
-        try:fgoKernel.Detect(0).show()
+        try:
+            chk=fgoKernel.XDetect()
+            backend=pyplot.get_current_fig_manager()
+            backend.set_window_title(time.strftime(f'Screenshot_%Y-%m-%d_%H.%M.%S.{round(chk.time*1000)%1000:03}',time.localtime(chk.time)))
+            backend.toolbar.save_figure=lambda:(backend.window.close(),chk.save())
+            pyplot.imshow(chk.im[...,::-1])
+            pyplot.show()
         except Exception as e:logger.exception(e)
     def explorerHere(self):os.startfile('.')
     def runFpSummon(self):self.runFunc(fgoKernel.fpSummon)
@@ -257,7 +268,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
   <tr><td>{self.tr('QQ群')}</td><td>932481680({self.tr('请按readme指引操作')})</td></tr>
 </table>
 <!-- 都看到这里了真的不考虑资瓷一下吗... -->
-{self.tr('这是我的')}<font {self.color(0x00A0E8)}>{self.tr('支付宝')}</font>/<font {self.color(0x22AB38)}>{self.tr('微信')}</font>{self.tr('收款码和Monero地址')}<br/>{self.tr('请给我打钱')}<br/>
+{self.tr('这是我的')}<font color="#00A0E8">{self.tr('支付宝')}</font>/<font color="#22AB38">{self.tr('微信')}</font>{self.tr('收款码和Monero地址')}<br/>{self.tr('请给我打钱')}<br/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAA6KAAAP///wABYWKofU/CKEV/ZtBFXEMwRbiQUH2a5yABj+Uo/zf3AKDtsBjeNa7YcUYb2MrQ04jEa/Ioh7TO6BR150Djjo3ATKgPmGLjdfDleznImz0gcA19mxD/rx/4AVVUAH2zpfBFCgUQRSgtEEVjdRB9/R3wATtkAA=="/>
 <img height="116" width="116" src="data:image/bmp;base64,Qk2yAAAAAAAAAD4AAAAoAAAAHQAAAB0AAAABAAEAAAAAAHQAAAB0EgAAdBIAAAAAAAAAAAAAOKsiAP///wABNLhYfVLBqEUYG0hFcn7gRS8QAH2Pd2ABQiVY/x1nMFWzcFhidNUwaXr3GEp1khDJzDfAuqx06ChC9hhPvmIQMJX3SCZ13ehlXB9IVtJQUAQreqj/jv/4AVVUAH0iFfBFuxUQRRAlEEX2fRB9Wl3wAdBsAA=="/>
 <table border="0"><tr>
