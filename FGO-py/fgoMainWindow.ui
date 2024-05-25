@@ -557,6 +557,9 @@
    </property>
   </action>
   <action name="MENU_SETTINGS_SPECIALDROP">
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
    <property name="text">
     <string>若干特殊掉落后终止战斗</string>
    </property>

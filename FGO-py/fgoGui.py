@@ -19,8 +19,8 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
     def __init__(self,config,parent=None):
         super().__init__(parent)
         self.color={
-            Qt.ColorScheme.Light:lambda x:f'<font color="#{hex(x)[2:]}">',
-            Qt.ColorScheme.Dark:lambda x:f'<font color="#{hex(x^0xFFFFFF)[2:]}">',
+            Qt.ColorScheme.Light:lambda x:f'<font color="#{x:06X}">',
+            Qt.ColorScheme.Dark:lambda x:f'<font color="#{x^0xFFFFFF:06X}">',
         }.get(QApplication.styleHints().colorScheme(),lambda _:'')
         self.setupUi(self)
         if platform.system()=='Darwin':self.setStyleSheet("QWidget{font-family:\"PingFang SC\";font-size:15px}")
@@ -162,6 +162,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
 {', '.join(f'{self.tr(i)} {self.result[j]:.2f}ms'for i,j in(('点击','touch'),('截图','screenshot')))}
 ''')
         self.flush()
+        self.MENU_SETTINGS_SPECIALDROP.setChecked(fgoKernel.schedule._Schedule__stopOnSpecialDropCount>0)
     def connectDevice(self):
         dialog=QInputDialog(self,Qt.WindowType.WindowStaysOnTopHint)
         dialog.setWindowTitle('FGO-py')
@@ -217,7 +218,9 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
 {self.tr('那么,无需任何其他配置,你可以直接运行FGO-ExpBall')}''')
     def stopOnSpecialDrop(self):
         num,ok=QInputDialog.getInt(self,'FGO-py',self.tr('剩余的特殊掉落数量'),1,0,1919810,1)
-        if ok:fgoKernel.schedule.stopOnSpecialDrop(num)
+        if ok:
+            self.MENU_SETTINGS_SPECIALDROP.setChecked(num)
+            fgoKernel.schedule.stopOnSpecialDrop(num)
     def mapKey(self,x):self.MENU_CONTROL_MAPKEY.setChecked(x and self.isDeviceAvailable())
     def invoke169(self):
         if not self.isDeviceAvailable():return

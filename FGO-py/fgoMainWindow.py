@@ -61,6 +61,7 @@ class Ui_fgoMainWindow(object):
         self.MENU_SETTINGS_KIZUNAREISOU.setCheckable(True)
         self.MENU_SETTINGS_SPECIALDROP = QAction(fgoMainWindow)
         self.MENU_SETTINGS_SPECIALDROP.setObjectName(u"MENU_SETTINGS_SPECIALDROP")
+        self.MENU_SETTINGS_SPECIALDROP.setCheckable(True)
         self.MENU_ABOUT_LICENSE = QAction(fgoMainWindow)
         self.MENU_ABOUT_LICENSE.setObjectName(u"MENU_ABOUT_LICENSE")
         self.MENU_FILE_QUIT = QAction(fgoMainWindow)

@@ -1,5 +1,10 @@
 # 版本记录 Version Log
 
+## 2024/05/26 v19.1.9
+
+Opt:checkable MENU_SETTINGS_SPECIALDROP  
+Fix:Gui亮色文字色彩  
+
 ## 2024/05/23 v19.1.8
 
 Fix:Docker关联  
