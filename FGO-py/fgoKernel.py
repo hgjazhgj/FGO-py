@@ -444,7 +444,7 @@ class Battle:
                 logger.info('Battle Finished')
                 self.material=Detect(.4).getMaterial()
                 if self.rainbowBox:
-                    logger.warning('Special Drop >_<')
+                    logger.warning('Special Drop')
                     schedule.checkSpecialDrop()
                     Detect.cache.save('fgoLog/SpecialDrop')
                 return True
