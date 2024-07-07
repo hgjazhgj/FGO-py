@@ -2,7 +2,7 @@ import os,sys,time,platform
 from threading import Thread
 from PySide6.QtCore import Qt,QLocale,QTranslator,QTimer,Signal
 from PySide6.QtGui import QAction,QIcon
-from PySide6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon,QSpinBox,QComboBox
+from PySide6.QtWidgets import QApplication,QInputDialog,QMainWindow,QMenu,QMessageBox,QSystemTrayIcon,QSpinBox,QComboBox,QCheckBox
 from matplotlib import pyplot
 import fgoDevice
 import fgoKernel
@@ -47,6 +47,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.config=config
         for key,ui,callback in(
             ('teamIndex',self.TXT_TEAM,lambda x:setattr(fgoKernel.Main,'teamIndex',x)),
+            (False,self.CKB_TEAM,lambda x:setattr(fgoKernel.Main,'autoFormation',x)),
             ('stopOnDefeated',self.MENU_SETTINGS_DEFEATED,fgoKernel.schedule.stopOnDefeated),
             ('stopOnKizunaReisou',self.MENU_SETTINGS_KIZUNAREISOU,fgoKernel.schedule.stopOnKizunaReisou),
             ('closeToTray',self.MENU_CONTROL_TRAY,None),
@@ -56,8 +57,8 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
             (0,self.TXT_APPLE,lambda x:setattr(self.operation,'appleTotal',x)),
         ):
             value=self.config.get(key,key)
-            getattr(ui,{QAction:'toggled',QSpinBox:'valueChanged',QComboBox:'currentIndexChanged'}[type(ui)])[type(value)].connect(lambda x,task=((lambda x,key=key:self.config.__setitem__(key,x),)if key else())+((lambda x,callback=callback:callback(x),)if callable(callback)else()):[i(x)for i in task])
-            getattr(ui,{QAction:'setChecked',QSpinBox:'setValue',QComboBox:'setCurrentIndex'}[type(ui)])(value)
+            getattr(ui,{QAction:'toggled',QCheckBox:'toggled',QSpinBox:'valueChanged',QComboBox:'currentIndexChanged'}[type(ui)])[type(value)].connect(lambda x,task=((lambda x,key=key:self.config.__setitem__(key,x),)if key else())+((lambda x,callback=callback:callback(x),)if callable(callback)else()):[i(x)for i in task])
+            getattr(ui,{QAction:'setChecked',QCheckBox:'setChecked',QSpinBox:'setValue',QComboBox:'setCurrentIndex'}[type(ui)])(value)
         self.timer=QTimer(self)
         self.timer.timeout.connect(self.flush)
         self.notifier=[ServerChann(**i)for i in self.config.notifyParam]

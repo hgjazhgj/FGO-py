@@ -46,11 +46,11 @@ def guardian():
     logger=logging.getLogger('Guardian')
     prev=None
     while True:
-        if XDetect.cache is not prev and XDetect.cache.isNetworkError():
+        while XDetect.cache is prev:time.sleep(3)
+        if XDetect.cache.isNetworkError():
             logger.warning('Reconnecting')
             fgoDevice.device.press('K')
         prev=XDetect.cache
-        time.sleep(3)
 threading.Thread(target=guardian,daemon=True,name='Guardian').start()
 class Farming:
     def __init__(self):
@@ -463,6 +463,7 @@ class Battle:
         }
 class Main:
     teamIndex=0
+    autoFormation=False
     def __init__(self,appleTotal=0,appleKind=0,battleClass=Battle):
         self.appleTotal=appleTotal
         self.appleKind=appleKind
@@ -477,8 +478,9 @@ class Main:
                     fgoDevice.device.press('84L'[questIndex])
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()
-                    while not Detect(0,.3).isBattleBegin():pass
-                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1]+' ',(1000,1500))
+                    while not Detect(0,.3).isBattleFormation():pass
+                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1],(1000,))
+                    if self.autoFormation:fgoDevice.device.perform('\xDEL ',(1000,1500,1000))
                     fgoDevice.device.perform(' M ',(2000,2000,10000))
                     break
                 elif Detect.cache.isBattleContinue():
@@ -538,6 +540,8 @@ class Main:
                 if refresh:schedule.sleep(10)
                 fgoDevice.device.perform('\xBAK',(500,1000))
                 refresh=True
+                continue
+            if Detect.cache.isBattleFormation():return
         if not friendImg.flush():return fgoDevice.device.press('8')
         while True:
             timer=time.time()

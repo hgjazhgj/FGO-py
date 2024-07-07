@@ -498,6 +498,11 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
+      <source>自动编队</source>
+      <translation>Auto Formation</translation>
+    </message>
+    <message>
+      <location filename="fgoMainWindow.ui" line="0" />
       <source>苹果</source>
       <translation>Apple</translation>
     </message>

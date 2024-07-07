@@ -16,10 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QHBoxLayout,
-    QLabel, QListWidget, QListWidgetItem, QMainWindow,
-    QMenu, QMenuBar, QPushButton, QSizePolicy,
-    QSpinBox, QStatusBar, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
+    QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
+    QMainWindow, QMenu, QMenuBar, QPushButton,
+    QSizePolicy, QSpinBox, QStatusBar, QVBoxLayout,
+    QWidget)
 
 class Ui_fgoMainWindow(object):
     def setupUi(self, fgoMainWindow):
@@ -182,13 +183,25 @@ class Ui_fgoMainWindow(object):
 
         self.LAYOUT_INFO.setWidget(0, QFormLayout.LabelRole, self.LBL_TEAM)
 
+        self.LAYOUT_INFO_TEAM = QHBoxLayout()
+        self.LAYOUT_INFO_TEAM.setObjectName(u"LAYOUT_INFO_TEAM")
         self.TXT_TEAM = QSpinBox(self.widget)
         self.TXT_TEAM.setObjectName(u"TXT_TEAM")
+        sizePolicy.setHeightForWidth(self.TXT_TEAM.sizePolicy().hasHeightForWidth())
+        self.TXT_TEAM.setSizePolicy(sizePolicy)
         self.TXT_TEAM.setContextMenuPolicy(Qt.NoContextMenu)
         self.TXT_TEAM.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.TXT_TEAM.setMaximum(10)
 
-        self.LAYOUT_INFO.setWidget(0, QFormLayout.FieldRole, self.TXT_TEAM)
+        self.LAYOUT_INFO_TEAM.addWidget(self.TXT_TEAM)
+
+        self.CKB_TEAM = QCheckBox(self.widget)
+        self.CKB_TEAM.setObjectName(u"CKB_TEAM")
+
+        self.LAYOUT_INFO_TEAM.addWidget(self.CKB_TEAM)
+
+
+        self.LAYOUT_INFO.setLayout(0, QFormLayout.FieldRole, self.LAYOUT_INFO_TEAM)
 
         self.LBL_APPLE = QLabel(self.widget)
         self.LBL_APPLE.setObjectName(u"LBL_APPLE")
@@ -492,6 +505,7 @@ class Ui_fgoMainWindow(object):
 #if QT_CONFIG(statustip)
         self.TXT_TEAM.setStatusTip(QCoreApplication.translate("fgoMainWindow", u"\u6240\u9009\u7f16\u961f\u5728\u961f\u4f0d\u7f16\u6210\u754c\u9762\u7684\u4f4d\u7f6e,\u4ece\u5de6\u5230\u53f31-10,0\u4e3a\u4e0d\u5207\u6362\u7f16\u961f", None))
 #endif // QT_CONFIG(statustip)
+        self.CKB_TEAM.setText(QCoreApplication.translate("fgoMainWindow", u"\u81ea\u52a8\u7f16\u961f", None))
         self.LBL_APPLE.setText(QCoreApplication.translate("fgoMainWindow", u"\u82f9\u679c", None))
         self.CBB_APPLE.setItemText(0, QCoreApplication.translate("fgoMainWindow", u"\u91d1", None))
         self.CBB_APPLE.setItemText(1, QCoreApplication.translate("fgoMainWindow", u"\u94f6", None))

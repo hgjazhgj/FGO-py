@@ -99,10 +99,10 @@ class XDetectBase(metaclass=logMeta(logger)):
     def setupWeeklyMission(self):XDetectBase._weeklyMission=self._crop((603,250,1092,710))
     def isAddFriend(self):return self._compare(self.tmpl.ADDFRIEND,(161,574,499,656))
     def isApEmpty(self):return self._compare(self.tmpl.APEMPTY,(522,582,758,652))
-    def isBattleBegin(self):return self._compare(self.tmpl.BATTLEBEGIN,(1070,632,1270,710))
     def isBattleContinue(self):return self._compare(self.tmpl.BATTLECONTINUE,(704,530,976,601))
     def isBattleDefeated(self):return self._compare(self.tmpl.DEFEATED,(603,100,690,176))
     def isBattleFinished(self):return self._compare(self.tmpl.DROPITEM,(110,30,264,76))
+    def isBattleFormation(self):return self._compare(self.tmpl.BATTLEBEGIN,(1070,632,1270,710))
     def isChooseFriend(self):return any(self._compare(i,(1189,190,1210,243))for i in(self.tmpl.CHOOSEFRIEND,self.tmpl.CHOOSEFRIENDEX))
     def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(self.tmpl.CHARASEALED,self.tmpl.CARDSEALED))for i in range(5)]
     def isFpContinue(self):return self._compare(self.tmpl.FPCONTINUE,(646,639,883,707))

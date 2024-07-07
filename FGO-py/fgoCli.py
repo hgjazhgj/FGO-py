@@ -202,23 +202,26 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def teamup_list(self,arg):print('\n'.join(self.teamup.sections()))
     def teamup_show(self,arg):print('\n'.join([f'team name: {self.currentTeam}',f'team index: {fgoKernel.Main.teamIndex}','servant skill & hougu:','\n'.join(['  '.join([str(i+1),'-'.join([''.join([hex(x)[2:]for x in fgoKernel.ClassicTurn.skillInfo[i][j]])for j in range(3)]+[''.join([hex(x)[2:]for x in fgoKernel.ClassicTurn.houguInfo[i]])])])for i in range(6)]),'master skill:','   '+'-'.join([''.join([hex(x)[2:]for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)])]))
     def teamup_set(self,arg):getattr(self,f'teamup_set_{arg.subcommand_1}')(arg)
+    def teamup_set_autoformation(self,arg):
+        fgoKernel.Main.autoFormation=arg=='on'
+        print('Set team autoformation to',arg)
+    def teamup_set_index(self,arg):
+        self.config.teamIndex=fgoKernel.Main.teamIndex=arg.value
+        print('Set team index to',arg.value)
+    def teamup_set_master(self,arg):
+        if self.currentTeam=='DEFAULT':return
+        fgoKernel.ClassicTurn.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j],16)for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoKernel.ClassicTurn.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
+        print('Set master skill info to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)]))
     def teamup_set_servant(self,arg):
         if self.currentTeam=='DEFAULT':return
         pos=arg.pos-1
         fgoKernel.ClassicTurn.skillInfo[pos],fgoKernel.ClassicTurn.houguInfo[pos]=(lambda r:(lambda p:([[[fgoKernel.ClassicTurn.skillInfo[pos][i][j]if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],[fgoKernel.ClassicTurn.houguInfo[pos][i]if p[i+12]=='X'else int(p[i+12],16)for i in range(2)]]))(r.group())if r else[fgoKernel.ClassicTurn.skillInfo[pos],fgoKernel.ClassicTurn.houguInfo[pos]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',arg.value.replace('-','')))
         print('Set skill & hougu info of servant',arg.pos,'to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.skillInfo[pos][i]])for i in range(3)]+[''.join([str(x)for x in fgoKernel.ClassicTurn.houguInfo[pos]])]))
-    def teamup_set_master(self,arg):
-        if self.currentTeam=='DEFAULT':return
-        fgoKernel.ClassicTurn.masterSkill=(lambda r:(lambda p:[[int(p[i*4+j],16)for j in range(4+(i==2))]for i in range(3)])(r.group())if r else fgoKernel.ClassicTurn.masterSkill)(re.match('([0-9X]{3}[0-9A-FX]){2}[0-9X]{4}[0-9A-FX]$',arg.value.replace('-','')))
-        print('Set master skill info to','-'.join([''.join([str(x)for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)]))
-    def teamup_set_index(self,arg):
-        self.config.teamIndex=fgoKernel.Main.teamIndex=arg.value
-        print('Set team index to',arg.value)
     def complete_teamup(self,text,line,begidx,endidx):
         return self.completecommands({
             '':['load','save','clear','reload','list','show','set'],
             'load':self.teamup.sections(),
-            'set':['servant','master','index'],
+            'set':['autoformation','index','master''servant'],
         },text,line,begidx,endidx)
     def do_version(self,line):
         'Show FGO-py version'
@@ -302,13 +305,15 @@ parser_teamup_list=parser_teamup_.add_parser('list',help='List all teams')
 parser_teamup_show=parser_teamup_.add_parser('show',help='Show current team info')
 parser_teamup_set=parser_teamup_.add_parser('set',help='Setup a field of current team')
 parser_teamup_set_=parser_teamup_set.add_subparsers(title='subcommands',required=True,dest='subcommand_1')
+parser_teamup_set_autoformation=parser_teamup_set_.add_parser('index',help='Setup team autoformation')
+parser_teamup_set_index.add_argument('value',help='on/off',type=str.lower,choices=['on','off'])
+parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team index')
+parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
+parser_teamup_set_master=parser_teamup_set_.add_parser('master',help='Setup master skill info')
+parser_teamup_set_master.add_argument('value',help='Info value (e.g. 1107-xxxx-21347, add hyphens(-) anywhere as they will be removed, x for no change)',type=str.upper)
 parser_teamup_set_servant=parser_teamup_set_.add_parser('servant',help='Setup servant skill & hougu info')
 parser_teamup_set_servant.add_argument('pos',help='Servant # (1-6)',type=int,choices=range(1,7))
 parser_teamup_set_servant.add_argument('value',help='Info value (e.g. 1007-xxxx-1007-2x, add hyphens(-) anywhere as they will be removed, x for no change)',type=str.upper)
-parser_teamup_set_master=parser_teamup_set_.add_parser('master',help='Setup master skill info')
-parser_teamup_set_master.add_argument('value',help='Info value (e.g. 1107-xxxx-21347, add hyphens(-) anywhere as they will be removed, x for no change)',type=str.upper)
-parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team index')
-parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
 
 parser_169=ArgParser(prog='169',description=Cmd.do_169.__doc__)
 parser_169.add_argument('action',help='Action',type=str.lower,choices=['invoke','revoke'])
