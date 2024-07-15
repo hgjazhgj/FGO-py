@@ -81,7 +81,7 @@ class Config(ConfigItem):
         super().__init__(CONFIG)
         self.__dict__['file']=file
         if os.path.isfile(file):
-            with open(file,encoding='utf-8')as f:self.update(json.load(f))
+            with open(file)as f:self.update(json.load(f))
     def save(self,file=None):
         logger.info('Save Config')
-        with open(self.file if file is None else file,'w',encoding='utf-8')as f:json.dump(self,f,ensure_ascii=False,indent=4)
+        with open(self.file if file is None else file,'w')as f:json.dump(self,f,ensure_ascii=False,indent=4)

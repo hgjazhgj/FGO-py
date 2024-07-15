@@ -15,4 +15,4 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && pip uninstall -y opencv-contrib-python \
  && pip install opencv-contrib-python-headless \
  && rm -r ~/.cache/pip
-CMD ["python", "fgo.py", "cli"]
+CMD ["python", "-X", "utf8", "fgo.py", "cli"]

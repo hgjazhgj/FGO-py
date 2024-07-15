@@ -475,6 +475,7 @@ class Main:
             self.battleProc=self.battleClass()
             while True:
                 if Detect(.3,.3).isMainInterface():
+                    if battleTotal and self.battleCount==battleTotal:return
                     fgoDevice.device.press('84L'[questIndex])
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return
                     self.chooseFriend()

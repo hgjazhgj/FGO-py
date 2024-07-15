@@ -5,7 +5,7 @@ services:
     build: .
     image: hgjazhgj/fgo-py:latest
     container_name: fgo-py
-    command: python3 fgo.py web
+    command: python3 -X utf8 fgo.py web
     working_dir: /FGO-py
     ports:
       - 5000:5000

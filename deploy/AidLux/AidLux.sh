@@ -6,4 +6,4 @@ apt install -y git adb
 pip3.11 install airtest tqdm pponnxcr
 git clone https://github.com/hgjazhgj/FGO-py.git # https://gitee.com/hgjazhgj/FGO-py.git
 cd FGO-py/FGO-py
-python3.11 fgo.py cli
+python3.11 -X utf8 fgo.py cli

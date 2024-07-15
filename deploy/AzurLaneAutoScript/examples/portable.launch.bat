@@ -8,4 +8,4 @@ if errorlevel 1 (
     echo Update failed. See above.
     exit
 )
-python fgo.py cli --no-color
+python -X utf8 fgo.py cli --no-color
