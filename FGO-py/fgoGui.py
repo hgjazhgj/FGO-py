@@ -8,7 +8,6 @@ import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
 from fgoGuiTeamup import Teamup
-from fgoServerChann import ServerChann
 from fgoMetadata import questData
 logger=fgoKernel.getLogger('Gui')
 pyplot.ion()
@@ -61,7 +60,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
             getattr(ui,{QAction:'setChecked',QCheckBox:'setChecked',QSpinBox:'setValue',QComboBox:'setCurrentIndex'}[type(ui)])(value)
         self.timer=QTimer(self)
         self.timer.timeout.connect(self.flush)
-        self.notifier=[ServerChann(**i)for i in self.config.notifyParam]
+        self.notifier=[]
         self.connectDevice()
     def keyPressEvent(self,key):
         if self.MENU_CONTROL_MAPKEY.isChecked()and not key.modifiers()&~Qt.KeyboardModifier.KeypadModifier:
