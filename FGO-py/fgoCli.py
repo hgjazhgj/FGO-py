@@ -203,8 +203,8 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def teamup_show(self,arg):print('\n'.join([f'team name: {self.currentTeam}',f'team index: {fgoKernel.Main.teamIndex}','servant skill & hougu:','\n'.join(['  '.join([str(i+1),'-'.join([''.join([hex(x)[2:]for x in fgoKernel.ClassicTurn.skillInfo[i][j]])for j in range(3)]+[''.join([hex(x)[2:]for x in fgoKernel.ClassicTurn.houguInfo[i]])])])for i in range(6)]),'master skill:','   '+'-'.join([''.join([hex(x)[2:]for x in fgoKernel.ClassicTurn.masterSkill[i]])for i in range(3)])]))
     def teamup_set(self,arg):getattr(self,f'teamup_set_{arg.subcommand_1}')(arg)
     def teamup_set_autoformation(self,arg):
-        fgoKernel.Main.autoFormation=arg=='on'
-        print('Set team autoformation to',arg)
+        fgoKernel.Main.autoFormation=arg.value=='on'
+        print('Set team autoformation to',arg.value)
     def teamup_set_index(self,arg):
         self.config.teamIndex=fgoKernel.Main.teamIndex=arg.value
         print('Set team index to',arg.value)
@@ -305,8 +305,8 @@ parser_teamup_list=parser_teamup_.add_parser('list',help='List all teams')
 parser_teamup_show=parser_teamup_.add_parser('show',help='Show current team info')
 parser_teamup_set=parser_teamup_.add_parser('set',help='Setup a field of current team')
 parser_teamup_set_=parser_teamup_set.add_subparsers(title='subcommands',required=True,dest='subcommand_1')
-parser_teamup_set_autoformation=parser_teamup_set_.add_parser('index',help='Setup team autoformation')
-parser_teamup_set_index.add_argument('value',help='on/off',type=str.lower,choices=['on','off'])
+parser_teamup_set_autoformation=parser_teamup_set_.add_parser('autoformation',help='Setup team autoformation')
+parser_teamup_set_autoformation.add_argument('value',help='on/off',type=str.lower,choices=['on','off'])
 parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team index')
 parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
 parser_teamup_set_master=parser_teamup_set_.add_parser('master',help='Setup master skill info')

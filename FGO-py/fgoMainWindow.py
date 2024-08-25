@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'fgoMainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.1
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -162,7 +162,7 @@ class Ui_fgoMainWindow(object):
 
         self.BTN_QUESTLOAD = QPushButton(self.widget)
         self.BTN_QUESTLOAD.setObjectName(u"BTN_QUESTLOAD")
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BTN_QUESTLOAD.sizePolicy().hasHeightForWidth())
@@ -243,7 +243,7 @@ class Ui_fgoMainWindow(object):
         self.LAYOUT_DEVICE.setObjectName(u"LAYOUT_DEVICE")
         self.LBL_DEVICE = QLabel(self.widget)
         self.LBL_DEVICE.setObjectName(u"LBL_DEVICE")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.LBL_DEVICE.sizePolicy().hasHeightForWidth())
@@ -253,7 +253,7 @@ class Ui_fgoMainWindow(object):
 
         self.BTN_CONNECT = QPushButton(self.widget)
         self.BTN_CONNECT.setObjectName(u"BTN_CONNECT")
-        self.BTN_CONNECT.setCursor(QCursor(Qt.PointingHandCursor))
+        self.BTN_CONNECT.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.LAYOUT_DEVICE.addWidget(self.BTN_CONNECT)
 
@@ -265,7 +265,7 @@ class Ui_fgoMainWindow(object):
 
         self.BTN_MAIN = QPushButton(self.widget)
         self.BTN_MAIN.setObjectName(u"BTN_MAIN")
-        self.BTN_MAIN.setCursor(QCursor(Qt.PointingHandCursor))
+        self.BTN_MAIN.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.LAYOUT_LAUNCH.addWidget(self.BTN_MAIN)
 
@@ -362,7 +362,8 @@ class Ui_fgoMainWindow(object):
         QWidget.setTabOrder(self.BTN_QUESTUP, self.BTN_QUESTDOWN)
         QWidget.setTabOrder(self.BTN_QUESTDOWN, self.BTN_QUESTCLEAR)
         QWidget.setTabOrder(self.BTN_QUESTCLEAR, self.TXT_TEAM)
-        QWidget.setTabOrder(self.TXT_TEAM, self.CBB_APPLE)
+        QWidget.setTabOrder(self.TXT_TEAM, self.CKB_TEAM)
+        QWidget.setTabOrder(self.CKB_TEAM, self.CBB_APPLE)
         QWidget.setTabOrder(self.CBB_APPLE, self.TXT_APPLE)
         QWidget.setTabOrder(self.TXT_APPLE, self.BTN_CONNECT)
         QWidget.setTabOrder(self.BTN_CONNECT, self.BTN_QUESTLOAD)

@@ -1,9 +1,23 @@
 # 版本记录 Version Log
 
-## 2024/07/15 v19.3.1
+## todo
+
+-Add:operation PaperMoon  
+-Fix:gui保存截图  
+-Opt:isCardSealed  
+
+## 2024/08/25 v19.4.1
+
+Fix:cli autoformation [issue #139](https://github.com/hgjazhgj/FGO-py/issues/139)  
+Fix:EN gui translation [issue #136](https://github.com/hgjazhgj/FGO-py/issues/136)  
+Fix:tab order  
+Add:material  
+疯狂的残渣 以太收光体 终之花 黄金釜  
+
+## 2024/07/15 v19.3.1(19.4.0)
 
 Add:未通关Free(可获得圣晶石等)的计划作战  
-Upd:-X utf8  
+Upd:-X utf8 (PEP 540)  
 
 ## 2024/07/06 v19.3.0
 

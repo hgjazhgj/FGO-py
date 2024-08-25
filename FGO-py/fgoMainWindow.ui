@@ -628,6 +628,7 @@
   <tabstop>BTN_QUESTDOWN</tabstop>
   <tabstop>BTN_QUESTCLEAR</tabstop>
   <tabstop>TXT_TEAM</tabstop>
+  <tabstop>CKB_TEAM</tabstop>
   <tabstop>CBB_APPLE</tabstop>
   <tabstop>TXT_APPLE</tabstop>
   <tabstop>BTN_CONNECT</tabstop>

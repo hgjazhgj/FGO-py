@@ -229,22 +229,15 @@ v9.1及更早版本提供的需要配置的战斗,不建议在以下之外的场
 如果你遇到问题且愿意支付一定的咨询费用,或者只是想要捐赠,又或是想要撤回先前的捐赠,请通过电子邮件联系  
 这是无奈之举,卖的是本人的时间和精力,而用到知识和经验的解决具体问题另算  
 **2021年9月24日,同为本人开发的原神智能钓鱼项目被GitHub删除了,我迫切地感到在GitHub上发布程序是不可靠的,为此,本人先建立了一个QQ群,群号932481680,作为一个FGO-py的备用发布手段,其他事项日后再议.**  
-加入QQ群需要提供你的Github用户名,你回答的内容必须严格等于登陆GitHub时输入的Username字段,且该帐号注册不少于6个月且在6个月内有活跃行为,QQ号需要至少16级(有一个太阳,使用大约1年),同时为切实验证Github用户名真实性防止冒名顶替,对于想要加群的用户请先Star本项目并**立刻**发送加群申请,如果你已经Star,请先取消Star然后在数秒后重新Star  
+加入QQ群需要你在入群问题中回答你的GitHub username,此内容将被用于调用`api.github.com/users`系列api,请严格输入  
+你的GitHub帐号需要注册不少于6个月且在6个月内有活跃行为,QQ号需要至少16级(有一个太阳,使用大约1年),同时为切实验证Github用户名真实性防止冒名顶替,对于想要加群的用户请先Star本项目并**立刻**发送加群申请,如果你已经Star,请先取消Star然后在数秒后重新Star  
+**你只有一次申请机会**,请确认你满足全部条件后再申请  
 发现**最新commit**的bug请按Bug Report模板建立issue,发现战斗行为不合理请按Servant Info模板建立issue,其他你想到的东西请发到discussion  
 
 # 开源许可 LICENSE
 
 [GNU AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html)  
 除非获得商业授权，否则无论以何种方式修改或者使用本项目，都需要开源  
-
-# 参考 Refs
-
-当你遇到问题,这里的文档可能有帮助  
-[Android 调试桥 (adb)](https://developer.android.com/studio/command-line/adb)  
-[Device Connection](https://airtest.readthedocs.io/zh_CN/latest/wiki/device/device.html)  
-[Virtual-Key 代码](https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes)  
-[关于AidLux平台pip使用异常解决方案](https://community.aidlux.com/detail?id=384)  
-[airtest.core.android.ADB.devices不返回ipv6远程连接的设备](https://github.com/AirtestProject/Airtest/issues/818)  
 
 # 计划中的功能 Next Features
 

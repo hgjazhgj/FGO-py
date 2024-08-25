@@ -50,12 +50,12 @@ class ConfigItem(dict):
     def __ior__(self,other):return self.update(other)
     def __contains__(self,key):
         try:self[key]
-        except (KeyError,IndexError):return False
+        except(KeyError,IndexError):return False
         return True
     def __repr__(self):return f'{type(self).__name__}({", ".join(f"{k}={v!r}"for k,v in self.items())})'
     def update(self,other):
         for k,v in self.items():
-            if (v2:=other.get(k))is None:continue
+            if(v2:=other.get(k))is None:continue
             if isinstance(v2,dict)and isinstance(v,dict):
                 v.update(v2)
                 continue

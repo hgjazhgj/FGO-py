@@ -4,202 +4,200 @@
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="fgoGui.py" line="26" />
+      <location filename="fgoGui.py" line="31" />
       <source>退出</source>
       <translation>Exit</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="28" />
+      <location filename="fgoGui.py" line="33" />
       <source>强制退出</source>
       <translation>Force Exit</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="70" />
+      <location filename="fgoGui.py" line="78" />
       <source>战斗正在进行,确认关闭?</source>
       <translation>Battle in progress, confirm to exit?</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="78" />
+      <location filename="fgoGui.py" line="86" />
       <source>未连接设备</source>
       <translation>No device connected</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="130" />
+      <location filename="fgoGui.py" line="144" />
       <source>回合完成战斗</source>
       <translation>turn(s) to finish the battle</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="138" />
-      <location filename="fgoGui.py" line="130" />
+      <location filename="fgoGui.py" line="151" />
+      <location filename="fgoGui.py" line="144" />
       <source>用时</source>
       <translation>time</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="139" />
-      <location filename="fgoGui.py" line="131" />
+      <location filename="fgoGui.py" line="152" />
+      <location filename="fgoGui.py" line="145" />
       <source>获得了以下素材</source>
       <translation>The following materials were obtained</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="140" />
-      <location filename="fgoGui.py" line="132" />
+      <location filename="fgoGui.py" line="153" />
+      <location filename="fgoGui.py" line="146" />
       <source>无</source>
       <translation>None</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="137" />
+      <location filename="fgoGui.py" line="150" />
       <source>在过去的</source>
       <translation>In the past</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="137" />
+      <location filename="fgoGui.py" line="150" />
       <source>中完成了</source>
       <translation>completed</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="137" />
+      <location filename="fgoGui.py" line="150" />
       <source>场战斗</source>
       <translation>battle(s)</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="138" />
+      <location filename="fgoGui.py" line="151" />
       <source>平均每场战斗</source>
       <translation>In average</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="138" />
+      <location filename="fgoGui.py" line="151" />
       <source>回合</source>
       <translation>turn(s) per battle</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="145" />
+      <location filename="fgoGui.py" line="157" />
       <source>获取到</source>
       <translation>Get</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="145" />
+      <location filename="fgoGui.py" line="157" />
       <source>条抽卡记录</source>
       <translation>record(s)</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="145" />
+      <location filename="fgoGui.py" line="157" />
       <source>图片保存至</source>
       <translation>Image save to</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="153" />
+      <location filename="fgoGui.py" line="169" />
       <source>选择或填写一个设备</source>
       <translation>Select or enter a device</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="176" />
+      <location filename="fgoGui.py" line="193" />
       <source>剩余的战斗数量</source>
       <translation>Number of battles remaining</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="192" />
+      <location filename="fgoGui.py" line="215" />
       <source>搓丸子是一个基于FGO-py的独立项目</source>
       <translation>FGO-ExpBall is an independent project based on FGO-py</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="194" />
+      <location filename="fgoGui.py" line="217" />
       <source>你看见了这个弹窗,说明你已经能够运行FGO-py了</source>
       <translation>You see this pop-up window, which means you are able to run FGO-py</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="195" />
+      <location filename="fgoGui.py" line="218" />
       <source>那么,无需任何其他配置,你可以直接运行FGO-ExpBall</source>
       <translation>Then, without any other configuration, you can directly run FGO-ExpBall</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="197" />
+      <location filename="fgoGui.py" line="220" />
       <source>剩余的特殊掉落数量</source>
       <translation>Number of remaining special drops</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="208" />
-      <source>点击</source>
-      <translation>Click</translation>
-    </message>
-    <message>
-      <location filename="fgoGui.py" line="208" />
-      <source>截图</source>
-      <translation>Screenshot</translation>
-    </message>
-    <message>
-      <location filename="fgoGui.py" line="246" />
+      <location filename="fgoGui.py" line="266" />
       <source>全自动免配置跨平台开箱即用的FGO助手</source>
       <translation>Fully automated and configuration-free cross-platform out-of-the-box FGO assistant</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="248" />
+      <location filename="fgoGui.py" line="268" />
       <source>当前版本</source>
       <translation>Current version</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="249" />
+      <location filename="fgoGui.py" line="269" />
       <source>作者</source>
       <translation>Author</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="250" />
+      <location filename="fgoGui.py" line="270" />
       <source>项目主页</source>
       <translation>Homepage</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="251" />
+      <location filename="fgoGui.py" line="271" />
       <source>QQ群</source>
       <translation>QQ group</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="251" />
+      <location filename="fgoGui.py" line="271" />
       <source>请按readme指引操作</source>
       <translation>Please follow the readme guidelines</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="254" />
+      <location filename="fgoGui.py" line="274" />
       <source>这是我的</source>
       <translation>These are my</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="254" />
+      <location filename="fgoGui.py" line="274" />
       <source>支付宝</source>
       <translation>AliPay</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="254" />
+      <location filename="fgoGui.py" line="274" />
       <source>微信</source>
       <translation>WeChat</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="254" />
+      <location filename="fgoGui.py" line="274" />
       <source>收款码和Monero地址</source>
       <translation>QR code and Monero address</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="254" />
+      <location filename="fgoGui.py" line="274" />
       <source>请给我打钱</source>
       <translation>Buy me a Saint Quartz</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="264" />
+      <location filename="fgoGui.py" line="284" />
       <source>B站大会员每月</source>
       <translation>Bilibili bigVIP</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="264" />
+      <location filename="fgoGui.py" line="284" />
       <source>领</source>
       <translation>get</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="264" />
+      <location filename="fgoGui.py" line="284" />
       <source>5B币券</source>
       <translation>5 CNY monthly</translation>
     </message>
     <message>
-      <location filename="fgoGui.py" line="264" />
+      <location filename="fgoGui.py" line="284" />
       <source>充电</source>
       <translation>charge</translation>
+    </message>
+    <message>
+      <source>点击</source>
+      <translation>Click</translation>
+    </message>
+    <message>
+      <source>截图</source>
+      <translation>Screenshot</translation>
     </message>
   </context>
   <context>
@@ -428,7 +426,7 @@
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
-      <source>加入队列后生效,0为不限制次数</source>
+      <source>加入关卡队列后生效,0为不限制次数</source>
       <translation>Effective when added to the queue, 0 for unlimited</translation>
     </message>
     <message>
@@ -534,7 +532,7 @@
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
       <source>彩</source>
-      <translation>Bronze</translation>
+      <translation>Quartz</translation>
     </message>
     <message>
       <location filename="fgoMainWindow.ui" line="0" />
@@ -791,31 +789,31 @@
     <name>quest</name>
     <message>
       <source>0-0</source>
-      <translation>Fuyuki</translation>
+      <translation>Chaldea Gate</translation>
     </message>
     <message>
       <source>1-0</source>
-      <translation>Orleans</translation>
+      <translation>Fuyuki</translation>
     </message>
     <message>
       <source>1-1</source>
-      <translation>Septem</translation>
+      <translation>Orleans</translation>
     </message>
     <message>
       <source>1-2</source>
-      <translation>Okeanos</translation>
+      <translation>Septem</translation>
     </message>
     <message>
       <source>1-3</source>
-      <translation>London</translation>
+      <translation>Okeanos</translation>
     </message>
     <message>
       <source>1-4</source>
-      <translation>Pluribus</translation>
+      <translation>London</translation>
     </message>
     <message>
       <source>1-5</source>
-      <translation>Unum</translation>
+      <translation>E Pluribus Unum</translation>
     </message>
     <message>
       <source>1-6</source>
@@ -843,1023 +841,39 @@
     </message>
     <message>
       <source>3-0</source>
-      <translation>Prologue</translation>
-    </message>
-    <message>
-      <source>3-1</source>
       <translation>Anastasia</translation>
     </message>
     <message>
-      <source>3-2</source>
+      <source>3-1</source>
       <translation>Götterdämmerung</translation>
     </message>
     <message>
-      <source>3-3</source>
+      <source>3-2</source>
       <translation>S I N</translation>
     </message>
     <message>
+      <source>3-3</source>
+      <translation>Yuga Kshetra</translation>
+    </message>
+    <message>
       <source>3-4</source>
-      <translation>Yuga</translation>
-    </message>
-    <message>
-      <source>3-5</source>
-      <translation>Kshetra</translation>
-    </message>
-    <message>
-      <source>4-0</source>
       <translation>Atlantis</translation>
     </message>
     <message>
-      <source>3-6</source>
+      <source>3-5</source>
       <translation>Olympus</translation>
     </message>
     <message>
-      <source>4-1</source>
+      <source>4-0</source>
       <translation>Heian-kyō</translation>
     </message>
     <message>
-      <source>0-0-0</source>
-      <translation type="unfinished" />
+      <source>3-6</source>
+      <translation>Avalon le Fae</translation>
     </message>
     <message>
-      <source>1-0-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-0-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-0-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-0-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-0-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-0-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-0-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-0-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-1-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-2-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-7-1</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-3-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-4-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-11-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-12-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-5-13-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-11-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-12-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-6-13-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-11-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-12-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>1-7-13-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-0-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-1-11-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-6-1</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-2-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>2-3-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-11-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-12-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-0-13-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-1-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-2-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-3-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-4-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-5-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-11-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-0-12-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-11-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-12-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-13-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-14-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>3-6-15-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-0-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-1-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-2-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-3-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-4-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-5-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-6-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-7-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-8-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-9-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-10-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-11-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-12-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-13-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-14-0</source>
-      <translation type="unfinished" />
-    </message>
-    <message>
-      <source>4-1-15-0</source>
-      <translation type="unfinished" />
+      <source>4-1</source>
+      <translation>Traum</translation>
     </message>
   </context>
 </TS>

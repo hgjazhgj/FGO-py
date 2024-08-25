@@ -56,6 +56,10 @@
         <translation>黑曜锐刃</translation>
     </message>
     <message>
+        <source>VestigeOfMadness</source>
+        <translation>疯狂的残渣</translation>
+    </message>
+    <message>
         <source>SeedOfYggdrassil</source>
         <translation>世界树之种</translation>
     </message>
@@ -144,6 +148,14 @@
         <translation>太阳皮</translation>
     </message>
     <message>
+        <source>EtherPhotonConverger</source>
+        <translation>以太收光体</translation>
+    </message>
+    <message>
+        <source>FlowerOfTheEnd</source>
+        <translation>终之花</translation>
+    </message>
+    <message>
         <source>ClawOfChaos</source>
         <translation>混沌之爪</translation>
     </message>
@@ -214,6 +226,10 @@
     <message>
         <source>FlamingOniLanternPlant</source>
         <translation>鬼炎鬼灯</translation>
+    </message>
+    <message>
+        <source>GoldenCauldron</source>
+        <translation>黄金釜</translation>
     </message>
   </context>
   <context>
