@@ -323,6 +323,14 @@
       <translation>Traum</translation>
     </message>
     <message>
+      <source>5-0</source>
+      <translation>Ordeal Call</translation>
+    </message>
+    <message>
+      <source>3-7</source>
+      <translation>纳维·米克特兰</translation>
+    </message>
+    <message>
       <source>0-0-0</source>
       <translation>打开宝物库之门</translation>
     </message>
@@ -1305,6 +1313,130 @@
     <message>
       <source>4-1-15-0</source>
       <translation>约维努斯堡垒</translation>
+    </message>
+    <message>
+      <source>3-7-0-0</source>
+      <translation>奇科莫斯托克</translation>
+    </message>
+    <message>
+      <source>3-7-1-0</source>
+      <translation>贤者的隐居之所</translation>
+    </message>
+    <message>
+      <source>3-7-2-0</source>
+      <translation>玉米地</translation>
+    </message>
+    <message>
+      <source>3-7-3-0</source>
+      <translation>特拉特拉乌基</translation>
+    </message>
+    <message>
+      <source>3-7-4-0</source>
+      <translation>大平原</translation>
+    </message>
+    <message>
+      <source>3-7-5-0</source>
+      <translation>奇琴伊察</translation>
+    </message>
+    <message>
+      <source>3-7-6-0</source>
+      <translation>坠机点</translation>
+    </message>
+    <message>
+      <source>3-7-7-0</source>
+      <translation>伊斯塔乌基</translation>
+    </message>
+    <message>
+      <source>3-7-8-0</source>
+      <translation>墨西哥城</translation>
+    </message>
+    <message>
+      <source>3-7-9-0</source>
+      <translation>烤玉米地</translation>
+    </message>
+    <message>
+      <source>3-7-10-0</source>
+      <translation>卡恩的废墟</translation>
+    </message>
+    <message>
+      <source>3-7-11-0</source>
+      <translation>索索亚乌基</translation>
+    </message>
+    <message>
+      <source>3-7-12-0</source>
+      <translation>梅兹蒂特兰</translation>
+    </message>
+    <message>
+      <source>3-7-13-0</source>
+      <translation>亚亚乌基</translation>
+    </message>
+    <message>
+      <source>3-7-14-0</source>
+      <translation>卡拉克穆尔</translation>
+    </message>
+    <message>
+      <source>3-7-15-0</source>
+      <translation>蒂卡尔遗迹</translation>
+    </message>
+    <message>
+      <source>5-0-0-0</source>
+      <translation>俄罗斯区域</translation>
+    </message>
+    <message>
+      <source>5-0-1-0</source>
+      <translation>东欧区域</translation>
+    </message>
+    <message>
+      <source>5-0-2-0</source>
+      <translation>夏威夷区域</translation>
+    </message>
+    <message>
+      <source>5-0-3-0</source>
+      <translation>美洲西部区域</translation>
+    </message>
+    <message>
+      <source>5-0-4-0</source>
+      <translation>大洋洲北部区域</translation>
+    </message>
+    <message>
+      <source>5-0-5-0</source>
+      <translation>北欧区域</translation>
+    </message>
+    <message>
+      <source>5-0-6-0</source>
+      <translation>加勒比海区域</translation>
+    </message>
+    <message>
+      <source>5-0-7-0</source>
+      <translation>东亚区域</translation>
+    </message>
+    <message>
+      <source>5-0-8-0</source>
+      <translation>美洲南部区域</translation>
+    </message>
+    <message>
+      <source>5-0-9-0</source>
+      <translation>非洲南部区域</translation>
+    </message>
+    <message>
+      <source>5-0-10-0</source>
+      <translation>南亚区域</translation>
+    </message>
+    <message>
+      <source>5-0-11-0</source>
+      <translation>北大西洋区域</translation>
+    </message>
+    <message>
+      <source>5-0-12-0</source>
+      <translation>美洲东部区域</translation>
+    </message>
+    <message>
+      <source>5-0-13-0</source>
+      <translation>大洋洲南部区域</translation>
+    </message>
+    <message>
+      <source>5-0-14-0</source>
+      <translation>西非区域</translation>
     </message>
   </context>
 </TS>

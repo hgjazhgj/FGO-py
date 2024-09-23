@@ -875,5 +875,13 @@
       <source>4-1</source>
       <translation>Traum</translation>
     </message>
+    <message>
+      <source>3-7</source>
+      <translation>Nahui Mictlan</translation>
+    </message>
+    <message>
+      <source>5-0</source>
+      <translation>Ordeal Call</translation>
+    </message>
   </context>
 </TS>

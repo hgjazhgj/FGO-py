@@ -8,7 +8,7 @@ import fgoDevice
 import fgoKernel
 from fgoMainWindow import Ui_fgoMainWindow
 from fgoGuiTeamup import Teamup
-from fgoMetadata import questData
+from fgoMetadata import quest
 logger=fgoKernel.getLogger('Gui')
 pyplot.ion()
 
@@ -40,7 +40,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         self.signalFuncBegin.connect(self.funcBegin)
         self.signalFuncEnd.connect(self.funcEnd)
         self.operation=fgoKernel.Operation()
-        self.chapter=sorted({i[:2]for i in questData})
+        self.chapter=sorted({i[:2]for i in quest})
         self.CBB_CHAPTER.addItems(QApplication.translate('quest','-'.join(str(j)for j in i))for i in self.chapter)
         self.worker=Thread()
         self.config=config
@@ -106,7 +106,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
                 fgoKernel.fuse.reset()
                 fgoKernel.schedule.reset()
                 if self.config.notifyEnable and not all(success:=[i(msg[0])for i in self.notifier]):logger.critical(f'Notify post failed {success.count(False)} of {len(success)}')
-        self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func))}')
+        self.worker=Thread(target=f,name=f'{getattr(func,"__qualname__",repr(func).replace(" ",""))}')
         self.worker.start()
     def flush(self):
         self.TXT_APPLE.setValue(self.operation.appleTotal)
@@ -237,7 +237,7 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
         try:exec(s)
         except BaseException as e:logger.exception(e)
     def questQuery(self,index):
-        self.quest=[i for i in questData if i[:2]==self.chapter[index]]
+        self.quest=[i for i in quest if i[:2]==self.chapter[index]]
         self.CBB_QUEST.clear()
         self.CBB_QUEST.addItems(QApplication.translate('quest','-'.join(str(j)for j in i))for i in self.quest)
     def questAdd(self):

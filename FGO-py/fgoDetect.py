@@ -115,8 +115,8 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isMailListEnd(self):return self._isListEnd((937,679))
     def isNetworkError(self):return self._compare(self.tmpl.NETWORKERROR,(703,529,974,597))
     def isNoFriend(self):return self._compare(self.tmpl.NOFRIEND,(245,362,274,392))
-    def isQuestFreeContains(self,chapter):return self._compare((questImg[chapter],None),(1024,125,1092,575))
-    def isQuestFreeFirst(self,chapter):return self._compare((questImg[chapter],None),(1024,125,1092,290))
+    def isQuestFreeContains(self,chapter):return self._compare((questImg[chapter],None),(1075,115,1111,575))
+    def isQuestFreeFirst(self,chapter):return self._compare((questImg[chapter],None),(1075,115,1111,270))
     def isQuestListBegin(self):return self._isListBegin((1258,95))
     def isServantDead(self,pos,friend=None):return any((self._watchServantPortrait[pos].send(self),self._watchServantFriend[pos].send(self.isServantFriend(pos)if friend is None else friend)))
     def isServantFriend(self,pos):return self._compare(self.tmpl.SUPPORT,(187+318*pos,394,225+318*pos,412))
@@ -173,7 +173,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
     def getTeamServantClassRank(self):return[(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
     def getWeeklyMission(self):XDetectBase._weeklyMission=self._stack(XDetectBase._weeklyMission,self._crop((603,250,1092,710)),157)
-    def findChapter(self,chapter):return self._find((chapterImg[chapter],None),(640,90,1230,600))
+    def findChapter(self,chapter):return self._find((chapterImg[chapter],None),(640,90,1230,600),.016)
     def findFriend(self,img):return self._find(img,(13,166,1233,720),.04)
     def findMail(self,img):return self._find(img,(73,166,920,720),.016)
     def findMapCamera(self,chapter):return numpy.array(cv2.minMaxLoc(cv2.matchTemplate(mapImg[chapter],cv2.resize(self._crop((200,200,1080,520)),(0,0),fx=.3,fy=.3,interpolation=cv2.INTER_CUBIC),cv2.TM_SQDIFF_NORMED))[2])/.3+(440,160)

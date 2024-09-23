@@ -38,7 +38,6 @@ class Device:
             self.I=self.O=self.createDevice(name)
             self.name=self.I.name
         self.press=self.I.press
-        self.touch=self.I.touch
         self.swipe=self.I.swipe
         setup(self.O)
     @staticmethod
@@ -47,6 +46,7 @@ class Device:
     @property
     def available(self):return self.I.available and(self.I is self.O or self.O.available)
     def perform(self,pos,wait):[(self.press(i),schedule.sleep(j*.001))for i,j in zip(pos,wait)]
+    def touch(self,pos,wait=0):(self.I.touch(pos),schedule.sleep(wait*.001))
     enumDevices=Android.enumDevices
     def __getattr__(self,attr):return getattr(self.I,attr,getattr(self.O,attr))
 

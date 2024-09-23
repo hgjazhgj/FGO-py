@@ -2,9 +2,14 @@
 
 ## todo
 
--Add:operation PaperMoon  
 -Fix:gui保存截图  
 -Opt:isCardSealed  
+
+## 2024/09/23 v20.0.0
+
+Add:operation PaperMoon  
+究极大更新  
+夏威夷区域/大洋洲北部区域的定位不精确,在高延迟设备环境下应慎用  
 
 ## 2024/08/25 v19.4.1
 

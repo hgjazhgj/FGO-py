@@ -20,7 +20,7 @@
 from fgoConst import VERSION
 __version__=VERSION
 __author__='hgjazhgj'
-import cv2,logging,numpy,pulp,random,re,time,threading
+import logging,numpy,pulp,random,re,time,threading
 import fgoDevice
 from itertools import permutations
 from functools import wraps
@@ -28,7 +28,8 @@ from fgoDetect import Detect,XDetect
 from fgoFuse import fuse
 from fgoImageListener import ImageListener
 from fgoLogging import getLogger,logit
-from fgoMetadata import servantData,missionMat,missionTag,questData,mapPoly
+from fgoMetadata import servantData,missionMat,missionTag,missionQuest
+from fgoReishift import reishift
 from fgoSchedule import ScriptStop,schedule
 logger=getLogger('Kernel')
 
@@ -108,9 +109,7 @@ def mail():
 def synthesis():
     while True:
         fgoDevice.device.perform('8',(1000,))
-        for i,j in((i,j)for i in range(4)for j in range(7)):
-            fgoDevice.device.touch((133+133*j,253+142*i))
-            schedule.sleep(.1)
+        for i,j in((i,j)for i in range(4)for j in range(7)):fgoDevice.device.touch((133+133*j,253+142*i),100)
         if Detect().isSynthesisFinished():break
         fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
@@ -152,22 +151,9 @@ def bench(times=20,touch=True,screenshot=True):
 def goto(quest):
     while not Detect(0,1).isMainInterface():pass
     fgoDevice.device.press(' ')
-    if Detect(.6).isTerminal():fgoDevice.device.perform(' ',(600,))
-    else:
-        fgoDevice.device.perform('S',(1500,))
-        while not Detect(.4).isMainInterface():pass
-    if quest[0]!=3:
-        while not Detect(.4).isQuestListBegin():fgoDevice.device.swipe((1000,200),(1000,600))
-        while not((p:=Detect(.4).findChapter(quest[:1]))and(fgoDevice.device.touch(p),True)[1]):fgoDevice.device.swipe((1000,600),(1000,200))
-        schedule.sleep(.6)
-    while not Detect(.4).isQuestListBegin():fgoDevice.device.swipe((1000,200),(1000,600))
-    while not((p:=Detect(.4).findChapter(quest[:2]))and(fgoDevice.device.touch(p),True)[1]):fgoDevice.device.swipe((1000,600),(1000,200))
-    while not Detect(.4,.4).isMainInterface():pass
-    if quest[0]:
-        fgoDevice.device.press('\xBF')
-        while cv2.pointPolygonTest(mapPoly,p:=(640,360)+(v:=questData[quest]-Detect(1).findMapCamera(quest[:2])),False)<=0:(lambda v:fgoDevice.device.swipe((640,360)+v,(640,360)-v))(v*min(590/abs(v[0]),310/abs(v[1]),.5))
-        fgoDevice.device.perform('  ',(300,300))
-        fgoDevice.device.touch(p)
+    fgoDevice.device.perform(*((' ',(600,))if Detect(.6).isTerminal()else('S',(1500,))))
+    reishift(quest)
+    schedule.sleep(.5)
     for _ in range(4):
         if Detect(.4).isQuestListBegin():break
         fgoDevice.device.swipe((1000,200),(1000,600))
@@ -183,7 +169,7 @@ def weeklyMission():
     while not Detect.cache.isWeeklyMissionListEnd():
         fgoDevice.device.swipe((1000,600),(1000,300))
         Detect(.4).getWeeklyMission()
-    x=[pulp.LpVariable('_'.join(str(j)for j in i),lowBound=0,cat=pulp.LpInteger)for i in questData]
+    x=[pulp.LpVariable('_'.join(str(j)for j in i),lowBound=0,cat=pulp.LpInteger)for i in missionQuest]
     prob=pulp.LpProblem('WeeklyMission',sense=pulp.LpMinimize)
     prob+=pulp.lpDot(missionMat[0],x)
     for count in(count for target,minion,count in Detect.cache.saveWeeklyMission()if(logger.info(f'Add [{"|".join(target)}],{minion},{count}')or True if(coefficient:=sum((j for i in target for j,k in zip(missionMat,missionTag)if i in k and(minion or'从者'in k)),numpy.zeros(missionMat.shape[1]))).any()else logger.error(f'Invalid Target [{"|".join(target)}],{minion},{count}'))):prob+=pulp.lpDot(coefficient,x)>=count
@@ -475,9 +461,14 @@ class Main:
             self.battleProc=self.battleClass()
             while True:
                 if Detect(.3,.3).isMainInterface():
-                    if battleTotal and self.battleCount==battleTotal:return
+                    if battleTotal and self.battleCount==battleTotal:return logger.info('Operation Unit Completed')
                     fgoDevice.device.press('84L'[questIndex])
-                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
+                    questIndex=0
+                    if Detect(.7).isBattleContinue():fgoDevice.device.press('K')
+                    elif Detect.cache.isSkillCastFailed():
+                        fgoDevice.device.press('J')
+                        return logger.info('No Storm Pot')
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return logger.info('Ap Empty')
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleFormation():pass
                     if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1],(1000,))
@@ -487,12 +478,15 @@ class Main:
                 elif Detect.cache.isBattleContinue():
                     if battleTotal and self.battleCount==battleTotal:
                         fgoDevice.device.press('F')
-                        return
+                        return logger.info('Operation Unit Completed')
                     fgoDevice.device.press('K')
-                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return logger.info('Ap Empty')
                     self.chooseFriend()
                     schedule.sleep(6)
                     break
+                elif Detect.cache.isSkillCastFailed():
+                    fgoDevice.device.press('J')
+                    return logger.info('No Storm Pot')
                 elif Detect.cache.isTurnBegin():break
                 elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
                 elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))

@@ -1107,6 +1107,14 @@
       <translation>トラオム</translation>
     </message>
     <message>
+      <source>3-7</source>
+      <translation>ナウイ・ミクトラン</translation>
+    </message>
+    <message>
+      <source>5-0</source>
+      <translation>オーディール・コール</translation>
+    </message>
+    <message>
       <source>0-0-0</source>
       <translation>宝物庫の扉を開け</translation>
     </message>
@@ -2089,6 +2097,130 @@
     <message>
       <source>4-1-15-0</source>
       <translation>ヨウィヌス</translation>
+    </message>
+    <message>
+      <source>3-7-0-0</source>
+      <translation>チコモストク</translation>
+    </message>
+    <message>
+      <source>3-7-1-0</source>
+      <translation>賢者の隠れ家</translation>
+    </message>
+    <message>
+      <source>3-7-2-0</source>
+      <translation>トウモロコシ畑</translation>
+    </message>
+    <message>
+      <source>3-7-3-0</source>
+      <translation>トラトラウキ</translation>
+    </message>
+    <message>
+      <source>3-7-4-0</source>
+      <translation>大平原</translation>
+    </message>
+    <message>
+      <source>3-7-5-0</source>
+      <translation>チチェン・イツァー</translation>
+    </message>
+    <message>
+      <source>3-7-6-0</source>
+      <translation>クラッシュポイント</translation>
+    </message>
+    <message>
+      <source>3-7-7-0</source>
+      <translation>イスタウキ</translation>
+    </message>
+    <message>
+      <source>3-7-8-0</source>
+      <translation>メヒコシティ</translation>
+    </message>
+    <message>
+      <source>3-7-9-0</source>
+      <translation>焼きモロコシ畑</translation>
+    </message>
+    <message>
+      <source>3-7-10-0</source>
+      <translation>カーンの廃墟</translation>
+    </message>
+    <message>
+      <source>3-7-11-0</source>
+      <translation>ソソアウワキ</translation>
+    </message>
+    <message>
+      <source>3-7-12-0</source>
+      <translation>メツィティトラン</translation>
+    </message>
+    <message>
+      <source>3-7-13-0</source>
+      <translation>ヤヤウキ</translation>
+    </message>
+    <message>
+      <source>3-7-14-0</source>
+      <translation>カラクムル</translation>
+    </message>
+    <message>
+      <source>3-7-15-0</source>
+      <translation>ティカル遺跡</translation>
+    </message>
+    <message>
+      <source>5-0-0-0</source>
+      <translation>ロシアエリア</translation>
+    </message>
+    <message>
+      <source>5-0-1-0</source>
+      <translation>東欧エリア</translation>
+    </message>
+    <message>
+      <source>5-0-2-0</source>
+      <translation>ハワイエリア</translation>
+    </message>
+    <message>
+      <source>5-0-3-0</source>
+      <translation>アメリカ西部エリア</translation>
+    </message>
+    <message>
+      <source>5-0-4-0</source>
+      <translation>オセアニア北部エリア</translation>
+    </message>
+    <message>
+      <source>5-0-5-0</source>
+      <translation>北欧エリア</translation>
+    </message>
+    <message>
+      <source>5-0-6-0</source>
+      <translation>カリブ海エリア</translation>
+    </message>
+    <message>
+      <source>5-0-7-0</source>
+      <translation>東アジアエリア</translation>
+    </message>
+    <message>
+      <source>5-0-8-0</source>
+      <translation>アメリカ南部エリア</translation>
+    </message>
+    <message>
+      <source>5-0-9-0</source>
+      <translation>アフリカ南部エリア</translation>
+    </message>
+    <message>
+      <source>5-0-10-0</source>
+      <translation>南アジアエリア</translation>
+    </message>
+    <message>
+      <source>5-0-11-0</source>
+      <translation>北大西洋エリア</translation>
+    </message>
+    <message>
+      <source>5-0-12-0</source>
+      <translation>アメリカ東部エリア</translation>
+    </message>
+    <message>
+      <source>5-0-13-0</source>
+      <translation>オセアニア南部エリア</translation>
+    </message>
+    <message>
+      <source>5-0-14-0</source>
+      <translation>西アフリカエリア</translation>
     </message>
   </context>
 </TS>
