@@ -1095,24 +1095,28 @@
       <translation>オリュンポス</translation>
     </message>
     <message>
-      <source>4-0</source>
-      <translation>平安京</translation>
-    </message>
-    <message>
       <source>3-6</source>
       <translation>アヴァロン・ル・フェ</translation>
-    </message>
-    <message>
-      <source>4-1</source>
-      <translation>トラオム</translation>
     </message>
     <message>
       <source>3-7</source>
       <translation>ナウイ・ミクトラン</translation>
     </message>
     <message>
+      <source>4-0</source>
+      <translation>平安京</translation>
+    </message>
+    <message>
+      <source>4-1</source>
+      <translation>トラオム</translation>
+    </message>
+    <message>
       <source>5-0</source>
       <translation>オーディール・コール</translation>
+    </message>
+    <message>
+      <source>5-1</source>
+      <translation>ペーパームーン</translation>
     </message>
     <message>
       <source>0-0-0</source>
@@ -2221,6 +2225,50 @@
     <message>
       <source>5-0-14-0</source>
       <translation>西アフリカエリア</translation>
+    </message>
+    <message>
+      <source>5-1-0-0</source>
+      <translation>修理部郊外</translation>
+    </message>
+    <message>
+      <source>5-1-1-0</source>
+      <translation>修理部本部</translation>
+    </message>
+    <message>
+      <source>5-1-2-0</source>
+      <translation>警防部本部</translation>
+    </message>
+    <message>
+      <source>5-1-3-0</source>
+      <translation>生産部農地</translation>
+    </message>
+    <message>
+      <source>5-1-4-0</source>
+      <translation>警防部広場</translation>
+    </message>
+    <message>
+      <source>5-1-5-0</source>
+      <translation>維持部本部</translation>
+    </message>
+    <message>
+      <source>5-1-6-0</source>
+      <translation>外周部</translation>
+    </message>
+    <message>
+      <source>5-1-7-0</source>
+      <translation>移送部本部</translation>
+    </message>
+    <message>
+      <source>5-1-8-0</source>
+      <translation>維持部モール</translation>
+    </message>
+    <message>
+      <source>5-1-9-0</source>
+      <translation>構築部本部</translation>
+    </message>
+    <message>
+      <source>5-1-10-0</source>
+      <translation>生産部本部</translation>
     </message>
   </context>
 </TS>

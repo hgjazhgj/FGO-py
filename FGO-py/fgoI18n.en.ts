@@ -864,24 +864,28 @@
       <translation>Olympus</translation>
     </message>
     <message>
-      <source>4-0</source>
-      <translation>Heian-kyō</translation>
-    </message>
-    <message>
       <source>3-6</source>
       <translation>Avalon le Fae</translation>
-    </message>
-    <message>
-      <source>4-1</source>
-      <translation>Traum</translation>
     </message>
     <message>
       <source>3-7</source>
       <translation>Nahui Mictlan</translation>
     </message>
     <message>
+      <source>4-0</source>
+      <translation>Heian-kyō</translation>
+    </message>
+    <message>
+      <source>4-1</source>
+      <translation>Traum</translation>
+    </message>
+    <message>
       <source>5-0</source>
       <translation>Ordeal Call</translation>
+    </message>
+    <message>
+      <source>5-1</source>
+      <translation>Paper Moon</translation>
     </message>
   </context>
 </TS>

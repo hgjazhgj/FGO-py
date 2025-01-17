@@ -455,16 +455,16 @@ class Main:
         self.appleKind=appleKind
         self.battleClass=battleClass
     @serialize(mutex)
-    def __call__(self,questIndex=0,battleTotal=0):
+    def __call__(self,questIndex=0,battleTotal=None):
         self.prepare()
         while True:
             self.battleProc=self.battleClass()
             while True:
                 if Detect(.3,.3).isMainInterface():
-                    if battleTotal and self.battleCount==battleTotal:return logger.info('Operation Unit Completed')
+                    if self.battleCount==battleTotal:return logger.info('Operation Unit Completed')
                     fgoDevice.device.press('84L'[questIndex])
                     questIndex=0
-                    if Detect(.7).isBattleContinue():fgoDevice.device.press('K')
+                    if Detect(1.2).isBattleContinue():fgoDevice.device.press('K')
                     elif Detect.cache.isSkillCastFailed():
                         fgoDevice.device.press('J')
                         return logger.info('No Storm Pot')
@@ -476,7 +476,7 @@ class Main:
                     fgoDevice.device.perform(' M ',(2000,2000,10000))
                     break
                 elif Detect.cache.isBattleContinue():
-                    if battleTotal and self.battleCount==battleTotal:
+                    if self.battleCount==battleTotal:
                         fgoDevice.device.press('F')
                         return logger.info('Operation Unit Completed')
                     fgoDevice.device.press('K')
@@ -568,5 +568,5 @@ class Operation(list,Main):
             quest,times=self[0]
             del self[0]
             goto(quest)
-            super().__call__(quest[-1],self.battleCount+times)
+            super().__call__(quest[-1],self.battleCount+times if times else None)
     def prepare(self):pass

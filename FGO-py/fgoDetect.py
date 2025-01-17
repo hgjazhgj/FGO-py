@@ -104,7 +104,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def isBattleFinished(self):return self._compare(self.tmpl.DROPITEM,(110,30,264,76))
     def isBattleFormation(self):return self._compare(self.tmpl.BATTLEBEGIN,(1070,632,1270,710))
     def isChooseFriend(self):return any(self._compare(i,(1189,190,1210,243))for i in(self.tmpl.CHOOSEFRIEND,self.tmpl.CHOOSEFRIENDEX))
-    def isCardSealed(self):return[any(self._compare(j,(28+257*i,444,234+257*i,564),.3)for j in(self.tmpl.CHARASEALED,self.tmpl.CARDSEALED))for i in range(5)]
+    def isCardSealed(self):return[self._compare(self.tmpl.CHARASEALED,(76+257*i,479,225+257*i,533),.3)or any(self._compare(j,(44+257*i,492,68+257*i,528))for j in(self.tmpl.CARDSEALEDARTS,self.tmpl.CARDSEALEDQUICK,self.tmpl.CARDSEALEDBUSTER))for i in range(5)]
     def isFpContinue(self):return self._compare(self.tmpl.FPCONTINUE,(646,639,883,707))
     def isFpSummon(self):return self._compare(self.tmpl.FPSUMMON,(643,20,812,67))
     def isFriendListEnd(self):return self._isListEnd((1255,709))

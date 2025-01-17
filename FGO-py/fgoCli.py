@@ -191,7 +191,8 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
         self.teamup[self.currentTeam]={
             'skillInfo':str(fgoKernel.ClassicTurn.skillInfo).replace(' ',''),
             'houguInfo':str(fgoKernel.ClassicTurn.houguInfo).replace(' ',''),
-            'masterSkill':str(fgoKernel.ClassicTurn.masterSkill).replace(' ','')}
+            'masterSkill':str(fgoKernel.ClassicTurn.masterSkill).replace(' ',''),
+        }
         with open('fgoTeamup.ini','w')as f:self.teamup.write(f)
         self.config.save()
     def teamup_clear(self,arg):

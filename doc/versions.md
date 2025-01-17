@@ -2,12 +2,23 @@
 
 ## todo
 
--Fix:gui保存截图  
--Opt:isCardSealed  
+Fix:gui保存截图  
+Fix:[#144](https://github.com/hgjazhgj/FGO-py/issues/144)日服15编队  
+Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
+Add:MasterSkill  
+
+## 2025/01/17 v20.1.0
+
+Add:operation PaperMoon  
+Upd:operation OrdealCall  
+Upd:servant up to 433  
+与此同时,所有的从者图片都替换为了更高质量的版本,感谢茹西教王的理想鄉  
+Fix:连续不限次数战斗  
+Opt:isCardSealed  
 
 ## 2024/09/23 v20.0.0
 
-Add:operation PaperMoon  
+Add:operation OrdealCall  
 究极大更新  
 夏威夷区域/大洋洲北部区域的定位不精确,在高延迟设备环境下应慎用  
 
