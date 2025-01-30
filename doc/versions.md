@@ -7,6 +7,10 @@ Fix:[#144](https://github.com/hgjazhgj/FGO-py/issues/144)日服15编队
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
 
+## 2025/01/30 v20.1.2
+
+Fix:cli week  
+
 ## 2025/01/18 v20.1.1
 
 Opt:isCardSealed  

@@ -230,7 +230,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
     def do_week(self,line):
         'Solve weekly mission'
         self.work=fgoKernel.Operation(fgoKernel.weeklyMission())
-        for id,(quest,times)in enumerate(self.work):logger.warning(f'{id:2}. {"-".join(quest):8}{times:2}')
+        for id,(quest,times)in enumerate(self.work):logger.warning(f'{id:2}. {"-".join(str(i)for i in quest):8}{times:2}')
     def do_169(self,line):
         'Adapt none 16:9 screen'
         arg=parser_169.parse_args(line.split())
