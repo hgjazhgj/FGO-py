@@ -3,9 +3,13 @@
 ## todo
 
 Fix:gui保存截图  
-Fix:[#144](https://github.com/hgjazhgj/FGO-py/issues/144)日服15编队  
+Upd:[#144](https://github.com/hgjazhgj/FGO-py/issues/144)日服15编队  
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
+
+## 2025/01/31 v20.1.3
+
+Upd:[#151](https://github.com/hgjazhgj/FGO-py/issues/151)日服连续出击  
 
 ## 2025/01/30 v20.1.2
 

@@ -206,6 +206,8 @@ class XDetectCN(XDetectBase,metaclass=logMeta(logger)):
 class XDetectJP(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_JP
     ocr=OCR.JA
+    def isBattleContinue(self):return self._compare(self.tmpl.BATTLECONTINUE,(704,547,976,618))
+    def getTeamIndex(self):return self._loc(self.tmpl.TEAMINDEX,(452,34,828,62))[2][0]//25
 class XDetectNA(XDetectBase,metaclass=logMeta(logger)):
     tmpl=IMG_NA
     ocr=OCR.EN
