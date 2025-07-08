@@ -153,8 +153,38 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getEnemyNp(self,pos):
         if self.enemyGird==0:return(0,0)if pos>2 else(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(self.tmpl.CHARGE0),count(self.tmpl.CHARGE1),))(count(self.tmpl.CHARGE2)))(lambda img:self._count(img,(160+250*pos,67,250+250*pos,88)))
         if self.enemyGird==2:return(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(self.tmpl.CHARGE0_SMALL),count(self.tmpl.CHARGE1_SMALL),))(count(self.tmpl.CHARGE2_SMALL)))(lambda img:self._count(img,(231+pos%3*200-pos//3*100,49+pos//3*99,311+pos%3*200-pos//3*100,72+pos//3*99)))
-    def getFieldServant(self,pos):return(lambda img,cls:min((numpy.min(cv2.matchTemplate(img,i[0],cv2.TM_SQDIFF_NORMED,mask=i[1])),no)for no,(_,portrait,_)in servantImg.items()if servantData[no][0]==cls[0]for i in portrait)[1]if cls else 0)(self._crop((120+318*pos,421,207+318*pos,490)),self.getFieldServantClassRank(pos))
-    def getFieldServantClassRank(self,pos):return(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
+    def getFieldServant(self, pos):
+        img = self._crop((120 + 318 * pos, 421, 207 + 318 * pos, 490))
+        cls = self.getFieldServantClassRank(pos)
+        # print(f'Field Servant Class Rank: {cls}')
+
+        if not cls:
+            return 0
+
+        min_value = float('inf')
+        servant_id = 0
+
+        for no, (_, portrait, _) in servantImg.items():
+            if servantData[no][0] != cls[0]:
+                continue
+
+            for i in portrait:
+                match_value = numpy.min(cv2.matchTemplate(img, i[0], cv2.TM_SQDIFF_NORMED, mask=i[1]))
+                if match_value < min_value:
+                    min_value = match_value
+                    servant_id = no
+
+        return servant_id, cls[1]==4 # Return servant ID and whether it's a grand servant (rank 4)
+    def getFieldServantClassRank(self, pos):
+        selected = self._select(CLASS[125], (13 + 318 * pos, 618, 117 + 318 * pos, 702))
+        
+        if selected is None:
+            return None
+        if selected == 6: # Grand Saber
+            return (1,4)
+        elif selected == 25: # Grand Berserker
+            return (7,4)
+        return divmod(selected, 3)
     def getFieldServantHp(self,pos):return self._ocrInt((200+317*pos,620,293+317*pos,644))
     def getFieldServantNp(self,pos):return self._ocrInt((220+317*pos,655,271+317*pos,680))
     def getMaterial(self):return(lambda x:{materialImg[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in materialImg),(176+i%7*137,110+i//7*142,253+i%7*137,187+i//7*142),.02)for i in range(1,21)])

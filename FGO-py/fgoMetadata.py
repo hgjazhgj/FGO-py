@@ -623,7 +623,14 @@ servantImg={i:(
     readSplit(f'fgoImage/servant/{i}/portrait.png',63),
     None,# readSplit(f'fgoImage/servant/{i}/tachie.png',),
 )for i in tqdm.tqdm(servantData,leave=False)}
-classImg=[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in('shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender','beast')for j in range(3)]
+classImg = []
+import os
+for i in ('shielder', 'saber', 'archer', 'lancer', 'rider', 'caster', 'assassin', 'berserker', 'ruler', 'avenger', 'alterego', 'mooncancer', 'foreigner', 'pretender', 'beast'):
+    for j in range(4):
+        if os.path.exists(f'fgoImage/class/{i}{j}.png'):
+            classImg.append((lambda x: (x[..., :3], x[..., 3]))(cv2.imread(f'fgoImage/class/{i}{j}.png', cv2.IMREAD_UNCHANGED)))
+# classImg=[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))
+# for i in('shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender','beast')for j in range(3)]
 materialImg=[(i[:-4],cv2.imread(f'fgoImage/material/{i}'))for i in os.listdir('fgoImage/material')if i.endswith('.png')]
 chapterImg={tuple(int(i)for i in i[:-4].split('-')):cv2.imread(f'fgoImage/map/entrance/{i}')for i in os.listdir('fgoImage/map/entrance')}
 mapImg={tuple(int(i)for i in i[:-4].split('-')):cv2.imread(f'fgoImage/map/atlas/{i}')for i in os.listdir('fgoImage/map/atlas')}

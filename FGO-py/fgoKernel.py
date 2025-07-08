@@ -186,6 +186,7 @@ class ClassicTurn:
         self.stage=0
         self.stageTurn=0
         self.servant=[0,1,2]
+        self.servantGrand = [False,False,False]
         self.orderChange=[0,1,2,3,4,5]
         self.countDown=[[[0,0,0],[0,0,0],[0,0,0]],[0,0,0]]
     def __call__(self,turn):
@@ -243,18 +244,29 @@ class Turn:
     def __init__(self):
         self.stage=0
         self.stageTurn=0
+        self.servant=[0,1,2]
+        self.servantGrand = [False,False,False]
         self.countDown=[[[0,0,0],[0,0,0],[0,0,0]],[0,0,0]]
     def __call__(self,turn):
         self.stage,self.stageTurn=[t:=Detect(.2).getStage(),1+self.stageTurn*(self.stage==t)]
         if turn==1:
             Detect.cache.setupServantDead()
             self.stageTotal=Detect.cache.getStageTotal()
-            self.servant=[(lambda x:(x,)+servantData.get(x,(0,0,0,0,(0,0),((0,0),(0,0),(0,0)))))(Detect.cache.getFieldServant(i))for i in range(3)]
+            # self.servant=[(lambda x:(x,)+servantData.get(x,(0,0,0,0,(0,0),((0,0),(0,0),(0,0)))))(Detect.cache.getFieldServant(i))for i in range(3)]
+            for i in range(3):
+                srv = Detect.cache.getFieldServant(i)
+                (srv_id, grand) = (srv[0], srv[1]) if srv else (0, False)
+                self.servant[i] = (srv_id,) + servantData.get(srv_id, (0, 0, 0, 0, (0, 0), ((0, 0), (0, 0), (0, 0)))) + (grand,)
+                self.servantGrand[i] = grand
         else:
             for i in(i for i in range(3)if Detect.cache.isServantDead(i)):
-                self.servant[i]=(lambda x:(x,)+servantData.get(x,(0,0,0,0,(0,0),((0,0),(0,0),(0,0)))))(Detect.cache.getFieldServant(i))
+                #self.servant[i]=(lambda x:(x,)+servantData.get(x,(0,0,0,0,(0,0),((0,0),(0,0),(0,0)))))(Detect.cache.getFieldServant(i))
+                srv = Detect.cache.getFieldServant(i)
+                (srv_id, grand) = (srv[0], srv[1]) if srv else (0, False)
+                self.servant[i] = (srv_id,) + servantData.get(srv_id, (0, 0, 0, 0, (0, 0), ((0, 0), (0, 0), (0, 0)))) + (grand,)
+                self.servantGrand[i] = grand
                 self.countDown[0][i]=[0,0,0]
-        logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {[i[0]for i in self.servant]}')
+        logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {[i[0]for i in self.servant]}, Servant: {str(self.servant)}')
         if self.stageTurn==1:Detect.cache.setupEnemyGird()
         self.enemy=[Detect.cache.getEnemyHp(i)for i in range(6)]
         self.dispatchSkill()
@@ -363,7 +375,13 @@ class Turn:
                 else:...
     @logit(logger,logging.INFO)
     def selectCard(self):
-        color,sealed,hougu,np,resist,critical,group=Detect().getCardColor()+[i[5][1]for i in self.servant],Detect.cache.isCardSealed(),Detect.cache.isHouguReady(),[Detect.cache.getFieldServantNp(i)<100 for i in range(3)],[[1,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()],[next(j for j,k in enumerate(self.servant)if k[0]==i)for i in Detect.cache.getCardServant([i[0] for i in self.servant if i[0]])]+[0,1,2]
+        color   = Detect().getCardColor()+[i[5][1]for i in self.servant]
+        sealed  = Detect.cache.isCardSealed()
+        hougu   = Detect.cache.isHouguReady()
+        np      = [Detect.cache.getFieldServantNp(i)<100 for i in range(3)]
+        resist  = [[1,1.7,.6][i]for i in Detect.cache.getCardResist()]
+        critical= [i/10 for i in Detect.cache.getCardCriticalRate()]
+        group   = [next(j for j,k in enumerate(self.servant)if k[0]==i)for i in Detect.cache.getCardServant([i[0] for i in self.servant if i[0]])]+[0,1,2]
         houguTargeted,houguArea,houguSupport=[[j for j in range(3)if hougu[j]and self.servant[j][0]and self.servant[j][5][0]==i]for i in range(3)]
         houguArea=houguArea if self.stage==self.stageTotal or sum(i>0 for i in self.enemy)>1 and sum(self.enemy)>12000 else[]
         houguTargeted=houguTargeted if self.stage==self.stageTotal or max(self.enemy)>23000+8000*len(houguArea)else[]
