@@ -2,7 +2,7 @@ import os,time,cv2,numpy,re,tqdm
 from functools import reduce,wraps
 from fgoConst import PACKAGE_TO_REGION
 from fgoFuse import fuse
-from fgoLogging import getLogger,logMeta,logit
+from fgoLogging import getLogger,logMeta
 from fgoMetadata import servantData,servantImg,classImg,materialImg,chapterImg,mapImg,questImg
 from fgoOcr import Ocr
 from fgoSchedule import schedule
@@ -15,7 +15,7 @@ IMG_CN=type('IMG_CN',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.
 IMG_JP=type('IMG_JP',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/jp/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/jp')if i.endswith('.png')})
 IMG_NA=type('IMG_NA',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/na/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/na')if i.endswith('.png')})
 IMG_TW=type('IMG_TW',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/tw/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/tw')if i.endswith('.png')})
-CLASS={100:classImg}|{scale:[[cv2.resize(j,(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC)for j in i]for i in classImg]for scale in(75,93,125)}
+CLASS={100:classImg[1]}|{scale:[[cv2.resize(j,(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC)for j in i]for i in classImg[1]]for scale in(75,93,125)}
 OCR=type('OCR',(),{i:Ocr(i)for i in tqdm.tqdm(['EN','ZHS','JA','ZHT'],leave=False)})
 def coroutine(func):
     @wraps(func)
@@ -154,7 +154,7 @@ class XDetectBase(metaclass=logMeta(logger)):
         if self.enemyGird==0:return(0,0)if pos>2 else(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(self.tmpl.CHARGE0),count(self.tmpl.CHARGE1),))(count(self.tmpl.CHARGE2)))(lambda img:self._count(img,(160+250*pos,67,250+250*pos,88)))
         if self.enemyGird==2:return(lambda count:(lambda c2:(c2,c2)if c2 else(lambda c0,c1:(c1,c0+c1))(count(self.tmpl.CHARGE0_SMALL),count(self.tmpl.CHARGE1_SMALL),))(count(self.tmpl.CHARGE2_SMALL)))(lambda img:self._count(img,(231+pos%3*200-pos//3*100,49+pos//3*99,311+pos%3*200-pos//3*100,72+pos//3*99)))
     def getFieldServant(self,pos):return(lambda img,cls:min((numpy.min(cv2.matchTemplate(img,i[0],cv2.TM_SQDIFF_NORMED,mask=i[1])),no)for no,(_,portrait,_)in servantImg.items()if servantData[no][0]==cls[0]for i in portrait)[1]if cls else 0)(self._crop((120+318*pos,421,207+318*pos,490)),self.getFieldServantClassRank(pos))
-    def getFieldServantClassRank(self,pos):return(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
+    def getFieldServantClassRank(self,pos):return(lambda x:x if x is None else classImg[0][x])(self._select(CLASS[125],(13+318*pos,618,117+318*pos,702)))
     def getFieldServantHp(self,pos):return self._ocrInt((200+317*pos,620,293+317*pos,644))
     def getFieldServantNp(self,pos):return self._ocrInt((220+317*pos,655,271+317*pos,680))
     def getMaterial(self):return(lambda x:{materialImg[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in materialImg),(176+i%7*137,110+i//7*142,253+i%7*137,187+i//7*142),.02)for i in range(1,21)])
@@ -171,7 +171,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getTeamIndex(self):return self._loc(self.tmpl.TEAMINDEX,(512,34,768,62))[2][0]//25
     # getTeam* series except getTeamIndex APIs are not used now
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
-    def getTeamServantClassRank(self):return[(lambda x:x if x is None else divmod(x,3))(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
+    def getTeamServantClassRank(self):return[(lambda x:x if x is None else classImg[0][x])(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
     def getWeeklyMission(self):XDetectBase._weeklyMission=self._stack(XDetectBase._weeklyMission,self._crop((603,250,1092,710)),157)
     def findChapter(self,chapter):return self._find((chapterImg[chapter],None),(640,90,1230,600),.016)
     def findFriend(self,img):return self._find(img,(13,166,1233,720),.04)
@@ -190,7 +190,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getTeamServantHouguLv(self):raise NotImplementedError
     def getTeamServantRank(self):raise NotImplementedError
     def getTeamServantSkillLv(self):raise NotImplementedError
-class XDetectCN(XDetectBase,metaclass=logMeta(logger)):
+class XDetectCN(XDetectBase):
     tmpl=IMG_CN
     ocr=OCR.ZHS
     @classmethod
@@ -203,21 +203,21 @@ class XDetectCN(XDetectBase,metaclass=logMeta(logger)):
                 mission=''
             else:mission+=i
         return result
-class XDetectJP(XDetectBase,metaclass=logMeta(logger)):
+class XDetectJP(XDetectBase):
     tmpl=IMG_JP
     ocr=OCR.JA
     def isBattleContinue(self):return self._compare(self.tmpl.BATTLECONTINUE,(704,547,976,618))
     def getTeamIndex(self):return self._loc(self.tmpl.TEAMINDEX,(452,34,828,62))[2][0]//25
-class XDetectNA(XDetectBase,metaclass=logMeta(logger)):
+class XDetectNA(XDetectBase):
     tmpl=IMG_NA
     ocr=OCR.EN
     def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,194,515+231*i,270),.52)for j in(self.tmpl.HOUGUSEALED,self.tmpl.CHARASEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),type(self)())[1]if that is None else that)
     def isSkillReady(self,i,j):return not self._compare(self.tmpl.STILL,(41+318*i+88*j,607,74+318*i+88*j,614),.6)
-class XDetectTW(XDetectBase,metaclass=logMeta(logger)):
+class XDetectTW(XDetectBase):
     tmpl=IMG_TW
     ocr=OCR.ZHT
     def isHouguReady(self,that=None):return(lambda that:[not any(that._compare(j,(313+231*i,194,515+231*i,270),.52)for j in(self.tmpl.HOUGUSEALED,self.tmpl.CHARASEALED))and(numpy.mean(self._crop((144+319*i,679,156+319*i,684)))>55 or numpy.mean(that._crop((144+319*i,679,156+319*i,684)))>55)for i in range(3)])((time.sleep(.15),type(self)())[1]if that is None else that)
-class DetectBase(XDetectBase,metaclass=logMeta(logger)):
+class DetectBase(XDetectBase):
     def __init__(self,anteLatency=.1,postLatency=0):
         schedule.sleep(anteLatency)
         super().__init__()
@@ -234,10 +234,10 @@ class DetectBase(XDetectBase,metaclass=logMeta(logger)):
         while True:
             if t:=inner.send(p):fuse.reset(self)
             p=yield t
-class DetectCN(DetectBase,XDetectCN,metaclass=logMeta(logger)):pass # mro: DetectCN->DetectBase->XDetectCN->XDetectBase->object
-class DetectJP(DetectBase,XDetectJP,metaclass=logMeta(logger)):pass
-class DetectNA(DetectBase,XDetectNA,metaclass=logMeta(logger)):pass
-class DetectTW(DetectBase,XDetectTW,metaclass=logMeta(logger)):pass
+class DetectCN(DetectBase,XDetectCN):pass # mro: DetectCN->DetectBase->XDetectCN->XDetectBase->object
+class DetectJP(DetectBase,XDetectJP):pass
+class DetectNA(DetectBase,XDetectNA):pass
+class DetectTW(DetectBase,XDetectTW):pass
 class XDetect:
     provider={'CN':XDetectCN,'JP':XDetectJP,'NA':XDetectNA,'TW':XDetectTW}
     region=''

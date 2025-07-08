@@ -63,17 +63,14 @@ class ConfigItem(dict):
         return self
     def copy(self):return ConfigItem(self)
     def todict(self):
-        def todict(configItem):
-            if isinstance(configItem,dict):return{k:todict(v)for k,v in configItem.items()}
-            if isinstance(configItem,list):return[todict(i)for i in configItem]
-            return configItem
-        return todict(self)
+        if isinstance(self,dict):return{k:ConfigItem.todict(v)for k,v in self.items()}
+        if isinstance(self,list):return[ConfigItem.todict(i)for i in self]
+        return self
     def flatten(self):
-        def flatten(configItem):
-            if isinstance(configItem,dict):return{f'{k}.{k2}':v2 for k,v in configItem.items()for k2,v2 in flatten(v).items()}
-            if isinstance(configItem,list):return{f'{k}.{k2}':v2 for k,v in enumerate(configItem)for k2,v2 in flatten(v).items()}
-            return{'':configItem}
-        return[(k[:-1],v)for k,v in flatten(self).items()]
+        if isinstance(self,dict):return{(k,*k2):v2 for k,v in self.items()for k2,v2 in ConfigItem.flatten(v).items()}
+        if isinstance(self,list):return{(k,*k2):v2 for k,v in enumerate(self)for k2,v2 in ConfigItem.flatten(v).items()}
+        return{():self}
+
 
 class Config(ConfigItem):
     def __new__(cls,*args,**kwargs):return super().__new__(cls,CONFIG)

@@ -623,7 +623,7 @@ servantImg={i:(
     readSplit(f'fgoImage/servant/{i}/portrait.png',63),
     None,# readSplit(f'fgoImage/servant/{i}/tachie.png',),
 )for i in tqdm.tqdm(servantData,leave=False)}
-classImg=[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}{j}.png',cv2.IMREAD_UNCHANGED))for i in('shielder','saber','archer','lancer','rider','caster','assassin','berserker','ruler','avenger','alterego','mooncancer','foreigner','pretender','beast')for j in range(3)]
+classImg=(lambda f:[[[int(j)for j in i[:-4].split('-')]for i in f],[(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/class/{i}',cv2.IMREAD_UNCHANGED))for i in f]])(os.listdir('fgoImage/class'))
 materialImg=[(i[:-4],cv2.imread(f'fgoImage/material/{i}'))for i in os.listdir('fgoImage/material')if i.endswith('.png')]
 chapterImg={tuple(int(i)for i in i[:-4].split('-')):cv2.imread(f'fgoImage/map/entrance/{i}')for i in os.listdir('fgoImage/map/entrance')}
 mapImg={tuple(int(i)for i in i[:-4].split('-')):cv2.imread(f'fgoImage/map/atlas/{i}')for i in os.listdir('fgoImage/map/atlas')}

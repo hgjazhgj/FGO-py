@@ -7,6 +7,11 @@ Upd:[#144](https://github.com/hgjazhgj/FGO-py/issues/144)日服15编队
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
 
+## 2025/07/08 v20.2.0
+
+Upd:Grand Saber/Berserker [#157](https://github.com/hgjazhgj/FGO-py/issues/157)  
+ref [#159](https://github.com/hgjazhgj/FGO-py/pull/159)  
+
 ## 2025/02/09 v20.1.4
 
 Fix:[#152](https://github.com/hgjazhgj/FGO-py/issues/152)v20.1.1遗漏的更改  
