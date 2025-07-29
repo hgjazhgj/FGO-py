@@ -36,18 +36,19 @@ class Mictlan:
         fgoDevice.device.touch(self.elevator[self.floor],2000)
         fgoDevice.device.touch(self.coord)
 class OrdaelCall:
-    landmark=[(1142,120),(1142,176)]
-    def __init__(self,name,landmark,coord,move=None):
+    landmark=[(1142,230),(1142,175),(1142,120)]
+    def __init__(self,name,landmark,coord=None,move=(0,0,0,0)):
         self.name=name
         self.landmark=self.landmark[landmark]
-        self.move=move
         self.coord=coord
+        self.move=move
     def __call__(self):
         while not Detect(1).isMainInterface():pass
         schedule.sleep(1)
         fgoDevice.device.touch(self.landmark,1600)
-        if self.move:fgoDevice.device.perform('\x67'+''.join(i*j for i,j in zip('\x25\x26\x27\x28',self.move)),(1000,)+(2000,)*sum(self.move))
-        fgoDevice.device.touch(self.coord)
+        if self.coord:
+            fgoDevice.device.perform('\x67'+''.join(i*j for i,j in zip('\x25\x26\x27\x28',self.move)),(1000,)+(2000,)*sum(self.move))
+            fgoDevice.device.touch(self.coord)
 
 place={i.name:i for i in(
 List((0,)),List((1,)),List((2,)),List((4,)),List((5,)),
@@ -87,9 +88,10 @@ Mictlan((3,7,11),5,(638,323)),
 Mictlan((3,7,15),6,(896,371)),Mictlan((3,7,12),7,(638,460)),
 Mictlan((3,7,13),7,(638,342)),
 Mictlan((3,7,14),8,(638,360)),
-OrdaelCall((5,0,0),0,(652,188),(0,0,0,0)),OrdaelCall((5,0,1),0,(596,222),(0,0,0,0)),OrdaelCall((5,0,2),1,(353,349),(0,0,2,0)),OrdaelCall((5,0,3),1,(378,264),(0,0,0,0)),OrdaelCall((5,0,4),0,(862,547),(3,0,0,0)),
-OrdaelCall((5,0,5),0,(566,165),(0,0,0,0)),OrdaelCall((5,0,6),1,(437,473),(0,0,0,0)),
-OrdaelCall((5,0,6),0,(905,238),(0,0,0,0)),OrdaelCall((5,0,7),1,(401,338),(0,0,0,0)),OrdaelCall((5,0,8),0,(594,638),(0,0,0,0)),OrdaelCall((5,0,9),0,(873,357),(0,0,0,0)),
+OrdaelCall((5,0,0),1,(652,188)),OrdaelCall((5,0,1),1,(596,222)),OrdaelCall((5,0,2),2,(918,342)),OrdaelCall((5,0,3),0,(378,264)),OrdaelCall((5,0,4),2,(732,620)),
+OrdaelCall((5,0,5),1,(566,165)),OrdaelCall((5,0,6),0,(437,473)),
+OrdaelCall((5,0,7),1,(905,238)),OrdaelCall((5,0,8),0,(401,338)),OrdaelCall((5,0,9),1,(604,640)),OrdaelCall((5,0,10),1,(873,357)),
+OrdaelCall((5,0,11),0),OrdaelCall((5,0,12),0,(475,332)),OrdaelCall((5,0,13),2,(670,627),(0,1,0,0)),OrdaelCall((5,0,14),0,(838,467)),
 Map((5,1,0),(805,1684)),Map((5,1,1),(1222,1723)),Map((5,1,2),(1197,1321)),Map((5,1,3),(980,1046)),Map((5,1,4),(1010,1238)),Map((5,1,5),(1391,1055)),Map((5,1,6),(824,930)),Map((5,1,7),(1830,1355)),Map((5,1,8),(1654,1176)),Map((5,1,9),(562,1373)),Map((5,1,10),(793,1121)),
 )}
 def reishift(quest):

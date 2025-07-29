@@ -471,7 +471,7 @@ class Main:
                     if Detect(.7,.3).isApEmpty()and not self.eatApple():return logger.info('Ap Empty')
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleFormation():pass
-                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79'[self.teamIndex-1],(1000,))
+                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7A\x7B\x7C\x7D\x7E'[self.teamIndex-1],(1000,))
                     if self.autoFormation:fgoDevice.device.perform('\xDEL ',(1000,1500,1000))
                     fgoDevice.device.perform(' M ',(2000,2000,10000))
                     break

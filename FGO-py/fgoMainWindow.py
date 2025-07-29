@@ -191,7 +191,7 @@ class Ui_fgoMainWindow(object):
         self.TXT_TEAM.setSizePolicy(sizePolicy)
         self.TXT_TEAM.setContextMenuPolicy(Qt.NoContextMenu)
         self.TXT_TEAM.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-        self.TXT_TEAM.setMaximum(10)
+        self.TXT_TEAM.setMaximum(15)
 
         self.LAYOUT_INFO_TEAM.addWidget(self.TXT_TEAM)
 

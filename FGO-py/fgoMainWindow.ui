@@ -178,7 +178,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="maximum">
-               <number>10</number>
+               <number>15</number>
               </property>
              </widget>
             </item>

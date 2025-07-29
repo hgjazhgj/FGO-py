@@ -1392,7 +1392,11 @@
     </message>
     <message>
       <source>5-0-2-0</source>
-      <translation>夏威夷区域</translation>
+      <translation>夏威夷区域·常夏的休假</translation>
+    </message>
+    <message>
+      <source>5-0-2-1</source>
+      <translation>夏威夷区域·常夏展销会场</translation>
     </message>
     <message>
       <source>5-0-3-0</source>
@@ -1428,7 +1432,11 @@
     </message>
     <message>
       <source>5-0-11-0</source>
-      <translation>北大西洋区域</translation>
+      <translation>北大西洋区域·光之丝线引导的迷宫</translation>
+    </message>
+    <message>
+      <source>5-0-11-1</source>
+      <translation>北大西洋区域·久远的微笑</translation>
     </message>
     <message>
       <source>5-0-12-0</source>

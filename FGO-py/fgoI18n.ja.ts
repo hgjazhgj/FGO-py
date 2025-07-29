@@ -1604,11 +1604,11 @@
     </message>
     <message>
       <source>2-2-6-0</source>
-      <translation>裏山</translation>
+      <translation>裏山·名もなき霊峰</translation>
     </message>
     <message>
       <source>2-2-6-1</source>
-      <translation>裏山</translation>
+      <translation>裏山·戦戦恐恐</translation>
     </message>
     <message>
       <source>2-2-7-0</source>
@@ -2176,7 +2176,11 @@
     </message>
     <message>
       <source>5-0-2-0</source>
-      <translation>ハワイエリア</translation>
+      <translation>ハワイエリア·常夏の休暇</translation>
+    </message>
+    <message>
+      <source>5-0-2-1</source>
+      <translation>ハワイエリア·常夏即売会場</translation>
     </message>
     <message>
       <source>5-0-3-0</source>
@@ -2212,7 +2216,11 @@
     </message>
     <message>
       <source>5-0-11-0</source>
-      <translation>北大西洋エリア</translation>
+      <translation>北大西洋エリア·光糸導く迷宮</translation>
+    </message>
+    <message>
+      <source>5-0-11-1</source>
+      <translation>北大西洋エリア·久遠の微笑</translation>
     </message>
     <message>
       <source>5-0-12-0</source>

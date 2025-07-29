@@ -3,9 +3,17 @@
 ## todo
 
 Fix:gui保存截图  
-Upd:[#144](https://github.com/hgjazhgj/FGO-py/issues/144)日服15编队  
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
+
+## 2025/07/29 20.2.1
+
+Upd:国服9周年 [#144](https://github.com/hgjazhgj/FGO-py/issues/144) [#161](https://github.com/hgjazhgj/FGO-py/issues/161)  
+融合了日服现有的图像识别  
+Fix:gui战斗线程运行时退出  
+Upd/Fix:operation OrdealCall  
+更新了地标,此处可能需要新算法以自适应游戏更新  
+阿拉伯地区（アラビアエリア）等国服上线后再加  
 
 ## 2025/07/08 v20.2.0
 

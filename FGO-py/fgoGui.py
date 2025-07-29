@@ -76,8 +76,10 @@ class MainWindow(QMainWindow,Ui_fgoMainWindow):
     def askQuit(self):
         if self.worker.is_alive():
             if QMessageBox.warning(self,'FGO-py',self.tr('战斗正在进行,确认关闭?'),QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No,QMessageBox.StandardButton.No)!=QMessageBox.StandardButton.Yes:return False
+            self.signalFuncEnd.disconnect(None)
             fgoKernel.schedule.stop('Quit')
             self.worker.join()
+            self.funcEnd(('Quit',QSystemTrayIcon.MessageIcon.Information))
         self.TRAY.hide()
         return True
     def isDeviceAvailable(self):

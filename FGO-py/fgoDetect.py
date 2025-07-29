@@ -99,7 +99,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def setupWeeklyMission(self):XDetectBase._weeklyMission=self._crop((603,250,1092,710))
     def isAddFriend(self):return self._compare(self.tmpl.ADDFRIEND,(161,574,499,656))
     def isApEmpty(self):return self._compare(self.tmpl.APEMPTY,(522,582,758,652))
-    def isBattleContinue(self):return self._compare(self.tmpl.BATTLECONTINUE,(704,530,976,601))
+    def isBattleContinue(self):return self._compare(self.tmpl.BATTLECONTINUE,(704,530,976,618))
     def isBattleDefeated(self):return self._compare(self.tmpl.DEFEATED,(603,100,690,176))
     def isBattleFinished(self):return self._compare(self.tmpl.DROPITEM,(110,30,264,76))
     def isBattleFormation(self):return self._compare(self.tmpl.BATTLEBEGIN,(1070,632,1270,710))
@@ -168,7 +168,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getSummonHistory(self):XDetectBase._summonHistory=self._stack(XDetectBase._summonHistory,cv2.threshold(cv2.cvtColor(self._crop((147,157,1105,547)),cv2.COLOR_BGR2GRAY),128,255,cv2.THRESH_BINARY)[1],80)
     @classmethod
     def getSummonHistoryCount(cls):return cls.__new__(cls).inject(XDetectBase._summonHistory)._count((cls.tmpl.SUMMONHISTORY[0][...,0],cls.tmpl.SUMMONHISTORY[1]),(28,0,60,XDetectBase._summonHistory.shape[0]),.7)
-    def getTeamIndex(self):return self._loc(self.tmpl.TEAMINDEX,(512,34,768,62))[2][0]//25
+    def getTeamIndex(self):return self._loc(self.tmpl.TEAMINDEX,(452,34,828,62))[2][0]//25
     # getTeam* series except getTeamIndex APIs are not used now
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
     def getTeamServantClassRank(self):return[(lambda x:x if x is None else classImg[0][x])(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
@@ -206,8 +206,6 @@ class XDetectCN(XDetectBase):
 class XDetectJP(XDetectBase):
     tmpl=IMG_JP
     ocr=OCR.JA
-    def isBattleContinue(self):return self._compare(self.tmpl.BATTLECONTINUE,(704,547,976,618))
-    def getTeamIndex(self):return self._loc(self.tmpl.TEAMINDEX,(452,34,828,62))[2][0]//25
 class XDetectNA(XDetectBase):
     tmpl=IMG_NA
     ocr=OCR.EN
