@@ -2,6 +2,9 @@
 
 ## todo
 
+Upd:外服的宝具封印/行动不能/指令卡封印  
+Add:游戏启动与闪退重启  
+Add:onepush  
 Fix:gui保存截图  
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  

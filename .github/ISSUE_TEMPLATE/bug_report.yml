@@ -13,7 +13,9 @@ body:
         required: true
       - label: 我在提问题之前至少花费了 5 分钟来思考和准备
         required: true
-      - label: 这个问题出现在最新版的 FGO-py 上
+      - label: 这个问题出现在当前 master 分支上
+        required: false
+      - label: 这个问题出现在当前 dev 分支上
         required: false
       - label: 这个问题出现了至少3次
         required: false
@@ -81,6 +83,20 @@ body:
         CPU 型号:
     validations:
       required: false
+  - type: input
+    id: confidence
+    attributes:
+      label: 信心
+      description: |
+        你对你在本 issue 中输入的各项内容的整体 confidence, 从0-5取整数值
+        0 我没有发表任何观点或论述, 仅仅是描述了遇到的事实
+        5 我坚信自己说的完全正确, 鞭辟入里, 一针见血
+        4 我相当了解本项目与相关技术, 我认为我说的基本是对的
+        3 我对相关技术有一定了解, 对自己的判断有一定把握
+        2 我缺乏相关知识, 提供的内容很可能包含错误
+        1 我仅仅是发表一些猜想, 不对内容作任何担保
+    validations:
+      required: true
   - type: textarea
     id: setu
     attributes:
