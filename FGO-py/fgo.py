@@ -2,7 +2,7 @@ import argparse,os,sys
 from fgoConst import VERSION
 
 parser=argparse.ArgumentParser(description=f'FGO-py {VERSION}')
-parser.add_argument('entrypoint',help='Program entry point (default: %(default)s)',type=str.lower,choices=['gui','cli','web'],default='gui',nargs='?')
+parser.add_argument('entrypoint',help='Program entry point (default: %(default)s)',type=str.lower,choices=['gui','cli','web'],default='cli',nargs='?')
 parser.add_argument('-v','--version',help='Show FGO-py version',action='version',version=VERSION)
 parser.add_argument('-l','--loglevel',help='Change the console log level (default: %(default)s)',type=str.upper,choices=['DEBUG','INFO','WARNING','CRITICAL','ERROR'],default='INFO')
 parser.add_argument('-c','--config',help='Config file path (default: %(default)s)',type=str,default='fgoConfig.json')

@@ -9,7 +9,15 @@ Fix:gui保存截图
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
 
-## 2025/07/29 20.2.1
+## 2025/08/07 v21.0.0
+
+实验性功能  
+将默认的entrypoint变为了cli  
+之后可能移除现有gui与web前端,转向一个独立的前端仓库,使用命令行~~或restful~~通信  
+在一个游戏自动化程序仓库中和Qt的各种特性缠斗实在是太痛苦了  
+使用命令行通信是完全可行的,AlasFpyBridge中的基础组件可以直接复用  
+
+## 2025/07/29 v20.2.1
 
 Upd:国服9周年 [#144](https://github.com/hgjazhgj/FGO-py/issues/144) [#161](https://github.com/hgjazhgj/FGO-py/issues/161)  
 融合了日服现有的图像识别  
