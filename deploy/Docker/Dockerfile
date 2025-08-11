@@ -12,7 +12,10 @@ WORKDIR /FGO-py
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && echo 'Asia/Shanghai' > /etc/timezone \
  && pip install airtest tqdm flask pponnxcr pulp\
+ && pip install --upgrade opencv-python==4.7.0.72 \
  && pip uninstall -y opencv-contrib-python \
  && pip install opencv-contrib-python-headless \
+ && apt update \
+ && apt install libgl1-mesa-glx libglib2.0-0 -y \
  && rm -r ~/.cache/pip
 CMD ["python", "-X", "utf8", "fgo.py", "cli"]
