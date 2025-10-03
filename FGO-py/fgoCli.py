@@ -309,7 +309,7 @@ parser_teamup_set_=parser_teamup_set.add_subparsers(title='subcommands',required
 parser_teamup_set_autoformation=parser_teamup_set_.add_parser('autoformation',help='Setup team autoformation')
 parser_teamup_set_autoformation.add_argument('value',help='on/off',type=str.lower,choices=['on','off'])
 parser_teamup_set_index=parser_teamup_set_.add_parser('index',help='Setup team index')
-parser_teamup_set_index.add_argument('value',help='Team index (0-10)',type=int,choices=range(0,11))
+parser_teamup_set_index.add_argument('value',help='Team index (0-15)',type=int,choices=range(0,16))
 parser_teamup_set_master=parser_teamup_set_.add_parser('master',help='Setup master skill info')
 parser_teamup_set_master.add_argument('value',help='Info value (e.g. 1107-xxxx-21347, add hyphens(-) anywhere as they will be removed, x for no change)',type=str.upper)
 parser_teamup_set_servant=parser_teamup_set_.add_parser('servant',help='Setup servant skill & hougu info')

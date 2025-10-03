@@ -158,7 +158,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getFieldServantHp(self,pos):return self._ocrInt((200+317*pos,620,293+317*pos,644))
     def getFieldServantNp(self,pos):return self._ocrInt((220+317*pos,655,271+317*pos,680))
     def getMaterial(self):return(lambda x:{materialImg[i][0]:x.count(i)for i in set(x)-{None}})([self._select(((i[1],None)for i in materialImg),(176+i%7*137,110+i//7*142,253+i%7*137,187+i//7*142),.02)for i in range(1,21)])
-    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),67,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(self.tmpl.CROSS,(1083,139,1113,166))else 0
+    def getSkillTargetCount(self):return(lambda x:numpy.bincount(numpy.diff(x))[1]+x[0])(cv2.dilate(numpy.max(cv2.threshold(numpy.max(self._crop((306,320,973,547)),axis=2),67,1,cv2.THRESH_BINARY)[1],axis=0).reshape(1,-1),numpy.ones((1,66),numpy.uint8)).ravel())if self._compare(self.tmpl.CROSS,(980,0,1280,300))else 0
     @retryOnError()
     @validate()
     def getStage(self):return self._ocrInt((884,14,902,37))
@@ -173,7 +173,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def getTeamServantCard(self):return[reduce(lambda x,y:x<<1|y,(numpy.argmax(self.im[526,150+200*i+15*(i>2)+21*j])==0 for j in range(3)))for i in range(6)]
     def getTeamServantClassRank(self):return[(lambda x:x if x is None else classImg[0][x])(self._select(CLASS[100],(30+200*i+15*(i>2),133,115+200*i+15*(i>2),203)))for i in range(6)]
     def getWeeklyMission(self):XDetectBase._weeklyMission=self._stack(XDetectBase._weeklyMission,self._crop((603,250,1092,710)),157)
-    def findChapter(self,chapter):return self._find((chapterImg[chapter],None),(640,90,1230,600),.016)
+    def findChapter(self,chapter):return self._find((chapterImg[chapter],None),(640,90,1230,600))
     def findFriend(self,img):return self._find(img,(13,166,1233,720),.04)
     def findMail(self,img):return self._find(img,(73,166,920,720),.016)
     def findMapCamera(self,chapter):return numpy.array(cv2.minMaxLoc(cv2.matchTemplate(mapImg[chapter],cv2.resize(self._crop((200,200,1080,520)),(0,0),fx=.3,fy=.3,interpolation=cv2.INTER_CUBIC),cv2.TM_SQDIFF_NORMED))[2])/.3+(440,160)

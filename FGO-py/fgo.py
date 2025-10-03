@@ -1,15 +1,17 @@
 import argparse,os,sys
 from fgoConst import VERSION
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+with open("../.git/HEAD")as f:head=f.read().strip()
+
 parser=argparse.ArgumentParser(description=f'FGO-py {VERSION}')
-parser.add_argument('entrypoint',help='Program entry point (default: %(default)s)',type=str.lower,choices=['gui','cli','web'],default='cli',nargs='?')
+parser.add_argument('entrypoint',help='Program entry point (default: %(default)s)',type=str.lower,choices=['gui','cli','web'],default='gui'if head.endswith('master')else'cli',nargs='?')
 parser.add_argument('-v','--version',help='Show FGO-py version',action='version',version=VERSION)
 parser.add_argument('-l','--loglevel',help='Change the console log level (default: %(default)s)',type=str.upper,choices=['DEBUG','INFO','WARNING','CRITICAL','ERROR'],default='INFO')
 parser.add_argument('-c','--config',help='Config file path (default: %(default)s)',type=str,default='fgoConfig.json')
 parser.add_argument('--no-color',help='Disable colored console output',action='store_true')
 arg=parser.parse_args()
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 if arg.no_color:os.environ['NO_COLOR']='1'
 
 match arg.entrypoint:

@@ -9,6 +9,14 @@ Fix:gui保存截图
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
 
+## 2025/08/13 v21.0.1
+
+Upd:cli 15编队  
+Fix:[#168](https://github.com/hgjazhgj/FGO-py/issues/168)  
+增强getSkillTargetCount前置特判  
+Opt:灵子转移稳定性  
+v20.0.0时由于主页顶部banner第一条与ordeal call使用类似图片做过调整,现revert  
+
 ## 2025/08/07 v21.0.0
 
 实验性功能  
