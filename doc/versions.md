@@ -9,6 +9,11 @@ Fix:gui保存截图
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
 
+## 2025/12/20 v21.0.2
+
+Fix:调参  
+谁能想到尼基季奇和圣诞90++的背景的差异比原先设定的阈值小呢  
+
 ## 2025/08/13 v21.0.1
 
 Upd:cli 15编队  
