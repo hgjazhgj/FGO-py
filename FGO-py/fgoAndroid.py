@@ -66,7 +66,11 @@ class Android(Airtest):
         with self.mutex:super().touch(self.key[key])
     def pinch(self):
         with self.mutex:super().pinch(percent=.2)
-    def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1280,720),interpolation=cv2.INTER_CUBIC)
+    def screenshot(self):
+        img = super().snapshot()
+        if img is not None and img.shape[0] > img.shape[1]:
+            img = numpy.rot90(img, k=-1)
+        return cv2.resize(img[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1280,720),interpolation=cv2.INTER_CUBIC)
     def invoke169(self):
         x,y=(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size')))
         if x*16<y*9:self.adb.raw_shell('wm size %dx%d'%(x,x*16//9))
