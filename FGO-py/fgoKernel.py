@@ -116,7 +116,7 @@ def synthesis():
 @serialize(mutex)
 def dailyFpSummon():
     while not Detect(0,1).isMainInterface():pass
-    fgoDevice.device.perform(' Z',(500,2000))
+    fgoDevice.device.perform(' Z',(1000,2000))
     while not Detect(.5).isMainInterface():pass
     while not Detect(1.5).isSummonFp():fgoDevice.device.press('\xBC')
     fgoDevice.device.perform('\xBDJ',(800,3000))
@@ -126,8 +126,8 @@ def dailyFpSummon():
 def dailyStorySummon():
     while not Detect(0,1).isMainInterface():pass
     fgoDevice.device.press(' ')
-    if not Detect(.8).isSummonStory():
-        fgoDevice.device.perform(' \x67',(500,2000))
+    if not Detect(1).isSummonStory():
+        fgoDevice.device.perform(' \x67',(1000,2000))
         return
     fgoDevice.device.press('\xBD')
     while not Detect(2.5).isMainInterface():pass

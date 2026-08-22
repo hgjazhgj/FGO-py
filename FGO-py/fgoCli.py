@@ -1,4 +1,4 @@
-import argparse,cmd,json,os,platform,re,signal,time
+import argparse,cmd,os,platform,re,signal,time
 import fgoDevice
 import fgoKernel
 from functools import reduce,wraps
@@ -26,7 +26,7 @@ def countdown(s):
 
 class Cmd(cmd.Cmd,metaclass=lambda name,bases,attrs:type(name,bases,{i:wrapTry(j)if i.startswith('do_')else j for i,j in attrs.items()})):
     intro=f'''
-FGO-py {fgoKernel.__version__}, Copyright (c) 2019-2023 hgjazhgj
+FGO-py {fgoKernel.__version__}, Copyright (c) 2019-2026 hgjazhgj
 
 Connect device first, then type main to empty your AP gauge.
 Type help or ? to list commands, help <command> to get more information.
@@ -161,7 +161,7 @@ Some commands support <command> [<subcommand> ...] {{-h, --help}} for further in
             r'\d+':['gold','silver','bronze','copper','quartz'],
         },text,line,begidx,endidx)
     def do_ping(self,line):
-        'pong to log'
+        'Ping FGO-py cli'
         logger.critical('pong')
     def do_press(self,line):
         'Map key press'

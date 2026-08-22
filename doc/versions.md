@@ -9,6 +9,10 @@ Fix:gui保存截图
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
 
+## 2026/08/22 v21.1.1
+
+Fix:ADB_SERVER_SOCKET default value  
+
 ## 2026/08/07 v21.1.0
 
 Upd:Grand Lancer/Alterego/Beast/Pretender  
