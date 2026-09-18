@@ -5,7 +5,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 with open("../.git/HEAD")as f:head=f.read().strip()
 
 parser=argparse.ArgumentParser(description=f'FGO-py {VERSION}')
-parser.add_argument('entrypoint',help='Program entry point (default: %(default)s)',type=str.lower,choices=['gui','cli','web'],default='gui'if head.endswith('master')else'cli',nargs='?')
+parser.add_argument('entrypoint',help='Program entry point (default: %(default)s)',type=str.lower,choices=['gui','cli','web','tui'],default='gui'if head.endswith('master')else'cli',nargs='?')
 parser.add_argument('-v','--version',help='Show FGO-py version',action='version',version=VERSION)
 parser.add_argument('-l','--loglevel',help='Change the console log level (default: %(default)s)',type=str.upper,choices=['DEBUG','INFO','WARNING','CRITICAL','ERROR'],default='INFO')
 parser.add_argument('-c','--config',help='Config file path (default: %(default)s)',type=str,default='fgoConfig.json')
@@ -19,6 +19,7 @@ match arg.entrypoint:
     case'gui':from fgoGui import main
     case'cli':from fgoCli import main
     case'web':from fgoWebServer import main
+    case'tui':from fgoTui import main
 
 import fgoLogging
 fgoLogging.logger.handlers[-1].setLevel(arg.loglevel)

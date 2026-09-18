@@ -21,7 +21,7 @@
     <message>
       <location filename="fgoGui.py" line="86" />
       <source>未连接设备</source>
-      <translation>デバイスが接続されていない</translation>
+      <translation>デバイス未接続</translation>
     </message>
     <message>
       <location filename="fgoGui.py" line="144" />

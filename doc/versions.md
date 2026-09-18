@@ -9,6 +9,14 @@ Fix:gui保存截图
 Fix:[#149](https://github.com/hgjazhgj/FGO-py/issues/149)启动器破坏修改后的编队配置  
 Add:MasterSkill  
 
+## 2026/09/19 v22.0.0
+
+Add:tui  
+一直以来,访问远程设备上的FGO-py只能通过cli  
+但是现在,我做了一个tui,配合受支持的终端可以实现和gui一样的体验  
+请注意在显示截图时连续调整终端大小会消耗较多性能,若是ssh连接也需要一定网络带宽与延迟条件  
+欢迎品鉴
+
 ## 2026/08/22 v21.1.1
 
 Fix:ADB_SERVER_SOCKET default value  
