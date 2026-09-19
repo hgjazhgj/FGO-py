@@ -4,21 +4,21 @@ from airtest.core.android.android import Android as Airtest
 from airtest.core.android.constant import CAP_METHOD
 from fgoConst import KEYMAP
 from fgoLogging import getLogger
-logger=getLogger('Android')
+logger=getLogger("Android")
 
-if adb:=shutil.which('adb'):
-    logger.warning(f'Using Adb in PATH: {adb}')
+if adb:=shutil.which("adb"):
+    logger.warning(f"Using Adb in PATH: {adb}")
     ADB.builtin_adb_path=staticmethod(lambda:adb)
 
 class Android(Airtest):
     def __init__(self,serial=None,**kwargs):
         self.mutex=threading.Lock()
-        if serial is None or serial=='None':
+        if serial is None or serial=="None":
             self.name=None
             return
         try:
-            super().__init__(serial,**{'cap_method':CAP_METHOD.JAVACAP,'host':os.environ.get('ADB_SERVER_SOCKET','tcp:localhost:5037').split(":")[1:]}|kwargs)
-            self.package=next(i for i in re.findall(r'ACTIVITY ([A-Za-z0-9_.]+)/',self.adb.shell('dumpsys activity top'))[::-1]if(lambda x:x[2]-x[0]>959 and x[3]-x[1]>539)(self.get_render_resolution(True,i)))
+            super().__init__(serial,**{"cap_method":CAP_METHOD.JAVACAP,"host":os.environ.get("ADB_SERVER_SOCKET","tcp:localhost:5037").split(":")[1:]}|kwargs)
+            self.package=next(i for i in re.findall(r"ACTIVITY ([A-Za-z0-9_.]+)/",self.adb.shell("dumpsys activity top"))[::-1]if(lambda x:x[2]-x[0]>959 and x[3]-x[1]>539)(self.get_render_resolution(True,i)))
             self.adjustOffset()
             self.rotation_watcher.reg_callback(lambda _:self.adjustOffset())
         except Exception as e:
@@ -32,7 +32,7 @@ class Android(Airtest):
         self.name=None
         return False
     @staticmethod
-    def enumDevices():return[i for i,_ in ADB().devices('device')]
+    def enumDevices():return[i for i,_ in ADB().devices("device")]
     def adjustOffset(self):
         self.render=[round(i)for i in self.get_render_resolution(True,self.package)]
         self.scale,self.border=(720/self.render[3],(round(self.render[2]-self.render[3]*16/9)>>1,0))if self.render[2]*9>self.render[3]*16 else(1280/self.render[2],(0,round(self.render[3]-self.render[2]*9/16)>>1))
@@ -45,22 +45,22 @@ class Android(Airtest):
         lvd=numpy.linalg.norm(vd)
         vd/=.2*self.scale*lvd
         vx=numpy.array([0.,0.])
-        def send(method,pos):self.touch_proxy.handle(' '.join((method,'0',*[str(i)for i in self.touch_proxy.transform_xy(*pos)],'50\nc\n')))
+        def send(method,pos):self.touch_proxy.handle(" ".join((method,"0",*[str(i)for i in self.touch_proxy.transform_xy(*pos)],"50\nc\n")))
         with self.mutex:
-            send('d',p1)
+            send("d",p1)
             time.sleep(.01)
             for _ in range(2):
-                send('m',p1+vx)
+                send("m",p1+vx)
                 vx+=vd
                 time.sleep(.02)
             vd*=5
             while numpy.linalg.norm(vx)<lvd:
-                send('m',p1+vx)
+                send("m",p1+vx)
                 vx+=vd
                 time.sleep(.008)
-            send('m',p2)
+            send("m",p2)
             time.sleep(.35)
-            self.touch_proxy.handle('u 0\nc\n')
+            self.touch_proxy.handle("u 0\nc\n")
             time.sleep(.02)
     def press(self,key):
         with self.mutex:super().touch(self.key[key])
@@ -68,8 +68,8 @@ class Android(Airtest):
         with self.mutex:super().pinch(percent=.2)
     def screenshot(self):return cv2.resize(super().snapshot()[self.render[1]+self.border[1]:self.render[1]+self.render[3]-self.border[1],self.render[0]+self.border[0]:self.render[0]+self.render[2]-self.border[0]],(1280,720),interpolation=cv2.INTER_CUBIC)
     def invoke169(self):
-        x,y=(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r'(\d+)x(\d+)',self.adb.raw_shell('wm size')))
-        if x*16<y*9:self.adb.raw_shell('wm size %dx%d'%(x,x*16//9))
-        elif y*16<x*9:self.adb.raw_shell('wm size %dx%d'%(y*16//9,y))
+        x,y=(lambda r:(int(r.group(1)),int(r.group(2))))(re.search(r"(\d+)x(\d+)",self.adb.raw_shell("wm size")))
+        if x*16<y*9:self.adb.raw_shell("wm size %dx%d"%(x,x*16//9))
+        elif y*16<x*9:self.adb.raw_shell("wm size %dx%d"%(y*16//9,y))
         self.adjustOffset()
-    def revoke169(self):self.adb.raw_shell('wm size reset')
+    def revoke169(self):self.adb.raw_shell("wm size reset")

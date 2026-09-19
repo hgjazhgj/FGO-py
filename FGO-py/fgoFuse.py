@@ -1,6 +1,6 @@
 from fgoLogging import getLogger
 from fgoSchedule import ScriptStop
-logger=getLogger('Fuse')
+logger=getLogger("Fuse")
 
 class Fuse:
     def __init__(self,fv=300,logsize=10):
@@ -10,10 +10,10 @@ class Fuse:
         self.log=[None]*logsize
         self.logptr=0
     def increase(self):
-        logger.debug(f'{self.value}')
+        logger.debug(f"{self.value}")
         if self.value>self.max:
             self.save()
-            raise ScriptStop('Fused')
+            raise ScriptStop("Fused")
         self.value+=1
     def reset(self,detect=None):
         self.value=0
@@ -21,5 +21,5 @@ class Fuse:
             self.log[self.logptr]=detect
             self.logptr=(self.logptr+1)%self.logsize
         return True
-    def save(self,path='fgoLog'):[self.log[(i+self.logptr)%self.logsize].save(f'{path}/Fuse_{i:02}') for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]]
+    def save(self,path="fgoLog"):[self.log[(i+self.logptr)%self.logsize].save(f"{path}/Fuse_{i:02}") for i in range(self.logsize)if self.log[(i+self.logptr)%self.logsize]]
 fuse=Fuse()

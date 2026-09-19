@@ -3,7 +3,7 @@ import fgoDevice
 from fgoDetect import Detect
 from fgoLogging import getLogger
 from fgoSchedule import schedule
-logger=getLogger('Reishift')
+logger=getLogger("Reishift")
 
 class List:
     def __init__(self,name):self.name=name
@@ -21,7 +21,7 @@ class Map:
         schedule.sleep(1)
         fgoDevice.device.press('\xBF')
         while cv2.pointPolygonTest(self.poly,p:=(640,360)+(v:=self.coord-Detect(1).findMapCamera(self.name[:-1])),False)<=0:(lambda v:fgoDevice.device.swipe((640,360)+v,(640,360)-v))(v*min(590/abs(v[0]),310/abs(v[1]),.5))
-        fgoDevice.device.perform('  ',(300,300))
+        fgoDevice.device.perform("  ",(300,300))
         fgoDevice.device.touch(p)
 class Mictlan:
     elevator=[(1215,560-54*i)for i in range(9)]
@@ -47,7 +47,7 @@ class OrdaelCall:
         schedule.sleep(1)
         fgoDevice.device.touch(self.landmark,1600)
         if self.coord:
-            fgoDevice.device.perform('\x67'+''.join(i*j for i,j in zip('\x25\x26\x27\x28',self.move)),(1000,)+(2000,)*sum(self.move))
+            fgoDevice.device.perform("\x67"+"".join(i*j for i,j in zip("\x25\x26\x27\x28",self.move)),(1000,)+(2000,)*sum(self.move))
             fgoDevice.device.touch(self.coord)
 
 place={i.name:i for i in(
@@ -96,5 +96,5 @@ Map((5,1,0),(805,1684)),Map((5,1,1),(1222,1723)),Map((5,1,2),(1197,1321)),Map((5
 )}
 def reishift(quest):
     for i in range(1,len(quest)):
-        logger.info(f'Goto {quest[:i]}')
+        logger.info(f"Goto {quest[:i]}")
         place.get(quest[:i],lambda:None)()

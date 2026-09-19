@@ -1,7 +1,7 @@
 import json,os
 from fgoConst import CONFIG
 from fgoLogging import getLogger
-logger=getLogger('Config')
+logger=getLogger("Config")
 
 class ConfigItemList(list):
     def __init__(self,iterable):super().__init__(ConfigItem(i)for i in iterable)
@@ -9,7 +9,7 @@ class ConfigItemList(list):
     def __add__(self,other):return ConfigItemList(self).extend(other)
     def __radd__(self,other):return ConfigItemList(other).extend(self)
     def __iadd__(self,other):return self.extend(other)
-    def __repr__(self):return f'{type(self).__name__}({", ".join(repr(i)for i in self)})'
+    def __repr__(self):return f"""{type(self).__name__}({", ".join(repr(i)for i in self)})"""
     def copy(self):return ConfigItemList(self)
     def append(self,obj):
         super().append(ConfigItem(obj))
@@ -31,11 +31,11 @@ class ConfigItem(dict):
         super().__init__((k,ConfigItem(v))for k,v in data.items())
     def __getitem__(self,key):
         result=self
-        for k in key.split('.'):result=dict.__getitem__(result,k)if isinstance(result,dict)else result[int(k)]
+        for k in key.split("."):result=dict.__getitem__(result,k)if isinstance(result,dict)else result[int(k)]
         return result
     def __setitem__(self,key,value):
         target=self
-        keys=key.split('.')
+        keys=key.split(".")
         for k in keys[:-1]:target=dict.__getitem__(target,k)if isinstance(target,dict)else target[int(k)]
         if isinstance(target,dict):target.__setattr__(keys[-1],value)
         else:target[int(keys[-1])]=value
@@ -44,7 +44,7 @@ class ConfigItem(dict):
     def __setattr__(self,name,attr):
         if(t1:=type(origin:=super().__getitem__(name)))is(t2:=type(attr))or any(issubclass(t1,i)and issubclass(t2,i)for i in(list,dict)):
             super().__setitem__(name,ConfigItem(attr))
-        else:logger.error(f'[{name}] Type Mismatch: ({t1.__name__}){origin} -> ({t2.__name__}){attr}')
+        else:logger.error(f"[{name}] Type Mismatch: ({t1.__name__}){origin} -> ({t2.__name__}){attr}")
     def __or__(self,other):return ConfigItem(self).update(other)
     def __ror__(self,other):return ConfigItem(other).update(self)
     def __ior__(self,other):return self.update(other)
@@ -52,7 +52,7 @@ class ConfigItem(dict):
         try:self[key]
         except(KeyError,IndexError):return False
         return True
-    def __repr__(self):return f'{type(self).__name__}({", ".join(f"{k}={v!r}"for k,v in self.items())})'
+    def __repr__(self):return f"""{type(self).__name__}({", ".join(f"{k}={v!r}"for k,v in self.items())})"""
     def update(self,other):
         for k,v in self.items():
             if(v2:=other.get(k))is None:continue
@@ -74,11 +74,11 @@ class ConfigItem(dict):
 
 class Config(ConfigItem):
     def __new__(cls,*args,**kwargs):return super().__new__(cls,CONFIG)
-    def __init__(self,file='fgoConfig.json'):
+    def __init__(self,file="fgoConfig.json"):
         super().__init__(CONFIG)
-        self.__dict__['file']=file
+        self.__dict__["file"]=file
         if os.path.isfile(file):
             with open(file)as f:self.update(json.load(f))
     def save(self,file=None):
-        logger.info('Save Config')
-        with open(self.file if file is None else file,'w')as f:json.dump(self,f,ensure_ascii=False,indent=4)
+        logger.info("Save Config")
+        with open(self.file if file is None else file,"w")as f:json.dump(self,f,ensure_ascii=False,indent=4)

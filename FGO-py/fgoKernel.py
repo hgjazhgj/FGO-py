@@ -16,10 +16,10 @@
 # .             ^^
 # .  Grand Order/Anima Animusphere
 # .     冠位指定/人理保障天球
-'Full-automatic FGO Script'
+"Full-automatic FGO Script"
 from fgoConst import VERSION
 __version__=VERSION
-__author__='hgjazhgj'
+__author__="hgjazhgj"
 import logging,numpy,pulp,random,re,time,threading
 import fgoDevice
 from itertools import permutations
@@ -31,10 +31,10 @@ from fgoLogging import getLogger,logit
 from fgoMetadata import servantData,missionMat,missionTag,missionQuest
 from fgoReishift import reishift
 from fgoSchedule import ScriptStop,schedule
-logger=getLogger('Kernel')
+logger=getLogger("Kernel")
 
-friendImg=ImageListener('fgoImage/friend/')
-mailImg=ImageListener('fgoImage/mail/')
+friendImg=ImageListener("fgoImage/friend/")
+mailImg=ImageListener("fgoImage/mail/")
 mutex=threading.Lock()
 def serialize(lock):
     def decorator(func):
@@ -44,18 +44,18 @@ def serialize(lock):
         return wrapper
     return decorator
 def guardian():
-    logger=logging.getLogger('Guardian')
+    logger=logging.getLogger("Guardian")
     prev=None
     while True:
         while XDetect.cache is prev:time.sleep(3)
         if XDetect.cache.isNetworkError():
-            logger.warning('Reconnecting')
+            logger.warning("Reconnecting")
             fgoDevice.device.press('K')
         prev=XDetect.cache
-threading.Thread(target=guardian,daemon=True,name='Guardian').start()
+threading.Thread(target=guardian,daemon=True,name="Guardian").start()
 class Farming:
     def __init__(self):
-        self.logger=getLogger('Farming')
+        self.logger=getLogger("Farming")
         self.stop=False
     def __call__(self):
         time.sleep(100)
@@ -71,7 +71,7 @@ class Farming:
             logger.exception(e)
             return 0
 farming=Farming()
-threading.Thread(target=farming,daemon=True,name='Farming').start()
+threading.Thread(target=farming,daemon=True,name="Farming").start()
 def setup():
     raise NotImplementedError
     if not fgoDevice.device.isInGame():
@@ -83,7 +83,7 @@ def setup():
 @serialize(mutex)
 def fpSummon():
     while fuse.value<30:
-        if Detect().isSummonContinue():fgoDevice.device.perform('MK',(600,2700))
+        if Detect().isSummonContinue():fgoDevice.device.perform("MK",(600,2700))
         fgoDevice.device.press('\x08')
 @serialize(mutex)
 def lottery():
@@ -108,39 +108,39 @@ def mail():
 @serialize(mutex)
 def synthesis():
     while True:
-        fgoDevice.device.perform('8',(1000,))
+        fgoDevice.device.perform("8",(1000,))
         for i,j in((i,j)for i in range(4)for j in range(7)):fgoDevice.device.touch((133+133*j,253+142*i),100)
         if Detect().isSynthesisFinished():break
-        fgoDevice.device.perform('  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB',(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
+        fgoDevice.device.perform("  KK\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB\xBB",(800,300,300,1000,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150))
         while not Detect().isSynthesisBegin():fgoDevice.device.press('\xBB')
 @serialize(mutex)
 def dailyFpSummon():
     while not Detect(0,1).isMainInterface():pass
-    fgoDevice.device.perform(' Z',(1000,2000))
+    fgoDevice.device.perform(" Z",(1000,2000))
     while not Detect(.5).isMainInterface():pass
     while not Detect(1.5).isSummonFp():fgoDevice.device.press('\xBC')
-    fgoDevice.device.perform('\xBDJ',(800,3000))
+    fgoDevice.device.perform("\xBDJ",(800,3000))
     while not Detect(.5).isSummonContinue():fgoDevice.device.press(' ')
-    fgoDevice.device.perform('\x67\x67',(1200,2000))
+    fgoDevice.device.perform("\x67\x67",(1200,2000))
 @serialize(mutex)
 def dailyStorySummon():
     while not Detect(0,1).isMainInterface():pass
     fgoDevice.device.press(' ')
     if not Detect(1).isSummonStory():
-        fgoDevice.device.perform(' \x67',(1000,2000))
+        fgoDevice.device.perform(" \x67",(1000,2000))
         return
     fgoDevice.device.press('\xBD')
     while not Detect(2.5).isMainInterface():pass
-    fgoDevice.device.perform('GJ',(800,3000))
+    fgoDevice.device.perform("GJ",(800,3000))
     while not Detect(.5).isSummonFinish():fgoDevice.device.press(' ')
-    fgoDevice.device.perform('\x67\x67',(1200,2000))
+    fgoDevice.device.perform("\x67\x67",(1200,2000))
 @serialize(mutex)
 def summonHistory():
     Detect().setupSummonHistory()
     while not Detect.cache.isSummonHistoryListEnd():
         fgoDevice.device.swipe((930,500),(930,200))
         Detect(.4).getSummonHistory()
-    return{'type':'SummonHistory'}|dict(zip(('value','file'),Detect.cache.saveSummonHistory()))
+    return{"type":"SummonHistory"}|dict(zip(("value","file"),Detect.cache.saveSummonHistory()))
 @serialize(mutex)
 def bench(times=20,touch=True,screenshot=True):
     if not(touch or screenshot):touch=screenshot=True
@@ -155,15 +155,15 @@ def bench(times=20,touch=True,screenshot=True):
         fgoDevice.device.press('\xBB')
         touchBench.append(time.time()-begin)
     return{
-        'type':'Bench',
-        'touch':(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,
-        'screenshot':(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None,
+        "type":"Bench",
+        "touch":(sum(touchBench)-max(touchBench)-min(touchBench))*1000/(times-2)if touch else None,
+        "screenshot":(sum(screenshotBench)-max(screenshotBench)-min(screenshotBench))*1000/(times-2)if screenshot else None,
     }
 @serialize(mutex)
 def goto(quest):
     while not Detect(0,1).isMainInterface():pass
     fgoDevice.device.press(' ')
-    fgoDevice.device.perform(*((' ',(600,))if Detect(.6).isTerminal()else('S',(1500,))))
+    fgoDevice.device.perform(*((" ",(600,))if Detect(.6).isTerminal()else("S",(1500,))))
     reishift(quest)
     schedule.sleep(.5)
     for _ in range(4):
@@ -174,21 +174,21 @@ def goto(quest):
 @serialize(mutex)
 def weeklyMission():
     while not Detect(0,1).isMainInterface():pass
-    fgoDevice.device.perform('B',(800,))
+    fgoDevice.device.perform("B",(800,))
     while not Detect(.4).isWeeklyMission():pass
-    fgoDevice.device.perform('2N',(100,1000))
+    fgoDevice.device.perform("2N",(100,1000))
     Detect().setupWeeklyMission()
     while not Detect.cache.isWeeklyMissionListEnd():
         fgoDevice.device.swipe((1000,600),(1000,300))
         Detect(.4).getWeeklyMission()
-    x=[pulp.LpVariable('_'.join(str(j)for j in i),lowBound=0,cat=pulp.LpInteger)for i in missionQuest]
-    prob=pulp.LpProblem('WeeklyMission',sense=pulp.LpMinimize)
+    x=[pulp.LpVariable("_".join(str(j)for j in i),lowBound=0,cat=pulp.LpInteger)for i in missionQuest]
+    prob=pulp.LpProblem("WeeklyMission",sense=pulp.LpMinimize)
     prob+=pulp.lpDot(missionMat[0],x)
-    for count in(count for target,minion,count in Detect.cache.saveWeeklyMission()if(logger.info(f'Add [{"|".join(target)}],{minion},{count}')or True if(coefficient:=sum((j for i in target for j,k in zip(missionMat,missionTag)if i in k and(minion or'从者'in k)),numpy.zeros(missionMat.shape[1]))).any()else logger.error(f'Invalid Target [{"|".join(target)}],{minion},{count}'))):prob+=pulp.lpDot(coefficient,x)>=count
+    for count in(count for target,minion,count in Detect.cache.saveWeeklyMission()if(logger.info(f"""Add [{"|".join(target)}],{minion},{count}""")or True if(coefficient:=sum((j for i in target for j,k in zip(missionMat,missionTag)if i in k and(minion or"从者"in k)),numpy.zeros(missionMat.shape[1]))).any()else logger.error(f"""Invalid Target [{"|".join(target)}],{minion},{count}"""))):prob+=pulp.lpDot(coefficient,x)>=count
     prob.solve(pulp.PULP_CBC_CMD(msg=False))
-    logger.info(f'AP: {prob.objective.value():.0f}')
+    logger.info(f"AP: {prob.objective.value():.0f}")
     fgoDevice.device.press('\x67')
-    return[(tuple(int(i)for i in v.name.split('_')),int(v.varValue))for v in prob.variables()if v.varValue]
+    return[(tuple(int(i)for i in v.name.split("_")),int(v.varValue))for v in prob.variables()if v.varValue]
 class ClassicTurn:
     skillInfo=[[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]],[[0,0,0,7],[0,0,0,7],[0,0,0,7]]]
     houguInfo=[[1,7],[1,7],[1,7],[1,7],[1,7],[1,7]]
@@ -211,46 +211,46 @@ class ClassicTurn:
             for i in(i for i in range(3)if self.servant[i]<6 and Detect.cache.isServantDead(i,self.friend[i])):
                 self.servant[i]=max(self.servant)+1
                 self.countDown[0][i]=[0,0,0]
-        logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}')
+        logger.info(f"Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {self.servant}")
         if self.stageTurn==1:Detect.cache.setupEnemyGird()
         self.dispatchSkill()
-        fgoDevice.device.perform(' ',(2100,))
+        fgoDevice.device.perform(" ",(2100,))
         fgoDevice.device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
         self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
         while(s:=[(self.getSkillInfo(i,j,3),0,(i,j))for i in range(3)if self.servant[i]<6 for j in range(3)if self.countDown[0][i][j]==0 and(t:=self.getSkillInfo(i,j,0))and min(t,self.stageTotal)<<8|self.getSkillInfo(i,j,1)<=self.stage<<8|self.stageTurn and Detect.cache.isSkillReady(i,j)]+[(self.masterSkill[i][-1],1,(i,))for i in range(3)if self.countDown[1][i]==0 and self.masterSkill[i][0]and min(self.masterSkill[i][0],self.stageTotal)<<8|self.masterSkill[i][1]<=self.stage<<8|self.stageTurn]):
             _,cast,arg=min(s,key=lambda x:x[0])
             [self.castServantSkill,self.castMasterSkill][cast](*arg)
-            fgoDevice.device.perform('\x08',(700,))
+            fgoDevice.device.perform("\x08",(700,))
             while not Detect().isTurnBegin():pass
             Detect(.5)
     @logit(logger,logging.INFO)
-    def selectCard(self):return''.join((lambda hougu,sealed,color,resist,critical:(fgoDevice.device.perform('\x67\x68\x69\x64\x65\x66'[numpy.argmax([Detect.cache.getEnemyHp(i)for i in range(6)])],(500,))if any(hougu)or self.stageTurn==1 else 0,['678'[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:self.getHouguInfo(x,1))]+['12345'[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if any(hougu)else(lambda group:['12345'[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug('cardRank'+','.join(('  'if i%5 else'\n')+f'({j}, {k:5.2f})'for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup()))[1])([self.servant[i]<6 and j and(t:=self.getHouguInfo(i,0))and self.stage>=min(t,self.stageTotal)for i,j in enumerate(Detect().isHouguReady())],Detect.cache.isCardSealed(),[[.8,1.,1.1][i]for i in Detect.cache.getCardColor()],[[1.,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
+    def selectCard(self):return"".join((lambda hougu,sealed,color,resist,critical:(fgoDevice.device.perform("\x67\x68\x69\x64\x65\x66"[numpy.argmax([Detect.cache.getEnemyHp(i)for i in range(6)])],(500,))if any(hougu)or self.stageTurn==1 else 0,["678"[i]for i in sorted((i for i in range(3)if hougu[i]),key=lambda x:self.getHouguInfo(x,1))]+["12345"[i]for i in sorted(range(5),key=(lambda x:-color[x]*resist[x]*(not sealed[x])*(1+critical[x])))]if any(hougu)else(lambda group:["12345"[i]for i in(lambda choice:choice+tuple({0,1,2,3,4}-set(choice)))(logger.debug("cardRank"+",".join(("  "if i%5 else"\n")+f"({j}, {k:5.2f})"for i,(j,k)in enumerate(sorted([(card,(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1)))for card in permutations(range(5),3)],key=lambda x:-x[1]))))or max(permutations(range(5),3),key=lambda card:(lambda colorChain,firstCardBonus:sum((firstCardBonus+[1.,1.2,1.4][i]*color[j])*(1+critical[j])*resist[j]*(not sealed[j])for i,j in enumerate(card))+(not any(sealed[i]for i in card))*(4.8*colorChain+(firstCardBonus+1.)*(3 if colorChain else 1.8)*(len({group[i]for i in card})==1)*resist[card[0]]))(len({color[i]for i in card})==1,.3*(color[card[0]]==1.1))))])(Detect.cache.getCardGroup()))[1])([self.servant[i]<6 and j and(t:=self.getHouguInfo(i,0))and self.stage>=min(t,self.stageTotal)for i,j in enumerate(Detect().isHouguReady())],Detect.cache.isCardSealed(),[[.8,1.,1.1][i]for i in Detect.cache.getCardColor()],[[1.,1.7,.6][i]for i in Detect.cache.getCardResist()],[i/10 for i in Detect.cache.getCardCriticalRate()]))
     def getSkillInfo(self,pos,skill,arg):return self.friendInfo[0][skill][arg]if self.friend[pos]and self.friendInfo[0][skill][arg]>=0 else self.skillInfo[self.orderChange[self.servant[pos]]][skill][arg]
     def getHouguInfo(self,pos,arg):return self.friendInfo[1][arg]if self.friend[pos]and self.friendInfo[1][arg]>=0 else self.houguInfo[self.orderChange[self.servant[pos]]][arg]
     def castServantSkill(self,pos,skill):
-        fgoDevice.device.press(('ASD','FGH','JKL')[pos][skill])
+        fgoDevice.device.press(("ASD","FGH","JKL")[pos][skill])
         if Detect(.7).isSkillNone():
-            logger.warning(f'Skill {pos} {skill} Disabled')
+            logger.warning(f"Skill {pos} {skill} Disabled")
             self.countDown[0][pos][skill]=999
         elif Detect(.7).isSkillCastFailed():
             self.countDown[pos][skill]=1
             fgoDevice.device.press('J')
-        elif t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][self.getSkillInfo(pos,skill,2)],(300,))
+        elif t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(["3333","2244","3234"][t-1][self.getSkillInfo(pos,skill,2)],(300,))
     def castMasterSkill(self,skill):
         self.countDown[1][skill]=15
-        fgoDevice.device.perform('Q'+'WER'[skill],(300,300))
+        fgoDevice.device.perform("Q"+"WER"[skill],(300,300))
         if self.masterSkill[skill][2]:
             if skill==2 and self.masterSkill[2][3]:
-                if self.masterSkill[2][2]-1 not in self.servant or self.masterSkill[2][3]-1 in self.servant:return fgoDevice.device.perform('\xBB',(300,))
+                if self.masterSkill[2][2]-1 not in self.servant or self.masterSkill[2][3]-1 in self.servant:return fgoDevice.device.perform("\xBB",(300,))
                 p=self.servant.index(self.masterSkill[2][2]-1)
-                fgoDevice.device.perform(('TYUIOP'[p],'TYUIOP'[self.masterSkill[2][3]-max(self.servant)+1],'Z'),(300,300,2600))
+                fgoDevice.device.perform(("TYUIOP"[p],"TYUIOP"[self.masterSkill[2][3]-max(self.servant)+1],'Z'),(300,300,2600))
                 self.orderChange[self.masterSkill[2][2]-1],self.orderChange[self.masterSkill[2][3]-1]=self.orderChange[self.masterSkill[2][3]-1],self.orderChange[self.masterSkill[2][2]-1]
-                fgoDevice.device.perform('\x08',(2300,))
+                fgoDevice.device.perform("\x08",(2300,))
                 while not Detect().isTurnBegin():pass
                 self.friend=[Detect(.5).isServantFriend(0),Detect.cache.isServantFriend(1),Detect.cache.isServantFriend(2)]
                 Detect.cache.setupServantDead(self.friend)
-            elif t:=Detect(.5).getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][self.masterSkill[skill][2]],(300,))
+            elif t:=Detect(.5).getSkillTargetCount():fgoDevice.device.perform(["3333","2244","3234"][t-1][self.masterSkill[skill][2]],(300,))
 class Turn:
     def __init__(self):
         self.stage=0
@@ -266,11 +266,11 @@ class Turn:
             for i in(i for i in range(3)if Detect.cache.isServantDead(i)):
                 self.servant[i]=(lambda x:(x,)+servantData.get(x,(0,0,0,0,(0,0),((0,0),(0,0),(0,0)))))(Detect.cache.getFieldServant(i))
                 self.countDown[0][i]=[0,0,0]
-        logger.info(f'Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {[i[0]for i in self.servant]}')
+        logger.info(f"Turn {turn} Stage {self.stage} StageTurn {self.stageTurn} {[i[0]for i in self.servant]}")
         if self.stageTurn==1:self.enemy=[2,0,5][Detect.cache.setupEnemyGird()]
         self.enemy=[Detect.cache.getEnemyHp(i)for i in range(6)]
         self.dispatchSkill()
-        fgoDevice.device.perform(' ',(2100,))
+        fgoDevice.device.perform(" ",(2100,))
         fgoDevice.device.perform(self.selectCard(),(300,300,2300,1300,6000))
     def dispatchSkill(self):
         self.countDown=[[[max(0,j-1)for j in i]for i in self.countDown[0]],[max(0,i-1)for i in self.countDown[1]]]
@@ -382,7 +382,7 @@ class Turn:
         hougu=[i+5 for i in houguSupport+houguArea+houguTargeted]
         if self.stageTurn==1 or houguTargeted or self.enemy[self.target]==0:
             self.target=numpy.argmax(self.enemy)
-            fgoDevice.device.perform('\x67\x68\x69\x64\x65\x66'[self.target],(500,))
+            fgoDevice.device.perform("\x67\x68\x69\x64\x65\x66"[self.target],(500,))
         self.enemy=[max(0,i-18000*len(houguArea))for i in self.enemy]
         if any(self.enemy)and self.enemy[self.target]==0:self.target=next(i for i in range(5,-1,-1)if self.enemy[i])
         for _ in houguTargeted:
@@ -399,25 +399,25 @@ class Turn:
                 +3*(colorChain==1)
             )(7 if colorChain==3 else 1<<color[0]))(-1 if chainError else{(0,):0,(1):1,(2,):2,(0,1,2):3}.get(tuple(set(color[i]for i in card)),-1)))(any(sealed[i]for i in card if i<5))
         card=list(max(permutations(range(5),3-len(hougu)),key=lambda x:evaluate(hougu+list(x))))
-        return''.join(['12345678'[i]for i in hougu+card+list({0,1,2,3,4}-set(card))])
+        return"".join(["12345678"[i]for i in hougu+card+list({0,1,2,3,4}-set(card))])
     def castServantSkill(self,pos,skill,target):
-        fgoDevice.device.press(('ASD','FGH','JKL')[pos][skill])
+        fgoDevice.device.press(("ASD","FGH","JKL")[pos][skill])
         if Detect(.7).isSkillNone():
-            logger.warning(f'Skill {pos} {skill} Disabled')
+            logger.warning(f"Skill {pos} {skill} Disabled")
             self.countDown[0][pos][skill]=999
             fgoDevice.device.press('\x08')
         elif Detect.cache.isSkillCastFailed():
-            logger.warning(f'Skill {pos} {skill} Cast Failed')
+            logger.warning(f"Skill {pos} {skill} Cast Failed")
             self.countDown[0][pos][skill]=1
             fgoDevice.device.press('J')
-        elif t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][f-5 if(f:=self.servant[pos][6][skill][1])in{6,7,8}else target]+'\x08',(300,700))
-        else:fgoDevice.device.perform('\x08',(700,))
+        elif t:=Detect.cache.getSkillTargetCount():fgoDevice.device.perform(["3333","2244","3234"][t-1][f-5 if(f:=self.servant[pos][6][skill][1])in{6,7,8}else target]+"\x08",(300,700))
+        else:fgoDevice.device.perform("\x08",(700,))
         while not Detect().isTurnBegin():pass
         Detect(.5)
     def castMasterSkill(self,skill,target):
         self.countDown[1][skill]=15
-        fgoDevice.device.perform('Q'+'WER'[skill],(300,300))
-        if t:=Detect(.4).getSkillTargetCount():fgoDevice.device.perform(['3333','2244','3234'][t-1][target],(300,))
+        fgoDevice.device.perform("Q"+"WER"[skill],(300,300))
+        if t:=Detect(.4).getSkillTargetCount():fgoDevice.device.perform(["3333","2244","3234"][t-1][target],(300,))
         while not Detect().isTurnBegin():pass
         Detect(.5)
 class Battle:
@@ -434,30 +434,30 @@ class Battle:
                 self.turnProc(self.turn)
             elif Detect.cache.isSpecialDropSuspended():
                 schedule.checkKizunaReisou()
-                logger.warning('Kizuna Reisou')
-                Detect.cache.save('fgoLog/SpecialDrop')
+                logger.warning("Kizuna Reisou")
+                Detect.cache.save("fgoLog/SpecialDrop")
                 fgoDevice.device.press('\x1B')
             elif not self.rainbowBox and Detect.cache.isSpecialDropRainbowBox():self.rainbowBox=True
             elif Detect.cache.isBattleFinished():
-                logger.info('Battle Finished')
+                logger.info("Battle Finished")
                 self.material=Detect(.4).getMaterial()
                 if self.rainbowBox:
-                    logger.warning('Special Drop')
+                    logger.warning("Special Drop")
                     schedule.checkSpecialDrop()
-                    Detect.cache.save('fgoLog/SpecialDrop')
+                    Detect.cache.save("fgoLog/SpecialDrop")
                 return True
             elif Detect.cache.isBattleDefeated():
-                logger.warning('Battle Defeated')
+                logger.warning("Battle Defeated")
                 schedule.checkDefeated()
                 return False
-            fgoDevice.device.perform('\xBB\x08',(100,100))
+            fgoDevice.device.perform("\xBB\x08",(100,100))
     @property
     def result(self):
         return{
-            'type':'Battle',
-            'turn':self.turn,
-            'time':time.time()-self.start,
-            'material':self.material,
+            "type":"Battle",
+            "turn":self.turn,
+            "time":time.time()-self.start,
+            "material":self.material,
         }
 class Main:
     teamIndex=0
@@ -473,47 +473,47 @@ class Main:
             self.battleProc=self.battleClass()
             while True:
                 if Detect(.3,.3).isMainInterface():
-                    if self.battleCount==battleTotal:return logger.info('Operation Unit Completed')
-                    fgoDevice.device.press('84L'[questIndex])
+                    if self.battleCount==battleTotal:return logger.info("Operation Unit Completed")
+                    fgoDevice.device.press("84L"[questIndex])
                     questIndex=0
                     if Detect(1.2).isBattleContinue():fgoDevice.device.press('K')
                     elif Detect.cache.isSkillCastFailed():
                         fgoDevice.device.press('J')
-                        return logger.info('No Storm Pot')
-                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return logger.info('Ap Empty')
+                        return logger.info("No Storm Pot")
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return logger.info("Ap Empty")
                     self.chooseFriend()
                     while not Detect(0,.3).isBattleFormation():pass
-                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform('\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7A\x7B\x7C\x7D\x7E'[self.teamIndex-1],(1000,))
-                    if self.autoFormation:fgoDevice.device.perform('\xDEL ',(1000,1500,1000))
-                    fgoDevice.device.perform(' M ',(2000,2000,10000))
+                    if self.teamIndex and Detect.cache.getTeamIndex()+1!=self.teamIndex:fgoDevice.device.perform("\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7A\x7B\x7C\x7D\x7E"[self.teamIndex-1],(1000,))
+                    if self.autoFormation:fgoDevice.device.perform("\xDEL ",(1000,1500,1000))
+                    fgoDevice.device.perform(" M ",(2000,2000,10000))
                     break
                 elif Detect.cache.isBattleContinue():
                     if self.battleCount==battleTotal:
                         fgoDevice.device.press('F')
-                        return logger.info('Operation Unit Completed')
+                        return logger.info("Operation Unit Completed")
                     fgoDevice.device.press('K')
-                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return logger.info('Ap Empty')
+                    if Detect(.7,.3).isApEmpty()and not self.eatApple():return logger.info("Ap Empty")
                     self.chooseFriend()
                     schedule.sleep(6)
                     break
                 elif Detect.cache.isSkillCastFailed():
                     fgoDevice.device.press('J')
-                    return logger.info('No Storm Pot')
+                    return logger.info("No Storm Pot")
                 elif Detect.cache.isTurnBegin():break
-                elif Detect.cache.isAddFriend():fgoDevice.device.perform('X',(300,))
-                elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform('\x1B',(300,))
+                elif Detect.cache.isAddFriend():fgoDevice.device.perform("X",(300,))
+                elif Detect.cache.isSpecialDropSuspended():fgoDevice.device.perform("\x1B",(300,))
                 fgoDevice.device.press('\xBB')
             self.battleCount+=1
-            logger.info(f'Battle {self.battleCount}')
+            logger.info(f"Battle {self.battleCount}")
             if self.battleProc():
                 battleResult=self.battleProc.result
-                self.battleTurn+=battleResult['turn']
-                self.battleTime+=battleResult['time']
-                self.material={i:self.material.get(i,0)+battleResult['material'].get(i,0)for i in self.material|battleResult['material']}
-                fgoDevice.device.perform(' '*10,(400,)*10)
+                self.battleTurn+=battleResult["turn"]
+                self.battleTime+=battleResult["time"]
+                self.material={i:self.material.get(i,0)+battleResult["material"].get(i,0)for i in self.material|battleResult["material"]}
+                fgoDevice.device.perform(" "*10,(400,)*10)
             else:
                 self.defeated+=1
-                fgoDevice.device.perform('CIK',(500,500,500))
+                fgoDevice.device.perform("CIK",(500,500,500))
             schedule.checkStopLater()
     def prepare(self):
         self.start=time.time()
@@ -524,21 +524,21 @@ class Main:
         self.defeated=0
     @property
     def result(self):return{
-            'type':'Main',
-            'time':time.time()-self.start,
-            'battle':self.battleCount,
-            'defeated':self.defeated,
-            'turnPerBattle':self.battleTurn/(self.battleCount-self.defeated)if self.battleCount-self.defeated else 0,
-            'timePerBattle':self.battleTime/(self.battleCount-self.defeated)if self.battleCount-self.defeated else 0,
-            'material':self.material,
+            "type":"Main",
+            "time":time.time()-self.start,
+            "battle":self.battleCount,
+            "defeated":self.defeated,
+            "turnPerBattle":self.battleTurn/(self.battleCount-self.defeated)if self.battleCount-self.defeated else 0,
+            "timePerBattle":self.battleTime/(self.battleCount-self.defeated)if self.battleCount-self.defeated else 0,
+            "material":self.material,
         }
     @logit(logger,logging.INFO)
     def eatApple(self):
         if not self.appleTotal:return fgoDevice.device.press('Z')
-        if self.appleKind==3:fgoDevice.device.perform('V',(600,))
-        fgoDevice.device.perform('W4K48'[self.appleKind]+'L',(600,1200))
+        if self.appleKind==3:fgoDevice.device.perform("V",(600,))
+        fgoDevice.device.perform("W4K48"[self.appleKind]+"L",(600,1200))
         self.appleTotal-=1
-        logger.warning('Eat Apple')
+        logger.warning("Eat Apple")
         return self.appleTotal+1
     @logit(logger,logging.INFO)
     def chooseFriend(self):
@@ -546,7 +546,7 @@ class Main:
         while not Detect(0,.3).isChooseFriend():
             if Detect.cache.isNoFriend():
                 if refresh:schedule.sleep(10)
-                fgoDevice.device.perform('\xBAK',(500,1000))
+                fgoDevice.device.perform("\xBAK",(500,1000))
                 refresh=True
                 continue
             if Detect.cache.isBattleFormation():return
@@ -558,18 +558,18 @@ class Main:
                     ClassicTurn.friendInfo=(lambda r:(lambda p:[
                         [[-1 if p[i*4+j]=='X'else int(p[i*4+j],16)for j in range(4)]for i in range(3)],
                         [-1 if p[i+12]=='X'else int(p[i+12],16)for i in range(2)],
-                    ])(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match('([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$',i.replace('-','')[-14:].upper()))
+                    ])(r.group())if r else[[[-1,-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1]],[-1,-1]])(re.match("([0-9X]{3}[0-9A-FX]){3}[0-9X][0-9A-FX]$",i.replace("-","")[-14:].upper()))
                     return i
                 if Detect.cache.isFriendListEnd():break
                 fgoDevice.device.swipe((400,600),(400,200))
                 Detect(.4)
             if refresh:schedule.sleep(max(0,timer+10-time.time()))
-            fgoDevice.device.perform('\xBAK',(500,1000))
+            fgoDevice.device.perform("\xBAK",(500,1000))
             refresh=True
             while not Detect(.2).isChooseFriend():
                 if Detect.cache.isNoFriend():
                     schedule.sleep(10)
-                    fgoDevice.device.perform('\xBAK',(500,1000))
+                    fgoDevice.device.perform("\xBAK",(500,1000))
 class Operation(list,Main):
     apLookup={i:j for i,j in zip(missionQuest,missionMat[0])}
     def __init__(self,data=(),*args,wait=True,**kwargs):

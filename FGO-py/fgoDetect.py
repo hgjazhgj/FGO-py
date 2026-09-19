@@ -6,17 +6,17 @@ from fgoLogging import getLogger,logMeta
 from fgoMetadata import servantData,servantImg,classImg,materialImg,chapterImg,mapImg,questImg
 from fgoOcr import Ocr
 from fgoSchedule import schedule
-logger=getLogger('Detect')
+logger=getLogger("Detect")
 
-IMG=type('IMG',(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage')if i.endswith('.png')})
-for i in range(3):setattr(IMG,f'CHARGE{i}_SMALL',[cv2.resize(i,(0,0),fx=.77,fy=.77,interpolation=cv2.INTER_CUBIC)for i in getattr(IMG,f'CHARGE{i}')])
+IMG=type("IMG",(),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f"fgoImage/{i}",cv2.IMREAD_UNCHANGED))for i in os.listdir("fgoImage")if i.endswith(".png")})
+for i in range(3):setattr(IMG,f"CHARGE{i}_SMALL",[cv2.resize(i,(0,0),fx=.77,fy=.77,interpolation=cv2.INTER_CUBIC)for i in getattr(IMG,f"CHARGE{i}")])
 IMG.LISTBARINV=[i[::-1]for i in IMG.LISTBAR]
-IMG_CN=type('IMG_CN',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/cn/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/cn')if i.endswith('.png')})
-IMG_JP=type('IMG_JP',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/jp/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/jp')if i.endswith('.png')})
-IMG_NA=type('IMG_NA',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/na/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/na')if i.endswith('.png')})
-IMG_TW=type('IMG_TW',(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f'fgoImage/tw/{i}',cv2.IMREAD_UNCHANGED))for i in os.listdir('fgoImage/tw')if i.endswith('.png')})
+IMG_CN=type("IMG_CN",(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f"fgoImage/cn/{i}",cv2.IMREAD_UNCHANGED))for i in os.listdir("fgoImage/cn")if i.endswith(".png")})
+IMG_JP=type("IMG_JP",(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f"fgoImage/jp/{i}",cv2.IMREAD_UNCHANGED))for i in os.listdir("fgoImage/jp")if i.endswith(".png")})
+IMG_NA=type("IMG_NA",(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f"fgoImage/na/{i}",cv2.IMREAD_UNCHANGED))for i in os.listdir("fgoImage/na")if i.endswith(".png")})
+IMG_TW=type("IMG_TW",(IMG,),{i[:-4].upper():(lambda x:(x[...,:3],x[...,3]))(cv2.imread(f"fgoImage/tw/{i}",cv2.IMREAD_UNCHANGED))for i in os.listdir("fgoImage/tw")if i.endswith(".png")})
 CLASS={100:classImg[1]}|{scale:[[cv2.resize(j,(0,0),fx=scale/100,fy=scale/100,interpolation=cv2.INTER_CUBIC)for j in i]for i in classImg[1]]for scale in(75,93,125)}
-OCR=type('OCR',(),{i:Ocr(i)for i in tqdm.tqdm(['EN','ZHS','JA','ZHT'],leave=False)})
+OCR=type("OCR",(),{i:Ocr(i)for i in tqdm.tqdm(["EN","ZHS","JA","ZHT"],leave=False)})
 def coroutine(func):
     @wraps(func)
     def primer(*args,**kwargs):
@@ -44,7 +44,7 @@ class XDetectBase(metaclass=logMeta(logger)):
             def wrap(self,*args,**kwargs):
                 try:return func(self,*args,**kwargs)
                 except err:pass
-                logger.warning(f'Retry {getattr(func,"__qualname__",func)}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})')
+                logger.warning(f"""Retry {getattr(func,"__qualname__",func)}({",".join(repr(i)for i in args)}{","if kwargs else""}{",".join("%s=%r"%i for i in kwargs.items())})""")
                 return wrap(type(self)(),*args,**kwargs)
             return wrap
         return wrapper
@@ -82,9 +82,9 @@ class XDetectBase(metaclass=logMeta(logger)):
         self.im=img
         self.time=time.time()
         return self
-    def save(self,name='Screenshot',rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f'{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000:03}"if appendTime else""}.png',time.localtime(self.time)),self._crop(rect),[cv2.IMWRITE_PNG_COMPRESSION,9])and name
+    def save(self,name="Screenshot",rect=(0,0,1280,720),appendTime=True):return cv2.imwrite(name:=time.strftime(f"""{name}{f"_%Y-%m-%d_%H.%M.%S.{round(self.time*1000)%1000:03}"if appendTime else""}.png""",time.localtime(self.time)),self._crop(rect),[cv2.IMWRITE_PNG_COMPRESSION,9])and name
     def show(self):
-        cv2.imshow('Screenshot - Press S to save',cv2.resize(self.im,(0,0),fx=.6,fy=.6))
+        cv2.imshow("Screenshot - Press S to save",cv2.resize(self.im,(0,0),fx=.6,fy=.6))
         if cv2.waitKey()==ord('s'):self.save()
         cv2.destroyAllWindows()
     def setupEnemyGird(self):
@@ -181,7 +181,7 @@ class XDetectBase(metaclass=logMeta(logger)):
     def findMail(self,img):return self._find(img,(73,166,920,720),.017)
     def findMapCamera(self,chapter):return numpy.array(cv2.minMaxLoc(cv2.matchTemplate(mapImg[chapter],cv2.resize(self._crop((200,200,1080,520)),(0,0),fx=.3,fy=.3,interpolation=cv2.INTER_CUBIC),cv2.TM_SQDIFF_NORMED))[2])/.3+(440,160)
     @classmethod
-    def saveSummonHistory(cls):return(lambda c:(lambda img:(c,cls.__new__(cls).inject(img).save(f'SummonHistory({c})',(0,0,*img.shape[::-1]))))(numpy.vstack((cv2.putText(numpy.zeros((36,XDetectBase._summonHistory.shape[1]),numpy.uint8),f'SummonHistory({c}) generated by FGO-py',(8,26),cv2.FONT_HERSHEY_DUPLEX,0.85,255,2,cv2.LINE_4),XDetectBase._summonHistory[:numpy.flatnonzero(numpy.max(XDetectBase._summonHistory,axis=1))[-1]+2]))))(cls.getSummonHistoryCount())
+    def saveSummonHistory(cls):return(lambda c:(lambda img:(c,cls.__new__(cls).inject(img).save(f"SummonHistory({c})",(0,0,*img.shape[::-1]))))(numpy.vstack((cv2.putText(numpy.zeros((36,XDetectBase._summonHistory.shape[1]),numpy.uint8),f"SummonHistory({c}) generated by FGO-py",(8,26),cv2.FONT_HERSHEY_DUPLEX,0.85,255,2,cv2.LINE_4),XDetectBase._summonHistory[:numpy.flatnonzero(numpy.max(XDetectBase._summonHistory,axis=1))[-1]+2]))))(cls.getSummonHistoryCount())
     def isGameAnnounce(self):raise NotImplementedError
     def isGameLaunch(self):raise NotImplementedError
     def isInCampaign(self):raise NotImplementedError
@@ -199,11 +199,11 @@ class XDetectCN(XDetectBase):
     @classmethod
     def saveWeeklyMission(cls):
         result=[]
-        mission=''
-        for i in(i for i in cls.ocr.ocrArea(cls._weeklyMission)if'完成'not in i and'进行'not in i and'获得'not in i and'举办'not in i):
+        mission=""
+        for i in(i for i in cls.ocr.ocrArea(cls._weeklyMission)if"完成"not in i and"进行"not in i and"获得"not in i and"举办"not in i):
             if mission and i[0].isdigit():
-                if'『'in mission and(count:=(lambda x:int(x[1])-int(x[0]))(i.split('/')if'/'in i else(i[:len(i)>>1],i[len(i)+1>>1:]))):result.append((re.findall('『(.*?)』',mission),'从者'not in mission,count))
-                mission=''
+                if"『"in mission and(count:=(lambda x:int(x[1])-int(x[0]))(i.split("/")if"/"in i else(i[:len(i)>>1],i[len(i)+1>>1:]))):result.append((re.findall("『(.*?)』",mission),"从者"not in mission,count))
+                mission=""
             else:mission+=i
         return result
 class XDetectJP(XDetectBase):
@@ -240,16 +240,16 @@ class DetectJP(DetectBase,XDetectJP):pass
 class DetectNA(DetectBase,XDetectNA):pass
 class DetectTW(DetectBase,XDetectTW):pass
 class XDetect:
-    provider={'CN':XDetectCN,'JP':XDetectJP,'NA':XDetectNA,'TW':XDetectTW}
-    region=''
+    provider={"CN":XDetectCN,"JP":XDetectJP,"NA":XDetectNA,"TW":XDetectTW}
+    region=""
     cache=None
     def __new__(cls,*args,**kwargs):
         if cls.region:cls.cache=cls.provider[cls.region](*args,**kwargs)
         else:cls.cache=XDetectBase(*args,**kwargs)
         return cls.cache
-class Detect(XDetect):provider={'CN':DetectCN,'JP':DetectJP,'NA':DetectNA,'TW':DetectTW}
+class Detect(XDetect):provider={"CN":DetectCN,"JP":DetectJP,"NA":DetectNA,"TW":DetectTW}
 def setup(device):
     XDetectBase.screenshot=device.screenshot
-    if not hasattr(device,'package'):return
-    XDetect.region=PACKAGE_TO_REGION.get(device.package,'CN')
-    logger.warning(f'Package: {device.package}, Region: {XDetect.region}')
+    if not hasattr(device,"package"):return
+    XDetect.region=PACKAGE_TO_REGION.get(device.package,"CN")
+    logger.warning(f"Package: {device.package}, Region: {XDetect.region}")

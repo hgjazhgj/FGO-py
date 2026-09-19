@@ -2,7 +2,7 @@ from fgoAndroid import Android
 from fgoDetect import setup
 from fgoLogging import getLogger
 from fgoSchedule import schedule
-logger=getLogger('Device')
+logger=getLogger("Device")
 
 helpers={}
 def regHelper(func):
@@ -10,30 +10,30 @@ def regHelper(func):
     return func
 def convert(text):
     if text is None:return None
-    if not text.startswith('/'):return text
-    try:return(lambda args:helpers[args[0][1:]](*args[1:]))(text.split('_'))
+    if not text.startswith("/"):return text
+    try:return(lambda args:helpers[args[0][1:]](*args[1:]))(text.split("_"))
     except Exception as e:return logger.exception(e)
 
 @regHelper
 def gw(*args):
     import netifaces
-    return f'{netifaces.gateways()["default"][netifaces.AF_INET][0]}:5555'
+    return f"""{netifaces.gateways()["default"][netifaces.AF_INET][0]}:5555"""
 @regHelper
 def bs4(*args):
     import winreg
-    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,rf'SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android{f"_{args[0]}"if args else""}\Config')as key:return f'127.0.0.1:{winreg.QueryValueEx(key,"BstAdbPort")[0]}'
+    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,rf"""SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android{f"_{args[0]}"if args else""}\Config""")as key:return f"""127.0.0.1:{winreg.QueryValueEx(key,"BstAdbPort")[0]}"""
 @regHelper
 def bs5(*args):
     import os,re,winreg
-    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r'SOFTWARE\BlueStacks_nxt')as key:dir=winreg.QueryValueEx(key,'UserDefinedDir')[0]
-    with open(os.path.join(dir,'bluestacks.conf'))as f:return'127.0.0.1:'+re.search(rf'bst\.instance\.{"_".join(args)}\.status\.adb_port="(\d*)"',f.read()).group(1)
+    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r"SOFTWARE\BlueStacks_nxt")as key:dir=winreg.QueryValueEx(key,"UserDefinedDir")[0]
+    with open(os.path.join(dir,"bluestacks.conf"))as f:return"127.0.0.1:"+re.search(rf"""bst\.instance\.{"_".join(args)}\.status\.adb_port="(\d*)""" "\"",f.read()).group(1)
 
 class Device:
     def __init__(self,name=None):
         if not name:self.I=self.O=Android()
-        elif'|'in name:
-            self.I,self.O=[self.createDevice(i)for i in name.split('|')]
-            self.name='|'.join((self.I.name,self.O.name))
+        elif"|"in name:
+            self.I,self.O=[self.createDevice(i)for i in name.split("|")]
+            self.name="|".join((self.I.name,self.O.name))
         else:
             self.I=self.O=self.createDevice(name)
             self.name=self.I.name
