@@ -49,6 +49,21 @@ class OrdaelCall:
         if self.coord:
             fgoDevice.device.perform('\x67'+''.join(i*j for i,j in zip('\x25\x26\x27\x28',self.move)),(1000,)+(2000,)*sum(self.move))
             fgoDevice.device.touch(self.coord)
+class GrandBattle:
+    def __init__(self, name):
+        self.name=name   # (99,class,variant): reishift() looks places up by every prefix of the 4-long quest ID (99,class,variant,0)
+    def __call__(self):
+        while not Detect(1).isMainInterface():pass
+        schedule.sleep(5)
+        while not Detect(1).findGrandBattleClass(self.name):  # self.name is (99,class,variant), e.g. (99,8,1)
+            fgoDevice.device.touch((224,500))   # press the down button
+            schedule.sleep(5)
+        fgoDevice.device.touch((1014,575))
+        schedule.sleep(5)
+        for _ in range(4 if self.name[1] not in [8, 9] else 7):     # swipe more for Extra I & II
+            fgoDevice.device.swipe((1000,600),(1000,200))   # swipe to the bottom
+            schedule.sleep(.7)
+        while not Detect(.5).isQuestFreeFirst(self.name):fgoDevice.device.swipe((1000,300),(1000,400))
 
 place={i.name:i for i in(
 List((0,)),List((1,)),List((2,)),List((4,)),List((5,)),
@@ -57,6 +72,7 @@ List((1,0)),List((1,1)),List((1,2)),List((1,3)),List((1,4)),List((1,5)),List((1,
 List((2,0)),List((2,1)),List((2,2)),List((2,3)),
 List((3,0)),List((3,1)),List((3,2)),List((3,3)),List((3,4)),List((3,5)),List((3,6)),List((3,7)),
 List((4,0)),List((4,1)),
+List((99,)),
 OrdaelCall((5,1),0,(1103,183)),
 Map((1,0,0),(770,415)),Map((1,0,1),(898,910)),Map((1,0,2),(1397,635)),Map((1,0,3),(1483,318)),Map((1,0,4),(1941,869)),Map((1,0,5),(582,748)),Map((1,0,6),(374,1006)),Map((1,0,7),(382,552)),
 Map((1,1,0),(1689,385)),Map((1,1,1),(1536,314)),Map((1,1,2),(1227,557)),Map((1,1,3),(1576,634)),Map((1,1,4),(1554,883)),Map((1,1,5),(1030,780)),Map((1,1,6),(864,424)),Map((1,1,7),(1030,212)),Map((1,1,8),(1754,1086)),Map((1,1,9),(504,933)),
@@ -93,6 +109,7 @@ OrdaelCall((5,0,5),1,(566,165)),OrdaelCall((5,0,6),0,(437,473)),
 OrdaelCall((5,0,7),1,(905,238)),OrdaelCall((5,0,8),0,(401,338)),OrdaelCall((5,0,9),1,(604,640)),OrdaelCall((5,0,10),1,(873,357)),
 OrdaelCall((5,0,11),0),OrdaelCall((5,0,12),0,(475,332)),OrdaelCall((5,0,13),2,(670,627),(0,1,0,0)),OrdaelCall((5,0,14),0,(838,467)),
 Map((5,1,0),(805,1684)),Map((5,1,1),(1222,1723)),Map((5,1,2),(1197,1321)),Map((5,1,3),(980,1046)),Map((5,1,4),(1010,1238)),Map((5,1,5),(1391,1055)),Map((5,1,6),(824,930)),Map((5,1,7),(1830,1355)),Map((5,1,8),(1654,1176)),Map((5,1,9),(562,1373)),Map((5,1,10),(793,1121)),
+GrandBattle((99,1,0)),GrandBattle((99,2,0)),GrandBattle((99,3,0)),GrandBattle((99,4,0)),GrandBattle((99,5,0)),GrandBattle((99,6,0)),GrandBattle((99,7,0)),GrandBattle((99,8,0)),GrandBattle((99,8,1)),GrandBattle((99,9,0)),GrandBattle((99,9,1)),
 )}
 def reishift(quest):
     for i in range(1,len(quest)):

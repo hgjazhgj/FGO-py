@@ -335,6 +335,54 @@
       <translation>平面之月</translation>
     </message>
     <message>
+      <source>99</source>
+      <translation>冠位战</translation>
+    </message>
+    <message>
+      <source>99-1-0-0</source>
+      <translation>冠位战 剑</translation>
+    </message>
+    <message>
+      <source>99-2-0-0</source>
+      <translation>冠位战 弓</translation>
+    </message>
+    <message>
+      <source>99-3-0-0</source>
+      <translation>冠位战 枪</translation>
+    </message>
+    <message>
+      <source>99-4-0-0</source>
+      <translation>冠位战 骑</translation>
+    </message>
+    <message>
+      <source>99-5-0-0</source>
+      <translation>冠位战 术</translation>
+    </message>
+    <message>
+      <source>99-6-0-0</source>
+      <translation>冠位战 杀</translation>
+    </message>
+    <message>
+      <source>99-7-0-0</source>
+      <translation>冠位战 狂</translation>
+    </message>
+    <message>
+      <source>99-8-0-0</source>
+      <translation>冠位战 额外Ⅰ（单体）</translation>
+    </message>
+    <message>
+      <source>99-8-1-0</source>
+      <translation>冠位战 额外Ⅰ（群体）</translation>
+    </message>
+    <message>
+      <source>99-9-0-0</source>
+      <translation>冠位战 额外Ⅱ（单体）</translation>
+    </message>
+    <message>
+      <source>99-9-1-0</source>
+      <translation>冠位战 额外Ⅱ（群体）</translation>
+    </message>
+    <message>
       <source>0-0-0</source>
       <translation>打开宝物库之门</translation>
     </message>

@@ -887,5 +887,9 @@
       <source>5-1</source>
       <translation>Paper Moon</translation>
     </message>
+    <message>
+      <source>99</source>
+      <translation>Grand Battle</translation>
+    </message>
   </context>
 </TS>
