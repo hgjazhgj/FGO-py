@@ -1119,6 +1119,10 @@
       <translation>ペーパームーン</translation>
     </message>
     <message>
+      <source>99</source>
+      <translation>グランドバトル</translation>
+    </message>
+    <message>
       <source>0-0-0</source>
       <translation>宝物庫の扉を開け</translation>
     </message>
